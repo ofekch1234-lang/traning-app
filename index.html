@@ -209,6 +209,31 @@ svg text{font-family:var(--body)}
 .npdigits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
 .npdigits button{padding:13px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:20px;font-weight:600}
 .npchips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0}
+/* מתלה משקולות נגלל */
+.rack{display:flex;align-items:flex-end;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:12px calc(50% - 26px) 6px;scrollbar-width:none;direction:ltr}
+.rack::-webkit-scrollbar{display:none}
+.dbitem{scroll-snap-align:center;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:7px;
+  background:none;border:none;padding:0;transition:transform .15s}
+.dbitem .shape{display:flex;align-items:center}
+.dbitem .pl{width:13px;height:var(--h,40px);border-radius:5px;background:linear-gradient(145deg,#4b5563,#1f2937);box-shadow:inset 0 1px 1px rgba(255,255,255,.25)}
+.dbitem .hd{width:26px;height:9px;background:linear-gradient(#b7bec7,#6b7280);border-radius:4px}
+.dbitem b{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dbitem.sel{transform:scale(1.18)}
+.dbitem.sel .pl{background:linear-gradient(145deg,var(--accent),#0c4f30)}
+.dbitem.sel b{color:var(--accent);font-size:15px}
+.rackhint{text-align:center;color:var(--muted);font-size:11.5px;margin-bottom:2px}
+/* מגדל פין של מכונה */
+.stack{display:flex;flex-direction:column;gap:2px;max-width:210px;margin:6px auto;position:relative}
+.stack::before{content:'';position:absolute;top:-6px;bottom:0;left:50%;width:7px;transform:translateX(-50%);
+  background:linear-gradient(#9aa3ad,#6b7280);border-radius:4px;z-index:0}
+.splate{position:relative;z-index:1;height:14px;border-radius:4px;background:var(--surface2);border:1px solid var(--line);
+  padding:0;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.splate span{font-size:10px;line-height:1;color:var(--muted);font-variant-numeric:tabular-nums}
+.splate.on{background:linear-gradient(#3b4453,#1b212b);border-color:#141922}
+.splate.on span{color:#d7dde5}
+.splate.pin::after{content:'';position:absolute;inset-inline-end:-20px;top:50%;transform:translateY(-50%);
+  width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
 .npact{display:flex;gap:8px;margin-top:10px}
 input[data-np]{caret-color:transparent;cursor:pointer}
 
@@ -946,13 +971,17 @@ function renderNumpad(){
         <button data-npadd="2.5" aria-label="הוסף 2.5">+</button>
       </div>`;
     }else if(NP.sub==='db'){
-      picker=`<div class="npgrid" style="grid-template-columns:repeat(5,1fr)">
-        ${DB_RACK.map(v=>`<button data-npset="${v}" class="num ${NP.val===v?'sel':''}" style="${v%1?'font-size:14px':''}">${v}</button>`).join('')}
+      picker=`<div class="rackhint">גלול ובחר משקולת מהמתלה ↔</div>
+      <div class="rack" id="rack">
+        ${DB_RACK.map(v=>`<button class="dbitem" data-rackv="${v}">
+          <span class="shape"><span class="pl" style="--h:${Math.round(26+v*0.85)}px"></span><span class="hd"></span><span class="pl" style="--h:${Math.round(26+v*0.85)}px"></span></span>
+          <b>${v}</b></button>`).join('')}
       </div>
-      <div class="npstep"><button data-npadd="-1">−1</button><button data-npadd="-0.5" style="font-size:15px">−½</button><button data-npadd="0.5" style="font-size:15px">+½</button><button data-npadd="1">+1</button></div>`;
+      <div class="npstep"><button data-npadd="-0.5" style="font-size:15px">−½</button><button data-npadd="0.5" style="font-size:15px">+½</button></div>`;
     }else{
-      picker=`<div class="npgrid" style="grid-template-columns:repeat(5,1fr)">
-        ${STACK.map(v=>`<button data-npset="${v}" class="num ${NP.val===v?'sel':''}">${v}</button>`).join('')}
+      picker=`<div class="rackhint">נעץ את הפין במגדל 📍</div>
+      <div class="stack">
+        ${STACK.map(v=>`<button class="splate ${v<=NP.val?'on':''} ${v===NP.val?'pin':''}" data-stackv="${v}"><span>${v}</span></button>`).join('')}
       </div>
       <div class="npstep"><button data-npadd="-2.5">−2.5</button><button data-npadd="2.5">+2.5</button></div>`;
     }
@@ -983,20 +1012,55 @@ function renderNumpad(){
     <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):npFmt(NP.val)}</span><span class="npunit">${esc(c.unit||'')}</span></div>
     ${body}
     <div class="npact">
-      ${c.applyDone?`<button class="btn primary big" style="flex:2" data-npc="savedone">שמור וסמן סט ✓</button>`:''}
-      <button class="btn ${c.applyDone?'':'primary'} big" style="flex:1" data-npc="save">שמור</button>
+      ${c.next?`<button class="btn primary big" style="flex:2" data-npc="next">בחרתי — לחזרות ←</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
+       :c.applyDone?`<button class="btn primary big" style="flex:2" data-npc="savedone">שמור סט ✓</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
+       :`<button class="btn primary big" data-npc="save">שמור</button>`}
     </div>`;
+  const rack=$('#rack');
+  if(rack){
+    rack.addEventListener('scroll',()=>{ clearTimeout(NP._rt); NP._rt=setTimeout(rackPick,90); });
+    requestAnimationFrame(()=>centerRack(false));
+  }
+}
+function centerRack(smooth){
+  const rack=$('#rack'); if(!rack)return;
+  const items=[...rack.querySelectorAll('.dbitem')];
+  let best=items[0],bd=1e9;
+  for(const it of items){ const d=Math.abs(+it.dataset.rackv-(NP.val||10)); if(d<bd){bd=d;best=it;} }
+  items.forEach(it=>it.classList.toggle('sel',it===best));
+  const left=best.offsetLeft-(rack.clientWidth-best.offsetWidth)/2;
+  rack.scrollTo({left,behavior:smooth?'smooth':'instant'});
+  if(NP.val!==+best.dataset.rackv){ NP.val=+best.dataset.rackv; const el=$('#npval'); if(el)el.textContent=npFmt(NP.val); }
+}
+function rackPick(){
+  const rack=$('#rack'); if(!rack)return;
+  const mid=rack.scrollLeft+rack.clientWidth/2;
+  const items=[...rack.querySelectorAll('.dbitem')];
+  let best=null,bd=1e9;
+  for(const it of items){ const c=it.offsetLeft+it.offsetWidth/2, d=Math.abs(c-mid); if(d<bd){bd=d;best=it;} }
+  if(!best)return;
+  const v=+best.dataset.rackv;
+  if(v!==NP.val){ NP.val=v; vibrate(8); const el=$('#npval'); if(el)el.textContent=npFmt(v); }
+  items.forEach(it=>it.classList.toggle('sel',it===best));
 }
 function npUpdate(){ const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
   if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs'||(NP.cfg.mode==='weight'&&NP.sub!=='bar'))renderNumpad(); }
 document.addEventListener('click',ev=>{
-  const t=ev.target.closest('[data-npadd],[data-npset],[data-npd],[data-npc],[data-npsub]'); if(!t||!NP.cfg)return;
+  const t=ev.target.closest('[data-npadd],[data-npset],[data-npd],[data-npc],[data-npsub],[data-rackv],[data-stackv]'); if(!t||!NP.cfg)return;
   vibrate(10);
   if(t.dataset.npsub!==undefined){ NP.sub=t.dataset.npsub;
     if(NP.cfg.exName){ try{const m=padModes();m[NP.cfg.exName]=NP.sub;localStorage.setItem(PAD_KEY,JSON.stringify(m));}catch(e){} }
     renderNumpad(); return; }
+  if(t.dataset.rackv!==undefined){ NP.val=+t.dataset.rackv; centerRack(true); const el=$('#npval'); if(el)el.textContent=npFmt(NP.val); return; }
+  if(t.dataset.stackv!==undefined){ NP.val=+t.dataset.stackv;
+    const el=$('#npval'); if(el)el.textContent=npFmt(NP.val);
+    document.querySelectorAll('.splate').forEach(p=>{ const v=+p.dataset.stackv;
+      p.classList.toggle('on',v<=NP.val); p.classList.toggle('pin',v===NP.val); });
+    return; }
   if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); }
-  else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset; }
+  else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset;
+    if(NP.cfg.mode==='reps'&&NP.cfg.chain){ // בזרימה: בחירת חזרות = שמירת הסט
+      const c=NP.cfg,v=NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; } }
   else if(t.dataset.npd!==undefined){ const d=t.dataset.npd;
     if(d==='.'&&NP.str.includes('.'))return;
     if(NP.str.replace('.','').length>=5)return;
@@ -1005,24 +1069,31 @@ document.addEventListener('click',ev=>{
   else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
   else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); return; }
   else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
+  else if(t.dataset.npc==='next'){ const c=NP.cfg, v=NP.val; closeNumpad(); c.apply(v); c.next&&c.next(); return; }
   npUpdate();
 });
+/* מקלדת לסט באימון פעיל: משקל ← חזרות ← הסט נשמר */
+function openSetPad(ei,si,kind,chain){
+  const e=S.active?.ex[ei], s=e?.sets?.[si]; if(!s)return;
+  const isW=kind==='w';
+  const tip=isW?coachTip(e.n,e.reps,e.sets.length):null;
+  const markDone=()=>{ if(!s.done){ const btn=document.querySelector(`[data-act="set-done"][data-ei="${ei}"][data-si="${si}"]`); if(btn)btn.click(); } };
+  openNumpad({
+    title:`${e.n} · סט ${si+1} · ${isW?'משקל':'חזרות'}`,
+    unit:isW?'ק״ג':'חזרות', mode:isW?'weight':'reps', exName:e.n, chain:!!chain,
+    value:+(s[kind]||s[isW?'pw':'pr']||0), prev:+(s[isW?'pw':'pr'])||null, tip:tip?tip.w:null,
+    apply(v){ s[kind]=v||''; const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; persistActive(); },
+    next:isW?()=>openSetPad(ei,si,'r',true):null,
+    applyDone:isW?null:markDone,
+  });
+}
 /* פתיחת המקלדת מכל שדה עם data-np */
 document.addEventListener('click',ev=>{
   const i=ev.target.closest('input[data-np]'); if(!i)return;
   i.blur(); ev.preventDefault();
   const kind=i.dataset.np, ei=+i.dataset.ei, si=+i.dataset.si;
   if(kind==='w'||kind==='r'){
-    const e=S.active?.ex[ei], s=e?.sets?.[si]; if(!s)return;
-    const isW=kind==='w';
-    const tip=isW?coachTip(e.n,e.reps,e.sets.length):null;
-    openNumpad({
-      title:`${e.n} · סט ${si+1} · ${isW?'משקל':'חזרות'}`,
-      unit:isW?'ק״ג':'חזרות', mode:isW?'weight':'reps', exName:e.n,
-      value:+(s[kind]||s[isW?'pw':'pr']||0), prev:+(s[isW?'pw':'pr'])||null, tip:tip?tip.w:null,
-      apply(v){ s[kind]=v||''; const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; persistActive(); },
-      applyDone(){ if(!s.done){ const btn=document.querySelector(`[data-act="set-done"][data-ei="${ei}"][data-si="${si}"]`); if(btn)btn.click(); } },
-    });
+    openSetPad(ei,si,kind);
   }else if(kind==='num'){
     openNumpad({ title:i.getAttribute('aria-label')||'', unit:i.dataset.unit||'', mode:'num', value:+i.value||0,
       apply(v){ i.value=v||''; i.dispatchEvent(new Event('input',{bubbles:true})); } });
