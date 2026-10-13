@@ -943,7 +943,7 @@ function guessSub(name){
   if(/מכונ|פולי|כבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|צרפתית בכבל/.test(name))return 'stack';
   return 'bar';
 }
-const DB_RACK=[2,3,4,5,6,7,8,9,10,12.5,15,17.5,20,22.5,25,27.5,30,32.5,35,37.5,40,42.5,45,47.5,50];
+const DB_RACK=[1,2,3,4,5,6,7,8,9,10,11,12,12.5,14,15,16,17.5,18,20,22,22.5,24,25,26,27.5,28,30,32.5,35,37.5,40,42.5,45,47.5,50];
 const STACK=[...Array(20)].map((_,i)=>(i+1)*5); // 5–100
 function openNumpad(cfg){
   NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
@@ -977,7 +977,7 @@ function renderNumpad(){
           <span class="shape"><span class="pl" style="--h:${Math.round(26+v*0.85)}px"></span><span class="hd"></span><span class="pl" style="--h:${Math.round(26+v*0.85)}px"></span></span>
           <b>${v}</b></button>`).join('')}
       </div>
-      <div class="npstep"><button data-npadd="-0.5" style="font-size:15px">−½</button><button data-npadd="0.5" style="font-size:15px">+½</button></div>`;
+      <div class="npstep"><button data-npadd="-1">−1</button><button data-npadd="-0.5" style="font-size:15px">−½</button><button data-npadd="0.5" style="font-size:15px">+½</button><button data-npadd="1">+1</button></div>`;
     }else{
       picker=`<div class="rackhint">נעץ את הפין במגדל 📍</div>
       <div class="pinstack">
@@ -1024,15 +1024,16 @@ function renderNumpad(){
 }
 function centerRack(smooth){
   const rack=$('#rack'); if(!rack)return;
+  NP._lock=Date.now()+600; // גלילה תכנותית — לא בחירה של המשתמש
   const items=[...rack.querySelectorAll('.dbitem')];
   let best=items[0],bd=1e9;
   for(const it of items){ const d=Math.abs(+it.dataset.rackv-(NP.val||10)); if(d<bd){bd=d;best=it;} }
-  items.forEach(it=>it.classList.toggle('sel',it===best));
+  items.forEach(it=>it.classList.toggle('sel',+it.dataset.rackv===NP.val||it===best&&bd===0));
   const left=best.offsetLeft-(rack.clientWidth-best.offsetWidth)/2;
   rack.scrollTo({left,behavior:smooth?'smooth':'instant'});
-  if(NP.val!==+best.dataset.rackv){ NP.val=+best.dataset.rackv; const el=$('#npval'); if(el)el.textContent=npFmt(NP.val); }
 }
 function rackPick(){
+  if(Date.now()<(NP._lock||0))return;
   const rack=$('#rack'); if(!rack)return;
   const mid=rack.scrollLeft+rack.clientWidth/2;
   const items=[...rack.querySelectorAll('.dbitem')];
@@ -1044,7 +1045,12 @@ function rackPick(){
   items.forEach(it=>it.classList.toggle('sel',it===best));
 }
 function npUpdate(){ const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
-  if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs'||(NP.cfg.mode==='weight'&&NP.sub!=='bar'))renderNumpad(); }
+  if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs')renderNumpad();
+  else if(NP.cfg.mode==='weight'&&NP.sub==='db'){ // כוונון ידני: עדכון הדגשה בלי לגעת בגלילה
+    document.querySelectorAll('.dbitem').forEach(it=>it.classList.toggle('sel',+it.dataset.rackv===NP.val)); }
+  else if(NP.cfg.mode==='weight'&&NP.sub==='stack'){
+    document.querySelectorAll('.splate').forEach(p=>{ const v=+p.dataset.stackv;
+      p.classList.toggle('on',v<=NP.val); p.classList.toggle('pin',v===NP.val); }); } }
 document.addEventListener('click',ev=>{
   const t=ev.target.closest('[data-npadd],[data-npset],[data-npd],[data-npc],[data-npsub],[data-rackv],[data-stackv]'); if(!t||!NP.cfg)return;
   vibrate(10);
