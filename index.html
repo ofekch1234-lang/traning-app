@@ -994,7 +994,7 @@ function vPlans(){
     <div class="card">
       <div class="schedgrid">
         ${DAY_NAMES.map((n,d)=>{ const t=schedOf(d);
-          const dt=new Date(); dt.setDate(dt.getDate()+((d-dt.getDay()+7)%7));
+          const dt=new Date(); dt.setHours(0,0,0,0); dt.setDate(dt.getDate()-dt.getDay()+d); // השבוע הקלנדרי הנוכחי
           const isToday=d===new Date().getDay();
           return `<button class="schedday ${t?'has':''} ${isToday?'tdy':''}" data-act="sched-day" data-d="${d}">
             <span class="dl">${DAY_LETTERS[d]}</span>
@@ -1506,7 +1506,7 @@ function renderTplEditor(){
 function shortName(n){ return String(n).replace(/^אימון\s*/,'').split('—')[0].trim().slice(0,8)||n; }
 function renderSchedPicker(d){
   const cur=(S.settings.schedule||{})[String(d)];
-  const dt=new Date(); dt.setDate(dt.getDate()+((d-dt.getDay()+7)%7));
+  const dt=new Date(); dt.setHours(0,0,0,0); dt.setDate(dt.getDate()-dt.getDay()+d);
   openSheet(`
     <h3>יום ${DAY_NAMES[d]} · <span class="num">${dt.getDate()}.${dt.getMonth()+1}</span>${d===new Date().getDay()?' (היום)':''}</h3>
     <div class="liblist">
