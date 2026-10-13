@@ -1,5 +1,5 @@
 /* יומן הברזל — service worker: עבודה אופליין */
-const CACHE = 'nextrep-v4';
+const CACHE = 'nextrep-v5';
 const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -39,4 +39,24 @@ self.addEventListener('fetch', e => {
       }))
     );
   }
+});
+
+/* web push — תזכורות אימון */
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) {}
+  e.waitUntil(self.registration.showNotification(d.title || 'NextRep', {
+    body: d.body || '',
+    icon: 'icon-192.png?v=2',
+    badge: 'icon-192.png?v=2',
+    vibrate: [200, 100, 200],
+    data: { url: '/' }
+  }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const c of list) { if ('focus' in c) return c.focus(); }
+    return clients.openWindow('/');
+  }));
 });

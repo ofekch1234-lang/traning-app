@@ -266,6 +266,14 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .day.on i{background:var(--accent);border-color:var(--accent)}
 .day.today span{color:var(--ink);font-weight:700}
 .linkbtn.small{font-size:12.5px;padding:2px}
+/* weekly schedule grid */
+.schedgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.schedday{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px;border-radius:10px;background:var(--surface2);border:1px solid var(--line)}
+.schedday .dl{font-family:var(--disp);font-size:17px;line-height:1;color:var(--muted)}
+.schedday .dn{font-size:10px;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.schedday.has{background:var(--accent-soft);border-color:var(--accent)}
+.schedday.has .dl,.schedday.has .dn{color:var(--ink)}
+.day.sched i{background:transparent;border:2px solid var(--accent)}
 
 /* empty states */
 .empty{border:1px dashed var(--line);border-radius:16px;padding:26px 18px;text-align:center;color:var(--muted)}
@@ -381,6 +389,27 @@ async function ensureNotifPerm(){
     if(Notification.permission==='denied')return false;
     return (await Notification.requestPermission())==='granted';
   }catch(e){return false;}
+}
+/* מנוי Push לתזכורות יומיות */
+const PUSH_PUBKEY='BEZW8tXMc6pOHrP87-KW8pfmZvr1ueA7S7BqBzUQu-Hp2DC_Yi2B-K_yO7JxWeRClXUDK6K1AsMETaQpvY-hkXw';
+function b64uToU8(s){const p='='.repeat((4-s.length%4)%4);const r=atob((s+p).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0));}
+async function subscribePush(){
+  if(!(await ensureNotifPerm()))return {ok:false,why:'perm'};
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64uToU8(PUSH_PUBKEY)});
+    const j=sub.toJSON();
+    const {error}=await sb.from('push_subs').upsert({endpoint:j.endpoint,user_id:S.user.id,keys:j.keys});
+    if(error)throw error;
+    return {ok:true};
+  }catch(e){ console.error(e); return {ok:false,why:'sub'}; }
+}
+async function unsubscribePush(){
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.getSubscription();
+    if(sub){ await sb.from('push_subs').delete().eq('endpoint',sub.endpoint); await sub.unsubscribe(); }
+  }catch(e){}
 }
 async function notify(title,body){
   try{
@@ -569,7 +598,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{}}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{}}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); flushActive(); }
@@ -722,7 +751,8 @@ function weekDots(){
   for(let i=6;i>=0;i--){
     const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-i);
     const on=trained.has(d.toDateString());
-    out+=`<div class="day ${on?'on':''} ${i===0?'today':''}"><span>${days[d.getDay()]}</span><i></i></div>`;
+    const sched=!on&&!!schedOf(d.getDay());
+    out+=`<div class="day ${on?'on':''} ${sched?'sched':''} ${i===0?'today':''}"><span>${days[d.getDay()]}</span><i></i></div>`;
   }
   return out;
 }
@@ -745,7 +775,16 @@ function vHome(){
   const mo=S.workouts.filter(w=>w.start>=+monthAgo).length;
   const wkVol=S.workouts.filter(w=>w.start>=now-7*864e5).reduce((a,w)=>a+workoutVol(w),0);
   const streak=weekStreak();
-  const nt=nextTpl();
+  const todayT=schedOf(new Date().getDay());
+  const doneToday=trainedOn(new Date());
+  let nt=null,ntLabel='האימון הבא שלך';
+  if(todayT&&!doneToday){ nt=todayT; ntLabel='היום בלו״ז 🗓️'; }
+  else{
+    let ns=null;
+    for(let i=1;i<=7&&!ns;i++){ const d=(new Date().getDay()+i)%7; const t=schedOf(d); if(t)ns={t,d,inDays:i}; }
+    if(ns){ nt=ns.t; ntLabel=ns.inDays===1?'מחר בלו״ז 🗓️':`בלו״ז · יום ${DAY_NAMES[ns.d]}`; }
+    else nt=nextTpl();
+  }
   const best=bestMap();
   const prs=Object.entries(best).sort((a,b)=>b[1].ts-a[1].ts).slice(0,3);
   const bw=S.weights||[]; const lastBw=bw[bw.length-1]; const prevBw=bw[bw.length-2];
@@ -773,7 +812,7 @@ function vHome(){
       </button>`
     :nt?`
       <div class="card hot">
-        <div class="label">האימון הבא שלך</div>
+        <div class="label">${ntLabel}</div>
         <div class="spread" style="margin-top:4px">
           <b style="font-size:18px">${esc(nt.name)}</b>
           <span class="muted small num">~${tplMinutes(nt)} דק׳ · ${(nt.ex||[]).length} תרגילים</span>
@@ -934,9 +973,27 @@ function vCardio(e,ei){
 }
 
 /* ----- plans tab ----- */
+const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const DAY_LETTERS=['א','ב','ג','ד','ה','ו','ש'];
+function schedOf(d){ const id=(S.settings.schedule||{})[String(d)]; return id?S.templates.find(t=>t.id===id):null; }
+function trainedOn(date){ const k=date.toDateString(); return S.workouts.some(w=>new Date(w.start).toDateString()===k); }
 function vPlans(){
   const list=[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0));
+  const sched=`
+    <div class="sect">הלו״ז השבועי שלי</div>
+    <div class="card">
+      <div class="schedgrid">
+        ${DAY_NAMES.map((n,d)=>{ const t=schedOf(d);
+          return `<button class="schedday ${t?'has':''}" data-act="sched-day" data-d="${d}">
+            <span class="dl">${DAY_LETTERS[d]}</span>
+            <span class="dn">${t?esc(shortName(t.name)):'—'}</span>
+          </button>`;}).join('')}
+      </div>
+      <div class="small muted" style="margin-top:10px">נגיעה ביום קובעת מה מתאמנים בו. התזכורת היומית (בהגדרות ⚙️) תודיע לך בבוקר של יום אימון.</div>
+    </div>`;
   return `
+    ${sched}
+    <div class="sect">התוכניות</div>
     <button class="btn primary big" data-act="tpl-new">+ תוכנית חדשה</button>
     ${list.length?list.map(t=>`
       <div class="card">
@@ -1433,6 +1490,20 @@ function renderTplEditor(){
   `);
 }
 
+function shortName(n){ return String(n).replace(/^אימון\s*/,'').split('—')[0].trim().slice(0,8)||n; }
+function renderSchedPicker(d){
+  const cur=(S.settings.schedule||{})[String(d)];
+  openSheet(`
+    <h3>יום ${DAY_NAMES[d]}</h3>
+    <div class="liblist">
+      <button data-act="sched-set" data-d="${d}" data-id=""><span>🛋️ מנוחה</span>${!cur?'<span class="in">✓</span>':''}</button>
+      ${[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0)).map(t=>
+        `<button data-act="sched-set" data-d="${d}" data-id="${esc(t.id)}"><span>${esc(t.name)}</span>${cur===t.id?'<span class="in">✓</span>':''}</button>`).join('')}
+    </div>
+    <button class="btn big" style="margin-top:12px" data-act="sheet-close">סגור</button>
+  `);
+}
+
 /* מסך הגדרות */
 function renderSettings(){
   const n=S.settings.notif||{};
@@ -1445,6 +1516,10 @@ function renderSettings(){
     <h3>הגדרות</h3>
     <div class="label" style="margin-bottom:6px">התראות</div>
     <div class="card stack" style="gap:0;padding:4px 14px">
+      <label class="setrow">
+        <span><b>תזכורת אימון יומית 🗓️</b><span class="small muted" style="display:block">בבוקר של יום מתוזמן בלו״ז — גם כשהאפליקציה סגורה</span></span>
+        <input type="checkbox" class="sw" data-bind="notif" data-k="remind" ${n.remind===true?'checked':''}>
+      </label>
       ${sw('rest','סיום מנוחה','התראה כשהטיימר נגמר, גם כשהמסך כבוי')}
       ${sw('pr','שיא חדש 🏅','חגיגה כששברת שיא אישי')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
@@ -1622,6 +1697,11 @@ function handleAct(b,ev){
     case 'settings': renderSettings(); break;
     case 'notif-on': ensureNotifPerm().then(ok=>{toast(ok?'ההתראות הופעלו 🔔':'ההרשאה לא אושרה');render();}); break;
     case 'notif-dis': try{localStorage.setItem('np-dis','1');}catch(e){} render(); break;
+    case 'sched-day': renderSchedPicker(+b.dataset.d); break;
+    case 'sched-set': { const d=String(+b.dataset.d), id=b.dataset.id;
+      S.settings.schedule=S.settings.schedule||{};
+      if(id)S.settings.schedule[d]=id; else delete S.settings.schedule[d];
+      persistSettings(); closeSheet(); render(); break; }
     case 'rest-add': T.end+=15000; T.total+=15; tickRest(); break;
     case 'rest-skip': stopRest(); break;
     case 'cancel-w':
@@ -1672,8 +1752,20 @@ document.addEventListener('change',ev=>{
   if(i.dataset.bind==='progex'){S.progressEx=i.value; render();}
   else if(i.dataset.bind==='notif'){
     S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},S.settings.notif);
-    S.settings.notif[i.dataset.k]=i.checked;
-    if(i.checked&&(i.dataset.k==='rest'||i.dataset.k==='pr'))ensureNotifPerm();
+    const k=i.dataset.k;
+    S.settings.notif[k]=i.checked;
+    if(k==='remind'){
+      if(i.checked){
+        subscribePush().then(r=>{
+          if(!r.ok){ S.settings.notif.remind=false; if(i.isConnected)i.checked=false;
+            toast(r.why==='perm'?'צריך לאשר התראות בדפדפן':'המכשיר לא תומך — באייפון: הוסף קודם למסך הבית ופתח משם');
+          }else toast('תזכורות הופעלו — נתראה בבוקר אימון 🗓️');
+          persistSettings();
+        });
+        return;
+      }else unsubscribePush();
+    }
+    else if(i.checked&&(k==='rest'||k==='pr'))ensureNotifPerm();
     persistSettings();
   }
 });
@@ -1735,7 +1827,8 @@ async function enterApp(user){
     S.workouts=(wo.data||[]).map(r=>({id:r.id,name:r.name,start:+r.start_ts,end:+r.end_ts,ex:r.ex||[]}));
     S.weights=(bw.data||[]).map(r=>({d:r.d,kg:+r.kg}));
     if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null;
-      S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},st.data.prefs?.notif); }
+      S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},st.data.prefs?.notif);
+      S.settings.schedule=st.data.prefs?.schedule||{}; }
     if(!S.templates.length){ // משתמש חדש — טעינת תוכניות ברירת המחדל
       S.templates=clone(DEFAULT_TEMPLATES);
       sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{});
