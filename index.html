@@ -971,8 +971,8 @@ document.addEventListener('click',ev=>{
     NP.str=(NP.str==='0'&&d!=='.'?'':NP.str)+d; NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='back'){ NP.str=NP.str.slice(0,-1); NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
-  else if(t.dataset.npc==='save'){ const c=NP.cfg; closeNumpad(); c.apply(NP.cfg.mode==='num'?(parseFloat(NP.str)||0):NP.val); return; }
-  else if(t.dataset.npc==='savedone'){ const c=NP.cfg; closeNumpad(); c.apply(NP.val); c.applyDone&&c.applyDone(); return; }
+  else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); return; }
+  else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
   npUpdate();
 });
 /* פתיחת המקלדת מכל שדה עם data-np */
