@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>NextRep</title>
 <meta name="theme-color" content="#16A34A">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="manifest" href="manifest.json?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=2">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png?v=2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="NextRep">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Secular+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 /* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
@@ -28,8 +28,9 @@
   --gold:#B45309;
   --gold-soft:#FEF3C7;
   --danger:#B3362B;
-  --shadow:0 1px 3px rgba(20,30,24,.08),0 4px 14px rgba(20,30,24,.06);
-  --disp:'Secular One',system-ui,sans-serif;
+  --shadow:none;
+  --overlay-shadow:0 -8px 30px rgba(10,20,14,.18);
+  --disp:'Karantina',system-ui,sans-serif;
   --body:'Rubik',system-ui,-apple-system,sans-serif;
 }
 @media (prefers-color-scheme: dark){
@@ -37,7 +38,8 @@
     --bg:#131619; --surface:#1B2024; --surface2:#242A2E; --ink:#EDF1EE; --muted:#9AA5A0;
     --line:#2B3237; --accent:#22C55E; --accent-soft:#17351F; --accent-ink:#06130A;
     --gold:#F59E0B; --gold-soft:#3A2A0E66; --danger:#E0695C;
-    --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    --shadow:none;
+    --overlay-shadow:0 -8px 30px rgba(0,0,0,.5);
     color-scheme: dark;
   }
 }
@@ -45,7 +47,8 @@
   --bg:#131619; --surface:#1B2024; --surface2:#242A2E; --ink:#EDF1EE; --muted:#9AA5A0;
   --line:#2B3237; --accent:#22C55E; --accent-soft:#17351F; --accent-ink:#06130A;
   --gold:#F59E0B; --gold-soft:#3A2A0E66; --danger:#E0695C;
-  --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  --shadow:none;
+    --overlay-shadow:0 -8px 30px rgba(0,0,0,.5);
   color-scheme: dark;
 }
 *{box-sizing:border-box}
@@ -79,12 +82,13 @@ header.top{
   background:var(--bg); padding:14px 0 10px; margin:0;
   display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 }
-.brand{font-family:var(--disp);font-size:24px;letter-spacing:.2px}
+.brand{font-family:var(--disp);font-size:32px;letter-spacing:.4px;line-height:1}
 .brand b{color:var(--accent);font-weight:400}
 .date-chip{color:var(--muted);font-size:13px}
 
 /* cards & general */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card.hot{border-inline-start:4px solid var(--accent);padding-inline-start:13px}
 .stack{display:flex;flex-direction:column;gap:12px}
 .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .row>*{min-width:0}
@@ -92,7 +96,7 @@ header.top{
 .muted{color:var(--muted)}
 .small{font-size:13px}
 .label{font-size:12px;color:var(--muted);letter-spacing:.06em}
-.sect{font-family:var(--disp);font-size:17px;margin:20px 0 10px}
+.sect{font-family:var(--disp);font-size:23px;margin:22px 0 10px;letter-spacing:.3px}
 .btn{background:var(--surface2);border:1px solid var(--line);padding:10px 14px;font-weight:500}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent;font-weight:700}
 .btn.big{width:100%;padding:15px;font-size:17px;border-radius:14px}
@@ -110,8 +114,9 @@ nav.tabs{
   padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));
   display:flex;justify-content:space-around;
 }
-nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--muted);font-size:11.5px;border-radius:12px}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px 5px;color:var(--muted);font-size:11.5px;border-radius:0;position:relative}
 nav.tabs button.on{color:var(--accent);font-weight:700}
+nav.tabs button.on::before{content:'';position:absolute;top:-7px;inset-inline:22%;height:3px;border-radius:0 0 3px 3px;background:var(--accent)}
 nav.tabs svg{width:23px;height:23px}
 nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 
@@ -124,13 +129,13 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
   width:100%;max-width:528px;background:var(--ink);color:var(--bg);
   border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);
 }
-#restbar .t{font-family:var(--disp);font-size:22px;min-width:64px}
+#restbar .t{font-family:var(--disp);font-size:30px;line-height:1;min-width:64px}
 #restbar .bar{flex:1;height:5px;border-radius:99px;background:color-mix(in srgb,var(--bg) 25%,transparent);overflow:hidden}
 #restbar .bar>i{display:block;height:100%;background:var(--accent);border-radius:99px}
 #restbar button{color:var(--bg);border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);padding:6px 11px;font-size:13px}
 
 /* active workout */
-.ex-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.ex-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
 .ex-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
 .ex-name{font-weight:700;font-size:16px}
 .prev{font-size:12.5px;color:var(--muted)}
@@ -146,16 +151,17 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .addset{margin-top:8px;width:100%;padding:9px;border:1px dashed var(--line);color:var(--muted);font-size:14px}
 
 /* history */
-.h-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.h-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
 .h-stats{display:flex;gap:14px;color:var(--muted);font-size:13px;flex-wrap:wrap}
 .h-detail{border-top:1px solid var(--line);margin-top:10px;padding-top:10px;display:flex;flex-direction:column;gap:8px}
 .h-ex{display:flex;justify-content:space-between;gap:10px;font-size:14px}
 .h-ex .sets{color:var(--muted);text-align:left;direction:ltr}
 
 /* progress */
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
-.tile .v{font-family:var(--disp);font-size:24px;color:var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tile{padding:14px 8px;text-align:center}
+.tile+.tile{border-inline-start:1px solid var(--line)}
+.tile .v{font-family:var(--disp);font-size:36px;line-height:1;color:var(--accent)}
 .tile .k{font-size:11.5px;color:var(--muted);margin-top:2px}
 .chartwrap{position:relative}
 #tip{position:absolute;background:var(--ink);color:var(--bg);font-size:12.5px;padding:5px 9px;border-radius:8px;pointer-events:none;white-space:nowrap;transform:translate(-50%,-115%)}
@@ -168,6 +174,7 @@ svg text{font-family:var(--body)}
 #sheet-bg{position:fixed;inset:0;background:rgba(10,14,12,.45);z-index:40}
 #sheet{
   position:fixed;inset-inline:0;bottom:0;z-index:41;max-width:560px;margin:0 auto;
+  box-shadow:var(--overlay-shadow);
   background:var(--surface);border-radius:20px 20px 0 0;border:1px solid var(--line);border-bottom:none;
   padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:82vh;overflow-y:auto;
 }
@@ -182,10 +189,11 @@ svg text{font-family:var(--body)}
 /* numpad — מקלדת מובנית בסגנון פלטות */
 #np-bg{position:fixed;inset:0;background:rgba(10,14,12,.45);z-index:58}
 #np{position:fixed;inset-inline:0;bottom:0;z-index:59;max-width:560px;margin:0 auto;
+  box-shadow:var(--overlay-shadow);
   background:var(--surface);border:1px solid var(--line);border-bottom:none;border-radius:20px 20px 0 0;
   padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));}
 #np .npdisp{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:2px 0 10px}
-#np .npval{font-family:var(--disp);font-size:44px;min-width:110px;text-align:center;letter-spacing:1px}
+#np .npval{font-family:var(--disp);font-size:60px;line-height:1;min-width:110px;text-align:center;letter-spacing:1px}
 #np .npunit{color:var(--muted);font-size:15px}
 #np .nptitle{text-align:center;color:var(--muted);font-size:13.5px;margin-bottom:2px}
 .plates{display:flex;justify-content:center;align-items:center;gap:10px;margin:10px 0 4px;flex-wrap:wrap}
@@ -236,6 +244,14 @@ svg text{font-family:var(--body)}
   width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
 .npact{display:flex;gap:8px;margin-top:10px}
 input[data-np]{caret-color:transparent;cursor:pointer}
+/* settings switches */
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.setrow:last-child{border-bottom:none}
+.sw{appearance:none;-webkit-appearance:none;width:46px;height:27px;border-radius:99px;background:var(--surface2);border:1px solid var(--line);position:relative;flex-shrink:0;cursor:pointer;transition:background .15s}
+.sw::after{content:'';position:absolute;top:2px;inset-inline-start:2px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
+.sw:checked{background:var(--accent);border-color:var(--accent)}
+.sw:checked::after{transform:translateX(-19px)}
+:root[dir="ltr"] .sw:checked::after{transform:translateX(19px)}
 
 /* toast */
 #toast{position:fixed;bottom:calc(120px + env(safe-area-inset-bottom,0px));inset-inline:0;display:flex;justify-content:center;z-index:50;pointer-events:none}
@@ -243,7 +259,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 
 /* home dashboard */
 .greet-wrap{margin:4px 0 2px}
-.greet{font-family:var(--disp);font-size:26px}
+.greet{font-family:var(--disp);font-size:36px;line-height:1.05}
 .dots{display:flex;justify-content:space-between;margin-top:10px;padding:0 2px}
 .day{text-align:center;font-size:11.5px;color:var(--muted)}
 .day i{display:block;width:13px;height:13px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--line);margin:5px auto 0}
@@ -310,7 +326,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
     <div class="row" style="gap:8px">
       <span class="pill num" id="syncbadge" hidden></span>
       <div class="date-chip num" id="todaychip"></div>
-      <button class="pill" data-act="logout" id="logoutbtn" hidden style="cursor:pointer">יציאה</button>
+      <button class="pill" data-act="settings" id="logoutbtn" hidden style="cursor:pointer" aria-label="הגדרות">⚙️</button>
     </div>
   </header>
   <main id="view" class="stack"></main>
@@ -356,7 +372,24 @@ async function keepAwake(on){
   }catch(e){}
 }
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&S.active)keepAwake(true); });
-const vibrate=p=>{ try{ if(navigator.vibrate)navigator.vibrate(p); }catch(e){} };
+const vibrate=p=>{ try{ if(navigator.vibrate&&S.settings?.notif?.vib!==false)navigator.vibrate(p); }catch(e){} };
+/* התראות מערכת */
+async function ensureNotifPerm(){
+  try{
+    if(!('Notification' in window))return false;
+    if(Notification.permission==='granted')return true;
+    if(Notification.permission==='denied')return false;
+    return (await Notification.requestPermission())==='granted';
+  }catch(e){return false;}
+}
+async function notify(title,body){
+  try{
+    if(!('Notification' in window)||Notification.permission!=='granted')return;
+    const reg=await navigator.serviceWorker?.ready;
+    if(reg?.showNotification)reg.showNotification(title,{body,icon:'icon-192.png?v=2',badge:'icon-192.png?v=2',vibrate:[200,100,200]});
+    else new Notification(title,{body,icon:'icon-192.png?v=2'});
+  }catch(e){}
+}
 
 /* ---------- static data ---------- */
 const LIB={
@@ -424,7 +457,7 @@ const S={
   mode:'boot', user:null, authMode:'login', authEmail:'',
   workouts:[], templates:[], weights:[],
   active:null,                       // {start, name, tid, ex:[{n,m,t,sets:[{w,r,done}],c:{min,km,inc,done}}]}
-  settings:{rest:90},
+  settings:{rest:90,notif:{rest:true,pr:true,sound:true,vib:true}},
   tab:(location.hash||'').replace('#','')||'home',
   progressEx:null, progressMetric:'top',
   openHist:{}, confirmDel:null,
@@ -536,7 +569,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{}}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); flushActive(); }
@@ -583,7 +616,12 @@ function tickRest(){
   const s=Math.ceil(left/1000);
   $('#rest-t').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
   $('#rest-fill').style.width=(100*left/(T.total*1000))+'%';
-  if(left<=0){stopRest();beep();vibrate([200,100,200,100,400]);toast('המנוחה נגמרה — סט הבא!');}
+  if(left<=0){stopRest();
+    if(S.settings.notif?.sound!==false)beep();
+    vibrate([200,100,200,100,400]);
+    toast('המנוחה נגמרה — סט הבא!');
+    if(S.settings.notif?.rest!==false&&document.hidden)notify('המנוחה נגמרה 💪','הסט הבא מחכה לך');
+  }
 }
 function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;}
 
@@ -718,13 +756,23 @@ function vHome(){
       <div class="greet">${greet()} 💪</div>
       <div class="muted small">${S.workouts.length?`אימון מס׳ ${S.workouts.length+1} מחכה לך`:'האימון הראשון שלך מחכה'}</div>
     </div>
+    ${(()=>{try{return ('Notification' in window)&&Notification.permission==='default'&&!localStorage.getItem('np-dis');}catch(e){return false;}})()?`
+    <div class="card">
+      <div class="spread">
+        <div><b>🔔 הפעל התראות</b><div class="small muted">תדע שהמנוחה נגמרה גם כשהמסך כבוי</div></div>
+        <div class="row" style="gap:6px">
+          <button class="btn" data-act="notif-dis">לא עכשיו</button>
+          <button class="btn primary" data-act="notif-on">הפעל</button>
+        </div>
+      </div>
+    </div>`:''}
     ${S.active?`
       <button class="card spread" style="width:100%;text-align:right;background:var(--accent-soft);border-color:var(--accent)" data-act="go" data-to="train">
         <div><div class="label">אימון פעיל ממשיך לרוץ</div><b style="font-size:17px">${esc(S.active.name)}</b></div>
         <span class="btn primary">חזור לאימון ←</span>
       </button>`
     :nt?`
-      <div class="card" style="border-color:var(--accent)">
+      <div class="card hot">
         <div class="label">האימון הבא שלך</div>
         <div class="spread" style="margin-top:4px">
           <b style="font-size:18px">${esc(nt.name)}</b>
@@ -795,6 +843,18 @@ function vTrain(){
   `;
 }
 
+function liveStats(){
+  let done=0,total=0,vol=0;
+  for(const e of S.active?.ex||[]){ if(e.t!=='s')continue;
+    total+=e.sets.length;
+    for(const s of e.sets)if(s.done){done++;vol+=(+s.w||0)*(+s.r||0);} }
+  return {done,total,vol};
+}
+function updateLive(){
+  const st=liveStats();
+  const a=document.getElementById('live-sets'),b=document.getElementById('live-vol');
+  if(a)a.textContent=`${st.done}/${st.total}`; if(b)b.textContent=fmtNum(st.vol);
+}
 function clockText(){
   const s=Math.floor((Date.now()-S.active.start)/1000);
   const h=Math.floor(s/3600),m=Math.floor(s%3600/60),ss=s%60;
@@ -803,10 +863,14 @@ function clockText(){
 function vActive(){
   const a=S.active;
   return `
-    <div class="card" style="background:var(--accent-soft);border-color:var(--accent)">
+    <div class="card hot">
       <div class="spread">
         <div><div class="label">אימון פעיל · שעון רץ</div><b style="font-size:17px">${esc(a.name)}</b></div>
-        <div class="num" id="wclock" style="font-family:var(--disp);font-size:24px">${clockText()}</div>
+        <div class="num" id="wclock" style="font-family:var(--disp);font-size:34px;line-height:1">${clockText()}</div>
+      </div>
+      <div class="h-stats num" style="margin-top:8px">
+        <span>סטים <b id="live-sets">${liveStats().done}/${liveStats().total}</b></span>
+        <span>נפח <b id="live-vol">${fmtNum(liveStats().vol)}</b> ק״ג</span>
       </div>
       <div class="row small muted" style="margin-top:8px">
         מנוחה (ברירת מחדל):
@@ -834,6 +898,7 @@ function vStrength(e,ei){
       </div>
       <div class="row" style="gap:4px">
         <span class="pill">${esc(e.m)}</span>
+        <button class="pill" data-act="done-all" data-ei="${ei}" aria-label="סמן את כל הסטים" style="cursor:pointer">✓✓</button>
         <button class="btn danger" data-act="rm-ex" data-ei="${ei}" aria-label="הסר תרגיל" style="padding:6px 9px">✕</button>
       </div>
     </div>
@@ -991,7 +1056,7 @@ function weeklyVolHTML(){
       return `<div>
         <div class="spread small"><span>${esc(g)}</span><span class="num muted">${n} סטים · ${st}</span></div>
         <div style="height:7px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:3px">
-          <div style="width:${pct}%;height:100%;border-radius:99px;background:${col}"></div>
+          <div style="width:${pct}%;height:100%;border-radius:99px;background:repeating-linear-gradient(-55deg,${col} 0 6px,color-mix(in srgb,${col} 72%,transparent) 6px 12px)"></div>
         </div>
       </div>`;}).join('')}
   </div>`;
@@ -1368,6 +1433,38 @@ function renderTplEditor(){
   `);
 }
 
+/* מסך הגדרות */
+function renderSettings(){
+  const n=S.settings.notif||{};
+  const sw=(k,label,desc)=>`
+    <label class="setrow">
+      <span><b>${label}</b>${desc?`<span class="small muted" style="display:block">${desc}</span>`:''}</span>
+      <input type="checkbox" class="sw" data-bind="notif" data-k="${k}" ${n[k]!==false?'checked':''}>
+    </label>`;
+  openSheet(`
+    <h3>הגדרות</h3>
+    <div class="label" style="margin-bottom:6px">התראות</div>
+    <div class="card stack" style="gap:0;padding:4px 14px">
+      ${sw('rest','סיום מנוחה','התראה כשהטיימר נגמר, גם כשהמסך כבוי')}
+      ${sw('pr','שיא חדש 🏅','חגיגה כששברת שיא אישי')}
+      ${sw('sound','צליל','צפצוף בסיום מנוחה')}
+      ${sw('vib','רטט','משוב מישוש בלחיצות ובטיימר')}
+    </div>
+    ${'Notification' in window&&Notification.permission==='denied'?`<div class="small muted" style="margin-top:8px">⚠️ ההתראות חסומות בדפדפן — אפשר לאפשר מחדש בהגדרות האתר של הדפדפן.</div>`:''}
+    <div class="label" style="margin:16px 0 6px">מנוחה בין סטים (ברירת מחדל)</div>
+    <div class="row">
+      ${[60,90,120,180].map(s=>`<button class="chip num ${S.settings.rest===s?'on':''}" data-act="rest-set" data-s="${s}">${s<120?s+' שנ׳':(s/60)+' דק׳'}</button>`).join('')}
+    </div>
+    <div class="label" style="margin:16px 0 6px">חשבון</div>
+    <div class="card spread" style="padding:12px 14px">
+      <span class="small muted" dir="ltr">${esc(S.user?.email||'')}</span>
+      <button class="btn danger" data-act="logout">יציאה מהחשבון</button>
+    </div>
+    <div class="muted small" style="text-align:center;margin-top:14px">NextRep · גרסה 2.0</div>
+    <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>
+  `);
+}
+
 /* שיתוף סיכום אימון */
 function workoutShareText(w){
   const lines=[`🏋️ ${w.name} · ${new Date(w.start).toLocaleDateString('he-IL')}`,
@@ -1463,7 +1560,11 @@ async function doSaveWorkout(){
     return {n:e.n,m:e.m,t:'s',sets:(e.sets||[]).map(s=>({w:+s.w||0,r:+s.r||0})).filter(s=>s.r>0)};
   }).filter(e=>e.t==='c'?(e.c.min>0||e.c.km>0):e.sets.length>0);
   if(!w.ex.length){toast('אין סטים מלאים לשמירה');return;}
+  const bm=bestMap(); const newPRs=[];
+  for(const e of w.ex)if(e.t==='s'){ const top=Math.max(0,...e.sets.map(s=>s.w));
+    if(top>0&&top>(bm[e.n]?.w||0))newPRs.push(`${e.n}: ${top} ק״ג`); }
   try{await saveWorkout(w);}catch(e){return;}
+  if(newPRs.length&&S.settings.notif?.pr!==false)notify('שיא חדש! 🏅',newPRs.join(' · '));
   S.active=null;
   saveLocalActive(); clearTimeout(_aT); flushActive();
   stopRest(); keepAwake(false); closeSheet(); render(); toast('האימון נשמר 💪');
@@ -1499,7 +1600,15 @@ function handleAct(b,ev){
       document.querySelectorAll(`[data-cell="${ei2}-${si2}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
       const wi=document.getElementById(`w-${ei2}-${si2}`), ri=document.getElementById(`r-${ei2}-${si2}`);
       if(wi)wi.value=s.w??''; if(ri)ri.value=s.r??'';
+      updateLive();
       if(s.done)startRest(e.rest||S.settings.rest); break; }
+    case 'done-all': { const e=S.active?.ex[+b.dataset.ei]; if(!e||e.t!=='s')break;
+      if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='בטוח?';
+        setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)b.textContent='✓✓';},2200); break; }
+      for(const s of e.sets){ if(s.done)continue;
+        if(!s.w&&s.pw)s.w=s.pw; if(!s.r&&s.pr)s.r=s.pr;
+        if(+s.r>0)s.done=true; }
+      persistActive(); render(); startRest(e.rest||S.settings.rest); break; }
     case 'ex-info': { const e=S.active?.ex[+b.dataset.ei]; if(!e)break;
       openExSheet(e.n,{reps:e.reps,sets:e.sets?.length,rest:e.rest,how:e.how}); break; }
     case 'hist-ex': openExSheet(b.dataset.n,{}); break;
@@ -1508,7 +1617,11 @@ function handleAct(b,ev){
         <button class="btn big" data-act="lib-back">חזרה למאגר</button>`); break; }
     case 'lib-back': renderLibrary(); break;
     case 'cardio-done': { const e=S.active.ex[+b.dataset.ei]; e.c.done=!e.c.done; persistActive(); render(); break; }
-    case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings(); render(); break;
+    case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings();
+      if(!$('#sheet').hidden)renderSettings(); else render(); break;
+    case 'settings': renderSettings(); break;
+    case 'notif-on': ensureNotifPerm().then(ok=>{toast(ok?'ההתראות הופעלו 🔔':'ההרשאה לא אושרה');render();}); break;
+    case 'notif-dis': try{localStorage.setItem('np-dis','1');}catch(e){} render(); break;
     case 'rest-add': T.end+=15000; T.total+=15; tickRest(); break;
     case 'rest-skip': stopRest(); break;
     case 'cancel-w':
@@ -1557,6 +1670,12 @@ document.addEventListener('input',ev=>{
 document.addEventListener('change',ev=>{
   const i=ev.target.closest('[data-bind]'); if(!i)return;
   if(i.dataset.bind==='progex'){S.progressEx=i.value; render();}
+  else if(i.dataset.bind==='notif'){
+    S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},S.settings.notif);
+    S.settings.notif[i.dataset.k]=i.checked;
+    if(i.checked&&(i.dataset.k==='rest'||i.dataset.k==='pr'))ensureNotifPerm();
+    persistSettings();
+  }
 });
 document.getElementById('tabs').addEventListener('click',ev=>{
   const b=ev.target.closest('[data-tab]'); if(!b)return;
@@ -1608,14 +1727,15 @@ async function enterApp(user){
     const [tpl,wo,st,bw]=await Promise.all([
       sb.from('templates').select('id,name,ord,ex').order('ord'),
       sb.from('workouts').select('id,name,start_ts,end_ts,ex'),
-      sb.from('settings').select('rest,active').maybeSingle(),
+      sb.from('settings').select('rest,active,prefs').maybeSingle(),
       sb.from('bodyweight').select('d,kg').order('d'),
     ]);
     if(tpl.error||wo.error)throw tpl.error||wo.error;
     S.templates=(tpl.data||[]).map(r=>({id:r.id,name:r.name,order:r.ord||0,ex:r.ex||[]}));
     S.workouts=(wo.data||[]).map(r=>({id:r.id,name:r.name,start:+r.start_ts,end:+r.end_ts,ex:r.ex||[]}));
     S.weights=(bw.data||[]).map(r=>({d:r.d,kg:+r.kg}));
-    if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null; }
+    if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null;
+      S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},st.data.prefs?.notif); }
     if(!S.templates.length){ // משתמש חדש — טעינת תוכניות ברירת המחדל
       S.templates=clone(DEFAULT_TEMPLATES);
       sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{});
