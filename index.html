@@ -1311,10 +1311,17 @@ function handleAct(b,ev){
       persistActive(); render(); break; }
     case 'set-done': { const e=S.active?.ex?.[+b.dataset.ei], s=e?.sets?.[+b.dataset.si]; if(!s)break;
       if(!s.w&&s.pw)s.w=s.pw; if(!s.r&&s.pr)s.r=s.pr;
-      s.done=!s.done; persistActive();
+      s.done=!s.done;
+      const ei2=+b.dataset.ei, si2=+b.dataset.si;
+      // סט שהושלם מציע את המשקל והחזרות שלו לסט הבא
+      if(s.done){ const nx=e.sets[si2+1];
+        if(nx&&!nx.done){ if(s.w)nx.pw=s.w; if(s.r)nx.pr=s.r;
+          const nw=document.getElementById(`w-${ei2}-${si2+1}`), nr=document.getElementById(`r-${ei2}-${si2+1}`);
+          if(nw&&!nw.value)nw.placeholder=nx.pw||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; } }
+      persistActive();
       // עדכון נקודתי של השורה — בלי רינדור מלא, כדי שסימון סט יעבוד גם כשהמקלדת פתוחה
-      document.querySelectorAll(`[data-cell="${+b.dataset.ei}-${+b.dataset.si}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
-      const wi=document.getElementById(`w-${+b.dataset.ei}-${+b.dataset.si}`), ri=document.getElementById(`r-${+b.dataset.ei}-${+b.dataset.si}`);
+      document.querySelectorAll(`[data-cell="${ei2}-${si2}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
+      const wi=document.getElementById(`w-${ei2}-${si2}`), ri=document.getElementById(`r-${ei2}-${si2}`);
       if(wi)wi.value=s.w??''; if(ri)ri.value=s.r??'';
       if(s.done)startRest(e.rest||S.settings.rest); break; }
     case 'ex-info': { const e=S.active?.ex[+b.dataset.ei]; if(!e)break;
