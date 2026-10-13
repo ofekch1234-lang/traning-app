@@ -907,10 +907,22 @@ function wireChart(){
 }
 
 /* ---------- numpad: מקלדת מובנית בסגנון חדר כושר ---------- */
-const NP={cfg:null,val:0,typing:false};
+const NP={cfg:null,val:0,typing:false,sub:'bar'};
 function npFmt(v){ return (Math.round(v*100)/100).toString(); }
+/* איזה ציוד לתרגיל? משקולות / מכונה / מוט — לפי השם, עם זיכרון לבחירה ידנית */
+const PAD_KEY='ironlog-padmode';
+function padModes(){ try{return JSON.parse(localStorage.getItem(PAD_KEY)||'{}');}catch(e){return {};} }
+function guessSub(name){
+  const saved=padModes()[name]; if(saved)return saved;
+  if(/משקולת|משקולות|פטיש|לאנג|עקבים במשקולת/.test(name))return 'db';
+  if(/מכונ|פולי|כבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|צרפתית בכבל/.test(name))return 'stack';
+  return 'bar';
+}
+const DB_RACK=[2,3,4,5,6,7,8,9,10,12.5,15,17.5,20,22.5,25,27.5,30,32.5,35,37.5,40,42.5,45,47.5,50];
+const STACK=[...Array(20)].map((_,i)=>(i+1)*5); // 5–100
 function openNumpad(cfg){
   NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
+  if(cfg.mode==='weight')NP.sub=guessSub(cfg.exName||'');
   renderNumpad(); $('#np').hidden=false; $('#np-bg').hidden=false; vibrate(8);
 }
 function closeNumpad(){ $('#np').hidden=true; $('#np-bg').hidden=true; NP.cfg=null; }
@@ -918,16 +930,33 @@ function renderNumpad(){
   const c=NP.cfg; if(!c)return;
   let body='';
   if(c.mode==='weight'){
-    body=`
-    <div class="plates">
-      ${[['p20',20],['p10',10],['p5',5],['p25',2.5],['p125',1.25]].map(([cls,v])=>
-        `<button class="plate ${cls}" data-npadd="${v}" aria-label="הוסף ${v} ק״ג"><span>+${v}</span></button>`).join('')}
-    </div>
-    <div class="npstep">
-      <button data-npadd="-2.5" aria-label="הורד 2.5">−</button>
-      <button data-npc="clear" class="num" style="font-size:15px">נקה</button>
-      <button data-npadd="2.5" aria-label="הוסף 2.5">+</button>
-    </div>
+    const subs=`<div class="npchips" style="margin-bottom:4px">
+      ${[['bar','מוט · פלטות'],['db','משקולות'],['stack','מכונה']].map(([k,l])=>
+        `<button class="chip ${NP.sub===k?'on':''}" data-npsub="${k}">${l}</button>`).join('')}
+    </div>`;
+    let picker='';
+    if(NP.sub==='bar'){
+      picker=`<div class="plates">
+        ${[['p20',20],['p10',10],['p5',5],['p25',2.5],['p125',1.25]].map(([cls,v])=>
+          `<button class="plate ${cls}" data-npadd="${v}" aria-label="הוסף ${v} ק״ג"><span>+${v}</span></button>`).join('')}
+      </div>
+      <div class="npstep">
+        <button data-npadd="-2.5" aria-label="הורד 2.5">−</button>
+        <button data-npc="clear" class="num" style="font-size:15px">נקה</button>
+        <button data-npadd="2.5" aria-label="הוסף 2.5">+</button>
+      </div>`;
+    }else if(NP.sub==='db'){
+      picker=`<div class="npgrid" style="grid-template-columns:repeat(5,1fr)">
+        ${DB_RACK.map(v=>`<button data-npset="${v}" class="num ${NP.val===v?'sel':''}" style="${v%1?'font-size:14px':''}">${v}</button>`).join('')}
+      </div>
+      <div class="npstep"><button data-npadd="-1">−1</button><button data-npadd="-0.5" style="font-size:15px">−½</button><button data-npadd="0.5" style="font-size:15px">+½</button><button data-npadd="1">+1</button></div>`;
+    }else{
+      picker=`<div class="npgrid" style="grid-template-columns:repeat(5,1fr)">
+        ${STACK.map(v=>`<button data-npset="${v}" class="num ${NP.val===v?'sel':''}">${v}</button>`).join('')}
+      </div>
+      <div class="npstep"><button data-npadd="-2.5">−2.5</button><button data-npadd="2.5">+2.5</button></div>`;
+    }
+    body=`${subs}${picker}
     ${c.prev?`<div class="npchips"><button class="chip num" data-npset="${c.prev}">כמו קודם: ${c.prev}</button>${c.tip?`<button class="chip num" data-npset="${c.tip}" style="background:var(--gold-soft);border-color:var(--gold)">💡 ${c.tip}</button>`:''}</div>`:''}`;
   }else if(c.mode==='reps'){
     body=`<div class="npgrid">
@@ -959,10 +988,13 @@ function renderNumpad(){
     </div>`;
 }
 function npUpdate(){ const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
-  if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs')renderNumpad(); }
+  if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs'||(NP.cfg.mode==='weight'&&NP.sub!=='bar'))renderNumpad(); }
 document.addEventListener('click',ev=>{
-  const t=ev.target.closest('[data-npadd],[data-npset],[data-npd],[data-npc]'); if(!t||!NP.cfg)return;
+  const t=ev.target.closest('[data-npadd],[data-npset],[data-npd],[data-npc],[data-npsub]'); if(!t||!NP.cfg)return;
   vibrate(10);
+  if(t.dataset.npsub!==undefined){ NP.sub=t.dataset.npsub;
+    if(NP.cfg.exName){ try{const m=padModes();m[NP.cfg.exName]=NP.sub;localStorage.setItem(PAD_KEY,JSON.stringify(m));}catch(e){} }
+    renderNumpad(); return; }
   if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); }
   else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset; }
   else if(t.dataset.npd!==undefined){ const d=t.dataset.npd;
@@ -986,7 +1018,7 @@ document.addEventListener('click',ev=>{
     const tip=isW?coachTip(e.n,e.reps,e.sets.length):null;
     openNumpad({
       title:`${e.n} · סט ${si+1} · ${isW?'משקל':'חזרות'}`,
-      unit:isW?'ק״ג':'חזרות', mode:isW?'weight':'reps',
+      unit:isW?'ק״ג':'חזרות', mode:isW?'weight':'reps', exName:e.n,
       value:+(s[kind]||s[isW?'pw':'pr']||0), prev:+(s[isW?'pw':'pr'])||null, tip:tip?tip.w:null,
       apply(v){ s[kind]=v||''; const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; persistActive(); },
       applyDone(){ if(!s.done){ const btn=document.querySelector(`[data-act="set-done"][data-ei="${ei}"][data-si="${si}"]`); if(btn)btn.click(); } },
