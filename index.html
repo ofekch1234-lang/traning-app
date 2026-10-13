@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>יומן הברזל</title>
-<meta name="theme-color" content="#157247">
+<title>NextRep</title>
+<meta name="theme-color" content="#16A34A">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="יומן הברזל">
+<meta name="apple-mobile-web-app-title" content="NextRep">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Secular+One&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -22,11 +22,11 @@
   --ink:#1A201C;
   --muted:#5D675F;
   --line:#DFE4DE;
-  --accent:#177A4C;
-  --accent-soft:#E2F0E8;
+  --accent:#16A34A;
+  --accent-soft:#DCFCE7;
   --accent-ink:#FFFFFF;
-  --gold:#A3630A;
-  --gold-soft:#F6EAD6;
+  --gold:#B45309;
+  --gold-soft:#FEF3C7;
   --danger:#B3362B;
   --shadow:0 1px 3px rgba(20,30,24,.08),0 4px 14px rgba(20,30,24,.06);
   --disp:'Secular One',system-ui,sans-serif;
@@ -34,17 +34,17 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#111513; --surface:#1A201C; --surface2:#232B26; --ink:#ECF1ED; --muted:#9AA69E;
-    --line:#2B332E; --accent:#43C184; --accent-soft:#1C3328; --accent-ink:#0A130E;
-    --gold:#E4A84C; --gold-soft:#36291262; --danger:#E0695C;
+    --bg:#131619; --surface:#1B2024; --surface2:#242A2E; --ink:#EDF1EE; --muted:#9AA5A0;
+    --line:#2B3237; --accent:#22C55E; --accent-soft:#17351F; --accent-ink:#06130A;
+    --gold:#F59E0B; --gold-soft:#3A2A0E66; --danger:#E0695C;
     --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#111513; --surface:#1A201C; --surface2:#232B26; --ink:#ECF1ED; --muted:#9AA69E;
-  --line:#2B332E; --accent:#43C184; --accent-soft:#1C3328; --accent-ink:#0A130E;
-  --gold:#E4A84C; --gold-soft:#36291262; --danger:#E0695C;
+  --bg:#131619; --surface:#1B2024; --surface2:#242A2E; --ink:#EDF1EE; --muted:#9AA5A0;
+  --line:#2B3237; --accent:#22C55E; --accent-soft:#17351F; --accent-ink:#06130A;
+  --gold:#F59E0B; --gold-soft:#3A2A0E66; --danger:#E0695C;
   --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
   color-scheme: dark;
 }
@@ -248,17 +248,55 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
 .fin-ex{display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
 
+/* splash — מסך כניסה ממותג */
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  background:linear-gradient(135deg,#2FD16B,#17A34A 55%,#0A6630);
+  transition:opacity .45s ease,visibility .45s}
+#splash.out{opacity:0;visibility:hidden}
+#splash img{width:98px;height:98px;border-radius:26px;box-shadow:0 18px 44px rgba(5,42,16,.45)}
+#splash .sb{font-family:var(--disp);font-size:32px;color:#fff;letter-spacing:.5px}
+#splash .sb b{font-weight:400;color:#073018}
+#splash .st{color:rgba(255,255,255,.75);font-size:13.5px}
+
 @media (prefers-reduced-motion:no-preference){
   .card,.ex-card,.h-card{transition:border-color .15s}
-  #sheet{animation:up .18s ease-out}
-  @keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
+  .btn,.chip,.done-btn,.plate,nav.tabs button{transition:transform .12s ease}
+  .btn:active,.chip:active,.done-btn:active,nav.tabs button:active{transform:scale(.95)}
+  #sheet{animation:up .22s cubic-bezier(.2,.8,.3,1)}
+  #np{animation:up .22s cubic-bezier(.2,.8,.3,1)}
+  #np-bg,#sheet-bg{animation:fadein .2s ease-out}
+  #restbar .inner{animation:up .25s cubic-bezier(.2,.8,.3,1)}
+  #toast span{animation:rise .25s ease-out}
+  .set-done .done-btn{animation:pop .34s cubic-bezier(.3,1.6,.4,1)}
+  .dbitem.sel .pl{transition:background .15s}
+  /* כניסת תוכן במעבר לשונית */
+  #view.anim>*{animation:rise .3s cubic-bezier(.2,.7,.3,1) both}
+  #view.anim>*:nth-child(2){animation-delay:.05s}
+  #view.anim>*:nth-child(3){animation-delay:.09s}
+  #view.anim>*:nth-child(4){animation-delay:.13s}
+  #view.anim>*:nth-child(5){animation-delay:.16s}
+  #view.anim>*:nth-child(n+6){animation-delay:.19s}
+  /* ספלאש */
+  #splash img{animation:spLogo .7s cubic-bezier(.3,1.4,.4,1) both}
+  #splash .sb{animation:rise .5s .25s ease-out both}
+  #splash .st{animation:rise .5s .4s ease-out both}
+  @keyframes spLogo{from{transform:scale(.55) rotate(-14deg);opacity:0}to{transform:none;opacity:1}}
+  @keyframes up{from{transform:translateY(26px);opacity:.5}to{transform:none;opacity:1}}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  @keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
 }
 </style>
 </head>
 <body>
+<div id="splash">
+  <img src="icon-192.png" alt="NextRep">
+  <div class="sb" dir="ltr">Next<b>Rep</b></div>
+  <div class="st">הסט הבא שלך מתחיל כאן</div>
+</div>
 <div id="app" lang="he">
   <header class="top">
-    <div class="brand">יומן <b>הברזל</b></div>
+    <div class="brand" dir="ltr">Next<b>Rep</b></div>
     <div class="row" style="gap:8px">
       <span class="pill num" id="syncbadge" hidden></span>
       <div class="date-chip num" id="todaychip"></div>
@@ -547,12 +585,14 @@ function render_(){
   $('#logoutbtn').hidden=S.mode!=='app';
   $('#todaychip').hidden=S.mode==='auth';
   const v=$('#view');
-  if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען את היומן…</div>מתחבר לנתונים שלך</div>`;return;}
-  if(S.mode==='auth'){v.innerHTML=vAuth();return;}
+  const vk=S.mode+'|'+S.tab, moved=vk!==render_._k; render_._k=vk;
+  if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען…</div>מתחבר לנתונים שלך</div>`;return;}
+  if(S.mode==='auth'){v.innerHTML=vAuth();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
   if(S.tab==='train')v.innerHTML=vTrain();
   else if(S.tab==='plans')v.innerHTML=vPlans();
   else if(S.tab==='history')v.innerHTML=vHistory();
   else v.innerHTML=vProgress();
+  if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
   if(S.tab==='progress')wireChart();
 }
 
@@ -562,7 +602,7 @@ function vAuth(){
   return `<div id="authwrap">
     <div class="logo">
       <img src="icon-192.png" alt="">
-      <div class="brand">יומן <b>הברזל</b></div>
+      <div class="brand" dir="ltr">Next<b>Rep</b></div>
       <div class="muted small">מעקב אימונים אישי — התרגילים, המשקלים וההתקדמות שלך</div>
     </div>
     <div class="card stack">
@@ -1200,7 +1240,7 @@ function workoutShareText(w){
     if(e.t==='c'){ if(e.c&&(e.c.min||e.c.km))lines.push(`${e.n}: ${e.c.min||0} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`); }
     else{ const ss=(e.sets||[]).filter(s=>+s.r>0); if(ss.length)lines.push(`${e.n}: ${ss.map(s=>`${+s.w||0}×${+s.r||0}`).join('  ')}`); }
   }
-  lines.push('','💪 נרשם ביומן הברזל');
+  lines.push('','💪 נרשם ב-NextRep');
   return lines.join('\n');
 }
 async function shareText(text){
@@ -1455,6 +1495,10 @@ async function enterApp(user){
   S.mode='app'; render(); updateSyncBadge(); trySync();
   if(S.active){startClock();keepAwake(true);}
 }
+function hideSplash(){
+  const sp=$('#splash'); if(!sp)return;
+  setTimeout(()=>{ sp.classList.add('out'); setTimeout(()=>sp.remove(),600); },450);
+}
 (async function boot(){
   render();
   try{
@@ -1462,6 +1506,7 @@ async function enterApp(user){
     if(session)await enterApp(session.user);
     else{ S.mode='auth'; render(); }
   }catch(e){ S.mode='auth'; render(); }
+  hideSplash();
   sb.auth.onAuthStateChange((ev,sess)=>{
     if(sess&&!S.user)enterApp(sess.user);
     if(ev==='SIGNED_OUT'){S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
