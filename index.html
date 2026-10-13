@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>יומן הברזל</title>
+<meta name="theme-color" content="#157247">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="יומן הברזל">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Secular+One&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+/* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
+:root{
+  --bg:#F3F5F2;
+  --surface:#FFFFFF;
+  --surface2:#EAEEE9;
+  --ink:#1A201C;
+  --muted:#5D675F;
+  --line:#DFE4DE;
+  --accent:#177A4C;
+  --accent-soft:#E2F0E8;
+  --accent-ink:#FFFFFF;
+  --gold:#A3630A;
+  --gold-soft:#F6EAD6;
+  --danger:#B3362B;
+  --shadow:0 1px 3px rgba(20,30,24,.08),0 4px 14px rgba(20,30,24,.06);
+  --disp:'Secular One',system-ui,sans-serif;
+  --body:'Rubik',system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111513; --surface:#1A201C; --surface2:#232B26; --ink:#ECF1ED; --muted:#9AA69E;
+    --line:#2B332E; --accent:#43C184; --accent-soft:#1C3328; --accent-ink:#0A130E;
+    --gold:#E4A84C; --gold-soft:#36291262; --danger:#E0695C;
+    --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111513; --surface:#1A201C; --surface2:#232B26; --ink:#ECF1ED; --muted:#9AA69E;
+  --line:#2B332E; --accent:#43C184; --accent-soft:#1C3328; --accent-ink:#0A130E;
+  --gold:#E4A84C; --gold-soft:#36291262; --danger:#E0695C;
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.45;
+  direction:rtl;
+  padding-top:env(safe-area-inset-top,0px);
+}
+[hidden]{display:none!important}
+img{max-width:100%}
+/* auth screen */
+#authwrap{max-width:400px;margin:0 auto;padding:48px 20px;display:flex;flex-direction:column;gap:14px}
+#authwrap .logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
+#authwrap .logo img{width:84px;height:84px;border-radius:20px;box-shadow:var(--shadow)}
+#authwrap .logo .brand{font-size:30px}
+.autherr{color:var(--danger);font-size:14px;min-height:20px;text-align:center}
+.authnote{color:var(--muted);font-size:13px;text-align:center}
+.linkbtn{color:var(--accent);font-weight:500;text-decoration:underline;padding:4px}
+#app{max-width:560px;margin:0 auto;padding-inline:16px;padding-bottom:140px;min-height:60vh}
+button{font-family:var(--body);font-size:15px;border:none;cursor:pointer;color:var(--ink);background:none;border-radius:12px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible, input:focus-visible, a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select{font-family:var(--body);font-size:16px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%}
+h1,h2,h3{margin:0;text-wrap:balance}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+header.top{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+  background:var(--bg); padding:14px 0 10px; margin:0;
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+}
+.brand{font-family:var(--disp);font-size:24px;letter-spacing:.2px}
+.brand b{color:var(--accent);font-weight:400}
+.date-chip{color:var(--muted);font-size:13px}
+
+/* cards & general */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row>*{min-width:0}
+.spread{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.label{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.sect{font-family:var(--disp);font-size:17px;margin:20px 0 10px}
+.btn{background:var(--surface2);border:1px solid var(--line);padding:10px 14px;font-weight:500}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent;font-weight:700}
+.btn.big{width:100%;padding:15px;font-size:17px;border-radius:14px}
+.btn.ghost{border:1px dashed var(--line);color:var(--muted);width:100%;padding:12px}
+.btn.danger{color:var(--danger)}
+.chip{padding:7px 12px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:14px}
+.chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:500}
+.pill{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.pr{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:700}
+
+/* tab bar */
+nav.tabs{
+  position:fixed;inset-inline:0;bottom:0;z-index:30;
+  background:var(--surface);border-top:1px solid var(--line);
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));
+  display:flex;justify-content:space-around;
+}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;color:var(--muted);font-size:11.5px;border-radius:12px}
+nav.tabs button.on{color:var(--accent);font-weight:700}
+nav.tabs svg{width:23px;height:23px}
+nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+/* rest timer bar */
+#restbar{
+  position:fixed;inset-inline:0;bottom:calc(62px + env(safe-area-inset-bottom,0px));z-index:29;
+  display:flex;justify-content:center;padding:0 16px;
+}
+#restbar .inner{
+  width:100%;max-width:528px;background:var(--ink);color:var(--bg);
+  border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);
+}
+#restbar .t{font-family:var(--disp);font-size:22px;min-width:64px}
+#restbar .bar{flex:1;height:5px;border-radius:99px;background:color-mix(in srgb,var(--bg) 25%,transparent);overflow:hidden}
+#restbar .bar>i{display:block;height:100%;background:var(--accent);border-radius:99px}
+#restbar button{color:var(--bg);border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);padding:6px 11px;font-size:13px}
+
+/* active workout */
+.ex-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.ex-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.ex-name{font-weight:700;font-size:16px}
+.prev{font-size:12.5px;color:var(--muted)}
+.setgrid{display:grid;grid-template-columns:26px 1fr 1fr 44px;gap:8px;align-items:center}
+.setgrid .h{font-size:11px;color:var(--muted);text-align:center}
+.setidx{text-align:center;color:var(--muted);font-size:13px}
+.setgrid input{text-align:center;padding:9px 4px}
+.done-btn{width:42px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface2);display:flex;align-items:center;justify-content:center}
+.done-btn svg{width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.set-done input{background:var(--accent-soft);border-color:var(--accent)}
+.set-done .done-btn{background:var(--accent);border-color:var(--accent)}
+.set-done .done-btn svg{stroke:var(--accent-ink)}
+.addset{margin-top:8px;width:100%;padding:9px;border:1px dashed var(--line);color:var(--muted);font-size:14px}
+
+/* history */
+.h-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.h-stats{display:flex;gap:14px;color:var(--muted);font-size:13px;flex-wrap:wrap}
+.h-detail{border-top:1px solid var(--line);margin-top:10px;padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.h-ex{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.h-ex .sets{color:var(--muted);text-align:left;direction:ltr}
+
+/* progress */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
+.tile .v{font-family:var(--disp);font-size:24px;color:var(--accent)}
+.tile .k{font-size:11.5px;color:var(--muted);margin-top:2px}
+.chartwrap{position:relative}
+#tip{position:absolute;background:var(--ink);color:var(--bg);font-size:12.5px;padding:5px 9px;border-radius:8px;pointer-events:none;white-space:nowrap;transform:translate(-50%,-115%)}
+svg text{font-family:var(--body)}
+.prlist{display:flex;flex-direction:column}
+.prlist .pr-row{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line);font-size:14.5px}
+.prlist .pr-row:last-child{border-bottom:none}
+
+/* modal sheet */
+#sheet-bg{position:fixed;inset:0;background:rgba(10,14,12,.45);z-index:40}
+#sheet{
+  position:fixed;inset-inline:0;bottom:0;z-index:41;max-width:560px;margin:0 auto;
+  background:var(--surface);border-radius:20px 20px 0 0;border:1px solid var(--line);border-bottom:none;
+  padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:82vh;overflow-y:auto;
+}
+#sheet h3{font-family:var(--disp);font-size:19px;margin-bottom:12px}
+.libgroups{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px}
+.libgroups .chip{flex-shrink:0}
+.liblist{display:flex;flex-direction:column}
+.liblist button{display:flex;justify-content:space-between;gap:10px;text-align:right;padding:12px 4px;border-bottom:1px solid var(--line);border-radius:0;font-size:15px}
+.liblist button:last-child{border-bottom:none}
+.liblist .in{color:var(--accent);font-size:13px;font-weight:500}
+
+/* toast */
+#toast{position:fixed;bottom:calc(120px + env(safe-area-inset-bottom,0px));inset-inline:0;display:flex;justify-content:center;z-index:50;pointer-events:none}
+#toast span{background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;box-shadow:var(--shadow)}
+
+/* empty states */
+.empty{border:1px dashed var(--line);border-radius:16px;padding:26px 18px;text-align:center;color:var(--muted)}
+.empty .big{font-family:var(--disp);font-size:17px;color:var(--ink);margin-bottom:4px}
+
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.fin-ex{display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
+
+@media (prefers-reduced-motion:no-preference){
+  .card,.ex-card,.h-card{transition:border-color .15s}
+  #sheet{animation:up .18s ease-out}
+  @keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
+}
+</style>
+</head>
+<body>
+<div id="app" lang="he">
+  <header class="top">
+    <div class="brand">יומן <b>הברזל</b></div>
+    <div class="row" style="gap:8px">
+      <div class="date-chip num" id="todaychip"></div>
+      <button class="pill" data-act="logout" id="logoutbtn" hidden style="cursor:pointer">יציאה</button>
+    </div>
+  </header>
+  <main id="view" class="stack"></main>
+</div>
+
+<div id="restbar" hidden>
+  <div class="inner">
+    <span class="t num" id="rest-t">0:00</span>
+    <span class="bar"><i id="rest-fill" style="width:100%"></i></span>
+    <button data-act="rest-add">‎+15</button>
+    <button data-act="rest-skip">דלג</button>
+  </div>
+</div>
+
+<div id="sheet-bg" hidden data-act="sheet-close"></div>
+<div id="sheet" hidden></div>
+<div id="toast" hidden><span id="toast-msg"></span></div>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="train"><svg viewBox="0 0 24 24" class="ic"><path d="M3 12h2m14 0h2M7 8v8M17 8v8M9.5 12h5"/><rect x="5" y="9.5" width="2" height="5" rx=".6"/><rect x="17" y="9.5" width="2" height="5" rx=".6"/></svg>אימון</button>
+  <button data-tab="plans"><svg viewBox="0 0 24 24" class="ic"><path d="M8 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H8M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2M8 4v16M11 9h5M11 13h5"/></svg>תוכניות</button>
+  <button data-tab="history"><svg viewBox="0 0 24 24" class="ic"><path d="M12 8v4l2.5 2.5M4.5 12a7.5 7.5 0 1 1 2.2 5.3M4.5 12H2.8m1.7 0 1.2 1.8"/></svg>היסטוריה</button>
+  <button data-tab="progress"><svg viewBox="0 0 24 24" class="ic"><path d="M4 19h16M5 16l4-5 3.5 3L19 7M19 7h-3.5M19 7v3.5"/></svg>התקדמות</button>
+</nav>
+
+<script>
+"use strict";
+/* ---------- Supabase config ---------- */
+const SUPABASE_URL='https://dmeougthlruspxwyvrnc.supabase.co';
+const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+/* ---------- static data ---------- */
+const LIB={
+ 'חזה':['לחיצת חזה במוט','לחיצת חזה במשקולות','לחיצת חזה בשיפוע','לחיצה במכונת חזה','פרפר (פק-דק)','כבלים מוצלבים','שכיבות סמיכה'],
+ 'גב':['פולי עליון','מתח','חתירה בכבל','חתירה במוט','חתירה במשקולת','דדליפט','פולאובר בכבל'],
+ 'רגליים':['סקוואט','לחיצת רגליים','פשיטת ברכיים','כפיפת ברכיים','לאנג׳ים','דדליפט רומני','הרמות עקבים'],
+ 'כתפיים':['לחיצת כתפיים במשקולות','לחיצת כתפיים במוט','הרחקות צד','הרחקות אחוריות','חתירה אנכית'],
+ 'יד קדמית':['כפיפת מרפקים במוט','כפיפת מרפקים במשקולות','פטישים','כפיפה בספסל כומר'],
+ 'יד אחורית':['פשיטת מרפקים בכבל','לחיצה צרפתית','מקבילים','פשיטה מעל הראש בכבל'],
+ 'בטן וליבה':['כפיפות בטן','הרמות רגליים בתלייה','פלאנק','גלגל בטן','רוסיאן טוויסט'],
+ 'אירובי':['הליכון','אופניים','אליפטיקל','מדרגות','חתירה (ארגומטר)'],
+};
+const CARDIO_GROUP='אירובי';
+/* הוראות ביצוע לכל תרגיל */
+const INFO={
+'לחיצת חזה במוט':'שכיבה על הספסל, שכמות צמודות ומטה, כפות רגליים נעוצות ברצפה. הורד את המוט באיטיות עד נגיעה קלה בקו הפטמות ודחוף מעלה בלי לנעול מרפקים בכוח.',
+'לחיצת חזה במשקולות':'משקולות מעל החזה, מרפקים בזווית של כ־45° מהגוף. הורד עד מתיחה נוחה בחזה ודחוף מעלה בקשת קלה פנימה.',
+'לחיצת חזה בשיפוע':'ספסל בשיפוע של כ־30°. הורד לחלק העליון של החזה ודחוף מעלה — מדגיש את החזה העליון.',
+'לחיצה במכונת חזה':'כוון את הידיות לגובה אמצע החזה, גב צמוד למשענת. דחוף קדימה עד כמעט יישור מרפקים וחזור באיטיות.',
+'פרפר (פק-דק)':'מרפקים כפופים מעט וקבועים. סגור את הידיות בקשת רחבה מול החזה, ופתח באיטיות עד מתיחה בחזה.',
+'כבלים מוצלבים':'עמידה בין הגלגלות, צעד קטן קדימה. משוך את הידיות בקשת מטה ופנימה עד הצלבה קלה מול הבטן.',
+'שכיבות סמיכה':'גוף בקו ישר, ידיים מעט רחבות מהכתפיים. רד עד שהחזה כמעט נוגע ברצפה ודחוף מעלה.',
+'פולי עליון':'אחיזה רחבה, חזה מורם. משוך את המוט לכיוון עצם הבריח תוך הורדת השכמות, וחזור באיטיות מלאה.',
+'מתח':'תלייה באחיזה רחבה. משוך סנטר מעל המוט בהובלת המרפקים מטה, בלי נדנוד.',
+'חתירה בכבל':'ישיבה זקופה, ברכיים רכות. משוך את הידית לבטן התחתונה, הצמד שכמות, וחזור בשליטה.',
+'חתירה במוט':'גו נטוי כ־45°, גב ישר. משוך את המוט לבטן עם מרפקים קרובים לגוף, והורד בשליטה.',
+'חתירה במשקולת':'יד וברך על הספסל, גב ישר. משוך את המשקולת לכיוון המותן והורד באיטיות.',
+'דדליפט':'מוט צמוד לשוקיים, גב נייטרלי. דחוף את הרצפה דרך העקבים ויישר ירכיים וברכיים יחד, ליבה נעולה לכל האורך.',
+'פולאובר בכבל':'עמידה נטויה מעט, ידיים כמעט ישרות. משוך את המוט בקשת מהגובה אל הירכיים — תרגיש ברחב הגבי.',
+'סקוואט':'מוט על הטרפזים, רגליים ברוחב כתפיים. רד עד שהירך לפחות מקבילה לרצפה, ברכיים בכיוון כפות הרגליים, ועלה.',
+'לחיצת רגליים':'כפות רגליים ברוחב כתפיים על המשטח. הורד עד כ־90° בברכיים ודחוף — בלי לנעול ברכיים בסוף.',
+'פשיטת ברכיים':'כוון את הכרית מעט מעל הקרסול. יישר רגליים, עצור שנייה למעלה, והורד באיטיות.',
+'כפיפת ברכיים':'כופף עקבים לכיוון הישבן בשליטה וחזור באיטיות — בלי לקשת את הגב התחתון.',
+'לאנג׳ים':'צעד גדול קדימה, רד עד ששתי הברכיים בכ־90°, ברך קדמית מעל כף הרגל, ודחוף חזרה.',
+'דדליפט רומני':'ברכיים רכות וקבועות. דחוף ישבן אחורה והורד את המוט צמוד לרגליים עד מתיחה בירך האחורית. גב ישר כל הדרך.',
+'הרמות עקבים':'עלה על קצות האצבעות גבוה ככל האפשר, עצור למעלה, ורד לאט עד מתיחה מלאה.',
+'לחיצת כתפיים במשקולות':'ישיבה עם גב נתמך, משקולות בגובה האוזניים. דחוף מעלה עד כמעט נעילה והורד בשליטה.',
+'לחיצת כתפיים במוט':'עמידה עם ליבה נעולה. דחוף את המוט מהחזה העליון מעל הראש בקו ישר, בלי לקשת גב תחתון.',
+'הרחקות צד':'מרפקים כפופים מעט. הרם את המשקולות לצדדים עד גובה הכתפיים בהובלת המרפקים, והורד לאט.',
+'הרחקות אחוריות':'גו נטוי קדימה, גב ישר. פתח ידיים לצדדים והצמד שכמות בסוף התנועה.',
+'חתירה אנכית':'אחיזה ברוחב כתפיים. משוך לאורך הגוף עד גובה החזה, מרפקים מובילים מעלה.',
+'כפיפת מרפקים במוט':'מרפקים צמודים לגוף וקבועים. כופף מעלה בלי נדנוד והורד באיטיות מלאה.',
+'כפיפת מרפקים במשקולות':'כופף עם סיבוב כף היד כלפי מעלה (סופינציה), והורד עד כמעט יישור מלא.',
+'פטישים':'אחיזה ניטרלית (אגודלים למעלה). כופף מעלה בלי לסובב את כף היד.',
+'כפיפה בספסל כומר':'הזרועות צמודות לכרית. כופף מעלה והורד לאט עד כמעט יישור — בלי להרים את המרפקים.',
+'פשיטת מרפקים בכבל':'מרפקים נעולים לצד הגוף. דחוף את הידית מטה עד יישור מלא וחזור בשליטה עד 90°.',
+'לחיצה צרפתית':'שכיבה, מוט מעל המצח. כופף מרפקים להורדת המוט לעבר הראש ויישר חזרה — המרפקים נשארים במקום.',
+'מקבילים':'גוף אנכי לדגש על יד אחורית. רד עד כ־90° במרפקים ודחוף מעלה עד יישור.',
+'פשיטה מעל הראש בכבל':'גב לגלגלת, ידיים מאחורי הראש. יישר מרפקים קדימה ומעלה עד נעילה וחזור לאט.',
+'כפיפות בטן':'גלגל את פלג הגוף העליון חוליה־חוליה, סנטר רחוק מהחזה, ורד לאט. בלי למשוך בצוואר.',
+'הרמות רגליים בתלייה':'הרם רגליים או ברכיים מעל קו האגן תוך גלגול האגן, והורד בלי נדנוד.',
+'פלאנק':'מרפקים מתחת לכתפיים, גוף בקו ישר. כווץ בטן וישבן והחזק בלי לשקוע באגן. רשום שניות בעמודת החזרות.',
+'גלגל בטן':'מהברכיים, גלגל קדימה עד כמעט יישור הגוף עם בטן נעולה, וחזור.',
+'רוסיאן טוויסט':'ישיבה נטויה מעט אחורה. סובב את הגו מצד לצד בשליטה, בלי למהר.',
+'הליכון':'חימום: 5 דק׳ הליכה. לעבודה אירובית: הליכה מהירה בשיפוע 8–12% בלי להיאחז בידיות.',
+'אופניים':'גובה מושב כך שהברך כמעט ישרה בתחתית הדיווש. שמור על קצב (סל״ד) קבוע.',
+'אליפטיקל':'תנועה מלאה עם דחיפה ומשיכה בידיות, גו זקוף.',
+'מדרגות':'צעד מלא על כל מדרגה, בלי להישען על המעקה.',
+'חתירה (ארגומטר)':'סדר התנועה: רגליים ← גו ← ידיים, ובחזרה הפוך. גב ישר לאורך כל המשיכה.',
+};
+const fmtRest=s=>s>=60?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} דק׳`:`${s} שנ׳`;
+
+/* ---------- state ---------- */
+const S={
+  mode:'boot', user:null, authMode:'login', authEmail:'',
+  workouts:[], templates:[],
+  active:null,                       // {start, name, tid, ex:[{n,m,t,sets:[{w,r,done}],c:{min,km,inc,done}}]}
+  settings:{rest:90},
+  tab:(location.hash||'').replace('#','')||'train',
+  progressEx:null, progressMetric:'top',
+  openHist:{}, confirmDel:null,
+  lib:{group:'חזה', q:'', target:null},
+};
+if(!['train','plans','history','progress'].includes(S.tab)) S.tab='train';
+
+/* ---------- utils ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtNum=n=>{n=+n||0;return n>=1000?(Math.round(n/100)/10).toLocaleString('he')+'K':(''+(Math.round(n*10)/10));};
+const fmtDate=ts=>new Date(ts).toLocaleDateString('he-IL',{day:'numeric',month:'short'});
+const fmtDateFull=ts=>new Date(ts).toLocaleDateString('he-IL',{weekday:'short',day:'numeric',month:'long'});
+const fmtDur=ms=>{const m=Math.max(1,Math.round(ms/60000));return m>=60?`${Math.floor(m/60)}:${String(m%60).padStart(2,'0')} שע׳`:`${m} דק׳`;};
+const clone=o=>JSON.parse(JSON.stringify(o));
+function toast(msg){const t=$('#toast');$('#toast-msg').textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2200);}
+
+function workoutVol(w){let v=0;for(const e of w.ex||[])if(e.t==='s')for(const s of e.sets||[])v+=(+s.w||0)*(+s.r||0);return v;}
+function workoutSets(w){let n=0;for(const e of w.ex||[])if(e.t==='s')n+=(e.sets||[]).filter(s=>+s.r>0).length;return n;}
+
+/* best historical weight per exercise (finished workouts only) */
+function bestMap(){
+  const m={};
+  for(const w of S.workouts)for(const e of w.ex||[]){if(e.t!=='s')continue;
+    for(const s of e.sets||[]){const wt=+s.w||0,r=+s.r||0;if(r>0&&wt>(m[e.n]?.w||0))m[e.n]={w:wt,r,ts:w.start};}}
+  return m;
+}
+/* last performance per exercise */
+function lastPerf(name){
+  const ws=[...S.workouts].sort((a,b)=>b.start-a.start);
+  for(const w of ws){const e=(w.ex||[]).find(e=>e.n===name);
+    if(e){ if(e.t==='c') return e.c?`קודם: ${e.c.min||0} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`:null;
+      const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)continue;
+      return 'קודם: '+ss.map(s=>`${+s.w||0}×${+s.r||0}`).join(' · ');}}
+  return null;
+}
+function lastSetsOf(name){
+  const ws=[...S.workouts].sort((a,b)=>b.start-a.start);
+  for(const w of ws){const e=(w.ex||[]).find(e=>e.n===name&&e.t==='s');
+    if(e&&(e.sets||[]).some(s=>+s.r>0))return e.sets.filter(s=>+s.r>0);}
+  return null;
+}
+
+/* ---------- persistence (Supabase) ---------- */
+/* האימון הפעיל נשמר גם מקומית — רשת איטית בחדר כושר לא מאבדת סטים */
+const LS_KEY='ironlog-active';
+function saveLocalActive(){ try{localStorage.setItem(LS_KEY,JSON.stringify({u:S.user?.id,a:S.active}));}catch(e){} }
+function loadLocalActive(){ try{const d=JSON.parse(localStorage.getItem(LS_KEY)||'null'); if(d&&d.u===S.user?.id)return d.a;}catch(e){} return null; }
+let _aT=null,_aBusy=false,_aDirty=false;
+function persistActive(){
+  saveLocalActive();
+  clearTimeout(_aT);_aT=setTimeout(flushActive,800);
+}
+async function flushActive(){
+  if(!S.user)return;
+  if(_aBusy){_aDirty=true;return;}
+  _aBusy=true;
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null}); }catch(e){}
+  _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
+}
+async function persistSettings(){ clearTimeout(_aT); flushActive(); }
+async function saveTemplate(t){
+  const i=S.templates.findIndex(x=>x.id===t.id); if(i>=0)S.templates[i]=t; else S.templates.push(t); render();
+  try{ const {error}=await sb.from('templates').upsert({id:t.id,user_id:S.user.id,name:t.name,ord:t.order||0,ex:t.ex||[]}); if(error)throw error; }
+  catch(e){ toast('השמירה נכשלה — בדוק חיבור'); }
+}
+async function deleteTemplate(id){
+  S.templates=S.templates.filter(t=>t.id!==id); render();
+  try{ await sb.from('templates').delete().eq('id',id); }catch(e){}
+}
+async function saveWorkout(w){
+  const {error}=await sb.from('workouts').upsert({id:w.id,user_id:S.user.id,name:w.name,start_ts:w.start,end_ts:w.end,ex:w.ex});
+  if(error){ toast('השמירה נכשלה — נסה שוב'); throw error; }
+  S.workouts.push(w);
+}
+async function deleteWorkout(id){
+  S.workouts=S.workouts.filter(w=>w.id!==id); render();
+  try{ await sb.from('workouts').delete().eq('id',id); }catch(e){}
+}
+
+/* ---------- rest timer ---------- */
+const T={end:0,total:0,int:null};
+let audioCtx=null;
+function beep(){
+  try{ audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.connect(g);g.connect(audioCtx.destination);o.frequency.value=880;g.gain.value=.12;
+    o.start();o.stop(audioCtx.currentTime+.18);
+    const o2=audioCtx.createOscillator();o2.connect(g);o2.frequency.value=1175;
+    o2.start(audioCtx.currentTime+.22);o2.stop(audioCtx.currentTime+.42);
+  }catch(e){}
+}
+function startRest(sec){
+  T.total=sec;T.end=Date.now()+sec*1000;
+  $('#restbar').hidden=false;
+  clearInterval(T.int);T.int=setInterval(tickRest,250);tickRest();
+}
+function tickRest(){
+  const left=Math.max(0,T.end-Date.now());
+  const s=Math.ceil(left/1000);
+  $('#rest-t').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+  $('#rest-fill').style.width=(100*left/(T.total*1000))+'%';
+  if(left<=0){stopRest();beep();toast('המנוחה נגמרה — סט הבא!');}
+}
+function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;}
+
+/* ---------- rendering ---------- */
+function render(){ try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); } }
+function render_(){
+  for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.tab===S.tab);
+  $('#todaychip').textContent=new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'});
+  $('#tabs').hidden=S.mode!=='app';
+  $('#logoutbtn').hidden=S.mode!=='app';
+  $('#todaychip').hidden=S.mode==='auth';
+  const v=$('#view');
+  if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען את היומן…</div>מתחבר לנתונים שלך</div>`;return;}
+  if(S.mode==='auth'){v.innerHTML=vAuth();return;}
+  if(S.tab==='train')v.innerHTML=vTrain();
+  else if(S.tab==='plans')v.innerHTML=vPlans();
+  else if(S.tab==='history')v.innerHTML=vHistory();
+  else v.innerHTML=vProgress();
+  if(S.tab==='progress')wireChart();
+}
+
+/* ----- auth screen ----- */
+function vAuth(){
+  const su=S.authMode==='signup';
+  return `<div id="authwrap">
+    <div class="logo">
+      <img src="icon-192.png" alt="">
+      <div class="brand">יומן <b>הברזל</b></div>
+      <div class="muted small">מעקב אימונים אישי — התרגילים, המשקלים וההתקדמות שלך</div>
+    </div>
+    <div class="card stack">
+      <div class="label">אימייל</div>
+      <input id="au-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(S.authEmail||'')}">
+      <div class="label">סיסמה</div>
+      <input id="au-pass" type="password" autocomplete="${su?'new-password':'current-password'}" dir="ltr" placeholder="לפחות 6 תווים">
+      <div class="autherr" id="autherr"></div>
+      <button class="btn primary big" data-act="auth-go" id="authgo">${su?'הרשמה':'התחברות'}</button>
+      <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם בחינם'}</button>
+    </div>
+  </div>`;
+}
+async function doAuth(){
+  const email=($('#au-email')?.value||'').trim(), pass=$('#au-pass')?.value||'';
+  const err=$('#autherr'); if(err)err.textContent='';
+  if(!email||!pass){if(err)err.textContent='מלא אימייל וסיסמה';return;}
+  const btn=$('#authgo'); if(btn){btn.disabled=true;btn.textContent='רק רגע…';}
+  try{
+    if(S.authMode==='signup'){
+      const {data,error}=await sb.auth.signUp({email,password:pass});
+      if(error)throw error;
+      if(!data.session){
+        $('#view').innerHTML=`<div class="empty" style="margin-top:48px"><div class="big">כמעט שם ✉️</div>שלחנו קישור אישור אל<br><b dir="ltr">${esc(email)}</b><br>פתח את המייל, לחץ על הקישור — וחזור לכאן להתחבר.</div>`;
+        return;
+      }
+    }else{
+      const {error}=await sb.auth.signInWithPassword({email,password:pass});
+      if(error)throw error;
+    }
+  }catch(e){
+    const m=String(e?.message||'');
+    if(err)err.textContent=
+      /already registered/i.test(m)?'האימייל כבר רשום — נסה להתחבר':
+      /invalid login/i.test(m)?'אימייל או סיסמה שגויים':
+      /at least 6|too short/i.test(m)?'הסיסמה צריכה להיות באורך 6 תווים לפחות':
+      /not confirmed/i.test(m)?'צריך לאשר קודם את המייל — בדוק את תיבת הדואר':
+      /valid email/i.test(m)?'כתובת האימייל לא תקינה':
+      'שגיאה: '+m;
+  }finally{
+    const b2=$('#authgo'); if(b2){b2.disabled=false;b2.textContent=S.authMode==='signup'?'הרשמה':'התחברות';}
+  }
+}
+
+/* ----- train tab ----- */
+function vTrain(){
+  if(S.active)return vActive();
+  const last=[...S.workouts].sort((a,b)=>b.start-a.start)[0];
+  const tpl=S.templates.length?`
+    <div class="sect">התחלה מהירה מתוכנית</div>
+    <div class="stack">
+      ${[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0)).map(t=>`
+        <div class="card spread">
+          <div>
+            <div style="font-weight:700">${esc(t.name)}</div>
+            <div class="small muted">${(t.ex||[]).length} תרגילים · ${esc((t.ex||[]).slice(0,3).map(e=>e.n).join(', '))}${(t.ex||[]).length>3?'…':''}</div>
+          </div>
+          <button class="btn primary" data-act="start-tpl" data-id="${esc(t.id)}">התחל</button>
+        </div>`).join('')}
+    </div>`
+   : `<div class="empty"><div class="big">אין עדיין תוכניות אימון</div>בלשונית ״תוכניות״ אפשר לבנות תוכנית A/B/C — או פשוט להתחיל אימון חופשי.</div>`;
+  return `
+    <button class="btn primary big" data-act="start-free">+ התחל אימון חופשי</button>
+    ${tpl}
+    ${last?`<div class="sect">האימון האחרון</div>
+      <div class="card">
+        <div class="spread"><b>${esc(last.name)}</b><span class="muted small num">${fmtDateFull(last.start)}</span></div>
+        <div class="h-stats num" style="margin-top:6px">
+          <span>⏱ ${fmtDur(last.end-last.start)}</span>
+          <span>סטים ${workoutSets(last)}</span>
+          <span>נפח ${fmtNum(workoutVol(last))} ק״ג</span>
+        </div>
+      </div>`:''}
+  `;
+}
+
+function clockText(){
+  const s=Math.floor((Date.now()-S.active.start)/1000);
+  const h=Math.floor(s/3600),m=Math.floor(s%3600/60),ss=s%60;
+  return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(ss).padStart(2,'0');
+}
+function vActive(){
+  const a=S.active;
+  return `
+    <div class="card" style="background:var(--accent-soft);border-color:var(--accent)">
+      <div class="spread">
+        <div><div class="label">אימון פעיל · שעון רץ</div><b style="font-size:17px">${esc(a.name)}</b></div>
+        <div class="num" id="wclock" style="font-family:var(--disp);font-size:24px">${clockText()}</div>
+      </div>
+      <div class="row small muted" style="margin-top:8px">
+        מנוחה (ברירת מחדל):
+        ${[60,90,120,180].map(s=>`<button class="chip num ${S.settings.rest===s?'on':''}" data-act="rest-set" data-s="${s}">${s<120?s+' שנ׳':(s/60)+' דק׳'}</button>`).join('')}
+      </div>
+    </div>
+    ${a.ex.map((e,ei)=>e.t==='c'?vCardio(e,ei):vStrength(e,ei)).join('')}
+    <button class="btn ghost" data-act="add-ex">+ הוסף תרגיל</button>
+    <div class="row" style="margin-top:4px">
+      <button class="btn" style="flex:1" data-act="cancel-w">בטל אימון</button>
+      <button class="btn primary" style="flex:2" data-act="finish-w">סיים אימון ✓</button>
+    </div>`;
+}
+function vStrength(e,ei){
+  const prev=lastPerf(e.n);
+  const target=e.reps?`יעד: ${e.sets.length}×${esc(e.reps)}`:'';
+  const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
+  return `<div class="ex-card">
+    <div class="ex-head">
+      <div>
+        <div class="ex-name">${esc(e.n)} ${INFO[e.n]||e.how?`<button class="pill" data-act="ex-info" data-ei="${ei}" style="cursor:pointer">? איך מבצעים</button>`:''}</div>
+        <div class="prev num">${[target,rest].filter(Boolean).join(' · ')}${prev?`${target||rest?'<br>':''}${esc(prev)}`:''}</div>
+      </div>
+      <div class="row" style="gap:4px">
+        <span class="pill">${esc(e.m)}</span>
+        <button class="btn danger" data-act="rm-ex" data-ei="${ei}" aria-label="הסר תרגיל" style="padding:6px 9px">✕</button>
+      </div>
+    </div>
+    <div class="setgrid">
+      <span class="h">#</span><span class="h">משקל (ק״ג)</span><span class="h">חזרות</span><span class="h">✓</span>
+      ${e.sets.map((s,si)=>`
+        <span class="setidx num">${si+1}</span>
+        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" inputmode="decimal" value="${s.w??''}" placeholder="${s.pw??''}" data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
+        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="r-${ei}-${si}" class="num" type="text" inputmode="numeric" value="${s.r??''}" placeholder="${s.pr??''}" data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
+        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><button class="done-btn" data-act="set-done" data-ei="${ei}" data-si="${si}" aria-label="סיום סט"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
+      `).join('')}
+    </div>
+    <button class="addset" data-act="add-set" data-ei="${ei}">+ סט</button>
+  </div>`;
+}
+function vCardio(e,ei){
+  const prev=lastPerf(e.n);
+  const c=e.c||(e.c={min:'',km:'',inc:''});
+  return `<div class="ex-card ${c.done?'':''}">
+    <div class="ex-head">
+      <div><div class="ex-name">${esc(e.n)} ${INFO[e.n]?`<button class="pill" data-act="ex-info" data-ei="${ei}" style="cursor:pointer">? איך מבצעים</button>`:''}</div>${prev?`<div class="prev num">${esc(prev)}</div>`:''}</div>
+      <div class="row" style="gap:4px"><span class="pill">אירובי</span>
+        <button class="btn danger" data-act="rm-ex" data-ei="${ei}" aria-label="הסר תרגיל" style="padding:6px 9px">✕</button></div>
+    </div>
+    <div class="setgrid" style="grid-template-columns:1fr 1fr 1fr 44px">
+      <span class="h">דקות</span><span class="h">ק״מ</span><span class="h">שיפוע %</span><span class="h">✓</span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" inputmode="decimal" value="${c.min??''}" data-bind="cmin" data-ei="${ei}" aria-label="דקות"></span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" inputmode="decimal" value="${c.km??''}" data-bind="ckm" data-ei="${ei}" aria-label="קילומטרים"></span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" inputmode="decimal" value="${c.inc??''}" data-bind="cinc" data-ei="${ei}" aria-label="שיפוע"></span>
+      <span class="${c.done?'set-done':''}"><button class="done-btn" data-act="cardio-done" data-ei="${ei}" aria-label="סיום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
+    </div>
+  </div>`;
+}
+
+/* ----- plans tab ----- */
+function vPlans(){
+  const list=[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0));
+  return `
+    <button class="btn primary big" data-act="tpl-new">+ תוכנית חדשה</button>
+    ${list.length?list.map(t=>`
+      <div class="card">
+        <div class="spread">
+          <b>${esc(t.name)}</b>
+          <div class="row" style="gap:6px">
+            <button class="btn" data-act="tpl-edit" data-id="${esc(t.id)}">עריכה</button>
+            <button class="btn primary" data-act="start-tpl" data-id="${esc(t.id)}">התחל</button>
+          </div>
+        </div>
+        <div class="small muted" style="margin-top:6px">${esc((t.ex||[]).map(e=>e.n).join(' · '))||'בלי תרגילים עדיין'}</div>
+      </div>`).join('')
+    :`<div class="empty"><div class="big">בונים כאן את התוכניות שלך</div>תוכנית = רשימת תרגילים קבועה (למשל ״אימון A — דחיפה״). ברגע שיש תוכנית, מתחילים ממנה אימון בלחיצה אחת.</div>`}`;
+}
+
+/* ----- history tab ----- */
+function vHistory(){
+  const ws=[...S.workouts].sort((a,b)=>b.start-a.start);
+  if(!ws.length)return `<div class="empty"><div class="big">עוד אין אימונים שמורים</div>האימון הראשון שתסיים יופיע כאן, עם כל הסטים והמשקלים.</div>`;
+  return ws.map(w=>{
+    const open=S.openHist[w.id];
+    return `<div class="h-card">
+      <button style="display:block;width:100%;text-align:right;padding:0" data-act="hist-toggle" data-id="${esc(w.id)}">
+        <div class="spread"><b>${esc(w.name)}</b><span class="muted small num">${fmtDateFull(w.start)}</span></div>
+        <div class="h-stats num" style="margin-top:6px">
+          <span>⏱ ${fmtDur(w.end-w.start)}</span>
+          <span>סטים ${workoutSets(w)}</span>
+          <span>נפח ${fmtNum(workoutVol(w))} ק״ג</span>
+        </div>
+      </button>
+      ${open?`<div class="h-detail">
+        ${(w.ex||[]).map(e=>`<div class="h-ex"><span>${esc(e.n)}</span><span class="sets num">${
+          e.t==='c'?esc(`${e.c?.min||0}min${e.c?.km?' / '+e.c.km+'km':''}`)
+          :(e.sets||[]).filter(s=>+s.r>0).map(s=>`${+s.w||0}×${+s.r||0}`).join('  ')
+        }</span></div>`).join('')}
+        <div style="text-align:left">
+          ${S.confirmDel===w.id
+            ?`<button class="btn danger" data-act="hist-del2" data-id="${esc(w.id)}">בטוח? מחק לצמיתות</button>`
+            :`<button class="btn danger" data-act="hist-del1" data-id="${esc(w.id)}">מחק אימון</button>`}
+        </div>
+      </div>`:''}
+    </div>`;}).join('');
+}
+
+/* ----- progress tab ----- */
+function exerciseOptions(){
+  const names=new Set();
+  for(const w of S.workouts)for(const e of w.ex||[])if(e.t==='s'&&(e.sets||[]).some(s=>+s.r>0))names.add(e.n);
+  return [...names];
+}
+function vProgress(){
+  const now=Date.now();
+  const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-d.getDay()); // Sunday
+  const weekStart=d.getTime();
+  const monthAgo=now-30*864e5;
+  const wk=S.workouts.filter(w=>w.start>=weekStart).length;
+  const mo=S.workouts.filter(w=>w.start>=monthAgo).length;
+  const maxVol=Math.max(0,...S.workouts.map(workoutVol));
+  const names=exerciseOptions();
+  if(!S.progressEx||!names.includes(S.progressEx))S.progressEx=names[0]||null;
+  const best=bestMap();
+  const prs=Object.entries(best).sort((a,b)=>b[1].w-a[1].w);
+  return `
+    <div class="tiles num">
+      <div class="tile"><div class="v">${wk}</div><div class="k">אימונים השבוע</div></div>
+      <div class="tile"><div class="v">${mo}</div><div class="k">ב־30 הימים</div></div>
+      <div class="tile"><div class="v">${fmtNum(maxVol)}</div><div class="k">שיא נפח (ק״ג)</div></div>
+    </div>
+    ${names.length?`
+      <div class="sect">גרף התקדמות</div>
+      <div class="card stack">
+        <div class="row">
+          <select id="prog-ex" data-bind="progex" style="flex:1">${names.map(n=>`<option ${n===S.progressEx?'selected':''}>${esc(n)}</option>`).join('')}</select>
+        </div>
+        <div class="row">
+          <button class="chip ${S.progressMetric==='top'?'on':''}" data-act="metric" data-m="top">משקל שיא בסט</button>
+          <button class="chip ${S.progressMetric==='vol'?'on':''}" data-act="metric" data-m="vol">נפח כולל</button>
+        </div>
+        <div class="chartwrap" id="chartwrap">${chartSVG()}</div>
+      </div>`
+    :`<div class="empty"><div class="big">הגרפים מחכים לנתונים</div>אחרי שני אימונים עם אותו תרגיל כבר יהיה כאן קו התקדמות.</div>`}
+    ${prs.length?`<div class="sect">שיאים אישיים 🏅</div>
+      <div class="card prlist">
+        ${prs.slice(0,12).map(([n,b])=>`<div class="pr-row"><span>${esc(n)}</span><span class="num"><b>${b.w} ק״ג</b> × ${b.r} <span class="muted small">· ${fmtDate(b.ts)}</span></span></div>`).join('')}
+      </div>`:''}
+  `;
+}
+function chartData(){
+  const pts=[];
+  for(const w of [...S.workouts].sort((a,b)=>a.start-b.start)){
+    const e=(w.ex||[]).find(e=>e.n===S.progressEx&&e.t==='s'); if(!e)continue;
+    const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)continue;
+    const top=Math.max(...ss.map(s=>+s.w||0));
+    const vol=ss.reduce((a,s)=>a+(+s.w||0)*(+s.r||0),0);
+    pts.push({ts:w.start, v:S.progressMetric==='top'?top:vol});
+  }
+  return pts;
+}
+function niceTicks(max){
+  if(max<=0)return [0,5,10];
+  const raw=max/3, pow=Math.pow(10,Math.floor(Math.log10(raw)));
+  let step=pow; for(const m of [1,2,2.5,5,10]){if(raw<=m*pow){step=m*pow;break;}}
+  const top=Math.ceil(max/step)*step, t=[];
+  for(let v=0;v<=top+1e-9;v+=step)t.push(Math.round(v*100)/100);
+  return t;
+}
+function chartSVG(){
+  const pts=chartData();
+  if(pts.length<2)return `<div class="muted small" style="padding:18px 4px;text-align:center">צריך לפחות שני אימונים עם ״${esc(S.progressEx||'')}״ בשביל קו — בינתיים: ${pts.length?`<b class="num">${fmtNum(pts[0].v)}</b> ${S.progressMetric==='top'?'ק״ג':'ק״ג נפח'}`:'אין נתונים'}</div>`;
+  const W=520,H=230,L=44,R=14,Tp=16,B=30;
+  const xs=pts.map(p=>p.ts), ys=pts.map(p=>p.v);
+  const x0=Math.min(...xs),x1=Math.max(...xs);
+  const ticks=niceTicks(Math.max(...ys)); const y1=ticks[ticks.length-1]||1;
+  const X=t=>L+(W-L-R)*((t-x0)/Math.max(1,(x1-x0)));
+  const Y=v=>Tp+(H-Tp-B)*(1-v/y1);
+  const path=pts.map((p,i)=>`${i?'L':'M'}${X(p.ts).toFixed(1)},${Y(p.v).toFixed(1)}`).join('');
+  const area=`${path} L${X(x1).toFixed(1)},${Y(0)} L${X(x0).toFixed(1)},${Y(0)} Z`;
+  const iMax=ys.indexOf(Math.max(...ys));
+  const lbl=(i)=>`<text x="${X(pts[i].ts)}" y="${Y(pts[i].v)-9}" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="600">${fmtNum(pts[i].v)}</text>`;
+  const labelIdx=new Set([0,pts.length-1,iMax]);
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="גרף התקדמות" style="direction:ltr;display:block">
+    ${ticks.map(v=>`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/>
+      <text x="${L-7}" y="${Y(v)+4}" font-size="11" text-anchor="end" fill="var(--muted)">${fmtNum(v)}</text>`).join('')}
+    <path d="${area}" fill="var(--accent)" opacity="0.12"/>
+    <path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    ${pts.map((p,i)=>`<circle data-pt="${i}" cx="${X(p.ts).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${i===iMax?5.5:4}" fill="${i===iMax?'var(--gold)':'var(--accent)'}" stroke="var(--surface)" stroke-width="2" style="cursor:pointer"/>`).join('')}
+    ${[...labelIdx].map(lbl).join('')}
+    <text x="${L}" y="${H-8}" font-size="11" fill="var(--muted)" text-anchor="start">${fmtDate(x0)}</text>
+    <text x="${W-R}" y="${H-8}" font-size="11" fill="var(--muted)" text-anchor="end">${fmtDate(x1)}</text>
+  </svg>`;
+}
+function wireChart(){
+  const wrap=$('#chartwrap'); if(!wrap)return;
+  wrap.addEventListener('click',ev=>{
+    const c=ev.target.closest('[data-pt]');
+    let tip=$('#tip'); if(tip)tip.remove();
+    if(!c)return;
+    const i=+c.dataset.pt, pts=chartData(), p=pts[i]; if(!p)return;
+    tip=document.createElement('div');tip.id='tip';
+    tip.textContent=`${fmtDate(p.ts)} · ${fmtNum(p.v)} ק״ג`;
+    wrap.appendChild(tip);
+    const cr=c.getBoundingClientRect(), wr=wrap.getBoundingClientRect();
+    tip.style.left=(cr.left-wr.left+cr.width/2)+'px';
+    tip.style.top=(cr.top-wr.top)+'px';
+    setTimeout(()=>tip&&tip.remove(),2600);
+  });
+}
+
+/* ---------- sheets (modals) ---------- */
+function openSheet(html){$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
+function closeSheet(){$('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
+
+function openLibrary(target){ // target: 'active' | 'tpl'
+  S.lib.target=target; S.lib.q='';
+  renderLibrary();
+}
+function renderLibrary(){
+  const groups=Object.keys(LIB);
+  if(!groups.includes(S.lib.group))S.lib.group=groups[0];
+  const inUse=new Set((S.lib.target==='active'?(S.active?.ex||[]):(_tplDraft?.ex||[])).map(e=>e.n));
+  const q=S.lib.q.trim();
+  const items=q
+    ? groups.flatMap(g=>LIB[g].filter(n=>n.includes(q)).map(n=>({n,g})))
+    : LIB[S.lib.group].map(n=>({n,g:S.lib.group}));
+  openSheet(`
+    <h3>הוספת תרגיל</h3>
+    <input type="search" placeholder="חיפוש תרגיל…" value="${esc(S.lib.q)}" data-bind="libq" style="margin-bottom:10px">
+    ${q?'':`<div class="libgroups">${groups.map(g=>`<button class="chip ${g===S.lib.group?'on':''}" data-act="lib-group" data-g="${esc(g)}">${esc(g)}</button>`).join('')}</div>`}
+    <div class="liblist">
+      ${items.map(it=>`<div class="row" style="gap:0;flex-wrap:nowrap">
+        <button style="flex:1" data-act="lib-pick" data-n="${esc(it.n)}" data-g="${esc(it.g)}">
+          <span>${esc(it.n)} <span class="muted small">· ${esc(it.g)}</span></span>
+          ${inUse.has(it.n)?'<span class="in">נוסף ✓</span>':'<span class="muted">+</span>'}
+        </button>
+        ${INFO[it.n]?`<button class="pill" data-act="lib-info" data-n="${esc(it.n)}" aria-label="איך מבצעים" style="margin-inline-start:8px;cursor:pointer">?</button>`:''}
+      </div>`).join('')||'<div class="muted small" style="padding:12px 2px">לא נמצא — אפשר להוסיף כתרגיל חדש:</div>'}
+    </div>
+    <div class="row" style="margin-top:12px">
+      <input id="customex" placeholder="תרגיל משלך (שם חופשי)" style="flex:1" value="${q&&!items.length?esc(q):''}">
+      <button class="btn" data-act="lib-custom">הוסף</button>
+    </div>
+    <button class="btn big" style="margin-top:12px" data-act="sheet-close">סגור</button>
+  `);
+  const se=$('#sheet input[type=search]'); if(se&&S.lib.q){se.focus();se.setSelectionRange(se.value.length,se.value.length);}
+}
+function addExercise(n,g){
+  const t=g===CARDIO_GROUP?'c':'s';
+  const e=t==='c'?{n,m:g,t,c:{min:'',km:'',inc:'',done:false}}:{n,m:g,t,sets:[]};
+  if(t==='s'){
+    const prev=lastSetsOf(n);
+    const base=prev||[{w:'',r:''},{w:'',r:''},{w:'',r:''}];
+    e.sets=base.map(s=>({w:'',r:'',pw:s.w||'',pr:s.r||'',done:false}));
+  }
+  if(S.lib.target==='tpl'&&_tplDraft){
+    if(!_tplDraft.ex.some(x=>x.n===n)){_tplDraft.ex.push(t==='c'?{n,m:g,t}:{n,m:g,t,s:3,reps:'8–12',rest:90});}
+    renderTplEditor(); }
+  else if(S.active){ if(!S.active.ex.some(x=>x.n===n)){S.active.ex.push(e);persistActive();} closeSheet(); render(); }
+}
+
+/* template editor */
+let _tplDraft=null;
+function renderTplEditor(){
+  const t=_tplDraft;
+  openSheet(`
+    <h3>${t.isNew?'תוכנית חדשה':'עריכת תוכנית'}</h3>
+    <div class="label" style="margin-bottom:4px">שם התוכנית</div>
+    <input id="tpl-name" data-bind="tpln" value="${esc(t.name)}" placeholder="למשל: אימון A — דחיפה">
+    <div class="label" style="margin:14px 0 4px">תרגילים (${t.ex.length})</div>
+    <div class="stack" style="gap:10px">
+      ${t.ex.map((e,i)=>`<div style="border:1px solid var(--line);border-radius:12px;padding:10px">
+        <div class="spread">
+          <b style="font-size:14.5px">${i+1}. ${esc(e.n)} <span class="muted small" style="font-weight:400">· ${esc(e.m)}</span></b>
+          <button class="btn danger" data-act="tpl-rm-ex" data-i="${i}" style="padding:4px 8px">✕</button>
+        </div>
+        ${e.t==='c'?'':`<div class="setgrid" style="grid-template-columns:1fr 1.4fr 1fr;margin-top:8px">
+          <span class="h">סטים</span><span class="h">חזרות (יעד)</span><span class="h">מנוחה (שנ׳)</span>
+          <input class="num" type="text" inputmode="numeric" value="${esc(e.s??3)}" data-bind="tplf" data-i="${i}" data-f="s" aria-label="סטים">
+          <input type="text" value="${esc(e.reps??'')}" data-bind="tplf" data-i="${i}" data-f="reps" aria-label="חזרות">
+          <input class="num" type="text" inputmode="numeric" value="${esc(e.rest??90)}" data-bind="tplf" data-i="${i}" data-f="rest" aria-label="מנוחה">
+        </div>`}
+      </div>`).join('')||'<div class="muted small" style="padding:10px 2px">עדיין ריק — הוסף תרגילים מהמאגר.</div>'}
+    </div>
+    <button class="btn ghost" style="margin-top:10px" data-act="tpl-add-ex">+ הוסף תרגיל</button>
+    <div class="row" style="margin-top:14px">
+      ${t.isNew?'':`<button class="btn danger" data-act="tpl-del">מחק</button>`}
+      <button class="btn" style="flex:1" data-act="sheet-close">ביטול</button>
+      <button class="btn primary" style="flex:1" data-act="tpl-save">שמור</button>
+    </div>
+  `);
+}
+
+/* finish sheet */
+function renderFinish(){
+  const a=S.active; if(!a)return;
+  const w={...a,end:Date.now()};
+  const vol=workoutVol(w), sets=workoutSets(w);
+  const best=bestMap(); const prs=[];
+  for(const e of w.ex)if(e.t==='s'){
+    const top=Math.max(0,...(e.sets||[]).filter(s=>+s.r>0).map(s=>+s.w||0));
+    if(top>0&&top>(best[e.n]?.w||0))prs.push({n:e.n,w:top});
+  }
+  openSheet(`
+    <h3>סיכום אימון · ${esc(a.name)}</h3>
+    <div class="summary-grid">
+      <div class="tile"><div class="v num">${fmtDur(w.end-a.start)}</div><div class="k">משך</div></div>
+      <div class="tile"><div class="v num">${sets}</div><div class="k">סטים</div></div>
+      <div class="tile"><div class="v num">${fmtNum(vol)}</div><div class="k">נפח (ק״ג)</div></div>
+    </div>
+    ${prs.length?`<div class="row" style="margin-bottom:10px">${prs.map(p=>`<span class="pill pr num">🏅 שיא חדש · ${esc(p.n)} ${p.w} ק״ג</span>`).join('')}</div>`:''}
+    <div>${w.ex.map(e=>`<div class="fin-ex"><span>${esc(e.n)}</span><span class="num muted">${
+      e.t==='c'?`${e.c?.min||0} דק׳`:(e.sets||[]).filter(s=>+s.r>0).map(s=>`${+s.w||0}×${+s.r||0}`).join(' · ')||'—'
+    }</span></div>`).join('')}</div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn" style="flex:1" data-act="sheet-close">חזרה לאימון</button>
+      <button class="btn primary" style="flex:2" data-act="save-w">שמור אימון ✓</button>
+    </div>
+  `);
+}
+
+/* ---------- actions ---------- */
+function startWorkout(name,tid){
+  const tpl=S.templates.find(t=>t.id===tid);
+  const ex=(tpl?.ex||[]).map(e=>{
+    if(e.t==='c')return {n:e.n,m:e.m,t:'c',rest:e.rest||0,c:{min:'',km:'',inc:'',done:false}};
+    const nSets=Math.max(1,+e.s||3);
+    const prev=lastSetsOf(e.n)||[];
+    const sets=Array.from({length:nSets},(_,i)=>({w:'',r:'',pw:prev[i]?.w??prev[prev.length-1]?.w??'',pr:prev[i]?.r??prev[prev.length-1]?.r??'',done:false}));
+    return {n:e.n,m:e.m,t:'s',reps:e.reps||'',rest:+e.rest||0,how:e.how||'',sets};
+  });
+  S.active={start:Date.now(),name,tid:tid||null,ex};
+  persistActive(); S.tab='train'; location.hash='train'; render();
+  startClock();
+}
+function startClock(){ // live workout stopwatch — updates the clock element only, never re-renders
+  if(startClock._i)return;
+  startClock._i=setInterval(()=>{
+    if(!S.active){clearInterval(startClock._i);startClock._i=null;return;}
+    const el=document.getElementById('wclock'); if(el)el.textContent=clockText();
+  },1000);
+}
+async function doSaveWorkout(){
+  const a=S.active; if(!a)return;
+  const w=clone(a); w.end=Date.now(); w.id='w'+a.start;
+  w.ex=w.ex.map(e=>{ // strip placeholders, normalize numbers
+    if(e.t==='c'){const c=e.c||{};return {n:e.n,m:e.m,t:'c',c:{min:+c.min||0,km:+c.km||0,inc:+c.inc||0}};}
+    return {n:e.n,m:e.m,t:'s',sets:(e.sets||[]).map(s=>({w:+s.w||0,r:+s.r||0})).filter(s=>s.r>0)};
+  }).filter(e=>e.t==='c'?(e.c.min>0||e.c.km>0):e.sets.length>0);
+  if(!w.ex.length){toast('אין סטים מלאים לשמירה');return;}
+  try{await saveWorkout(w);}catch(e){return;}
+  S.active=null;
+  saveLocalActive(); clearTimeout(_aT); flushActive();
+  stopRest(); closeSheet(); render(); toast('האימון נשמר 💪');
+}
+
+/* ---------- event delegation ---------- */
+window.addEventListener('error',e=>{ try{toast('שגיאה: '+(e?.message||'לא ידועה'));}catch(_){} });
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-act]'); if(!b)return;
+  try{ handleAct(b,ev); }catch(err){ console.error(err); toast('שגיאה: '+(err?.message||err)); }
+});
+function handleAct(b,ev){
+  const act=b.dataset.act;
+  switch(act){
+    case 'start-free': startWorkout('אימון חופשי'); break;
+    case 'start-tpl': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t)startWorkout(t.name,t.id); break; }
+    case 'add-ex': openLibrary('active'); break;
+    case 'rm-ex': { S.active.ex.splice(+b.dataset.ei,1); persistActive(); render(); break; }
+    case 'add-set': { const e=S.active.ex[+b.dataset.ei]; const last=e.sets[e.sets.length-1];
+      e.sets.push({w:'',r:'',pw:last?(last.w||last.pw||''):'',pr:last?(last.r||last.pr||''):'',done:false});
+      persistActive(); render(); break; }
+    case 'set-done': { const e=S.active?.ex?.[+b.dataset.ei], s=e?.sets?.[+b.dataset.si]; if(!s)break;
+      if(!s.w&&s.pw)s.w=s.pw; if(!s.r&&s.pr)s.r=s.pr;
+      s.done=!s.done; persistActive();
+      // עדכון נקודתי של השורה — בלי רינדור מלא, כדי שסימון סט יעבוד גם כשהמקלדת פתוחה
+      document.querySelectorAll(`[data-cell="${+b.dataset.ei}-${+b.dataset.si}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
+      const wi=document.getElementById(`w-${+b.dataset.ei}-${+b.dataset.si}`), ri=document.getElementById(`r-${+b.dataset.ei}-${+b.dataset.si}`);
+      if(wi)wi.value=s.w??''; if(ri)ri.value=s.r??'';
+      if(s.done)startRest(e.rest||S.settings.rest); break; }
+    case 'ex-info': { const e=S.active?.ex[+b.dataset.ei]; if(!e)break;
+      const txt=e.how||INFO[e.n]||'';
+      openSheet(`<h3>${esc(e.n)}</h3>
+        ${e.reps?`<div class="row" style="margin-bottom:10px"><span class="pill">יעד: ${e.sets?.length||''}×${esc(e.reps)}</span>${e.rest?`<span class="pill">מנוחה ${fmtRest(e.rest)}</span>`:''}</div>`:''}
+        <p style="margin:0 0 14px;line-height:1.6">${esc(txt)}</p>
+        <button class="btn big" data-act="sheet-close">הבנתי</button>`); break; }
+    case 'lib-info': { const n=b.dataset.n;
+      openSheet(`<h3>${esc(n)}</h3><p style="margin:0 0 14px;line-height:1.6">${esc(INFO[n]||'')}</p>
+        <button class="btn big" data-act="lib-back">חזרה למאגר</button>`); break; }
+    case 'lib-back': renderLibrary(); break;
+    case 'cardio-done': { const e=S.active.ex[+b.dataset.ei]; e.c.done=!e.c.done; persistActive(); render(); break; }
+    case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings(); render(); break;
+    case 'rest-add': T.end+=15000; T.total+=15; tickRest(); break;
+    case 'rest-skip': stopRest(); break;
+    case 'cancel-w':
+      if(b.dataset.sure){S.active=null; saveLocalActive(); clearTimeout(_aT); flushActive(); stopRest(); render();}
+      else {b.dataset.sure='1'; b.textContent='בטוח? האימון יימחק'; setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)b.textContent='בטל אימון';},2500);}
+      break;
+    case 'finish-w': renderFinish(); break;
+    case 'save-w': doSaveWorkout(); break;
+    case 'sheet-close': closeSheet(); break;
+    case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
+    case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
+    case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
+    case 'tpl-new': _tplDraft={id:'t'+Date.now(),name:'',ex:[],order:S.templates.length+1,isNew:true}; renderTplEditor(); break;
+    case 'tpl-edit': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t){_tplDraft=clone(t); renderTplEditor();} break; }
+    case 'tpl-add-ex': { if(_tplDraft)_tplDraft.name=$('#tpl-name')?.value||_tplDraft.name; openLibrary('tpl'); break; }
+    case 'tpl-rm-ex': _tplDraft.ex.splice(+b.dataset.i,1); renderTplEditor(); break;
+    case 'tpl-save': { _tplDraft.name=($('#tpl-name')?.value||'').trim()||'תוכנית ללא שם';
+      const {isNew,...t}=_tplDraft; saveTemplate(t); closeSheet(); toast('התוכנית נשמרה'); break; }
+    case 'tpl-del': deleteTemplate(_tplDraft.id); closeSheet(); break;
+    case 'hist-toggle': S.openHist[b.dataset.id]=!S.openHist[b.dataset.id]; S.confirmDel=null; render(); break;
+    case 'hist-del1': S.confirmDel=b.dataset.id; render(); break;
+    case 'hist-del2': deleteWorkout(b.dataset.id); S.confirmDel=null; break;
+    case 'metric': S.progressMetric=b.dataset.m; render(); break;
+    case 'auth-go': doAuth(); break;
+    case 'auth-toggle': S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
+    case 'logout':
+      if(b.dataset.sure){sb.auth.signOut();}
+      else{b.dataset.sure='1';b.textContent='בטוח? יציאה';setTimeout(()=>{delete b.dataset.sure;if(b.isConnected)b.textContent='יציאה';},2500);}
+      break;
+  }
+}
+document.addEventListener('input',ev=>{
+  const i=ev.target.closest('[data-bind]'); if(!i)return;
+  const k=i.dataset.bind;
+  if(k==='w'||k==='r'){ const s=S.active?.ex[+i.dataset.ei]?.sets[+i.dataset.si]; if(s){s[k]=i.value; persistActive();} }
+  else if(k==='cmin'||k==='ckm'||k==='cinc'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc'}[k]]=i.value; persistActive();} }
+  else if(k==='libq'){ S.lib.q=i.value; renderLibrary(); }
+  else if(k==='tpln'){ if(_tplDraft)_tplDraft.name=i.value; }
+  else if(k==='tplf'){ const e=_tplDraft?.ex[+i.dataset.i]; if(e){const f=i.dataset.f; e[f]=f==='reps'?i.value:(+i.value||0);} }
+});
+document.addEventListener('change',ev=>{
+  const i=ev.target.closest('[data-bind]'); if(!i)return;
+  if(i.dataset.bind==='progex'){S.progressEx=i.value; render();}
+});
+document.getElementById('tabs').addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-tab]'); if(!b)return;
+  S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render();
+});
+document.addEventListener('keydown',ev=>{
+  if(ev.key==='Enter'&&(ev.target.id==='au-pass'||ev.target.id==='au-email'))doAuth();
+});
+window.addEventListener('hashchange',()=>{
+  const h=(location.hash||'').replace('#','');
+  if(['train','plans','history','progress'].includes(h)&&h!==S.tab){S.tab=h;render();}
+});
+
+/* ---------- default plans for every new user ---------- */
+const DEFAULT_TEMPLATES=[
+ {id:'t-a',name:'אימון A — דחיפה',order:1,ex:[
+  {n:'לחיצת חזה במוט',m:'חזה',t:'s',s:4,reps:'6–8',rest:180},
+  {n:'לחיצת חזה בשיפוע',m:'חזה',t:'s',s:4,reps:'8–10',rest:120},
+  {n:'לחיצת כתפיים במוט',m:'כתפיים',t:'s',s:3,reps:'6–10',rest:150},
+  {n:'פרפר (פק-דק)',m:'חזה',t:'s',s:3,reps:'12–15',rest:75},
+  {n:'הרחקות צד',m:'כתפיים',t:'s',s:4,reps:'12–15',rest:60},
+  {n:'פשיטת מרפקים בכבל',m:'יד אחורית',t:'s',s:3,reps:'10–12',rest:75},
+  {n:'לחיצה צרפתית',m:'יד אחורית',t:'s',s:3,reps:'10–12',rest:90},
+  {n:'הליכון',m:'אירובי',t:'c'}]},
+ {id:'t-b',name:'אימון B — משיכה',order:2,ex:[
+  {n:'מתח',m:'גב',t:'s',s:4,reps:'6–10',rest:180},
+  {n:'חתירה במוט',m:'גב',t:'s',s:4,reps:'6–10',rest:180},
+  {n:'פולי עליון',m:'גב',t:'s',s:3,reps:'10–12',rest:120},
+  {n:'חתירה בכבל',m:'גב',t:'s',s:3,reps:'10–12',rest:120},
+  {n:'הרחקות אחוריות',m:'כתפיים',t:'s',s:3,reps:'15–20',rest:60},
+  {n:'כפיפת מרפקים במוט',m:'יד קדמית',t:'s',s:3,reps:'8–12',rest:90},
+  {n:'פטישים',m:'יד קדמית',t:'s',s:3,reps:'10–15',rest:60},
+  {n:'הליכון',m:'אירובי',t:'c'}]},
+ {id:'t-c',name:'אימון C — רגליים ובטן',order:3,ex:[
+  {n:'סקוואט',m:'רגליים',t:'s',s:4,reps:'6–8',rest:180},
+  {n:'דדליפט רומני',m:'רגליים',t:'s',s:4,reps:'8–10',rest:150},
+  {n:'לחיצת רגליים',m:'רגליים',t:'s',s:3,reps:'10–12',rest:120},
+  {n:'פשיטת ברכיים',m:'רגליים',t:'s',s:3,reps:'12–15',rest:75},
+  {n:'כפיפת ברכיים',m:'רגליים',t:'s',s:3,reps:'10–15',rest:90},
+  {n:'הרמות עקבים',m:'רגליים',t:'s',s:4,reps:'12–20',rest:60},
+  {n:'הרמות רגליים בתלייה',m:'בטן וליבה',t:'s',s:3,reps:'10–15',rest:60},
+  {n:'פלאנק',m:'בטן וליבה',t:'s',s:3,reps:'30–60 שנ׳',rest:60}]},
+];
+
+/* ---------- boot ---------- */
+async function enterApp(user){
+  S.user=user; S.mode='boot'; render();
+  try{
+    const [tpl,wo,st]=await Promise.all([
+      sb.from('templates').select('id,name,ord,ex').order('ord'),
+      sb.from('workouts').select('id,name,start_ts,end_ts,ex'),
+      sb.from('settings').select('rest,active').maybeSingle(),
+    ]);
+    if(tpl.error||wo.error)throw tpl.error||wo.error;
+    S.templates=(tpl.data||[]).map(r=>({id:r.id,name:r.name,order:r.ord||0,ex:r.ex||[]}));
+    S.workouts=(wo.data||[]).map(r=>({id:r.id,name:r.name,start:+r.start_ts,end:+r.end_ts,ex:r.ex||[]}));
+    if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null; }
+    const localA=loadLocalActive();
+    if(localA&&(!S.active||((localA.start===S.active.start)&&JSON.stringify(localA).length>=JSON.stringify(S.active).length)))S.active=localA;
+    if(!S.templates.length){ // משתמש חדש — טעינת תוכניות ברירת המחדל
+      S.templates=clone(DEFAULT_TEMPLATES);
+      sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{});
+      toast('טענו לך 3 תוכניות מוכנות — אפשר לערוך בלשונית ״תוכניות״');
+    }
+  }catch(e){ console.error(e); toast('טעינת הנתונים נכשלה — בדוק חיבור'); }
+  S.mode='app'; render();
+  if(S.active)startClock();
+}
+(async function boot(){
+  render();
+  try{
+    const {data:{session}}=await sb.auth.getSession();
+    if(session)await enterApp(session.user);
+    else{ S.mode='auth'; render(); }
+  }catch(e){ S.mode='auth'; render(); }
+  sb.auth.onAuthStateChange((ev,sess)=>{
+    if(sess&&!S.user)enterApp(sess.user);
+    if(ev==='SIGNED_OUT'){S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
+  });
+})();
+</script>
+</body>
+</html>
