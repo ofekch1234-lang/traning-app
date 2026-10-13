@@ -273,6 +273,10 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .schedday .dn{font-size:10px;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .schedday.has{background:var(--accent-soft);border-color:var(--accent)}
 .schedday.has .dl,.schedday.has .dn{color:var(--ink)}
+.schedday .dd{font-size:9.5px;color:var(--muted);line-height:1}
+.schedday.tdy{outline:2px solid var(--accent);outline-offset:-2px}
+.day .dt{display:block;font-size:10px;color:var(--muted);font-weight:400;line-height:1;margin-top:1px}
+.day.today .dt{color:var(--ink);font-weight:700}
 .day.sched i{background:transparent;border:2px solid var(--accent)}
 
 /* empty states */
@@ -752,7 +756,7 @@ function weekDots(){
     const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-i);
     const on=trained.has(d.toDateString());
     const sched=!on&&!!schedOf(d.getDay());
-    out+=`<div class="day ${on?'on':''} ${sched?'sched':''} ${i===0?'today':''}"><span>${days[d.getDay()]}</span><i></i></div>`;
+    out+=`<div class="day ${on?'on':''} ${sched?'sched':''} ${i===0?'today':''}"><span>${days[d.getDay()]}</span><b class="dt num">${d.getDate()}</b><i></i></div>`;
   }
   return out;
 }
@@ -984,8 +988,11 @@ function vPlans(){
     <div class="card">
       <div class="schedgrid">
         ${DAY_NAMES.map((n,d)=>{ const t=schedOf(d);
-          return `<button class="schedday ${t?'has':''}" data-act="sched-day" data-d="${d}">
+          const dt=new Date(); dt.setDate(dt.getDate()+((d-dt.getDay()+7)%7));
+          const isToday=d===new Date().getDay();
+          return `<button class="schedday ${t?'has':''} ${isToday?'tdy':''}" data-act="sched-day" data-d="${d}">
             <span class="dl">${DAY_LETTERS[d]}</span>
+            <span class="dd num">${dt.getDate()}.${dt.getMonth()+1}</span>
             <span class="dn">${t?esc(shortName(t.name)):'—'}</span>
           </button>`;}).join('')}
       </div>
@@ -1493,8 +1500,9 @@ function renderTplEditor(){
 function shortName(n){ return String(n).replace(/^אימון\s*/,'').split('—')[0].trim().slice(0,8)||n; }
 function renderSchedPicker(d){
   const cur=(S.settings.schedule||{})[String(d)];
+  const dt=new Date(); dt.setDate(dt.getDate()+((d-dt.getDay()+7)%7));
   openSheet(`
-    <h3>יום ${DAY_NAMES[d]}</h3>
+    <h3>יום ${DAY_NAMES[d]} · <span class="num">${dt.getDate()}.${dt.getMonth()+1}</span>${d===new Date().getDay()?' (היום)':''}</h3>
     <div class="liblist">
       <button data-act="sched-set" data-d="${d}" data-id=""><span>🛋️ מנוחה</span>${!cur?'<span class="in">✓</span>':''}</button>
       ${[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0)).map(t=>
