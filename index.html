@@ -179,6 +179,39 @@ svg text{font-family:var(--body)}
 .liblist button:last-child{border-bottom:none}
 .liblist .in{color:var(--accent);font-size:13px;font-weight:500}
 
+/* numpad — מקלדת מובנית בסגנון פלטות */
+#np-bg{position:fixed;inset:0;background:rgba(10,14,12,.45);z-index:58}
+#np{position:fixed;inset-inline:0;bottom:0;z-index:59;max-width:560px;margin:0 auto;
+  background:var(--surface);border:1px solid var(--line);border-bottom:none;border-radius:20px 20px 0 0;
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));}
+#np .npdisp{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:2px 0 10px}
+#np .npval{font-family:var(--disp);font-size:44px;min-width:110px;text-align:center;letter-spacing:1px}
+#np .npunit{color:var(--muted);font-size:15px}
+#np .nptitle{text-align:center;color:var(--muted);font-size:13.5px;margin-bottom:2px}
+.plates{display:flex;justify-content:center;align-items:center;gap:10px;margin:10px 0 4px;flex-wrap:wrap}
+.plate{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;
+  color:#fff;position:relative;border:none;box-shadow:inset 0 0 0 4px rgba(255,255,255,.35),inset 0 0 0 11px rgba(0,0,0,.14),var(--shadow);
+  font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
+.plate:active{transform:scale(.92)}
+.plate::after{content:'';position:absolute;width:9px;height:9px;border-radius:50%;background:var(--surface);box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
+.plate span{position:absolute;top:18%;font-size:12.5px}
+.p20{width:66px;height:66px;background:#1d4ed8}
+.p10{width:58px;height:58px;background:#15803d}
+.p5{width:50px;height:50px;background:#64748b}
+.p25{width:44px;height:44px;background:#111827}
+.p125{width:38px;height:38px;background:#9ca3af}
+.p125 span{font-size:10.5px;top:14%}
+.npstep{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0}
+.npstep button{width:58px;height:46px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:700}
+.npgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0}
+.npgrid button{padding:12px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:17px;font-weight:500}
+.npgrid button.sel{background:var(--accent);color:var(--accent-ink);border-color:transparent;font-weight:700}
+.npdigits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.npdigits button{padding:13px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:20px;font-weight:600}
+.npchips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0}
+.npact{display:flex;gap:8px;margin-top:10px}
+input[data-np]{caret-color:transparent;cursor:pointer}
+
 /* toast */
 #toast{position:fixed;bottom:calc(120px + env(safe-area-inset-bottom,0px));inset-inline:0;display:flex;justify-content:center;z-index:50;pointer-events:none}
 #toast span{background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;box-shadow:var(--shadow)}
@@ -219,6 +252,8 @@ svg text{font-family:var(--body)}
   </div>
 </div>
 
+<div id="np-bg" hidden data-act="np-close"></div>
+<div id="np" hidden></div>
 <div id="sheet-bg" hidden data-act="sheet-close"></div>
 <div id="sheet" hidden></div>
 <div id="toast" hidden><span id="toast-msg"></span></div>
@@ -625,8 +660,8 @@ function vStrength(e,ei){
       <span class="h">#</span><span class="h">משקל (ק״ג)</span><span class="h">חזרות</span><span class="h">✓</span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num">${si+1}</span>
-        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" inputmode="decimal" value="${s.w??''}" placeholder="${s.pw??''}" data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
-        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="r-${ei}-${si}" class="num" type="text" inputmode="numeric" value="${s.r??''}" placeholder="${s.pr??''}" data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
+        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${s.w??''}" placeholder="${s.pw??''}" data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
+        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><button class="done-btn" data-act="set-done" data-ei="${ei}" data-si="${si}" aria-label="סיום סט"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
       `).join('')}
     </div>
@@ -644,9 +679,9 @@ function vCardio(e,ei){
     </div>
     <div class="setgrid" style="grid-template-columns:1fr 1fr 1fr 44px">
       <span class="h">דקות</span><span class="h">ק״מ</span><span class="h">שיפוע %</span><span class="h">✓</span>
-      <span class="${c.done?'set-done':''}"><input class="num" type="text" inputmode="decimal" value="${c.min??''}" data-bind="cmin" data-ei="${ei}" aria-label="דקות"></span>
-      <span class="${c.done?'set-done':''}"><input class="num" type="text" inputmode="decimal" value="${c.km??''}" data-bind="ckm" data-ei="${ei}" aria-label="קילומטרים"></span>
-      <span class="${c.done?'set-done':''}"><input class="num" type="text" inputmode="decimal" value="${c.inc??''}" data-bind="cinc" data-ei="${ei}" aria-label="שיפוע"></span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="דקות" value="${c.min??''}" data-bind="cmin" data-ei="${ei}" aria-label="דקות"></span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="ק״מ" value="${c.km??''}" data-bind="ckm" data-ei="${ei}" aria-label="קילומטרים"></span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="%" value="${c.inc??''}" data-bind="cinc" data-ei="${ei}" aria-label="שיפוע"></span>
       <span class="${c.done?'set-done':''}"><button class="done-btn" data-act="cardio-done" data-ei="${ei}" aria-label="סיום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
     </div>
   </div>`;
@@ -793,7 +828,7 @@ function bodyweightHTML(){
   return `<div class="sect">משקל גוף</div>
   <div class="card stack">
     <div class="row">
-      <input id="bw-input" class="num" type="text" inputmode="decimal" placeholder="${last?last.kg+' ק״ג לאחרונה':'משקל בק״ג'}" style="flex:1">
+      <input id="bw-input" class="num" type="text" readonly data-np="num" data-unit="ק״ג" aria-label="משקל גוף" placeholder="${last?last.kg+' ק״ג לאחרונה':'משקל בק״ג'}" style="flex:1">
       <button class="btn primary" data-act="bw-save">שמור להיום</button>
     </div>
     ${last&&last.d===today?`<div class="small muted">נשמר להיום: <b class="num">${last.kg} ק״ג</b></div>`:''}
@@ -871,6 +906,100 @@ function wireChart(){
   });
 }
 
+/* ---------- numpad: מקלדת מובנית בסגנון חדר כושר ---------- */
+const NP={cfg:null,val:0,typing:false};
+function npFmt(v){ return (Math.round(v*100)/100).toString(); }
+function openNumpad(cfg){
+  NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
+  renderNumpad(); $('#np').hidden=false; $('#np-bg').hidden=false; vibrate(8);
+}
+function closeNumpad(){ $('#np').hidden=true; $('#np-bg').hidden=true; NP.cfg=null; }
+function renderNumpad(){
+  const c=NP.cfg; if(!c)return;
+  let body='';
+  if(c.mode==='weight'){
+    body=`
+    <div class="plates">
+      ${[['p20',20],['p10',10],['p5',5],['p25',2.5],['p125',1.25]].map(([cls,v])=>
+        `<button class="plate ${cls}" data-npadd="${v}" aria-label="הוסף ${v} ק״ג"><span>+${v}</span></button>`).join('')}
+    </div>
+    <div class="npstep">
+      <button data-npadd="-2.5" aria-label="הורד 2.5">−</button>
+      <button data-npc="clear" class="num" style="font-size:15px">נקה</button>
+      <button data-npadd="2.5" aria-label="הוסף 2.5">+</button>
+    </div>
+    ${c.prev?`<div class="npchips"><button class="chip num" data-npset="${c.prev}">כמו קודם: ${c.prev}</button>${c.tip?`<button class="chip num" data-npset="${c.tip}" style="background:var(--gold-soft);border-color:var(--gold)">💡 ${c.tip}</button>`:''}</div>`:''}`;
+  }else if(c.mode==='reps'){
+    body=`<div class="npgrid">
+      ${Array.from({length:20},(_,i)=>i+1).map(n=>`<button data-npset="${n}" class="num ${NP.val===n?'sel':''}">${n}</button>`).join('')}
+    </div>
+    <div class="npstep"><button data-npadd="-1">−</button><button data-npc="clear" style="font-size:15px">נקה</button><button data-npadd="1">+</button></div>`;
+  }else if(c.mode==='count'){
+    body=`<div class="npgrid" style="grid-template-columns:repeat(4,1fr)">
+      ${Array.from({length:8},(_,i)=>i+1).map(n=>`<button data-npset="${n}" class="num ${NP.val===n?'sel':''}">${n}</button>`).join('')}
+    </div>`;
+  }else if(c.mode==='secs'){
+    body=`<div class="npgrid" style="grid-template-columns:repeat(4,1fr)">
+      ${[45,60,75,90,120,150,180,240].map(n=>`<button data-npset="${n}" class="num ${NP.val===n?'sel':''}">${n<60?n+'״':Math.floor(n/60)+':'+String(n%60).padStart(2,'0')}</button>`).join('')}
+    </div>
+    <div class="npstep"><button data-npadd="-15">−15</button><button data-npadd="15">+15</button></div>`;
+  }else{ // num — ספרות חופשיות (אירובי, משקל גוף)
+    body=`<div class="npdigits">
+      ${[7,8,9,4,5,6,1,2,3].map(n=>`<button data-npd="${n}" class="num">${n}</button>`).join('')}
+      <button data-npd=".">.</button><button data-npd="0" class="num">0</button><button data-npc="back">⌫</button>
+    </div>`;
+  }
+  $('#np').innerHTML=`
+    <div class="nptitle">${esc(c.title||'')}</div>
+    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):npFmt(NP.val)}</span><span class="npunit">${esc(c.unit||'')}</span></div>
+    ${body}
+    <div class="npact">
+      ${c.applyDone?`<button class="btn primary big" style="flex:2" data-npc="savedone">שמור וסמן סט ✓</button>`:''}
+      <button class="btn ${c.applyDone?'':'primary'} big" style="flex:1" data-npc="save">שמור</button>
+    </div>`;
+}
+function npUpdate(){ const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
+  if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs')renderNumpad(); }
+document.addEventListener('click',ev=>{
+  const t=ev.target.closest('[data-npadd],[data-npset],[data-npd],[data-npc]'); if(!t||!NP.cfg)return;
+  vibrate(10);
+  if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); }
+  else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset; }
+  else if(t.dataset.npd!==undefined){ const d=t.dataset.npd;
+    if(d==='.'&&NP.str.includes('.'))return;
+    if(NP.str.replace('.','').length>=5)return;
+    NP.str=(NP.str==='0'&&d!=='.'?'':NP.str)+d; NP.val=parseFloat(NP.str)||0; }
+  else if(t.dataset.npc==='back'){ NP.str=NP.str.slice(0,-1); NP.val=parseFloat(NP.str)||0; }
+  else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
+  else if(t.dataset.npc==='save'){ const c=NP.cfg; closeNumpad(); c.apply(NP.cfg.mode==='num'?(parseFloat(NP.str)||0):NP.val); return; }
+  else if(t.dataset.npc==='savedone'){ const c=NP.cfg; closeNumpad(); c.apply(NP.val); c.applyDone&&c.applyDone(); return; }
+  npUpdate();
+});
+/* פתיחת המקלדת מכל שדה עם data-np */
+document.addEventListener('click',ev=>{
+  const i=ev.target.closest('input[data-np]'); if(!i)return;
+  i.blur(); ev.preventDefault();
+  const kind=i.dataset.np, ei=+i.dataset.ei, si=+i.dataset.si;
+  if(kind==='w'||kind==='r'){
+    const e=S.active?.ex[ei], s=e?.sets?.[si]; if(!s)return;
+    const isW=kind==='w';
+    const tip=isW?coachTip(e.n,e.reps,e.sets.length):null;
+    openNumpad({
+      title:`${e.n} · סט ${si+1} · ${isW?'משקל':'חזרות'}`,
+      unit:isW?'ק״ג':'חזרות', mode:isW?'weight':'reps',
+      value:+(s[kind]||s[isW?'pw':'pr']||0), prev:+(s[isW?'pw':'pr'])||null, tip:tip?tip.w:null,
+      apply(v){ s[kind]=v||''; const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; persistActive(); },
+      applyDone(){ if(!s.done){ const btn=document.querySelector(`[data-act="set-done"][data-ei="${ei}"][data-si="${si}"]`); if(btn)btn.click(); } },
+    });
+  }else if(kind==='num'){
+    openNumpad({ title:i.getAttribute('aria-label')||'', unit:i.dataset.unit||'', mode:'num', value:+i.value||0,
+      apply(v){ i.value=v||''; i.dispatchEvent(new Event('input',{bubbles:true})); } });
+  }else if(kind==='count'||kind==='secs'){
+    openNumpad({ title:i.getAttribute('aria-label')||'', unit:kind==='secs'?'שניות':'', mode:kind, value:+i.value||0,
+      apply(v){ i.value=v||''; i.dispatchEvent(new Event('input',{bubbles:true})); } });
+  }
+},true);
+
 /* ---------- sheets (modals) ---------- */
 function openSheet(html){$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
 function closeSheet(){$('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
@@ -939,9 +1068,9 @@ function renderTplEditor(){
         </div>
         ${e.t==='c'?'':`<div class="setgrid" style="grid-template-columns:1fr 1.4fr 1fr;margin-top:8px">
           <span class="h">סטים</span><span class="h">חזרות (יעד)</span><span class="h">מנוחה (שנ׳)</span>
-          <input class="num" type="text" inputmode="numeric" value="${esc(e.s??3)}" data-bind="tplf" data-i="${i}" data-f="s" aria-label="סטים">
+          <input class="num" type="text" readonly data-np="count" value="${esc(e.s??3)}" data-bind="tplf" data-i="${i}" data-f="s" aria-label="סטים">
           <input type="text" value="${esc(e.reps??'')}" data-bind="tplf" data-i="${i}" data-f="reps" aria-label="חזרות">
-          <input class="num" type="text" inputmode="numeric" value="${esc(e.rest??90)}" data-bind="tplf" data-i="${i}" data-f="rest" aria-label="מנוחה">
+          <input class="num" type="text" readonly data-np="secs" value="${esc(e.rest??90)}" data-bind="tplf" data-i="${i}" data-f="rest" aria-label="מנוחה">
         </div>`}
       </div>`).join('')||'<div class="muted small" style="padding:10px 2px">עדיין ריק — הוסף תרגילים מהמאגר.</div>'}
     </div>
@@ -1097,6 +1226,7 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
+    case 'np-close': closeNumpad(); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
     case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
     case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
