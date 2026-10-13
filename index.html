@@ -690,6 +690,8 @@ function vAuth(){
       <div class="muted small">מעקב אימונים אישי — התרגילים, המשקלים וההתקדמות שלך</div>
     </div>
     <div class="card stack">
+      ${su?`<div class="label">שם מלא</div>
+      <input id="au-name" type="text" autocomplete="name" placeholder="איך קוראים לך?" value="${esc(S.authName||'')}">`:''}
       <div class="label">אימייל</div>
       <input id="au-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(S.authEmail||'')}">
       <div class="label">סיסמה</div>
@@ -702,12 +704,14 @@ function vAuth(){
 }
 async function doAuth(){
   const email=($('#au-email')?.value||'').trim(), pass=$('#au-pass')?.value||'';
+  const name=($('#au-name')?.value||'').trim(); S.authName=name;
   const err=$('#autherr'); if(err)err.textContent='';
   if(!email||!pass){if(err)err.textContent='מלא אימייל וסיסמה';return;}
+  if(S.authMode==='signup'&&!name){if(err)err.textContent='מלא שם — ככה נדע איך לקרוא לך';return;}
   const btn=$('#authgo'); if(btn){btn.disabled=true;btn.textContent='רק רגע…';}
   try{
     if(S.authMode==='signup'){
-      const {data,error}=await sb.auth.signUp({email,password:pass});
+      const {data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
       if(error)throw error;
       if(!data.session){
         $('#view').innerHTML=`<div class="empty" style="margin-top:48px"><div class="big">כמעט שם ✉️</div>שלחנו קישור אישור אל<br><b dir="ltr">${esc(email)}</b><br>פתח את המייל, לחץ על הקישור — וחזור לכאן להתחבר.</div>`;
@@ -735,6 +739,9 @@ async function doAuth(){
 function greet(){
   const h=new Date().getHours();
   return h<5?'לילה טוב':h<12?'בוקר טוב':h<17?'צהריים טובים':h<22?'ערב טוב':'לילה טוב';
+}
+function firstName(){
+  return String(S.user?.user_metadata?.full_name||'').trim().split(/\s+/)[0]||'';
 }
 function nextTpl(){
   const ts=[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0));
@@ -802,7 +809,7 @@ function vHome(){
   const last=[...S.workouts].sort((a,b)=>b.start-a.start)[0];
   return `
     <div class="greet-wrap">
-      <div class="greet">${greet()} 💪</div>
+      <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''} 💪</div>
       <div class="muted small">${S.workouts.length?`אימון מס׳ ${S.workouts.length+1} מחכה לך`:'האימון הראשון שלך מחכה'}</div>
     </div>
     ${(()=>{try{return ('Notification' in window)&&Notification.permission==='default'&&!localStorage.getItem('np-dis');}catch(e){return false;}})()?`
@@ -1545,9 +1552,15 @@ function renderSettings(){
       ${[60,90,120,180].map(s=>`<button class="chip num ${S.settings.rest===s?'on':''}" data-act="rest-set" data-s="${s}">${s<120?s+' שנ׳':(s/60)+' דק׳'}</button>`).join('')}
     </div>
     <div class="label" style="margin:16px 0 6px">חשבון</div>
-    <div class="card spread" style="padding:12px 14px">
-      <span class="small muted" dir="ltr">${esc(S.user?.email||'')}</span>
-      <button class="btn danger" data-act="logout">יציאה מהחשבון</button>
+    <div class="card stack" style="padding:12px 14px">
+      <div class="row">
+        <input id="set-name" type="text" placeholder="השם שלך" value="${esc(S.user?.user_metadata?.full_name||'')}" style="flex:1">
+        <button class="btn" data-act="save-name">שמור שם</button>
+      </div>
+      <div class="spread">
+        <span class="small muted" dir="ltr">${esc(S.user?.email||'')}</span>
+        <button class="btn danger" data-act="logout">יציאה מהחשבון</button>
+      </div>
     </div>
     <div class="muted small" style="text-align:center;margin-top:14px">NextRep · גרסה 2.0</div>
     <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>
@@ -1709,6 +1722,11 @@ function handleAct(b,ev){
     case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings();
       if(!$('#sheet').hidden)renderSettings(); else render(); break;
     case 'settings': renderSettings(); break;
+    case 'save-name': { const nm=($('#set-name')?.value||'').trim(); if(!nm){toast('השם ריק');break;}
+      sb.auth.updateUser({data:{full_name:nm}}).then(({data,error})=>{
+        if(error){toast('שמירת השם נכשלה');return;}
+        if(data?.user)S.user=data.user; toast('השם עודכן 👋'); render();
+      }); break; }
     case 'notif-on': ensureNotifPerm().then(ok=>{toast(ok?'ההתראות הופעלו 🔔':'ההרשאה לא אושרה');render();}); break;
     case 'notif-dis': try{localStorage.setItem('np-dis','1');}catch(e){} render(); break;
     case 'sched-day': renderSchedPicker(+b.dataset.d); break;
