@@ -244,6 +244,20 @@ svg text{font-family:var(--body)}
   width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
 .npact{display:flex;gap:8px;margin-top:10px}
 input[data-np]{caret-color:transparent;cursor:pointer}
+/* nutrition composer & meal rows */
+.acttile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  padding:10px 6px;font-size:12.5px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.acttile svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.actmain{display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:700}
+#food-text{padding:13px 12px;font-size:16px;border-radius:12px}
+.mrow{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line)}
+.mrow:last-child{border-bottom:none}
+.mavatar{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.mkcal{text-align:center;flex-shrink:0;min-width:46px}
+.mkcal b{font-family:var(--disp);font-size:20px;line-height:1;display:block}
+.mkcal span{font-size:10px;color:var(--muted)}
+.mdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;vertical-align:1px}
+
 /* settings switches */
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
 .setrow:last-child{border-bottom:none}
@@ -898,7 +912,7 @@ function kcalRing(v,target){
 function macroBar(label,v,target,col){
   const pct=target?Math.min(100,v/target*100):0;
   return `<div>
-    <div class="spread small"><span>${label}</span><span class="num muted">${v}${target?` / ${target}`:''} גר׳</span></div>
+    <div class="spread small"><span><span class="mdot" style="background:${col}"></span>${label}</span><span class="num muted">${v}${target?` / ${target}`:''} גר׳</span></div>
     <div style="height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:3px">
       <div style="width:${pct}%;height:100%;border-radius:99px;background:${col}"></div>
     </div>
@@ -934,9 +948,9 @@ function vFood(){
       <div class="row" style="justify-content:center;gap:18px;margin-top:10px;flex-wrap:nowrap">
         ${kcalRing(t.kcal,kT)}
         <div class="stack" style="flex:1;gap:8px;min-width:0">
-          ${macroBar('חלבון 🥩',t.protein,pT,'var(--accent)')}
-          ${macroBar('פחמימה 🍚',t.carbs,0,'#8aa6c1')}
-          ${macroBar('שומן 🥑',t.fat,0,'var(--gold)')}
+          ${macroBar('חלבון',t.protein,pT,'var(--accent)')}
+          ${macroBar('פחמימה',t.carbs,0,'#8aa6c1')}
+          ${macroBar('שומן',t.fat,0,'var(--gold)')}
           ${kT?`<div class="small ${left>=0?'muted':''}" style="${left<0?'color:var(--gold)':''}">${left>=0?`נשארו <b class="num">${fmtNum(left)}</b> קק״ל להיום`:`חריגה של <b class="num">${fmtNum(-left)}</b> קק״ל`}</div>`
              :`<button class="linkbtn small" data-act="food-targets-open" style="text-align:right;padding:0">🎯 קבע יעד קלוריות וחלבון ←</button>`}
         </div>
@@ -944,26 +958,36 @@ function vFood(){
     </div>
     ${d===today?`
     <div class="card hot stack" style="gap:10px">
-      <div class="row" style="flex-wrap:nowrap">
-        <input id="food-text" type="text" placeholder="מה אכלת? למשל: שניצל, אורז וסלט" ${S.ai.busy?'disabled':''} style="flex:1;min-width:0">
-        <button class="btn primary" data-act="food-ai" ${S.ai.busy?'disabled':''} style="white-space:nowrap">${S.ai.busy?'מנתח…':'✨ נתח'}</button>
-        <label class="btn" style="cursor:pointer;padding:10px 12px" aria-label="צילום ארוחה">📷<input id="food-photo" type="file" accept="image/*" capture="environment" hidden></label>
-      </div>
-      <div class="spread">
-        ${recents.length?`<div class="row" style="gap:6px;flex:1;min-width:0;overflow-x:auto;flex-wrap:nowrap">
-          ${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}" style="flex-shrink:0">↻ ${esc(m.name.slice(0,16))}</button>`).join('')}
-        </div>`:'<span class="small muted">ה-AI מפרק לקלוריות ומאקרו ✨</span>'}
-        <button class="linkbtn small" data-act="food-manual" style="flex-shrink:0">ידני</button>
-      </div>
-    </div>`:''}
-    ${meals.length?`<div class="sect">הארוחות של ${d===today?'היום':'היום הזה'}</div>
-    <div class="card prlist">
-      ${meals.map(m=>{const h=new Date(m.ts);const hh=String(h.getHours()).padStart(2,'0')+':'+String(h.getMinutes()).padStart(2,'0');
-      return `<div class="pr-row" style="gap:6px">
-        <button data-act="meal-open" data-id="${esc(m.id)}" style="flex:1;text-align:right;padding:0;min-width:0">
-          <span>${esc(m.name)} <span class="muted small">›</span><span class="small muted" style="display:block"><span class="num">${hh}</span>${(m.items||[]).length>1?` · ${m.items.length} מרכיבים`:''}${m.protein?` · חלבון ${Math.round(m.protein)}`:''}</span></span>
+      <input id="food-text" type="text" placeholder="מה אכלת? למשל: שניצל, אורז וסלט…" ${S.ai.busy?'disabled':''}>
+      <div class="row" style="flex-wrap:nowrap;align-items:stretch">
+        <button class="btn primary actmain" data-act="food-ai" ${S.ai.busy?'disabled':''} style="flex:2.1">
+          ${S.ai.busy?'<span class="npval" style="font-size:16px">מנתח…</span>':`<svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9z"/></svg> נתח עם AI`}
         </button>
-        <b class="num" style="white-space:nowrap">${m.kcal}</b>
+        <label class="acttile" style="flex:1" aria-label="צילום ארוחה">
+          <svg viewBox="0 0 24 24"><path d="M4 8h2.2l1.4-2.2A1.5 1.5 0 0 1 8.9 5h6.2a1.5 1.5 0 0 1 1.3.8L17.8 8H20a1.5 1.5 0 0 1 1.5 1.5V18A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8Z"/><circle cx="12" cy="13.2" r="3.4"/></svg>
+          צלם צלחת<input id="food-photo" type="file" accept="image/*" capture="environment" hidden>
+        </label>
+        <button class="acttile" data-act="food-manual" style="flex:1" aria-label="הוספה ידנית">
+          <svg viewBox="0 0 24 24"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"/></svg>
+          ידני
+        </button>
+      </div>
+      ${recents.length?`<div class="row" style="gap:6px;min-width:0;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px">
+        <span class="small muted" style="flex-shrink:0">שוב:</span>
+        ${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}" style="flex-shrink:0">↻ ${esc(m.name.slice(0,16))} · ${m.kcal}</button>`).join('')}
+      </div>`:''}
+    </div>`:''}
+    ${meals.length?`<div class="sect">היומן של ${d===today?'היום':fmtDate(+dt)}</div>
+    <div class="card" style="padding:6px 14px">
+      ${meals.map(m=>{const h=new Date(m.ts);const hh=String(h.getHours()).padStart(2,'0')+':'+String(h.getMinutes()).padStart(2,'0');
+      const em=h.getHours()<11?'☕':h.getHours()<16?'☀️':h.getHours()<20?'🌇':'🌙';
+      return `<div class="mrow">
+        <span class="mavatar">${em}</span>
+        <button data-act="meal-open" data-id="${esc(m.id)}" style="flex:1;text-align:right;padding:0;min-width:0">
+          <b style="font-size:15px">${esc(m.name)}</b>
+          <span class="small muted" style="display:block"><span class="num">${hh}</span>${(m.items||[]).length>1?` · ${m.items.length} מרכיבים`:''}${m.protein?` · ${Math.round(m.protein)} גר׳ חלבון`:''}</span>
+        </button>
+        <span class="mkcal num"><b>${m.kcal}</b><span>קק״ל</span></span>
         <button class="btn danger" data-act="meal-del" data-id="${esc(m.id)}" style="padding:4px 8px">✕</button>
       </div>`;}).join('')}
     </div>`
