@@ -504,7 +504,7 @@ const fmtRest=s=>s>=60?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} דק
 const S={
   mode:'boot', user:null, authMode:'login', authEmail:'',
   workouts:[], templates:[], weights:[], meals:[],
-  foodDate:new Date().toISOString().slice(0,10), ai:{busy:false}, trackView:'progress',
+  foodDate:new Date().toISOString().slice(0,10), ai:{busy:false}, trackView:'body',
   active:null,                       // {start, name, tid, ex:[{n,m,t,sets:[{w,r,done}],c:{min,km,inc,done}}]}
   settings:{rest:90,notif:{rest:true,pr:true,sound:true,vib:true}},
   tab:(location.hash||'').replace('#','')||'home',
@@ -619,7 +619,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); flushActive(); }
@@ -863,7 +863,7 @@ function vHome(){
     <div class="tiles num">
       <div class="tile"><div class="v">${mo}</div><div class="k">אימונים החודש</div></div>
       <div class="tile"><div class="v">${fmtNum(wkVol)}</div><div class="k">נפח שבועי (ק״ג)</div></div>
-      <div class="tile"><div class="v">${lastBw?lastBw.kg:'—'}</div><div class="k">משקל גוף${bwD!==null?` (${bwD>0?'+':''}${bwD})`:''}</div></div>
+      <button class="tile" data-act="bw-quick" style="background:none;border:none;border-inline-start:1px solid var(--line);border-radius:0"><div class="v">${lastBw?lastBw.kg:'+'}</div><div class="k">${lastBw?`משקל${bwD!==null?` (${bwD>0?'+':''}${bwD})`:''}`:'שקילה ⚖️'}</div></button>
     </div>
     ${(S.settings.kcalT||mealsOf(new Date().toISOString().slice(0,10)).length)?(()=>{const t=dayTotals(new Date().toISOString().slice(0,10));const kT=+S.settings.kcalT||0;return `
       <button class="card spread" style="width:100%;text-align:right" data-act="go" data-to="food">
@@ -941,7 +941,7 @@ function vFood(){
         <button class="btn" data-act="food-nav" data-dir="-1" aria-label="יום קודם" style="padding:6px 12px">‹</button>
         <b>${d===today?'היום':fmtDateFull(+dt)}</b>
         <div class="row" style="gap:6px">
-          <button class="pill" data-act="food-targets-open" style="cursor:pointer" aria-label="יעדים">🎯</button>
+          <button class="pill" data-act="food-targets-open" style="cursor:pointer">🎯 יעדים</button>
           <button class="btn" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>›</button>
         </div>
       </div>
@@ -997,12 +997,14 @@ function vFood(){
 function openTargetsSheet(){
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
   openSheet(`
-    <h3>יעדים יומיים 🎯</h3>
+    <h3>היעדים שלי 🎯</h3>
     <div class="row">
       <div style="flex:1"><div class="label">קלוריות</div>
         <input class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="יעד קלוריות" id="t-kcal" value="${kT||''}" placeholder="2600"></div>
       <div style="flex:1"><div class="label">חלבון (גר׳)</div>
         <input class="num" type="text" readonly data-np="num" data-unit="גר׳ חלבון" aria-label="יעד חלבון" id="t-prot" value="${pT||''}" placeholder="168"></div>
+      <div style="flex:1"><div class="label">משקל יעד</div>
+        <input class="num" type="text" readonly data-np="num" data-unit="ק״ג" aria-label="משקל יעד" id="t-goal" value="${+S.settings.goalKg||''}" placeholder="80"></div>
     </div>
     <div class="small muted" style="margin-top:10px">💡 לשמירה על מסת שריר במשקל 84 ק״ג: ‎~168 גר׳ חלבון (2 גר׳ לק״ג). קלוריות: ‎~2,400 לחיטוב, ‎~2,900 למסה.</div>
     <div class="row" style="margin-top:14px">
@@ -1327,10 +1329,11 @@ function hCard(w){
 function vTrack(){
   return `
     <div class="row" style="margin-bottom:4px">
-      <button class="chip ${S.trackView!=='history'?'on':''}" data-act="track-view" data-v="progress">📈 התקדמות</button>
+      <button class="chip ${S.trackView==='body'?'on':''}" data-act="track-view" data-v="body">⚖️ גוף ויעדים</button>
+      <button class="chip ${S.trackView==='progress'?'on':''}" data-act="track-view" data-v="progress">📈 אימונים</button>
       <button class="chip ${S.trackView==='history'?'on':''}" data-act="track-view" data-v="history">🕐 היסטוריה</button>
     </div>
-    ${S.trackView==='history'?vHistory():vProgress()}
+    ${S.trackView==='history'?vHistory():S.trackView==='progress'?vProgress():vBody()}
   `;
 }
 
@@ -1372,7 +1375,6 @@ function vProgress(){
       </div>`
     :`<div class="empty"><div class="big">הגרפים מחכים לנתונים</div>אחרי שני אימונים עם אותו תרגיל כבר יהיה כאן קו התקדמות.</div>`}
     ${weeklyVolHTML()}
-    ${bodyweightHTML()}
     ${prs.length?`<div class="sect">שיאים אישיים 🏅 <span class="muted small" style="font-family:var(--body);font-weight:400">(לחיצה = היסטוריה)</span></div>
       <div class="card prlist">
         ${prs.slice(0,12).map(([n,b])=>`<button class="pr-row" data-act="hist-ex" data-n="${esc(n)}" style="width:100%;text-align:right;border-radius:0"><span>${esc(n)}</span><span class="num"><b>${b.w} ק״ג</b> × ${b.r} <span class="muted small">· ${fmtDate(b.ts)}</span></span></button>`).join('')}
@@ -1401,7 +1403,131 @@ function weeklyVolHTML(){
       </div>`;}).join('')}
   </div>`;
 }
-/* משקל גוף */
+/* ----- תצוגת גוף: משקל, יעדים ותזונה שבועית ----- */
+function bwChange(days){
+  const ws=S.weights||[]; if(ws.length<2)return null;
+  const last=ws[ws.length-1];
+  const cutoff=new Date(last.d); cutoff.setDate(cutoff.getDate()-days);
+  const cs=cutoff.toISOString().slice(0,10);
+  let base=null; for(const p of ws){ if(p.d<=cs)base=p; }
+  if(!base)base=ws[0]; if(base===last)return null;
+  return Math.round((last.kg-base.kg)*10)/10;
+}
+function deltaChip(v,label){
+  if(v===null)return '';
+  const col=v===0?'var(--muted)':v<0?'var(--accent)':'var(--gold)';
+  return `<span class="pill num" style="color:${col};border-color:currentColor">${v>0?'▲':v<0?'▼':'·'} ${Math.abs(v)} ק״ג · ${label}</span>`;
+}
+function vBody(){
+  const ws=S.weights||[]; const last=ws[ws.length-1];
+  const today=new Date().toISOString().slice(0,10);
+  const goal=+S.settings.goalKg||0;
+  const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
+  let goalLine='';
+  if(goal&&last){
+    const start=ws[0].kg, total=start-goal, done=start-last.kg;
+    const pct=total?Math.max(0,Math.min(100,done/total*100)):100;
+    const left=Math.round((last.kg-goal)*10)/10;
+    goalLine=`<div style="margin-top:12px">
+      <div class="spread small"><span>יעד: <b class="num">${goal} ק״ג</b></span><span class="num muted">${left===0?'הגעת ליעד 🎉':`נשארו ${Math.abs(left)} ק״ג`}</span></div>
+      <div style="height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:4px">
+        <div style="width:${pct}%;height:100%;border-radius:99px;background:var(--accent)"></div>
+      </div>
+    </div>`;
+  }
+  return `
+    <div class="card hot">
+      <div class="spread" style="align-items:flex-start">
+        <div>
+          <div class="label">משקל נוכחי</div>
+          <div style="font-family:var(--disp);font-size:54px;line-height:1;margin-top:2px" class="num">${last?last.kg:'—'}<span style="font-size:20px;color:var(--muted)"> ק״ג</span></div>
+          <div class="small muted" style="margin-top:4px">${last?(last.d===today?'נשקלת היום ✓':`שקילה אחרונה: ${fmtDate(+new Date(last.d))}`):'עוד לא נשקלת'}</div>
+        </div>
+        <button class="btn primary" data-act="bw-quick" style="padding:12px 16px">⚖️ ${last&&last.d===today?'עדכן':'שקילה'}</button>
+      </div>
+      <div class="row" style="gap:6px;margin-top:10px">${deltaChip(bwChange(7),'שבוע')}${deltaChip(bwChange(30),'חודש')}</div>
+      ${goalLine}
+    </div>
+    ${bwChartHTML(goal)}
+    <div class="sect spread"><span>היעדים שלי</span><button class="linkbtn small" data-act="food-targets-open" style="font-family:var(--body)">עריכה</button></div>
+    <button class="tiles num" data-act="food-targets-open" style="width:100%;padding:0;text-align:center">
+      <div class="tile"><div class="v">${kT?fmtNum(kT):'—'}</div><div class="k">קק״ל ליום</div></div>
+      <div class="tile"><div class="v">${pT||'—'}</div><div class="k">גר׳ חלבון</div></div>
+      <div class="tile"><div class="v">${goal||'—'}</div><div class="k">משקל יעד</div></div>
+    </button>
+    ${nutritionWeekHTML()}
+    ${bwLogHTML()}
+  `;
+}
+function bwChartHTML(goal){
+  const ws=(S.weights||[]).slice(-90);
+  if(ws.length<2)return `<div class="empty" style="margin-top:12px"><div class="big">הגרף יופיע אחרי שתי שקילות</div>מומלץ להישקל בבוקר, אחרי שירותים ולפני אוכל — כך הנתון הכי עקבי.</div>`;
+  const W=520,H=170,L=40,R=14,Tp=14,B=24;
+  const xs=ws.map(p=>+new Date(p.d)), ys=ws.map(p=>p.kg).concat(goal?[goal]:[]);
+  const x0=Math.min(...xs),x1=Math.max(...xs);
+  const lo=Math.floor(Math.min(...ys)-1), hi=Math.ceil(Math.max(...ys)+1);
+  const X=t=>L+(W-L-R)*((t-x0)/Math.max(1,(x1-x0)));
+  const Y=v=>Tp+(H-Tp-B)*(1-(v-lo)/Math.max(1,hi-lo));
+  const path=ws.map((p,i)=>`${i?'L':'M'}${X(+new Date(p.d)).toFixed(1)},${Y(p.kg).toFixed(1)}`).join('');
+  const area=`${path} L${X(x1).toFixed(1)},${H-B} L${X(x0).toFixed(1)},${H-B} Z`;
+  const mid=Math.round((lo+hi)/2);
+  return `<div class="card" style="margin-top:12px">
+    <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="גרף משקל גוף" style="direction:ltr;display:block">
+      ${[lo,mid,hi].map(v=>`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-7}" y="${Y(v)+4}" font-size="11" text-anchor="end" fill="var(--muted)">${v}</text>`).join('')}
+      ${goal?`<line x1="${L}" x2="${W-R}" y1="${Y(goal)}" y2="${Y(goal)}" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="5 5"/><text x="${W-R}" y="${Y(goal)-5}" font-size="11" text-anchor="end" fill="var(--gold)">יעד ${goal}</text>`:''}
+      <path d="${area}" fill="var(--accent)" opacity="0.1"/>
+      <path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      ${ws.map((p,i)=>`<circle cx="${X(+new Date(p.d)).toFixed(1)}" cy="${Y(p.kg).toFixed(1)}" r="${i===ws.length-1?5:3}" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`).join('')}
+      <text x="${L}" y="${H-6}" font-size="11" fill="var(--muted)">${fmtDate(x0)}</text>
+      <text x="${W-R}" y="${H-6}" font-size="11" text-anchor="end" fill="var(--muted)">${fmtDate(x1)}</text>
+    </svg>
+  </div>`;
+}
+function bwLogHTML(){
+  const ws=S.weights||[]; if(!ws.length)return '';
+  return `<div class="sect">יומן שקילות</div>
+  <div class="card prlist" style="padding:4px 14px">
+    ${[...ws].reverse().slice(0,10).map((p,i,arr)=>{
+      const prev=arr[i+1];
+      const d=prev?Math.round((p.kg-prev.kg)*10)/10:null;
+      const arrow=d===null||d===0?'<span class="muted">·</span>':d>0?`<span style="color:var(--gold)">▲ ${d}</span>`:`<span style="color:var(--accent)">▼ ${Math.abs(d)}</span>`;
+      return `<div class="pr-row"><span class="muted small num">${fmtDateFull(+new Date(p.d+'T12:00:00'))}</span><span class="num"><b>${p.kg} ק״ג</b> &nbsp;${arrow}</span></div>`;
+    }).join('')}
+  </div>`;
+}
+/* תזונה ב-7 הימים האחרונים */
+function nutritionWeekHTML(){
+  const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
+  const days=[];
+  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10);
+    days.push({ds,dow:d.getDay(),t:dayTotals(ds),has:mealsOf(ds).length>0}); }
+  const logged=days.filter(x=>x.has);
+  if(!logged.length)return '';
+  const avgK=Math.round(logged.reduce((a,x)=>a+x.t.kcal,0)/logged.length);
+  const avgP=Math.round(logged.reduce((a,x)=>a+x.t.protein,0)/logged.length);
+  const mx=Math.max(kT||0,...days.map(x=>x.t.kcal),1);
+  return `<div class="sect">תזונה · 7 ימים</div>
+  <div class="card">
+    <div class="spread small" style="margin-bottom:10px">
+      <span>ממוצע: <b class="num">${fmtNum(avgK)}</b> קק״ל · <b class="num">${avgP}</b> גר׳ חלבון</span>
+      <span class="muted">${logged.length}/7 ימים נרשמו</span>
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:6px;height:96px;position:relative;direction:rtl">
+      ${kT?`<div style="position:absolute;inset-inline:0;bottom:${kT/mx*86+10}px;border-top:1.5px dashed var(--gold)" aria-hidden="true"></div>`:''}
+      ${days.map(x=>{ const h=x.t.kcal/mx*86; const over=kT&&x.t.kcal>kT;
+        return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+          <div style="width:100%;max-width:26px;height:${Math.max(x.has?3:0,h)}px;border-radius:5px 5px 2px 2px;background:${over?'var(--gold)':'var(--accent)'};opacity:${x.has?1:.25}"></div>
+          <span style="font-size:10.5px;color:var(--muted)">${DAY_LETTERS[x.dow]}</span>
+        </div>`;}).join('')}
+    </div>
+    ${pT?`<div class="small muted" style="margin-top:8px">${avgP>=pT?'✓ עומד ביעד החלבון':`חסרים בממוצע ${pT-avgP} גר׳ חלבון ביום`}</div>`:''}
+  </div>`;
+}
+function openWeighIn(){
+  const ws=S.weights||[]; const last=ws[ws.length-1];
+  openNumpad({ title:`שקילה היום${last?` · קודם: ${last.kg} ק״ג`:''}`, unit:'ק״ג', mode:'num', value:0, apply(v){ saveBodyweight(v); } });
+}
+/* משקל גוף — הגרסה הקודמת, נשמרת לתאימות */
 function bodyweightHTML(){
   const ws=S.weights||[];
   const last=ws[ws.length-1];
@@ -1441,8 +1567,8 @@ function bodyweightHTML(){
     </div>`:''}
   </div>`;
 }
-async function saveBodyweight(){
-  const v=parseFloat(($('#bw-input')?.value||'').replace(',','.'));
+async function saveBodyweight(val){
+  const v=val!=null?+val:parseFloat(($('#bw-input')?.value||'').replace(',','.'));
   if(!v||v<25||v>400){toast('הקלד משקל תקין בק״ג');return;}
   const d=new Date().toISOString().slice(0,10);
   S.weights=(S.weights||[]).filter(x=>x.d!==d); S.weights.push({d,kg:v}); S.weights.sort((a,b)=>a.d<b.d?-1:1);
@@ -1798,6 +1924,10 @@ function renderSettings(){
     </label>`;
   openSheet(`
     <h3>הגדרות</h3>
+    <button class="card spread" data-act="food-targets-open" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:14px">
+      <span><b>🎯 היעדים שלי</b><span class="small muted" style="display:block">${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</span></span>
+      <span class="muted">›</span>
+    </button>
     <div class="label" style="margin-bottom:6px">התראות</div>
     <div class="card stack" style="gap:0;padding:4px 14px">
       <label class="setrow">
@@ -2024,6 +2154,7 @@ function handleAct(b,ev){
     case 'food-targets-open': openTargetsSheet(); break;
     case 'food-targets': { S.settings.kcalT=Math.round(+($('#t-kcal')?.value)||0)||null;
       S.settings.protT=Math.round(+($('#t-prot')?.value)||0)||null;
+      S.settings.goalKg=(Math.round((+($('#t-goal')?.value)||0)*10)/10)||null;
       persistSettings(); closeSheet(); toast('היעדים נשמרו 🎯'); render(); break; }
     case 'meal-again': { const src=S.meals.find(m=>m.id===b.dataset.id); if(!src)break;
       _mealDraft={name:src.name,items:clone(src.items||[]),kcal:+src.kcal||0,protein:+src.protein||0,carbs:+src.carbs||0,fat:+src.fat||0};
@@ -2060,6 +2191,7 @@ function handleAct(b,ev){
     case 'metric': S.progressMetric=b.dataset.m; render(); break;
     case 'track-view': S.trackView=b.dataset.v; render(); break;
     case 'bw-save': saveBodyweight(); break;
+    case 'bw-quick': openWeighIn(); break;
     case 'share-w': { const w=S.workouts.find(x=>x.id===b.dataset.id); if(w)shareText(workoutShareText(w)); break; }
     case 'share-active': { if(S.active)shareText(workoutShareText({...clone(S.active),end:Date.now()})); break; }
     case 'auth-go': doAuth(); break;
@@ -2175,7 +2307,7 @@ async function enterApp(user){
     if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null;
       S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},st.data.prefs?.notif);
       S.settings.schedule=st.data.prefs?.schedule||{};
-      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; }
+      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; }
     if(!S.templates.length){ // משתמש חדש — טעינת תוכניות ברירת המחדל
       S.templates=clone(DEFAULT_TEMPLATES);
       sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{});
