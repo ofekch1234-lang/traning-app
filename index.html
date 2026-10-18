@@ -365,8 +365,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   <button data-tab="train"><svg viewBox="0 0 24 24" class="ic"><path d="M3 12h2m14 0h2M7 8v8M17 8v8M9.5 12h5"/><rect x="5" y="9.5" width="2" height="5" rx=".6"/><rect x="17" y="9.5" width="2" height="5" rx=".6"/></svg>אימון</button>
   <button data-tab="food"><svg viewBox="0 0 24 24" class="ic"><path d="M7 3v7a2.5 2.5 0 0 0 5 0V3M9.5 3v18M17.5 21V3c-2.2 1-3.5 3.2-3.5 6v4h3.5"/></svg>תזונה</button>
   <button data-tab="plans"><svg viewBox="0 0 24 24" class="ic"><path d="M8 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H8M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2M8 4v16M11 9h5M11 13h5"/></svg>תוכניות</button>
-  <button data-tab="history"><svg viewBox="0 0 24 24" class="ic"><path d="M12 8v4l2.5 2.5M4.5 12a7.5 7.5 0 1 1 2.2 5.3M4.5 12H2.8m1.7 0 1.2 1.8"/></svg>היסטוריה</button>
-  <button data-tab="progress"><svg viewBox="0 0 24 24" class="ic"><path d="M4 19h16M5 16l4-5 3.5 3L19 7M19 7h-3.5M19 7v3.5"/></svg>התקדמות</button>
+  <button data-tab="track"><svg viewBox="0 0 24 24" class="ic"><path d="M4 19h16M5 16l4-5 3.5 3L19 7M19 7h-3.5M19 7v3.5"/></svg>מעקב</button>
 </nav>
 
 <script>
@@ -491,7 +490,7 @@ const fmtRest=s=>s>=60?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} דק
 const S={
   mode:'boot', user:null, authMode:'login', authEmail:'',
   workouts:[], templates:[], weights:[], meals:[],
-  foodDate:new Date().toISOString().slice(0,10), ai:{busy:false},
+  foodDate:new Date().toISOString().slice(0,10), ai:{busy:false}, trackView:'progress',
   active:null,                       // {start, name, tid, ex:[{n,m,t,sets:[{w,r,done}],c:{min,km,inc,done}}]}
   settings:{rest:90,notif:{rest:true,pr:true,sound:true,vib:true}},
   tab:(location.hash||'').replace('#','')||'home',
@@ -499,7 +498,8 @@ const S={
   openHist:{}, confirmDel:null,
   lib:{group:'חזה', q:'', target:null},
 };
-if(!['home','train','food','plans','history','progress'].includes(S.tab)) S.tab='home';
+if(['history','progress'].includes(S.tab)){S.trackView=S.tab;S.tab='track';}
+if(!['home','train','food','plans','track'].includes(S.tab)) S.tab='home';
 
 /* ---------- utils ---------- */
 const $=s=>document.querySelector(s);
@@ -677,10 +677,9 @@ function render_(){
   else if(S.tab==='train')v.innerHTML=vTrain();
   else if(S.tab==='food')v.innerHTML=vFood();
   else if(S.tab==='plans')v.innerHTML=vPlans();
-  else if(S.tab==='history')v.innerHTML=vHistory();
-  else v.innerHTML=vProgress();
+  else v.innerHTML=vTrack();
   if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
-  if(S.tab==='progress')wireChart();
+  if(S.tab==='track'&&S.trackView==='progress')wireChart();
 }
 
 /* ----- auth screen ----- */
@@ -860,14 +859,14 @@ function vHome(){
       </button>`;})():''}
     ${prs.length?`
       <div class="card">
-        <div class="spread"><span class="label">שיאים אחרונים 🏅</span><button class="linkbtn small" data-act="go" data-to="progress">לכל השיאים ←</button></div>
+        <div class="spread"><span class="label">שיאים אחרונים 🏅</span><button class="linkbtn small" data-act="go" data-to="track" data-view="progress">לכל השיאים ←</button></div>
         <div class="prlist">
           ${prs.map(([n,b])=>`<button class="pr-row" data-act="hist-ex" data-n="${esc(n)}" style="width:100%;text-align:right;border-radius:0"><span>${esc(n)}</span><span class="num"><b>${b.w} ק״ג</b> × ${b.r}</span></button>`).join('')}
         </div>
       </div>`:''}
     ${last&&!S.active?`
       <div class="card">
-        <div class="spread"><span class="label">האימון האחרון</span><button class="linkbtn small" data-act="go" data-to="history">להיסטוריה ←</button></div>
+        <div class="spread"><span class="label">האימון האחרון</span><button class="linkbtn small" data-act="go" data-to="track" data-view="history">להיסטוריה ←</button></div>
         <div class="spread" style="margin-top:6px"><b>${esc(last.name)}</b><span class="muted small num">${fmtDate(last.start)}</span></div>
         <div class="h-stats num" style="margin-top:6px">
           <span>⏱ ${fmtDur(last.end-last.start)}</span><span>סטים ${workoutSets(last)}</span><span>נפח ${fmtNum(workoutVol(last))} ק״ג</span>
@@ -905,18 +904,32 @@ function macroBar(label,v,target,col){
     </div>
   </div>`;
 }
+function recentMealNames(){
+  const seen=new Set(), out=[];
+  for(const m of [...S.meals].sort((a,b)=>b.ts-a.ts)){
+    const n=(m.name||'').trim(); if(!n||seen.has(n))continue;
+    seen.add(n); out.push(m);
+    if(out.length>=4)break;
+  }
+  return out;
+}
 function vFood(){
   const d=S.foodDate, today=new Date().toISOString().slice(0,10);
   const dt=new Date(d+'T12:00:00');
   const t=dayTotals(d);
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
   const meals=mealsOf(d);
+  const left=kT?kT-t.kcal:0;
+  const recents=recentMealNames();
   return `
     <div class="card">
       <div class="spread">
-        <button class="btn" data-act="food-nav" data-dir="-1">‹</button>
+        <button class="btn" data-act="food-nav" data-dir="-1" aria-label="יום קודם" style="padding:6px 12px">‹</button>
         <b>${d===today?'היום':fmtDateFull(+dt)}</b>
-        <button class="btn" data-act="food-nav" data-dir="1" ${d>=today?'disabled style="opacity:.3"':''}>›</button>
+        <div class="row" style="gap:6px">
+          <button class="pill" data-act="food-targets-open" style="cursor:pointer" aria-label="יעדים">🎯</button>
+          <button class="btn" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>›</button>
+        </div>
       </div>
       <div class="row" style="justify-content:center;gap:18px;margin-top:10px;flex-wrap:nowrap">
         ${kcalRing(t.kcal,kT)}
@@ -924,39 +937,55 @@ function vFood(){
           ${macroBar('חלבון 🥩',t.protein,pT,'var(--accent)')}
           ${macroBar('פחמימה 🍚',t.carbs,0,'#8aa6c1')}
           ${macroBar('שומן 🥑',t.fat,0,'var(--gold)')}
+          ${kT?`<div class="small ${left>=0?'muted':''}" style="${left<0?'color:var(--gold)':''}">${left>=0?`נשארו <b class="num">${fmtNum(left)}</b> קק״ל להיום`:`חריגה של <b class="num">${fmtNum(-left)}</b> קק״ל`}</div>`
+             :`<button class="linkbtn small" data-act="food-targets-open" style="text-align:right;padding:0">🎯 קבע יעד קלוריות וחלבון ←</button>`}
         </div>
       </div>
     </div>
     ${d===today?`
-    <div class="card hot stack">
-      <div class="label">מה אכלת? ה-AI יחשב לבד 🤖</div>
-      <input id="food-text" type="text" placeholder="למשל: שניצל, אורז לבן וסלט עם טחינה" ${S.ai.busy?'disabled':''}>
-      <div class="row">
-        <button class="btn primary" style="flex:2" data-act="food-ai" ${S.ai.busy?'disabled':''}>${S.ai.busy?'מנתח…':'נתח עם AI'}</button>
-        <label class="btn" style="flex:1;text-align:center;cursor:pointer">📷 צלם<input id="food-photo" type="file" accept="image/*" capture="environment" hidden></label>
-        <button class="btn" data-act="food-manual">ידני</button>
+    <div class="card hot stack" style="gap:10px">
+      <div class="row" style="flex-wrap:nowrap">
+        <input id="food-text" type="text" placeholder="מה אכלת? למשל: שניצל, אורז וסלט" ${S.ai.busy?'disabled':''} style="flex:1;min-width:0">
+        <button class="btn primary" data-act="food-ai" ${S.ai.busy?'disabled':''} style="white-space:nowrap">${S.ai.busy?'מנתח…':'✨ נתח'}</button>
+        <label class="btn" style="cursor:pointer;padding:10px 12px" aria-label="צילום ארוחה">📷<input id="food-photo" type="file" accept="image/*" capture="environment" hidden></label>
+      </div>
+      <div class="spread">
+        ${recents.length?`<div class="row" style="gap:6px;flex:1;min-width:0;overflow-x:auto;flex-wrap:nowrap">
+          ${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}" style="flex-shrink:0">↻ ${esc(m.name.slice(0,16))}</button>`).join('')}
+        </div>`:'<span class="small muted">ה-AI מפרק לקלוריות ומאקרו ✨</span>'}
+        <button class="linkbtn small" data-act="food-manual" style="flex-shrink:0">ידני</button>
       </div>
     </div>`:''}
-    ${meals.length?`<div class="sect">הארוחות</div>
+    ${meals.length?`<div class="sect">הארוחות של ${d===today?'היום':'היום הזה'}</div>
     <div class="card prlist">
-      ${meals.map(m=>`<div class="pr-row" style="gap:6px">
+      ${meals.map(m=>{const h=new Date(m.ts);const hh=String(h.getHours()).padStart(2,'0')+':'+String(h.getMinutes()).padStart(2,'0');
+      return `<div class="pr-row" style="gap:6px">
         <button data-act="meal-open" data-id="${esc(m.id)}" style="flex:1;text-align:right;padding:0;min-width:0">
-          <span>${esc(m.name)} <span class="muted small">›</span><span class="small muted" style="display:block">${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${m.protein?`חלבון ${Math.round(m.protein)} גר׳`:''}</span></span>
+          <span>${esc(m.name)} <span class="muted small">›</span><span class="small muted" style="display:block"><span class="num">${hh}</span>${(m.items||[]).length>1?` · ${m.items.length} מרכיבים`:''}${m.protein?` · חלבון ${Math.round(m.protein)}`:''}</span></span>
         </button>
-        <b class="num" style="white-space:nowrap">${m.kcal} קק״ל</b>
+        <b class="num" style="white-space:nowrap">${m.kcal}</b>
         <button class="btn danger" data-act="meal-del" data-id="${esc(m.id)}" style="padding:4px 8px">✕</button>
-      </div>`).join('')}
+      </div>`;}).join('')}
     </div>`
     :`<div class="empty" style="margin-top:14px"><div class="big">${d===today?'עוד לא רשמת כלום היום':'אין ארוחות ביום הזה'}</div>${d===today?'כתוב מה אכלת למעלה — וה-AI יעשה את השאר.':''}</div>`}
-    <div class="sect">יעדים יומיים</div>
-    <div class="card row">
+  `;
+}
+function openTargetsSheet(){
+  const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
+  openSheet(`
+    <h3>יעדים יומיים 🎯</h3>
+    <div class="row">
       <div style="flex:1"><div class="label">קלוריות</div>
         <input class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="יעד קלוריות" id="t-kcal" value="${kT||''}" placeholder="2600"></div>
       <div style="flex:1"><div class="label">חלבון (גר׳)</div>
         <input class="num" type="text" readonly data-np="num" data-unit="גר׳ חלבון" aria-label="יעד חלבון" id="t-prot" value="${pT||''}" placeholder="168"></div>
-      <button class="btn primary" data-act="food-targets" style="align-self:flex-end">שמור</button>
     </div>
-  `;
+    <div class="small muted" style="margin-top:10px">💡 לשמירה על מסת שריר במשקל 84 ק״ג: ‎~168 גר׳ חלבון (2 גר׳ לק״ג). קלוריות: ‎~2,400 לחיטוב, ‎~2,900 למסה.</div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
+      <button class="btn primary" style="flex:2" data-act="food-targets">שמור יעדים ✓</button>
+    </div>
+  `);
 }
 async function foodAI(payload){
   if(S.ai.busy)return;
@@ -1268,6 +1297,17 @@ function hCard(w){
         </div>
       </div>`:''}
     </div>`;
+}
+
+/* ----- track tab: התקדמות + היסטוריה במקום אחד ----- */
+function vTrack(){
+  return `
+    <div class="row" style="margin-bottom:4px">
+      <button class="chip ${S.trackView!=='history'?'on':''}" data-act="track-view" data-v="progress">📈 התקדמות</button>
+      <button class="chip ${S.trackView==='history'?'on':''}" data-act="track-view" data-v="history">🕐 היסטוריה</button>
+    </div>
+    ${S.trackView==='history'?vHistory():vProgress()}
+  `;
 }
 
 /* ----- progress tab ----- */
@@ -1957,9 +1997,13 @@ function handleAct(b,ev){
     case 'meal-del': { const id=b.dataset.id;
       S.meals=S.meals.filter(m=>m.id!==id); saveSnapshot(); render();
       sb.from('meals').delete().eq('id',id).then(()=>{}); break; }
+    case 'food-targets-open': openTargetsSheet(); break;
     case 'food-targets': { S.settings.kcalT=Math.round(+($('#t-kcal')?.value)||0)||null;
       S.settings.protT=Math.round(+($('#t-prot')?.value)||0)||null;
-      persistSettings(); toast('היעדים נשמרו 🎯'); render(); break; }
+      persistSettings(); closeSheet(); toast('היעדים נשמרו 🎯'); render(); break; }
+    case 'meal-again': { const src=S.meals.find(m=>m.id===b.dataset.id); if(!src)break;
+      _mealDraft={name:src.name,items:clone(src.items||[]),kcal:+src.kcal||0,protein:+src.protein||0,carbs:+src.carbs||0,fat:+src.fat||0};
+      saveMealDraft(); break; }
     case 'sched-day': renderSchedPicker(+b.dataset.d); break;
     case 'sched-set': { const d=String(+b.dataset.d), id=b.dataset.id;
       S.settings.schedule=S.settings.schedule||{};
@@ -1975,7 +2019,7 @@ function handleAct(b,ev){
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
     case 'np-close': closeNumpad(); break;
-    case 'go': S.tab=b.dataset.to; location.hash=S.tab; render(); break;
+    case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
     case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
     case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
@@ -1990,6 +2034,7 @@ function handleAct(b,ev){
     case 'hist-del1': S.confirmDel=b.dataset.id; render(); break;
     case 'hist-del2': deleteWorkout(b.dataset.id); S.confirmDel=null; break;
     case 'metric': S.progressMetric=b.dataset.m; render(); break;
+    case 'track-view': S.trackView=b.dataset.v; render(); break;
     case 'bw-save': saveBodyweight(); break;
     case 'share-w': { const w=S.workouts.find(x=>x.id===b.dataset.id); if(w)shareText(workoutShareText(w)); break; }
     case 'share-active': { if(S.active)shareText(workoutShareText({...clone(S.active),end:Date.now()})); break; }
@@ -2053,7 +2098,7 @@ document.addEventListener('keydown',ev=>{
 });
 window.addEventListener('hashchange',()=>{
   const h=(location.hash||'').replace('#','');
-  if(['home','train','food','plans','history','progress'].includes(h)&&h!==S.tab){S.tab=h;render();}
+  if(['home','train','food','plans','track'].includes(h)&&h!==S.tab){S.tab=h;render();}
 });
 
 /* ---------- default plans for every new user ---------- */
