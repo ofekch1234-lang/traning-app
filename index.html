@@ -939,10 +939,12 @@ function vFood(){
     </div>`:''}
     ${meals.length?`<div class="sect">הארוחות</div>
     <div class="card prlist">
-      ${meals.map(m=>`<div class="pr-row">
-        <span>${esc(m.name)}<span class="small muted" style="display:block">${m.protein?`חלבון ${Math.round(m.protein)} גר׳`:''}</span></span>
-        <span class="row" style="gap:8px"><b class="num">${m.kcal} קק״ל</b>
-        <button class="btn danger" data-act="meal-del" data-id="${esc(m.id)}" style="padding:4px 8px">✕</button></span>
+      ${meals.map(m=>`<div class="pr-row" style="gap:6px">
+        <button data-act="meal-open" data-id="${esc(m.id)}" style="flex:1;text-align:right;padding:0;min-width:0">
+          <span>${esc(m.name)} <span class="muted small">›</span><span class="small muted" style="display:block">${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${m.protein?`חלבון ${Math.round(m.protein)} גר׳`:''}</span></span>
+        </button>
+        <b class="num" style="white-space:nowrap">${m.kcal} קק״ל</b>
+        <button class="btn danger" data-act="meal-del" data-id="${esc(m.id)}" style="padding:4px 8px">✕</button>
       </div>`).join('')}
     </div>`
     :`<div class="empty" style="margin-top:14px"><div class="big">${d===today?'עוד לא רשמת כלום היום':'אין ארוחות ביום הזה'}</div>${d===today?'כתוב מה אכלת למעלה — וה-AI יעשה את השאר.':''}</div>`}
@@ -993,6 +995,56 @@ function openMealConfirm(data){
   `);
 }
 let _mealDraft=null;
+/* צפייה ועריכת ארוחה: מרכיבים, קלוריות וחלבון לכל פריט */
+let _mealEdit=null;
+function openMealEdit(id){
+  const m=S.meals.find(x=>x.id===id); if(!m)return;
+  _mealEdit=clone(m);
+  if(!Array.isArray(_mealEdit.items)||!_mealEdit.items.length)
+    _mealEdit.items=[{name:m.name,kcal:+m.kcal||0,protein:+m.protein||0,carbs:+m.carbs||0,fat:+m.fat||0}];
+  renderMealEdit();
+}
+function renderMealEdit(){
+  const m=_mealEdit;
+  const tot=m.items.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0)}),{kcal:0,protein:0});
+  openSheet(`
+    <h3>עריכת ארוחה</h3>
+    <div class="label">שם הארוחה</div>
+    <input id="me-name" value="${esc(m.name)}" data-bind="mif" data-mf="mealname">
+    <div class="label" style="margin:14px 0 6px">מרכיבים (${m.items.length}) · <span class="num">${Math.round(tot.kcal)} קק״ל · ${Math.round(tot.protein)} גר׳ חלבון</span></div>
+    <div class="stack" style="gap:8px">
+      ${m.items.map((it,i)=>`<div style="border:1px solid var(--line);border-radius:10px;padding:10px">
+        <div class="row" style="flex-wrap:nowrap">
+          <input value="${esc(it.name)}" placeholder="שם הפריט" data-bind="mif" data-mi="${i}" data-mf="name" style="flex:1;min-width:0">
+          <button class="btn danger" data-act="meal-item-del" data-i="${i}" style="padding:6px 9px">✕</button>
+        </div>
+        <div class="setgrid" style="grid-template-columns:1fr 1fr 1fr 1fr;margin-top:8px">
+          <span class="h">קק״ל</span><span class="h">חלבון</span><span class="h">פחמימה</span><span class="h">שומן</span>
+          <input class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="קלוריות" value="${+it.kcal||0}" data-bind="mif" data-mi="${i}" data-mf="kcal">
+          <input class="num" type="text" readonly data-np="num" data-unit="גר׳" aria-label="חלבון" value="${+it.protein||0}" data-bind="mif" data-mi="${i}" data-mf="protein">
+          <input class="num" type="text" readonly data-np="num" data-unit="גר׳" aria-label="פחמימה" value="${+it.carbs||0}" data-bind="mif" data-mi="${i}" data-mf="carbs">
+          <input class="num" type="text" readonly data-np="num" data-unit="גר׳" aria-label="שומן" value="${+it.fat||0}" data-bind="mif" data-mi="${i}" data-mf="fat">
+        </div>
+      </div>`).join('')}
+    </div>
+    <button class="btn ghost" style="margin-top:10px" data-act="meal-item-add">+ פריט</button>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
+      <button class="btn primary" style="flex:2" data-act="meal-edit-save">שמור שינויים ✓</button>
+    </div>
+  `);
+}
+async function saveMealEdit(){
+  const m=_mealEdit; if(!m)return;
+  m.items=m.items.filter(i=>(i.name||'').trim()||+i.kcal>0);
+  const tot=m.items.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0),carbs:a.carbs+(+i.carbs||0),fat:a.fat+(+i.fat||0)}),{kcal:0,protein:0,carbs:0,fat:0});
+  const row={id:m.id,user_id:S.user.id,d:m.d,ts:m.ts,name:(m.name||'ארוחה').trim()||'ארוחה',
+    kcal:Math.round(tot.kcal),protein:Math.round(tot.protein),carbs:Math.round(tot.carbs),fat:Math.round(tot.fat),items:m.items};
+  const i=S.meals.findIndex(x=>x.id===m.id); if(i>=0)S.meals[i]={...row};
+  saveSnapshot(); closeSheet(); _mealEdit=null; render();
+  try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast('עודכן ✓'); }
+  catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
+}
 async function saveMealDraft(){
   const m=_mealDraft; if(!m)return;
   const row={id:'m'+Date.now(),user_id:S.user.id,d:S.foodDate,ts:Date.now(),name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items};
@@ -1898,6 +1950,10 @@ function handleAct(b,ev){
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
+    case 'meal-open': openMealEdit(b.dataset.id); break;
+    case 'meal-item-del': { if(_mealEdit){_mealEdit.items.splice(+b.dataset.i,1); renderMealEdit();} break; }
+    case 'meal-item-add': { if(_mealEdit){_mealEdit.items.push({name:'',kcal:0,protein:0,carbs:0,fat:0}); renderMealEdit();} break; }
+    case 'meal-edit-save': saveMealEdit(); break;
     case 'meal-del': { const id=b.dataset.id;
       S.meals=S.meals.filter(m=>m.id!==id); saveSnapshot(); render();
       sb.from('meals').delete().eq('id',id).then(()=>{}); break; }
@@ -1952,6 +2008,12 @@ document.addEventListener('input',ev=>{
   else if(k==='cmin'||k==='ckm'||k==='cinc'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc'}[k]]=i.value; persistActive();} }
   else if(k==='libq'){ S.lib.q=i.value; renderLibrary(); }
   else if(k==='tpln'){ if(_tplDraft)_tplDraft.name=i.value; }
+  else if(k==='mif'){ if(!_mealEdit)return;
+    if(i.dataset.mf==='mealname'){_mealEdit.name=i.value;return;}
+    const it=_mealEdit.items[+i.dataset.mi]; if(!it)return;
+    const f=i.dataset.mf;
+    it[f]=f==='name'?i.value:(+String(i.value).replace(',','.')||0);
+  }
   else if(k==='tplf'){ const e=_tplDraft?.ex[+i.dataset.i]; if(e){const f=i.dataset.f; e[f]=f==='reps'?i.value:(+i.value||0);} }
 });
 document.addEventListener('change',ev=>{
