@@ -441,14 +441,18 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='2.4';
+const APP_VERSION='2.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
      (אימון פעיל וטיימר מנוחה נשמרים ונטענים חזרה) */
   let _reloading=false; const _hadCtrl=!!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(_reloading||!_hadCtrl)return; _reloading=true; location.reload(); });
-  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible')navigator.serviceWorker.getRegistration().then(r=>r&&r.update()).catch(()=>{}); });
+  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState!=='visible')return;
+    navigator.serviceWorker.getRegistration().then(r=>{ if(!r)return; r.update();
+      // ניקוי התראות מנוחה ישנות כשחוזרים לאפליקציה — כדי שלא יצטברו
+      if(r.getNotifications)r.getNotifications().then(ns=>ns.forEach(n=>{ if(n.data&&n.data.kind==='rest')n.close(); })).catch(()=>{});
+    }).catch(()=>{}); });
 }
 let _wake=null;
 async function keepAwake(on){

@@ -1,5 +1,5 @@
 /* יומן הברזל — service worker: עבודה אופליין */
-const CACHE = 'nextrep-v10';
+const CACHE = 'nextrep-v11';
 const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -50,9 +50,9 @@ self.addEventListener('push', e => {
     icon: 'icon-192.png?v=2',
     badge: 'icon-192.png?v=2',
     vibrate: [200, 100, 200],
-    tag: d.tag || undefined,
-    renotify: !!d.tag,
-    data: { url: '/' }
+    // תג ייחודי לכל התראה: באייפון התראה שמחליפה תג קיים נכנסת בשקט (בלי באנר/צליל)
+    tag: (d.kind || 'nr') + '-' + Date.now(),
+    data: { url: '/', kind: d.kind || '' }
   }));
 });
 self.addEventListener('notificationclick', e => {
