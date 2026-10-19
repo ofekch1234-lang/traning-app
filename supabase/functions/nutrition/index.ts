@@ -1,7 +1,8 @@
 // NextRep — nutrition analysis via Claude (verify_jwt: true — רק משתמשים מחוברים)
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const MODELS = ["claude-haiku-5-5", "claude-haiku-4-5-20251001"];
+// רק Haiku 5.5 — בלי גיבוי למודל יקר יותר. אם הוא לא זמין, הניתוח נכשל והמשתמש מופנה לחיפוש במאגר.
+const MODELS = ["claude-haiku-5-5"];
 const SYSTEM = `אתה תזונאי קליני ישראלי. המשתמש מתאר ארוחה בטקסט או בתמונה.
 החזר אך ורק JSON תקין, בלי טקסט נוסף, במבנה:
 {"name":"שם קצר לארוחה בעברית","items":[{"name":"פריט","kcal":מספר,"protein":גרם,"carbs":גרם,"fat":גרם}]}
