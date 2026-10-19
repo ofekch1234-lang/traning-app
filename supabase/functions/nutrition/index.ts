@@ -43,9 +43,16 @@ Deno.serve(async (req: Request) => {
         headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
         body: JSON.stringify({ model, max_tokens: 700, system: SYSTEM, messages: [{ role: "user", content }] }),
       });
-      if (r.status === 404) { lastErr = await r.text(); continue; } // מודל לא קיים — ננסה את הבא
+      if (r.status === 404) { lastErr = await r.text(); console.log(JSON.stringify({ ev: "model-fallback", from: model, err: lastErr.slice(0, 160) })); continue; } // מודל לא קיים — ננסה את הבא
       if (!r.ok) { lastErr = await r.text(); break; }
       const out = await r.json();
+      // רישום שימוש: מודל, טוקנים ועלות — לניתוח עלויות אמיתי
+      const PRICES: Record<string, [number, number]> = { "claude-haiku-5-5": [0.10, 0.50], "claude-haiku-4-5-20251001": [1, 5] };
+      const [pi, po] = PRICES[model] || [1, 5];
+      const it = out.usage?.input_tokens || 0, ot = out.usage?.output_tokens || 0;
+      const cost = (it * pi + ot * po) / 1e6;
+      console.log(JSON.stringify({ ev: "nutrition", model: out.model || model, in: it, out: ot, usd: cost, kind: body.image ? "photo" : "text" }));
+      try { await sb.from("ai_usage").insert({ user_id: user.id, kind: body.image ? "photo" : "text", model: out.model || model, input_tokens: it, output_tokens: ot, cost_usd: cost }); } catch (_) { /* לא חוסם */ }
       const txt = (out.content || []).filter((c: { type: string }) => c.type === "text").map((c: { text: string }) => c.text).join("");
       const m = txt.match(/\{[\s\S]*\}/);
       if (!m) break;
