@@ -649,7 +649,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.0';
+const APP_VERSION='4.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -670,6 +670,8 @@ async function keepAwake(on){
   }catch(e){}
 }
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&S.active)keepAwake(true); });
+// חזרה לאפליקציה ממסך התשלום/מהתראה: בדיקה מחודשת של הגישה
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&S.mode==='paywall'&&S.user){ enterApp._claim=true; enterApp(S.user); } });
 const vibrate=p=>{ try{ if(navigator.vibrate&&S.settings?.notif?.vib!==false)navigator.vibrate(p); }catch(e){} };
 /* התראות מערכת */
 async function ensureNotifPerm(){
@@ -2878,6 +2880,7 @@ function adminBillingHTML(){
   <div class="card stack" style="padding:14px;margin-top:10px;gap:10px">
     <label class="setrow" style="padding:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
     <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם מתחיל ניסיון מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
+    <div class="spread"><b>תמיכה בתשלומים</b><input id="adm-support" class="adm-in" dir="ltr" placeholder="וואטסאפ 05X..." value="${esc(B.support||'')}" style="width:150px;text-align:center"></div>
     <div class="spread"><b>ימי ניסיון</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??14}" style="width:80px;text-align:center"></div>
     ${(B.plans||[]).map(p=>`<div class="stack" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">
       <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' ⭐':''}</b><span class="row" style="gap:4px;align-items:center">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
@@ -2893,7 +2896,10 @@ function adminBillingHTML(){
     <div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
     <button class="btn" data-act="copy-link" data-url="${esc(hook)}">העתקת הכתובת</button>
   </div>
-  ${(C.events||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px"><div class="small muted" style="padding-top:8px">הודעות אחרונות מהסליקה</div>${C.events.map(e=>`<div class="spread small" style="padding:8px 0;border-top:1px solid var(--line)"><span>${new Date(e.created_at).toLocaleString('he-IL',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} <span dir="ltr" class="muted">${esc(e.email||'')}</span></span><span style="color:${e.ok==='true'?'var(--accent)':'var(--danger)'}">${e.ok==='true'?'✓ נפתח':({user_not_found:'משתמש לא נמצא',unknown_plan:'סכום לא תואם מסלול'}[e.error]||esc(e.error||'שגיאה'))}${e.amount?` ₪${esc(e.amount)}`:''}</span></div>`).join('')}</div>`:''}
+  ${(C.events||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px"><div class="small muted" style="padding-top:8px">הודעות אחרונות מהסליקה</div>${C.events.map(e=>{const ok=e.ok==='true'; return `<div class="small" style="padding:8px 0;border-top:1px solid var(--line)">
+      <div class="spread"><span>${new Date(e.created_at).toLocaleString('he-IL',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · ${esc(e.payer||'')} <span dir="ltr" class="muted">${esc(e.phone||'')}</span></span>
+      <span style="color:${ok?'var(--accent)':'var(--danger)'};white-space:nowrap">${ok?`✓ ${esc(e.who||'נפתח')}`:({user_not_found:'לא זוהה',unknown_plan:'סכום לא מוכר'}[e.error]||(String(e.error||'').startsWith('status_')?'לא הושלם':esc(e.error||'שגיאה')))}${e.amount?` ₪${esc(e.amount)}`:''}</span></div>
+      ${!ok&&(e.error==='user_not_found'||e.error==='unknown_plan')?`<button class="btn" style="width:100%;margin-top:6px;padding:7px" data-act="ev-assign" data-id="${e.id}" data-amount="${esc(e.amount||'')}">שיוך ידני למשתמש</button>`:''}</div>`;}).join('')}</div>`:''}
   ${(C.payments||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px">${C.payments.slice(0,10).map(p=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span><b>${esc(p.name||p.email||'')}</b><span class="small muted" style="display:block">${new Date(p.created_at).toLocaleDateString('he-IL')} · ${p.months} חודשים</span></span><b class="num">₪${+p.amount||0}</b></div>`).join('')}</div>`:''}`;
 }
 function vAdmin(){
@@ -3280,6 +3286,7 @@ function vPaywall(full){
     <div class="stack" style="gap:14px;margin-top:6px">${plansHTML()}</div>
     <div class="small muted" style="text-align:center">בדף התשלום הקלד את מספר הטלפון שתאשר כאן. לפיו הגישה נפתחת אוטומטית תוך דקה.</div>
     <button class="btn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button>
+    ${S.plan?.support?`<a class="linkbtn" style="text-align:center" target="_blank" rel="noopener" href="${/^[0-9+\-\s]+$/.test(S.plan.support)?'https://wa.me/972'+S.plan.support.replace(/\D/g,'').replace(/^972/,'').replace(/^0/,'')+'?text='+encodeURIComponent('היי, שילמתי על NextRep והגישה לא נפתחה. האימייל שלי: '+(S.user?.email||'')):esc(S.plan.support)}">שילמת והגישה לא נפתחה? כתוב לנו</a>`:''}
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
   return full?`<div class="pw">${body}</div>`:body;
 }
@@ -3687,13 +3694,23 @@ function handleAct(b,ev){
     case 'admin-open': closeSheet(); S.tab='admin'; S.admin=null; render(); loadAdmin(); window.scrollTo(0,0); break;
     case 'admin-back': S.tab='home'; location.hash='home'; render(); break;
     case 'admin-refresh': loadAdmin(); break;
+    case 'ev-assign': { const users=(S.admin?.users||[]).filter(u=>u.access!=='admin'); const plans=S.adminCfg?.billing?.plans||[];
+      const guess=plans.find(p=>+p.price===+b.dataset.amount);
+      openSheet(`<h3>שיוך תשלום ₪${esc(b.dataset.amount)}</h3><div class="muted" style="margin:-4px 0 12px">בחר למי לפתוח גישה ולכמה זמן.</div>
+        <select id="ev-user" class="adm-in">${users.map(u=>`<option value="${u.id}">${esc(u.full_name||u.email)}</option>`).join('')}</select>
+        <div class="row" style="gap:6px;margin-top:10px">${plans.map(p=>`<button class="chip ${guess?.id===p.id?'on':''}" data-act="ev-months" data-m="${p.months}">${esc(PLAN_NAMES[p.id]||p.months+' חודשים')}</button>`).join('')}</div>
+        <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="ev-assign-go" data-id="${b.dataset.id}">פתיחת גישה</button></div>`);
+      S.evMonths=guess?.months||null; break; }
+    case 'ev-months': S.evMonths=+b.dataset.m; document.querySelectorAll('[data-act="ev-months"]').forEach(x=>x.classList.toggle('on',x===b)); break;
+    case 'ev-assign-go': { if(!S.evMonths){toast('בחר תקופה');break;} const uid=$('#ev-user').value;
+      sb.rpc('admin_assign_event',{p_event:+b.dataset.id,p_uid:uid,p_months:S.evMonths}).then(({data,error})=>{ if(error||!data?.ok){toast('השיוך נכשל');return;} closeSheet(); toast('הגישה נפתחה ✓'); loadAdmin(); }); break; }
     case 'g-env': { const i=$('#g-base'); if(i)i.value=b.dataset.v==='live'?'https://secure.meshulam.co.il/api/light/server/1.0/':'https://sandbox.meshulam.co.il/api/light/server/1.0/';
       document.querySelectorAll('[data-act="g-env"]').forEach(x=>x.classList.toggle('on',x===b)); break; }
     case 'g-save': { const cfg={pageCode:$('#g-page').value.trim(),userId:$('#g-user').value.trim(),apiKey:$('#g-key').value.trim(),base:$('#g-base').value.trim()};
       sb.rpc('admin_set_grow',{cfg}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('חיבור Grow נשמר ✓'); loadAdmin(); }); break; }
     case 'admin-grant': { const d=+b.dataset.days; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל: '+error.message);return;} toast(`נוספו ${d} ימים ✓`); loadAdmin(); }); break; }
     case 'admin-billing-save': { const B=JSON.parse(JSON.stringify(S.adminCfg.billing||{}));
-      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||14));
+      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||14)); B.support=($('#adm-support').value||'').trim();
       B.plans=(B.plans||[]).map(p=>({...p,price:+$('#adm-price-'+p.id).value||p.price,link:($('#adm-link-'+p.id).value||'').trim()}));
       if(B.enabled&&!B.plans.some(p=>p.link)&&!confirm('אין אף קישור תשלום. להפעיל גבייה בכל זאת?'))break;
       sb.rpc('admin_set_billing',{cfg:B}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('ההגדרות נשמרו ✓'); loadAdmin(); }); break; }
