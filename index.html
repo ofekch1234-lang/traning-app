@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=285c1a38"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b430d00d"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -454,6 +454,15 @@ header.top{
 #wrap .whint{font-size:13px;opacity:.7;text-align:center}
 .wrap-card{background:linear-gradient(135deg,#14532d,#16A34A);color:#fff;border:none}
 .wrap-card .muted,.wrap-card .small{color:rgba(255,255,255,.85)}
+#stcam{position:fixed;inset:0;z-index:90;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#stcam .stc-frame{position:relative;height:min(100dvh - 120px,(100vw)*16/9);aspect-ratio:9/16;max-width:100vw;overflow:hidden;border-radius:14px}
+#stcam video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#stcam #stc-st{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#stcam .stc-bar{display:flex;align-items:center;justify-content:space-around;width:100%;max-width:420px;padding:14px 0 calc(env(safe-area-inset-bottom,0px) + 8px)}
+#stcam .stc-bar button{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;border:none;font-size:20px}
+#stcam .stc-bar .stc-shot{width:72px;height:72px;background:#fff;border:5px solid rgba(255,255,255,.4);background-clip:padding-box}
+#stcam .stc-tools{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);inset-inline-end:14px;display:flex;flex-direction:column;gap:10px}
+#stcam .stc-tools button{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;border:none;font-size:20px}
 .coach-card{position:relative;overflow:hidden}
 .coach-card .co-h{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .co-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0f766e);display:grid;place-items:center;font-size:19px;flex-shrink:0;color:#fff}
@@ -909,7 +918,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='6.5';
+const APP_VERSION='6.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4230,28 +4239,134 @@ function checkNewBadges(){
   openBadgeSheet(fresh[fresh.length-1],true);
 }
 /* כרטיס לשיתוף (תמונה) */
-async function shareCardImage({emoji,title,sub,stats,top}){
-  const W=1080,H=1350,c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
-  try{ await Promise.all(['700 80px Rubik','400 40px Rubik','400 120px Karantina','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f))); }catch(e){}
+/* ----- סטודיו שיתוף: תצוגה מקדימה, רקע ירוק / צילום מהמצלמה / תמונה מהגלריה, עם "מדבקה" (כמו Nike Run Club) ----- */
+const STD={opts:null,bg:null,style:0,pos:2,face:'environment',stream:null,url:null,busy:false};
+const stF=(w,s,fam='Rubik')=>`${w} ${s}px ${fam}, "IBM Plex Sans Arabic", system-ui, sans-serif`;
+let _stFonts=null;
+function stFonts(){ return _stFonts||(_stFonts=Promise.all(['700 80px Rubik','500 40px Rubik','400 120px Karantina','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f).catch(()=>{})))); }
+function stDir(x){ x.direction=LANG==='en'?'ltr':'rtl'; }
+function stLtr(x,fn){ const d=x.direction; x.direction='ltr'; fn(); x.direction=d; }
+/* המדבקה עצמה — טקסט לבן עם צל, בלי רקע */
+function drawSticker(x,W,H,o,style,pos){
+  const cy=[H*.2,H*.5,H*.78][pos];
+  x.save(); x.textAlign='center'; x.fillStyle='#fff'; stDir(x);
+  x.shadowColor='rgba(0,0,0,.45)'; x.shadowBlur=24; x.shadowOffsetY=4;
+  if(style===0){ // מלאה
+    const top=cy-330;
+    stLtr(x,()=>{ x.font=stF(400,84,'Karantina'); x.fillText('NextRep',W/2,top); });
+    if(o.top){ x.font=stF(500,38); x.fillText(tt(o.top),W/2,top+60); }
+    x.font=`200px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`; x.fillText(o.emoji,W/2,top+290);
+    x.font=stF(700,82); x.fillText(tt(o.title),W/2,top+400,W-100);
+    if(o.sub){ x.font=stF(500,40); x.fillText(tt(o.sub),W/2,top+460,W-120); }
+    if(o.stats?.length){ const n=o.stats.length, cw=(W-120)/n;
+      o.stats.forEach(([v,k],i)=>{ const cx=LANG==='en'?60+cw*i+cw/2:W-60-cw*i-cw/2;
+        stLtr(x,()=>{ x.font=stF(400,118,'Karantina'); x.fillText(String(v),cx,top+600,cw-10); });
+        x.font=stF(500,34); x.fillText(tt(k),cx,top+648,cw-10); }); }
+  } else { // מינימלית
+    x.font=`150px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`; x.fillText(o.emoji,W/2,cy-40);
+    x.font=stF(700,74); x.fillText(tt(o.title),W/2,cy+70,W-100);
+    if(o.stats?.length){ x.font=stF(500,40); x.fillText(o.stats.map(([v,k])=>`${v} ${tt(k)}`).join('  ·  '),W/2,cy+135,W-100); }
+    stLtr(x,()=>{ x.font=stF(400,64,'Karantina'); x.fillText('NextRep',W/2,cy+225); });
+  }
+  x.restore();
+}
+/* כרטיס ירוק (ללא תמונה) */
+function drawGreen(x,W,H,o){
   const g=x.createLinearGradient(0,0,W,H); g.addColorStop(0,'#14532d'); g.addColorStop(.55,'#16A34A'); g.addColorStop(1,'#0f766e'); x.fillStyle=g; x.fillRect(0,0,W,H);
   x.globalAlpha=.08; x.fillStyle='#fff'; x.beginPath(); x.arc(W*.85,H*.12,300,0,7); x.fill(); x.beginPath(); x.arc(W*.1,H*.92,260,0,7); x.fill(); x.globalAlpha=1;
-  const F=(w,s,fam='Rubik')=>`${w} ${s}px ${fam}, "IBM Plex Sans Arabic", system-ui, sans-serif`;
-  x.direction=LANG==='en'?'ltr':'rtl'; x.textAlign='center'; x.fillStyle='#fff';
-  x.font=F(400,96,'Karantina'); x.direction='ltr'; x.fillText('NextRep',W/2,140); x.direction=LANG==='en'?'ltr':'rtl';
-  if(top){ x.font=F(500,40); x.globalAlpha=.85; x.fillText(tt(top),W/2,215); x.globalAlpha=1; }
-  x.font=`${emoji.length>2?220:260}px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`; x.fillText(emoji,W/2,560);
-  x.font=F(700,84); x.fillText(tt(title),W/2,720,W-120);
-  if(sub){ x.font=F(400,42); x.globalAlpha=.88; x.fillText(tt(sub),W/2,790,W-140); x.globalAlpha=1; }
-  if(stats&&stats.length){ const n=stats.length, bw=(W-120-(n-1)*24)/n;
-    stats.forEach(([v,k],i)=>{ const bx=LANG==='en'?60+i*(bw+24):W-60-bw-i*(bw+24);
+  x.textAlign='center'; x.fillStyle='#fff'; stDir(x);
+  stLtr(x,()=>{ x.font=stF(400,96,'Karantina'); x.fillText('NextRep',W/2,140); });
+  if(o.top){ x.font=stF(500,40); x.globalAlpha=.85; x.fillText(tt(o.top),W/2,215); x.globalAlpha=1; }
+  x.font=`260px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`; x.fillText(o.emoji,W/2,560);
+  x.font=stF(700,84); x.fillText(tt(o.title),W/2,720,W-120);
+  if(o.sub){ x.font=stF(400,42); x.globalAlpha=.88; x.fillText(tt(o.sub),W/2,790,W-140); x.globalAlpha=1; }
+  if(o.stats?.length){ const n=o.stats.length, bw=(W-120-(n-1)*24)/n;
+    o.stats.forEach(([v,k],i)=>{ const bx=LANG==='en'?60+i*(bw+24):W-60-bw-i*(bw+24);
       x.globalAlpha=.16; x.fillStyle='#fff'; x.beginPath(); if(x.roundRect)x.roundRect(bx,900,bw,210,28); else x.rect(bx,900,bw,210); x.fill(); x.globalAlpha=1;
-      x.font=F(400,104,'Karantina'); x.direction='ltr'; x.fillText(String(v),bx+bw/2,1010,bw-20); x.direction=LANG==='en'?'ltr':'rtl';
-      x.font=F(500,34); x.globalAlpha=.9; x.fillText(tt(k),bx+bw/2,1070,bw-20); x.globalAlpha=1; }); }
-  x.font=F(500,34); x.globalAlpha=.75; x.fillText(location.host,W/2,H-60); x.globalAlpha=1;
-  const blob=await new Promise(r=>c.toBlob(r,'image/png'));
-  const file=new File([blob],'nextrep.png',{type:'image/png'});
-  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],text:tt('💪 נרשם ב-NextRep')}); return; } }catch(e){ if(e&&e.name==='AbortError')return; }
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nextrep.png'; document.body.appendChild(a); a.click(); a.remove(); toast('התמונה נשמרה');
+      stLtr(x,()=>{ x.font=stF(400,104,'Karantina'); x.fillText(String(v),bx+bw/2,1010,bw-20); });
+      x.font=stF(500,34); x.globalAlpha=.9; x.fillText(tt(k),bx+bw/2,1070,bw-20); x.globalAlpha=1; }); }
+  x.font=stF(500,34); x.globalAlpha=.75; x.fillText(location.host,W/2,H-60); x.globalAlpha=1;
+}
+function drawCover(x,img,W,H,mirror){
+  const iw=img.videoWidth||img.width, ih=img.videoHeight||img.height; const sc=Math.max(W/iw,H/ih); const dw=iw*sc, dh=ih*sc;
+  x.save(); if(mirror){ x.translate(W,0); x.scale(-1,1); } x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh); x.restore();
+}
+async function composeShare(){
+  await stFonts(); const o=STD.opts;
+  if(!STD.bg){ const c=document.createElement('canvas'); c.width=1080; c.height=1350; drawGreen(c.getContext('2d'),1080,1350,o); return c; }
+  const W=1080,H=1920,c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  drawCover(x,STD.bg,W,H,false);
+  const cy=[H*.2,H*.5,H*.78][STD.pos]; const gr=x.createLinearGradient(0,cy-520,0,cy+420); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(.5,'rgba(0,0,0,.38)'); gr.addColorStop(1,'rgba(0,0,0,0)');
+  x.fillStyle=gr; x.fillRect(0,cy-520,W,940);
+  drawSticker(x,W,H,o,STD.style,STD.pos); return c;
+}
+async function stickerOnlyURL(){ await stFonts(); const W=1080,H=1920,c=document.createElement('canvas'); c.width=W; c.height=H; drawSticker(c.getContext('2d'),W,H,STD.opts,STD.style,STD.pos); return c.toDataURL('image/png'); }
+async function stPreview(){
+  const img=$('#st-prev'); if(!img)return; img.style.opacity=.5;
+  const c=await composeShare(); const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.9));
+  if(STD.url)URL.revokeObjectURL(STD.url); STD.url=URL.createObjectURL(blob); STD.blob=blob;
+  const el=$('#st-prev'); if(el){ el.src=STD.url; el.style.opacity=1; el.style.aspectRatio=STD.bg?'9/16':'4/5'; }
+}
+function openShareStudio(o){
+  STD.opts=o; STD.bg=null; STD.style=0; STD.pos=2;
+  renderStudio(); stPreview();
+}
+function renderStudio(){
+  openSheet(`<h3>📤 שיתוף</h3>
+    <div style="display:flex;justify-content:center;margin-bottom:12px"><img id="st-prev" alt="" style="width:${STD.bg?'58%':'78%'};aspect-ratio:${STD.bg?'9/16':'4/5'};object-fit:cover;border-radius:16px;background:var(--surface2);box-shadow:0 10px 30px -12px rgba(0,0,0,.4);transition:opacity .2s" ${STD.url?`src="${STD.url}"`:''}></div>
+    <div class="row" style="gap:6px;margin-bottom:8px">
+      <button class="btn ${!STD.bg?'primary':''}" style="flex:1;padding:10px 4px" data-act="st-green">🟩 עיצוב</button>
+      <button class="btn" style="flex:1;padding:10px 4px" data-act="st-cam">📸 צלם</button>
+      <button class="btn" style="flex:1;padding:10px 4px" data-act="st-pick">🖼️ גלריה</button>
+    </div>
+    ${STD.bg?`<div class="row" style="gap:6px;margin-bottom:8px">
+      <button class="btn" style="flex:1" data-act="st-style">🔀 מדבקה ${STD.style?'מינימלית':'מלאה'}</button>
+      <button class="btn" style="flex:1" data-act="st-pos">↕️ ${['למעלה','באמצע','למטה'][STD.pos]}</button></div>`:''}
+    <input type="file" id="st-file" accept="image/*" hidden>
+    <button class="btn primary big" data-act="st-share">📤 שתף</button>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
+}
+async function stShare(){
+  if(STD.busy)return; STD.busy=true;
+  try{ const c=await composeShare(); const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.92));
+    const file=new File([blob],'nextrep.jpg',{type:'image/jpeg'});
+    try{ if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],text:tt('💪 נרשם ב-NextRep')}); STD.busy=false; return; } }catch(e){ if(e&&e.name==='AbortError'){STD.busy=false;return;} }
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nextrep.jpg'; document.body.appendChild(a); a.click(); a.remove(); toast('התמונה נשמרה');
+  }finally{ STD.busy=false; }
+}
+/* מצלמה חיה עם המדבקה מעל */
+async function stCamOpen(){
+  stCamStop();
+  let el=$('#stcam'); if(!el){ el=document.createElement('div'); el.id='stcam'; document.body.appendChild(el); }
+  el.innerHTML=`<div class="stc-frame"><video id="stc-v" playsinline muted autoplay></video><img id="stc-st" alt=""></div>
+    <div class="stc-bar"><button data-act="st-cam-close" aria-label="סגירה">✕</button><button class="stc-shot" data-act="st-shot" aria-label="צלם"></button><button data-act="st-flip" aria-label="החלף מצלמה">🔄</button></div>
+    <div class="stc-tools"><button data-act="st-style">🔀</button><button data-act="st-pos">↕️</button></div>`;
+  $('#stc-st').src=await stickerOnlyURL();
+  try{
+    STD.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:STD.face},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    const v=$('#stc-v'); v.srcObject=STD.stream; v.style.transform=STD.face==='user'?'scaleX(-1)':''; await v.play().catch(()=>{});
+  }catch(e){ stCamClose(); toast('אין גישה למצלמה. אפשר לבחור תמונה מהגלריה'); }
+}
+function stCamStop(){ try{ STD.stream?.getTracks().forEach(t=>t.stop()); }catch(e){} STD.stream=null; }
+function stCamClose(){ stCamStop(); $('#stcam')?.remove(); }
+async function stShot(){
+  const v=$('#stc-v'); if(!v||!v.videoWidth)return;
+  const c=document.createElement('canvas'); c.width=1080; c.height=1920; drawCover(c.getContext('2d'),v,1080,1920,STD.face==='user');
+  STD.bg=c; stCamClose(); vibrate(20); renderStudio(); stPreview();
+}
+function stAct(act,b){
+  switch(act){
+    case 'st-green': STD.bg=null; renderStudio(); stPreview(); return true;
+    case 'st-cam': stCamOpen(); return true;
+    case 'st-pick': { const f=$('#st-file'); if(f){ f.onchange=async()=>{ const file=f.files?.[0]; if(!file)return; try{ STD.bg=await createImageBitmap(file); }catch(e){ const im=new Image(); im.src=URL.createObjectURL(file); await im.decode(); STD.bg=im; } renderStudio(); stPreview(); }; f.click(); } return true; }
+    case 'st-style': STD.style=STD.style?0:1; if($('#stcam'))stickerOnlyURL().then(u=>{const i=$('#stc-st');if(i)i.src=u;}); else { renderStudio(); stPreview(); } return true;
+    case 'st-pos': STD.pos=(STD.pos+1)%3; if($('#stcam'))stickerOnlyURL().then(u=>{const i=$('#stc-st');if(i)i.src=u;}); else { renderStudio(); stPreview(); } return true;
+    case 'st-share': stShare(); return true;
+    case 'st-shot': stShot(); return true;
+    case 'st-flip': STD.face=STD.face==='user'?'environment':'user'; stCamOpen(); return true;
+    case 'st-cam-close': stCamClose(); return true;
+  }
+  return false;
 }
 /* ----- הסיכום החודשי ----- */
 function monthKeyOf(y,m){ return `${y}-${String(m+1).padStart(2,'0')}`; }
@@ -4309,13 +4424,13 @@ function renderWrap(){
 function retAct(act,b){
   switch(act){
     case 'badge-open': openBadgeSheet(b.dataset.id,false); return true;
-    case 'badge-share': { const x=BADGES.find(z=>z[0]===b.dataset.id); const st=badgeStats(); if(x)shareCardImage({emoji:x[1],title:x[2],sub:x[3],top:'הישג חדש',stats:[[st.n,'אימונים'],[st.streak,'שבועות ברצף'],[st.prs,'שיאים']]}); return true; }
+    case 'badge-share': { const x=BADGES.find(z=>z[0]===b.dataset.id); const st=badgeStats(); if(x)openShareStudio({emoji:x[1],title:x[2],sub:x[3],top:'הישג חדש',stats:[[st.n,'אימונים'],[st.streak,'שבועות ברצף'],[st.prs,'שיאים']]}); return true; }
     case 'wrap-open': { const [y,m]=b.dataset.y!=null?[+b.dataset.y,+b.dataset.m]:wrapTarget(); WR.st=monthStats(y,m); WR.on=true; WR.i=0;
       S.settings.wrapSeen=monthKeyOf(y,m); persistSettings(); closeSheet(); renderWrap(); return true; }
     case 'wrap-next': WR.i++; renderWrap(); return true;
     case 'wrap-close': WR.on=false; renderWrap(); render(); return true;
     case 'wrap-dismiss': S.settings.wrapSeen=b.dataset.k; persistSettings(); render(); return true;
-    case 'wrap-share': { const st=WR.st; shareCardImage({emoji:'📊',title:st.name,sub:'החודש שלי ב-NextRep',stats:[[st.n,'אימונים'],[fmtNum(Math.round(st.vol/100)/10),'טון'],[st.days,'ימי אימון']]}); return true; }
+    case 'wrap-share': { const st=WR.st; WR.on=false; renderWrap(); openShareStudio({emoji:'📊',title:st.name,sub:'החודש שלי ב-NextRep',stats:[[st.n,'אימונים'],[fmtNum(Math.round(st.vol/100)/10),'טון'],[st.days,'ימי אימון']]}); return true; }
   }
   return false;
 }
@@ -4545,6 +4660,7 @@ function handleAct(b,ev){
   if(act.startsWith('pb-')&&pbAct(act,b))return;
   if(act.startsWith('coach-')&&coachAct(act,b))return;
   if((act.startsWith('badge-')||act.startsWith('wrap-'))&&retAct(act,b))return;
+  if(act.startsWith('st-')&&stAct(act,b))return;
   if((act.startsWith('tour-')||act.startsWith('inst-')||act.startsWith('lang-'))&&tourAct(act,b))return;
   if((act.startsWith('adm-')||act.startsWith('ev-')||act==='admin-open')&&admAct(act,b))return;
   if(act==='ct-topic'){S.ctDraft=$('#ct-body')?.value||'';openContact(b.dataset.t);return;}
