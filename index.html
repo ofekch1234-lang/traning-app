@@ -271,6 +271,14 @@ body.landing #app{max-width:1120px}
 .acts3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .acts3 .acttile{padding:12px 4px;gap:2px;text-align:center}
 .acts3 .acttile b{font-size:13.5px}.acts3 .acttile small{font-size:11px;color:var(--muted)}
+.aiload{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:var(--accent-soft);border:1px solid var(--accent)}
+.aiload img{width:52px;height:52px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.ai-spark{font-size:26px;width:44px;text-align:center;flex-shrink:0}
+@media (prefers-reduced-motion:no-preference){ .ai-spark{animation:aipulse 1.1s ease-in-out infinite} }
+@keyframes aipulse{0%,100%{transform:scale(1) rotate(0);opacity:1}50%{transform:scale(1.25) rotate(15deg);opacity:.7}}
+.aiload b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-track{height:5px;border-radius:99px;background:rgba(22,163,74,.18);margin-top:7px;overflow:hidden;display:flex;direction:rtl}
+.ai-track i{display:block;height:100%;width:8%;border-radius:99px;background:var(--accent);transition:width .3s linear}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -727,7 +735,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.1';
+const APP_VERSION='5.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1570,7 +1578,13 @@ function vFood(){
     ${d===today?`
     <div class="card hot stack" style="gap:10px">
       <div class="fi-title"><b>מה אכלת?</b><span class="small muted">מחפשים במאגר, או כותבים חופשי ולוחצים ✨</span></div>
-      <div class="fsearch ${S.ai.busy?'busy':''}">
+      ${S.ai.busy?`<div class="aiload">
+        ${S.ai.img?`<img src="${S.ai.img}" alt="">`:`<span class="ai-spark">✨</span>`}
+        <div style="flex:1;min-width:0"><b>${S.ai.q?`״${esc(S.ai.q.length>50?S.ai.q.slice(0,50)+'…':S.ai.q)}״`:'מנתח את התמונה'}</b>
+          <div class="small muted" id="ai-step">${AI_STEPS[0]}</div>
+          <div class="ai-track"><i id="ai-bar"></i></div></div>
+      </div>`:''}
+      <div class="fsearch ${S.ai.busy?'busy':''}" ${S.ai.busy?'hidden':''}>
         <input id="food-text" type="search" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״" ${S.ai.busy?'disabled':''}>
         <button class="fs-go" data-act="food-ai" ${S.ai.busy?'disabled':''} aria-label="ניתוח עם AI">${S.ai.busy?'מחשב…':'✨ חשב'}</button>
       </div>
@@ -1638,19 +1652,27 @@ function openTargetsSheet(){
 }
 async function foodAI(payload){
   if(S.ai.busy)return;
-  S.ai.busy=true; render();
+  S.ai.busy=true; S.ai.q=payload.text||''; S.ai.img=payload.image?'data:image/jpeg;base64,'+payload.image:null; render(); aiTicker(true);
   try{
     const {data,error}=await sb.functions.invoke('nutrition',{body:payload});
     if(error)throw error;
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
-    openMealConfirm(data);
+    S.ai.keep=false; openMealConfirm(data);
   }catch(e){
     console.error(e);
-    const st=e?.context?.status;
+    S.ai.keep=true; const st=e?.context?.status;
     toast(st===429?'הגעת למכסת ניתוחי ה-AI היומית — אפשר לחפש במאגר או להוסיף ידנית'
       :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
   }
-  S.ai.busy=false; render();
+  S.ai.busy=false; S.ai.img=null; aiTicker(false); render();
+  if(S.ai.keep){ const t=$('#food-text'); if(t){t.value=S.ai.q; t.closest('.fsearch')?.classList.add('has');} }
+}
+const AI_STEPS=['מזהה את המרכיבים…','מעריך כמויות למנה…','מחשב קלוריות וחלבון…','כמעט מוכן…'];
+function aiTicker(on){
+  clearInterval(aiTicker._i); if(!on)return; let i=0, t0=Date.now();
+  aiTicker._i=setInterval(()=>{ const el=$('#ai-step'), bar=$('#ai-bar'); if(!el)return;
+    i=Math.min(AI_STEPS.length-1,Math.floor((Date.now()-t0)/1800)); el.textContent=AI_STEPS[i];
+    if(bar)bar.style.width=Math.min(92,8+(Date.now()-t0)/90)+'%'; },300);
 }
 function openMealConfirm(data){
   const items=data.items.map(it=>({name:String(it.name||''),kcal:Math.round(+it.kcal||0),protein:Math.round(+it.protein||0),carbs:Math.round(+it.carbs||0),fat:Math.round(+it.fat||0)}));
