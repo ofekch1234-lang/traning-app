@@ -451,7 +451,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='2.7';
+const APP_VERSION='2.8';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -796,6 +796,7 @@ function render_(){
   else if(S.tab==='train')v.innerHTML=vTrain();
   else if(S.tab==='food')v.innerHTML=vFood();
   else if(S.tab==='plans')v.innerHTML=vPlans();
+  else if(S.tab==='admin')v.innerHTML=vAdmin();
   else v.innerHTML=vTrack();
   if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
   if(S.tab==='track'&&S.trackView==='progress')wireChart();
@@ -2363,11 +2364,85 @@ function renderSettings(){
         <button class="btn danger" data-act="logout">יציאה מהחשבון</button>
       </div>
     </div>
+    ${S.isAdmin?`<button class="card spread" data-act="admin-open" style="width:100%;text-align:right;padding:12px 14px;margin-top:14px">
+      <span><b>📊 לוח ניהול</b><span class="small muted" style="display:block">משתמשים, פעילות ועלויות AI — רק לך</span></span><span class="muted">›</span></button>`:''}
     <button class="btn" style="width:100%;margin-top:14px" data-act="rest-test">🔔 בדיקת התראת מנוחה (10 שניות)</button>
     <div class="small muted" style="margin-top:6px">לחץ, צא מהאפליקציה מיד — ובעוד 10 שניות אמורה להגיע התראה.</div>
     <div class="muted small" style="text-align:center;margin-top:14px">NextRep · גרסה ${APP_VERSION}</div>
     <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>
   `);
+}
+
+/* ----- לוח ניהול (אדמין בלבד; ההרשאה נבדקת בשרת ב-admin_dashboard) ----- */
+const USD_ILS=3.7;
+async function loadAdmin(){
+  S.adminErr=null; S.adminLoading=true; if(S.tab==='admin')render();
+  const {data,error}=await sb.rpc('admin_dashboard');
+  S.adminLoading=false;
+  if(error){S.adminErr=error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+error.message;}
+  else S.admin=data;
+  if(S.tab==='admin')render();
+}
+function agoHe(d){
+  if(!d)return '—';
+  const days=Math.round((new Date(ymd())-new Date(d))/864e5);
+  return days<=0?'היום':days===1?'אתמול':days<7?`לפני ${days} ימים`:days<30?`לפני ${Math.round(days/7)} שב׳`:`לפני ${Math.round(days/30)} חוד׳`;
+}
+const money=u=>{u=+u||0;const ils=u*USD_ILS;return ils<1?`${(ils*100).toFixed(ils*100<1?2:1)} אג׳`:`₪${ils.toFixed(2)}`;};
+function adminChart(daily){
+  const W=340,H=120,pb=18,n=daily.length,bw=W/n;
+  const mx=Math.max(1,...daily.map(x=>x.active));
+  const bars=daily.map((x,i)=>{const h=(x.active/mx)*(H-pb-14);const xx=W-(i+1)*bw;
+    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="2" fill="var(--accent)" opacity="${i===n-1?1:.75}"><title>${x.d}: ${x.active} פעילים${x.signups?` · ${x.signups} נרשמו`:''}</title></rect>`+
+      (x.signups?`<circle cx="${(xx+bw/2).toFixed(1)}" cy="${(H-pb-h-6).toFixed(1)}" r="3" fill="var(--ink)"/>`:'');}).join('');
+  const lbl=[[0,W-1,'end'],[Math.floor(n/2),W-(Math.floor(n/2)+.5)*bw,'middle'],[n-1,1,'start']].map(([i,x,an])=>{const d=new Date(daily[i].d);return `<text x="${x.toFixed(1)}" y="${H-4}" font-size="10" fill="var(--muted)" text-anchor="${an}">${i===n-1?'היום':d.getDate()+'.'+(d.getMonth()+1)}</text>`;}).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;direction:ltr">
+    <line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
+    <text x="${W-2}" y="10" font-size="10" fill="var(--muted)" text-anchor="end">מקס׳ ${mx}</text></svg>`;
+}
+function vAdmin(){
+  const A=S.admin;
+  const head=`<div class="spread" style="margin-bottom:12px">
+    <div><div class="label">ניהול</div><h2 style="margin:0">לוח בקרה</h2></div>
+    <div class="row" style="gap:8px"><button class="btn" data-act="admin-refresh" aria-label="רענון">${S.adminLoading?'…':'↻'}</button>
+    <button class="btn" data-act="admin-back">חזרה</button></div></div>`;
+  if(S.adminErr)return head+`<div class="empty"><div class="big">🔒</div>${esc(S.adminErr)}</div>`;
+  if(!A)return head+`<div class="empty"><div class="big">טוען…</div>אוסף נתונים</div>`;
+  const T=A.totals, tile=(v,k)=>`<div class="tile"><div class="v num">${v}</div><div class="k">${k}</div></div>`;
+  const users=(A.users||[]).map(u=>{
+    const open=S.adminOpen===u.id, name=u.full_name||u.email.split('@')[0];
+    const fresh=u.last_d===ymd();
+    return `<button class="card" data-act="admin-user" data-id="${u.id}" style="width:100%;text-align:right;padding:12px 14px">
+      <div class="spread"><span><b>${esc(name)}</b> ${fresh?'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);vertical-align:middle"></span>':''}
+        <span class="small muted" style="display:block">פעיל ${agoHe(u.last_d)} · הצטרף ${new Date(u.created_at).toLocaleDateString('he-IL',{day:'numeric',month:'short'})}</span></span>
+        <span class="small muted num" style="text-align:left">${u.workouts} אימונים<br>${u.meals} ארוחות</span></div>
+      ${open?`<div class="h-detail small">
+        <div class="h-ex"><span>אימייל</span><span dir="ltr">${esc(u.email)}</span></div>
+        <div class="h-ex"><span>שקילות</span><span class="num">${u.weighins}</span></div>
+        <div class="h-ex"><span>התראות פוש</span><span>${u.push?'✓ מופעל':'—'}</span></div>
+        <div class="h-ex"><span>ניתוחי AI</span><span class="num">${u.ai_calls} · ${money(u.ai_usd)}</span></div></div>`:''}
+    </button>`;}).join('');
+  const foods=(A.top_foods||[]).map(f=>`<div class="h-ex"><span>${esc(f.name)}</span><span class="num muted">${f.picks}</span></div>`).join('');
+  return head+`
+    <div class="label" style="margin-bottom:6px">משתמשים</div>
+    <div class="tiles">${tile(T.users,'רשומים')}${tile(T.active7,'פעילים 7 ימים')}${tile(T.new7,'חדשים השבוע')}</div>
+    <div class="tiles" style="margin-top:10px">${tile(T.active1,'פעילים היום')}${tile(T.active30,'פעילים 30 יום')}${tile(T.push_users,'עם התראות')}</div>
+    <div class="card" style="margin-top:14px;padding:14px">
+      <div class="spread" style="margin-bottom:8px"><b>פעילות יומית · 30 יום</b><span class="small muted">● הרשמה</span></div>
+      ${adminChart(A.daily||[])}
+    </div>
+    <div class="label" style="margin:16px 0 6px">שימוש</div>
+    <div class="tiles">${tile(T.workouts7,'אימונים השבוע')}${tile(T.workouts,'אימונים סה״כ')}${tile(T.meals,'ארוחות')}</div>
+    <div class="label" style="margin:16px 0 6px">עלות AI</div>
+    <div class="card" style="padding:14px">
+      <div class="spread"><span><div class="small muted">החודש</div><div class="num" style="font-family:var(--disp);font-size:40px;line-height:1;color:var(--accent)">${money(T.ai_usd_month)}</div></span>
+        <span class="small muted" style="text-align:left">${T.ai_calls_month} ניתוחים<br><span dir="ltr">$${(+T.ai_usd_month).toFixed(4)}</span></span></div>
+      <div class="small muted" style="margin-top:8px">מתחילת הדרך: ${money(T.ai_usd_all)} · ממוצע לניתוח ${T.ai_calls_month?money(T.ai_usd_month/T.ai_calls_month):'—'} · שער ≈${USD_ILS}</div>
+    </div>
+    <div class="label" style="margin:16px 0 6px">משתמשים (${(A.users||[]).length})</div>
+    <div class="stack" style="gap:8px">${users}</div>
+    ${foods?`<div class="label" style="margin:16px 0 6px">מזונות פופולריים מהמאגר</div><div class="card stack" style="padding:12px 14px;gap:6px">${foods}</div>`:''}
+    <div class="small muted" style="text-align:center;margin:14px 0">עודכן ${new Date(A.now).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'})} · תמונות התקדמות: ${T.photos}</div>`;
 }
 
 /* שיתוף סיכום אימון */
@@ -2636,6 +2711,10 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
+    case 'admin-open': closeSheet(); S.tab='admin'; S.admin=null; render(); loadAdmin(); window.scrollTo(0,0); break;
+    case 'admin-back': S.tab='home'; location.hash='home'; render(); break;
+    case 'admin-refresh': loadAdmin(); break;
+    case 'admin-user': { const id=b.dataset.id; S.adminOpen=S.adminOpen===id?null:id; render(); break; }
     case 'np-close': closeNumpad(); break;
     case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
@@ -2802,6 +2881,7 @@ async function enterApp(user){
   const localA=loadLocalActive();
   if(localA&&(!S.active||((localA.start===S.active.start)&&JSON.stringify(localA).length>=JSON.stringify(S.active).length)))S.active=localA;
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest();
+  sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   if(S.active){startClock();keepAwake(true);}
 }
 function hideSplash(){
