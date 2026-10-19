@@ -210,7 +210,6 @@ begin
   return new;
 exception when others then return new;
 end $$;
-drop trigger if exists nextrep_workout_feed on public.workouts;
 create trigger nextrep_workout_feed after insert on public.workouts for each row execute function public.on_workout_insert();
 
 -- new message → push to the other members (respecting prefs.notif.social), throttled per user
@@ -237,7 +236,6 @@ begin
   return new;
 exception when others then return new;
 end $$;
-drop trigger if exists nextrep_group_message_push on public.group_messages;
 create trigger nextrep_group_message_push after insert on public.group_messages for each row execute function public.on_group_message();
 
 do $$ begin
