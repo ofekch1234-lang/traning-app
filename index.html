@@ -280,6 +280,10 @@ body.landing #app{max-width:1120px}
 .aiload{align-items:flex-start}.aiload .ai-spark{margin-top:4px}
 .ai-track{height:5px;border-radius:99px;background:rgba(22,163,74,.18);margin-top:7px;overflow:hidden;display:flex;direction:rtl}
 .ai-track i{display:block;height:100%;width:8%;border-radius:99px;background:var(--accent);transition:width .3s linear}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;color:var(--muted);cursor:pointer}
+.consent input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:var(--accent)}
+.consent a{color:var(--accent)}
+.ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -736,7 +740,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.3';
+const APP_VERSION='5.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1296,7 +1300,7 @@ function vLanding(){
     </div>
     <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">אני רוצה להתחיל</button>
   </section>
-  <div class="ld-foot" dir="ltr">NextRep</div>
+  <div class="ld-foot"><div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:ofek4business@gmail.com">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
   </div>`;
 }
 function startLandTimer(){
@@ -1326,8 +1330,10 @@ function vAuth(){
       <input id="au-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(S.authEmail||'')}">
       <div class="label">סיסמה</div>
       <input id="au-pass" type="password" autocomplete="${su?'new-password':'current-password'}" dir="ltr" placeholder="לפחות 6 תווים">
+      ${su?`<label class="consent"><input id="au-terms" type="checkbox"><span>קראתי ואני מסכים ל<a href="terms.html" target="_blank">תקנון ותנאי השימוש</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a>, ומבין שהמידע באפליקציה אינו ייעוץ רפואי.</span></label>`:''}
       <div class="autherr" id="autherr"></div>
       <button class="btn primary big" data-act="auth-go" id="authgo">${su?'הרשמה':'התחברות'}</button>
+      <div class="small muted" style="text-align:center"><a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="terms.html" target="_blank">תקנון</a> · <a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="privacy.html" target="_blank">פרטיות</a></div>
       <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם בחינם'}</button>
       ${IS_STANDALONE?'':`<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>`}
     </div>
@@ -1339,11 +1345,12 @@ async function doAuth(){
   const err=$('#autherr'); if(err)err.textContent='';
   if(!email||!pass){if(err)err.textContent='מלא אימייל וסיסמה';return;}
   if(S.authMode==='signup'&&!name){if(err)err.textContent='מלא שם — ככה נדע איך לקרוא לך';return;}
+  if(S.authMode==='signup'&&!$('#au-terms')?.checked){if(err)err.textContent='כדי להירשם יש לאשר את התקנון ומדיניות הפרטיות';return;}
   const btn=$('#authgo'); if(btn){btn.disabled=true;btn.textContent='רק רגע…';}
   try{
     if(S.authMode==='signup'){
       let ref=null; try{ref=localStorage.getItem('nr-ref');}catch(_){}
-      const {data,error}=await sb.auth.signUp({email,password:pass,options:{data:ref?{full_name:name,ref}:{full_name:name}}});
+      const {data,error}=await sb.auth.signUp({email,password:pass,options:{data:Object.assign({full_name:name,terms_accepted:new Date().toISOString(),terms_v:'2026-10-20'},ref?{ref}:{})}});
       if(error)throw error;
       if(!data.session){
         $('#view').innerHTML=`<div class="empty" style="margin-top:48px"><div class="big">כמעט שם ✉️</div>שלחנו קישור אישור אל<br><b dir="ltr">${esc(email)}</b><br>פתח את המייל, לחץ על הקישור — וחזור לכאן להתחבר.</div>`;
@@ -1695,6 +1702,7 @@ function openMealConfirm(data){
       <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
       <button class="btn primary" style="flex:2" data-act="meal-save">הוסף ליום ✓</button>
     </div>
+    <div class="small muted" style="text-align:center;margin-top:8px">הערכה בלבד, לא ייעוץ תזונתי. אפשר לערוך כל פריט.</div>
   `);
 }
 let _mealDraft=null;
@@ -2989,6 +2997,13 @@ function renderSettings(){
       <span><b>📊 לוח ניהול</b><span class="small muted" style="display:block">משתמשים, פעילות ועלויות AI — רק לך</span></span><span class="muted">›</span></button>`:''}
     <button class="btn" style="width:100%;margin-top:14px" data-act="rest-test">🔔 בדיקת התראת מנוחה (10 שניות)</button>
     <div class="small muted" style="margin-top:6px">לחץ, צא מהאפליקציה מיד — ובעוד 10 שניות אמורה להגיע התראה.</div>
+    <div class="label" style="margin:16px 0 6px">מידע ומשפטי</div>
+    <div class="card" style="padding:4px 14px">
+      <a class="setrow" href="terms.html" target="_blank" style="color:inherit;text-decoration:none"><span>תקנון ותנאי שימוש</span><span class="muted">›</span></a>
+      <a class="setrow" href="privacy.html" target="_blank" style="color:inherit;text-decoration:none"><span>מדיניות פרטיות</span><span class="muted">›</span></a>
+      <a class="setrow" href="accessibility.html" target="_blank" style="color:inherit;text-decoration:none"><span>הצהרת נגישות</span><span class="muted">›</span></a>
+      <button class="setrow" data-act="acct-delete" style="width:100%;text-align:right;color:var(--danger);border-bottom:0"><span>מחיקת החשבון והמידע</span><span>›</span></button>
+    </div>
     <div class="muted small" style="text-align:center;margin-top:14px">NextRep · גרסה ${APP_VERSION}</div>
     <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>
   `);
@@ -3547,6 +3562,7 @@ function vPaywall(full){
     <ul><li>רישום אימונים, טיימר מנוחה והתראות</li><li>תזונה מהמאגר הישראלי, ברקוד וצילום AI</li><li>קבוצות, אתגרים ושותפים לאימון</li><li>גרפים, שיאים ותמונות התקדמות</li></ul>
     <div class="stack" style="gap:14px;margin-top:6px">${plansHTML()}</div>
     <div class="small muted" style="text-align:center">בדף התשלום הקלד את מספר הטלפון שתאשר כאן. לפיו הגישה נפתחת אוטומטית תוך דקה.</div>
+    <div class="small muted" style="text-align:center">תשלום חד-פעמי, ללא חידוש אוטומטי. ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
     <button class="btn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button>
     <button class="linkbtn" style="text-align:center" data-act="contact-open" data-t="payment">שילמת והגישה לא נפתחה? כתוב לנו</button>
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
@@ -4059,6 +4075,11 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
+    case 'acct-delete': openSheet(`<h3>מחיקת החשבון</h3><div class="muted" style="margin:-4px 0 12px">כל האימונים, הארוחות, השקילות, התמונות וההודעות שלך יימחקו לצמיתות תוך עד 30 יום, ולא יהיה אפשר לשחזר אותם. רשומות תשלום נשמרות לפי חוק.</div>
+      <textarea id="del-why" class="adm-in" rows="2" placeholder="למה אתה עוזב? (לא חובה, יעזור לנו להשתפר)"></textarea>
+      <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn danger" style="flex:1.4" data-act="acct-delete-go">שליחת בקשת מחיקה</button></div>`); break;
+    case 'acct-delete-go': { if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב לאישור';break;} const why=($('#del-why')?.value||'').trim();
+      sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ בקשה למחיקת חשבון ומידע.'+(why?' סיבה: '+why:'')}).then(({error})=>{ if(error){toast('השליחה נכשלה, כתוב לנו במייל');return;} closeSheet(); toast('הבקשה התקבלה. נמחק את החשבון תוך 30 יום ונעדכן אותך'); }); break; }
     case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-signup': S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
     case 'land-login': S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
