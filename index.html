@@ -260,6 +260,18 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mkcal span{font-size:10px;color:var(--muted)}
 .mdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;vertical-align:1px}
 
+/* exercise demo (free-exercise-db frames) */
+.demo{position:relative;width:100%;max-width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#fff;border:1px solid var(--line);margin-bottom:12px}
+.demo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.demo .fb{opacity:0}
+.demo .tag{position:absolute;top:8px;inset-inline-start:8px;background:rgba(10,20,14,.7);color:#fff;font-size:11px;padding:3px 8px;border-radius:99px}
+@media (prefers-reduced-motion:no-preference){ .demo .fb{animation:demoflip 2.4s ease-in-out infinite} }
+@keyframes demoflip{0%,30%{opacity:0}45%,80%{opacity:1}95%,100%{opacity:0}}
+.libthumb{width:42px;height:32px;border-radius:6px;object-fit:cover;background:#fff;border:1px solid var(--line);flex-shrink:0}
+/* drag to reorder */
+.drag-h{cursor:grab;touch-action:none;padding:6px 8px;color:var(--muted);font-size:18px;line-height:1;user-select:none;-webkit-user-select:none}
+.drag-ghost{opacity:.35}
+.drag-chosen{box-shadow:0 8px 24px rgba(10,20,14,.22)}
 /* weight calendar */
 .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;direction:rtl}
 .calhd{text-align:center;font-size:11px;color:var(--muted);padding-bottom:2px}
@@ -471,16 +483,10 @@ async function notify(title,body){
 }
 
 /* ---------- static data ---------- */
-const LIB={
- 'חזה':['לחיצת חזה במוט','לחיצת חזה במשקולות','לחיצת חזה בשיפוע','לחיצה במכונת חזה','פרפר (פק-דק)','כבלים מוצלבים','שכיבות סמיכה'],
- 'גב':['פולי עליון','מתח','חתירה בכבל','חתירה במוט','חתירה במשקולת','דדליפט','פולאובר בכבל'],
- 'רגליים':['סקוואט','לחיצת רגליים','פשיטת ברכיים','כפיפת ברכיים','לאנג׳ים','דדליפט רומני','הרמות עקבים'],
- 'כתפיים':['לחיצת כתפיים במשקולות','לחיצת כתפיים במוט','הרחקות צד','הרחקות אחוריות','חתירה אנכית'],
- 'יד קדמית':['כפיפת מרפקים במוט','כפיפת מרפקים במשקולות','פטישים','כפיפה בספסל כומר'],
- 'יד אחורית':['פשיטת מרפקים בכבל','לחיצה צרפתית','מקבילים','פשיטה מעל הראש בכבל'],
- 'בטן וליבה':['כפיפות בטן','הרמות רגליים בתלייה','פלאנק','גלגל בטן','רוסיאן טוויסט'],
- 'אירובי':['הליכון','אופניים','אליפטיקל','מדרגות','חתירה (ארגומטר)'],
-};
+const LIB={"חזה": ["לחיצת חזה במוט","לחיצת חזה במשקולות","לחיצת חזה בשיפוע","לחיצה בשיפוע במוט","לחיצת חזה בשיפוע שלילי","לחיצה במכונת חזה","לחיצת חזה בסמית׳","פרפר (פק-דק)","פרפר במשקולות","פרפר בשיפוע","כבלים מוצלבים","מקבילים לחזה","פולאובר במשקולת","שכיבות סמיכה"],"גב": ["פולי עליון","פולי צר","מתח","מתח באחיזה הפוכה","חתירה בכבל","חתירה במוט","חתירה במשקולת","חתירת T","חתירה הפוכה (משקל גוף)","דדליפט","דדליפט סומו","פולאובר בכבל","פייס פול","שראגים","פשיטת גב (היפראקסטנשן)"],"רגליים": ["סקוואט","סקוואט קדמי","סקוואט גביע","סקוואט בסמית׳","האק סקוואט","לחיצת רגליים","סקוואט בולגרי","לאנג׳ים","לאנג׳ים בהליכה","עליות על ספסל","פשיטת ברכיים","כפיפת ברכיים","כפיפת ברכיים בישיבה","דדליפט רומני","היפ תראסט","גשר ישבן","מכונת מקרבים","מכונת מרחיקים","הרמות עקבים","הרמות עקבים בישיבה"],"כתפיים": ["לחיצת כתפיים במשקולות","לחיצת כתפיים במוט","לחיצת כתפיים במכונה","לחיצת ארנולד","פוש פרס","הרחקות צד","הרחקות צד בכבל","הרמות קדמיות","הרחקות אחוריות","חתירה אנכית"],"יד קדמית": ["כפיפת מרפקים במוט","כפיפת מרפקים במשקולות","פטישים","פטישים בכבל (חבל)","כפיפה בספסל כומר","כפיפה בשיפוע","כפיפה בריכוז","כפיפת מרפקים בכבל","כפיפה הפוכה במוט"],"יד אחורית": ["פשיטת מרפקים בכבל","פשיטה בחבל בכבל","לחיצה צרפתית","פשיטה מעל הראש בכבל","לחיצת חזה צרה","מקבילים","מקבילים על ספסל","קיקבק במשקולת"],"בטן וליבה": ["כפיפות בטן","כפיפות בטן בכבל","הרמות רגליים בתלייה","הרמות רגליים בשכיבה","פלאנק","גלגל בטן","רוסיאן טוויסט","אופניים (בטן)","מטפס הרים","דד באג","פאלוף פרס","סופרמן"],"פונקציונלי": ["סווינג קטלבל","הליכת חקלאי","קפיצה לארגז"],"אירובי": ["הליכון","ריצה בהליכון","אופניים","אליפטיקל","מדרגות","חתירה (ארגומטר)","קפיצה בחבל"]};
+/* הדגמות: free-exercise-db (Unlicense / נחלת הכלל) — שתי תמונות לכל תרגיל */
+const EXDB={"לחיצת חזה במוט": "Barbell_Bench_Press_-_Medium_Grip", "לחיצת חזה במשקולות": "Dumbbell_Bench_Press", "לחיצת חזה בשיפוע": "Incline_Dumbbell_Press", "לחיצה בשיפוע במוט": "Barbell_Incline_Bench_Press_-_Medium_Grip", "לחיצת חזה בשיפוע שלילי": "Decline_Barbell_Bench_Press", "לחיצה במכונת חזה": "Machine_Bench_Press", "לחיצת חזה בסמית׳": "Smith_Machine_Bench_Press", "פרפר (פק-דק)": "Butterfly", "פרפר במשקולות": "Dumbbell_Flyes", "פרפר בשיפוע": "Incline_Dumbbell_Flyes", "כבלים מוצלבים": "Cable_Crossover", "מקבילים לחזה": "Dips_-_Chest_Version", "פולאובר במשקולת": "Straight-Arm_Dumbbell_Pullover", "שכיבות סמיכה": "Pushups", "פולי עליון": "Wide-Grip_Lat_Pulldown", "פולי צר": "Close-Grip_Front_Lat_Pulldown", "מתח": "Pullups", "מתח באחיזה הפוכה": "Chin-Up", "חתירה בכבל": "Seated_Cable_Rows", "חתירה במוט": "Bent_Over_Barbell_Row", "חתירה במשקולת": "One-Arm_Dumbbell_Row", "חתירת T": "T-Bar_Row_with_Handle", "חתירה הפוכה (משקל גוף)": "Inverted_Row", "דדליפט": "Barbell_Deadlift", "דדליפט סומו": "Sumo_Deadlift", "פולאובר בכבל": "Straight-Arm_Pulldown", "פייס פול": "Face_Pull", "שראגים": "Dumbbell_Shrug", "פשיטת גב (היפראקסטנשן)": "Hyperextensions_Back_Extensions", "סקוואט": "Barbell_Full_Squat", "סקוואט קדמי": "Front_Squat_Clean_Grip", "סקוואט גביע": "Goblet_Squat", "סקוואט בסמית׳": "Smith_Machine_Squat", "האק סקוואט": "Hack_Squat", "לחיצת רגליים": "Leg_Press", "סקוואט בולגרי": "Split_Squat_with_Dumbbells", "לאנג׳ים": "Dumbbell_Lunges", "לאנג׳ים בהליכה": "Bodyweight_Walking_Lunge", "עליות על ספסל": "Step-up_with_Knee_Raise", "פשיטת ברכיים": "Leg_Extensions", "כפיפת ברכיים": "Lying_Leg_Curls", "כפיפת ברכיים בישיבה": "Seated_Leg_Curl", "דדליפט רומני": "Romanian_Deadlift", "היפ תראסט": "Barbell_Hip_Thrust", "גשר ישבן": "Barbell_Glute_Bridge", "מכונת מקרבים": "Thigh_Adductor", "מכונת מרחיקים": "Thigh_Abductor", "הרמות עקבים": "Standing_Calf_Raises", "הרמות עקבים בישיבה": "Seated_Calf_Raise", "לחיצת כתפיים במשקולות": "Dumbbell_Shoulder_Press", "לחיצת כתפיים במוט": "Standing_Military_Press", "לחיצת כתפיים במכונה": "Machine_Shoulder_Military_Press", "לחיצת ארנולד": "Arnold_Dumbbell_Press", "פוש פרס": "Push_Press", "הרחקות צד": "Side_Lateral_Raise", "הרחקות צד בכבל": "Cable_Seated_Lateral_Raise", "הרמות קדמיות": "Front_Dumbbell_Raise", "הרחקות אחוריות": "Reverse_Flyes", "חתירה אנכית": "Upright_Barbell_Row", "כפיפת מרפקים במוט": "Barbell_Curl", "כפיפת מרפקים במשקולות": "Dumbbell_Bicep_Curl", "פטישים": "Hammer_Curls", "פטישים בכבל (חבל)": "Cable_Hammer_Curls_-_Rope_Attachment", "כפיפה בספסל כומר": "Preacher_Curl", "כפיפה בשיפוע": "Incline_Dumbbell_Curl", "כפיפה בריכוז": "Concentration_Curls", "כפיפת מרפקים בכבל": "Standing_Biceps_Cable_Curl", "כפיפה הפוכה במוט": "Reverse_Barbell_Curl", "פשיטת מרפקים בכבל": "Triceps_Pushdown", "פשיטה בחבל בכבל": "Triceps_Pushdown_-_Rope_Attachment", "לחיצה צרפתית": "EZ-Bar_Skullcrusher", "פשיטה מעל הראש בכבל": "Cable_Rope_Overhead_Triceps_Extension", "לחיצת חזה צרה": "Close-Grip_Barbell_Bench_Press", "מקבילים": "Dips_-_Triceps_Version", "מקבילים על ספסל": "Bench_Dips", "קיקבק במשקולת": "Tricep_Dumbbell_Kickback", "כפיפות בטן": "Crunches", "כפיפות בטן בכבל": "Cable_Crunch", "הרמות רגליים בתלייה": "Hanging_Leg_Raise", "הרמות רגליים בשכיבה": "Flat_Bench_Lying_Leg_Raise", "פלאנק": "Plank", "גלגל בטן": "Ab_Roller", "רוסיאן טוויסט": "Russian_Twist", "אופניים (בטן)": "Air_Bike", "מטפס הרים": "Mountain_Climbers", "דד באג": "Dead_Bug", "פאלוף פרס": "Pallof_Press", "סופרמן": "Superman", "סווינג קטלבל": "One-Arm_Kettlebell_Swings", "הליכת חקלאי": "Farmers_Walk", "קפיצה לארגז": "Front_Box_Jump", "הליכון": "Walking_Treadmill", "ריצה בהליכון": "Running_Treadmill", "אופניים": "Bicycling_Stationary", "אליפטיקל": "Elliptical_Trainer", "מדרגות": "Stairmaster", "חתירה (ארגומטר)": "Rowing_Stationary", "קפיצה בחבל": "Rope_Jumping"};
+const INFO_MORE={"לחיצה בשיפוע במוט": "ספסל בשיפוע של כ־30°, אחיזה מעט רחבה מהכתפיים. הורד את המוט לחזה העליון ודחוף מעלה בקו ישר — מדגיש את החזה העליון.", "לחיצת חזה בשיפוע שלילי": "ספסל בשיפוע שלילי, רגליים נעולות. הורד את המוט לחזה התחתון ודחוף מעלה — מדגיש את החזה התחתון.", "לחיצת חזה בסמית׳": "כמו לחיצת חזה במוט, אבל המוט נע במסילה קבועה — יציב יותר ומאפשר לעבוד קרוב לכשל בבטחה.", "פרפר במשקולות": "שכיבה על ספסל, מרפקים כפופים מעט וקבועים. פתח ידיים בקשת רחבה עד מתיחה בחזה וסגור מעל החזה כמו חיבוק.", "פרפר בשיפוע": "כמו פרפר במשקולות על ספסל בשיפוע של כ־30° — מדגיש את החזה העליון.", "מקבילים לחזה": "גוף נטוי מעט קדימה ומרפקים פתוחים. רד עד מתיחה בחזה ודחוף מעלה — ככל שנוטים יותר, החזה עובד יותר.", "פולאובר במשקולת": "שכיבה רוחבית על ספסל, משקולת מעל החזה בידיים כמעט ישרות. הורד בקשת מאחורי הראש עד מתיחה וחזור.", "פולי צר": "אחיזה צרה, חזה מורם. משוך לחזה העליון תוך הצמדת המרפקים לגוף — עבודה עמוקה על הרחב הגבי.", "מתח באחיזה הפוכה": "אחיזה הפוכה ברוחב כתפיים. משוך עד שהסנטר מעל המוט — שילוב של גב ויד קדמית.", "חתירת T": "רגליים משני צדי המוט, גו נטוי וגב ישר. משוך את הידית לבטן והצמד שכמות בסוף התנועה.", "חתירה הפוכה (משקל גוף)": "שכיבה מתחת למוט נמוך, גוף ישר. משוך את החזה למוט והורד בשליטה — חתירה במשקל גוף.", "דדליפט סומו": "עמידה רחבה, כפות רגליים פתוחות ואחיזה בין הרגליים. דחוף את הרצפה ויישר ירכיים — פחות עומס על הגב התחתון.", "פייס פול": "חבל בגובה הפנים. משוך לכיוון המצח תוך פתיחת הידיים לצדדים — מעולה לכתף אחורית ויציבה.", "שראגים": "משקולות לצד הגוף, ידיים ישרות. הרם כתפיים ישר למעלה לכיוון האוזניים, עצור שנייה והורד לאט.", "פשיטת גב (היפראקסטנשן)": "אגן על הכרית, רגליים נעולות. רד בגב ישר ועלה עד קו ישר עם הרגליים — בלי לקשת מעבר לזה.", "סקוואט קדמי": "המוט על הכתפיים מלפנים, מרפקים גבוהים. רד עמוק עם גו זקוף — מדגיש את הארבע ראשי.", "סקוואט גביע": "משקולת אחת צמודה לחזה. רד עמוק בין הברכיים עם גב זקוף — מצוין ללימוד טכניקת סקוואט.", "סקוואט בסמית׳": "סקוואט עם מוט במסילה קבועה. רגליים מעט קדימה מהמוט, רד עד מקביל ועלה.", "האק סקוואט": "גב צמוד למשענת, כתפיים מתחת לכריות. רד עמוק ודחוף דרך כל כף הרגל.", "סקוואט בולגרי": "רגל אחורית על ספסל, משקולות בידיים. רד עד שהברך האחורית כמעט נוגעת ברצפה ודחוף דרך העקב הקדמי.", "לאנג׳ים בהליכה": "צעד גדול קדימה, רד עד 90° בשתי הברכיים, והמשך ישר לצעד הבא עם הרגל השנייה.", "עליות על ספסל": "עלה על ספסל או ארגז ברגל אחת, דחוף דרך העקב עד עמידה מלאה ורד בשליטה.", "כפיפת ברכיים בישיבה": "כרית מעל הברכיים, השנייה מעל העקב. כופף מטה עד הסוף וחזור לאט — מתיחה טובה יותר של הירך האחורית.", "היפ תראסט": "גב עליון על ספסל, מוט על האגן. דחוף אגן מעלה עד קו ישר, כווץ ישבן בחוזקה למעלה ורד.", "גשר ישבן": "שכיבה על הגב, מוט על האגן. הרם אגן מהרצפה עד קו ישר עם הירכיים וכווץ ישבן.", "מכונת מקרבים": "ישיבה במכונה, כריות בצד הפנימי של הברכיים. קרב רגליים יחד ופתח לאט.", "מכונת מרחיקים": "ישיבה במכונה, כריות בצד החיצוני. פתח רגליים החוצה וחזור לאט — לישבן הבינוני.", "הרמות עקבים בישיבה": "ישיבה עם כרית על הברכיים. הרם עקבים גבוה, עצור שנייה ורד עד מתיחה — מדגיש את הסוליה.", "לחיצת כתפיים במכונה": "גב צמוד למשענת, ידיות בגובה הכתפיים. דחוף מעלה עד כמעט נעילה וחזור בשליטה.", "לחיצת ארנולד": "התחל עם משקולות מול הפנים וכפות ידיים אליך. סובב כלפי חוץ תוך כדי דחיפה מעלה — כל שלושת ראשי הכתף.", "פוש פרס": "כפיפה קלה בברכיים ודחיפה מהרגליים שמעבירה תנופה למוט מעל הראש — מאפשר משקל כבד יותר.", "הרחקות צד בכבל": "כבל נמוך, אחיזה ביד הרחוקה. הרם הצידה עד גובה הכתף — מתח רציף לאורך כל התנועה.", "הרמות קדמיות": "משקולות מול הירכיים. הרם קדימה עד גובה העיניים בידיים כמעט ישרות והורד לאט.", "פטישים בכבל (חבל)": "חבל בכבל תחתון, אחיזה ניטרלית. כופף מעלה עם מרפקים צמודים — מתח רציף לברכיאליס.", "כפיפה בשיפוע": "ישיבה על ספסל בשיפוע, ידיים תלויות מאחור. כופף מעלה — מתיחה מקסימלית לראש הארוך.", "כפיפה בריכוז": "ישיבה, מרפק נשען על הירך הפנימית. כופף לאט עד למעלה וכווץ — בידוד מלא.", "כפיפת מרפקים בכבל": "מוט בכבל תחתון, מרפקים צמודים. כופף מעלה וחזור לאט — מתח רציף לאורך כל התנועה.", "כפיפה הפוכה במוט": "אחיזה עליונה (כפות למטה). כופף מעלה — עובד על האמה והברכיאליס.", "פשיטה בחבל בכבל": "חבל בכבל עליון, מרפקים צמודים. דחוף מטה ופתח את החבל לצדדים בסוף התנועה.", "לחיצת חזה צרה": "אחיזה ברוחב כתפיים, מרפקים צמודים לגוף. הורד לחזה התחתון ודחוף — תרגיל המסה של היד האחורית.", "מקבילים על ספסל": "ידיים על ספסל מאחוריך, רגליים קדימה. כופף מרפקים עד 90° ודחוף מעלה.", "קיקבק במשקולת": "גו נטוי, מרפק צמוד לגוף ומקביל לרצפה. יישר את היד אחורה עד הסוף וחזור לאט.", "כפיפות בטן בכבל": "כריעה מול כבל עליון, חבל ליד הראש. כופף את הגו מטה בעזרת הבטן — לא הידיים.", "הרמות רגליים בשכיבה": "שכיבה על ספסל, ידיים מאחורי הראש. הרם רגליים ישרות עד 90° והורד לאט בלי לגעת.", "אופניים (בטן)": "שכיבה, ידיים מאחורי הראש. קרב מרפק לברך הנגדית לסירוגין בתנועת דיווש.", "מטפס הרים": "עמידת שכיבת סמיכה. הבא ברכיים לחזה לסירוגין בקצב מהיר עם אגן יציב.", "דד באג": "שכיבה על הגב, ידיים ורגליים למעלה. הורד יד ורגל נגדיות לאט עם גב תחתון צמוד לרצפה.", "פאלוף פרס": "עמידה בצד לכבל, ידית מול החזה. דחוף קדימה והתנגד לסיבוב — ליבה אנטי־רוטציה.", "סופרמן": "שכיבה על הבטן. הרם ידיים ורגליים יחד מהרצפה, עצור שנייה והורד — לגב התחתון.", "סווינג קטלבל": "ציר בירכיים, גב ישר. הנע את הקטלבל בין הרגליים ודחוף אגן קדימה בחדות — הכוח מהישבן, לא מהידיים.", "הליכת חקלאי": "משקולות כבדות בשתי הידיים, גו זקוף. הלך צעדים קצרים ויציבים — אחיזה, כתפיים וליבה.", "קפיצה לארגז": "עמידה מול ארגז, נדנוד ידיים וקפיצה עם נחיתה רכה על שתי הרגליים. רד בצעד — לא בקפיצה.", "ריצה בהליכון": "ריצה בקצב קבוע עם גו זקוף וצעדים קצרים. לאינטרוולים: דקה מהירה, דקה הליכה.", "קפיצה בחבל": "קפיצות נמוכות על כריות כפות הרגליים, סיבוב החבל מפרקי הידיים — לא מהכתפיים."};
 const CARDIO_GROUP='אירובי';
 /* הוראות ביצוע לכל תרגיל */
 const INFO={
@@ -529,6 +535,7 @@ const INFO={
 'מדרגות':'צעד מלא על כל מדרגה, בלי להישען על המעקה.',
 'חתירה (ארגומטר)':'סדר התנועה: רגליים ← גו ← ידיים, ובחזרה הפוך. גב ישר לאורך כל המשיכה.',
 };
+Object.assign(INFO,INFO_MORE);
 const fmtRest=s=>s>=60?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} דק׳`:`${s} שנ׳`;
 
 /* ---------- state ---------- */
@@ -1855,8 +1862,8 @@ const PAD_KEY='ironlog-padmode';
 function padModes(){ try{return JSON.parse(localStorage.getItem(PAD_KEY)||'{}');}catch(e){return {};} }
 function guessSub(name){
   const saved=padModes()[name]; if(saved)return saved;
-  if(/משקולת|משקולות|פטיש|לאנג|עקבים במשקולת/.test(name))return 'db';
-  if(/מכונ|פולי|כבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|צרפתית בכבל/.test(name))return 'stack';
+  if(/משקולת|משקולות|פטיש|לאנג|גביע|קטלבל|חקלאי|ארנולד|בולגרי|בריכוז|קיקבק|שראג/.test(name))return 'db';
+  if(/מכונ|פולי|כבל|חבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|פייס|האק/.test(name))return 'stack';
   return 'bar';
 }
 const DB_RACK=[1,2,3,4,5,6,7,8,9,10,11,12,12.5,14,15,16,17.5,18,20,22,22.5,24,25,26,27.5,28,30,32.5,35,37.5,40,42.5,45,47.5,50];
@@ -2048,11 +2055,12 @@ function renderLibrary(){
     ${q?'':`<div class="libgroups">${groups.map(g=>`<button class="chip ${g===S.lib.group?'on':''}" data-act="lib-group" data-g="${esc(g)}">${esc(g)}</button>`).join('')}</div>`}
     <div class="liblist">
       ${items.map(it=>`<div class="row" style="gap:0;flex-wrap:nowrap">
-        <button style="flex:1" data-act="lib-pick" data-n="${esc(it.n)}" data-g="${esc(it.g)}">
+        ${EXDB[it.n]?`<button data-act="lib-info" data-n="${esc(it.n)}" aria-label="הדגמה: ${esc(it.n)}" style="padding:0;border:none;margin-inline-end:8px"><img class="libthumb" ${exImg(EXDB[it.n],0)} alt="" loading="lazy"></button>`:''}
+        <button style="flex:1;min-width:0" data-act="lib-pick" data-n="${esc(it.n)}" data-g="${esc(it.g)}">
           <span>${esc(it.n)} <span class="muted small">· ${esc(it.g)}</span></span>
           ${inUse.has(it.n)?'<span class="in">נוסף ✓</span>':'<span class="muted">+</span>'}
         </button>
-        ${INFO[it.n]?`<button class="pill" data-act="lib-info" data-n="${esc(it.n)}" aria-label="איך מבצעים" style="margin-inline-start:8px;cursor:pointer">?</button>`:''}
+        ${INFO[it.n]?`<button class="pill" data-act="lib-info" data-n="${esc(it.n)}" aria-label="איך מבצעים" style="margin-inline-start:8px;cursor:pointer">▶</button>`:''}
       </div>`).join('')||'<div class="muted small" style="padding:12px 2px">לא נמצא — אפשר להוסיף כתרגיל חדש:</div>'}
     </div>
     <div class="row" style="margin-top:12px">
@@ -2085,11 +2093,15 @@ function renderTplEditor(){
     <h3>${t.isNew?'תוכנית חדשה':'עריכת תוכנית'}</h3>
     <div class="label" style="margin-bottom:4px">שם התוכנית</div>
     <input id="tpl-name" data-bind="tpln" value="${esc(t.name)}" placeholder="למשל: אימון A — דחיפה">
-    <div class="label" style="margin:14px 0 4px">תרגילים (${t.ex.length})</div>
-    <div class="stack" style="gap:10px">
-      ${t.ex.map((e,i)=>`<div style="border:1px solid var(--line);border-radius:12px;padding:10px">
-        <div class="spread">
-          <b style="font-size:14.5px">${i+1}. ${esc(e.n)} <span class="muted small" style="font-weight:400">· ${esc(e.m)}</span></b>
+    <div class="label" style="margin:14px 0 4px">תרגילים (${t.ex.length})${t.ex.length>1?' · <span style="letter-spacing:0">גרור ⠿ לשינוי הסדר</span>':''}</div>
+    <div class="stack" style="gap:10px" id="tpl-list">
+      ${t.ex.map((e,i)=>`<div style="border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--surface)">
+        <div class="spread" style="flex-wrap:nowrap">
+          <span class="drag-h" aria-label="גרור לשינוי סדר">⠿</span>
+          ${EXDB[e.n]?`<img class="libthumb" ${exImg(EXDB[e.n],0)} alt="" loading="lazy">`:''}
+          <button data-act="lib-info-tpl" data-n="${esc(e.n)}" style="flex:1;text-align:right;padding:0;min-width:0">
+            <b style="font-size:14.5px">${i+1}. ${esc(e.n)}</b> <span class="muted small">· ${esc(e.m)}</span>
+          </button>
           <button class="btn danger" data-act="tpl-rm-ex" data-i="${i}" style="padding:4px 8px">✕</button>
         </div>
         ${e.t==='c'?'':`<div class="setgrid" style="grid-template-columns:1fr 1.4fr 1fr;margin-top:8px">
@@ -2106,7 +2118,12 @@ function renderTplEditor(){
       <button class="btn" style="flex:1" data-act="sheet-close">ביטול</button>
       <button class="btn primary" style="flex:1" data-act="tpl-save">שמור</button>
     </div>
-  `);
+  `);  loadSortable().then(()=>{
+    const el=document.getElementById('tpl-list'); if(!el||!window.Sortable)return;
+    Sortable.create(el,{handle:'.drag-h',animation:180,ghostClass:'drag-ghost',chosenClass:'drag-chosen',
+      onEnd(ev){ if(ev.oldIndex===ev.newIndex||!_tplDraft)return;
+        const [m]=_tplDraft.ex.splice(ev.oldIndex,1); _tplDraft.ex.splice(ev.newIndex,0,m); vibrate(12); renderTplEditor(); }});
+  }).catch(()=>{});
 }
 
 function shortName(n){ return String(n).replace(/^אימון\s*/,'').split('—')[0].trim().slice(0,8)||n; }
@@ -2188,6 +2205,30 @@ async function shareText(text){
   catch(e){ toast('השיתוף לא נתמך בדפדפן הזה'); }
 }
 
+/* הדגמת תרגיל: החלפה בין תנוחת התחלה לתנוחת סיום (free-exercise-db) */
+const EX_CDN='https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/';
+const EX_RAW='https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
+function exImg(id,f){ return `src="${EX_CDN}${id}/${f}.jpg" onerror="this.onerror=null;this.src='${EX_RAW}${id}/${f}.jpg'"`; }
+function demoHTML(name){
+  const id=EXDB[name]; if(!id)return '';
+  return `<div class="demo" role="img" aria-label="הדגמה מונפשת: ${esc(name)}">
+    <img ${exImg(id,0)} alt="" loading="lazy"><img class="fb" ${exImg(id,1)} alt="" loading="lazy">
+    <span class="tag">▶ הדגמה</span>
+  </div>`;
+}
+function ytLink(name){
+  const id=EXDB[name]; const q=id?id.replace(/_/g,' ').replace(/ - /g,' ')+' proper form':name+' תרגיל ביצוע נכון';
+  return `<a class="linkbtn small" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}" target="_blank" rel="noopener">🎬 סרטון הסבר מלא ביוטיוב ↗</a>`;
+}
+/* גרירה לשינוי סדר — SortableJS נטען לפי צורך */
+let _sortableP=null;
+function loadSortable(){
+  if(window.Sortable)return Promise.resolve();
+  if(!_sortableP)_sortableP=new Promise((res,rej)=>{ const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js'; s.onload=res; s.onerror=()=>{_sortableP=null;rej();}; document.head.appendChild(s); });
+  return _sortableP;
+}
+
 /* exercise sheet: technique + history + e1RM */
 function openExSheet(name,opt){
   const txt=opt.how||INFO[name]||'';
@@ -2199,7 +2240,9 @@ function openExSheet(name,opt){
       ${opt.rest?`<span class="pill">מנוחה ${fmtRest(opt.rest)}</span>`:''}
       ${bestE1?`<span class="pill pr num">1RM משוער: ~${bestE1} ק״ג</span>`:''}
     </div>
-    ${txt?`<p style="margin:0 0 14px;line-height:1.6">${esc(txt)}</p>`:''}
+    ${demoHTML(name)}
+    ${txt?`<p style="margin:0 0 8px;line-height:1.6">${esc(txt)}</p>`:''}
+    <div style="margin-bottom:14px">${ytLink(name)}</div>
     ${hist.length?`<div class="label" style="margin-bottom:6px">ביצועים אחרונים</div>
       <div class="prlist" style="margin-bottom:14px">
         ${hist.slice(0,10).map(h=>`<div class="pr-row"><span class="muted small num">${fmtDate(h.ts)}</span><span class="num" style="direction:ltr">${esc(h.txt)}</span></div>`).join('')}
@@ -2318,9 +2361,15 @@ function handleAct(b,ev){
       openExSheet(e.n,{reps:e.reps,sets:e.sets?.length,rest:e.rest,how:e.how}); break; }
     case 'hist-ex': openExSheet(b.dataset.n,{}); break;
     case 'lib-info': { const n=b.dataset.n;
-      openSheet(`<h3>${esc(n)}</h3><p style="margin:0 0 14px;line-height:1.6">${esc(INFO[n]||'')}</p>
+      openSheet(`<h3>${esc(n)}</h3>${demoHTML(n)}<p style="margin:0 0 8px;line-height:1.6">${esc(INFO[n]||'')}</p>
+        <div style="margin-bottom:14px">${ytLink(n)}</div>
         <button class="btn big" data-act="lib-back">חזרה למאגר</button>`); break; }
     case 'lib-back': renderLibrary(); break;
+    case 'lib-info-tpl': { const n=b.dataset.n;
+      openSheet(`<h3>${esc(n)}</h3>${demoHTML(n)}<p style="margin:0 0 8px;line-height:1.6">${esc(INFO[n]||'')}</p>
+        <div style="margin-bottom:14px">${ytLink(n)}</div>
+        <button class="btn big" data-act="tpl-back">חזרה לעריכה</button>`); break; }
+    case 'tpl-back': if(_tplDraft)renderTplEditor(); break;
     case 'cardio-done': { const e=S.active.ex[+b.dataset.ei]; e.c.done=!e.c.done; persistActive(); render(); break; }
     case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings();
       if(!$('#sheet').hidden)renderSettings(); else render(); break;
