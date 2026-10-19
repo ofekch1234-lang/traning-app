@@ -284,6 +284,7 @@ body.landing #app{max-width:1120px}
 .consent input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:var(--accent)}
 .consent a{color:var(--accent)}
 .ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -740,7 +741,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.5';
+const APP_VERSION='5.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1107,6 +1108,9 @@ function render_(){
 }
 
 /* ----- ממתין לאישור ----- */
+let GOOGLE_ON=false;
+// מציג את כפתור Google רק אם הספק מופעל ב-Supabase
+fetch(SUPABASE_URL+'/auth/v1/settings',{headers:{apikey:SUPABASE_KEY}}).then(r=>r.json()).then(j=>{ GOOGLE_ON=!!j?.external?.google; if(GOOGLE_ON&&S.mode==='auth')render(); }).catch(()=>{});
 function openNewPassword(){
   openSheet(`<h3>בחירת סיסמה חדשה</h3><div class="muted" style="margin:-4px 0 12px">הקלד סיסמה חדשה לחשבון שלך.</div>
     <input id="pw1" type="password" dir="ltr" autocomplete="new-password" placeholder="סיסמה חדשה (לפחות 6 תווים)">
@@ -1331,6 +1335,9 @@ function vAuth(){
       <div class="muted small">מעקב אימונים אישי — התרגילים, המשקלים וההתקדמות שלך</div>
     </div>
     <div class="card stack">
+      ${GOOGLE_ON?`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>
+      <div class="small muted" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
+      <div class="fi-or"><span>או עם אימייל וסיסמה</span></div>`:''}
       ${su?`<div class="label">שם מלא</div>
       <input id="au-name" type="text" autocomplete="name" placeholder="איך קוראים לך?" value="${esc(S.authName||'')}">`:''}
       <div class="label">אימייל</div>
@@ -4132,6 +4139,8 @@ function handleAct(b,ev){
     case 'share-w': { const w=S.workouts.find(x=>x.id===b.dataset.id); if(w)shareText(workoutShareText(w)); break; }
     case 'share-active': { if(S.active)shareText(workoutShareText({...clone(S.active),end:Date.now()})); break; }
     case 'auth-go': doAuth(); break;
+    case 'auth-google': b.disabled=true;
+      sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+'/',queryParams:{prompt:'select_account'}}}).then(({error})=>{ if(error){b.disabled=false;toast('ההתחברות עם Google נכשלה');} }); break;
     case 'auth-forgot': { const em=($('#au-email')?.value||'').trim(), err=$('#autherr');
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ if(err)err.textContent='הקלד את האימייל שלך למעלה, ואז לחץ שוב על "שכחתי סיסמה"'; $('#au-email')?.focus(); break; }
       b.disabled=true; sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+'/'}).then(({error})=>{ b.disabled=false;
