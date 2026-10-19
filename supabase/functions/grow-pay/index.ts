@@ -31,7 +31,7 @@ Deno.serve(async (req: Request) => {
     f.append("sum", String(p.price));
     f.append("paymentNum", "1");
     f.append("description", `NextRep — ${p.months} חודשים`);
-    f.append("successUrl", `${site}/#paid`);
+    f.append("successUrl", `${site}/thanks.html`);
     f.append("cancelUrl", `${site}/`);
     f.append("notifyUrl", notify);
     f.append("cField1", user.id);

@@ -1,5 +1,5 @@
 /* יומן הברזל — service worker: עבודה אופליין */
-const CACHE = 'nextrep-v22';
+const CACHE = 'nextrep-v23';
 const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -17,7 +17,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
 
   // דף הבית: רשת קודם (כדי לקבל עדכונים), נפילה לקאש באופליין
-  if (req.mode === 'navigate' || url.pathname === '/index.html') {
+  if (url.origin === location.origin && (url.pathname === '/' || url.pathname === '/index.html')) {
     e.respondWith(
       fetch(req).then(res => {
         const copy = res.clone();
