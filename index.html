@@ -218,6 +218,12 @@ body.landing #app{max-width:1120px}
 .phdays button{padding:10px 4px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);font-size:14px}
 .phset{border:2px solid var(--accent)}
 .tiles.sm .v{font-size:28px;white-space:nowrap}
+.wkbars{display:flex;gap:6px;align-items:flex-end;height:120px;direction:rtl}
+.wkb{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px}
+.wkb i{display:block;width:100%;max-width:28px;min-height:3px;border-radius:6px 6px 3px 3px;background:var(--accent);opacity:.55}
+.wkb.cur i{opacity:1}
+.wkb span{font-size:12px;font-weight:700;color:var(--ink)}
+.wkb small{font-size:10px;color:var(--muted);white-space:nowrap}
 .hmgrid{display:flex;gap:3px;direction:rtl;justify-content:space-between}
 .hmc{display:flex;flex-direction:column;gap:3px;flex:1}
 .hm{display:block;aspect-ratio:1;border-radius:3px;background:var(--surface2)}
@@ -690,7 +696,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.6';
+const APP_VERSION='4.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1979,8 +1985,14 @@ function histHeatmap(ws){
 function vHistory(){
   const all=[...S.workouts].sort((a,b)=>b.start-a.start);
   if(!all.length)return `<div class="empty"><div class="big">עוד אין אימונים שמורים</div>האימון הראשון שתסיים יופיע כאן, עם כל הסטים והמשקלים.</div>`;
-  const pr=histPRs(all), hm=histHeatmap(all);
+  const pr=histPRs(all);
   const since=Date.now()-84*864e5, recent=all.filter(w=>w.start>=since).length;
+  const m0=new Date(); m0.setDate(1); m0.setHours(0,0,0,0); const thisMonth=all.filter(w=>w.start>=+m0).length;
+  // 8 שבועות אחרונים: כמה אימונים בכל שבוע (ראשון עד שבת)
+  const wk0=new Date(); wk0.setHours(0,0,0,0); wk0.setDate(wk0.getDate()-wk0.getDay());
+  const weeks=[...Array(8)].map((_,i)=>{ const a=new Date(wk0); a.setDate(a.getDate()-(7-i)*7); const b=new Date(a); b.setDate(b.getDate()+7);
+    return {a, n:all.filter(w=>w.start>=+a&&w.start<+b).length}; });
+  const wmax=Math.max(3,...weeks.map(x=>x.n));
   // סינון: שם אימון / תרגיל
   const tplCount={}; for(const w of all)tplCount[w.name]=(tplCount[w.name]||0)+1;
   const tpls=Object.entries(tplCount).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
@@ -1994,12 +2006,13 @@ function vHistory(){
     cur.items.push(w); cur.vol+=workoutVol(w); cur.ms+=Math.max(0,(w.end||w.start)-w.start); }
   const filtering=q||HIST.tpl!=='all';
   return `
-    <div class="card" style="padding:14px">
-      <div class="spread" style="margin-bottom:10px"><b>${all.length} אימונים</b><span class="small muted">${(recent/12).toFixed(1).replace('.0','')} בשבוע ב-3 החודשים האחרונים</span></div>
-      ${hm.html}
-      <div class="spread small muted" style="margin-top:8px"><span>16 שבועות אחרונים · ${hm.days} ימי אימון</span><span class="hmleg">פחות <i class="hm l1"></i><i class="hm l2"></i><i class="hm l3"></i> יותר</span></div>
+    <div class="tiles"><div class="tile"><div class="v num">${thisMonth}</div><div class="k">אימונים החודש</div></div><div class="tile"><div class="v num">${(recent/12).toFixed(1).replace('.0','')}</div><div class="k">בממוצע לשבוע</div></div><div class="tile"><div class="v num">${all.length}</div><div class="k">סה״כ אימונים</div></div></div>
+    <div class="card" style="padding:14px;margin-top:10px">
+      <div class="spread" style="margin-bottom:10px"><b>אימונים בכל שבוע</b><span class="small muted">8 שבועות אחרונים</span></div>
+      <div class="wkbars">${weeks.map((x,i)=>`<div class="wkb ${i===7?'cur':''}"><span class="num">${x.n||''}</span><i style="height:${Math.round(x.n/wmax*100)}%"></i><small>${i===7?'השבוע':x.a.getDate()+'.'+(x.a.getMonth()+1)}</small></div>`).join('')}</div>
     </div>
-    <input id="hist-q" type="search" class="adm-in" placeholder="חיפוש אימון או תרגיל (למשל: סקוואט)" value="${esc(HIST.q)}" style="margin-top:12px">
+    <div class="sect" style="margin-top:16px">כל האימונים</div>
+    <input id="hist-q" type="search" class="adm-in" placeholder="🔍 חיפוש אימון או תרגיל, למשל: סקוואט" value="${esc(HIST.q)}">
     ${exHit.length?`<div class="row" style="gap:6px;margin-top:8px">${exHit.map(n=>`<button class="chip on" data-act="hist-ex" data-n="${esc(n)}">📈 ההתקדמות ב${esc(n)}</button>`).join('')}</div>`:''}
     ${tpls.length>1?`<div class="row" style="gap:6px;margin-top:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px">
       <button class="chip ${HIST.tpl==='all'?'on':''}" data-act="hist-tpl" data-t="all" style="flex-shrink:0">הכל</button>
