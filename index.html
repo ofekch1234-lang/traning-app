@@ -215,7 +215,10 @@ body.landing #app{max-width:1120px}
 .sg-emo{width:48px;height:48px;border-radius:14px;background:var(--surface2);display:grid;place-items:center;font-size:26px;flex-shrink:0}
 .sg-mid{flex:1;min-width:0}
 .sg-mid b{display:block}
-.sg-last{color:var(--muted);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sg-last{display:block;color:var(--muted);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.sg-card{overflow:hidden}
+.sg-mid b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm .bub{overflow-wrap:anywhere}
 .sg-side{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:12px;color:var(--muted)}
 .sg-dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
 .sg-head{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg);z-index:5;padding:8px 0}
@@ -224,13 +227,13 @@ body.landing #app{max-width:1120px}
 .sg-seg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:3px;margin-bottom:6px}
 .sg-seg button{flex:1;padding:8px;border-radius:9px;font-size:14px;color:var(--muted)}
 .sg-seg button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
-body.chatting header.top,body.chatting nav.tabs{display:none}
+body.chatting header.top{display:none}
+body.chatting.kbopen nav.tabs{display:none}
 body.chatting{overflow:hidden}
-#chatroot{position:fixed;inset-inline:0;top:0;height:100vh;height:100dvh;max-width:560px;margin:0 auto;z-index:35;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 12px 0}
+#chatroot{position:fixed;inset-inline:0;top:0;height:calc(100dvh - var(--tabsh,64px));max-width:560px;margin:0 auto;z-index:35;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 12px 0}
 #chatroot .sg-head{position:static;padding-top:10px}
 #chatlist{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:3px;padding:4px 2px 10px}
-#chatroot .chatbar{position:static;margin:0 -12px;padding:8px 12px max(8px,env(safe-area-inset-bottom,0px))}
-#chatroot.kb .chatbar{padding-bottom:8px}
+#chatroot .chatbar{position:static;margin:0 -12px;padding:8px 12px}
 .cm{max-width:80%;align-self:flex-start;display:flex;flex-direction:column}
 .cm.me{align-self:flex-end}
 .cm .who{font-size:12px;color:var(--accent);font-weight:600;margin:8px 10px 2px}
@@ -661,7 +664,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.2';
+const APP_VERSION='4.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1023,6 +1026,7 @@ function render_(){
   if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
   if(S.tab==='track'&&S.trackView==='progress')wireChart();
   document.body.classList.toggle('chatting',S.tab==='social'&&!!SOC.gid&&SOC.view==='chat');
+  if(!document.body.classList.contains('chatting')){document.body.classList.remove('kbopen');SOC.kb=false;}
   if(S.tab==='social'&&SOC.gid&&SOC.view==='chat'){ fitChat(); const ci=$('#chat-in'); if(ci&&SOC.draft)ci.value=SOC.draft; if(SOC.toBottom){SOC.toBottom=false;chatBottom(false);requestAnimationFrame(()=>chatBottom(false));} }
 }
 
@@ -1379,7 +1383,6 @@ function vHome(){
         </div>
       </div>
     </div>`:''}
-    ${homePhotosCard(true)}
     ${S.active?`
       <button class="card spread" style="width:100%;text-align:right;background:var(--accent-soft);border-color:var(--accent)" data-act="go" data-to="train">
         <div><div class="label">אימון פעיל ממשיך לרוץ</div><b style="font-size:17px">${esc(S.active.name)}</b></div>
@@ -1413,7 +1416,6 @@ function vHome(){
           <div class="num" style="margin-top:4px"><b style="font-family:var(--disp);font-size:22px">${fmtNum(t.kcal)}</b> <span class="muted small">${kT?'/ '+fmtNum(kT)+' קק״ל':'קק״ל'} · חלבון ${t.protein}${S.settings.protT?'/'+S.settings.protT:''} גר׳</span></div>
         </div><span class="muted">›</span>
       </button>`;})():''}
-    ${homePhotosCard(false)}
     ${prs.length?`
       <div class="card">
         <div class="spread"><span class="label">שיאים אחרונים 🏅</span><button class="linkbtn small" data-act="go" data-to="track" data-view="progress">לכל השיאים ←</button></div>
@@ -2088,9 +2090,9 @@ function vBody(){
       <div class="row" style="gap:6px;margin-top:10px">${deltaChip(bwChange(7),'שבוע')}${deltaChip(bwChange(30),'חודש')}</div>
       ${goalLine}
     </div>
+    ${photosHTML()}
     ${bwCalendarHTML()}
     ${bwChartHTML(goal)}
-    ${photosHTML()}
     <div class="sect spread"><span>היעדים שלי</span><button class="linkbtn small" data-act="food-targets-open" style="font-family:var(--body)">עריכה</button></div>
     <button class="tiles num" data-act="food-targets-open" style="width:100%;padding:0;text-align:center">
       <div class="tile"><div class="v">${kT?kT.toLocaleString('en-US'):'—'}</div><div class="k">קק״ל ליום</div></div>
@@ -3183,12 +3185,18 @@ function socLastText(g){
 /* צ'אט במסך מלא כמו וואטסאפ: הכותרת קבועה למעלה, שורת ההקלדה צמודה למקלדת, התפריט התחתון מוסתר */
 function fitChat(){
   const r=$('#chatroot'); if(!r)return; const vv=window.visualViewport;
-  const h=vv?vv.height:window.innerHeight, top=vv?vv.offsetTop:0;
-  const was=SOC._h, list=$('#chatlist'), atBottom=list&&list.scrollTop+list.clientHeight>=list.scrollHeight-60;
+  const tabs=document.querySelector('nav.tabs'); 
+  const kb=!!SOC.kb; document.body.classList.toggle('kbopen',kb);
+  const tabsH=kb?0:(tabs?tabs.offsetHeight:0);
+  const vh=vv?vv.height:window.innerHeight, top=vv?vv.offsetTop:0;
+  const list=$('#chatlist'), atBottom=list&&list.scrollTop+list.clientHeight>=list.scrollHeight-60, was=SOC._h;
+  const h=Math.max(200,vh-tabsH);
   r.style.height=h+'px'; r.style.top=top+'px'; SOC._h=h;
-  r.classList.toggle('kb',!!(vv&&window.innerHeight-vv.height>120));
   if(was&&h<was&&atBottom)chatBottom(false);
 }
+// המקלדת פתוחה כשהפוקוס בשורת ההקלדה — אמין יותר מחישובי גובה באייפון
+document.addEventListener('focusin',e=>{ if(e.target.id==='chat-in'){ SOC.kb=true; fitChat(); setTimeout(fitChat,250); setTimeout(()=>{fitChat();chatBottom(false);},500); } });
+document.addEventListener('focusout',e=>{ if(e.target.id==='chat-in'){ SOC.kb=false; setTimeout(fitChat,50); setTimeout(fitChat,400); } });
 function chatBottom(smooth){ const l=$('#chatlist'); if(!l)return; if(smooth)l.scrollTo({top:l.scrollHeight,behavior:'smooth'}); else l.scrollTop=l.scrollHeight; }
 if(window.visualViewport){ visualViewport.addEventListener('resize',fitChat); visualViewport.addEventListener('scroll',fitChat); }
 window.addEventListener('resize',fitChat);
