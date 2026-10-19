@@ -196,6 +196,18 @@ body.landing #app{max-width:1120px}
 .hp-th{width:62px;display:flex;flex-direction:column;gap:3px;align-items:center}
 .hp-th img,.hp-th:not(:has(img))::before{width:62px;height:82px;border-radius:9px;object-fit:cover;background:var(--surface2);display:block;content:''}
 .hp-th small{font-size:10.5px;color:var(--muted)}
+.adm-n{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:11px;font-weight:700;padding:0 5px;margin-inline-start:3px}
+.adm-alert{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:right;padding:12px 14px;border-radius:12px;background:var(--gold-soft);border:1px solid var(--gold);font-weight:600;color:var(--ink)}
+.adm-ok{padding:12px 14px;border-radius:12px;background:var(--accent-soft);color:var(--ink);font-weight:600;margin-bottom:12px}
+.adm-row{display:flex;gap:10px;align-items:center;width:100%;text-align:right;padding:10px 0;border-bottom:1px solid var(--line)}
+.adm-row:last-child{border-bottom:0}
+.adm-av{width:36px;height:36px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-weight:700;flex-shrink:0}
+.adm-sub{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.adm-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.adm-acts .btn{text-align:center;text-decoration:none}
+.adm-det{padding:12px 14px}
+.adm-det summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none}
+.adm-det summary::-webkit-details-marker{display:none}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -649,7 +661,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.1';
+const APP_VERSION='4.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1026,6 +1038,7 @@ function vPending(){
       <div class="muted">${rej?'החשבון הזה לא אושר לשימוש ב-NextRep כרגע.':'החשבון שלך ממתין לאישור. ברגע שיאושר — תוכל להתחיל להתאמן.'}</div>
       <div class="small muted" dir="ltr">${esc(S.user?.email||'')}</div>
       ${rej?'':`<button class="btn primary big" data-act="access-recheck" style="margin-top:6px">בדוק שוב</button>`}
+      <button class="linkbtn" data-act="contact-open">כתוב לנו</button>
       <button class="linkbtn" data-act="access-logout">יציאה מהחשבון</button>
     </div></div>`;
 }
@@ -2791,6 +2804,8 @@ function renderSettings(){
       <span><b>⭐ ${S.plan.admin?'מסלולים ותשלום':'המנוי שלי'}</b><span class="small muted" style="display:block">${S.plan.admin?'כפי שהמשתמשים רואים. אפשר לשלם מכאן לבדיקה':`${S.plan.paid?'פעיל':'תקופת ניסיון'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString('he-IL'):'—'}`}</span></span><span class="muted">${S.plan.admin?'פתיחה':'הארכה'} ›</span></button>`:''}
     <button class="card spread" data-act="share-app" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:14px">
       <span><b>📲 שתף את NextRep</b><span class="small muted" style="display:block">קישור או ברקוד לסריקה לחבר</span></span><span class="muted">›</span></button>
+    <button class="card spread" data-act="contact-open" style="width:100%;text-align:right;padding:12px 14px;margin:-6px 0 14px">
+      <span><b>💬 צור קשר</b><span class="small muted" style="display:block">שאלה, תקלה או רעיון. נחזור אליך כאן</span></span><span class="muted">›</span></button>
     <div class="label" style="margin-bottom:6px">התראות</div>
     <div class="card stack" style="gap:0;padding:4px 14px">
       <label class="setrow">
@@ -2829,141 +2844,229 @@ function renderSettings(){
 }
 
 /* ----- לוח ניהול (אדמין בלבד; ההרשאה נבדקת בשרת ב-admin_dashboard) ----- */
+/* ===================== לוח ניהול ===================== */
 const USD_ILS=3.7;
-async function loadAdmin(){
-  S.adminErr=null; S.adminLoading=true; if(S.tab==='admin')render();
-  const [{data,error},cfg,gr]=await Promise.all([sb.rpc('admin_dashboard'),sb.rpc('admin_config'),sb.rpc('admin_grow')]);
-  if(cfg&&!cfg.error)S.adminCfg=cfg.data; if(gr&&!gr.error)S.adminGrow=gr.data||{};
-  S.adminLoading=false;
-  if(error){S.adminErr=error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+error.message;}
-  else S.admin=data;
-  if(S.tab==='admin')render();
-}
+const A={tab:'overview',ov:null,users:{q:'',filter:'all',rows:[],total:0,loading:false},cfg:null,events:null,msgs:null,msgFilter:'open',err:null};
+const ADM_FILTERS=[['all','הכל'],['pending','ממתינים'],['trial','בניסיון'],['paying','משלמים'],['expiring','מסתיימים בשבוע'],['expired','פג תוקף'],['blocked','חסומים']];
+const ACC={approved:['פעיל','var(--accent)'],pending:['ממתין','#D97706'],rejected:['חסום','#DC2626'],admin:['אדמין','var(--ink)']};
 function agoHe(d){
   if(!d)return '—';
-  const days=Math.round((new Date(ymd())-new Date(d))/864e5);
+  const days=Math.round((new Date(ymd())-new Date(ymd(new Date(d))))/864e5);
   return days<=0?'היום':days===1?'אתמול':days<7?`לפני ${days} ימים`:days<30?`לפני ${Math.round(days/7)} שב׳`:`לפני ${Math.round(days/30)} חוד׳`;
 }
 const money=u=>{u=+u||0;const ils=u*USD_ILS;return ils<1?`${(ils*100).toFixed(ils*100<1?2:1)} אג׳`:`₪${ils.toFixed(2)}`;};
+const dShort=d=>d?new Date(d).toLocaleDateString('he-IL',{day:'numeric',month:'numeric',year:'2-digit'}):'—';
+function userState(u){
+  if(u.access==='admin')return ['אדמין','var(--ink)'];
+  if(u.access==='pending')return ['ממתין לאישור','#D97706'];
+  if(u.access==='rejected')return ['חסום','#DC2626'];
+  const until=u.until?new Date(u.until):null, paid=u.access_until&&new Date(u.access_until)>new Date();
+  if(!until||until<=new Date())return ['פג תוקף','#DC2626'];
+  return paid?['משלם','var(--accent)']:['בניסיון','#2F6FD6'];
+}
+const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
+async function loadAdmin(){
+  A.err=null; S.adminLoading=true; if(S.tab==='admin')render();
+  const [ov,cfg,ev]=await Promise.all([sb.rpc('admin_overview'),sb.rpc('admin_config'),sb.rpc('admin_events')]);
+  S.adminLoading=false;
+  if(ov.error){A.err=ov.error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+ov.error.message;}
+  else{A.ov=ov.data; A.cfg=cfg.data||A.cfg; A.events=ev.data||[];}
+  if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs();
+  if(S.tab==='admin')render();
+}
+async function admLoadUsers(reset){
+  const U=A.users; if(reset){U.rows=[];U.total=0;} U.loading=true; if(S.tab==='admin')render();
+  const {data}=await sb.rpc('admin_users',{p_q:U.q,p_filter:U.filter,p_limit:30,p_offset:reset?0:U.rows.length});
+  U.loading=false; if(data){U.rows=reset?data.rows:U.rows.concat(data.rows); U.total=data.total;}
+  if(S.tab==='admin'){ const keep=document.activeElement?.id==='adm-q'; render(); if(keep){const q=$('#adm-q'); if(q){q.focus(); q.setSelectionRange(q.value.length,q.value.length);}} }
+}
+async function admLoadMsgs(){ const {data}=await sb.rpc('admin_support',{p_status:A.msgFilter}); A.msgs=data||[]; if(S.tab==='admin')render(); }
 function adminChart(daily){
   const W=340,H=120,pb=18,n=daily.length,bw=W/n;
   const mx=Math.max(1,...daily.map(x=>x.active));
   const bars=daily.map((x,i)=>{const h=(x.active/mx)*(H-pb-14);const xx=W-(i+1)*bw;
-    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="2" fill="var(--accent)" opacity="${i===n-1?1:.75}"><title>${x.d}: ${x.active} פעילים${x.signups?` · ${x.signups} נרשמו`:''}</title></rect>`+
-      (x.signups?`<circle cx="${(xx+bw/2).toFixed(1)}" cy="${(H-pb-h-6).toFixed(1)}" r="3" fill="var(--ink)"/>`:'');}).join('');
+    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="2" fill="var(--accent)" opacity="${i===n-1?1:.75}"><title>${x.d}: ${x.active} פעילים${x.signups?`, ${x.signups} נרשמו`:''}${+x.rev?`, ₪${x.rev}`:''}</title></rect>`+
+      (x.signups?`<circle cx="${(xx+bw/2).toFixed(1)}" cy="${(H-pb-h-6).toFixed(1)}" r="3" fill="var(--ink)"/>`:'')+
+      (+x.rev?`<text x="${(xx+bw/2).toFixed(1)}" y="${(H-pb-h-(x.signups?12:5)).toFixed(1)}" font-size="9" text-anchor="middle" fill="var(--gold)">₪</text>`:'');}).join('');
   const lbl=[[0,W-1,'end'],[Math.floor(n/2),W-(Math.floor(n/2)+.5)*bw,'middle'],[n-1,1,'start']].map(([i,x,an])=>{const d=new Date(daily[i].d);return `<text x="${x.toFixed(1)}" y="${H-4}" font-size="10" fill="var(--muted)" text-anchor="${an}">${i===n-1?'היום':d.getDate()+'.'+(d.getMonth()+1)}</text>`;}).join('');
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;direction:ltr">
-    <line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;direction:ltr"><line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
     <text x="${W-2}" y="10" font-size="10" fill="var(--muted)" text-anchor="end">מקס׳ ${mx}</text></svg>`;
 }
-function adminGrowHTML(){
-  const G=S.adminGrow||{}, ready=!!(G.pageCode&&G.userId), sandbox=/sandbox/.test(G.base||'sandbox');
-  return `<div class="card stack" style="padding:14px;margin-top:10px;gap:8px">
-    <div class="spread"><b>חיבור ישיר ל-Grow</b><span class="small" style="color:${ready?'var(--accent)':'var(--muted)'}">${ready?(sandbox?'● מחובר (בדיקות)':'● מחובר (אמיתי)'):'לא מחובר'}</span></div>
-    <div class="small muted">כשמחובר, כפתורי המסלולים פותחים דף תשלום של Grow עם מזהה המשתמש, וההודעה על התשלום חוזרת ישר למערכת. בלי Make ובלי התאמת אימייל.</div>
-    <input id="g-page" class="adm-in" dir="ltr" placeholder="pageCode" value="${esc(G.pageCode||'')}">
-    <input id="g-user" class="adm-in" dir="ltr" placeholder="userId" value="${esc(G.userId||'')}">
-    <input id="g-key" class="adm-in" dir="ltr" placeholder="apiKey (אם קיבלת)" value="${esc(G.apiKey||'')}">
-    <div class="row" style="gap:6px"><button class="chip ${sandbox?'on':''}" data-act="g-env" data-v="sandbox">סביבת בדיקות</button><button class="chip ${!sandbox?'on':''}" data-act="g-env" data-v="live">סביבה אמיתית</button></div>
-    <input id="g-base" class="adm-in small" dir="ltr" value="${esc(G.base||'https://sandbox.meshulam.co.il/api/light/server/1.0/')}">
-    <button class="btn primary" data-act="g-save">שמירת חיבור Grow</button>
-  </div>`;
-}
-function adminBillingHTML(){
-  const C=S.adminCfg; if(!C)return '';
-  const B=C.billing||{}, hook=`${SUPABASE_URL}/functions/v1/payment-webhook?key=${C.webhook_key}`;
-  const T=S.admin?.totals||{};
-  return `<div class="label" style="margin:16px 0 6px">מנויים ותשלומים</div>
-  <div class="tiles"><div class="tile"><div class="v num">₪${Math.round(C.revenue_month||0)}</div><div class="k">הכנסה החודש</div></div>
-    <div class="tile"><div class="v num">₪${Math.round(C.revenue_total||0)}</div><div class="k">סה״כ</div></div>
-    <div class="tile"><div class="v num">${T.paying||0}</div><div class="k">מנויים פעילים</div></div></div>
-  <div class="card stack" style="padding:14px;margin-top:10px;gap:10px">
-    <label class="setrow" style="padding:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
-    <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם מתחיל ניסיון מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
-    <div class="spread"><b>תמיכה בתשלומים</b><input id="adm-support" class="adm-in" dir="ltr" placeholder="וואטסאפ 05X..." value="${esc(B.support||'')}" style="width:150px;text-align:center"></div>
-    <div class="spread"><b>ימי ניסיון</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??14}" style="width:80px;text-align:center"></div>
-    ${(B.plans||[]).map(p=>`<div class="stack" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">
-      <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' ⭐':''}</b><span class="row" style="gap:4px;align-items:center">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
-      <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לדף התשלום ב-Grow" value="${esc(p.link||'')}"></div>`).join('')}
-    <div class="small muted">אפשר לשלב בקישור {email}, {uid} או {name}, והם יוחלפו בפרטי המשתמש.</div>
-    <button class="btn primary" data-act="admin-billing-save">שמירת הגדרות</button>
-    <button class="btn" data-act="plans-open">תצוגת מסך המסלולים ותשלום בדיקה</button>
-  </div>
-  ${adminGrowHTML()}
-  <div class="card stack" style="padding:14px;margin-top:10px;gap:8px">
-    <b>כתובת לעדכון שרת (Grow / Make)</b>
-    <div class="small muted">ב-Grow: בעמוד התשלום ← עמוד תודה ← "קישור לעדכון מערכות מידע (שרת)". המערכת מזהה את המשלם לפי האימייל ואת המסלול לפי הסכום.</div>
-    <div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
-    <button class="btn" data-act="copy-link" data-url="${esc(hook)}">העתקת הכתובת</button>
-  </div>
-  ${(C.events||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px"><div class="small muted" style="padding-top:8px">הודעות אחרונות מהסליקה</div>${C.events.map(e=>{const ok=e.ok==='true'; return `<div class="small" style="padding:8px 0;border-top:1px solid var(--line)">
-      <div class="spread"><span>${new Date(e.created_at).toLocaleString('he-IL',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · ${esc(e.payer||'')} <span dir="ltr" class="muted">${esc(e.phone||'')}</span></span>
-      <span style="color:${ok?'var(--accent)':'var(--danger)'};white-space:nowrap">${ok?`✓ ${esc(e.who||'נפתח')}`:({user_not_found:'לא זוהה',unknown_plan:'סכום לא מוכר'}[e.error]||(String(e.error||'').startsWith('status_')?'לא הושלם':esc(e.error||'שגיאה')))}${e.amount?` ₪${esc(e.amount)}`:''}</span></div>
-      ${!ok&&(e.error==='user_not_found'||e.error==='unknown_plan')?`<button class="btn" style="width:100%;margin-top:6px;padding:7px" data-act="ev-assign" data-id="${e.id}" data-amount="${esc(e.amount||'')}">שיוך ידני למשתמש</button>`:''}</div>`;}).join('')}</div>`:''}
-  ${(C.payments||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px">${C.payments.slice(0,10).map(p=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span><b>${esc(p.name||p.email||'')}</b><span class="small muted" style="display:block">${new Date(p.created_at).toLocaleDateString('he-IL')} · ${p.months} חודשים</span></span><b class="num">₪${+p.amount||0}</b></div>`).join('')}</div>`:''}`;
-}
 function vAdmin(){
-  const A=S.admin;
-  const head=`<div class="spread" style="margin-bottom:12px">
+  const O=A.ov;
+  const head=`<div class="spread" style="margin-bottom:10px">
     <div><div class="label">ניהול</div><h2 style="margin:0">לוח בקרה</h2></div>
-    <div class="row" style="gap:8px"><button class="btn" data-act="admin-refresh" aria-label="רענון">${S.adminLoading?'…':'↻'}</button>
-    <button class="btn" data-act="admin-back">חזרה</button></div></div>`;
-  if(S.adminErr)return head+`<div class="empty"><div class="big">🔒</div>${esc(S.adminErr)}</div>`;
-  if(!A)return head+`<div class="empty"><div class="big">טוען…</div>אוסף נתונים</div>`;
-  const T=A.totals, tile=(v,k)=>`<div class="tile"><div class="v num">${v}</div><div class="k">${k}</div></div>`;
-  const ACC={approved:['מאושר','var(--accent)'],pending:['ממתין','#D97706'],rejected:['חסום','#DC2626'],admin:['אדמין','var(--ink)']};
-  const badge=a=>{const [t,c]=ACC[a]||ACC.pending;return `<span class="small" style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;};
-  const pend=(A.users||[]).filter(u=>u.access==='pending');
-  const pendHTML=pend.length?`<div class="card" style="padding:14px;border-color:#D97706;margin-bottom:14px">
-    <div class="spread" style="margin-bottom:8px"><b>⏳ ממתינים לאישור (${pend.length})</b></div>
-    <div class="stack" style="gap:10px">${pend.map(u=>`<div class="spread" style="gap:8px">
-      <span style="min-width:0"><b>${esc(u.full_name||u.email.split('@')[0])}</b><span class="small muted" style="display:block;overflow:hidden;text-overflow:ellipsis" dir="ltr">${esc(u.email)}</span>
-        <span class="small muted" style="display:block">נרשם ${agoHe(ymd(new Date(u.created_at)))}</span></span>
-      <span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn" data-act="admin-access" data-id="${u.id}" data-st="rejected" aria-label="דחה">✕</button>
-        <button class="btn primary" data-act="admin-access" data-id="${u.id}" data-st="approved">אשר ✓</button></span></div>`).join('')}</div></div>`:'';
-  const users=(A.users||[]).map(u=>{
-    const open=S.adminOpen===u.id, name=u.full_name||u.email.split('@')[0];
-    const fresh=u.last_d===ymd();
-    return `<button class="card" data-act="admin-user" data-id="${u.id}" style="width:100%;text-align:right;padding:12px 14px">
-      <div class="spread"><span><b>${esc(name)}</b> ${badge(u.access)} ${fresh?'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);vertical-align:middle"></span>':''}
-        <span class="small muted" style="display:block">פעיל ${agoHe(u.last_d)} · הצטרף ${new Date(u.created_at).toLocaleDateString('he-IL',{day:'numeric',month:'short'})}</span></span>
-        <span class="small muted num" style="text-align:left">${u.workouts} אימונים<br>${u.meals} ארוחות</span></div>
-      ${open?`<div class="h-detail small">
-        <div class="h-ex"><span>אימייל</span><span dir="ltr">${esc(u.email)}</span></div>
-        <div class="h-ex"><span>שקילות</span><span class="num">${u.weighins}</span></div>
-        <div class="h-ex"><span>התראות פוש</span><span>${u.push?'✓ מופעל':'—'}</span></div>
-        <div class="h-ex"><span>ניתוחי AI</span><span class="num">${u.ai_calls} · ${money(u.ai_usd)}</span></div>
-        ${u.access!=='admin'?`<div class="h-ex"><span>ניסיון עד</span><span>${u.trial_until?new Date(u.trial_until).toLocaleDateString('he-IL'):'—'}</span></div>
-        <div class="h-ex"><span>מנוי בתשלום עד</span><span>${u.access_until?new Date(u.access_until).toLocaleDateString('he-IL'):'—'}${+u.paid?` (שילם ₪${+u.paid})`:''}</span></div>`:''}
-        ${u.ref_name?`<div class="h-ex"><span>הוזמן ע״י</span><span>${esc(u.ref_name)}</span></div>`:''}
-        ${+u.referred?`<div class="h-ex"><span>הזמין</span><span class="num">${u.referred} משתמשים</span></div>`:''}
-        ${u.access!=='admin'?`<div class="row" style="gap:8px;margin-top:4px"><span class="btn" style="flex:1" data-act="admin-grant" data-id="${u.id}" data-days="30">+30 יום</span><span class="btn" style="flex:1" data-act="admin-grant" data-id="${u.id}" data-days="365">+שנה</span></div>`:''}
-        ${u.access==='admin'?'':`<div class="row" style="gap:8px;margin-top:4px">${u.access!=='approved'?`<span class="btn primary" style="flex:1" data-act="admin-access" data-id="${u.id}" data-st="approved">אשר גישה</span>`:''}${u.access!=='rejected'?`<span class="btn danger" style="flex:1" data-act="admin-access" data-id="${u.id}" data-st="rejected">חסום גישה</span>`:''}</div>`}</div>`:''}
-    </button>`;}).join('');
-  const foods=(A.top_foods||[]).map(f=>`<div class="h-ex"><span>${esc(f.name)}</span><span class="num muted">${f.picks}</span></div>`).join('');
-  return head+pendHTML+`
-    <div class="label" style="margin-bottom:6px">משתמשים</div>
-    <div class="tiles">${tile(T.users,'רשומים')}${tile(T.active7,'פעילים 7 ימים')}${tile(T.new7,'חדשים השבוע')}</div>
-    <div class="tiles" style="margin-top:10px">${tile(T.active1,'פעילים היום')}${tile(T.active30,'פעילים 30 יום')}${tile(T.push_users,'עם התראות')}</div>
-    <div class="card" style="margin-top:14px;padding:14px">
-      <div class="spread" style="margin-bottom:8px"><b>פעילות יומית · 30 יום</b><span class="small muted">● הרשמה</span></div>
-      ${adminChart(A.daily||[])}
-    </div>
-    <div class="label" style="margin:16px 0 6px">שימוש</div>
-    <div class="tiles">${tile(T.workouts7,'אימונים השבוע')}${tile(T.workouts,'אימונים סה״כ')}${tile(T.meals,'ארוחות')}</div>
-    <div class="label" style="margin:16px 0 6px">עלות AI</div>
-    <div class="card" style="padding:14px">
-      <div class="spread"><span><div class="small muted">החודש</div><div class="num" style="font-family:var(--disp);font-size:40px;line-height:1;color:var(--accent)">${money(T.ai_usd_month)}</div></span>
-        <span class="small muted" style="text-align:left">${T.ai_calls_month} ניתוחים<br><span dir="ltr">$${(+T.ai_usd_month).toFixed(4)}</span></span></div>
-      <div class="small muted" style="margin-top:8px">מתחילת הדרך: ${money(T.ai_usd_all)} · ממוצע לניתוח ${T.ai_calls_month?money(T.ai_usd_month/T.ai_calls_month):'—'} · שער ≈${USD_ILS}</div>
-    </div>
-    ${adminBillingHTML()}
-    <div class="label" style="margin:16px 0 6px">משתמשים (${(A.users||[]).length})</div>
-    <div class="stack" style="gap:8px">${users}</div>
-    ${foods?`<div class="label" style="margin:16px 0 6px">מזונות פופולריים מהמאגר</div><div class="card stack" style="padding:12px 14px;gap:6px">${foods}</div>`:''}
-    <div class="small muted" style="text-align:center;margin:14px 0">עודכן ${new Date(A.now).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'})} · תמונות התקדמות: ${T.photos}</div>`;
+    <div class="row" style="gap:8px"><button class="btn" data-act="adm-refresh" aria-label="רענון">${S.adminLoading?'…':'↻'}</button><button class="btn" data-act="adm-back">חזרה</button></div></div>`;
+  if(A.err)return head+`<div class="empty"><div class="big">🔒</div>${esc(A.err)}</div>`;
+  if(!O)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
+  const openEv=(A.events||[]).filter(e=>e.open).length;
+  const tabs=[['overview','סקירה',0],['users','משתמשים',O.pending],['pay','תשלומים',openEv],['msgs','פניות',O.open_msgs]];
+  const seg=`<div class="sg-seg" style="position:sticky;top:0;z-index:5">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?` <span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
+  const body=A.tab==='users'?admUsersHTML():A.tab==='pay'?admPayHTML():A.tab==='msgs'?admMsgsHTML():admOverviewHTML();
+  return head+seg+body;
 }
-
+function admOverviewHTML(){
+  const O=A.ov, tile=(v,k,act)=>`<button class="tile" ${act?`data-act="adm-go" ${act}`:''} style="background:none;border:0"><div class="v num">${v}</div><div class="k">${k}</div></button>`;
+  const openEv=(A.events||[]).filter(e=>e.open).length;
+  const alerts=[
+    O.pending?[`⏳ ${O.pending} ממתינים לאישור`,'data-t="users" data-f="pending"']:null,
+    openEv?[`💳 ${openEv} תשלומים לא זוהו`,'data-t="pay"']:null,
+    O.open_msgs?[`💬 ${O.open_msgs} פניות פתוחות`,'data-t="msgs"']:null,
+    O.expiring7?[`📅 ${O.expiring7} מנויים מסתיימים השבוע`,'data-t="users" data-f="expiring"']:null,
+  ].filter(Boolean);
+  return `${alerts.length?`<div class="stack" style="gap:8px;margin-bottom:12px">${alerts.map(([t,a])=>`<button class="adm-alert" data-act="adm-go" ${a}><span>${t}</span><span>›</span></button>`).join('')}</div>`:`<div class="adm-ok">✓ אין משימות פתוחות</div>`}
+    <div class="label" style="margin-bottom:6px">משתמשים</div>
+    <div class="tiles">${tile(O.users,'רשומים','data-t="users" data-f="all"')}${tile(O.paying,'משלמים','data-t="users" data-f="paying"')}${tile(O.trial,'בניסיון','data-t="users" data-f="trial"')}</div>
+    <div class="tiles" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'פג תוקף','data-t="users" data-f="expired"')}</div>
+    <div class="label" style="margin:14px 0 6px">הכנסות</div>
+    <div class="tiles">${tile('₪'+Math.round(O.rev_month),'החודש','data-t="pay"')}${tile(O.pay_month,'תשלומים החודש','data-t="pay"')}${tile('₪'+Math.round(O.rev_total),'סה״כ','data-t="pay"')}</div>
+    <div class="card" style="margin-top:14px;padding:14px">
+      <div class="spread" style="margin-bottom:8px"><b>פעילות · 30 יום</b><span class="small muted">● הרשמה &nbsp; ₪ תשלום</span></div>
+      ${adminChart(O.daily||[])}
+      <div class="small muted" style="margin-top:6px">פעילים היום ${O.active1}, ב-30 יום ${O.active30}. עלות AI החודש ${money(O.ai_usd_month)}.</div>
+    </div>`;
+}
+function admUsersHTML(){
+  const U=A.users, O=A.ov||{};
+  const cnt={all:O.users,pending:O.pending,trial:O.trial,paying:O.paying,expiring:O.expiring7,expired:O.expired,blocked:O.blocked};
+  return `<input id="adm-q" type="search" class="adm-in" placeholder="חיפוש לפי שם, אימייל או טלפון" value="${esc(U.q)}" style="margin-bottom:8px">
+    <div class="row" style="gap:6px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;margin-bottom:8px">${ADM_FILTERS.map(([k,t])=>`<button class="chip ${U.filter===k?'on':''}" data-act="adm-filter" data-f="${k}" style="flex-shrink:0">${t}${cnt[k]!=null?` ${cnt[k]}`:''}</button>`).join('')}</div>
+    <div class="small muted" style="margin-bottom:6px">${U.loading&&!U.rows.length?'טוען…':`${U.total} משתמשים`}</div>
+    <div class="card" style="padding:0 14px">${U.rows.map(u=>{const st=userState(u);
+      return `<button class="adm-row" data-act="adm-user" data-id="${u.id}">
+        <span class="adm-av">${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
+        <span style="flex:1;min-width:0"><b>${esc(u.full_name||u.email.split('@')[0])}</b> ${badgeHTML(st)}
+          <span class="small muted adm-sub">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</span></span>
+        <span class="small muted" style="text-align:left;white-space:nowrap">${u.access==='pending'?agoHe(u.created_at):u.until?'עד '+dShort(u.until):''}<br>${u.last_seen?agoHe(u.last_seen):''}</span>
+      </button>`;}).join('')||`<div class="muted small" style="padding:14px 0;text-align:center">${U.loading?'טוען…':'אין תוצאות'}</div>`}</div>
+    ${U.rows.length<U.total?`<button class="btn" style="width:100%;margin-top:10px" data-act="adm-more">${U.loading?'טוען…':`טען עוד (${U.total-U.rows.length})`}</button>`:''}`;
+}
+async function admUserSheet(id){
+  const u=A.users.rows.find(x=>x.id===id)||(A.pick||[]).find(x=>x.id===id); if(!u)return;
+  const draw=d=>{ const st=userState(u);
+    openSheet(`<div class="spread"><h3 style="margin:0">${esc(u.full_name||u.email)}</h3>${badgeHTML(st)}</div>
+      <div class="small muted" style="margin:4px 0 12px" dir="ltr">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</div>
+      <div class="card" style="padding:4px 14px">
+        ${[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],['ניסיון עד',dShort(u.trial_until)],['מנוי בתשלום עד',dShort(u.access_until)],
+          ...(u.ref_name?[['הוזמן ע״י',esc(u.ref_name)]]:[]),
+          ...(d?[['אימונים (30 יום)',`${d.workouts} (${d.workouts30})`],['ארוחות / שקילות',`${d.meals} / ${d.weighins}`],['קבוצות',d.groups],['הזמין חברים',d.referred],['התראות',d.push?'✓ מופעל':'—'],['AI',`${d.ai_calls} ניתוחים · ${money(d.ai_usd)}`],
+            ['תשלומים',(d.payments||[]).length?d.payments.map(p=>`₪${+p.amount} (${p.months} ח׳) ${dShort(p.created_at)}`).join('<br>'):'—']]:[['','טוען…']])
+        ].map(([k,v])=>`<div class="h-ex" style="padding:7px 0;border-bottom:1px solid var(--line)"><span>${k}</span><span style="text-align:left">${v}</span></div>`).join('')}
+      </div>
+      ${u.access==='admin'?'':`<div class="label" style="margin:14px 0 6px">פעולות</div>
+      <div class="adm-acts">
+        ${u.access!=='approved'?`<button class="btn primary" data-act="adm-set" data-id="${u.id}" data-st="approved">✓ אשר גישה</button>`:''}
+        <button class="btn" data-act="adm-grant" data-id="${u.id}" data-days="30">+30 יום</button>
+        <button class="btn" data-act="adm-grant" data-id="${u.id}" data-days="365">+שנה</button>
+        ${u.access_until&&new Date(u.access_until)>new Date()?`<button class="btn" data-act="adm-revoke" data-id="${u.id}">ביטול מנוי (החזר)</button>`:''}
+        ${u.access!=='rejected'?`<button class="btn danger" data-act="adm-set" data-id="${u.id}" data-st="rejected">חסימה</button>`:''}
+        <a class="btn" href="mailto:${esc(u.email)}">✉️ מייל</a>
+      </div>`}
+      <button class="btn big" style="margin-top:12px" data-act="sheet-close">סגור</button>`);
+  };
+  draw(null); const {data}=await sb.rpc('admin_user',{p_uid:id}); if(!$('#sheet').hidden)draw(data);
+}
+function admPayHTML(){
+  const C=A.cfg||{}, B=C.billing||{}, O=A.ov||{}, ev=A.events||[], open=ev.filter(e=>e.open), hook=`${SUPABASE_URL}/functions/v1/payment-webhook?key=${C.webhook_key}`;
+  const evRow=e=>`<div class="small" style="padding:9px 0;border-top:1px solid var(--line)">
+      <div class="spread"><span>${new Date(e.created_at).toLocaleString('he-IL',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · ${esc(e.payer||'')} <span dir="ltr" class="muted">${esc(e.phone||'')}</span></span>
+      <b class="num">${e.amount?'₪'+esc(e.amount):''}</b></div>
+      <div style="color:${e.ok==='true'?'var(--accent)':e.dismissed?'var(--muted)':'var(--danger)'}">${e.ok==='true'?`✓ נפתח ל${esc(e.who||'משתמש')}`:e.dismissed?'הוסר מהרשימה':({user_not_found:'המשלם לא זוהה',unknown_plan:'הסכום לא תואם מסלול'}[e.error]||(String(e.error||'').startsWith('status_')?'התשלום לא הושלם':esc(e.error||'שגיאה')))}</div>
+      ${e.open?`<div class="row" style="gap:6px;margin-top:6px"><button class="btn primary" style="flex:2;padding:7px" data-act="ev-assign" data-id="${e.id}" data-amount="${esc(e.amount||'')}">שיוך למשתמש</button><button class="btn" style="flex:1;padding:7px" data-act="ev-dismiss" data-id="${e.id}">התעלם</button></div>`:''}</div>`;
+  return `<div class="tiles"><div class="tile"><div class="v num">₪${Math.round(O.rev_month||0)}</div><div class="k">החודש</div></div><div class="tile"><div class="v num">${O.paying||0}</div><div class="k">מנויים פעילים</div></div><div class="tile"><div class="v num">₪${Math.round(O.rev_total||0)}</div><div class="k">סה״כ</div></div></div>
+    ${open.length?`<div class="label" style="margin:14px 0 6px">דורש טיפול (${open.length})</div><div class="card" style="padding:0 14px;border-color:var(--danger)">${open.map(evRow).join('')}</div>`:''}
+    <div class="label" style="margin:14px 0 6px">תשלומים אחרונים</div>
+    <div class="card" style="padding:0 14px">${(C.payments||[]).slice(0,20).map(p=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span><b>${esc(p.name||p.email||'')}</b><span class="small muted" style="display:block">${dShort(p.created_at)} · ${p.months} חודשים</span></span><b class="num">₪${+p.amount||0}</b></div>`).join('')||'<div class="muted small" style="padding:12px 0">עוד אין תשלומים</div>'}</div>
+    <details class="card adm-det" style="margin-top:14px"><summary><b>הגדרות מנוי ומחירים</b><span class="small muted">${B.enabled?'גבייה פעילה':'גבייה כבויה'}</span></summary>
+      <div class="stack" style="gap:10px;margin-top:10px">
+      <label class="setrow" style="padding:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
+      <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם מתחיל ניסיון מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
+      <div class="spread"><b>ימי ניסיון</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??14}" style="width:80px;text-align:center"></div>
+      ${(B.plans||[]).map(p=>`<div class="stack" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">
+        <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' ⭐':''}</b><span class="row" style="gap:4px;align-items:center">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
+        <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לעמוד התשלום ב-Grow" value="${esc(p.link||'')}"></div>`).join('')}
+      <div class="small muted">המחיר כאן חייב להיות זהה למחיר בעמוד של Grow.</div>
+      <button class="btn primary" data-act="adm-billing-save">שמירה</button>
+      <button class="btn" data-act="plans-open">תצוגת מסך המסלולים</button>
+      </div></details>
+    <details class="card adm-det" style="margin-top:10px"><summary><b>הגדרה טכנית ב-Grow</b><span class="small muted">פעם אחת לכל עמוד</span></summary>
+      <div class="stack" style="gap:8px;margin-top:10px">
+      <div class="small muted">בכל עמוד תשלום ב-Grow ← עמוד תודה:</div>
+      <div class="small"><b>קישור לעמוד תודה</b></div><div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(location.origin)}/thanks.html</div>
+      <div class="small"><b>קישור לעדכון מערכות מידע (שרת)</b></div><div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
+      <button class="btn" data-act="copy-link" data-url="${esc(hook)}">העתקת כתובת העדכון</button>
+      </div></details>
+    ${ev.length>open.length?`<details class="card adm-det" style="margin-top:10px"><summary><b>יומן הודעות מהסליקה</b><span class="small muted">${ev.length}</span></summary><div style="margin-top:6px">${ev.filter(e=>!e.open).slice(0,20).map(evRow).join('')}</div></details>`:''}`;
+}
+function admMsgsHTML(){
+  const M=A.msgs, T={payment:'💳 תשלום',bug:'🐞 תקלה',idea:'💡 רעיון',general:'💬 כללי'};
+  return `<div class="row" style="gap:6px;margin-bottom:10px">${[['open','פתוחות'],['done','טופלו'],['all','הכל']].map(([k,t])=>`<button class="chip ${A.msgFilter===k?'on':''}" data-act="adm-msgf" data-f="${k}">${t}</button>`).join('')}</div>
+    ${!M?'<div class="empty"><div class="big">טוען…</div></div>':!M.length?`<div class="adm-ok">${A.msgFilter==='open'?'✓ אין פניות פתוחות':'אין פניות'}</div>`:
+    `<div class="stack" style="gap:10px">${M.map(m=>`<div class="card stack" style="padding:14px;gap:8px">
+      <div class="spread"><span><b>${esc(m.name||'')}</b> <span class="small muted">${T[m.topic]||''}</span></span><span class="small muted">${agoHe(m.created_at)}</span></div>
+      <div class="small muted" dir="ltr" style="text-align:right">${esc(m.email||'')}${m.phone?' · '+fmtPhone(m.phone):''}</div>
+      <div style="white-space:pre-wrap">${esc(m.body)}</div>
+      ${m.reply?`<div class="small" style="background:var(--accent-soft);border-radius:10px;padding:8px 10px"><b>התשובה שלך:</b> ${esc(m.reply)}</div>`:''}
+      ${m.status==='open'?`<textarea id="rep-${m.id}" class="adm-in" rows="2" placeholder="תשובה (תישלח כהתראה למשתמש)"></textarea>
+      <div class="row" style="gap:6px"><button class="btn primary" style="flex:2" data-act="adm-reply" data-id="${m.id}">שליחה וסגירה</button><button class="btn" style="flex:1" data-act="adm-done" data-id="${m.id}">טופל</button>
+        ${m.user_id?`<button class="btn" style="flex:1" data-act="adm-user-ext" data-id="${m.user_id}">משתמש</button>`:''}</div>`:''}
+    </div>`).join('')}</div>`}`;
+}
+let _admQT;
+document.addEventListener('input',ev=>{ if(ev.target.id==='adm-q'){ A.users.q=ev.target.value; clearTimeout(_admQT); _admQT=setTimeout(()=>admLoadUsers(true),300); } });
+function admAct(act,b){
+  switch(act){
+    case 'admin-open': closeSheet(); S.tab='admin'; render(); loadAdmin(); window.scrollTo(0,0); return true;
+    case 'adm-back': S.tab='home'; location.hash='home'; render(); return true;
+    case 'adm-refresh': loadAdmin(); return true;
+    case 'adm-tab': A.tab=b.dataset.t; render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); return true;
+    case 'adm-go': A.tab=b.dataset.t||A.tab; if(b.dataset.f){A.users.filter=b.dataset.f;A.users.q='';} render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); return true;
+    case 'adm-filter': A.users.filter=b.dataset.f; admLoadUsers(true); return true;
+    case 'adm-more': admLoadUsers(false); return true;
+    case 'adm-user': admUserSheet(b.dataset.id); return true;
+    case 'adm-user-ext': sb.rpc('admin_users',{p_q:'',p_filter:'all',p_limit:100,p_offset:0}).then(({data})=>{ A.pick=data?.rows||[]; admUserSheet(b.dataset.id); }); return true;
+    case 'adm-set': { const id=b.dataset.id, st=b.dataset.st; if(st==='rejected'&&!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב';return true;}
+      sb.rpc('admin_set_access',{uid:id,st}).then(({error})=>{ if(error){toast('נכשל');return;} toast(st==='approved'?'✓ הגישה אושרה':'המשתמש נחסם'); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true; }
+    case 'adm-grant': { const d=+b.dataset.days; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל');return;} toast(`נוספו ${d} ימים ✓`); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true; }
+    case 'adm-revoke': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? הגישה תיסגר עכשיו';return true;}
+      sb.rpc('admin_revoke',{p_uid:b.dataset.id}).then(({error})=>{ if(error){toast('נכשל');return;} toast('המנוי בוטל'); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true;
+    case 'adm-billing-save': { const B=JSON.parse(JSON.stringify(A.cfg?.billing||{}));
+      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||14)); delete B.support;
+      B.plans=(B.plans||[]).map(p=>({...p,price:+$('#adm-price-'+p.id).value||p.price,link:($('#adm-link-'+p.id).value||'').trim()}));
+      sb.rpc('admin_set_billing',{cfg:B}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('נשמר ✓'); loadAdmin(); }); return true; }
+    case 'ev-assign': { const plans=A.cfg?.billing?.plans||[]; const guess=plans.find(p=>+p.price===+b.dataset.amount); S.evMonths=guess?.months||null;
+      sb.rpc('admin_users',{p_q:'',p_filter:'all',p_limit:100,p_offset:0}).then(({data})=>{ const users=(data?.rows||[]).filter(u=>u.access!=='admin');
+        openSheet(`<h3>שיוך תשלום ₪${esc(b.dataset.amount)}</h3><div class="muted" style="margin:-4px 0 12px">בחר למי לפתוח גישה ולכמה זמן.</div>
+          <select id="ev-user" class="adm-in">${users.map(u=>`<option value="${u.id}">${esc(u.full_name||u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</option>`).join('')}</select>
+          <div class="row" style="gap:6px;margin-top:10px">${plans.map(p=>`<button class="chip ${guess?.id===p.id?'on':''}" data-act="ev-months" data-m="${p.months}">${esc(PLAN_NAMES[p.id]||p.months+' חודשים')}</button>`).join('')}</div>
+          <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="ev-assign-go" data-id="${b.dataset.id}">פתיחת גישה</button></div>`); });
+      return true; }
+    case 'ev-months': S.evMonths=+b.dataset.m; document.querySelectorAll('[data-act="ev-months"]').forEach(x=>x.classList.toggle('on',x===b)); return true;
+    case 'ev-assign-go': { if(!S.evMonths){toast('בחר תקופה');return true;} const uid=$('#ev-user').value;
+      sb.rpc('admin_assign_event',{p_event:+b.dataset.id,p_uid:uid,p_months:S.evMonths}).then(({data,error})=>{ if(error||!data?.ok){toast('השיוך נכשל');return;} closeSheet(); toast('הגישה נפתחה ✓'); loadAdmin(); }); return true; }
+    case 'ev-dismiss': sb.rpc('admin_dismiss_event',{p_event:+b.dataset.id}).then(()=>{ toast('הוסר'); loadAdmin(); }); return true;
+    case 'adm-msgf': A.msgFilter=b.dataset.f; A.msgs=null; render(); admLoadMsgs(); return true;
+    case 'adm-reply': case 'adm-done': { const id=+b.dataset.id, txt=act==='adm-reply'?($('#rep-'+id)?.value||'').trim():'';
+      if(act==='adm-reply'&&!txt){toast('כתוב תשובה');return true;}
+      sb.rpc('admin_support_reply',{p_id:id,p_reply:txt,p_done:true}).then(({error})=>{ if(error){toast('נכשל');return;} toast(txt?'התשובה נשלחה ✓':'סומן כטופל'); admLoadMsgs(); loadAdmin(); }); return true; }
+  }
+  return false;
+}
+/* ----- פנייה לתמיכה (משתמש) ----- */
+const SUPPORT_EMAIL='ofek4business@gmail.com';
+async function openContact(topic){
+  S.ctTopic=topic||S.ctTopic||'general';
+  const T=[['payment','💳 תשלום'],['bug','🐞 תקלה'],['idea','💡 רעיון'],['general','💬 אחר']];
+  const draw=list=>openSheet(`<h3>כתוב לנו</h3><div class="muted" style="margin:-4px 0 12px">ההודעה מגיעה ישירות לצוות NextRep, והתשובה תגיע אליך כהתראה וגם תופיע כאן.</div>
+    <div class="row" style="gap:6px;margin-bottom:10px">${T.map(([k,t])=>`<button class="chip ${S.ctTopic===k?'on':''}" data-act="ct-topic" data-t="${k}">${t}</button>`).join('')}</div>
+    <textarea id="ct-body" class="adm-in" rows="4" maxlength="2000" placeholder="${S.ctTopic==='payment'?'למשל: שילמתי על מסלול שנה והגישה לא נפתחה':'מה תרצה לספר לנו?'}">${esc(S.ctDraft||'')}</textarea>
+    <button class="btn primary big" style="margin-top:10px" data-act="ct-send">שליחה</button>
+    <div class="small muted" style="text-align:center;margin-top:8px">או במייל: <a class="linkbtn" href="mailto:${SUPPORT_EMAIL}" dir="ltr">${SUPPORT_EMAIL}</a></div>
+    ${list&&list.length?`<div class="label" style="margin:16px 0 6px">הפניות שלך</div><div class="stack" style="gap:8px">${list.map(m=>`<div class="card" style="padding:10px 12px"><div class="small muted">${new Date(m.created_at).toLocaleDateString('he-IL')}</div><div style="white-space:pre-wrap">${esc(m.body)}</div>
+      ${m.reply?`<div class="small" style="background:var(--accent-soft);border-radius:10px;padding:8px 10px;margin-top:6px"><b>NextRep:</b> ${esc(m.reply)}</div>`:'<div class="small muted" style="margin-top:4px">ממתין לתשובה</div>'}</div>`).join('')}</div>`:''}
+    <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>`);
+  draw(null); const {data}=await sb.rpc('my_support'); if(!$('#sheet').hidden&&$('#ct-body'))draw(data||[]);
+}
 /* ===================== קבוצות: שותפים, צ'אט, טבלה ואתגרים ===================== */
 const SOC={groups:null,gid:null,view:'chat',info:{},msgs:{},reacts:{},board:null,boardRange:'week',chall:null,ch:null,draft:'',lastRead:{},more:{}};
 try{SOC.lastRead=JSON.parse(localStorage.getItem('nr-lastread')||'{}');}catch(_){}
@@ -3286,7 +3389,7 @@ function vPaywall(full){
     <div class="stack" style="gap:14px;margin-top:6px">${plansHTML()}</div>
     <div class="small muted" style="text-align:center">בדף התשלום הקלד את מספר הטלפון שתאשר כאן. לפיו הגישה נפתחת אוטומטית תוך דקה.</div>
     <button class="btn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button>
-    ${S.plan?.support?`<a class="linkbtn" style="text-align:center" target="_blank" rel="noopener" href="${/^[0-9+\-\s]+$/.test(S.plan.support)?'https://wa.me/972'+S.plan.support.replace(/\D/g,'').replace(/^972/,'').replace(/^0/,'')+'?text='+encodeURIComponent('היי, שילמתי על NextRep והגישה לא נפתחה. האימייל שלי: '+(S.user?.email||'')):esc(S.plan.support)}">שילמת והגישה לא נפתחה? כתוב לנו</a>`:''}
+    <button class="linkbtn" style="text-align:center" data-act="contact-open" data-t="payment">שילמת והגישה לא נפתחה? כתוב לנו</button>
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
   return full?`<div class="pw">${body}</div>`:body;
 }
@@ -3549,6 +3652,10 @@ function handleAct(b,ev){
   const act=b.dataset.act;
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
+  if((act.startsWith('adm-')||act.startsWith('ev-')||act==='admin-open')&&admAct(act,b))return;
+  if(act==='ct-topic'){S.ctDraft=$('#ct-body')?.value||'';openContact(b.dataset.t);return;}
+  if(act==='ct-send'){const t=($('#ct-body')?.value||'').trim(); if(!t){toast('כתוב הודעה');return;} b.disabled=true; sb.rpc('send_support',{p_topic:S.ctTopic||'general',p_body:t}).then(({error})=>{ b.disabled=false; if(error){toast(/too_many/.test(error.message)?'שלחת הרבה הודעות, נסה בעוד שעה':'השליחה נכשלה');return;} S.ctDraft=''; toast('ההודעה נשלחה ✓ נחזור אליך בהקדם'); openContact(); }); return;}
+  if(act==='contact-open'){openContact(b.dataset.t);return;}
   switch(act){
     case 'start-free': startWorkout('אימון חופשי'); break;
     case 'start-tpl': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t)startWorkout(t.name,t.id); break; }
@@ -3682,39 +3789,6 @@ function handleAct(b,ev){
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': sb.auth.signOut(); break;
-    case 'admin-access': {
-      const id=b.dataset.id, st=b.dataset.st; b.disabled=true;
-      sb.rpc('admin_set_access',{uid:id,st}).then(({error})=>{
-        if(error){toast('העדכון נכשל: '+error.message);b.disabled=false;return;}
-        const u=(S.admin?.users||[]).find(x=>x.id===id); if(u)u.access=st;
-        if(S.admin)S.admin.totals.pending=(S.admin.users||[]).filter(x=>x.access==='pending').length;
-        toast(st==='approved'?'✓ הגישה אושרה':st==='rejected'?'הגישה נחסמה':'הוחזר להמתנה'); render();
-      }); break;
-    }
-    case 'admin-open': closeSheet(); S.tab='admin'; S.admin=null; render(); loadAdmin(); window.scrollTo(0,0); break;
-    case 'admin-back': S.tab='home'; location.hash='home'; render(); break;
-    case 'admin-refresh': loadAdmin(); break;
-    case 'ev-assign': { const users=(S.admin?.users||[]).filter(u=>u.access!=='admin'); const plans=S.adminCfg?.billing?.plans||[];
-      const guess=plans.find(p=>+p.price===+b.dataset.amount);
-      openSheet(`<h3>שיוך תשלום ₪${esc(b.dataset.amount)}</h3><div class="muted" style="margin:-4px 0 12px">בחר למי לפתוח גישה ולכמה זמן.</div>
-        <select id="ev-user" class="adm-in">${users.map(u=>`<option value="${u.id}">${esc(u.full_name||u.email)}</option>`).join('')}</select>
-        <div class="row" style="gap:6px;margin-top:10px">${plans.map(p=>`<button class="chip ${guess?.id===p.id?'on':''}" data-act="ev-months" data-m="${p.months}">${esc(PLAN_NAMES[p.id]||p.months+' חודשים')}</button>`).join('')}</div>
-        <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="ev-assign-go" data-id="${b.dataset.id}">פתיחת גישה</button></div>`);
-      S.evMonths=guess?.months||null; break; }
-    case 'ev-months': S.evMonths=+b.dataset.m; document.querySelectorAll('[data-act="ev-months"]').forEach(x=>x.classList.toggle('on',x===b)); break;
-    case 'ev-assign-go': { if(!S.evMonths){toast('בחר תקופה');break;} const uid=$('#ev-user').value;
-      sb.rpc('admin_assign_event',{p_event:+b.dataset.id,p_uid:uid,p_months:S.evMonths}).then(({data,error})=>{ if(error||!data?.ok){toast('השיוך נכשל');return;} closeSheet(); toast('הגישה נפתחה ✓'); loadAdmin(); }); break; }
-    case 'g-env': { const i=$('#g-base'); if(i)i.value=b.dataset.v==='live'?'https://secure.meshulam.co.il/api/light/server/1.0/':'https://sandbox.meshulam.co.il/api/light/server/1.0/';
-      document.querySelectorAll('[data-act="g-env"]').forEach(x=>x.classList.toggle('on',x===b)); break; }
-    case 'g-save': { const cfg={pageCode:$('#g-page').value.trim(),userId:$('#g-user').value.trim(),apiKey:$('#g-key').value.trim(),base:$('#g-base').value.trim()};
-      sb.rpc('admin_set_grow',{cfg}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('חיבור Grow נשמר ✓'); loadAdmin(); }); break; }
-    case 'admin-grant': { const d=+b.dataset.days; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל: '+error.message);return;} toast(`נוספו ${d} ימים ✓`); loadAdmin(); }); break; }
-    case 'admin-billing-save': { const B=JSON.parse(JSON.stringify(S.adminCfg.billing||{}));
-      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||14)); B.support=($('#adm-support').value||'').trim();
-      B.plans=(B.plans||[]).map(p=>({...p,price:+$('#adm-price-'+p.id).value||p.price,link:($('#adm-link-'+p.id).value||'').trim()}));
-      if(B.enabled&&!B.plans.some(p=>p.link)&&!confirm('אין אף קישור תשלום. להפעיל גבייה בכל זאת?'))break;
-      sb.rpc('admin_set_billing',{cfg:B}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('ההגדרות נשמרו ✓'); loadAdmin(); }); break; }
-    case 'admin-user': { const id=b.dataset.id; S.adminOpen=S.adminOpen===id?null:id; render(); break; }
     case 'np-close': closeNumpad(); break;
     case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
