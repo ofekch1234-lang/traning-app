@@ -753,7 +753,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.9';
+const APP_VERSION='6.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2046,7 +2046,7 @@ function vPlans(){
       <div class="small muted" style="margin-top:10px">נגיעה ביום קובעת מה מתאמנים בו. התזכורת היומית (בהגדרות ⚙️) תודיע לך בבוקר של יום אימון.</div>
     </div>`;
   return `
-    <button class="pb-cta" data-act="pb-open"><span class="pb-ic">✨</span><span style="flex:1"><b>בנה לי תוכנית</b><small>7 שאלות קצרות ותקבל תוכנית מותאמת לרמה, למטרה ולזמן שלך</small></span><span class="btn primary" style="pointer-events:none">התחל</span></button>
+    <button class="pb-cta" data-act="pb-open"><span class="pb-ic">✨</span><span style="flex:1"><b>בנה לי תוכנית</b><small>8 שאלות קצרות ותקבל תוכנית מותאמת לרמה, למטרה ולזמן שלך</small></span><span class="btn primary" style="pointer-events:none">התחל</span></button>
     ${sched}
     <div class="sect">התוכניות</div>
     <button class="btn primary big" data-act="tpl-new">+ תוכנית חדשה</button>
@@ -3844,8 +3844,9 @@ function tourAct(act,b){
 }
 
 /* ===================== בונה תוכנית מותאמת (מבוסס כללים — חינם ומיידי) ===================== */
-const PB={step:0,a:{goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]},plan:null,replace:true,sched:true};
+const PB={step:0,a:{sex:null,goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]},plan:null,replace:true,sched:true};
 const PB_Q=[
+  {k:'sex',t:'נתחיל מהבסיס: את/ה…',o:[['m','🙋‍♂️ גבר'],['f','🙋‍♀️ אישה']],grid:true},
   {k:'goal',t:'מה המטרה העיקרית שלך?',o:[['mass','💪 לבנות שריר','היפרטרופיה, נפח וצורה'],['strength','🏋️ להתחזק','להעלות משקלים בתרגילי הבסיס'],['cut','🔥 לחטב ולרדת בשומן','לשמור על שריר ולשרוף יותר'],['fit','⚡ כושר כללי','להרגיש טוב, חזק ובריא']]},
   {k:'level',t:'כמה זמן אתה מתאמן עם משקולות?',o:[['beg','מתחיל','פחות מחצי שנה, או חוזר אחרי הפסקה ארוכה'],['mid','בינוני','חצי שנה עד שנתיים של אימון קבוע'],['adv','מתקדם','יותר משנתיים, מכיר טכניקה היטב']]},
   {k:'days',t:'כמה ימים בשבוע אתה יכול להתאמן?',o:[[2,'2 ימים'],[3,'3 ימים'],[4,'4 ימים'],[5,'5 ימים'],[6,'6 ימים']],grid:true},
@@ -3911,6 +3912,7 @@ function pbBuild(){
     // דגש: תרגיל בידוד נוסף לשריר הנבחר, אם מתאים לאימון
     for(const f of A.focus)for(const sl of PB_FOCUS[f]||[]){ const base=sl; const fits=slots.some(x=>x.split(':')[0]===base)||(['fly','incline'].includes(base)&&/push|up|full/.test(key))||(['bi','tri'].includes(base)&&/pull|push|up|full/.test(key))||(['glute','lpress','lext','lunge'].includes(base)&&/legs|lo|full/.test(key))||(['lat','rear','row'].includes(base)&&/push|pull|up|full/.test(key))||base==='core';
       if(fits){ slots.push(base+':f'); break; } }
+    if(A.sex==='f'&&/legs|lo|full/.test(key)&&!slots.some(x=>x.split(':')[0]==='glute'))slots.splice(Math.min(2,slots.length),0,'glute');
     if(A.goal==='cut')slots.push('cardio');
     const ex=[]; let compIdx=0;
     for(const sl of slots){
@@ -3928,6 +3930,8 @@ function pbBuild(){
       else if(A.goal==='fit'){ if(comp){sets=3;reps='8–12';rest=90;} else {sets=2;reps='12–15';rest=60;} }
       else { if(comp){sets=first?4:3;reps=first?'6–10':'8–12';rest=first?150:120;} else {sets=3;reps='10–15';rest=75;} }
       if(A.level==='beg')sets=Math.max(2,sets-1);
+      // נשים מתאוששות מהר יותר בין סטים: מנוחה קצרה יותר ומעט יותר חזרות בבידוד
+      if(A.sex==='f'){ rest=Math.max(45,rest-(comp?30:15)); if(!comp&&A.goal!=='strength')reps='12–15'; }
       if(A.level==='adv'&&compIdx<=2&&comp)sets+=1;
       const g=pbMuscle(n);
       if(A.focus.some(f=>({chest:'חזה',back:'גב',legs:'רגליים',glutes:'רגליים',shoulders:'כתפיים',arms:g==='יד קדמית'?'יד קדמית':'יד אחורית',core:'בטן וליבה'}[f]===g)))sets+=vi==='f'?0:1;
@@ -3964,7 +3968,7 @@ function pbSheet(){
 function pbPreview(){
   const P=PB.plan, A=PB.a;
   openSheet(`<h3 style="margin-bottom:2px">התוכנית שלך מוכנה ✨</h3>
-    <div class="small muted" style="margin-bottom:12px">${P.prog} · ${A.days} ימים · ${P.split}</div>
+    <div class="small muted" style="margin-bottom:12px">${A.sex==='f'?'לאישה':'לגבר'} · ${P.prog} · ${A.days} ימים · ${P.split}</div>
     <div class="stack" style="gap:10px">${P.sessions.map(se=>`<div class="pb-sess"><div class="spread"><b>${esc(se.name)}</b><span class="small muted">~${se.min} דק׳</span></div>
       ${se.ex.map(e=>`<div class="pb-ex"><span>${esc(e.n)}</span><span class="num muted" ${e.t==='c'?'':'dir="ltr"'}>${e.t==='c'?e.min+' דק׳':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}</div>`).join('')}</div>
     <div class="small muted" style="margin:12px 0">מתחילים במשקל שמאפשר את כל החזרות בטכניקה טובה. כשמגיעים לקצה העליון של טווח החזרות בכל הסטים, מעלים 2.5–5 ק״ג.</div>
@@ -3983,10 +3987,10 @@ async function pbSave(){
 }
 function pbAct(act,b){
   switch(act){
-    case 'pb-open': PB.step=0; PB.a={goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]}; pbSheet(); return true;
+    case 'pb-open': PB.step=0; PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]}; pbSheet(); return true;
     case 'pb-pick': { const Q=PB_Q[PB.step]; let v=b.dataset.v; if(typeof Q.o[0][0]==='number')v=+v;
-      if(Q.multi){ const arr=PB.a[Q.k]; const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); pbSheet(); }
-      else { PB.a[Q.k]=v; PB.step++; pbSheet(); } return true; }
+      if(Q.multi){ const arr=PB.a[Q.k]; const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); if(v==='glutes')PB._gTouched=true; pbSheet(); }
+      else { PB.a[Q.k]=v; if(Q.k==='sex'){ const f=PB.a.focus; if(v==='f'&&!f.includes('glutes'))f.push('glutes'); if(v==='m'){const i=f.indexOf('glutes'); if(i>=0&&!PB._gTouched)f.splice(i,1);} } PB.step++; pbSheet(); } return true; }
     case 'pb-next': PB.step++; pbSheet(); return true;
     case 'pb-back': PB.step=Math.max(0,PB.step-1); pbSheet(); return true;
     case 'pb-restart': PB.step=0; pbSheet(); return true;
