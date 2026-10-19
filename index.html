@@ -217,6 +217,23 @@ body.landing #app{max-width:1120px}
 .phdays{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .phdays button{padding:10px 4px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);font-size:14px}
 .phset{border:2px solid var(--accent)}
+.tiles.sm .v{font-size:28px;white-space:nowrap}
+.hmgrid{display:flex;gap:3px;direction:rtl;justify-content:space-between}
+.hmc{display:flex;flex-direction:column;gap:3px;flex:1}
+.hm{display:block;aspect-ratio:1;border-radius:3px;background:var(--surface2)}
+.hm.l1{background:var(--accent);opacity:.35}.hm.l2{background:var(--accent);opacity:.65}.hm.l3{background:var(--accent)}
+.hm.f{background:transparent}.hm.t{outline:1.5px solid var(--ink);outline-offset:-1px}
+.hmleg{display:inline-flex;gap:3px;align-items:center}.hmleg .hm{width:10px;height:10px}
+.hmonth{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:right;padding:14px 2px 8px}
+.hrow{display:flex;gap:12px;align-items:center;width:100%;text-align:right;padding:11px 0;border-bottom:1px solid var(--line)}
+.hrow:last-child{border-bottom:0}
+.hdate{width:40px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;background:var(--surface2);border-radius:10px;padding:4px 0}
+.hdate b{font-family:var(--disp);font-size:24px;line-height:1;font-weight:400}.hdate small{font-size:10.5px;color:var(--muted)}
+.hname{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hpr{font-size:12px;font-weight:700;color:var(--gold);background:var(--gold-soft);border-radius:99px;padding:2px 8px;white-space:nowrap}
+.wx{display:block;width:100%;text-align:right;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.wsets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;direction:ltr;justify-content:flex-end}
+.wsets span{background:var(--surface2);border-radius:7px;padding:2px 7px;font-size:13px}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -673,7 +690,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.4';
+const APP_VERSION='4.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1935,55 +1952,98 @@ function vPlans(){
 }
 
 /* ----- history tab ----- */
-function vHistory(){
-  const ws=[...S.workouts].sort((a,b)=>b.start-a.start);
-  if(!ws.length)return `<div class="empty"><div class="big">עוד אין אימונים שמורים</div>האימון הראשון שתסיים יופיע כאן, עם כל הסטים והמשקלים.</div>`;
-  // קיבוץ לפי חודש, עם סיכום חודשי
-  const months={};
-  for(const w of ws){ const k=new Date(w.start).toLocaleDateString('he-IL',{month:'long',year:'numeric'});
-    (months[k]=months[k]||{n:0,vol:0}); months[k].n++; months[k].vol+=workoutVol(w); }
-  let lastMonth='';
-  return ws.map(w=>{
-    const mk=new Date(w.start).toLocaleDateString('he-IL',{month:'long',year:'numeric'});
-    const header=mk!==lastMonth?`<div class="sect spread" style="margin-bottom:2px"><span>${mk}</span><span class="muted small num" style="font-family:var(--body);font-weight:400">${months[mk].n} אימונים · ${fmtNum(months[mk].vol)} ק״ג</span></div>`:'';
-    lastMonth=mk;
-    return header+hCard(w);
-  }).join('');
+/* ----- היסטוריה: בנויה למשתמש עם מאות אימונים ----- */
+const HIST={q:'',tpl:'all',open:{}};
+function histPRs(ws){ // אימונים שבהם נשבר שיא משקל בתרגיל
+  const best={}, pr={};
+  for(const w of [...ws].sort((a,b)=>a.start-b.start)){
+    let n=0;
+    for(const e of w.ex||[])if(e.t==='s'){ const top=Math.max(0,...(e.sets||[]).filter(x=>+x.r>0).map(x=>+x.w||0));
+      if(top>0){ if(best[e.n]!=null&&top>best[e.n])n++; if(best[e.n]==null||top>best[e.n])best[e.n]=top; } }
+    if(n)pr[w.id]=n;
+  }
+  return pr;
 }
-function hCard(w){
-    const open=S.openHist[w.id];
-    return `<div class="h-card">
-      <button style="display:block;width:100%;text-align:right;padding:0" data-act="hist-toggle" data-id="${esc(w.id)}">
-        <div class="spread"><b>${esc(w.name)}</b><span class="muted small num">${fmtDateFull(w.start)}</span></div>
-        <div class="h-stats num" style="margin-top:6px">
-          <span>⏱ ${fmtDur(w.end-w.start)}</span>
-          <span>סטים ${workoutSets(w)}</span>
-          <span>נפח ${fmtNum(workoutVol(w))} ק״ג</span>
-        </div>
-      </button>
-      ${open?`<div class="h-detail">
-        ${(w.ex||[]).map(e=>`<div class="h-ex"><span>${esc(e.n)}</span><span class="sets num">${
-          e.t==='c'?esc(`${e.c?.min||0}min${e.c?.km?' / '+e.c.km+'km':''}`)
-          :(e.sets||[]).filter(s=>+s.r>0).map(s=>`${+s.w||0}×${+s.r||0}`).join('  ')
-        }</span></div>`).join('')}
-        <div class="spread">
-          <button class="btn" data-act="share-w" data-id="${esc(w.id)}">שתף 📤</button>
-          ${S.confirmDel===w.id
-            ?`<button class="btn danger" data-act="hist-del2" data-id="${esc(w.id)}">בטוח? מחק לצמיתות</button>`
-            :`<button class="btn danger" data-act="hist-del1" data-id="${esc(w.id)}">מחק אימון</button>`}
-        </div>
-      </div>`:''}
-    </div>`;
+function histHeatmap(ws){
+  const W=16, d0=new Date(); d0.setHours(0,0,0,0); d0.setDate(d0.getDate()-d0.getDay()-(W-1)*7);
+  const vol={}; for(const w of ws){ const k=ymd(new Date(w.start)); vol[k]=(vol[k]||0)+Math.max(1,workoutVol(w)); }
+  const vals=Object.values(vol).sort((a,b)=>a-b), q=p=>vals.length?vals[Math.floor((vals.length-1)*p)]:0;
+  const lvl=v=>!v?0:v<=q(.33)?1:v<=q(.66)?2:3;
+  const today=ymd(); let cols='', n=0;
+  for(let c=0;c<W;c++){ let cells='';
+    for(let r=0;r<7;r++){ const d=new Date(d0); d.setDate(d0.getDate()+c*7+r); const k=ymd(d); const v=vol[k]; if(v)n++;
+      cells+=k>today?'<i class="hm f"></i>':`<i class="hm l${lvl(v)}${k===today?' t':''}" title="${k}"></i>`; }
+    cols+=`<span class="hmc">${cells}</span>`; }
+  return {html:`<div class="hmgrid">${cols}</div>`,days:n};
+}
+function vHistory(){
+  const all=[...S.workouts].sort((a,b)=>b.start-a.start);
+  if(!all.length)return `<div class="empty"><div class="big">עוד אין אימונים שמורים</div>האימון הראשון שתסיים יופיע כאן, עם כל הסטים והמשקלים.</div>`;
+  const pr=histPRs(all), hm=histHeatmap(all);
+  const since=Date.now()-84*864e5, recent=all.filter(w=>w.start>=since).length;
+  // סינון: שם אימון / תרגיל
+  const tplCount={}; for(const w of all)tplCount[w.name]=(tplCount[w.name]||0)+1;
+  const tpls=Object.entries(tplCount).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
+  const q=HIST.q.trim();
+  const exHit=q?exerciseOptions().filter(n=>n.includes(q)).slice(0,3):[];
+  const ws=all.filter(w=>(HIST.tpl==='all'||w.name===HIST.tpl)&&(!q||w.name.includes(q)||(w.ex||[]).some(e=>e.n.includes(q))));
+  // קיבוץ לפי חודש
+  const groups=[]; let cur=null;
+  for(const w of ws){ const d=new Date(w.start), k=d.getFullYear()+'-'+(d.getMonth()+1);
+    if(!cur||cur.k!==k){ cur={k,label:d.toLocaleDateString('he-IL',{month:'long',year:'numeric'}),items:[],vol:0,ms:0}; groups.push(cur); }
+    cur.items.push(w); cur.vol+=workoutVol(w); cur.ms+=Math.max(0,(w.end||w.start)-w.start); }
+  const filtering=q||HIST.tpl!=='all';
+  return `
+    <div class="card" style="padding:14px">
+      <div class="spread" style="margin-bottom:10px"><b>${all.length} אימונים</b><span class="small muted">${(recent/12).toFixed(1).replace('.0','')} בשבוע ב-3 החודשים האחרונים</span></div>
+      ${hm.html}
+      <div class="spread small muted" style="margin-top:8px"><span>16 שבועות אחרונים · ${hm.days} ימי אימון</span><span class="hmleg">פחות <i class="hm l1"></i><i class="hm l2"></i><i class="hm l3"></i> יותר</span></div>
+    </div>
+    <input id="hist-q" type="search" class="adm-in" placeholder="חיפוש אימון או תרגיל (למשל: סקוואט)" value="${esc(HIST.q)}" style="margin-top:12px">
+    ${exHit.length?`<div class="row" style="gap:6px;margin-top:8px">${exHit.map(n=>`<button class="chip on" data-act="hist-ex" data-n="${esc(n)}">📈 ההתקדמות ב${esc(n)}</button>`).join('')}</div>`:''}
+    ${tpls.length>1?`<div class="row" style="gap:6px;margin-top:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px">
+      <button class="chip ${HIST.tpl==='all'?'on':''}" data-act="hist-tpl" data-t="all" style="flex-shrink:0">הכל</button>
+      ${tpls.map(t=>`<button class="chip ${HIST.tpl===t?'on':''}" data-act="hist-tpl" data-t="${esc(t)}" style="flex-shrink:0">${esc(t)} <span class="muted">${tplCount[t]}</span></button>`).join('')}</div>`:''}
+    ${!ws.length?`<div class="empty" style="margin-top:12px">לא נמצאו אימונים${q?` עם ״${esc(q)}״`:''}</div>`:''}
+    ${groups.map((g,gi)=>{ const open=filtering||HIST.open[g.k]!=null?(filtering||HIST.open[g.k]):gi<2;
+      return `<button class="hmonth" data-act="hist-month" data-k="${g.k}" aria-expanded="${open}">
+        <span><b>${g.label}</b><span class="small muted" style="display:block">${g.items.length} אימונים · ${fmtNum(g.vol)} ק״ג · ${Math.round(g.ms/36e5)} שעות</span></span>
+        <span class="muted">${open?'▾':'◂'}</span></button>
+      ${open?`<div class="card" style="padding:0 12px">${g.items.map(w=>hRow(w,pr[w.id])).join('')}</div>`:''}`;}).join('')}`;
+}
+function hRow(w,prs){
+  const d=new Date(w.start);
+  return `<button class="hrow" data-act="hist-open" data-id="${esc(w.id)}">
+    <span class="hdate"><b class="num">${d.getDate()}</b><small>${d.toLocaleDateString('he-IL',{weekday:'short'})}</small></span>
+    <span style="flex:1;min-width:0"><b class="hname">${esc(w.name)}</b>
+      <span class="small muted num">${fmtDur(w.end-w.start)} · ${workoutSets(w)} סטים · ${fmtNum(workoutVol(w))} ק״ג</span></span>
+    ${prs?`<span class="hpr">🏅 ${prs}</span>`:''}<span class="muted">›</span></button>`;
+}
+function openWorkoutSheet(id){
+  const w=S.workouts.find(x=>x.id===id); if(!w)return;
+  const before=S.workouts.filter(x=>x.start<w.start).sort((a,b)=>b.start-a.start);
+  const prevTop=n=>{ for(const x of before){ const e=(x.ex||[]).find(e=>e.n===n&&e.t==='s'); if(e){ const t=Math.max(0,...(e.sets||[]).map(s=>+s.w||0)); if(t)return t; } } return null; };
+  const tpl=w.tid&&S.templates.find(t=>t.id===w.tid);
+  openSheet(`<h3 style="margin-bottom:2px">${esc(w.name)}</h3>
+    <div class="small muted" style="margin-bottom:12px">${fmtDateFull(w.start)} · ${new Date(w.start).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'})}</div>
+    <div class="tiles sm"><div class="tile"><div class="v num">${fmtDur(w.end-w.start)}</div><div class="k">זמן</div></div><div class="tile"><div class="v num">${workoutSets(w)}</div><div class="k">סטים</div></div><div class="tile"><div class="v num">${fmtNum(workoutVol(w))}</div><div class="k">ק״ג נפח</div></div></div>
+    <div class="stack" style="gap:8px;margin-top:12px">${(w.ex||[]).map(e=>{
+      if(e.t==='c')return `<div class="wx"><b>${esc(e.n)}</b><span class="small muted">${e.c?.min||0} דק׳${e.c?.km?` · ${e.c.km} ק״מ`:''}</span></div>`;
+      const sets=(e.sets||[]).filter(x=>+x.r>0), top=Math.max(0,...sets.map(x=>+x.w||0)), pv=prevTop(e.n), diff=pv!=null?Math.round((top-pv)*10)/10:null;
+      return `<button class="wx" data-act="hist-ex" data-n="${esc(e.n)}">
+        <div class="spread"><b>${esc(e.n)}</b>${diff?`<span class="small" style="color:${diff>0?'var(--accent)':'var(--gold)'};font-weight:700">${diff>0?'▲':'▼'} ${Math.abs(diff)} ק״ג</span>`:diff===0?'<span class="small muted">כמו בפעם הקודמת</span>':''}</div>
+        <div class="wsets">${sets.map(x=>`<span class="num">${+x.w||0}×${+x.r||0}</span>`).join('')}</div></button>`;}).join('')}</div>
+    <div class="row" style="gap:8px;margin-top:14px">
+      ${tpl?`<button class="btn primary" style="flex:1.4" data-act="start-tpl" data-id="${esc(tpl.id)}">חזרה על האימון</button>`:''}
+      <button class="btn" style="flex:1" data-act="share-w" data-id="${esc(w.id)}">שיתוף</button>
+      <button class="btn danger" style="flex:1" data-act="hist-del" data-id="${esc(w.id)}">מחיקה</button></div>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
 }
 
 /* ----- track tab: התקדמות + היסטוריה במקום אחד ----- */
 function vTrack(){
   return `
-    <div class="row" style="margin-bottom:4px">
-      <button class="chip ${S.trackView==='body'?'on':''}" data-act="track-view" data-v="body">⚖️ גוף ויעדים</button>
-      <button class="chip ${S.trackView==='progress'?'on':''}" data-act="track-view" data-v="progress">📈 אימונים</button>
-      <button class="chip ${S.trackView==='history'?'on':''}" data-act="track-view" data-v="history">🕐 היסטוריה</button>
-    </div>
+    <div class="tseg" style="margin-bottom:6px">${[['body','גוף ויעדים'],['progress','התקדמות'],['history','היסטוריה']].map(([k,t])=>`<button class="${S.trackView===k?'on':''}" data-act="track-view" data-v="${k}">${t}</button>`).join('')}</div>
     ${S.trackView==='history'?vHistory():S.trackView==='progress'?vProgress():vBody()}
   `;
 }
@@ -3032,7 +3092,8 @@ function admMsgsHTML(){
     </div>`).join('')}</div>`}`;
 }
 let _admQT;
-document.addEventListener('input',ev=>{ if(ev.target.id==='adm-q'){ A.users.q=ev.target.value; clearTimeout(_admQT); _admQT=setTimeout(()=>admLoadUsers(true),300); } });
+document.addEventListener('input',ev=>{ if(ev.target.id==='hist-q'){ HIST.q=ev.target.value; clearTimeout(HIST._t); HIST._t=setTimeout(()=>{ render(); const q=$('#hist-q'); if(q){q.focus(); q.setSelectionRange(q.value.length,q.value.length);} },250); return; }
+ if(ev.target.id==='adm-q'){ A.users.q=ev.target.value; clearTimeout(_admQT); _admQT=setTimeout(()=>admLoadUsers(true),300); } });
 function admAct(act,b){
   switch(act){
     case 'admin-open': closeSheet(); S.tab='admin'; render(); loadAdmin(); window.scrollTo(0,0); return true;
@@ -3683,7 +3744,7 @@ function handleAct(b,ev){
   if(act==='contact-open'){openContact(b.dataset.t);return;}
   switch(act){
     case 'start-free': startWorkout('אימון חופשי'); break;
-    case 'start-tpl': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t)startWorkout(t.name,t.id); break; }
+    case 'start-tpl': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t){closeSheet();startWorkout(t.name,t.id);} break; }
     case 'add-ex': openLibrary('active'); break;
     case 'rm-ex': { S.active.ex.splice(+b.dataset.ei,1); persistActive(); render(); break; }
     case 'add-set': { const e=S.active.ex[+b.dataset.ei]; const last=e.sets[e.sets.length-1];
@@ -3831,6 +3892,10 @@ function handleAct(b,ev){
     case 'hist-del2': deleteWorkout(b.dataset.id); S.confirmDel=null; break;
     case 'metric': S.progressMetric=b.dataset.m; render(); break;
     case 'track-view': S.trackView=b.dataset.v; render(); break;
+    case 'hist-open': openWorkoutSheet(b.dataset.id); break;
+    case 'hist-tpl': HIST.tpl=b.dataset.t; render(); break;
+    case 'hist-month': { const k=b.dataset.k; HIST.open[k]=b.getAttribute('aria-expanded')!=='true'; render(); break; }
+    case 'hist-del': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? מחק';break;} deleteWorkout(b.dataset.id); closeSheet(); toast('האימון נמחק'); break;
     case 'bw-save': saveBodyweight(); break;
     case 'bw-quick': openWeighIn(); break;
     case 'cal-day': openWeighIn(b.dataset.d); break;
