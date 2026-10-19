@@ -23,6 +23,10 @@ Deno.serve(async (req: Request) => {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: cors });
 
+    // רק משתמשים שאושרו ע"י האדמין
+    const { data: ok } = await sb.rpc("is_approved");
+    if (ok !== true) return new Response(JSON.stringify({ error: "not_approved" }), { status: 403, headers: cors });
+
     // מכסה: עד 30 ניתוחי AI ל-24 שעות למשתמש — הגנה מניצול לרעה של המפתח
     const DAILY_LIMIT = 30;
     const { count } = await sb.from("ai_usage").select("id", { count: "exact", head: true })

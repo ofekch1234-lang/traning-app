@@ -451,7 +451,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='2.8';
+const APP_VERSION='2.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -791,6 +791,7 @@ function render_(){
   const v=$('#view');
   const vk=S.mode+'|'+S.tab, moved=vk!==render_._k; render_._k=vk;
   if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען…</div>מתחבר לנתונים שלך</div>`;return;}
+  if(S.mode==='pending'){v.innerHTML=vPending();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
   if(S.mode==='auth'){v.innerHTML=vAuth();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
   if(S.tab==='home')v.innerHTML=vHome();
   else if(S.tab==='train')v.innerHTML=vTrain();
@@ -800,6 +801,22 @@ function render_(){
   else v.innerHTML=vTrack();
   if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
   if(S.tab==='track'&&S.trackView==='progress')wireChart();
+}
+
+/* ----- ממתין לאישור ----- */
+function vPending(){
+  const rej=S.access==='rejected';
+  const name=(S.user?.user_metadata?.full_name||'').split(' ')[0];
+  return `<div id="authwrap">
+    <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div></div>
+    <div class="card stack" style="text-align:center;padding:22px 18px">
+      <div style="font-size:44px;line-height:1">${rej?'🚫':'⏳'}</div>
+      <h3 style="margin:6px 0 0">${rej?'הגישה לא אושרה':`תודה שנרשמת${name?', '+esc(name):''}!`}</h3>
+      <div class="muted">${rej?'החשבון הזה לא אושר לשימוש ב-NextRep כרגע.':'החשבון שלך ממתין לאישור. ברגע שיאושר — תוכל להתחיל להתאמן.'}</div>
+      <div class="small muted" dir="ltr">${esc(S.user?.email||'')}</div>
+      ${rej?'':`<button class="btn primary big" data-act="access-recheck" style="margin-top:6px">בדוק שוב</button>`}
+      <button class="linkbtn" data-act="access-logout">יציאה מהחשבון</button>
+    </div></div>`;
 }
 
 /* ----- auth screen ----- */
@@ -2409,21 +2426,32 @@ function vAdmin(){
   if(S.adminErr)return head+`<div class="empty"><div class="big">🔒</div>${esc(S.adminErr)}</div>`;
   if(!A)return head+`<div class="empty"><div class="big">טוען…</div>אוסף נתונים</div>`;
   const T=A.totals, tile=(v,k)=>`<div class="tile"><div class="v num">${v}</div><div class="k">${k}</div></div>`;
+  const ACC={approved:['מאושר','var(--accent)'],pending:['ממתין','#D97706'],rejected:['חסום','#DC2626'],admin:['אדמין','var(--ink)']};
+  const badge=a=>{const [t,c]=ACC[a]||ACC.pending;return `<span class="small" style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;};
+  const pend=(A.users||[]).filter(u=>u.access==='pending');
+  const pendHTML=pend.length?`<div class="card" style="padding:14px;border-color:#D97706;margin-bottom:14px">
+    <div class="spread" style="margin-bottom:8px"><b>⏳ ממתינים לאישור (${pend.length})</b></div>
+    <div class="stack" style="gap:10px">${pend.map(u=>`<div class="spread" style="gap:8px">
+      <span style="min-width:0"><b>${esc(u.full_name||u.email.split('@')[0])}</b><span class="small muted" style="display:block;overflow:hidden;text-overflow:ellipsis" dir="ltr">${esc(u.email)}</span>
+        <span class="small muted" style="display:block">נרשם ${agoHe(ymd(new Date(u.created_at)))}</span></span>
+      <span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn" data-act="admin-access" data-id="${u.id}" data-st="rejected" aria-label="דחה">✕</button>
+        <button class="btn primary" data-act="admin-access" data-id="${u.id}" data-st="approved">אשר ✓</button></span></div>`).join('')}</div></div>`:'';
   const users=(A.users||[]).map(u=>{
     const open=S.adminOpen===u.id, name=u.full_name||u.email.split('@')[0];
     const fresh=u.last_d===ymd();
     return `<button class="card" data-act="admin-user" data-id="${u.id}" style="width:100%;text-align:right;padding:12px 14px">
-      <div class="spread"><span><b>${esc(name)}</b> ${fresh?'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);vertical-align:middle"></span>':''}
+      <div class="spread"><span><b>${esc(name)}</b> ${badge(u.access)} ${fresh?'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);vertical-align:middle"></span>':''}
         <span class="small muted" style="display:block">פעיל ${agoHe(u.last_d)} · הצטרף ${new Date(u.created_at).toLocaleDateString('he-IL',{day:'numeric',month:'short'})}</span></span>
         <span class="small muted num" style="text-align:left">${u.workouts} אימונים<br>${u.meals} ארוחות</span></div>
       ${open?`<div class="h-detail small">
         <div class="h-ex"><span>אימייל</span><span dir="ltr">${esc(u.email)}</span></div>
         <div class="h-ex"><span>שקילות</span><span class="num">${u.weighins}</span></div>
         <div class="h-ex"><span>התראות פוש</span><span>${u.push?'✓ מופעל':'—'}</span></div>
-        <div class="h-ex"><span>ניתוחי AI</span><span class="num">${u.ai_calls} · ${money(u.ai_usd)}</span></div></div>`:''}
+        <div class="h-ex"><span>ניתוחי AI</span><span class="num">${u.ai_calls} · ${money(u.ai_usd)}</span></div>
+        ${u.access==='admin'?'':`<div class="row" style="gap:8px;margin-top:4px">${u.access!=='approved'?`<span class="btn primary" style="flex:1" data-act="admin-access" data-id="${u.id}" data-st="approved">אשר גישה</span>`:''}${u.access!=='rejected'?`<span class="btn danger" style="flex:1" data-act="admin-access" data-id="${u.id}" data-st="rejected">חסום גישה</span>`:''}</div>`}</div>`:''}
     </button>`;}).join('');
   const foods=(A.top_foods||[]).map(f=>`<div class="h-ex"><span>${esc(f.name)}</span><span class="num muted">${f.picks}</span></div>`).join('');
-  return head+`
+  return head+pendHTML+`
     <div class="label" style="margin-bottom:6px">משתמשים</div>
     <div class="tiles">${tile(T.users,'רשומים')}${tile(T.active7,'פעילים 7 ימים')}${tile(T.new7,'חדשים השבוע')}</div>
     <div class="tiles" style="margin-top:10px">${tile(T.active1,'פעילים היום')}${tile(T.active30,'פעילים 30 יום')}${tile(T.push_users,'עם התראות')}</div>
@@ -2711,6 +2739,17 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
+    case 'access-recheck': if(S.user)enterApp(S.user); break;
+    case 'access-logout': sb.auth.signOut(); break;
+    case 'admin-access': {
+      const id=b.dataset.id, st=b.dataset.st; b.disabled=true;
+      sb.rpc('admin_set_access',{uid:id,st}).then(({error})=>{
+        if(error){toast('העדכון נכשל: '+error.message);b.disabled=false;return;}
+        const u=(S.admin?.users||[]).find(x=>x.id===id); if(u)u.access=st;
+        if(S.admin)S.admin.totals.pending=(S.admin.users||[]).filter(x=>x.access==='pending').length;
+        toast(st==='approved'?'✓ הגישה אושרה':st==='rejected'?'הגישה נחסמה':'הוחזר להמתנה'); render();
+      }); break;
+    }
     case 'admin-open': closeSheet(); S.tab='admin'; S.admin=null; render(); loadAdmin(); window.scrollTo(0,0); break;
     case 'admin-back': S.tab='home'; location.hash='home'; render(); break;
     case 'admin-refresh': loadAdmin(); break;
@@ -2850,6 +2889,8 @@ const DEFAULT_TEMPLATES=[
 /* ---------- boot ---------- */
 async function enterApp(user){
   S.user=user; S.mode='boot'; render();
+  // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
+  try{ const acc=await sb.rpc('my_access'); if(!acc.error&&acc.data&&acc.data!=='approved'){ S.access=acc.data; S.mode='pending'; render(); return; } }catch(_){}
   try{
     const [tpl,wo,st,bw,ml]=await Promise.all([
       sb.from('templates').select('id,name,ord,ex').order('ord'),
