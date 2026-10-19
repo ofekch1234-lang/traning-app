@@ -649,7 +649,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='3.9';
+const APP_VERSION='4.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3257,13 +3257,7 @@ function planLink(p){
   let l=(p&&p.link)||''; if(!l)return '';
   const u=S.user||{}; const r={uid:u.id||'',email:u.email||'',name:u.user_metadata?.full_name||''};
   if(/\{(uid|email|name)\}/.test(l))return l.replace(/\{(uid|email|name)\}/g,(_,k)=>encodeURIComponent(r[k]));
-  // בלי תבנית: מצרפים את מזהה המשתמש בשמות הנפוצים. פרמטר לא מוכר פשוט נשאר מחוץ לדף, והשרת מחפש את המזהה בכל מה שמגיע מ-Grow
-  // ניסוי: שולחים את המזהה ואת פרטי המשתמש בכל שמות הפרמטרים המקובלים. מה ש-Grow יחזיר, השרת יזהה
-  try{ const u=new URL(l), sp=u.searchParams;
-    if(r.uid)for(const k of ['cField1','cField2','cField3','customFields[cField1]','field1','custom1','comment','notes','ref','nr_uid'])sp.set(k,r.uid);
-    if(r.email)for(const k of ['email','payerEmail','pageField[email]','mail'])sp.set(k,r.email);
-    if(r.name)for(const k of ['fullName','full_name','pageField[fullName]','name'])sp.set(k,r.name);
-    return u.toString(); }catch(_){ return l; }
+  return l;
 }
 function plansHTML(){
   const plans=(S.plan?.plans||[]);
@@ -3284,7 +3278,7 @@ function vPaywall(full){
     <div class="muted">${full?'כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.':'בוחרים מסלול, משלמים פעם אחת, וממשיכים בלי הפסקה.'}</div>
     <ul><li>רישום אימונים, טיימר מנוחה והתראות</li><li>תזונה מהמאגר הישראלי, ברקוד וצילום AI</li><li>קבוצות, אתגרים ושותפים לאימון</li><li>גרפים, שיאים ותמונות התקדמות</li></ul>
     <div class="stack" style="gap:14px;margin-top:6px">${plansHTML()}</div>
-    <div class="small muted" style="text-align:center">בתשלום השתמש באותו אימייל: <b dir="ltr">${esc(S.user?.email||'')}</b>. הגישה נפתחת אוטומטית תוך דקה מהתשלום.</div>
+    <div class="small muted" style="text-align:center">בדף התשלום הקלד את מספר הטלפון שתאשר כאן. לפיו הגישה נפתחת אוטומטית תוך דקה.</div>
     <button class="btn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button>
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
   return full?`<div class="pw">${body}</div>`:body;
@@ -3366,6 +3360,20 @@ async function readLabel(file){
     toast('המוצר נוסף למאגר ✓'); openProduct(p);
   }catch(e){ toast(e?.context?.status===429?'הגעת למכסת ה-AI היומית':'לא הצלחתי לקרוא את הטבלה. נסה צילום קרוב וחד יותר'); }
 }
+function fmtPhone(n){ n=String(n||''); return n.length===9?'0'+n.slice(0,2)+'-'+n.slice(2,5)+'-'+n.slice(5):n; }
+function phoneSheet(next,p){
+  phoneThen._next=next;
+  openSheet(`<h3>מספר הטלפון לתשלום</h3>
+    <div class="muted" style="margin:-4px 0 12px">דף התשלום של Grow מבקש טלפון. לפי המספר הזה נזהה שהתשלום שלך ונפתח לך גישה מיד, אז הקלד שם <b>את אותו מספר</b>.</div>
+    <input id="pay-phone" type="tel" inputmode="tel" dir="ltr" autocomplete="tel" placeholder="050-000-0000" value="${esc(S.myPhone?fmtPhone(S.myPhone):'')}" style="text-align:center;font-size:22px">
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button>
+      <button class="btn primary" style="flex:2" data-act="phone-save">${next?'המשך לתשלום':'שמירה'}${p?` (₪${p.price})`:''}</button></div>`);
+  setTimeout(()=>$('#pay-phone')?.focus(),60);
+}
+async function phoneThen(next,p){
+  if(S.myPhone===undefined){ try{ const {data}=await sb.rpc('my_phone'); S.myPhone=data||null; }catch(_){ S.myPhone=null; } }
+  phoneSheet(next,p);
+}
 function payAct(act,b){
   switch(act){
     case 'plans-open': closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div><button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>`); return true;
@@ -3376,7 +3384,11 @@ function payAct(act,b){
           location.href=data.url; });
         return true; }
       const l=planLink(p); if(!l)return true;
-      b.disabled=true; sb.rpc('start_checkout',{p_plan:p.id}).then(()=>{},()=>{}).finally(()=>{ location.href=l; }); return true; }
+      phoneThen(()=>{ b.disabled=true; sb.rpc('start_checkout',{p_plan:p.id}).then(()=>{},()=>{}).finally(()=>{ location.href=l; }); }, p); return true; }
+    case 'phone-save': { const v=($('#pay-phone')?.value||'').trim(); const d=v.replace(/\D/g,'');
+      if(d.length<9){toast('הקלד מספר טלפון מלא');return true;} b.disabled=true;
+      sb.rpc('set_my_phone',{p_phone:v}).then(({data,error})=>{ b.disabled=false; if(error){toast('שמירת הטלפון נכשלה');return;} S.myPhone=data; const f=phoneThen._next; phoneThen._next=null; closeSheet(); f&&f(); }); return true; }
+    case 'phone-edit': phoneSheet(null); return true;
     case 'plan-recheck': closeSheet(); enterApp._claim=true; if(S.user)enterApp(S.user); return true;
     case 'share-app': { const url=`${location.origin}/#ref=${S.user?.id||''}`; openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',url,'מתאמן? תנסה את NextRep, יומן אימונים שזוכר כל סט, עם טיימר, תזונה וקבוצות 💪'); return true; }
     case 'copy-link': navigator.clipboard?.writeText(b.dataset.url).then(()=>toast('הקישור הועתק ✓'),()=>toast(b.dataset.url)); return true;
