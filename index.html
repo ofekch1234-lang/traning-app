@@ -208,6 +208,15 @@ body.landing #app{max-width:1120px}
 .adm-det{padding:12px 14px}
 .adm-det summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none}
 .adm-det summary::-webkit-details-marker{display:none}
+.weighrow{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);border:1px solid var(--accent);color:var(--ink);font-weight:600;text-align:right}
+.weighrow .wr-plus{color:var(--accent);font-weight:700}
+.weighrow.done{background:var(--surface2);border-color:var(--line);font-weight:500}
+.calhd.phd{color:var(--accent);font-weight:700}
+.calday.phd{box-shadow:inset 0 -2px 0 var(--accent)}
+.calday em{font-style:normal;font-size:10px;line-height:1}
+.phdays{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.phdays button{padding:10px 4px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);font-size:14px}
+.phset{border:2px solid var(--accent)}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -664,7 +673,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.3';
+const APP_VERSION='4.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2085,13 +2094,15 @@ function vBody(){
           <div style="font-family:var(--disp);font-size:54px;line-height:1;margin-top:2px" class="num">${last?last.kg:'—'}<span style="font-size:20px;color:var(--muted)"> ק״ג</span></div>
           <div class="small muted" style="margin-top:4px">${last?(last.d===today?'נשקלת היום ✓':`שקילה אחרונה: ${fmtDate(+new Date(last.d))}`):'עוד לא נשקלת'}</div>
         </div>
-        <button class="btn primary" data-act="bw-quick" style="padding:12px 16px">⚖️ ${last&&last.d===today?'עדכן':'שקילה'}</button>
       </div>
+
       <div class="row" style="gap:6px;margin-top:10px">${deltaChip(bwChange(7),'שבוע')}${deltaChip(bwChange(30),'חודש')}</div>
       ${goalLine}
+      ${last&&last.d===today?`<button class="weighrow done" data-act="bw-quick"><span>✓ נשקלת היום</span><span class="muted">עריכה</span></button>`
+        :`<button class="weighrow" data-act="bw-quick"><span>⚖️ ${last?'עוד לא נשקלת היום':'הוסף את השקילה הראשונה'}</span><span class="wr-plus">+ שקילה</span></button>`}
     </div>
-    ${photosHTML()}
     ${bwCalendarHTML()}
+    ${photosHTML()}
     ${bwChartHTML(goal)}
     <div class="sect spread"><span>היעדים שלי</span><button class="linkbtn small" data-act="food-targets-open" style="font-family:var(--body)">עריכה</button></div>
     <button class="tiles num" data-act="food-targets-open" style="width:100%;padding:0;text-align:center">
@@ -2246,23 +2257,28 @@ function homePhotosCard(urgentOnly){
 }
 function photosHTML(){
   if(!PH.loaded)loadPhotos();
-  const pd=S.settings.photoDay;
-  const today=ymd(), isDay=pd!=null&&new Date().getDay()===+pd;
-  const hasToday=PH.sets.some(s=>s.d===today);
-  return `<div class="sect spread"><span>תמונות התקדמות 📸</span>${PH.sets.length>=2?`<button class="linkbtn small" data-act="photo-cmp" data-a="front" style="font-family:var(--body)">השוואה</button>`:''}</div>
+  const pd=S.settings.photoDay, today=ymd(), dow=new Date().getDay();
+  const isDay=pd!=null&&dow===+pd, hasToday=PH.sets.some(x=>x.d===today);
+  const DAYS=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+  if(pd==null)return `<div class="sect">מעקב תמונות שבועי 📸</div>
+  <div class="card stack phset" style="gap:10px">
+    <div><b style="font-size:16px">בחר יום קבוע בשבוע להצטלם</b><div class="small muted" style="margin-top:2px">חזית, גב וצד, באותו יום ובאותה תאורה. נזכיר לך בבוקר של היום שתבחר, ותוכל להשוות לפני ואחרי.</div></div>
+    <div class="phdays">${DAYS.map((d,i)=>`<button data-act="photo-day" data-d="${i}">${d}</button>`).join('')}</div>
+    ${PH.sets.length?'':`<button class="linkbtn small" data-act="photo-open" data-d="${today}" style="align-self:flex-start">או צלם עכשיו בלי יום קבוע</button>`}
+  </div>`;
+  const until=(+pd-dow+7)%7;
+  const next=isDay?(hasToday?'צילמת היום ✓':'היום!'):until===1?'מחר':`בעוד ${until} ימים`;
+  return `<div class="sect spread"><span>מעקב תמונות שבועי 📸</span>${PH.sets.length>=2?`<button class="linkbtn small" data-act="photo-cmp" data-a="front" style="font-family:var(--body)">לפני / אחרי</button>`:''}</div>
   <div class="card stack" style="gap:10px">
-    <div class="row small" style="gap:4px;align-items:center">
-      <span class="muted" style="margin-inline-end:4px">יום צילום:</span>
-      ${DAY_LETTERS.map((l,i)=>`<button class="chip" data-act="photo-day" data-d="${i}" style="padding:5px 9px;${+pd===i&&pd!=null?'background:var(--accent);color:var(--accent-ink);border-color:var(--accent)':''}">${l}</button>`).join('')}
-    </div>
-    <button class="btn ${isDay&&!hasToday?'primary':''} big" data-act="photo-open" data-d="${today}">${hasToday?'📸 עדכן את תמונות היום':isDay?'📸 היום יום צילום — צלם עכשיו':'📸 צלם סט תמונות'}</button>
+    <div class="spread"><span><b>יום ${DAYS[+pd]}</b> <span class="small muted">· הצילום הבא: ${next}</span></span><button class="linkbtn small" data-act="photo-day-change">שינוי יום</button></div>
+    <button class="btn ${isDay&&!hasToday?'primary':''} big" data-act="photo-open" data-d="${today}">${hasToday?'עדכון תמונות היום':isDay?'📸 צלם עכשיו: חזית, גב וצד':'📸 צלם סט תמונות'}</button>
     ${PH.loading&&!PH.loaded?'<div class="small muted">טוען תמונות…</div>':''}
     ${PH.sets.length?`<div>
-      ${PH.sets.slice(0,8).map(s=>`<button class="phrow" data-act="photo-open" data-d="${s.d}">
-        <span style="flex:1"><b>${fmtDateFull(+new Date(s.d+'T12:00:00'))}</b><span class="small muted" style="display:block">${ANGLES.filter(([k])=>s[k]).map(a=>a[1]).join(' · ')}</span></span>
-        <span class="phthumbs">${ANGLES.map(([k])=>`<span>${s[k]&&PH.urls[s[k]]?`<img src="${esc(PH.urls[s[k]])}" alt="" loading="lazy">`:''}</span>`).join('')}</span>
+      ${PH.sets.slice(0,6).map(x=>`<button class="phrow" data-act="photo-open" data-d="${x.d}">
+        <span style="flex:1"><b>${fmtDateFull(+new Date(x.d+'T12:00:00'))}</b><span class="small muted" style="display:block">${ANGLES.filter(([k])=>x[k]).map(a=>a[1]).join(' · ')}</span></span>
+        <span class="phthumbs">${ANGLES.map(([k])=>`<span>${x[k]&&PH.urls[x[k]]?`<img src="${esc(PH.urls[x[k]])}" alt="" loading="lazy">`:''}</span>`).join('')}</span>
       </button>`).join('')}
-    </div>`:''}
+    </div>`:`<div class="small muted">עוד אין תמונות. הסט הראשון הוא ה״לפני״ שלך.</div>`}
   </div>`;
 }
 
@@ -2273,6 +2289,7 @@ function bwCalendarHTML(){
   const first=new Date(yy,mm-1,1), daysIn=new Date(yy,mm,0).getDate();
   const today=ymd();
   const byDay={}; for(const p of S.weights||[])byDay[p.d]=p.kg;
+  const phDays=new Set((PH.sets||[]).map(x=>x.d)); const pdw=S.settings.photoDay!=null?+S.settings.photoDay:null;
   const sorted=(S.weights||[]).map(p=>p.d).sort();
   const prevOf=d=>{ let pv=null; for(const x of sorted){ if(x>=d)break; pv=x; } return pv?byDay[pv]:null; };
   const monthVals=[]; for(let i=1;i<=daysIn;i++){ const k=ymd(new Date(yy,mm-1,i)); if(byDay[k]!=null)monthVals.push(byDay[k]); }
@@ -2281,16 +2298,16 @@ function bwCalendarHTML(){
   for(let i=0;i<first.getDay();i++)cells+='<span></span>';
   for(let i=1;i<=daysIn;i++){
     const k=ymd(new Date(yy,mm-1,i)); const v=byDay[k]; const fut=k>today;
-    let cls='calday'; if(k===today)cls+=' tdy'; if(v!=null)cls+=' has';
+    let cls='calday'; if(k===today)cls+=' tdy'; if(v!=null)cls+=' has'; if(pdw!=null&&new Date(yy,mm-1,i).getDay()===pdw)cls+=' phd';
     let col='';
     if(v!=null){ const pv=prevOf(k); if(pv!=null)col=v<pv?'var(--accent)':v>pv?'var(--gold)':''; }
     cells+=fut?`<span class="${cls}" style="opacity:.35"><i>${i}</i></span>`
-      :`<button class="${cls}" data-act="cal-day" data-d="${k}" aria-label="${i} ${v!=null?v+' ק״ג':'ללא שקילה'}"><i>${i}</i>${v!=null?`<b class="num" style="${col?`color:${col}`:''}">${v}</b>`:''}</button>`;
+      :`<button class="${cls}" data-act="cal-day" data-d="${k}" aria-label="${i} ${v!=null?v+' ק״ג':'ללא שקילה'}"><i>${i}</i>${v!=null?`<b class="num" style="${col?`color:${col}`:''}">${v}</b>`:''}${phDays.has(k)?'<em>📸</em>':''}</button>`;
   }
   const monthName=first.toLocaleDateString('he-IL',{month:'long',year:'numeric'});
   const chg=monthVals.length>1?Math.round((monthVals[monthVals.length-1]-monthVals[0])*10)/10:null;
   const avg=monthVals.length?Math.round(monthVals.reduce((a,b)=>a+b,0)/monthVals.length*10)/10:null;
-  return `<div class="sect">לוח שקילות</div>
+  return `<div class="sect spread"><span>לוח שקילות</span><span class="small muted" style="font-family:var(--body)">לחיצה על יום = שקילה</span></div>
   <div class="card">
     <div class="spread" style="margin-bottom:8px">
       <button class="btn" data-act="cal-nav" data-dir="-1" aria-label="חודש קודם" style="padding:6px 12px">›</button>
@@ -2298,7 +2315,7 @@ function bwCalendarHTML(){
       <button class="btn" data-act="cal-nav" data-dir="1" aria-label="חודש הבא" ${isCur?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>‹</button>
     </div>
     <div class="calgrid">
-      ${DAY_LETTERS.map(l=>`<span class="calhd">${l}</span>`).join('')}
+      ${DAY_LETTERS.map((l,i)=>`<span class="calhd ${pdw===i?'phd':''}">${pdw===i?'📸':l}</span>`).join('')}
       ${cells}
     </div>
     <div class="spread small muted" style="margin-top:10px">
@@ -3822,6 +3839,7 @@ function handleAct(b,ev){
       if(t>new Date(n.getFullYear(),n.getMonth(),1))break;
       S.calMonth=`${t.getFullYear()}-${t.getMonth()+1}`; render(); break; }
     case 'photo-open': openPhotoSet(b.dataset.d); break;
+    case 'photo-day-change': S.settings.photoDay=null; render(); break;
     case 'photo-del': deletePhoto(b.dataset.d,b.dataset.a); break;
     case 'photo-cmp': openPhotoCompare(b.dataset.a); break;
     case 'photo-day': { const d=+b.dataset.d; S.settings.photoDay=(S.settings.photoDay!=null&&+S.settings.photoDay===d)?null:d;
