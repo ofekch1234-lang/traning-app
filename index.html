@@ -740,7 +740,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.4';
+const APP_VERSION='5.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1107,6 +1107,13 @@ function render_(){
 }
 
 /* ----- ממתין לאישור ----- */
+function openNewPassword(){
+  openSheet(`<h3>בחירת סיסמה חדשה</h3><div class="muted" style="margin:-4px 0 12px">הקלד סיסמה חדשה לחשבון שלך.</div>
+    <input id="pw1" type="password" dir="ltr" autocomplete="new-password" placeholder="סיסמה חדשה (לפחות 6 תווים)">
+    <input id="pw2" type="password" dir="ltr" autocomplete="new-password" placeholder="שוב, לאימות" style="margin-top:8px">
+    <button class="btn primary big" style="margin-top:12px" data-act="pw-save">שמירת הסיסמה</button>`);
+  setTimeout(()=>$('#pw1')?.focus(),80);
+}
 function vPending(){
   const rej=S.access==='rejected';
   const name=(S.user?.user_metadata?.full_name||'').split(' ')[0];
@@ -1333,6 +1340,7 @@ function vAuth(){
       ${su?`<label class="consent"><input id="au-terms" type="checkbox"><span>קראתי ואני מסכים ל<a href="terms.html" target="_blank">תקנון ותנאי השימוש</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a>, ומבין שהמידע באפליקציה אינו ייעוץ רפואי.</span></label>`:''}
       <div class="autherr" id="autherr"></div>
       <button class="btn primary big" data-act="auth-go" id="authgo">${su?'הרשמה':'התחברות'}</button>
+      ${su?'':`<button class="linkbtn" data-act="auth-forgot" style="font-size:13.5px">שכחתי סיסמה</button>`}
       <div class="small muted" style="text-align:center"><a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="terms.html" target="_blank">תקנון</a> · <a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="privacy.html" target="_blank">פרטיות</a></div>
       <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם בחינם'}</button>
       ${IS_STANDALONE?'':`<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>`}
@@ -4124,6 +4132,14 @@ function handleAct(b,ev){
     case 'share-w': { const w=S.workouts.find(x=>x.id===b.dataset.id); if(w)shareText(workoutShareText(w)); break; }
     case 'share-active': { if(S.active)shareText(workoutShareText({...clone(S.active),end:Date.now()})); break; }
     case 'auth-go': doAuth(); break;
+    case 'auth-forgot': { const em=($('#au-email')?.value||'').trim(), err=$('#autherr');
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ if(err)err.textContent='הקלד את האימייל שלך למעלה, ואז לחץ שוב על "שכחתי סיסמה"'; $('#au-email')?.focus(); break; }
+      b.disabled=true; sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+'/'}).then(({error})=>{ b.disabled=false;
+        if(error){ if(err)err.textContent='השליחה נכשלה, נסה שוב בעוד דקה'; return; }
+        if(err){err.style.color='var(--accent)'; err.textContent='שלחנו אליך מייל עם קישור לבחירת סיסמה חדשה ✉️';} }); break; }
+    case 'pw-save': { const a=$('#pw1')?.value||'', c=$('#pw2')?.value||'';
+      if(a.length<6){toast('לפחות 6 תווים');break;} if(a!==c){toast('הסיסמאות לא זהות');break;}
+      b.disabled=true; sb.auth.updateUser({password:a}).then(({error})=>{ b.disabled=false; if(error){toast('העדכון נכשל: '+error.message);return;} closeSheet(); toast('הסיסמה עודכנה ✓'); }); break; }
     case 'auth-toggle': S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
     case 'logout':
       if(b.dataset.sure){sb.auth.signOut();}
@@ -4288,6 +4304,7 @@ function hideSplash(){
   }catch(e){ S.mode='auth'; render(); }
   hideSplash();
   sb.auth.onAuthStateChange((ev,sess)=>{
+    if(ev==='PASSWORD_RECOVERY'){ setTimeout(openNewPassword,600); }
     if(sess&&!S.user)enterApp(sess.user);
     if(ev==='SIGNED_OUT'){PH.sets=[];PH.urls={};PH.loaded=false;S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
   });
