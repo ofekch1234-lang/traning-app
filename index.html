@@ -441,7 +441,15 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }); }
+const APP_VERSION='2.4';
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+  /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
+     (אימון פעיל וטיימר מנוחה נשמרים ונטענים חזרה) */
+  let _reloading=false; const _hadCtrl=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(_reloading||!_hadCtrl)return; _reloading=true; location.reload(); });
+  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible')navigator.serviceWorker.getRegistration().then(r=>r&&r.update()).catch(()=>{}); });
+}
 let _wake=null;
 async function keepAwake(on){
   try{
@@ -718,21 +726,30 @@ async function ensureRestPush(){
     const r=await subscribePush(); _pushOk=!!r.ok;
   }catch(e){}
 }
+const REST_KEY='nextrep-rest';
+function saveRestState(){ try{ if(T.int)localStorage.setItem(REST_KEY,JSON.stringify({end:T.end,total:T.total,label:T.label,armed:!!T.armed})); else localStorage.removeItem(REST_KEY); }catch(e){} }
+function restoreRest(){
+  try{ const r=JSON.parse(localStorage.getItem(REST_KEY)||'null'); if(!r||!S.active)return;
+    if(r.end>Date.now()+500){ T.end=r.end;T.total=r.total;T.label=r.label;T.armed=r.armed;
+      $('#restbar').hidden=false; clearInterval(T.int);T.int=setInterval(tickRest,250);tickRest(); }
+    else localStorage.removeItem(REST_KEY);
+  }catch(e){}
+}
 function armServerRest(label){
   if(!S.user||S.settings.notif?.rest===false)return;
-  T.armed=true;
+  T.armed=true; saveRestState();
   const row={user_id:S.user.id,fire_at:new Date(T.end).toISOString(),title:'המנוחה נגמרה 💪',body:label?`הבא: ${label}`:'הסט הבא מחכה לך'};
-  sb.from('rest_timers').upsert(row).then(()=>{},()=>{});
+  sb.from('rest_timers').upsert(row).then(({error})=>{ if(error){ console.error('rest arm',error); toast('לא הצלחנו לתזמן את התראת המנוחה — בדוק חיבור'); } },()=>{});
 }
 function disarmServerRest(){
-  if(!T.armed||!S.user)return; T.armed=false;
+  if(!T.armed||!S.user)return; T.armed=false; saveRestState();
   sb.from('rest_timers').delete().eq('user_id',S.user.id).then(()=>{},()=>{});
 }
 function startRest(sec,label){
   T.total=sec;T.end=Date.now()+sec*1000;T.label=label||'';
   $('#restbar').hidden=false;
   clearInterval(T.int);T.int=setInterval(tickRest,250);tickRest();
-  ensureRestPush(); armServerRest(T.label);
+  ensureRestPush(); armServerRest(T.label); saveRestState();
 }
 function tickRest(){
   const left=Math.max(0,T.end-Date.now());
@@ -747,7 +764,7 @@ function tickRest(){
     toast('המנוחה נגמרה — סט הבא!');
   }
 }
-function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;disarmServerRest();}
+function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;disarmServerRest();saveRestState();}
 
 /* ---------- rendering ---------- */
 function render(){ try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); } }
@@ -2247,7 +2264,9 @@ function renderSettings(){
         <button class="btn danger" data-act="logout">יציאה מהחשבון</button>
       </div>
     </div>
-    <div class="muted small" style="text-align:center;margin-top:14px">NextRep · גרסה 2.0</div>
+    <button class="btn" style="width:100%;margin-top:14px" data-act="rest-test">🔔 בדיקת התראת מנוחה (10 שניות)</button>
+    <div class="small muted" style="margin-top:6px">לחץ, צא מהאפליקציה מיד — ובעוד 10 שניות אמורה להגיע התראה.</div>
+    <div class="muted small" style="text-align:center;margin-top:14px">NextRep · גרסה ${APP_VERSION}</div>
     <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>
   `);
 }
@@ -2445,6 +2464,12 @@ function handleAct(b,ev){
     case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings();
       if(!$('#sheet').hidden)renderSettings(); else render(); break;
     case 'settings': renderSettings(); break;
+    case 'rest-test': {
+      if(!('Notification' in window)||!('PushManager' in window)){ toast('המכשיר לא תומך בהתראות — באייפון פתח מהאייקון במסך הבית'); break; }
+      subscribePush().then(r=>{
+        if(!r.ok){ toast(r.why==='perm'?'צריך לאשר התראות כדי לבדוק':'ההרשמה להתראות נכשלה'); return; }
+        _pushOk=true; closeSheet(); startRest(10,'זו התראת בדיקה ✅'); toast('צא מהאפליקציה עכשיו ⏱️');
+      }); break; }
     case 'save-name': { const nm=($('#set-name')?.value||'').trim(); if(!nm){toast('השם ריק');break;}
       sb.auth.updateUser({data:{full_name:nm}}).then(({data,error})=>{
         if(error){toast('שמירת השם נכשלה');return;}
@@ -2666,7 +2691,7 @@ async function enterApp(user){
   }
   const localA=loadLocalActive();
   if(localA&&(!S.active||((localA.start===S.active.start)&&JSON.stringify(localA).length>=JSON.stringify(S.active).length)))S.active=localA;
-  S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos();
+  S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest();
   if(S.active){startClock();keepAwake(true);}
 }
 function hideSplash(){
