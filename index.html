@@ -259,8 +259,8 @@ body.landing #app{max-width:1120px}
 .ig-skip{color:var(--muted);font-size:13px;text-decoration:underline;margin-top:6px}
 .fi-title{display:flex;flex-direction:column;gap:1px}.fi-title b{font-size:17px}
 .fsearch{position:relative}
-.fsearch #food-text{width:100%;padding-inline-end:12px;padding-inline-start:96px}
-.fs-go{position:absolute;inset-inline-start:6px;top:50%;transform:translateY(-50%);padding:8px 12px;border-radius:9px;background:var(--surface2);color:var(--muted);font-weight:700;font-size:14px;transition:background .15s,color .15s}
+.fsearch #food-text{width:100%;padding-inline-end:12px;padding-inline-start:96px;resize:none;min-height:50px;max-height:132px;line-height:1.45;font:inherit;font-size:16px;display:block}
+.fs-go{position:absolute;inset-inline-start:6px;bottom:7px;padding:8px 12px;border-radius:9px;background:var(--surface2);color:var(--muted);font-weight:700;font-size:14px;transition:background .15s,color .15s}
 .fsearch.has .fs-go,.fsearch.busy .fs-go{background:var(--accent);color:#fff}
 .fs-ai{display:flex;gap:10px;align-items:center;width:100%;text-align:right;padding:11px 12px;background:var(--accent-soft);border-bottom:1px solid var(--line)}
 .fs-ai .fs-ai-ic{font-size:20px}.fs-ai b{display:block;font-size:14.5px}.fs-ai small{color:var(--muted);font-size:12px}
@@ -276,7 +276,8 @@ body.landing #app{max-width:1120px}
 .ai-spark{font-size:26px;width:44px;text-align:center;flex-shrink:0}
 @media (prefers-reduced-motion:no-preference){ .ai-spark{animation:aipulse 1.1s ease-in-out infinite} }
 @keyframes aipulse{0%,100%{transform:scale(1) rotate(0);opacity:1}50%{transform:scale(1.25) rotate(15deg);opacity:.7}}
-.aiload b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aiload .ai-q{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4;font-size:14.5px}
+.aiload{align-items:flex-start}.aiload .ai-spark{margin-top:4px}
 .ai-track{height:5px;border-radius:99px;background:rgba(22,163,74,.18);margin-top:7px;overflow:hidden;display:flex;direction:rtl}
 .ai-track i{display:block;height:100%;width:8%;border-radius:99px;background:var(--accent);transition:width .3s linear}
 /* ===== social ===== */
@@ -533,7 +534,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   padding:10px 6px;font-size:12.5px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;cursor:pointer}
 .acttile svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .actmain{display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:700}
-#food-text{padding:13px 12px;font-size:16px;border-radius:12px}
+#food-text{padding:13px 12px;font-size:16px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);color:var(--ink);font-family:var(--body);box-sizing:border-box}
 .mrow{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line)}
 .mrow:last-child{border-bottom:none}
 .mavatar{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
@@ -735,7 +736,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.2';
+const APP_VERSION='5.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1580,12 +1581,12 @@ function vFood(){
       <div class="fi-title"><b>מה אכלת?</b><span class="small muted">מחפשים במאגר, או כותבים חופשי ולוחצים ✨</span></div>
       ${S.ai.busy?`<div class="aiload">
         ${S.ai.img?`<img src="${S.ai.img}" alt="">`:`<span class="ai-spark">✨</span>`}
-        <div style="flex:1;min-width:0"><b>${S.ai.q?`״${esc(S.ai.q.length>50?S.ai.q.slice(0,50)+'…':S.ai.q)}״`:'מנתח את התמונה'}</b>
+        <div style="flex:1;min-width:0"><b class="ai-q">${S.ai.q?`״${esc(S.ai.q)}״`:'מנתח את התמונה'}</b>
           <div class="small muted" id="ai-step">${AI_STEPS[0]}</div>
           <div class="ai-track"><i id="ai-bar"></i></div></div>
       </div>`:''}
       <div class="fsearch ${S.ai.busy?'busy':''}" ${S.ai.busy?'hidden':''}>
-        <input id="food-text" type="search" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״" ${S.ai.busy?'disabled':''}>
+        <textarea id="food-text" rows="1" maxlength="600" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״" ${S.ai.busy?'disabled':''}></textarea>
         <button class="fs-go" data-act="food-ai" ${S.ai.busy?'disabled':''} aria-label="ניתוח עם AI">${S.ai.busy?'מחשב…':'✨ חשב'}</button>
       </div>
       <div id="food-sugg" class="fsugg" hidden></div>
@@ -1665,7 +1666,7 @@ async function foodAI(payload){
       :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
   }
   S.ai.busy=false; S.ai.img=null; aiTicker(false); render();
-  if(S.ai.keep){ const t=$('#food-text'); if(t){t.value=S.ai.q; t.closest('.fsearch')?.classList.add('has');} }
+  if(S.ai.keep){ const t=$('#food-text'); if(t){t.value=S.ai.q; t.closest('.fsearch')?.classList.add('has'); t.style.height=Math.min(132,t.scrollHeight+2)+'px';} }
 }
 const AI_STEPS=['מזהה את המרכיבים…','מעריך כמויות למנה…','מחשב קלוריות וחלבון…','כמעט מוכן…'];
 function aiTicker(on){
@@ -3514,7 +3515,7 @@ function socAct(act,b){
   return false;
 }
 document.addEventListener('input',ev=>{ if(ev.target.id==='chat-in'){SOC.draft=ev.target.value; const t=ev.target; t.style.height='auto'; t.style.height=Math.min(120,t.scrollHeight)+'px';} });
-document.addEventListener('keydown',ev=>{ if(ev.target.id==='food-text'&&ev.key==='Enter'&&!ev.isComposing){ev.preventDefault(); $('[data-act="food-ai"]')?.click(); return;}
+document.addEventListener('keydown',ev=>{ if(ev.target.id==='food-text'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault(); $('[data-act="food-ai"]')?.click(); return;}
   if(ev.target.id==='chat-in'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();socSend();}
   if(ev.target.id==='sg-code'&&ev.key==='Enter')$('[data-act="soc-join-go"]')?.click(); if(ev.target.id==='sg-name'&&ev.key==='Enter')$('[data-act="soc-create"]')?.click(); });
 
@@ -4115,7 +4116,7 @@ document.addEventListener('input',ev=>{
   if(k==='w'||k==='r'){ const s=S.active?.ex[+i.dataset.ei]?.sets[+i.dataset.si]; if(s){s[k]=i.value; persistActive();} }
   else if(k==='cmin'||k==='ckm'||k==='cinc'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc'}[k]]=i.value; persistActive();} }
   else if(k==='libq'){ S.lib.q=i.value; renderLibrary(); }
-  else if(k==='foodq'){ i.closest('.fsearch')?.classList.toggle('has',i.value.trim().length>=2); clearTimeout(foodSearch._t); foodSearch._t=setTimeout(()=>foodSearch(i.value),220); }
+  else if(k==='foodq'){ i.style.height='auto'; i.style.height=Math.min(132,i.scrollHeight+2)+'px'; i.closest('.fsearch')?.classList.toggle('has',i.value.trim().length>=2); clearTimeout(foodSearch._t); foodSearch._t=setTimeout(()=>foodSearch(i.value),220); }
   else if(k==='tpln'){ if(_tplDraft)_tplDraft.name=i.value; }
   else if(k==='pqty'&&_portion){ const v=+String(i.value).replace(',','.'); if(v>0){_portion.qty=v; renderPortion();} }
   else if(k==='mif'){ if(!_mealEdit)return;
