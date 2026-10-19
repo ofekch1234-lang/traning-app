@@ -102,7 +102,7 @@ Safety: you are not a doctor. For pain, injury, illness or medication questions 
 Scope: only training, nutrition, recovery, body composition, motivation and how to use NextRep. If asked about anything else, decline in one sentence and steer back to training.
 ${kind === "summary"
     ? "Task: write this week's coaching summary. Structure: one short greeting line using the first name; 2–4 short lines of observations (wins first, then gaps) with numbers; then 1–2 concrete focus points for the coming week (e.g. a specific load/rep target for a stalled lift, protein, missed sessions). Max 90 words."
-    : "Task: answer the user's question in max ~120 words. Be specific and practical. Ask at most one follow-up question if truly needed."}`;
+    : "Task: answer the user's question in max ~110 words. Be specific and practical. Do NOT end your reply with a question and do not invite further chat — finish with one clear, concrete action step. Only if the question cannot be answered without a missing detail, ask for that single detail instead of answering."}`;
 }
 
 async function claude(sys: string, messages: unknown[], maxTokens: number) {
@@ -198,7 +198,7 @@ Deno.serve(async (req: Request) => {
       const { count } = await admin.from("ai_usage").select("id", { count: "exact", head: true })
         .eq("user_id", user.id).eq("kind", "coach_chat").gte("created_at", new Date(Date.now() - 864e5).toISOString());
       if ((count ?? 0) >= DAILY_CHAT) return J({ error: "quota", limit: DAILY_CHAT }, 429);
-      const { data: hist } = await admin.from("coach_messages").select("role,body").eq("user_id", user.id).order("id", { ascending: false }).limit(10);
+      const { data: hist } = await admin.from("coach_messages").select("role,body").eq("user_id", user.id).order("id", { ascending: false }).limit(6);
       const msgs: { role: string; content: string }[] = [];
       for (const h of (hist || []).reverse()) {
         const role = h.role === "user" ? "user" : "assistant";
