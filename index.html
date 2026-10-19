@@ -191,6 +191,11 @@ body.landing #app{max-width:1120px}
 .scanwrap video{width:100%;height:100%;object-fit:cover;display:block}
 .scanwrap .frame{position:absolute;inset:28% 12%;border:3px solid rgba(255,255,255,.9);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
 .adm-in{width:100%;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit}
+.hp.due{border:2px solid var(--accent);box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
+.hp-row{display:flex;gap:8px;margin-top:10px;direction:ltr;justify-content:flex-end}
+.hp-th{width:62px;display:flex;flex-direction:column;gap:3px;align-items:center}
+.hp-th img,.hp-th:not(:has(img))::before{width:62px;height:82px;border-radius:9px;object-fit:cover;background:var(--surface2);display:block;content:''}
+.hp-th small{font-size:10.5px;color:var(--muted)}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -207,7 +212,13 @@ body.landing #app{max-width:1120px}
 .sg-seg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:3px;margin-bottom:6px}
 .sg-seg button{flex:1;padding:8px;border-radius:9px;font-size:14px;color:var(--muted)}
 .sg-seg button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
-#chatlist{display:flex;flex-direction:column;gap:3px;padding-bottom:84px}
+body.chatting header.top,body.chatting nav.tabs{display:none}
+body.chatting{overflow:hidden}
+#chatroot{position:fixed;inset-inline:0;top:0;height:100vh;height:100dvh;max-width:560px;margin:0 auto;z-index:35;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 12px 0}
+#chatroot .sg-head{position:static;padding-top:10px}
+#chatlist{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:3px;padding:4px 2px 10px}
+#chatroot .chatbar{position:static;margin:0 -12px;padding:8px 12px max(8px,env(safe-area-inset-bottom,0px))}
+#chatroot.kb .chatbar{padding-bottom:8px}
 .cm{max-width:80%;align-self:flex-start;display:flex;flex-direction:column}
 .cm.me{align-self:flex-end}
 .cm .who{font-size:12px;color:var(--accent);font-weight:600;margin:8px 10px 2px}
@@ -229,7 +240,7 @@ body.landing #app{max-width:1120px}
 .c-reacts button{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:3px 10px;font-size:14px;display:flex;gap:4px;align-items:center}
 .c-reacts button.on{border-color:var(--accent);background:var(--accent-soft)}
 .c-reacts button small{font-size:12px;font-weight:600}
-.chatbar{position:fixed;inset-inline:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:29;max-width:560px;margin:0 auto;padding:8px 12px;background:var(--bg);border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end}
+.chatbar{background:var(--bg);border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end}
 .chatbar textarea{flex:1;resize:none;max-height:120px;min-height:42px;border-radius:21px;padding:10px 14px;font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .chatbar button{width:42px;height:42px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;flex-shrink:0}
 .lb-row{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
@@ -638,7 +649,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='3.3';
+const APP_VERSION='3.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -768,6 +779,7 @@ const S={
   lib:{group:'חזה', q:'', target:null},
 };
 if(['history','progress'].includes(S.tab)){S.trackView=S.tab;S.tab='track';}
+const PAID_RETURN=(location.hash||'')==='#paid'; if(PAID_RETURN){ try{history.replaceState(null,'',location.pathname);}catch(_){} }
 { const rm=(location.hash||'').match(/ref=([0-9a-f-]{36})/i); if(rm){ try{localStorage.setItem('nr-ref',rm[1]);}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 { const jm=(location.hash||'').match(/join=([A-Za-z0-9]{6})/); if(jm){ try{localStorage.setItem('nr-join',jm[1].toUpperCase());}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 if(!['home','train','food','plans','track','social'].includes(S.tab)) S.tab='home';
@@ -997,7 +1009,7 @@ function render_(){
   if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
   if(S.tab==='track'&&S.trackView==='progress')wireChart();
   document.body.classList.toggle('chatting',S.tab==='social'&&!!SOC.gid&&SOC.view==='chat');
-  if(S.tab==='social'&&SOC.gid&&SOC.view==='chat'){ const ci=$('#chat-in'); if(ci&&SOC.draft)ci.value=SOC.draft; if(SOC.toBottom){SOC.toBottom=false;requestAnimationFrame(()=>window.scrollTo(0,document.body.scrollHeight));} }
+  if(S.tab==='social'&&SOC.gid&&SOC.view==='chat'){ fitChat(); const ci=$('#chat-in'); if(ci&&SOC.draft)ci.value=SOC.draft; if(SOC.toBottom){SOC.toBottom=false;chatBottom(false);requestAnimationFrame(()=>chatBottom(false));} }
 }
 
 /* ----- ממתין לאישור ----- */
@@ -1352,11 +1364,7 @@ function vHome(){
         </div>
       </div>
     </div>`:''}
-    ${S.settings.photoDay!=null&&new Date().getDay()===+S.settings.photoDay&&!PH.sets.some(s=>s.d===ymd())?`
-      <button class="card spread" style="width:100%;text-align:right" data-act="photo-open" data-d="${ymd()}">
-        <div><b>📸 היום יום צילום</b><div class="small muted">חזית, גב וצד — לבקרה השבועית</div></div>
-        <span class="btn primary">צלם</span>
-      </button>`:''}
+    ${homePhotosCard(true)}
     ${S.active?`
       <button class="card spread" style="width:100%;text-align:right;background:var(--accent-soft);border-color:var(--accent)" data-act="go" data-to="train">
         <div><div class="label">אימון פעיל ממשיך לרוץ</div><b style="font-size:17px">${esc(S.active.name)}</b></div>
@@ -1390,6 +1398,7 @@ function vHome(){
           <div class="num" style="margin-top:4px"><b style="font-family:var(--disp);font-size:22px">${fmtNum(t.kcal)}</b> <span class="muted small">${kT?'/ '+fmtNum(kT)+' קק״ל':'קק״ל'} · חלבון ${t.protein}${S.settings.protT?'/'+S.settings.protT:''} גר׳</span></div>
         </div><span class="muted">›</span>
       </button>`;})():''}
+    ${homePhotosCard(false)}
     ${prs.length?`
       <div class="card">
         <div class="spread"><span class="label">שיאים אחרונים 🏅</span><button class="linkbtn small" data-act="go" data-to="track" data-view="progress">לכל השיאים ←</button></div>
@@ -2199,6 +2208,25 @@ function openPhotoCompare(angle){
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>
   `);
 }
+function homePhotosCard(urgentOnly){
+  if(!PH.loaded)loadPhotos();
+  const today=ymd(), pd=S.settings.photoDay, isDay=pd!=null&&new Date().getDay()===+pd, has=PH.sets.some(s=>s.d===today);
+  const last=PH.sets[0], days=last?Math.round((new Date(today)-new Date(last.d))/864e5):null;
+  const due=(isDay&&!has)||(!last)||(days>=7);
+  if(urgentOnly!==!!due&&urgentOnly)return ''; // הכרטיס הבולט מופיע למעלה רק כשיש סיבה לצלם
+  if(!urgentOnly&&due)return '';
+  const thumbs=PH.sets.slice(0,4).reverse().map(s=>{const k=['front','side','back'].find(a=>s[a]); const u=k&&PH.urls[s[k]];
+    return `<span class="hp-th">${u?`<img src="${u}" alt="" loading="lazy">`:''}<small>${new Date(s.d).toLocaleDateString('he-IL',{day:'numeric',month:'numeric'})}</small></span>`;}).join('');
+  const title=!last?'צלם את תמונת ה״לפני״ שלך':isDay&&!has?'היום יום צילום 📸':days>=7?`עבר${days>=14?'ו':''} ${days} ימים מהצילום האחרון`:'תמונות התקדמות';
+  const sub=!last?'חזית, גב וצד. בעוד חודשיים תודה לעצמך על זה.':isDay&&!has?'חזית, גב וצד לבקרה השבועית':`הסט האחרון ${days===0?'היום':days===1?'אתמול':`לפני ${days} ימים`}`;
+  return `<div class="card hp ${due?'due':''}">
+    <div class="spread"><div><b style="font-size:16px">📸 ${title}</b><div class="small muted">${sub}</div></div></div>
+    ${thumbs?`<div class="hp-row">${thumbs}</div>`:''}
+    <div class="row" style="gap:8px;margin-top:10px">
+      <button class="btn ${due?'primary':''}" style="flex:1.4" data-act="photo-open" data-d="${today}">${has?'עדכון תמונות היום':'צלם עכשיו'}</button>
+      ${PH.sets.length>=2?`<button class="btn" style="flex:1" data-act="photo-cmp" data-a="front">לפני / אחרי</button>`:`<button class="btn" style="flex:1" data-act="go" data-to="track" data-view="body">${pd==null?'יום צילום קבוע':'כל התמונות'}</button>`}
+    </div></div>`;
+}
 function photosHTML(){
   if(!PH.loaded)loadPhotos();
   const pd=S.settings.photoDay;
@@ -2802,8 +2830,8 @@ function renderSettings(){
 const USD_ILS=3.7;
 async function loadAdmin(){
   S.adminErr=null; S.adminLoading=true; if(S.tab==='admin')render();
-  const [{data,error},cfg]=await Promise.all([sb.rpc('admin_dashboard'),sb.rpc('admin_config')]);
-  if(cfg&&!cfg.error)S.adminCfg=cfg.data;
+  const [{data,error},cfg,gr]=await Promise.all([sb.rpc('admin_dashboard'),sb.rpc('admin_config'),sb.rpc('admin_grow')]);
+  if(cfg&&!cfg.error)S.adminCfg=cfg.data; if(gr&&!gr.error)S.adminGrow=gr.data||{};
   S.adminLoading=false;
   if(error){S.adminErr=error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+error.message;}
   else S.admin=data;
@@ -2826,6 +2854,19 @@ function adminChart(daily){
     <line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
     <text x="${W-2}" y="10" font-size="10" fill="var(--muted)" text-anchor="end">מקס׳ ${mx}</text></svg>`;
 }
+function adminGrowHTML(){
+  const G=S.adminGrow||{}, ready=!!(G.pageCode&&G.userId), sandbox=/sandbox/.test(G.base||'sandbox');
+  return `<div class="card stack" style="padding:14px;margin-top:10px;gap:8px">
+    <div class="spread"><b>חיבור ישיר ל-Grow</b><span class="small" style="color:${ready?'var(--accent)':'var(--muted)'}">${ready?(sandbox?'● מחובר (בדיקות)':'● מחובר (אמיתי)'):'לא מחובר'}</span></div>
+    <div class="small muted">כשמחובר, כפתורי המסלולים פותחים דף תשלום של Grow עם מזהה המשתמש, וההודעה על התשלום חוזרת ישר למערכת. בלי Make ובלי התאמת אימייל.</div>
+    <input id="g-page" class="adm-in" dir="ltr" placeholder="pageCode" value="${esc(G.pageCode||'')}">
+    <input id="g-user" class="adm-in" dir="ltr" placeholder="userId" value="${esc(G.userId||'')}">
+    <input id="g-key" class="adm-in" dir="ltr" placeholder="apiKey (אם קיבלת)" value="${esc(G.apiKey||'')}">
+    <div class="row" style="gap:6px"><button class="chip ${sandbox?'on':''}" data-act="g-env" data-v="sandbox">סביבת בדיקות</button><button class="chip ${!sandbox?'on':''}" data-act="g-env" data-v="live">סביבה אמיתית</button></div>
+    <input id="g-base" class="adm-in small" dir="ltr" value="${esc(G.base||'https://sandbox.meshulam.co.il/api/light/server/1.0/')}">
+    <button class="btn primary" data-act="g-save">שמירת חיבור Grow</button>
+  </div>`;
+}
 function adminBillingHTML(){
   const C=S.adminCfg; if(!C)return '';
   const B=C.billing||{}, hook=`${SUPABASE_URL}/functions/v1/payment-webhook?key=${C.webhook_key}`;
@@ -2844,8 +2885,9 @@ function adminBillingHTML(){
     <div class="small muted">אפשר לשלב בקישור {email}, {uid} או {name}, והם יוחלפו בפרטי המשתמש.</div>
     <button class="btn primary" data-act="admin-billing-save">שמירת הגדרות</button>
   </div>
+  ${adminGrowHTML()}
   <div class="card stack" style="padding:14px;margin-top:10px;gap:8px">
-    <b>חיבור ל-Make</b>
+    <b>חיבור ל-Make (חלופה)</b>
     <div class="small muted">אחרי תשלום מוצלח, Make שולח בקשת POST לכתובת הזו עם email (או user_id), amount או plan, ו-txn_id.</div>
     <div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
     <button class="btn" data-act="copy-link" data-url="${esc(hook)}">העתקת הכתובת</button>
@@ -2958,8 +3000,8 @@ function socOnMsg(m){
     SOC.msgs[m.group_id].push(m);
     if(open&&SOC.view==='chat'){
       const list=$('#chatlist'); if(list){ const arr=SOC.msgs[m.group_id]; list.insertAdjacentHTML('beforeend',socMsgHTML(m,arr[arr.length-2]));
-        const nearBottom=window.innerHeight+window.scrollY>=document.body.scrollHeight-260;
-        if(nearBottom||m.user_id===S.user?.id)window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); }
+        const nearBottom=list.scrollTop+list.clientHeight>=list.scrollHeight-320;
+        if(nearBottom||m.user_id===S.user?.id)chatBottom(true); }
       if(document.visibilityState==='visible')socMarkRead(m.group_id,m.id);
     }
   }
@@ -3027,6 +3069,18 @@ function socLastText(g){
   const n=g.last_uid===S.user?.id?'אתה':(g.last_name||'חבר');
   return {text:`${n}: ${g.last_body||''}`,workout:`🏋️ ${n} סיים ${g.last_body||'אימון'}`,pr:`🏅 ${n} שבר שיא`,join:`👋 ${n} הצטרף`,challenge:`🏆 אתגר חדש: ${g.last_body||''}`}[g.last_kind]||'';
 }
+/* צ'אט במסך מלא כמו וואטסאפ: הכותרת קבועה למעלה, שורת ההקלדה צמודה למקלדת, התפריט התחתון מוסתר */
+function fitChat(){
+  const r=$('#chatroot'); if(!r)return; const vv=window.visualViewport;
+  const h=vv?vv.height:window.innerHeight, top=vv?vv.offsetTop:0;
+  const was=SOC._h, list=$('#chatlist'), atBottom=list&&list.scrollTop+list.clientHeight>=list.scrollHeight-60;
+  r.style.height=h+'px'; r.style.top=top+'px'; SOC._h=h;
+  r.classList.toggle('kb',!!(vv&&window.innerHeight-vv.height>120));
+  if(was&&h<was&&atBottom)chatBottom(false);
+}
+function chatBottom(smooth){ const l=$('#chatlist'); if(!l)return; if(smooth)l.scrollTo({top:l.scrollHeight,behavior:'smooth'}); else l.scrollTop=l.scrollHeight; }
+if(window.visualViewport){ visualViewport.addEventListener('resize',fitChat); visualViewport.addEventListener('scroll',fitChat); }
+window.addEventListener('resize',fitChat);
 function vSocial(){ return SOC.gid?vSocGroup():vSocList(); }
 function vSocList(){
   const G=SOC.groups;
@@ -3058,10 +3112,10 @@ function vSocGroup(){
   if(SOC.view==='chall')return head+vSocChall();
   const msgs=SOC.msgs[gid];
   if(!msgs)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
-  return head+`<div id="chatlist">${SOC.more[gid]?`<button class="linkbtn" data-act="soc-older" style="align-self:center">הודעות קודמות</button>`:''}
+  return `<div id="chatroot">${head}<div id="chatlist">${SOC.more[gid]?`<button class="linkbtn" data-act="soc-older" style="align-self:center">הודעות קודמות</button>`:''}
     ${msgs.length?msgs.map((m,i)=>socMsgHTML(m,msgs[i-1])).join(''):`<div class="c-sys">כאן יופיעו ההודעות והאימונים של הקבוצה. תגיד שלום 👋</div>`}</div>
     <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="הודעה לקבוצה…" maxlength="1000" enterkeyhint="send"></textarea>
-    <button data-act="soc-send" aria-label="שליחה"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="transform:scaleX(-1)"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button></div>`;
+    <button data-act="soc-send" aria-label="שליחה"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="transform:scaleX(-1)"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button></div></div>`;
 }
 function vSocBoard(){
   const B=SOC.board;
@@ -3170,8 +3224,8 @@ function socAct(act,b){
       sb.rpc('leave_group',{gid:SOC.gid}).then(()=>{closeSheet();SOC.gid=null;toast('יצאת מהקבוצה');socLoad();render();}); return true;
     case 'soc-send': socSend(); return true;
     case 'soc-qr': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`; openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
-    case 'soc-older': { const gid=SOC.gid, arr=SOC.msgs[gid]||[]; const h0=document.body.scrollHeight;
-      socLoadMsgs(gid,arr[0]?.id).then(rows=>{SOC.msgs[gid]=rows.concat(arr);render();window.scrollTo(0,document.body.scrollHeight-h0);}); return true; }
+    case 'soc-older': { const gid=SOC.gid, arr=SOC.msgs[gid]||[]; const h0=$('#chatlist')?.scrollHeight||0;
+      socLoadMsgs(gid,arr[0]?.id).then(rows=>{SOC.msgs[gid]=rows.concat(arr);render();const l=$('#chatlist');if(l)l.scrollTop=l.scrollHeight-h0;}); return true; }
     case 'soc-react': { const id=+b.dataset.id, e=b.dataset.e, uid=S.user.id; const rs=SOC.reacts[id]||(SOC.reacts[id]=[]);
       const mine=rs.some(r=>r.emoji===e&&r.user_id===uid);
       SOC.reacts[id]=mine?rs.filter(r=>!(r.emoji===e&&r.user_id===uid)):rs.concat([{user_id:uid,emoji:e}]);
@@ -3204,13 +3258,14 @@ function planLink(p){
 }
 function plansHTML(){
   const plans=(S.plan?.plans||[]);
-  return plans.map(p=>{const pm=(p.price/p.months); const link=planLink(p);
+  const grow=!!S.plan?.grow;
+  return plans.map(p=>{const pm=(p.price/p.months); const link=grow||planLink(p);
     return `<button class="plan ${p.best?'best':''}" data-act="plan-buy" data-id="${esc(p.id)}" ${link?'':'disabled style="opacity:.6"'}>
       ${p.best?'<span class="tag">הכי משתלם</span>':''}
       <span class="pn">${esc(PLAN_NAMES[p.id]||p.months+' חודשים')}</span>
       <span class="pp num">₪${p.price}</span>
       <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span>
-    </button>`;}).join('')+(plans.some(p=>planLink(p))?'':'<div class="small muted" style="text-align:center">התשלום ייפתח בקרוב.</div>');
+    </button>`;}).join('')+(grow||plans.some(p=>planLink(p))?'':'<div class="small muted" style="text-align:center">התשלום ייפתח בקרוב.</div>');
 }
 function vPaywall(full){
   const paid=!!S.plan?.access_until;
@@ -3305,7 +3360,13 @@ async function readLabel(file){
 function payAct(act,b){
   switch(act){
     case 'plans-open': closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div><button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>`); return true;
-    case 'plan-buy': { const p=(S.plan?.plans||[]).find(x=>x.id===b.dataset.id); const l=planLink(p); if(l)window.open(l,'_blank','noopener'); return true; }
+    case 'plan-buy': { const p=(S.plan?.plans||[]).find(x=>x.id===b.dataset.id); if(!p)return true;
+      if(S.plan?.grow){ b.disabled=true; const pn=b.querySelector('.pn'); const t0=pn?.textContent; if(pn)pn.textContent='פותח תשלום מאובטח…';
+        sb.functions.invoke('grow-pay',{body:{plan:p.id,origin:location.origin}}).then(({data,error})=>{
+          if(error||!data?.url){ b.disabled=false; if(pn)pn.textContent=t0; toast('פתיחת התשלום נכשלה, נסה שוב'); return; }
+          location.href=data.url; });
+        return true; }
+      const l=planLink(p); if(l)window.open(l,'_blank','noopener'); return true; }
     case 'plan-recheck': closeSheet(); if(S.user)enterApp(S.user); return true;
     case 'share-app': { const url=`${location.origin}/#ref=${S.user?.id||''}`; openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',url,'מתאמן? תנסה את NextRep, יומן אימונים שזוכר כל סט, עם טיימר, תזונה וקבוצות 💪'); return true; }
     case 'copy-link': navigator.clipboard?.writeText(b.dataset.url).then(()=>toast('הקישור הועתק ✓'),()=>toast(b.dataset.url)); return true;
@@ -3604,6 +3665,10 @@ function handleAct(b,ev){
     case 'admin-open': closeSheet(); S.tab='admin'; S.admin=null; render(); loadAdmin(); window.scrollTo(0,0); break;
     case 'admin-back': S.tab='home'; location.hash='home'; render(); break;
     case 'admin-refresh': loadAdmin(); break;
+    case 'g-env': { const i=$('#g-base'); if(i)i.value=b.dataset.v==='live'?'https://secure.meshulam.co.il/api/light/server/1.0/':'https://sandbox.meshulam.co.il/api/light/server/1.0/';
+      document.querySelectorAll('[data-act="g-env"]').forEach(x=>x.classList.toggle('on',x===b)); break; }
+    case 'g-save': { const cfg={pageCode:$('#g-page').value.trim(),userId:$('#g-user').value.trim(),apiKey:$('#g-key').value.trim(),base:$('#g-base').value.trim()};
+      sb.rpc('admin_set_grow',{cfg}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('חיבור Grow נשמר ✓'); loadAdmin(); }); break; }
     case 'admin-grant': { const d=+b.dataset.days; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל: '+error.message);return;} toast(`נוספו ${d} ימים ✓`); loadAdmin(); }); break; }
     case 'admin-billing-save': { const B=JSON.parse(JSON.stringify(S.adminCfg.billing||{}));
       B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||14));
@@ -3753,7 +3818,9 @@ async function enterApp(user){
   S.user=user; S.mode='boot'; render();
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
-    if(st==='expired'){ S.mode='paywall'; render(); return; }
+    if(st==='expired'){ S.mode='paywall'; render();
+      if(PAID_RETURN&&!(enterApp._poll>=8)){ enterApp._poll=(enterApp._poll||0)+1; toast('מאשר את התשלום…'); setTimeout(()=>enterApp(user),4000); }
+      return; }
     if(st!=='approved'){ S.access=st; S.mode='pending'; render(); return; } } }catch(_){}
   try{
     const [tpl,wo,st,bw,ml]=await Promise.all([
@@ -3788,6 +3855,7 @@ async function enterApp(user){
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest();
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
+  if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}
 }
 function hideSplash(){

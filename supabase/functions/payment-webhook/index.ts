@@ -1,35 +1,54 @@
-// NextRep — payment webhook (called by Make after a successful payment).
+// NextRep — payment webhook. Two sources:
+//  1. Grow server-to-server callback (notifyUrl from grow-pay, ?src=grow): form data like data[cField1], data[sum], data[statusCode]…
+//  2. Make / any automation: JSON or form with user_id|email, plan|months|amount, txn_id.
 // Auth: secret key (app_config.webhook_key) in header x-nr-key or ?key=. verify_jwt=false.
-// Body (JSON or form): user_id|nr_uid, email, plan (4m/6m/12m) or months, amount, txn_id.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const pick = (o: Record<string, unknown>, ...keys: string[]) => {
-  for (const k of keys) { const v = o[k]; if (v !== undefined && v !== null && String(v).trim() !== "") return String(v).trim(); }
+// "data[customFields][cField1]=x" → {data:{customFields:{cField1:"x"}}}
+function nest(flat: Record<string, unknown>) {
+  const out: Record<string, any> = {};
+  for (const [k, v] of Object.entries(flat)) {
+    const parts = k.replace(/\]/g, "").split("[");
+    let o = out;
+    parts.forEach((p, i) => { if (i === parts.length - 1) o[p] = v; else o = (o[p] = typeof o[p] === "object" && o[p] ? o[p] : {}); });
+  }
+  return out;
+}
+const pick = (o: Record<string, any>, ...keys: string[]) => {
+  for (const k of keys) { const v = o?.[k]; if (v !== undefined && v !== null && String(v).trim() !== "") return String(v).trim(); }
   return null;
 };
 
 Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return Response.json({ ok: false, error: "use POST" }, { status: 405 });
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const { data: kc } = await sb.from("app_config").select("value").eq("key", "webhook_key").single();
+  const { data: rows } = await sb.from("app_config").select("key,value").in("key", ["webhook_key", "grow"]);
+  const cfg = Object.fromEntries((rows || []).map((r: any) => [r.key, r.value]));
   const url = new URL(req.url);
   const key = req.headers.get("x-nr-key") || url.searchParams.get("key");
-  if (!kc || key !== kc.value) return Response.json({ ok: false, error: "forbidden" }, { status: 403 });
+  if (!cfg.webhook_key || key !== cfg.webhook_key) return Response.json({ ok: false, error: "forbidden" }, { status: 403 });
 
-  let body: Record<string, unknown> = {};
+  let flat: Record<string, unknown> = {};
   const ct = req.headers.get("content-type") || "";
   try {
-    if (ct.includes("json")) body = await req.json();
-    else { const f = await req.formData(); f.forEach((v, k) => (body[k] = v)); }
+    if (ct.includes("json")) flat = await req.json();
+    else { const f = await req.formData(); f.forEach((v, k) => (flat[k] = v)); }
   } catch (_) { return Response.json({ ok: false, error: "bad_body" }, { status: 400 }); }
+  const body = nest(flat);
+  const d: Record<string, any> = typeof body.data === "object" && body.data ? body.data : body; // Grow wraps fields in data[...]
+  const cf: Record<string, any> = { ...(d.customFields || {}), ...d };
 
-  const uidRaw = pick(body, "user_id", "nr_uid", "uid", "cField1");
+  // Grow: only completed payments (statusCode 2 = paid). Make/other: no status field → treat as paid.
+  const status = pick(d, "statusCode");
+  if (status && status !== "2") { console.log(JSON.stringify({ ev: "payment-skip", status })); return Response.json({ ok: true, skipped: status }); }
+
+  const uidRaw = pick(cf, "cField1", "user_id", "nr_uid", "uid");
   const uid = uidRaw && /^[0-9a-f-]{36}$/i.test(uidRaw) ? uidRaw : null;
-  const email = pick(body, "email", "customer_email", "payer_email", "Email");
-  const plan = pick(body, "plan", "product", "plan_id");
-  const monthsRaw = pick(body, "months");
-  const amountRaw = pick(body, "amount", "sum", "price", "total");
-  const txn = pick(body, "txn_id", "transaction_id", "transactionId", "id");
+  const email = pick(d, "payerEmail", "email", "customer_email", "payer_email", "Email");
+  const plan = pick(cf, "cField2", "plan", "product", "plan_id");
+  const monthsRaw = pick(d, "months");
+  const amountRaw = pick(d, "sum", "amount", "price", "total", "paymentSum");
+  const txn = pick(d, "transactionId", "txn_id", "transaction_id", "asmachta", "id");
 
   const { data, error } = await sb.rpc("apply_payment", {
     p_txn: txn, p_uid: uid, p_email: email, p_plan: plan,
@@ -37,7 +56,19 @@ Deno.serve(async (req: Request) => {
     p_amount: amountRaw ? parseFloat(amountRaw.replace(/[^0-9.]/g, "")) : null,
     p_raw: body,
   });
-  console.log(JSON.stringify({ ev: "payment", ok: data?.ok, err: data?.error || error?.message, months: data?.months, txn }));
+  console.log(JSON.stringify({ ev: "payment", src: url.searchParams.get("src") || "other", ok: data?.ok, err: data?.error || error?.message, months: data?.months, txn }));
+
+  // Grow asks the merchant to acknowledge the callback (the charge goes through either way)
+  if (url.searchParams.get("src") === "grow" && cfg.grow?.pageCode && data?.ok) {
+    try {
+      const f = new FormData();
+      f.append("pageCode", cfg.grow.pageCode);
+      for (const [k, v] of Object.entries(d)) if (typeof v !== "object" && v !== null && v !== undefined) f.append(k, String(v));
+      const base = (cfg.grow.base || "https://sandbox.meshulam.co.il/api/light/server/1.0/").replace(/\/?$/, "/");
+      const r = await fetch(base + "approveTransaction", { method: "POST", body: f, signal: AbortSignal.timeout(8000) });
+      console.log(JSON.stringify({ ev: "grow-approve", http: r.status }));
+    } catch (e) { console.log(JSON.stringify({ ev: "grow-approve-fail", err: String(e).slice(0, 120) })); }
+  }
   if (error) return Response.json({ ok: false, error: error.message }, { status: 500 });
   return Response.json(data, { status: data?.ok ? 200 : 422 });
 });
