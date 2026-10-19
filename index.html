@@ -61,6 +61,86 @@ body{
 }
 [hidden]{display:none!important}
 img{max-width:100%}
+
+/* ===== landing (לא מחוברים) ===== */
+body.landing #app{max-width:1120px}
+.ld{--r25:#D8473E;--r20:#2F6FD6;--r15:#E5B42A;--r10:#16A34A;padding-bottom:20px}
+.ld h1,.ld h2{font-family:var(--disp);font-weight:400;letter-spacing:.2px;margin:0;line-height:.92}
+.ld h1{font-size:clamp(64px,17vw,132px)}
+.ld h2{font-size:clamp(44px,10vw,72px)}
+.ld p{margin:0;color:var(--muted);font-size:17px;line-height:1.6;max-width:34em}
+.ld-hero{display:grid;gap:28px;padding:18px 0 8px}
+.ld-hero .lead{font-size:18px;color:var(--ink);opacity:.82}
+.ld-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.ld-cta .btn{padding:14px 22px;font-size:17px;font-weight:700;border-radius:14px}
+.ld-note{font-size:13.5px;color:var(--muted)}
+.ld-bar{width:100%;max-width:520px;height:auto;display:block;margin:6px 0 0}
+.ld-bar .pl{transform-box:fill-box}
+@media (prefers-reduced-motion:no-preference){
+  .ld-bar .pl{animation:ldload .7s cubic-bezier(.2,.9,.25,1.15) both}
+  .ld-bar .pl.r{--from:60px}.ld-bar .pl.l{--from:-60px}
+  @keyframes ldload{from{transform:translateX(var(--from));opacity:0}to{transform:none;opacity:1}}
+}
+.ld-phone{justify-self:center;width:min(330px,100%);background:var(--ink);border-radius:42px;padding:12px;box-shadow:0 30px 60px -30px rgba(10,30,15,.45)}
+.ld-screen{background:var(--bg);border-radius:31px;padding:18px 14px 14px;display:flex;flex-direction:column;gap:10px;min-height:520px;color:var(--ink)}
+.ld-screen .sh{display:flex;justify-content:space-between;align-items:baseline}
+.ld-screen .sh b{font-family:var(--disp);font-size:34px;font-weight:400;line-height:1}
+.ld-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.ld-set{display:grid;grid-template-columns:22px 1fr 1fr 34px;align-items:center;gap:8px;padding:7px 4px;border-radius:9px;font-size:15px}
+.ld-set .n{color:var(--muted);font-size:13px;text-align:center}
+.ld-set .v{font-weight:700;font-variant-numeric:tabular-nums}
+.ld-set .v small{font-weight:400;color:var(--muted);font-size:12px}
+.ld-set .ck{width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:15px}
+.ld-set.done .ck{background:var(--accent);border-color:var(--accent);color:#fff}
+.ld-set.now{background:var(--accent-soft,#E3F5E8);outline:1.5px solid var(--accent)}
+.ld-rest{margin-top:auto;display:flex;align-items:center;gap:12px;background:var(--ink);color:var(--bg);border-radius:16px;padding:10px 14px}
+.ld-rest svg{flex-shrink:0}
+.ld-rest .t{font-family:var(--disp);font-size:38px;line-height:1;font-variant-numeric:tabular-nums}
+.ld-rest .k{font-size:12.5px;opacity:.75}
+.ld-sec{display:grid;gap:22px;padding:56px 0 8px;border-top:1px solid var(--line);margin-top:48px}
+.ld-sec:first-of-type{border-top:0}
+.ld-feats{display:grid;gap:14px}
+.ld-feat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.ld-feat h3{margin:0;font-size:19px}
+.ld-feat p{font-size:15.5px}
+.ld-feat .ui{margin-top:auto}
+.ld-plates{display:flex;gap:6px;flex-wrap:wrap;direction:ltr;justify-content:flex-end}
+.ld-plates span{min-width:46px;padding:8px 6px;border-radius:9px;text-align:center;font-weight:700;color:#fff;font-size:14px}
+.ld-read{display:flex;justify-content:space-between;align-items:baseline;border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--bg)}
+.ld-read b{font-family:var(--disp);font-size:44px;font-weight:400;line-height:1}
+.ld-lock{background:linear-gradient(160deg,#2b3a31,#121814);border-radius:16px;padding:16px 12px;display:flex;flex-direction:column;gap:8px}
+.ld-lock .clk{color:#fff;text-align:center;font-family:var(--disp);font-size:48px;line-height:1;opacity:.92}
+.ld-notif{background:rgba(255,255,255,.88);color:#111;border-radius:14px;padding:10px 12px;display:flex;gap:10px;align-items:center;font-size:13.5px;direction:rtl}
+.ld-notif img{width:30px;height:30px;border-radius:8px}
+.ld-notif b{display:block;font-size:14px}
+.ld-sugg{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.ld-sugg div{display:flex;justify-content:space-between;padding:9px 12px;font-size:14px;border-top:1px solid var(--line)}
+.ld-sugg div:first-child{border-top:0}
+.ld-sugg .q{background:var(--surface);color:var(--muted)}
+.ld-sugg span:last-child{color:var(--muted);font-variant-numeric:tabular-nums}
+.ld-chart{width:100%;height:auto;display:block}
+.ld-pr{display:inline-flex;gap:6px;align-items:center;background:#FFF6DB;color:#7A5A00;border-radius:99px;padding:4px 10px;font-size:13px;font-weight:600}
+.ld-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;direction:rtl}
+.ld-cal i{aspect-ratio:1;border-radius:7px;background:var(--bg);font-style:normal;font-size:10.5px;display:grid;place-items:center;color:var(--muted);border:1px solid var(--line)}
+.ld-cal i.w{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.ld-steps{display:grid;gap:12px;counter-reset:st;padding:0;margin:0;list-style:none}
+.ld-steps li{counter-increment:st;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+.ld-steps li::before{content:counter(st);font-family:var(--disp);font-size:40px;line-height:.9;color:var(--accent);text-align:center}
+.ld-steps b{display:block}
+.ld-steps span{color:var(--muted);font-size:15px}
+.ld-end{background:var(--ink);color:var(--bg);border-radius:24px;padding:34px 22px;display:grid;gap:14px;margin-top:56px}
+.ld-end p{color:var(--bg);opacity:.75}
+.ld-end .btn.primary{justify-self:start}
+.ld-foot{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 0}
+#landlogin{font-weight:600}
+@media (min-width:900px){
+  .ld-hero{grid-template-columns:1.15fr .85fr;align-items:center;padding-top:40px}
+  .ld-hero .ld-phone{grid-row:1/3;grid-column:2}
+  .ld-feats{grid-template-columns:repeat(3,1fr)}
+  .ld-sec.two{grid-template-columns:.9fr 1.1fr;align-items:start}
+  .ld-end{grid-template-columns:1fr auto;align-items:center;padding:44px}
+}
+@media (min-width:600px) and (max-width:899px){ .ld-feats{grid-template-columns:repeat(2,1fr)} }
 /* auth screen */
 #authwrap{max-width:400px;margin:0 auto;padding:48px 20px;display:flex;flex-direction:column;gap:14px}
 #authwrap .logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
@@ -412,6 +492,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
     <div class="row" style="gap:8px">
       <span class="pill num" id="syncbadge" hidden></span>
       <div class="date-chip num" id="todaychip"></div>
+      <button class="pill" data-act="land-login" id="landlogin" hidden style="cursor:pointer">התחברות</button>
       <button class="pill" data-act="settings" id="logoutbtn" hidden style="cursor:pointer" aria-label="הגדרות">⚙️</button>
     </div>
   </header>
@@ -451,7 +532,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='2.9';
+const APP_VERSION='3.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -792,6 +873,9 @@ function render_(){
   const vk=S.mode+'|'+S.tab, moved=vk!==render_._k; render_._k=vk;
   if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען…</div>מתחבר לנתונים שלך</div>`;return;}
   if(S.mode==='pending'){v.innerHTML=vPending();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
+  const showLand=S.mode==='auth'&&!S.showAuth&&!IS_STANDALONE;
+  document.body.classList.toggle('landing',showLand); $('#landlogin').hidden=!showLand;
+  if(showLand){v.innerHTML=vLanding();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}startLandTimer();return;}
   if(S.mode==='auth'){v.innerHTML=vAuth();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
   if(S.tab==='home')v.innerHTML=vHome();
   else if(S.tab==='train')v.innerHTML=vTrain();
@@ -819,6 +903,144 @@ function vPending(){
     </div></div>`;
 }
 
+/* ----- דף נחיתה (לא מחוברים, בדפדפן) ----- */
+const IS_STANDALONE=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+function landBarbell(){
+  // מוט אולימפי עם פלטות צבעוניות שנטענות משני הצדדים
+  const P=[[25,'var(--r25)',74],[20,'var(--r20)',66],[15,'var(--r15)',56],[10,'var(--r10)',46]];
+  let x=0, right='', left='';
+  P.forEach(([kg,c,h],i)=>{const w=13; const d=`style="animation-delay:${.15+i*.12}s"`;
+    right+=`<rect class="pl r" ${d} x="${372+x}" y="${50-h/2}" width="${w}" height="${h}" rx="3" fill="${c}"/>`;
+    left+=`<rect class="pl l" ${d} x="${148-x-w}" y="${50-h/2}" width="${w}" height="${h}" rx="3" fill="${c}"/>`;
+    x+=w+2;});
+  return `<svg class="ld-bar" viewBox="0 0 520 100" role="img" aria-label="מוט עם 160 ק״ג" style="direction:ltr">
+    <rect x="18" y="47" width="484" height="6" rx="3" fill="var(--muted)" opacity=".55"/>
+    <rect x="150" y="44" width="220" height="12" rx="3" fill="var(--ink)" opacity=".85"/>
+    <rect x="142" y="38" width="8" height="24" rx="2" fill="var(--ink)"/><rect x="370" y="38" width="8" height="24" rx="2" fill="var(--ink)"/>
+    ${left}${right}
+    <text x="260" y="88" text-anchor="middle" font-size="13" fill="var(--muted)" style="font-family:var(--body)">20 + 2×(25+20+15+10) = 160 ק״ג</text></svg>`;
+}
+function vLanding(){
+  const ring=(p)=>{const r=20,c=2*Math.PI*r;return `<svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/>
+    <circle id="ld-ring" cx="25" cy="25" r="${r}" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p)).toFixed(1)}" transform="rotate(-90 25 25)"/></svg>`;};
+  return `<div class="ld">
+  <section class="ld-hero">
+    <div class="stack" style="gap:16px">
+      <h1>כל סט נרשם.<br>כל קילו נספר.</h1>
+      <p class="lead">NextRep הוא יומן אימונים לטלפון. רושמים סט בשתי נגיעות, הטיימר מודיע כשהמנוחה נגמרת, ואחרי כמה חודשים רואים בדיוק כמה התחזקת.</p>
+      <div class="ld-cta">
+        <button class="btn primary" data-act="land-signup">הרשמה בחינם</button>
+        <button class="btn" data-act="land-login">כבר יש לי חשבון</button>
+      </div>
+      <div class="ld-note">עובד בדפדפן ומתקין למסך הבית, באייפון ובאנדרואיד. בלי חנות אפליקציות.</div>
+    </div>
+    <div class="ld-phone" aria-hidden="true"><div class="ld-screen">
+      <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
+      <div class="ld-card">
+        <div style="font-weight:700;margin-bottom:6px">לחיצת חזה במוט</div>
+        <div class="ld-set done"><span class="n">1</span><span class="v">80 <small>ק״ג</small></span><span class="v">8 <small>חזרות</small></span><span class="ck">✓</span></div>
+        <div class="ld-set done"><span class="n">2</span><span class="v">82.5 <small>ק״ג</small></span><span class="v">8 <small>חזרות</small></span><span class="ck">✓</span></div>
+        <div class="ld-set now"><span class="n">3</span><span class="v">82.5 <small>ק״ג</small></span><span class="v">8 <small>חזרות</small></span><span class="ck"></span></div>
+        <div class="ld-set"><span class="n">4</span><span class="v muted">—</span><span class="v muted">—</span><span class="ck"></span></div>
+      </div>
+      <div class="ld-card" style="display:flex;justify-content:space-between;align-items:center">
+        <span><b style="display:block">לחיצת כתפיים במשקולות</b><span class="small muted">הבא בתור, 3 סטים</span></span><span class="muted">›</span>
+      </div>
+      <div class="ld-rest">${ring(.7)}<div><div class="t" id="ld-t">1:03</div><div class="k">מנוחה, הבא: סט 3 של 4</div></div></div>
+    </div></div>
+    ${landBarbell()}
+  </section>
+
+  <section class="ld-sec">
+    <h2>מה יש באפליקציה</h2>
+    <div class="ld-feats">
+      <div class="ld-feat">
+        <h3>מקלדת משקלים של מכון</h3>
+        <p>במקום מקלדת מספרים: פלטות למוט, מתלה משקולות יד ומחסנית פינים למכונות. המשקל והחזרות מהסט הקודם כבר ממולאים.</p>
+        <div class="ui stack" style="gap:8px">
+          <div class="ld-read"><b class="num">102.5</b><span class="muted small">ק״ג על המוט</span></div>
+          <div class="ld-plates"><span style="background:var(--r25)">25</span><span style="background:var(--r20)">20</span><span style="background:var(--r15);color:#3a2c00">15</span><span style="background:var(--r10)">10</span><span style="background:#8a948d">5</span><span style="background:#b6bdb8;color:#222">2.5</span></div>
+        </div>
+      </div>
+      <div class="ld-feat">
+        <h3>טיימר מנוחה שמגיע לנעילת המסך</h3>
+        <p>מסמנים סט והטיימר מתחיל. כשהמנוחה נגמרת מגיעה התראה, גם כשהטלפון בכיס והאפליקציה סגורה.</p>
+        <div class="ui ld-lock">
+          <div class="clk num">18:42</div>
+          <div class="ld-notif"><img src="icon-192.png" alt=""><span><b>המנוחה נגמרה 💪</b>הבא: סקוואט, סט 3 של 4</span></div>
+        </div>
+      </div>
+      <div class="ld-feat">
+        <h3>התקדמות ושיאים</h3>
+        <p>גרף לכל תרגיל, היסטוריה של כל אימון, והודעה כששוברים שיא אישי.</p>
+        <div class="ui stack" style="gap:8px">
+          <svg class="ld-chart" viewBox="0 0 300 110" aria-hidden="true" style="direction:ltr">
+            <line x1="0" x2="300" y1="100" y2="100" stroke="var(--line)"/>
+            <polyline fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" points="8,88 50,84 92,76 134,78 176,62 218,54 260,40 292,22"/>
+            ${[[8,88],[50,84],[92,76],[134,78],[176,62],[218,54],[260,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.5" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>`).join('')}
+            <circle cx="292" cy="22" r="6" fill="var(--accent)"/>
+          </svg>
+          <span class="ld-pr">🏅 שיא חדש בסקוואט: 120 ק״ג × 5</span>
+        </div>
+      </div>
+      <div class="ld-feat">
+        <h3>תזונה מהמאגר הישראלי</h3>
+        <p>מחפשים "קוטג׳" ובוחרים מנה מתוך מאגר התזונה של משרד הבריאות. אפשר גם לצלם צלחת ולקבל הערכה.</p>
+        <div class="ui ld-sugg">
+          <div class="q"><span>קוטג</span><span>🔍</span></div>
+          <div><span>קוטג׳ 5% שומן</span><span>95 קק״ל</span></div>
+          <div><span>קוטג׳ 3% שומן</span><span>80 קק״ל</span></div>
+          <div><span>קוטג׳ 9% שומן</span><span>129 קק״ל</span></div>
+        </div>
+      </div>
+      <div class="ld-feat">
+        <h3>משקל גוף ותמונות</h3>
+        <p>לוח שקילות חודשי, גרף מול משקל היעד, ותזכורת שבועית לצלם חזית, גב וצד כדי להשוות.</p>
+        <div class="ui ld-cal" aria-hidden="true">${Array.from({length:21},(_,i)=>`<i class="${[1,3,5,8,10,12,15,17,19].includes(i)?'w':''}">${i+1}</i>`).join('')}</div>
+      </div>
+      <div class="ld-feat">
+        <h3>תוכניות ולוח זמנים</h3>
+        <p>שלוש תוכניות מוכנות לכוח והיפרטרופיה, 98 תרגילים עם הדגמה מונפשת, ותזכורת בבוקר של יום אימון.</p>
+        <div class="ui stack" style="gap:6px">
+          ${[['A','דחיפה: חזה, כתפיים, יד אחורית',7],['B','משיכה: גב ויד קדמית',7],['C','רגליים ובטן',6]].map(([k,t,n])=>`<div class="ld-read" style="padding:8px 12px"><span><b style="font-size:30px;color:var(--accent)">${k}</b> <span style="font-size:14px">${t}</span></span><span class="small muted">${n} תרגילים</span></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ld-sec two">
+    <div class="stack" style="gap:12px">
+      <h2>מתקינים בדקה</h2>
+      <p>NextRep היא אפליקציית רשת: נכנסים מהדפדפן ומוסיפים אותה למסך הבית. היא נפתחת במסך מלא, עובדת גם בלי קליטה בחדר הכושר ושולחת התראות.</p>
+    </div>
+    <ol class="ld-steps">
+      <li><div><b>נרשמים כאן</b><span>שם, אימייל וסיסמה. כרגע הגישה נפתחת בהדרגה, ולכן כל חשבון חדש מאושר ידנית.</span></div></li>
+      <li><div><b>מוסיפים למסך הבית</b><span>באייפון: בספארי לוחצים על כפתור השיתוף ואז "הוסף למסך הבית". באנדרואיד: בתפריט של כרום בוחרים "התקן אפליקציה".</span></div></li>
+      <li><div><b>מאשרים התראות</b><span>פותחים את האפליקציה מהאייקון ומאשרים התראות, כדי שהטיימר והתזכורות יגיעו גם כשהיא סגורה.</span></div></li>
+    </ol>
+  </section>
+
+  <section class="ld-end">
+    <div class="stack" style="gap:10px">
+      <h2>האימון הבא מתחיל כאן</h2>
+      <p>ההרשמה חינמית. הנתונים שלך שמורים בחשבון ומסתנכרנים בין מכשירים.</p>
+    </div>
+    <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">הרשמה בחינם</button>
+  </section>
+  <div class="ld-foot" dir="ltr">NextRep</div>
+  </div>`;
+}
+function startLandTimer(){
+  clearInterval(startLandTimer._i); let left=63; const total=90, c=2*Math.PI*20;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  startLandTimer._i=setInterval(()=>{
+    const t=$('#ld-t'), r=$('#ld-ring'); if(!t){clearInterval(startLandTimer._i);return;}
+    left=left<=0?total:left-1;
+    t.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+    r.setAttribute('stroke-dashoffset',(c*(1-left/total)).toFixed(1));
+  },1000);
+}
+
 /* ----- auth screen ----- */
 function vAuth(){
   const su=S.authMode==='signup';
@@ -838,6 +1060,7 @@ function vAuth(){
       <div class="autherr" id="autherr"></div>
       <button class="btn primary big" data-act="auth-go" id="authgo">${su?'הרשמה':'התחברות'}</button>
       <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם בחינם'}</button>
+      ${IS_STANDALONE?'':`<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>`}
     </div>
   </div>`;
 }
@@ -2739,6 +2962,9 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
+    case 'land-signup': S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
+    case 'land-login': S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
+    case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': sb.auth.signOut(); break;
     case 'admin-access': {
