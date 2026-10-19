@@ -165,6 +165,32 @@ body.landing #app{max-width:1120px}
 }
 @media (min-width:600px) and (max-width:899px){ .ld-feats{grid-template-columns:repeat(2,1fr)} }
 
+.goalbar{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;padding:11px 14px;border-radius:12px;background:var(--accent-soft);border:1px solid var(--accent);text-align:right;color:var(--ink);font-size:14.5px}
+.goalbar .gi{font-size:20px}.goalbar .gt{flex:1}.goalbar .ge{color:var(--accent);font-weight:700;font-size:14px}
+.goalcta{display:flex;align-items:center;gap:12px;width:100%;padding:16px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);text-align:right;box-shadow:0 6px 18px -10px rgba(22,163,74,.6)}
+.goalcta .gi{font-size:34px;line-height:1}.goalcta .gt{flex:1;display:flex;flex-direction:column;gap:2px}.goalcta .gt b{font-size:17px}.goalcta .gt span{font-size:13.5px;color:var(--muted)}
+.tseg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:3px}
+.tseg button{flex:1;padding:9px;border-radius:9px;font-size:14.5px;color:var(--muted)}
+.tseg button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* ===== plans / paywall / share / scanner ===== */
+.pw{max-width:440px;margin:0 auto;padding:28px 0 20px;display:flex;flex-direction:column;gap:14px}
+.pw h2{font-family:var(--disp);font-weight:400;font-size:46px;line-height:.95;margin:0}
+.pw ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.pw li{display:flex;gap:9px}.pw li::before{content:'✓';color:var(--accent);font-weight:700}
+.plan{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;width:100%;text-align:right;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px}
+.plan.best{border:2px solid var(--accent);box-shadow:0 10px 24px -14px rgba(22,163,74,.7)}
+.plan .pn{font-weight:700;font-size:17px}
+.plan .pp{font-family:var(--disp);font-size:40px;line-height:1;grid-row:1/3;grid-column:2}
+.plan .pm{font-size:13px;color:var(--muted)}
+.plan .tag{position:absolute;top:-11px;inset-inline-start:14px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px}
+.planbanner{display:flex;gap:10px;align-items:center;width:100%;text-align:right;background:var(--gold-soft);border:1px solid var(--gold);border-radius:14px;padding:11px 14px;margin-bottom:12px;color:var(--ink)}
+.qrbox{background:#fff;border-radius:16px;padding:14px;display:grid;place-items:center;margin:4px auto;width:min(260px,100%)}
+.qrbox svg,.qrbox img{width:100%;height:auto;display:block}
+.scanwrap{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:4/3}
+.scanwrap video{width:100%;height:100%;object-fit:cover;display:block}
+.scanwrap .frame{position:absolute;inset:28% 12%;border:3px solid rgba(255,255,255,.9);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
+.adm-in{width:100%;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -597,7 +623,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   <button data-tab="home"><svg viewBox="0 0 24 24" class="ic"><path d="M4 11.5 12 4l8 7.5M6 10.5V20h4.5v-5h3v5H18v-9.5"/></svg>בית</button>
   <button data-tab="train"><svg viewBox="0 0 24 24" class="ic"><path d="M3 12h2m14 0h2M7 8v8M17 8v8M9.5 12h5"/><rect x="5" y="9.5" width="2" height="5" rx=".6"/><rect x="17" y="9.5" width="2" height="5" rx=".6"/></svg>אימון</button>
   <button data-tab="food"><svg viewBox="0 0 24 24" class="ic"><path d="M7 3v7a2.5 2.5 0 0 0 5 0V3M9.5 3v18M17.5 21V3c-2.2 1-3.5 3.2-3.5 6v4h3.5"/></svg>תזונה</button>
-  <button data-tab="plans"><svg viewBox="0 0 24 24" class="ic"><path d="M8 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H8M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2M8 4v16M11 9h5M11 13h5"/></svg>תוכניות</button>
+  <button data-tab="plans" hidden><svg viewBox="0 0 24 24" class="ic"><path d="M8 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H8M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2M8 4v16M11 9h5M11 13h5"/></svg>תוכניות</button>
   <button data-tab="social"><svg viewBox="0 0 24 24" class="ic"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.8" cy="9.5" r="2.5"/><path d="M15.5 14.2c.4-.1.9-.2 1.3-.2 2.2 0 3.9 1.5 4.4 4"/></svg>קבוצות</button>
   <button data-tab="track"><svg viewBox="0 0 24 24" class="ic"><path d="M4 19h16M5 16l4-5 3.5 3L19 7M19 7h-3.5M19 7v3.5"/></svg>מעקב</button>
 </nav>
@@ -612,7 +638,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='3.2';
+const APP_VERSION='3.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -742,6 +768,7 @@ const S={
   lib:{group:'חזה', q:'', target:null},
 };
 if(['history','progress'].includes(S.tab)){S.trackView=S.tab;S.tab='track';}
+{ const rm=(location.hash||'').match(/ref=([0-9a-f-]{36})/i); if(rm){ try{localStorage.setItem('nr-ref',rm[1]);}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 { const jm=(location.hash||'').match(/join=([A-Za-z0-9]{6})/); if(jm){ try{localStorage.setItem('nr-join',jm[1].toUpperCase());}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 if(!['home','train','food','plans','track','social'].includes(S.tab)) S.tab='home';
 
@@ -945,6 +972,7 @@ function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;di
 /* ---------- rendering ---------- */
 function render(){ try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); } }
 function render_(){
+  if(S.tab==='plans'){S.tab='train';S.trainView='plans';}
   for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.tab===S.tab);
   $('#todaychip').textContent=new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'});
   $('#tabs').hidden=S.mode!=='app';
@@ -953,6 +981,7 @@ function render_(){
   const v=$('#view');
   const vk=S.mode+'|'+S.tab, moved=vk!==render_._k; render_._k=vk;
   if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען…</div>מתחבר לנתונים שלך</div>`;return;}
+  if(S.mode==='paywall'){document.body.classList.remove('landing');$('#landlogin').hidden=true;v.innerHTML=vPaywall(true);return;}
   if(S.mode==='pending'){v.innerHTML=vPending();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
   const showLand=S.mode==='auth'&&!S.showAuth&&!IS_STANDALONE;
   document.body.classList.toggle('landing',showLand); $('#landlogin').hidden=!showLand;
@@ -1210,7 +1239,8 @@ async function doAuth(){
   const btn=$('#authgo'); if(btn){btn.disabled=true;btn.textContent='רק רגע…';}
   try{
     if(S.authMode==='signup'){
-      const {data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
+      let ref=null; try{ref=localStorage.getItem('nr-ref');}catch(_){}
+      const {data,error}=await sb.auth.signUp({email,password:pass,options:{data:ref?{full_name:name,ref}:{full_name:name}}});
       if(error)throw error;
       if(!data.session){
         $('#view').innerHTML=`<div class="empty" style="margin-top:48px"><div class="big">כמעט שם ✉️</div>שלחנו קישור אישור אל<br><b dir="ltr">${esc(email)}</b><br>פתח את המייל, לחץ על הקישור — וחזור לכאן להתחבר.</div>`;
@@ -1307,6 +1337,7 @@ function vHome(){
   const bwD=lastBw&&prevBw?Math.round((lastBw.kg-prevBw.kg)*10)/10:null;
   const last=[...S.workouts].sort((a,b)=>b.start-a.start)[0];
   return `
+    ${planBanner()}
     <div class="greet-wrap">
       <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''} 💪</div>
       <div class="muted small">${S.workouts.length?`אימון מס׳ ${S.workouts.length+1} מחכה לך`:'האימון הראשון שלך מחכה'}</div>
@@ -1424,12 +1455,15 @@ function vFood(){
   const left=kT?kT-t.kcal:0;
   const recents=recentMealNames();
   return `
+    ${!kT?`<button class="goalcta" data-act="food-targets-open">
+      <span class="gi">🎯</span>
+      <span class="gt"><b>הגדר יעד יומי</b><span>כמה קלוריות וחלבון לאכול כדי להגיע למטרה שלך</span></span>
+      <span class="btn primary" style="pointer-events:none">הגדרה</span></button>`:''}
     <div class="card">
       <div class="spread">
         <button class="btn" data-act="food-nav" data-dir="-1" aria-label="יום קודם" style="padding:6px 12px">›</button>
         <b>${d===today?'היום':fmtDateFull(+dt)}</b>
         <div class="row" style="gap:6px">
-          <button class="pill" data-act="food-targets-open" style="cursor:pointer">🎯 יעדים</button>
           <button class="btn" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>‹</button>
         </div>
       </div>
@@ -1439,10 +1473,10 @@ function vFood(){
           ${macroBar('חלבון',t.protein,pT,'var(--accent)')}
           ${macroBar('פחמימה',t.carbs,0,'#8aa6c1')}
           ${macroBar('שומן',t.fat,0,'var(--gold)')}
-          ${kT?`<div class="small ${left>=0?'muted':''}" style="${left<0?'color:var(--gold)':''}">${left>=0?`נשארו <b class="num">${fmtNum(left)}</b> קק״ל להיום`:`חריגה של <b class="num">${fmtNum(-left)}</b> קק״ל`}</div>`
-             :`<button class="linkbtn small" data-act="food-targets-open" style="text-align:right;padding:0">🎯 קבע יעד קלוריות וחלבון ←</button>`}
+          ${kT?`<div class="small ${left>=0?'muted':''}" style="${left<0?'color:var(--gold)':''}">${left>=0?`נשארו <b class="num">${fmtNum(left)}</b> קק״ל להיום`:`חריגה של <b class="num">${fmtNum(-left)}</b> קק״ל`}</div>`:''}
         </div>
       </div>
+      ${kT?`<button class="goalbar" data-act="food-targets-open"><span class="gi">🎯</span><span class="gt">היעד היומי: <b class="num">${fmtNum(kT)}</b> קק״ל${pT?`, <b class="num">${pT}</b> גר׳ חלבון`:''}</span><span class="ge">עריכה</span></button>`:''}
     </div>
     ${d===today?`
     <div class="card hot stack" style="gap:10px">
@@ -1461,6 +1495,10 @@ function vFood(){
           <svg viewBox="0 0 24 24"><path d="M4 8h2.2l1.4-2.2A1.5 1.5 0 0 1 8.9 5h6.2a1.5 1.5 0 0 1 1.3.8L17.8 8H20a1.5 1.5 0 0 1 1.5 1.5V18A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8Z"/><circle cx="12" cy="13.2" r="3.4"/></svg>
           צלם צלחת<input id="food-photo" type="file" accept="image/*" capture="environment" hidden>
         </label>
+        <button class="acttile" data-act="scan-open" style="flex:1" aria-label="סריקת ברקוד">
+          <svg viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M7 8v8M10 8v8M13 8v8M16.5 8v8"/></svg>
+          ברקוד
+        </button>
         <button class="acttile" data-act="food-manual" style="flex:1" aria-label="הוספה ידנית">
           <svg viewBox="0 0 24 24"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"/></svg>
           ידני
@@ -1620,7 +1658,7 @@ function saveBasket(){
   const tot=items.reduce((a,i)=>({kcal:a.kcal+i.kcal,protein:a.protein+i.protein,carbs:a.carbs+i.carbs,fat:a.fat+i.fat}),{kcal:0,protein:0,carbs:0,fat:0});
   const h=new Date().getHours();
   const nm=S.basket.length===1?S.basket[0].name:(h<11?'ארוחת בוקר':h<16?'ארוחת צהריים':h<20?'ארוחת ערב':'ארוחת לילה');
-  for(const i of S.basket)if(i.code)sb.rpc('bump_food',{c:i.code}).then(()=>{},()=>{});
+  for(const i of S.basket)if(Number.isInteger(i.code))sb.rpc('bump_food',{c:i.code}).then(()=>{},()=>{});
   _mealDraft={name:nm,items,...tot}; S.basket=[]; saveMealDraft();
 }
 /* צפייה ועריכת ארוחה: מרכיבים, קלוריות וחלבון לכל פריט */
@@ -1697,6 +1735,11 @@ function shrinkImage(file){
 /* ----- train tab ----- */
 function vTrain(){
   if(S.active)return vActive();
+  const seg=`<div class="tseg">${[['start','התחלת אימון'],['plans','התוכניות שלי']].map(([k,t])=>`<button class="${(S.trainView||'start')===k?'on':''}" data-act="train-view" data-v="${k}">${t}</button>`).join('')}</div>`;
+  if(S.trainView==='plans')return seg+vPlans();
+  return seg+vTrainStart();
+}
+function vTrainStart(){
   const last=[...S.workouts].sort((a,b)=>b.start-a.start)[0];
   const tpl=S.templates.length?`
     <div class="sect">התחלה מהירה מתוכנית</div>
@@ -1710,7 +1753,7 @@ function vTrain(){
           <button class="btn primary" data-act="start-tpl" data-id="${esc(t.id)}">התחל</button>
         </div>`).join('')}
     </div>`
-   : `<div class="empty"><div class="big">אין עדיין תוכניות אימון</div>בלשונית ״תוכניות״ אפשר לבנות תוכנית A/B/C — או פשוט להתחיל אימון חופשי.</div>`;
+   : `<div class="empty"><div class="big">אין עדיין תוכניות אימון</div>ב״התוכניות שלי״ למעלה אפשר לבנות תוכנית A/B/C — או פשוט להתחיל אימון חופשי.</div>`;
   return `
     <button class="btn primary big" data-act="start-free">+ התחל אימון חופשי</button>
     ${tpl}
@@ -2565,7 +2608,7 @@ document.addEventListener('click',ev=>{
 
 /* ---------- sheets (modals) ---------- */
 function openSheet(html){$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
-function closeSheet(){$('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
+function closeSheet(){try{if(SCAN.stream||SCAN.reader)stopScan();}catch(_){} $('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
 
 function openLibrary(target){ // target: 'active' | 'tpl'
   S.lib.target=target; S.lib.q='';
@@ -2714,6 +2757,10 @@ function renderSettings(){
       <span><b>🎯 היעדים שלי</b><span class="small muted" style="display:block">${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</span></span>
       <span class="muted">›</span>
     </button>
+    ${S.plan&&!S.plan.admin&&S.plan.billing?`<button class="card spread" data-act="plans-open" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:10px">
+      <span><b>⭐ המנוי שלי</b><span class="small muted" style="display:block">${S.plan.paid?'פעיל':'תקופת ניסיון'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString('he-IL'):'—'}</span></span><span class="muted">הארכה ›</span></button>`:''}
+    <button class="card spread" data-act="share-app" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:14px">
+      <span><b>📲 שתף את NextRep</b><span class="small muted" style="display:block">קישור או ברקוד לסריקה לחבר</span></span><span class="muted">›</span></button>
     <div class="label" style="margin-bottom:6px">התראות</div>
     <div class="card stack" style="gap:0;padding:4px 14px">
       <label class="setrow">
@@ -2755,7 +2802,8 @@ function renderSettings(){
 const USD_ILS=3.7;
 async function loadAdmin(){
   S.adminErr=null; S.adminLoading=true; if(S.tab==='admin')render();
-  const {data,error}=await sb.rpc('admin_dashboard');
+  const [{data,error},cfg]=await Promise.all([sb.rpc('admin_dashboard'),sb.rpc('admin_config')]);
+  if(cfg&&!cfg.error)S.adminCfg=cfg.data;
   S.adminLoading=false;
   if(error){S.adminErr=error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+error.message;}
   else S.admin=data;
@@ -2777,6 +2825,32 @@ function adminChart(daily){
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;direction:ltr">
     <line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
     <text x="${W-2}" y="10" font-size="10" fill="var(--muted)" text-anchor="end">מקס׳ ${mx}</text></svg>`;
+}
+function adminBillingHTML(){
+  const C=S.adminCfg; if(!C)return '';
+  const B=C.billing||{}, hook=`${SUPABASE_URL}/functions/v1/payment-webhook?key=${C.webhook_key}`;
+  const T=S.admin?.totals||{};
+  return `<div class="label" style="margin:16px 0 6px">מנויים ותשלומים</div>
+  <div class="tiles"><div class="tile"><div class="v num">₪${Math.round(C.revenue_month||0)}</div><div class="k">הכנסה החודש</div></div>
+    <div class="tile"><div class="v num">₪${Math.round(C.revenue_total||0)}</div><div class="k">סה״כ</div></div>
+    <div class="tile"><div class="v num">${T.paying||0}</div><div class="k">מנויים פעילים</div></div></div>
+  <div class="card stack" style="padding:14px;margin-top:10px;gap:10px">
+    <label class="setrow" style="padding:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
+    <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם מתחיל ניסיון מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
+    <div class="spread"><b>ימי ניסיון</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??14}" style="width:80px;text-align:center"></div>
+    ${(B.plans||[]).map(p=>`<div class="stack" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">
+      <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' ⭐':''}</b><span class="row" style="gap:4px;align-items:center">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
+      <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לדף התשלום ב-Grow" value="${esc(p.link||'')}"></div>`).join('')}
+    <div class="small muted">אפשר לשלב בקישור {email}, {uid} או {name}, והם יוחלפו בפרטי המשתמש.</div>
+    <button class="btn primary" data-act="admin-billing-save">שמירת הגדרות</button>
+  </div>
+  <div class="card stack" style="padding:14px;margin-top:10px;gap:8px">
+    <b>חיבור ל-Make</b>
+    <div class="small muted">אחרי תשלום מוצלח, Make שולח בקשת POST לכתובת הזו עם email (או user_id), amount או plan, ו-txn_id.</div>
+    <div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
+    <button class="btn" data-act="copy-link" data-url="${esc(hook)}">העתקת הכתובת</button>
+  </div>
+  ${(C.payments||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px">${C.payments.slice(0,10).map(p=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span><b>${esc(p.name||p.email||'')}</b><span class="small muted" style="display:block">${new Date(p.created_at).toLocaleDateString('he-IL')} · ${p.months} חודשים</span></span><b class="num">₪${+p.amount||0}</b></div>`).join('')}</div>`:''}`;
 }
 function vAdmin(){
   const A=S.admin;
@@ -2809,6 +2883,11 @@ function vAdmin(){
         <div class="h-ex"><span>שקילות</span><span class="num">${u.weighins}</span></div>
         <div class="h-ex"><span>התראות פוש</span><span>${u.push?'✓ מופעל':'—'}</span></div>
         <div class="h-ex"><span>ניתוחי AI</span><span class="num">${u.ai_calls} · ${money(u.ai_usd)}</span></div>
+        ${u.access!=='admin'?`<div class="h-ex"><span>ניסיון עד</span><span>${u.trial_until?new Date(u.trial_until).toLocaleDateString('he-IL'):'—'}</span></div>
+        <div class="h-ex"><span>מנוי בתשלום עד</span><span>${u.access_until?new Date(u.access_until).toLocaleDateString('he-IL'):'—'}${+u.paid?` (שילם ₪${+u.paid})`:''}</span></div>`:''}
+        ${u.ref_name?`<div class="h-ex"><span>הוזמן ע״י</span><span>${esc(u.ref_name)}</span></div>`:''}
+        ${+u.referred?`<div class="h-ex"><span>הזמין</span><span class="num">${u.referred} משתמשים</span></div>`:''}
+        ${u.access!=='admin'?`<div class="row" style="gap:8px;margin-top:4px"><span class="btn" style="flex:1" data-act="admin-grant" data-id="${u.id}" data-days="30">+30 יום</span><span class="btn" style="flex:1" data-act="admin-grant" data-id="${u.id}" data-days="365">+שנה</span></div>`:''}
         ${u.access==='admin'?'':`<div class="row" style="gap:8px;margin-top:4px">${u.access!=='approved'?`<span class="btn primary" style="flex:1" data-act="admin-access" data-id="${u.id}" data-st="approved">אשר גישה</span>`:''}${u.access!=='rejected'?`<span class="btn danger" style="flex:1" data-act="admin-access" data-id="${u.id}" data-st="rejected">חסום גישה</span>`:''}</div>`}</div>`:''}
     </button>`;}).join('');
   const foods=(A.top_foods||[]).map(f=>`<div class="h-ex"><span>${esc(f.name)}</span><span class="num muted">${f.picks}</span></div>`).join('');
@@ -2828,6 +2907,7 @@ function vAdmin(){
         <span class="small muted" style="text-align:left">${T.ai_calls_month} ניתוחים<br><span dir="ltr">$${(+T.ai_usd_month).toFixed(4)}</span></span></div>
       <div class="small muted" style="margin-top:8px">מתחילת הדרך: ${money(T.ai_usd_all)} · ממוצע לניתוח ${T.ai_calls_month?money(T.ai_usd_month/T.ai_calls_month):'—'} · שער ≈${USD_ILS}</div>
     </div>
+    ${adminBillingHTML()}
     <div class="label" style="margin:16px 0 6px">משתמשים (${(A.users||[]).length})</div>
     <div class="stack" style="gap:8px">${users}</div>
     ${foods?`<div class="label" style="margin:16px 0 6px">מזונות פופולריים מהמאגר</div><div class="card stack" style="padding:12px 14px;gap:6px">${foods}</div>`:''}
@@ -3034,7 +3114,8 @@ function socInviteSheet(){
   const info=SOC.info[SOC.gid]||{}; const code=info.invite_code||((SOC.groups||[]).find(g=>g.id===SOC.gid)||{}).invite_code||'';
   openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">שלח את הקישור. מי שאין לו חשבון יירשם ויצטרף אחרי אישור.</div>
     <div class="inv-code">${esc(code)}</div>
-    <button class="btn primary big" style="margin-top:12px" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
+    <div class="row" style="margin-top:12px;flex-wrap:nowrap"><button class="btn primary big" style="flex:2" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
+      <button class="btn big" style="flex:1" data-act="soc-qr" data-code="${esc(code)}">ברקוד</button></div>
     <div class="label" style="margin:16px 0 6px">חברים בקבוצה</div>
     <div class="card" style="padding:4px 14px">${(info.members||[]).map(m=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span>${esc(m.user_id===S.user?.id?'אתה':m.name)}</span><span class="small muted">${m.role==='owner'?'מנהל':''}</span></div>`).join('')}</div>
     <button class="btn danger" style="width:100%;margin-top:14px" data-act="soc-leave">יציאה מהקבוצה</button>
@@ -3088,6 +3169,7 @@ function socAct(act,b){
     case 'soc-leave': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב ליציאה';return true;}
       sb.rpc('leave_group',{gid:SOC.gid}).then(()=>{closeSheet();SOC.gid=null;toast('יצאת מהקבוצה');socLoad();render();}); return true;
     case 'soc-send': socSend(); return true;
+    case 'soc-qr': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`; openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
     case 'soc-older': { const gid=SOC.gid, arr=SOC.msgs[gid]||[]; const h0=document.body.scrollHeight;
       socLoadMsgs(gid,arr[0]?.id).then(rows=>{SOC.msgs[gid]=rows.concat(arr);render();window.scrollTo(0,document.body.scrollHeight-h0);}); return true; }
     case 'soc-react': { const id=+b.dataset.id, e=b.dataset.e, uid=S.user.id; const rs=SOC.reacts[id]||(SOC.reacts[id]=[]);
@@ -3112,6 +3194,128 @@ function socAct(act,b){
 document.addEventListener('input',ev=>{ if(ev.target.id==='chat-in'){SOC.draft=ev.target.value; const t=ev.target; t.style.height='auto'; t.style.height=Math.min(120,t.scrollHeight)+'px';} });
 document.addEventListener('keydown',ev=>{ if(ev.target.id==='chat-in'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();socSend();}
   if(ev.target.id==='sg-code'&&ev.key==='Enter')$('[data-act="soc-join-go"]')?.click(); if(ev.target.id==='sg-name'&&ev.key==='Enter')$('[data-act="soc-create"]')?.click(); });
+
+/* ===================== מנוי, תשלום, שיתוף וברקוד ===================== */
+const PLAN_NAMES={'4m':'4 חודשים','6m':'6 חודשים','12m':'שנה'};
+function planLink(p){
+  let l=(p&&p.link)||''; if(!l)return '';
+  const u=S.user||{}; const r={uid:u.id||'',email:u.email||'',name:u.user_metadata?.full_name||''};
+  return l.replace(/\{(uid|email|name)\}/g,(_,k)=>encodeURIComponent(r[k]));
+}
+function plansHTML(){
+  const plans=(S.plan?.plans||[]);
+  return plans.map(p=>{const pm=(p.price/p.months); const link=planLink(p);
+    return `<button class="plan ${p.best?'best':''}" data-act="plan-buy" data-id="${esc(p.id)}" ${link?'':'disabled style="opacity:.6"'}>
+      ${p.best?'<span class="tag">הכי משתלם</span>':''}
+      <span class="pn">${esc(PLAN_NAMES[p.id]||p.months+' חודשים')}</span>
+      <span class="pp num">₪${p.price}</span>
+      <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span>
+    </button>`;}).join('')+(plans.some(p=>planLink(p))?'':'<div class="small muted" style="text-align:center">התשלום ייפתח בקרוב.</div>');
+}
+function vPaywall(full){
+  const paid=!!S.plan?.access_until;
+  const body=`
+    ${full?`<div style="text-align:center"><img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:16px"></div>`:''}
+    <h2>${full?(paid?'המנוי שלך הסתיים':'תקופת הניסיון הסתיימה'):'ממשיכים להתקדם'}</h2>
+    <div class="muted">${full?'כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.':'בוחרים מסלול, משלמים פעם אחת, וממשיכים בלי הפסקה.'}</div>
+    <ul><li>רישום אימונים, טיימר מנוחה והתראות</li><li>תזונה מהמאגר הישראלי, ברקוד וצילום AI</li><li>קבוצות, אתגרים ושותפים לאימון</li><li>גרפים, שיאים ותמונות התקדמות</li></ul>
+    <div class="stack" style="gap:14px;margin-top:6px">${plansHTML()}</div>
+    <div class="small muted" style="text-align:center">בתשלום השתמש באותו אימייל: <b dir="ltr">${esc(S.user?.email||'')}</b>. הגישה נפתחת אוטומטית תוך דקה מהתשלום.</div>
+    <button class="btn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button>
+    ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
+  return full?`<div class="pw">${body}</div>`:body;
+}
+function planBanner(){
+  const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null||p.days_left>5)return '';
+  return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון':`נשארו ${p.days_left} ימים`} ${p.paid?'למנוי':'לתקופת הניסיון'}</b><span class="small muted" style="display:block">בחר מסלול כדי להמשיך בלי הפסקה</span></span><span style="color:var(--accent);font-weight:700">מסלולים</span></button>`;
+}
+/* --- QR + share --- */
+function loadQR(){ return window.qrcode?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);}); }
+function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q.createSvgTag({cellSize:6,margin:2,scalable:true}); }
+async function openShareSheet(title,sub,url,text){
+  openSheet(`<h3>${title}</h3><div class="muted" style="margin:-4px 0 12px">${sub}</div>
+    <div class="qrbox" id="qrbox"><div class="muted small">טוען ברקוד…</div></div>
+    <div class="small muted" style="text-align:center;margin-top:6px">החבר מכוון את המצלמה של הטלפון לברקוד</div>
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="copy-link" data-url="${esc(url)}">העתקת קישור</button>
+      <button class="btn primary" style="flex:1.4" data-act="share-native" data-url="${esc(url)}" data-text="${esc(text)}">שליחה</button></div>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
+  try{ await loadQR(); const b=$('#qrbox'); if(b)b.innerHTML=qrSVG(url); }catch(_){ const b=$('#qrbox'); if(b)b.innerHTML='<div class="small muted">הברקוד לא נטען, אפשר לשלוח קישור</div>'; }
+}
+/* --- barcode scanner --- */
+const SCAN={stream:null,timer:null,reader:null,busy:false};
+function stopScan(){ clearInterval(SCAN.timer); SCAN.timer=null; try{SCAN.reader?.reset?.();}catch(_){} SCAN.reader=null; SCAN.stream?.getTracks().forEach(t=>t.stop()); SCAN.stream=null; }
+async function openScanner(){
+  SCAN.busy=false;
+  openSheet(`<h3>סריקת ברקוד</h3>
+    <div class="scanwrap"><video id="scanv" playsinline muted autoplay></video><div class="frame"></div></div>
+    <div class="small muted" id="scanmsg" style="text-align:center;margin:8px 0">כוון את הברקוד של המוצר למסגרת</div>
+    <div class="row" style="flex-wrap:nowrap"><input id="scan-code" type="text" inputmode="numeric" dir="ltr" placeholder="או הקלד את המספר" style="flex:1;text-align:center">
+      <button class="btn primary" data-act="scan-go">חפש</button></div>
+    <button class="btn big" style="margin-top:10px" data-act="scan-close">סגור</button>`);
+  try{
+    SCAN.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280}},audio:false});
+    const v=$('#scanv'); if(!v){stopScan();return;} v.srcObject=SCAN.stream; await v.play().catch(()=>{});
+    if('BarcodeDetector' in window){
+      const det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
+      SCAN.timer=setInterval(async()=>{ if(SCAN.busy||!v.videoWidth)return; try{const r=await det.detect(v); if(r[0]?.rawValue)onBarcode(r[0].rawValue);}catch(_){} },300);
+    }else{
+      await new Promise((res,rej)=>{ if(window.ZXing)return res(); const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js'; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+      const hints=new Map(); hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13,ZXing.BarcodeFormat.EAN_8,ZXing.BarcodeFormat.UPC_A,ZXing.BarcodeFormat.UPC_E]);
+      const reader=new ZXing.BrowserMultiFormatReader(hints); SCAN.reader=reader;
+      reader.decodeFromVideoElementContinuously(v,(res)=>{ if(res&&!SCAN.busy)onBarcode(res.getText()); });
+    }
+  }catch(e){ const m=$('#scanmsg'); if(m)m.textContent='אין גישה למצלמה. אפשר להקליד את המספר שמתחת לברקוד.'; }
+}
+async function onBarcode(code){
+  code=String(code||'').replace(/\D/g,''); if(code.length<6||SCAN.busy)return;
+  SCAN.busy=true; try{navigator.vibrate?.(40);}catch(_){}
+  const m=$('#scanmsg'); if(m)m.textContent=`מחפש ${code}…`;
+  stopScan();
+  try{
+    const {data:{session}}=await sb.auth.getSession();
+    const r=await fetch(`${SUPABASE_URL}/functions/v1/food-barcode?code=${code}`,{headers:{Authorization:'Bearer '+session.access_token,apikey:SUPABASE_KEY}});
+    if(r.status===404){ openLabelPrompt(code); return; }
+    const j=await r.json(); if(!j.product)throw new Error('x');
+    openProduct(j.product);
+  }catch(e){ toast('החיפוש נכשל, נסה שוב'); closeSheet(); }
+}
+function openProduct(p){
+  const units=[]; if(+p.serving_g>0)units.push({u:'מנה (לפי האריזה)',g:+p.serving_g});
+  closeSheet();
+  openPortion({code:'b'+p.barcode,name:(p.brand&&!String(p.name).includes(p.brand)?p.name+', '+p.brand:p.name),kcal:+p.kcal||0,protein:+p.protein||0,fat:+p.fat||0,carbs:+p.carbs||0,units});
+}
+function openLabelPrompt(code){
+  SCAN.code=code;
+  openSheet(`<h3>המוצר עוד לא במאגר</h3><div class="muted" style="margin:-4px 0 12px">צלם את הטבלה התזונתית שעל האריזה. ה-AI יקרא אותה, והמוצר יישמר במאגר לכל המשתמשים.</div>
+    <label class="btn primary big" style="display:flex;justify-content:center;align-items:center">📷 צילום הטבלה התזונתית<input id="label-photo" type="file" accept="image/*" capture="environment" hidden></label>
+    <div class="small muted" style="text-align:center;margin-top:8px" dir="ltr">${esc(code)}</div>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">ביטול</button>`);
+}
+async function readLabel(file){
+  toast('קורא את הטבלה…');
+  try{
+    const b64=await shrinkImage(file);
+    const {data,error}=await sb.functions.invoke('nutrition',{body:{image:b64,media:'image/jpeg',label:true}});
+    if(error)throw error; if(!data||data.error||!(+data.kcal>=0)||!data.name)throw new Error('no_label');
+    const p={barcode:SCAN.code,name:String(data.name),brand:data.brand||null,kcal:+data.kcal||0,protein:+data.protein||0,fat:+data.fat||0,carbs:+data.carbs||0,serving_g:+data.serving_g||null};
+    if(SCAN.code)sb.rpc('add_product',{p_barcode:p.barcode,p_name:p.name,p_brand:p.brand,p_kcal:p.kcal,p_protein:p.protein,p_fat:p.fat,p_carbs:p.carbs,p_serving:p.serving_g||0}).then(()=>{},()=>{});
+    toast('המוצר נוסף למאגר ✓'); openProduct(p);
+  }catch(e){ toast(e?.context?.status===429?'הגעת למכסת ה-AI היומית':'לא הצלחתי לקרוא את הטבלה. נסה צילום קרוב וחד יותר'); }
+}
+function payAct(act,b){
+  switch(act){
+    case 'plans-open': closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div><button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>`); return true;
+    case 'plan-buy': { const p=(S.plan?.plans||[]).find(x=>x.id===b.dataset.id); const l=planLink(p); if(l)window.open(l,'_blank','noopener'); return true; }
+    case 'plan-recheck': closeSheet(); if(S.user)enterApp(S.user); return true;
+    case 'share-app': { const url=`${location.origin}/#ref=${S.user?.id||''}`; openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',url,'מתאמן? תנסה את NextRep, יומן אימונים שזוכר כל סט, עם טיימר, תזונה וקבוצות 💪'); return true; }
+    case 'copy-link': navigator.clipboard?.writeText(b.dataset.url).then(()=>toast('הקישור הועתק ✓'),()=>toast(b.dataset.url)); return true;
+    case 'share-native': if(navigator.share)navigator.share({title:'NextRep',text:b.dataset.text,url:b.dataset.url}).catch(()=>{}); else navigator.clipboard?.writeText(b.dataset.text+'\n'+b.dataset.url).then(()=>toast('הקישור הועתק ✓')); return true;
+    case 'scan-open': openScanner(); return true;
+    case 'scan-close': stopScan(); closeSheet(); return true;
+    case 'scan-go': onBarcode($('#scan-code')?.value); return true;
+  }
+  return false;
+}
 
 /* שיתוף סיכום אימון */
 function workoutShareText(w){
@@ -3254,6 +3458,7 @@ document.addEventListener('click',ev=>{
 function handleAct(b,ev){
   const act=b.dataset.act;
   if(act.startsWith('soc-')&&socAct(act,b))return;
+  if(payAct(act,b))return;
   switch(act){
     case 'start-free': startWorkout('אימון חופשי'); break;
     case 'start-tpl': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t)startWorkout(t.name,t.id); break; }
@@ -3381,6 +3586,7 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
+    case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-signup': S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
     case 'land-login': S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
@@ -3398,6 +3604,12 @@ function handleAct(b,ev){
     case 'admin-open': closeSheet(); S.tab='admin'; S.admin=null; render(); loadAdmin(); window.scrollTo(0,0); break;
     case 'admin-back': S.tab='home'; location.hash='home'; render(); break;
     case 'admin-refresh': loadAdmin(); break;
+    case 'admin-grant': { const d=+b.dataset.days; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל: '+error.message);return;} toast(`נוספו ${d} ימים ✓`); loadAdmin(); }); break; }
+    case 'admin-billing-save': { const B=JSON.parse(JSON.stringify(S.adminCfg.billing||{}));
+      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||14));
+      B.plans=(B.plans||[]).map(p=>({...p,price:+$('#adm-price-'+p.id).value||p.price,link:($('#adm-link-'+p.id).value||'').trim()}));
+      if(B.enabled&&!B.plans.some(p=>p.link)&&!confirm('אין אף קישור תשלום. להפעיל גבייה בכל זאת?'))break;
+      sb.rpc('admin_set_billing',{cfg:B}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('ההגדרות נשמרו ✓'); loadAdmin(); }); break; }
     case 'admin-user': { const id=b.dataset.id; S.adminOpen=S.adminOpen===id?null:id; render(); break; }
     case 'np-close': closeNumpad(); break;
     case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); break;
@@ -3460,6 +3672,9 @@ document.addEventListener('change',ev=>{
   if(ev.target.dataset&&ev.target.dataset.photoAngle&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0], a=ev.target.dataset.photoAngle, d=ev.target.dataset.photoDate; ev.target.value='';
     uploadPhoto(f,d,a); return;
+  }
+  if(ev.target.id==='label-photo'&&ev.target.files&&ev.target.files[0]){
+    const f=ev.target.files[0]; ev.target.value=''; readLabel(f); return;
   }
   if(ev.target.id==='food-photo'&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0]; ev.target.value='';
@@ -3537,7 +3752,9 @@ const DEFAULT_TEMPLATES=[
 async function enterApp(user){
   S.user=user; S.mode='boot'; render();
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
-  try{ const acc=await sb.rpc('my_access'); if(!acc.error&&acc.data&&acc.data!=='approved'){ S.access=acc.data; S.mode='pending'; render(); return; } }catch(_){}
+  try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
+    if(st==='expired'){ S.mode='paywall'; render(); return; }
+    if(st!=='approved'){ S.access=st; S.mode='pending'; render(); return; } } }catch(_){}
   try{
     const [tpl,wo,st,bw,ml]=await Promise.all([
       sb.from('templates').select('id,name,ord,ex').order('ord'),
