@@ -649,7 +649,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='3.8';
+const APP_VERSION='3.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3258,7 +3258,12 @@ function planLink(p){
   const u=S.user||{}; const r={uid:u.id||'',email:u.email||'',name:u.user_metadata?.full_name||''};
   if(/\{(uid|email|name)\}/.test(l))return l.replace(/\{(uid|email|name)\}/g,(_,k)=>encodeURIComponent(r[k]));
   // בלי תבנית: מצרפים את מזהה המשתמש בשמות הנפוצים. פרמטר לא מוכר פשוט נשאר מחוץ לדף, והשרת מחפש את המזהה בכל מה שמגיע מ-Grow
-  try{ const u=new URL(l); if(r.uid){u.searchParams.set('cField1',r.uid);u.searchParams.set('nr_uid',r.uid);} return u.toString(); }catch(_){ return l; }
+  // ניסוי: שולחים את המזהה ואת פרטי המשתמש בכל שמות הפרמטרים המקובלים. מה ש-Grow יחזיר, השרת יזהה
+  try{ const u=new URL(l), sp=u.searchParams;
+    if(r.uid)for(const k of ['cField1','cField2','cField3','customFields[cField1]','field1','custom1','comment','notes','ref','nr_uid'])sp.set(k,r.uid);
+    if(r.email)for(const k of ['email','payerEmail','pageField[email]','mail'])sp.set(k,r.email);
+    if(r.name)for(const k of ['fullName','full_name','pageField[fullName]','name'])sp.set(k,r.name);
+    return u.toString(); }catch(_){ return l; }
 }
 function plansHTML(){
   const plans=(S.plan?.plans||[]);
