@@ -3255,7 +3255,9 @@ const PLAN_NAMES={'4m':'4 חודשים','6m':'6 חודשים','12m':'שנה'};
 function planLink(p){
   let l=(p&&p.link)||''; if(!l)return '';
   const u=S.user||{}; const r={uid:u.id||'',email:u.email||'',name:u.user_metadata?.full_name||''};
-  return l.replace(/\{(uid|email|name)\}/g,(_,k)=>encodeURIComponent(r[k]));
+  if(/\{(uid|email|name)\}/.test(l))return l.replace(/\{(uid|email|name)\}/g,(_,k)=>encodeURIComponent(r[k]));
+  // בלי תבנית: מצרפים את מזהה המשתמש בשמות הנפוצים. פרמטר לא מוכר פשוט נשאר מחוץ לדף, והשרת מחפש את המזהה בכל מה שמגיע מ-Grow
+  try{ const u=new URL(l); if(r.uid){u.searchParams.set('cField1',r.uid);u.searchParams.set('nr_uid',r.uid);} return u.toString(); }catch(_){ return l; }
 }
 function plansHTML(){
   const plans=(S.plan?.plans||[]);
