@@ -702,24 +702,52 @@ function beep(){
     o2.start(audioCtx.currentTime+.22);o2.stop(audioCtx.currentTime+.42);
   }catch(e){}
 }
-function startRest(sec){
-  T.total=sec;T.end=Date.now()+sec*1000;
+/* התראת סוף מנוחה דרך השרת: האפליקציה ברקע מושהית ע"י מערכת ההפעלה,
+   לכן השרת שולח את הפוש בזמן (pg_cron כל 5 שנ׳ → Edge Function rest-push) */
+let _pushOk=false;
+async function ensureRestPush(){
+  if(_pushOk||!S.user||S.settings.notif?.rest===false)return;
+  try{
+    if(!('Notification' in window)||!('PushManager' in window))return;
+    if(Notification.permission==='default'){
+      let asked=false; try{asked=!!localStorage.getItem('np-rest-asked');}catch(e){}
+      if(asked)return;
+      try{localStorage.setItem('np-rest-asked','1');}catch(e){}
+    }
+    if(Notification.permission==='denied')return;
+    const r=await subscribePush(); _pushOk=!!r.ok;
+  }catch(e){}
+}
+function armServerRest(label){
+  if(!S.user||S.settings.notif?.rest===false)return;
+  T.armed=true;
+  const row={user_id:S.user.id,fire_at:new Date(T.end).toISOString(),title:'המנוחה נגמרה 💪',body:label?`הבא: ${label}`:'הסט הבא מחכה לך'};
+  sb.from('rest_timers').upsert(row).then(()=>{},()=>{});
+}
+function disarmServerRest(){
+  if(!T.armed||!S.user)return; T.armed=false;
+  sb.from('rest_timers').delete().eq('user_id',S.user.id).then(()=>{},()=>{});
+}
+function startRest(sec,label){
+  T.total=sec;T.end=Date.now()+sec*1000;T.label=label||'';
   $('#restbar').hidden=false;
   clearInterval(T.int);T.int=setInterval(tickRest,250);tickRest();
+  ensureRestPush(); armServerRest(T.label);
 }
 function tickRest(){
   const left=Math.max(0,T.end-Date.now());
   const s=Math.ceil(left/1000);
   $('#rest-t').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
   $('#rest-fill').style.width=(100*left/(T.total*1000))+'%';
+  // האפליקציה פתוחה ממש בסוף המנוחה → מבטלים את הפוש מהשרת כדי שלא תהיה התראה כפולה
+  if(left<=2000&&T.armed&&document.visibilityState==='visible')disarmServerRest();
   if(left<=0){stopRest();
     if(S.settings.notif?.sound!==false)beep();
     vibrate([200,100,200,100,400]);
     toast('המנוחה נגמרה — סט הבא!');
-    if(S.settings.notif?.rest!==false&&document.hidden)notify('המנוחה נגמרה 💪','הסט הבא מחכה לך');
   }
 }
-function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;}
+function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;disarmServerRest();}
 
 /* ---------- rendering ---------- */
 function render(){ try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); } }
@@ -2386,14 +2414,15 @@ function handleAct(b,ev){
       const wi=document.getElementById(`w-${ei2}-${si2}`), ri=document.getElementById(`r-${ei2}-${si2}`);
       if(wi)wi.value=s.w??''; if(ri)ri.value=s.r??'';
       updateLive();
-      if(s.done)startRest(e.rest||S.settings.rest); break; }
+      if(s.done){ const nx=e.sets[si2+1]&&!e.sets[si2+1].done?`${e.n} · סט ${si2+2}`:(S.active.ex[ei2+1]?S.active.ex[ei2+1].n:'');
+        startRest(e.rest||S.settings.rest,nx); } break; }
     case 'done-all': { const e=S.active?.ex[+b.dataset.ei]; if(!e||e.t!=='s')break;
       if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='בטוח?';
         setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)b.textContent='✓✓';},2200); break; }
       for(const s of e.sets){ if(s.done)continue;
         if(!s.w&&s.pw)s.w=s.pw; if(!s.r&&s.pr)s.r=s.pr;
         if(+s.r>0)s.done=true; }
-      persistActive(); render(); startRest(e.rest||S.settings.rest); break; }
+      persistActive(); render(); startRest(e.rest||S.settings.rest,S.active.ex[+b.dataset.ei+1]?.n||''); break; }
     case 'ex-info': { const e=S.active?.ex[+b.dataset.ei]; if(!e)break;
       openExSheet(e.n,{reps:e.reps,sets:e.sets?.length,rest:e.rest,how:e.how}); break; }
     case 'hist-ex': openExSheet(b.dataset.n,{}); break;
@@ -2465,7 +2494,7 @@ function handleAct(b,ev){
       S.settings.schedule=S.settings.schedule||{};
       if(id)S.settings.schedule[d]=id; else delete S.settings.schedule[d];
       persistSettings(); closeSheet(); render(); break; }
-    case 'rest-add': T.end+=15000; T.total+=15; tickRest(); break;
+    case 'rest-add': T.end+=15000; T.total+=15; tickRest(); if(T.int)armServerRest(T.label); break;
     case 'rest-skip': stopRest(); break;
     case 'cancel-w':
       if(b.dataset.sure){S.active=null; saveLocalActive(); clearTimeout(_aT); flushActive(); stopRest(); keepAwake(false); render();}
