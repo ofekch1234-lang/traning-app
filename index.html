@@ -861,7 +861,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='6.2';
+const APP_VERSION='6.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4257,7 +4257,7 @@ function handleAct(b,ev){
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
   if(act.startsWith('pb-')&&pbAct(act,b))return;
-  if((act.startsWith('tour-')||act.startsWith('inst-'))&&tourAct(act,b))return;
+  if((act.startsWith('tour-')||act.startsWith('inst-')||act.startsWith('lang-'))&&tourAct(act,b))return;
   if((act.startsWith('adm-')||act.startsWith('ev-')||act==='admin-open')&&admAct(act,b))return;
   if(act==='ct-topic'){S.ctDraft=$('#ct-body')?.value||'';openContact(b.dataset.t);return;}
   if(act==='ct-send'){const t=($('#ct-body')?.value||'').trim(); if(!t){toast('כתוב הודעה');return;} b.disabled=true; sb.rpc('send_support',{p_topic:S.ctTopic||'general',p_body:t}).then(({error})=>{ b.disabled=false; if(error){toast(/too_many/.test(error.message)?'שלחת הרבה הודעות, נסה בעוד שעה':'השליחה נכשלה');return;} S.ctDraft=''; toast('ההודעה נשלחה ✓ נחזור אליך בהקדם'); openContact(); }); return;}
