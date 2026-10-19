@@ -451,7 +451,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='2.6';
+const APP_VERSION='2.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1190,7 +1190,7 @@ async function foodSearch(q){
 let _portion=null;
 function openPortion(f){
   const units=(f.units||[]).map(u=>({u:u.u,g:+u.g})).filter(u=>u.g>0);
-  const pref=['יחידה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
+  const pref=['יחידה בינונית','מנה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
   const def=pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
   _portion={f,units,unit:def,qty:def?1:100};
   renderPortion();
@@ -1198,7 +1198,9 @@ function openPortion(f){
 function portionCalc(){
   const p=_portion; const grams=p.unit?p.qty*p.unit.g:p.qty;
   const k=v=>Math.round((+v||0)*grams/100);
-  return {grams:Math.round(grams),kcal:k(p.f.kcal),protein:k(p.f.protein),carbs:k(p.f.carbs),fat:k(p.f.fat)};
+  const d=v=>{const x=(+v||0)*grams/100; return x<10?Math.round(x*10)/10:Math.round(x);}; // תצוגה: עשרוני מתחת ל-10 גרם
+  return {grams:Math.round(grams),kcal:k(p.f.kcal),protein:k(p.f.protein),carbs:k(p.f.carbs),fat:k(p.f.fat),
+    show:{protein:d(p.f.protein),carbs:d(p.f.carbs),fat:d(p.f.fat)}};
 }
 function renderPortion(){
   const p=_portion, c=portionCalc();
@@ -1219,9 +1221,9 @@ function renderPortion(){
     </div>
     <div class="summary-grid" style="grid-template-columns:repeat(4,1fr);margin-top:14px">
       <div class="tile"><div class="v num" style="font-size:24px">${c.kcal}</div><div class="k">קק״ל</div></div>
-      <div class="tile"><div class="v num" style="font-size:24px">${c.protein}</div><div class="k">חלבון</div></div>
-      <div class="tile"><div class="v num" style="font-size:24px">${c.carbs}</div><div class="k">פחמימה</div></div>
-      <div class="tile"><div class="v num" style="font-size:24px">${c.fat}</div><div class="k">שומן</div></div>
+      <div class="tile"><div class="v num" style="font-size:24px">${c.show.protein}<small style="font-size:13px">ג׳</small></div><div class="k">חלבון</div></div>
+      <div class="tile"><div class="v num" style="font-size:24px">${c.show.carbs}<small style="font-size:13px">ג׳</small></div><div class="k">פחמימה</div></div>
+      <div class="tile"><div class="v num" style="font-size:24px">${c.show.fat}<small style="font-size:13px">ג׳</small></div><div class="k">שומן</div></div>
     </div>
     <div class="small muted" style="text-align:center;margin-bottom:12px">סה״כ ${c.grams} גרם</div>
     <div class="row"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button>
