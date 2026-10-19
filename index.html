@@ -242,6 +242,21 @@ body.landing #app{max-width:1120px}
 .wsets span{background:var(--surface2);border-radius:7px;padding:2px 7px;font-size:13px}
 /* חצי ניווט: בלי היפוך אוטומטי של התו בעברית, כדי שהחץ יצביע לכיוון הנכון */
 [data-act="food-nav"],[data-act="cal-nav"]{direction:ltr;unicode-bidi:isolate}
+#tour{position:fixed;inset:0;z-index:90}
+#tour.dim{background:rgba(8,12,10,.62)}
+.tour-spot{position:fixed;border-radius:14px;box-shadow:0 0 0 9999px rgba(8,12,10,.62);transition:all .25s ease;pointer-events:none;outline:2px solid var(--accent)}
+.tour-card{position:fixed;inset-inline:16px;max-width:420px;margin:0 auto;background:var(--surface);color:var(--ink);border-radius:18px;padding:16px 18px;box-shadow:0 20px 50px -10px rgba(0,0,0,.5)}
+.tour-card.mid{top:50%;transform:translateY(-50%)}
+.tour-card h3{margin:6px 0 4px;font-size:19px}.tour-card p{margin:0;color:var(--muted);line-height:1.55}
+.tour-dots{display:flex;gap:5px}.tour-dots i{width:6px;height:6px;border-radius:99px;background:var(--line)}.tour-dots i.on{width:18px;background:var(--accent)}
+#instgate{position:fixed;inset:0;z-index:95;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
+.ig-body{max-width:400px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:center}
+.ig-body h2{margin:0;font-size:24px;line-height:1.25}.ig-body p{margin:0;color:var(--muted);line-height:1.55}
+.ig-icon{width:76px;height:76px;border-radius:18px;margin:0 auto;box-shadow:0 10px 24px -10px rgba(22,163,74,.7)}
+.ig-steps{text-align:right;margin:0;padding:0;list-style:none;counter-reset:ig;display:grid;gap:10px}
+.ig-steps li{counter-increment:ig;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 14px;display:flex;gap:12px;align-items:center;line-height:1.45}
+.ig-steps li::before{content:counter(ig);flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
+.ig-skip{color:var(--muted);font-size:13px;text-decoration:underline;margin-top:6px}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -698,7 +713,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.8';
+const APP_VERSION='5.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -939,7 +954,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); flushActive(); }
@@ -1407,7 +1422,7 @@ function vHome(){
       <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''} 💪</div>
       <div class="muted small">${S.workouts.length?`אימון מס׳ ${S.workouts.length+1} מחכה לך`:'האימון הראשון שלך מחכה'}</div>
     </div>
-    ${(()=>{try{return ('Notification' in window)&&Notification.permission==='default'&&!localStorage.getItem('np-dis');}catch(e){return false;}})()?`
+    ${(()=>{try{return !TOUR.on&&('Notification' in window)&&Notification.permission==='default'&&!localStorage.getItem('np-dis');}catch(e){return false;}})()?`
     <div class="card">
       <div class="spread">
         <div><b>🔔 הפעל התראות</b><div class="small muted">תדע שהמנוחה נגמרה גם כשהמסך כבוי</div></div>
@@ -2898,7 +2913,9 @@ function renderSettings(){
       <span><b>⭐ ${S.plan.admin?'מסלולים ותשלום':'המנוי שלי'}</b><span class="small muted" style="display:block">${S.plan.admin?'כפי שהמשתמשים רואים. אפשר לשלם מכאן לבדיקה':`${S.plan.paid?'פעיל':'תקופת ניסיון'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString('he-IL'):'—'}`}</span></span><span class="muted">${S.plan.admin?'פתיחה':'הארכה'} ›</span></button>`:''}
     <button class="card spread" data-act="share-app" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:14px">
       <span><b>📲 שתף את NextRep</b><span class="small muted" style="display:block">קישור או ברקוד לסריקה לחבר</span></span><span class="muted">›</span></button>
-    <button class="card spread" data-act="contact-open" style="width:100%;text-align:right;padding:12px 14px;margin:-6px 0 14px">
+    <button class="card spread" data-act="tour-restart" style="width:100%;text-align:right;padding:12px 14px;margin:-6px 0 8px">
+      <span><b>🧭 סיור במערכת</b><span class="small muted" style="display:block">הצגה קצרה של כל היכולות</span></span><span class="muted">›</span></button>
+    <button class="card spread" data-act="contact-open" style="width:100%;text-align:right;padding:12px 14px;margin:0 0 14px">
       <span><b>💬 צור קשר</b><span class="small muted" style="display:block">שאלה, תקלה או רעיון. נחזור אליך כאן</span></span><span class="muted">›</span></button>
     <div class="label" style="margin-bottom:6px">התראות</div>
     <div class="card stack" style="gap:0;padding:4px 14px">
@@ -3632,6 +3649,101 @@ function payAct(act,b){
   return false;
 }
 
+/* ===================== סיור היכרות + התקנה למסך הבית ===================== */
+const IS_IOS=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const IS_MOBILE=IS_IOS||/Android/i.test(navigator.userAgent);
+const IN_APP_BROWSER=/FBAN|FBAV|Instagram|Line\/|WhatsApp|TikTok|Snapchat|; wv\)/i.test(navigator.userAgent);
+let _bip=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); _bip=e; const b=$('#inst-native'); if(b)b.hidden=false; });
+window.addEventListener('appinstalled',()=>{ const g=$('#instgate'); if(g)g.querySelector('.ig-body').innerHTML=`<div style="font-size:44px">✅</div><h2>האפליקציה הותקנה</h2><p>סגור את הדפדפן ופתח את NextRep מהאייקון במסך הבית.</p>`; });
+function checkInstallGate(){
+  if(!IS_MOBILE||IS_STANDALONE||S.mode!=='app')return false;
+  try{ const t=+localStorage.getItem('nr-inst-skip')||0; if(Date.now()-t<864e5)return false; }catch(_){}
+  showInstallGate(); return true;
+}
+function showInstallGate(){
+  if($('#instgate'))return;
+  const share=`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg>`;
+  const plus=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-4px"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>`;
+  let steps;
+  if(IN_APP_BROWSER)steps=`<ol class="ig-steps"><li>לחץ על <b>⋯</b> או <b>⋮</b> בפינת המסך</li><li>בחר <b>"פתח בדפדפן"</b> (Safari או Chrome)</li><li>שם תוכל להוסיף את NextRep למסך הבית</li></ol>`;
+  else if(IS_IOS)steps=`<ol class="ig-steps"><li>לחץ על כפתור השיתוף ${share} בסרגל של הדפדפן</li><li>גלול למטה ובחר <b>"הוסף למסך הבית"</b> ${plus}</li><li>לחץ <b>"הוסף"</b>, ופתח את NextRep מהאייקון החדש</li></ol>`;
+  else steps=`<button id="inst-native" class="btn primary big" data-act="inst-native" ${_bip?'':'hidden'}>התקנת האפליקציה</button>
+    <ol class="ig-steps"><li>לחץ על <b>⋮</b> בפינה העליונה של Chrome</li><li>בחר <b>"התקנת אפליקציה"</b> או <b>"הוספה למסך הבית"</b></li><li>פתח את NextRep מהאייקון החדש</li></ol>`;
+  const d=document.createElement('div'); d.id='instgate';
+  d.innerHTML=`<div class="ig-body"><img src="icon-192.png" alt="" class="ig-icon"><h2>עוד צעד אחד: שמור את NextRep במסך הבית</h2>
+    <p>כך היא נפתחת במסך מלא כמו אפליקציה, עובדת בחדר כושר בלי קליטה, ושולחת התראה כשהמנוחה נגמרת. בדפדפן ההתראות לא יעבדו.</p>
+    ${steps}
+    <button class="ig-skip" data-act="inst-skip">המכשיר שלי לא מאפשר את זה</button></div>`;
+  document.body.appendChild(d);
+}
+/* ---- הסיור ---- */
+const TOUR={on:false,i:0};
+const TOUR_STEPS=[
+  {tab:'home',title:'ברוך הבא ל-NextRep 👋',text:'סיור קצר של חצי דקה, כדי שתדע איפה הכל. אפשר לדלג בכל רגע.'},
+  {tab:'home',sel:'#tabs [data-tab="train"]',title:'אימון',text:'כאן מתחילים אימון. מסמנים סט בשתי נגיעות, המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד.'},
+  {tab:'train',pre:()=>{S.trainView='start';},sel:'.tseg',title:'התוכניות שלך',text:'קיבלת 3 תוכניות מוכנות לכוח ולמסה. ב״התוכניות שלי״ אפשר לערוך אותן, להוסיף תרגילים ולשנות סדר.'},
+  {tab:'food',sel:'.goalcta, .goalbar',title:'יעד יומי',text:'מתחילים מכאן: כמה קלוריות וחלבון לאכול כדי להגיע למטרה.'},
+  {tab:'food',sel:'#food-text',title:'רישום ארוחות',text:'מחפשים מזון מהמאגר הישראלי ("קוטג׳", "פיתה"), סורקים ברקוד של מוצר, או מצלמים את הצלחת וה-AI מחשב.'},
+  {tab:'social',pre:()=>{SOC.gid=null; if(!SOC.groups)SOC.groups=[];},sel:'[data-act="soc-new"]',title:'קבוצות',text:'פותחים קבוצה עם שותף לאימונים או עם החבר׳ה מהמכון: צ׳אט, טבלה שבועית ואתגרים. כל אימון שתסיים יופיע שם.'},
+  {tab:'track',pre:()=>{S.trackView='body';},sel:'.tseg',title:'מעקב',text:'משקל ולוח שקילות, תמונות התקדמות שבועיות, גרפים לכל תרגיל והיסטוריה מלאה.'},
+  {tab:'home',kind:'notif',title:'לא לפספס את סוף המנוחה 🔔',text:'הפעל התראות ונודיע לך כשהמנוחה נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.'},
+  {tab:'home',sel:'#logoutbtn',title:'הגדרות',text:'כאן משנים יעדים, התראות, שם, ויש גם "צור קשר" אם משהו לא עובד.',last:true},
+];
+function maybeStartTour(){
+  if(TOUR.on||S.settings.tourDone||S.active||S.mode!=='app')return;
+  try{ if(localStorage.getItem('nr-tour'))return; }catch(_){}
+  const created=new Date(S.user?.created_at||0).getTime(); if(Date.now()-created>3*864e5)return; // רק למשתמשים חדשים
+  startTour();
+}
+function startTour(){ TOUR.on=true; TOUR.i=0; tourShow(); }
+function tourSteps(){ return TOUR_STEPS.filter(st=>st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE))); }
+function tourEnd(){
+  TOUR.on=false; $('#tour')?.remove(); S.settings.tourDone=ymd(); persistSettings();
+  try{localStorage.setItem('nr-tour','1');}catch(_){}
+  S.tab='home'; location.hash='home'; render(); window.scrollTo(0,0);
+}
+function tourShow(){
+  const steps=tourSteps(), st=steps[TOUR.i]; if(!st)return tourEnd();
+  closeSheet(); st.pre&&st.pre(); if(S.tab!==st.tab){S.tab=st.tab; location.hash=st.tab;} render(); window.scrollTo(0,0);
+  let el=$('#tour'); if(!el){el=document.createElement('div'); el.id='tour'; document.body.appendChild(el);}
+  const isLast=TOUR.i===steps.length-1;
+  el.innerHTML=`<div class="tour-spot" hidden></div><div class="tour-card">
+    <div class="tour-dots">${steps.map((_,i)=>`<i class="${i===TOUR.i?'on':''}"></i>`).join('')}</div>
+    <h3>${st.title}</h3><p>${st.text}</p>
+    <div class="row" style="gap:8px;margin-top:12px">
+      ${st.kind==='notif'?`<button class="btn" style="flex:1" data-act="tour-next">אחר כך</button><button class="btn primary" style="flex:1.6" data-act="tour-notif">🔔 הפעל התראות</button>`
+        :`${TOUR.i===0?`<button class="btn" style="flex:1" data-act="tour-skip">דלג</button>`:`<button class="btn" style="flex:1" data-act="tour-back">חזרה</button>`}
+          <button class="btn primary" style="flex:1.6" data-act="tour-next">${isLast?'בוא נתחיל 💪':TOUR.i===0?'קדימה':'הבא'}</button>`}
+    </div></div>`;
+  requestAnimationFrame(()=>tourPlace(st));
+}
+function tourPlace(st,tries=0){
+  const el=$('#tour'); if(!el||!TOUR.on||tourSteps()[TOUR.i]!==st)return; const spot=el.querySelector('.tour-spot'), card=el.querySelector('.tour-card');
+  const t=st.sel&&[...document.querySelectorAll(st.sel)].find(x=>x.offsetParent!==null);
+  if(!t){ spot.hidden=true; el.classList.add('dim'); card.style.top=''; card.style.bottom=''; card.classList.add('mid'); return; }
+  el.classList.remove('dim'); card.classList.remove('mid');
+  const r=t.getBoundingClientRect(), pad=6;
+  const fixed=!!t.closest('nav.tabs,header.top');
+  if(!fixed&&tries<3&&(r.top<70||r.bottom>innerHeight-90)){ t.scrollIntoView({block:'center'}); return setTimeout(()=>tourPlace(st,tries+1),250); }
+  Object.assign(spot.style,{top:(r.top-pad)+'px',left:(r.left-pad)+'px',width:(r.width+pad*2)+'px',height:(r.height+pad*2)+'px'}); spot.hidden=false;
+  const below=r.top<innerHeight/2;
+  card.style.top=below?(r.bottom+16)+'px':''; card.style.bottom=below?'':(innerHeight-r.top+16)+'px';
+}
+window.addEventListener('resize',()=>{ if(TOUR.on){ const st=tourSteps()[TOUR.i]; st&&tourPlace(st); } });
+function tourAct(act,b){
+  switch(act){
+    case 'tour-next': TOUR.i++; if(TOUR.i>=tourSteps().length)tourEnd(); else tourShow(); return true;
+    case 'tour-back': TOUR.i=Math.max(0,TOUR.i-1); tourShow(); return true;
+    case 'tour-skip': tourEnd(); return true;
+    case 'tour-notif': b.disabled=true; subscribePush().then(r=>{ toast(r.ok?'ההתראות הופעלו 🔔':'אפשר להפעיל אחר כך בהגדרות'); TOUR.i++; tourShow(); }); return true;
+    case 'tour-restart': closeSheet(); startTour(); return true;
+    case 'inst-native': if(_bip){ _bip.prompt(); _bip.userChoice.finally(()=>{_bip=null;}); } return true;
+    case 'inst-skip': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בלי שמירה ההתראות לא יעבדו. להמשיך בכל זאת?';return true;}
+      try{localStorage.setItem('nr-inst-skip',String(Date.now()));}catch(_){} $('#instgate')?.remove(); maybeStartTour(); return true;
+  }
+  return false;
+}
+
 /* שיתוף סיכום אימון */
 function workoutShareText(w){
   const lines=[`🏋️ ${w.name} · ${new Date(w.start).toLocaleDateString('he-IL')}`,
@@ -3774,6 +3886,7 @@ function handleAct(b,ev){
   const act=b.dataset.act;
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
+  if((act.startsWith('tour-')||act.startsWith('inst-'))&&tourAct(act,b))return;
   if((act.startsWith('adm-')||act.startsWith('ev-')||act==='admin-open')&&admAct(act,b))return;
   if(act==='ct-topic'){S.ctDraft=$('#ct-body')?.value||'';openContact(b.dataset.t);return;}
   if(act==='ct-send'){const t=($('#ct-body')?.value||'').trim(); if(!t){toast('כתוב הודעה');return;} b.disabled=true; sb.rpc('send_support',{p_topic:S.ctTopic||'general',p_body:t}).then(({error})=>{ b.disabled=false; if(error){toast(/too_many/.test(error.message)?'שלחת הרבה הודעות, נסה בעוד שעה':'השליחה נכשלה');return;} S.ctDraft=''; toast('ההודעה נשלחה ✓ נחזור אליך בהקדם'); openContact(); }); return;}
@@ -4079,7 +4192,7 @@ async function enterApp(user){
     if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null;
       S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},st.data.prefs?.notif);
       S.settings.schedule=st.data.prefs?.schedule||{};
-      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; }
+      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; }
     if(!S.templates.length){ // משתמש חדש — טעינת תוכניות ברירת המחדל
       S.templates=clone(DEFAULT_TEMPLATES);
       sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{});
@@ -4096,6 +4209,7 @@ async function enterApp(user){
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest();
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
+  setTimeout(()=>{ if(!checkInstallGate())maybeStartTour(); },700);
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}
 }
