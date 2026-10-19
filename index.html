@@ -649,7 +649,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='3.4';
+const APP_VERSION='3.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2887,11 +2887,12 @@ function adminBillingHTML(){
   </div>
   ${adminGrowHTML()}
   <div class="card stack" style="padding:14px;margin-top:10px;gap:8px">
-    <b>חיבור ל-Make (חלופה)</b>
-    <div class="small muted">אחרי תשלום מוצלח, Make שולח בקשת POST לכתובת הזו עם email (או user_id), amount או plan, ו-txn_id.</div>
+    <b>כתובת לעדכון שרת (Grow / Make)</b>
+    <div class="small muted">ב-Grow: בעמוד התשלום ← עמוד תודה ← "קישור לעדכון מערכות מידע (שרת)". המערכת מזהה את המשלם לפי האימייל ואת המסלול לפי הסכום.</div>
     <div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
     <button class="btn" data-act="copy-link" data-url="${esc(hook)}">העתקת הכתובת</button>
   </div>
+  ${(C.events||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px"><div class="small muted" style="padding-top:8px">הודעות אחרונות מהסליקה</div>${C.events.map(e=>`<div class="spread small" style="padding:8px 0;border-top:1px solid var(--line)"><span>${new Date(e.created_at).toLocaleString('he-IL',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} <span dir="ltr" class="muted">${esc(e.email||'')}</span></span><span style="color:${e.ok==='true'?'var(--accent)':'var(--danger)'}">${e.ok==='true'?'✓ נפתח':({user_not_found:'משתמש לא נמצא',unknown_plan:'סכום לא תואם מסלול'}[e.error]||esc(e.error||'שגיאה'))}${e.amount?` ₪${esc(e.amount)}`:''}</span></div>`).join('')}</div>`:''}
   ${(C.payments||[]).length?`<div class="card" style="padding:4px 14px;margin-top:10px">${C.payments.slice(0,10).map(p=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span><b>${esc(p.name||p.email||'')}</b><span class="small muted" style="display:block">${new Date(p.created_at).toLocaleDateString('he-IL')} · ${p.months} חודשים</span></span><b class="num">₪${+p.amount||0}</b></div>`).join('')}</div>`:''}`;
 }
 function vAdmin(){
