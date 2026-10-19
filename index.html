@@ -240,6 +240,8 @@ body.landing #app{max-width:1120px}
 .wx{display:block;width:100%;text-align:right;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .wsets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;direction:ltr;justify-content:flex-end}
 .wsets span{background:var(--surface2);border-radius:7px;padding:2px 7px;font-size:13px}
+/* חצי ניווט: בלי היפוך אוטומטי של התו בעברית, כדי שהחץ יצביע לכיוון הנכון */
+[data-act="food-nav"],[data-act="cal-nav"]{direction:ltr;unicode-bidi:isolate}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -696,7 +698,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.7';
+const APP_VERSION='4.8';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
