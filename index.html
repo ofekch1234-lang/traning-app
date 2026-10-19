@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ca555b44"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c5c411d5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -423,6 +423,23 @@ header.top{
 .btn.danger{color:var(--danger)}
 .chip{padding:7px 12px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:14px}
 .chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:500}
+.coach-card{position:relative;overflow:hidden}
+.coach-card .co-h{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.co-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0f766e);display:grid;place-items:center;font-size:19px;flex-shrink:0;color:#fff}
+.coach-card .co-txt{white-space:pre-wrap;line-height:1.55;font-size:15px;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.coach-card .co-acts{display:flex;gap:8px;margin-top:12px}
+.co-skel{height:12px;border-radius:6px;background:var(--surface2);margin:8px 0;animation:coPulse 1.2s ease-in-out infinite}
+@keyframes coPulse{50%{opacity:.45}}
+.co-sum{align-self:stretch;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:16px;padding:12px 14px;margin:6px 0;white-space:pre-wrap;line-height:1.55}
+.co-sum .lbl{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px;display:block}
+.co-chips{display:flex;gap:6px;overflow-x:auto;padding:6px 0 2px;scrollbar-width:none}
+.co-chips::-webkit-scrollbar{display:none}
+.co-chips button{flex-shrink:0;font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.co-typing .bub{display:flex;gap:4px;align-items:center;min-height:36px}
+.co-typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:coDot 1s infinite}
+.co-typing i:nth-child(2){animation-delay:.15s}.co-typing i:nth-child(3){animation-delay:.3s}
+@keyframes coDot{0%,60%,100%{opacity:.25;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.co-lock{border-top:1px solid var(--line);padding:12px 0 6px;text-align:center}
 .langpills{display:flex;gap:6px;justify-content:center;margin-top:12px}
 .langpills button{font:inherit;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
 .langpills button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
@@ -861,7 +878,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='6.3';
+const APP_VERSION='6.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1214,7 +1231,8 @@ function render_(){
   document.body.classList.toggle('landing',showLand); $('#landlogin').hidden=!showLand;
   if(showLand){v.innerHTML=vLanding();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}startLandTimer();return;}
   if(S.mode==='auth'){v.innerHTML=vAuth();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
-  if(S.tab==='home')v.innerHTML=vHome();
+  if(S.tab!=='home')CO.open=false;
+  if(S.tab==='home')v.innerHTML=CO.open?vCoach():vHome();
   else if(S.tab==='train')v.innerHTML=vTrain();
   else if(S.tab==='food')v.innerHTML=vFood();
   else if(S.tab==='plans')v.innerHTML=vPlans();
@@ -1223,8 +1241,9 @@ function render_(){
   else v.innerHTML=vTrack();
   if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
   if(S.tab==='track'&&S.trackView==='progress')wireChart();
-  document.body.classList.toggle('chatting',S.tab==='social'&&!!SOC.gid&&SOC.view==='chat');
+  document.body.classList.toggle('chatting',(S.tab==='social'&&!!SOC.gid&&SOC.view==='chat')||(S.tab==='home'&&CO.open));
   if(!document.body.classList.contains('chatting')){document.body.classList.remove('kbopen');SOC.kb=false;}
+  if(S.tab==='home'&&CO.open){ fitChat(); const ci=$('#chat-in'); if(ci&&CO.draft)ci.value=CO.draft; if(CO.toBottom){CO.toBottom=false;chatBottom(false);requestAnimationFrame(()=>chatBottom(false));} }
   if(S.tab==='social'&&SOC.gid&&SOC.view==='chat'){ fitChat(); const ci=$('#chat-in'); if(ci&&SOC.draft)ci.value=SOC.draft; if(SOC.toBottom){SOC.toBottom=false;chatBottom(false);requestAnimationFrame(()=>chatBottom(false));} }
 }
 
@@ -1628,6 +1647,7 @@ function vHome(){
         <div class="small muted" style="margin:6px 0 12px">${esc((nt.ex||[]).slice(0,4).map(e=>e.n).join(' · '))}${(nt.ex||[]).length>4?'…':''}</div>
         <button class="btn primary big" data-act="start-tpl" data-id="${esc(nt.id)}">התחל אימון ←</button>
       </div>`:''}
+    ${coachCardHTML()}
     <div class="card">
       <div class="spread">
         <span class="label">השבוע שלי</span>
@@ -3129,6 +3149,7 @@ function renderSettings(){
       ${sw('rest','סיום מנוחה','התראה כשהטיימר נגמר, גם כשהמסך כבוי')}
       ${sw('pr','שיא חדש 🏅','חגיגה כששברת שיא אישי')}
       ${sw('social','קבוצות 👥','הודעות, אימונים ואתגרים של החברים')}
+      ${sw('coach','סיכום שבועי מהמאמן 💬','בכל יום ראשון בבוקר')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
       ${sw('vib','רטט','משוב מישוש בלחיצות ובטיימר')}
     </div>
@@ -3489,7 +3510,7 @@ function socMsgHTML(m,prev){
   const gid=m.group_id, me=m.user_id===S.user?.id, who=esc(socName(gid,m.user_id));
   let h=''; if(!prev||ymd(new Date(prev.created_at))!==ymd(new Date(m.created_at)))h+=`<div class="c-day">${socDay(m.created_at)}</div>`;
   const sameRun=prev&&prev.kind==='text'&&prev.user_id===m.user_id&&(new Date(m.created_at)-new Date(prev.created_at))<5*60e3&&!h;
-  if(m.kind==='text')return h+`<div class="cm ${me?'me':''}">${!me&&!sameRun?`<div class="who" data-notr>${who}</div>`:''}<div class="bub" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
+  if(m.kind==='text')return h+`<div class="cm ${me?'me':''}">${!me&&!sameRun?`<div class="who" data-notr>${who}</div>`:''}<div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
   if(m.kind==='join')return h+`<div class="c-sys">👋 ${me?'הצטרפת לקבוצה':who+' הצטרף לקבוצה'}</div>`;
   if(m.kind==='challenge'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🏆 ${who} פתח אתגר: <b>${esc(m.body)}</b> · ${mt.days||''} ימים <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגר</button></div>`;}
   if(m.kind==='pr')return h+`<div class="c-card pr"><div class="h"><span class="ic2">🏅</span><span><b>${me?'שברת שיא אישי!':who+' שבר שיא אישי!'}</b><span class="small muted" style="display:block">${esc(m.body)}</span></span></div>${socReactsHTML(m.id)}</div>`;
@@ -3684,9 +3705,9 @@ function socAct(act,b){
   }
   return false;
 }
-document.addEventListener('input',ev=>{ if(ev.target.id==='chat-in'){SOC.draft=ev.target.value; const t=ev.target; t.style.height='auto'; t.style.height=Math.min(120,t.scrollHeight)+'px';} });
+document.addEventListener('input',ev=>{ if(ev.target.id==='chat-in'&&S.tab==='social'){SOC.draft=ev.target.value; const t=ev.target; t.style.height='auto'; t.style.height=Math.min(120,t.scrollHeight)+'px';} });
 document.addEventListener('keydown',ev=>{ if(ev.target.id==='food-text'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault(); $('[data-act="food-ai"]')?.click(); return;}
-  if(ev.target.id==='chat-in'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();socSend();}
+  if(ev.target.id==='chat-in'&&S.tab==='social'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();socSend();}
   if(ev.target.id==='sg-code'&&ev.key==='Enter')$('[data-act="soc-join-go"]')?.click(); if(ev.target.id==='sg-name'&&ev.key==='Enter')$('[data-act="soc-create"]')?.click(); });
 
 /* ===================== מנוי, תשלום, שיתוף וברקוד ===================== */
@@ -4114,6 +4135,85 @@ function pbAct(act,b){
   return false;
 }
 
+/* ---------- המאמן (AI) — סיכום שבועי לכולם, שיחה למנויים בלבד ---------- */
+const CO={sum:undefined,loading:false,empty:false,open:false,msgs:null,busy:false,draft:'',toBottom:false,left:null};
+const coachCanChat=()=>!!(S.plan&&(S.plan.paid||S.plan.admin));
+async function coachLoadSummary(){
+  if(CO.loading||!S.user)return; CO.loading=true;
+  try{ const {data,error}=await sb.functions.invoke('coach',{body:{mode:'summary',lang:LANG}}); if(error)throw error;
+    CO.sum=data?.summary||null; CO.empty=!!data?.empty; }
+  catch(e){ CO.sum=null; CO.err=true; }
+  CO.loading=false; if(S.tab==='home')render();
+}
+function coachCardHTML(){
+  if(!S.user||S.mode!=='app')return '';
+  if(CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
+  if(!S.workouts.length&&!CO.sum)return '';
+  const head=`<div class="co-h"><span class="co-av">🧠</span><div style="flex:1"><b>המאמן שלך</b><div class="small muted">${CO.sum?'סיכום שבועי':'מכיר את האימונים והתזונה שלך'}</div></div></div>`;
+  let body;
+  if(CO.loading||CO.sum===undefined)body=`<div class="small muted">המאמן מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
+  else if(CO.sum)body=`<div class="co-txt" dir="auto" data-notr>${esc(CO.sum.body)}</div>`;
+  else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים המאמן ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
+  else body=`<div class="small muted">לא הצלחנו לטעון את הסיכום עכשיו.</div>`;
+  const acts=`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את המאמן':'🔒 שאל את המאמן'}</button></div>`;
+  return `<div class="card coach-card">${head}${body}${acts}</div>`;
+}
+async function coachLoadMsgs(){
+  const {data}=await sb.from('coach_messages').select('id,role,body,created_at').order('id',{ascending:false}).limit(60);
+  CO.msgs=(data||[]).reverse(); CO.toBottom=true; if(CO.open)render();
+}
+const CO_CHIPS=['למה אני לא מתקדם?','מה לאכול אחרי אימון?','כמה חלבון אני צריך?','איך לשבור שיא בסקוואט?','מה לשפר בשבוע הבא?'];
+function vCoach(){
+  const head=`<div class="sg-head">
+    <button class="rarrow" data-act="coach-back" aria-label="חזרה" style="width:40px;height:40px;font-size:18px;direction:ltr;unicode-bidi:isolate">${ARW_PREV}</button>
+    <span class="co-av" style="width:40px;height:40px">🧠</span>
+    <span class="t"><b>המאמן שלך</b><span class="small muted">מכיר את האימונים והתזונה שלך</span></span></div>`;
+  const M=CO.msgs;
+  let list='';
+  if(!M)list=`<div class="c-sys">טוען…</div>`;
+  else{
+    list+=`<div class="c-sys">שאל כל דבר על אימונים, תזונה והתקדמות. התשובות מבוססות על הנתונים שלך. לא ייעוץ רפואי.</div>`;
+    for(const m of M){
+      if(m.role==='summary')list+=`<div class="co-sum"><span class="lbl">📅 סיכום שבועי · ${fmtDate(m.created_at)}</span><span dir="auto" data-notr style="display:block">${esc(m.body)}</span></div>`;
+      else list+=`<div class="cm ${m.role==='user'?'me':''}"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
+    }
+    if(CO.busy)list+=`<div class="cm co-typing"><div class="bub"><i></i><i></i><i></i></div></div>`;
+  }
+  const foot=coachCanChat()
+    ?`${M&&!M.some(m=>m.role==='user')?`<div class="co-chips">${CO_CHIPS.map(q=>`<button data-act="coach-chip" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>`:''}
+      <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="שאל את המאמן…" maxlength="500" enterkeyhint="send" ${CO.busy?'disabled':''}></textarea>
+      <button data-act="coach-send" aria-label="שליחה" ${CO.busy?'disabled':''}><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="flipx" style="transform:scaleX(-1)"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button></div>`
+    :`<div class="co-lock"><div style="font-weight:600;margin-bottom:4px">🔒 השיחה עם המאמן זמינה למנויים</div><div class="small muted" style="margin-bottom:10px">הסיכום השבועי פתוח לכולם. כדי לשאול את המאמן שאלות, בחר מסלול.</div><button class="btn primary" data-act="plans-open">לבחירת מסלול</button></div>`;
+  return `<div id="chatroot">${head}<div id="chatlist">${list}</div>${foot}</div>`;
+}
+async function coachSend(text){
+  text=String(text||'').trim(); if(!text||CO.busy)return;
+  if(!coachCanChat()){ render(); return; }
+  CO.draft=''; const ci=$('#chat-in'); if(ci)ci.value='';
+  (CO.msgs=CO.msgs||[]).push({id:'tmp'+Date.now(),role:'user',body:text,created_at:new Date().toISOString()});
+  CO.busy=true; CO.toBottom=true; render();
+  try{
+    const {data,error}=await sb.functions.invoke('coach',{body:{mode:'chat',text,lang:LANG}});
+    let code=data?.error; if(error){ try{ code=(await error.context?.json?.())?.error||code; }catch(_){} }
+    if(code==='quota'){ toast('הגעת ל-20 שאלות היום. נמשיך מחר 💪'); CO.msgs.pop(); CO.draft=text; }
+    else if(code==='paid_only'){ toast('השיחה עם המאמן זמינה למנויים'); CO.msgs.pop(); }
+    else if(error||!data?.reply)throw error||new Error('empty');
+    else{ CO.msgs.push({id:'r'+Date.now(),role:'assistant',body:data.reply,created_at:new Date().toISOString()}); CO.left=data.left; }
+  }catch(e){ console.error(e); CO.msgs.pop(); CO.draft=text; toast('המאמן לא זמין כרגע. נסה שוב בעוד רגע'); }
+  CO.busy=false; CO.toBottom=true; render(); setTimeout(()=>$('#chat-in')?.focus(),50);
+}
+function coachAct(act,b){
+  switch(act){
+    case 'coach-open': CO.open=true; CO.toBottom=true; render(); coachLoadMsgs(); return true;
+    case 'coach-back': CO.open=false; render(); window.scrollTo(0,0); return true;
+    case 'coach-chip': coachSend(tt(b.dataset.q)); return true;
+    case 'coach-send': coachSend($('#chat-in')?.value); return true;
+  }
+  return false;
+}
+document.addEventListener('input',e=>{ if(e.target.id==='chat-in'&&CO.open){ CO.draft=e.target.value; e.target.style.height='auto'; e.target.style.height=Math.min(120,e.target.scrollHeight)+'px'; } });
+document.addEventListener('keydown',e=>{ if(e.target.id==='chat-in'&&CO.open&&e.key==='Enter'&&!e.shiftKey&&!e.isComposing){ e.preventDefault(); coachSend(e.target.value); } });
+
 /* שיתוף סיכום אימון */
 function workoutShareText(w){
   const lines=[`🏋️ ${w.name} · ${new Date(w.start).toLocaleDateString(LOC)}`,
@@ -4257,6 +4357,7 @@ function handleAct(b,ev){
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
   if(act.startsWith('pb-')&&pbAct(act,b))return;
+  if(act.startsWith('coach-')&&coachAct(act,b))return;
   if((act.startsWith('tour-')||act.startsWith('inst-')||act.startsWith('lang-'))&&tourAct(act,b))return;
   if((act.startsWith('adm-')||act.startsWith('ev-')||act==='admin-open')&&admAct(act,b))return;
   if(act==='ct-topic'){S.ctDraft=$('#ct-body')?.value||'';openContact(b.dataset.t);return;}
