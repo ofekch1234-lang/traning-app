@@ -690,7 +690,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='4.5';
+const APP_VERSION='4.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3496,29 +3496,50 @@ async function openShareSheet(title,sub,url,text){
   try{ await loadQR(); const b=$('#qrbox'); if(b)b.innerHTML=qrSVG(url); }catch(_){ const b=$('#qrbox'); if(b)b.innerHTML='<div class="small muted">הברקוד לא נטען, אפשר לשלוח קישור</div>'; }
 }
 /* --- barcode scanner --- */
-const SCAN={stream:null,timer:null,reader:null,busy:false};
+const SCAN={stream:null,timer:null,reader:null,busy:false,zx:null};
 function stopScan(){ clearInterval(SCAN.timer); SCAN.timer=null; try{SCAN.reader?.reset?.();}catch(_){} SCAN.reader=null; SCAN.stream?.getTracks().forEach(t=>t.stop()); SCAN.stream=null; }
+function loadZXing(){ return window.ZXing?Promise.resolve():new Promise((res,rej)=>{ const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js'; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+function zxReader(){
+  if(SCAN.zx)return SCAN.zx;
+  const hints=new Map(), F=ZXing.BarcodeFormat;
+  hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128]);
+  hints.set(ZXing.DecodeHintType.TRY_HARDER,true);
+  const r=new ZXing.MultiFormatReader(); r.setHints(hints); SCAN.zx=r; return r;
+}
+// פענוח מתוך canvas. מנסה גם בניגודיות רגילה וגם הפוכה
+function zxDecodeCanvas(c){
+  try{ const res=zxReader().decode(new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(new ZXing.HTMLCanvasElementLuminanceSource(c)))); return res&&res.getText(); }catch(_){ return null; }
+}
 async function openScanner(){
   SCAN.busy=false;
   openSheet(`<h3>סריקת ברקוד</h3>
     <div class="scanwrap"><video id="scanv" playsinline muted autoplay></video><div class="frame"></div></div>
-    <div class="small muted" id="scanmsg" style="text-align:center;margin:8px 0">כוון את הברקוד של המוצר למסגרת</div>
+    <div class="small muted" id="scanmsg" style="text-align:center;margin:8px 0">כוון את הברקוד למסגרת, במרחק של כ-15 ס״מ</div>
     <div class="row" style="flex-wrap:nowrap"><input id="scan-code" type="text" inputmode="numeric" dir="ltr" placeholder="או הקלד את המספר" style="flex:1;text-align:center">
       <button class="btn primary" data-act="scan-go">חפש</button></div>
     <button class="btn big" style="margin-top:10px" data-act="scan-close">סגור</button>`);
+  const msg=t=>{const m=$('#scanmsg'); if(m)m.textContent=t;};
   try{
-    SCAN.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280}},audio:false});
-    const v=$('#scanv'); if(!v){stopScan();return;} v.srcObject=SCAN.stream; await v.play().catch(()=>{});
-    if('BarcodeDetector' in window){
-      const det=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
-      SCAN.timer=setInterval(async()=>{ if(SCAN.busy||!v.videoWidth)return; try{const r=await det.detect(v); if(r[0]?.rawValue)onBarcode(r[0].rawValue);}catch(_){} },300);
-    }else{
-      await new Promise((res,rej)=>{ if(window.ZXing)return res(); const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js'; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
-      const hints=new Map(); hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[ZXing.BarcodeFormat.EAN_13,ZXing.BarcodeFormat.EAN_8,ZXing.BarcodeFormat.UPC_A,ZXing.BarcodeFormat.UPC_E]);
-      const reader=new ZXing.BrowserMultiFormatReader(hints); SCAN.reader=reader;
-      reader.decodeFromVideoElementContinuously(v,(res)=>{ if(res&&!SCAN.busy)onBarcode(res.getText()); });
-    }
-  }catch(e){ const m=$('#scanmsg'); if(m)m.textContent='אין גישה למצלמה. אפשר להקליד את המספר שמתחת לברקוד.'; }
+    SCAN.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    const v=$('#scanv'); if(!v){stopScan();return;}
+    v.setAttribute('playsinline',''); v.muted=true; v.srcObject=SCAN.stream; await v.play().catch(()=>{});
+    try{ const tr=SCAN.stream.getVideoTracks()[0], cap=tr.getCapabilities?.(); if(cap?.focusMode?.includes('continuous'))await tr.applyConstraints({advanced:[{focusMode:'continuous'}]}); }catch(_){}
+    let native=null;
+    if('BarcodeDetector' in window){ try{ const f=await BarcodeDetector.getSupportedFormats(); if(f.includes('ean_13'))native=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128'].filter(x=>f.includes(x))}); }catch(_){} }
+    if(!native){ msg('טוען סורק…'); try{ await loadZXing(); }catch(_){ msg('הסורק לא נטען (אין רשת?). אפשר להקליד את המספר שמתחת לברקוד.'); return; } msg('כוון את הברקוד למסגרת, במרחק של כ-15 ס״מ'); }
+    const c=document.createElement('canvas'), ctx=c.getContext('2d',{willReadFrequently:true});
+    let tick=0;
+    SCAN.timer=setInterval(async()=>{
+      if(SCAN.busy||!v.videoWidth)return; tick++;
+      if(native){ try{ const r=await native.detect(v); if(r[0]?.rawValue)onBarcode(r[0].rawValue); }catch(_){} return; }
+      // חותכים את אזור המסגרת ומקטינים לרוחב סביר — מהיר ומדויק יותר בטלפון
+      const vw=v.videoWidth, vh=v.videoHeight, cw=Math.round(vw*(tick%2?0.8:0.6)), ch=Math.round(vh*0.5), sx=(vw-cw)/2, sy=(vh-ch)/2;
+      const sc=Math.min(1,1000/cw); c.width=Math.round(cw*sc); c.height=Math.round(ch*sc);
+      ctx.drawImage(v,sx,sy,cw,ch,0,0,c.width,c.height);
+      const t=zxDecodeCanvas(c); if(t)onBarcode(t);
+      if(tick===40)msg('לא מזהה? נסה עם יותר אור, או הקלד את המספר שמתחת לברקוד');
+    },180);
+  }catch(e){ msg('אין גישה למצלמה. אפשר להקליד את המספר שמתחת לברקוד, או לאשר מצלמה בהגדרות.'); }
 }
 async function onBarcode(code){
   code=String(code||'').replace(/\D/g,''); if(code.length<6||SCAN.busy)return;
