@@ -5,11 +5,11 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const MODELS = ["claude-haiku-5-5"];
 const SYSTEM = `אתה תזונאי קליני ישראלי. המשתמש מתאר ארוחה בטקסט או בתמונה.
 החזר אך ורק JSON תקין, בלי טקסט נוסף, במבנה:
-{"name":"שם קצר לארוחה בעברית","items":[{"name":"פריט","kcal":מספר,"protein":גרם,"carbs":גרם,"fat":גרם}]}
+{"name":"שם קצר לארוחה","items":[{"name":"פריט","kcal":מספר,"protein":גרם,"carbs":גרם,"fat":גרם}]}
 הערך כמויות סבירות למנה ישראלית ביתית כשלא צוין. עגל למספרים שלמים. אם זו לא ארוחה — החזר {"name":"","items":[]}.`;
 
 const LABEL = `אתה קורא טבלאות סימון תזונתי של מוצרים ישראליים. בתמונה יש טבלה תזונתית ו/או אריזה.
-החזר אך ורק JSON תקין: {"name":"שם המוצר בעברית","brand":"יצרן או null","kcal":מספר,"protein":מספר,"carbs":מספר,"fat":מספר,"serving_g":מספר או null}
+החזר אך ורק JSON תקין: {"name":"שם המוצר","brand":"יצרן או null","kcal":מספר,"protein":מספר,"carbs":מספר,"fat":מספר,"serving_g":מספר או null}
 כל הערכים ל-100 גרם (או 100 מ"ל). אם הטבלה מציגה רק למנה — חשב ל-100 גרם. אם אין טבלה תזונתית קריאה — החזר {"error":"no_label"}.`;
 
 Deno.serve(async (req: Request) => {
@@ -40,11 +40,17 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const content: unknown[] = [];
     const isLabel = !!body.label;
+    // שפת המשתמש: שמות המאכלים/המוצר חוזרים בשפה שלו (הוא יכול לכתוב בכל שפה)
+    const LANG_NOTE: Record<string, string> = {
+      ar: "\nחשוב: כתוב את כל השמות (name ושמות הפריטים) בערבית ספרותית פשוטה. המשתמש עשוי לכתוב בכל שפה.",
+      en: "\nחשוב: כתוב את כל השמות (name ושמות הפריטים) באנגלית. המשתמש עשוי לכתוב בכל שפה.",
+    };
+    const langNote = LANG_NOTE[String(body.lang || "")] || "\nכתוב את כל השמות בעברית.";
     if (body.image) {
       content.push({ type: "image", source: { type: "base64", media_type: body.media || "image/jpeg", data: body.image } });
       content.push({ type: "text", text: isLabel ? "קרא את הסימון התזונתי." : "נתח את הארוחה שבתמונה." });
     } else if (body.text && String(body.text).length <= 600) {
-      content.push({ type: "text", text: "הארוחה: " + String(body.text) });
+      content.push({ type: "text", text: "הארוחה / Meal: " + String(body.text) });
     } else {
       return new Response(JSON.stringify({ error: "bad_request" }), { status: 400, headers: cors });
     }
@@ -57,7 +63,7 @@ Deno.serve(async (req: Request) => {
       const r = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-        body: JSON.stringify({ model, max_tokens: 700, system: isLabel ? LABEL : SYSTEM, messages: [{ role: "user", content }] }),
+        body: JSON.stringify({ model, max_tokens: 700, system: (isLabel ? LABEL : SYSTEM) + langNote, messages: [{ role: "user", content }] }),
       });
       if (r.status === 404) { lastErr = await r.text(); console.log(JSON.stringify({ ev: "model-fallback", from: model, err: lastErr.slice(0, 160) })); continue; } // מודל לא קיים — ננסה את הבא
       if (!r.ok) { lastErr = await r.text(); break; }
@@ -67,7 +73,7 @@ Deno.serve(async (req: Request) => {
       const [pi, po] = PRICES[model] || [1, 5];
       const it = out.usage?.input_tokens || 0, ot = out.usage?.output_tokens || 0;
       const cost = (it * pi + ot * po) / 1e6;
-      console.log(JSON.stringify({ ev: "nutrition", model: out.model || model, in: it, out: ot, usd: cost, kind: isLabel ? "label" : body.image ? "photo" : "text" }));
+      console.log(JSON.stringify({ ev: "nutrition", model: out.model || model, in: it, out: ot, usd: cost, kind: isLabel ? "label" : body.image ? "photo" : "text", lang: body.lang || "he" }));
       try { await sb.from("ai_usage").insert({ user_id: user.id, kind: isLabel ? "label" : body.image ? "photo" : "text", model: out.model || model, input_tokens: it, output_tokens: ot, cost_usd: cost }); } catch (_) { /* לא חוסם */ }
       const txt = (out.content || []).filter((c: { type: string }) => c.type === "text").map((c: { text: string }) => c.text).join("");
       const m = txt.match(/\{[\s\S]*\}/);

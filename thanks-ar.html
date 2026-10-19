@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>شكرًا! | NextRep</title>
+<meta name="theme-color" content="#16A34A">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F5F2;--surface:#fff;--ink:#1A201C;--muted:#5D675F;--line:#DFE4DE;--accent:#16A34A;--accent-soft:#DCFCE7}
+@media (prefers-color-scheme:dark){:root{--bg:#131619;--surface:#1B2024;--ink:#EDF1EE;--muted:#9AA5A0;--line:#2B3237;--accent:#22C55E;--accent-soft:#17351F}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Rubik','IBM Plex Sans Arabic',system-ui,sans-serif;line-height:1.5;display:flex;align-items:center;justify-content:center;padding:24px 16px calc(24px + env(safe-area-inset-bottom))}
+main{width:100%;max-width:420px;display:flex;flex-direction:column;gap:18px;text-align:center}
+.check{width:84px;height:84px;margin:0 auto;border-radius:50%;background:var(--accent);display:grid;place-items:center;box-shadow:0 14px 34px -14px rgba(22,163,74,.8)}
+.check svg{width:44px;height:44px;stroke:#fff;stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:draw .5s .25s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.check svg{animation:none;stroke-dashoffset:0}}
+h1{font-family:'Karantina',system-ui,sans-serif;font-weight:400;font-size:64px;line-height:.9;margin:4px 0 0}
+p{margin:0;color:var(--muted);font-size:17px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;gap:14px;align-items:center;text-align:right}
+.card img{width:58px;height:58px;border-radius:14px;flex-shrink:0}
+.card b{display:block;font-size:17px;margin-bottom:2px}
+.card span{color:var(--muted);font-size:14.5px}
+.note{font-size:13.5px;color:var(--muted)}
+a.alt{color:var(--accent);font-weight:500}
+.back{display:block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:18px;padding:15px;border-radius:14px}
+.brand{font-family:'Karantina',system-ui,sans-serif;font-size:30px;direction:ltr}
+.brand b{color:var(--accent);font-weight:400}
+.langs{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:14px}
+.langs a{color:var(--muted)}
+h1{font-family:'IBM Plex Sans Arabic','Rubik',system-ui,sans-serif;font-weight:700;font-size:34px;line-height:1.3}
+</style>
+</head>
+<body>
+<main>
+  <div class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+  <h1>تم استلام الدفع.<br>شكرًا!</h1>
+  <p>اشتراكك نشط. كل تمارينك وأوزانك ووجباتك بانتظارك تمامًا حيث توقفت.</p>
+  <a class="back" id="back" href="/#paid" hidden>العودة إلى التطبيق</a>
+  <div class="card" id="iconcard">
+    <img src="icon-192.png" alt="">
+    <div><b>عُد إلى التطبيق من الأيقونة</b><span>يمكنك إغلاق هذه الصفحة وفتح NextRep من الأيقونة في الشاشة الرئيسية لهاتفك.</span></div>
+  </div>
+  <div class="note">يُفتح الوصول عادةً خلال دقيقة. إذا كانت شاشة الباقات لا تزال تظهر، فاضغط هناك على "دفعت بالفعل، تحقق مجددًا".</div>
+  <div class="note">لم تحفظ NextRep في الشاشة الرئيسية؟ <a class="alt" href="/#paid">تابع من المتصفح</a></div>
+  <div class="brand">Next<b>Rep</b></div>
+  <nav class="langs" aria-label="Language / اللغة"><a href="thanks.html?lang=he" lang="he" hreflang="he">עברית</a><a href="thanks-ar.html" lang="ar" hreflang="ar">العربية</a><a href="thanks-en.html" lang="en" hreflang="en">English</a></nav>
+</main>
+<script>
+// داخل التطبيق المحفوظ في الشاشة الرئيسية: زر عودة مباشر (وعودة تلقائية). في المتصفح: إرشاد للفتح من الأيقونة
+(function(){
+  var app=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  if(app){ document.getElementById('back').hidden=false; document.getElementById('iconcard').hidden=true; setTimeout(function(){location.href='/#paid';},5000); }
+})();
+</script>
+</body>
+</html>

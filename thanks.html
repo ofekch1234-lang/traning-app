@@ -2,6 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang');if(q==='he')return;var l=localStorage.getItem('nr_lang');if(l==='ar'||l==='en')location.replace('thanks-'+l+'.html'+location.hash);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>תודה! | NextRep</title>
 <meta name="theme-color" content="#16A34A">
@@ -30,6 +31,8 @@ a.alt{color:var(--accent);font-weight:500}
 .back{display:block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:18px;padding:15px;border-radius:14px}
 .brand{font-family:'Karantina',system-ui,sans-serif;font-size:30px;direction:ltr}
 .brand b{color:var(--accent);font-weight:400}
+.langs{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:14px}
+.langs a{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -45,6 +48,7 @@ a.alt{color:var(--accent);font-weight:500}
   <div class="note">הגישה נפתחת בדרך כלל תוך דקה. אם עדיין מופיע מסך המסלולים, לחץ שם על "כבר שילמתי, בדוק שוב".</div>
   <div class="note">לא שמרת את NextRep במסך הבית? <a class="alt" href="/#paid">המשך מהדפדפן</a></div>
   <div class="brand">Next<b>Rep</b></div>
+  <nav class="langs" aria-label="Language / اللغة"><a href="thanks.html?lang=he" lang="he" hreflang="he">עברית</a><a href="thanks-ar.html" lang="ar" hreflang="ar">العربية</a><a href="thanks-en.html" lang="en" hreflang="en">English</a></nav>
 </main>
 <script>
 // בתוך האפליקציה השמורה במסך הבית: כפתור חזרה ישיר (וחזרה אוטומטית). בדפדפן: הנחיה לפתוח מהאייקון
