@@ -164,6 +164,62 @@ body.landing #app{max-width:1120px}
   .ld-end{grid-template-columns:1fr auto;align-items:center;padding:44px}
 }
 @media (min-width:600px) and (max-width:899px){ .ld-feats{grid-template-columns:repeat(2,1fr)} }
+
+/* ===== social ===== */
+.tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+.ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
+.sg-card{display:flex;gap:12px;align-items:center;width:100%;text-align:right;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.sg-emo{width:48px;height:48px;border-radius:14px;background:var(--surface2);display:grid;place-items:center;font-size:26px;flex-shrink:0}
+.sg-mid{flex:1;min-width:0}
+.sg-mid b{display:block}
+.sg-last{color:var(--muted);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sg-side{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:12px;color:var(--muted)}
+.sg-dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.sg-head{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg);z-index:5;padding:8px 0}
+.sg-head .t{flex:1;min-width:0}
+.sg-head .t b{display:block;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sg-seg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:3px;margin-bottom:6px}
+.sg-seg button{flex:1;padding:8px;border-radius:9px;font-size:14px;color:var(--muted)}
+.sg-seg button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+#chatlist{display:flex;flex-direction:column;gap:3px;padding-bottom:84px}
+.cm{max-width:80%;align-self:flex-start;display:flex;flex-direction:column}
+.cm.me{align-self:flex-end}
+.cm .who{font-size:12px;color:var(--accent);font-weight:600;margin:8px 10px 2px}
+.cm .bub{background:var(--surface);border:1px solid var(--line);border-radius:16px 16px 16px 5px;padding:8px 12px;white-space:pre-wrap;word-wrap:break-word;line-height:1.45}
+.cm.me .bub{background:var(--accent);color:#fff;border-color:transparent;border-radius:16px 16px 5px 16px}
+.cm .tm{font-size:10.5px;color:var(--muted);margin:2px 8px 0;align-self:flex-end}
+.cm.me .tm{align-self:flex-start}
+.c-sys{align-self:center;font-size:12.5px;color:var(--muted);background:var(--surface2);border-radius:99px;padding:4px 12px;margin:8px 0}
+.c-day{align-self:center;font-size:12px;color:var(--muted);margin:12px 0 4px}
+.c-card{align-self:stretch;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:6px 0;display:flex;flex-direction:column;gap:8px}
+.c-card.pr{background:var(--gold-soft);border-color:var(--gold)}
+.c-card .h{display:flex;gap:10px;align-items:center}
+.c-card .h .ic2{font-size:24px}
+.c-stats{display:flex;gap:16px}
+.c-stats div{display:flex;flex-direction:column}
+.c-stats b{font-family:var(--disp);font-size:28px;line-height:1;font-weight:400}
+.c-stats span{font-size:11.5px;color:var(--muted)}
+.c-reacts{display:flex;gap:6px}
+.c-reacts button{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:3px 10px;font-size:14px;display:flex;gap:4px;align-items:center}
+.c-reacts button.on{border-color:var(--accent);background:var(--accent-soft)}
+.c-reacts button small{font-size:12px;font-weight:600}
+.chatbar{position:fixed;inset-inline:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:29;max-width:560px;margin:0 auto;padding:8px 12px;background:var(--bg);border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end}
+.chatbar textarea{flex:1;resize:none;max-height:120px;min-height:42px;border-radius:21px;padding:10px 14px;font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.chatbar button{width:42px;height:42px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.lb-row{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.lb-row:first-child{border-top:0}
+.lb-rank{font-family:var(--disp);font-size:28px;line-height:1;text-align:center;color:var(--muted)}
+.lb-row.top .lb-rank{color:var(--gold)}
+.lb-big{font-family:var(--disp);font-size:32px;line-height:1;text-align:left}
+.ch-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ch-bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.ch-bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
+.ch-mem{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:14px}
+.ch-mem .ch-bar{grid-column:1/-1}
+.emo-pick{display:flex;gap:6px;flex-wrap:wrap}
+.emo-pick button{width:44px;height:44px;border-radius:12px;background:var(--surface2);font-size:22px;border:2px solid transparent}
+.emo-pick button.on{border-color:var(--accent)}
+.inv-code{font-family:var(--disp);font-size:56px;letter-spacing:6px;text-align:center;direction:ltr;line-height:1;padding:10px;background:var(--surface2);border-radius:14px}
 /* auth screen */
 #authwrap{max-width:400px;margin:0 auto;padding:48px 20px;display:flex;flex-direction:column;gap:14px}
 #authwrap .logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
@@ -542,6 +598,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   <button data-tab="train"><svg viewBox="0 0 24 24" class="ic"><path d="M3 12h2m14 0h2M7 8v8M17 8v8M9.5 12h5"/><rect x="5" y="9.5" width="2" height="5" rx=".6"/><rect x="17" y="9.5" width="2" height="5" rx=".6"/></svg>אימון</button>
   <button data-tab="food"><svg viewBox="0 0 24 24" class="ic"><path d="M7 3v7a2.5 2.5 0 0 0 5 0V3M9.5 3v18M17.5 21V3c-2.2 1-3.5 3.2-3.5 6v4h3.5"/></svg>תזונה</button>
   <button data-tab="plans"><svg viewBox="0 0 24 24" class="ic"><path d="M8 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H8M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2M8 4v16M11 9h5M11 13h5"/></svg>תוכניות</button>
+  <button data-tab="social"><svg viewBox="0 0 24 24" class="ic"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.8" cy="9.5" r="2.5"/><path d="M15.5 14.2c.4-.1.9-.2 1.3-.2 2.2 0 3.9 1.5 4.4 4"/></svg>קבוצות</button>
   <button data-tab="track"><svg viewBox="0 0 24 24" class="ic"><path d="M4 19h16M5 16l4-5 3.5 3L19 7M19 7h-3.5M19 7v3.5"/></svg>מעקב</button>
 </nav>
 
@@ -555,7 +612,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='3.1';
+const APP_VERSION='3.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -685,7 +742,8 @@ const S={
   lib:{group:'חזה', q:'', target:null},
 };
 if(['history','progress'].includes(S.tab)){S.trackView=S.tab;S.tab='track';}
-if(!['home','train','food','plans','track'].includes(S.tab)) S.tab='home';
+{ const jm=(location.hash||'').match(/join=([A-Za-z0-9]{6})/); if(jm){ try{localStorage.setItem('nr-join',jm[1].toUpperCase());}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
+if(!['home','train','food','plans','track','social'].includes(S.tab)) S.tab='home';
 
 /* ---------- utils ---------- */
 const $=s=>document.querySelector(s);
@@ -905,9 +963,12 @@ function render_(){
   else if(S.tab==='food')v.innerHTML=vFood();
   else if(S.tab==='plans')v.innerHTML=vPlans();
   else if(S.tab==='admin')v.innerHTML=vAdmin();
+  else if(S.tab==='social')v.innerHTML=vSocial();
   else v.innerHTML=vTrack();
   if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}
   if(S.tab==='track'&&S.trackView==='progress')wireChart();
+  document.body.classList.toggle('chatting',S.tab==='social'&&!!SOC.gid&&SOC.view==='chat');
+  if(S.tab==='social'&&SOC.gid&&SOC.view==='chat'){ const ci=$('#chat-in'); if(ci&&SOC.draft)ci.value=SOC.draft; if(SOC.toBottom){SOC.toBottom=false;requestAnimationFrame(()=>window.scrollTo(0,document.body.scrollHeight));} }
 }
 
 /* ----- ממתין לאישור ----- */
@@ -961,7 +1022,9 @@ function vLanding(){
     ['מי רואה את הנתונים והתמונות שלי?','רק אתה. התמונות נשמרות באחסון פרטי שמשויך לחשבון שלך.'],
     ['למה החשבון צריך אישור?','אנחנו פותחים את NextRep בהדרגה כדי לשמור על איכות. אחרי ההרשמה החשבון נכנס לתור ומאושר בהקדם.'],
   ];
+  let inv=null; try{inv=localStorage.getItem('nr-join');}catch(_){}
   return `<div class="ld">
+  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:''}
   <section class="ld-hero">
     <div class="stack" style="gap:16px">
       <h1>תפסיק לנחש<br>מה הרמת<br>בפעם שעברה.</h1>
@@ -2659,6 +2722,7 @@ function renderSettings(){
       </label>
       ${sw('rest','סיום מנוחה','התראה כשהטיימר נגמר, גם כשהמסך כבוי')}
       ${sw('pr','שיא חדש 🏅','חגיגה כששברת שיא אישי')}
+      ${sw('social','קבוצות 👥','הודעות, אימונים ואתגרים של החברים')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
       ${sw('vib','רטט','משוב מישוש בלחיצות ובטיימר')}
     </div>
@@ -2769,6 +2833,285 @@ function vAdmin(){
     ${foods?`<div class="label" style="margin:16px 0 6px">מזונות פופולריים מהמאגר</div><div class="card stack" style="padding:12px 14px;gap:6px">${foods}</div>`:''}
     <div class="small muted" style="text-align:center;margin:14px 0">עודכן ${new Date(A.now).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'})} · תמונות התקדמות: ${T.photos}</div>`;
 }
+
+/* ===================== קבוצות: שותפים, צ'אט, טבלה ואתגרים ===================== */
+const SOC={groups:null,gid:null,view:'chat',info:{},msgs:{},reacts:{},board:null,boardRange:'week',chall:null,ch:null,draft:'',lastRead:{},more:{}};
+try{SOC.lastRead=JSON.parse(localStorage.getItem('nr-lastread')||'{}');}catch(_){}
+const SOC_EMO=['💪','🔥','🏋️','🦾','⚡','🐺','🦁','🏆','🥇','🚀'];
+const METRIC={workouts:['אימונים','אימונים'],sets:['סטים','סטים'],volume:['נפח','ק״ג']};
+const fmtVol=v=>{v=+v||0;return v>=1000?(Math.round(v/100)/10)+' טון':Math.round(v)+' ק״ג';};
+const metricVal=(r,m)=>m==='volume'?fmtVol(r.volume):(r[m]||0);
+function socMarkRead(gid,id){ if(!id||(SOC.lastRead[gid]||0)>=id)return; SOC.lastRead[gid]=id; try{localStorage.setItem('nr-lastread',JSON.stringify(SOC.lastRead));}catch(_){} socBadge(); }
+function socIsUnread(g){ return g.last_id&&g.last_uid!==S.user?.id&&g.last_id>(SOC.lastRead[g.id]||0); }
+function socBadge(){
+  const b=document.querySelector('#tabs [data-tab="social"]'); if(!b)return;
+  const n=(SOC.groups||[]).filter(socIsUnread).length; let d=b.querySelector('.tbadge');
+  if(n){ if(!d){d=document.createElement('span');d.className='tbadge';b.appendChild(d);} d.textContent=n; } else d?.remove();
+}
+async function socLoad(){
+  try{ const {data,error}=await sb.rpc('my_groups'); if(error)throw error; SOC.groups=data||[]; }
+  catch(e){ if(!SOC.groups)SOC.groups=[]; }
+  socBadge(); if(S.tab==='social'&&!SOC.gid)render();
+}
+function socSubscribe(){
+  if(SOC.ch||!sb.channel)return;
+  SOC.ch=sb.channel('nr-social')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'group_messages'},p=>socOnMsg(p.new))
+    .on('postgres_changes',{event:'*',schema:'public',table:'message_reactions'},p=>socOnReact(p))
+    .subscribe();
+  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'){ socLoad(); if(SOC.gid)socRefreshMsgs(); } });
+}
+async function socPendingJoin(){
+  let code=null; try{code=localStorage.getItem('nr-join');}catch(_){} if(!code)return;
+  try{localStorage.removeItem('nr-join');}catch(_){}
+  const {data,error}=await sb.rpc('join_group',{p_code:code});
+  if(error){toast(/not_found/.test(error.message)?'קוד ההזמנה לא נמצא':/group_full/.test(error.message)?'הקבוצה מלאה':'ההצטרפות נכשלה');return;}
+  toast('הצטרפת לקבוצה 🎉'); await socLoad(); S.tab='social'; location.hash='social'; socOpen(data);
+}
+function socOnMsg(m){
+  const g=(SOC.groups||[]).find(x=>x.id===m.group_id);
+  if(g){ Object.assign(g,{last_id:m.id,last_kind:m.kind,last_body:m.body,last_at:m.created_at,last_uid:m.user_id,last_name:socName(m.group_id,m.user_id)});
+    SOC.groups.sort((a,b)=>(b.last_at||'').localeCompare(a.last_at||'')); }
+  else socLoad();
+  const open=S.tab==='social'&&SOC.gid===m.group_id;
+  if(SOC.msgs[m.group_id]&&!SOC.msgs[m.group_id].some(x=>x.id===m.id)){
+    SOC.msgs[m.group_id].push(m);
+    if(open&&SOC.view==='chat'){
+      const list=$('#chatlist'); if(list){ const arr=SOC.msgs[m.group_id]; list.insertAdjacentHTML('beforeend',socMsgHTML(m,arr[arr.length-2]));
+        const nearBottom=window.innerHeight+window.scrollY>=document.body.scrollHeight-260;
+        if(nearBottom||m.user_id===S.user?.id)window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); }
+      if(document.visibilityState==='visible')socMarkRead(m.group_id,m.id);
+    }
+  }
+  if(m.kind==='join'&&open)socLoadInfo(m.group_id);
+  socBadge(); if(S.tab==='social'&&!SOC.gid)render();
+}
+function socOnReact(p){
+  const r=p.eventType==='DELETE'?p.old:p.new; if(!r||!r.message_id)return;
+  const arr=SOC.reacts[r.message_id]; if(!arr&&p.eventType==='DELETE')return;
+  const list=SOC.reacts[r.message_id]=(arr||[]).filter(x=>!(x.user_id===r.user_id&&x.emoji===r.emoji));
+  if(p.eventType!=='DELETE')list.push({user_id:r.user_id,emoji:r.emoji});
+  const el=document.querySelector(`[data-reacts="${r.message_id}"]`); if(el)el.outerHTML=socReactsHTML(r.message_id);
+}
+function socName(gid,uid){ if(uid===S.user?.id)return 'אתה'; const m=(SOC.info[gid]?.members||[]).find(x=>x.user_id===uid); return m?m.name:'חבר'; }
+async function socLoadInfo(gid){ const {data}=await sb.rpc('group_info',{gid}); if(data){SOC.info[gid]=data;} return data; }
+async function socLoadMsgs(gid,before){
+  let q=sb.from('group_messages').select('id,group_id,user_id,kind,body,meta,created_at').eq('group_id',gid).order('id',{ascending:false}).limit(50);
+  if(before)q=q.lt('id',before);
+  const {data,error}=await q; if(error)return [];
+  const rows=(data||[]).reverse(); SOC.more[gid]=(data||[]).length===50;
+  const ids=rows.filter(m=>m.kind==='workout'||m.kind==='pr').map(m=>m.id);
+  if(ids.length){ const {data:rs}=await sb.from('message_reactions').select('message_id,user_id,emoji').in('message_id',ids);
+    for(const id of ids)SOC.reacts[id]=[]; for(const r of rs||[])(SOC.reacts[r.message_id]||(SOC.reacts[r.message_id]=[])).push(r); }
+  return rows;
+}
+async function socRefreshMsgs(){ const gid=SOC.gid; if(!gid)return; const rows=await socLoadMsgs(gid); if(SOC.gid!==gid)return; SOC.msgs[gid]=rows; if(S.tab==='social'&&SOC.view==='chat'){SOC.toBottom=true;render();socMarkRead(gid,rows[rows.length-1]?.id);} }
+async function socOpen(gid){
+  SOC.gid=gid; SOC.view='chat'; SOC.board=null; SOC.chall=null; SOC.draft=''; render(); window.scrollTo(0,0);
+  const [info,rows]=await Promise.all([socLoadInfo(gid),socLoadMsgs(gid)]);
+  if(SOC.gid!==gid)return;
+  if(!info){toast('אין גישה לקבוצה');SOC.gid=null;socLoad();render();return;}
+  SOC.msgs[gid]=rows; SOC.toBottom=true; render(); socMarkRead(gid,rows[rows.length-1]?.id);
+}
+function socWeekRange(kind){
+  const d=new Date(); d.setHours(0,0,0,0);
+  if(kind==='month'){ const a=new Date(d.getFullYear(),d.getMonth(),1); return [a.getTime(),new Date(d.getFullYear(),d.getMonth()+1,1).getTime()]; }
+  const a=new Date(d); a.setDate(d.getDate()-d.getDay()); const b=new Date(a); b.setDate(a.getDate()+7); return [a.getTime(),b.getTime()];
+}
+async function socLoadBoard(){ const gid=SOC.gid; const [f,t]=socWeekRange(SOC.boardRange); SOC.board=null; render();
+  const {data}=await sb.rpc('group_board',{gid,p_from:f,p_to:t}); if(SOC.gid===gid){SOC.board=data||[];render();} }
+async function socLoadChall(){ const gid=SOC.gid; SOC.chall=null; render();
+  const {data}=await sb.rpc('group_challenges',{gid}); if(SOC.gid===gid){SOC.chall=data||[];render();} }
+function socTime(ts){ return new Date(ts).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'}); }
+function socDay(ts){ const d=new Date(ts), t=ymd(), y=ymd(new Date(Date.now()-864e5)), k=ymd(d);
+  return k===t?'היום':k===y?'אתמול':d.toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'}); }
+function socReactsHTML(id){
+  const rs=SOC.reacts[id]||[];
+  return `<div class="c-reacts" data-reacts="${id}">${['💪','🔥','👏'].map(e=>{const n=rs.filter(r=>r.emoji===e).length, mine=rs.some(r=>r.emoji===e&&r.user_id===S.user?.id);
+    return `<button class="${mine?'on':''}" data-act="soc-react" data-id="${id}" data-e="${e}" aria-label="תגובה ${e}">${e}${n?`<small>${n}</small>`:''}</button>`;}).join('')}</div>`;
+}
+function socMsgHTML(m,prev){
+  const gid=m.group_id, me=m.user_id===S.user?.id, who=esc(socName(gid,m.user_id));
+  let h=''; if(!prev||ymd(new Date(prev.created_at))!==ymd(new Date(m.created_at)))h+=`<div class="c-day">${socDay(m.created_at)}</div>`;
+  const sameRun=prev&&prev.kind==='text'&&prev.user_id===m.user_id&&(new Date(m.created_at)-new Date(prev.created_at))<5*60e3&&!h;
+  if(m.kind==='text')return h+`<div class="cm ${me?'me':''}">${!me&&!sameRun?`<div class="who">${who}</div>`:''}<div class="bub">${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
+  if(m.kind==='join')return h+`<div class="c-sys">👋 ${me?'הצטרפת לקבוצה':who+' הצטרף לקבוצה'}</div>`;
+  if(m.kind==='challenge'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🏆 ${who} פתח אתגר: <b>${esc(m.body)}</b> · ${mt.days||''} ימים <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגר</button></div>`;}
+  if(m.kind==='pr')return h+`<div class="c-card pr"><div class="h"><span class="ic2">🏅</span><span><b>${me?'שברת שיא אישי!':who+' שבר שיא אישי!'}</b><span class="small muted" style="display:block">${esc(m.body)}</span></span></div>${socReactsHTML(m.id)}</div>`;
+  if(m.kind==='workout'){const mt=m.meta||{};return h+`<div class="c-card"><div class="h"><span class="ic2">🏋️</span><span><b>${me?'סיימת':who+' סיים'} ${esc(m.body||'אימון')}</b><span class="small muted" style="display:block">${socTime(m.created_at)}</span></span></div>
+    <div class="c-stats"><div><b class="num">${mt.min||0}</b><span>דקות</span></div><div><b class="num">${mt.sets||0}</b><span>סטים</span></div><div><b class="num">${fmtVol(mt.vol).split(' ')[0]}</b><span>${(+mt.vol||0)>=1000?'טון':'ק״ג'} נפח</span></div></div>${socReactsHTML(m.id)}</div>`;}
+  return '';
+}
+function socLastText(g){
+  if(!g.last_id)return 'עוד אין פעילות. הזמן חברים!';
+  const n=g.last_uid===S.user?.id?'אתה':(g.last_name||'חבר');
+  return {text:`${n}: ${g.last_body||''}`,workout:`🏋️ ${n} סיים ${g.last_body||'אימון'}`,pr:`🏅 ${n} שבר שיא`,join:`👋 ${n} הצטרף`,challenge:`🏆 אתגר חדש: ${g.last_body||''}`}[g.last_kind]||'';
+}
+function vSocial(){ return SOC.gid?vSocGroup():vSocList(); }
+function vSocList(){
+  const G=SOC.groups;
+  const head=`<div class="spread" style="margin-top:4px"><div><h2 style="margin:0">קבוצות</h2><div class="small muted">מתאמנים יחד, מתקדמים יותר</div></div></div>`;
+  const acts=`<div class="row" style="gap:8px"><button class="btn primary" style="flex:1" data-act="soc-new">+ קבוצה חדשה</button><button class="btn" style="flex:1" data-act="soc-join">הצטרפות עם קוד</button></div>`;
+  if(!G)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
+  if(!G.length)return head+`<div class="card stack" style="text-align:center;padding:22px 16px;gap:10px">
+      <div style="font-size:44px;line-height:1">🤝</div><b style="font-size:18px">קשה לוותר על אימון כשמישהו מחכה לך</b>
+      <div class="muted">פתח קבוצה עם שותף לאימונים או עם החבר׳ה מהמכון. כל אימון שתסיימו יופיע בקבוצה, תוכלו לפרגן, לדבר, להתחרות בטבלה השבועית ולפתוח אתגרים.</div>
+      <div class="small muted">מה רואים החברים: אימונים שסיימת (שם, זמן, סטים ונפח) ושיאים. את המשקל, התזונה והתמונות שלך רק אתה רואה.</div>
+    </div>`+acts;
+  return head+acts+`<div class="stack" style="gap:8px">${G.map(g=>`<button class="sg-card" data-act="soc-open" data-id="${g.id}">
+      <span class="sg-emo">${esc(g.emoji)}</span>
+      <span class="sg-mid"><b>${esc(g.name)}</b><span class="sg-last">${esc(socLastText(g))}</span></span>
+      <span class="sg-side"><span>${g.last_at?(ymd(new Date(g.last_at))===ymd()?socTime(g.last_at):new Date(g.last_at).toLocaleDateString('he-IL',{day:'numeric',month:'numeric'})):''}</span>
+        ${socIsUnread(g)?'<span class="sg-dot"></span>':`<span>${g.members} 👤</span>`}</span>
+    </button>`).join('')}</div>`;
+}
+function vSocGroup(){
+  const gid=SOC.gid, info=SOC.info[gid], g=(SOC.groups||[]).find(x=>x.id===gid)||info||{};
+  const n=info?.members?.length||g.members||'';
+  const head=`<div class="sg-head">
+    <button class="rarrow" data-act="soc-back" aria-label="חזרה" style="width:40px;height:40px;font-size:18px">›</button>
+    <span class="sg-emo" style="width:40px;height:40px;font-size:22px">${esc(g.emoji||'💪')}</span>
+    <span class="t"><b>${esc(g.name||'')}</b><span class="small muted">${n} חברים</span></span>
+    <button class="btn" data-act="soc-invite">הזמנה</button></div>
+    <div class="sg-seg">${[['chat','צ׳אט'],['board','טבלה'],['chall','אתגרים']].map(([k,t])=>`<button class="${SOC.view===k?'on':''}" data-act="soc-view" data-v="${k}">${t}</button>`).join('')}</div>`;
+  if(SOC.view==='board')return head+vSocBoard();
+  if(SOC.view==='chall')return head+vSocChall();
+  const msgs=SOC.msgs[gid];
+  if(!msgs)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
+  return head+`<div id="chatlist">${SOC.more[gid]?`<button class="linkbtn" data-act="soc-older" style="align-self:center">הודעות קודמות</button>`:''}
+    ${msgs.length?msgs.map((m,i)=>socMsgHTML(m,msgs[i-1])).join(''):`<div class="c-sys">כאן יופיעו ההודעות והאימונים של הקבוצה. תגיד שלום 👋</div>`}</div>
+    <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="הודעה לקבוצה…" maxlength="1000" enterkeyhint="send"></textarea>
+    <button data-act="soc-send" aria-label="שליחה"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="transform:scaleX(-1)"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button></div>`;
+}
+function vSocBoard(){
+  const B=SOC.board;
+  const seg=`<div class="row" style="gap:6px;margin:4px 0 10px">${[['week','השבוע'],['month','החודש']].map(([k,t])=>`<button class="chip ${SOC.boardRange===k?'on':''}" data-act="soc-range" data-r="${k}">${t}</button>`).join('')}</div>`;
+  if(!B)return seg+`<div class="empty"><div class="big">טוען…</div></div>`;
+  const medal=['🥇','🥈','🥉'];
+  return seg+`<div class="card" style="padding:4px 14px">${B.map((r,i)=>`<div class="lb-row ${i<3&&r.workouts?'top':''}">
+      <span class="lb-rank">${r.workouts&&i<3?medal[i]:i+1}</span>
+      <span><b>${esc(r.user_id===S.user?.id?'אתה':r.name)}</b><span class="small muted" style="display:block">${r.sets} סטים, ${fmtVol(r.volume)}</span></span>
+      <span style="text-align:left"><span class="lb-big num">${r.workouts}</span><span class="small muted" style="display:block">אימונים</span></span></div>`).join('')}</div>
+    <div class="small muted" style="text-align:center;margin-top:10px">${SOC.boardRange==='week'?'השבוע מתחיל ביום ראשון':'מתחילת החודש'}. הדירוג לפי מספר אימונים, ובשוויון לפי נפח.</div>`;
+}
+function vSocChall(){
+  const C=SOC.chall;
+  const btn=`<button class="btn primary" style="width:100%;margin:4px 0 10px" data-act="soc-chall-new">🏆 אתגר חדש</button>`;
+  if(!C)return btn+`<div class="empty"><div class="big">טוען…</div></div>`;
+  if(!C.length)return btn+`<div class="card stack" style="text-align:center;padding:20px;gap:8px"><div style="font-size:38px">🏆</div><b>עוד אין אתגרים</b><div class="muted">פתח אתגר לכל הקבוצה, למשל "4 אימונים השבוע" או "20 טון בחודש", ותראו מי מגיע ראשון ליעד.</div></div>`;
+  const today=ymd();
+  return btn+`<div class="stack" style="gap:10px">${C.map(c=>{
+    const ended=c.end_d<today, left=Math.round((new Date(c.end_d)-new Date(today))/864e5)+1;
+    const rows=[...(c.board||[])].sort((a,b)=>(+b[c.metric]||0)-(+a[c.metric]||0));
+    const tgt=+c.target||1;
+    return `<div class="ch-card">
+      <div class="spread"><b style="font-size:17px">${esc(c.title)}</b><span class="small ${ended?'muted':''}" style="white-space:nowrap">${ended?'הסתיים':left===1?'יום אחרון!':`עוד ${left} ימים`}</span></div>
+      <div class="small muted">יעד: ${c.metric==='volume'?fmtVol(tgt):tgt+' '+METRIC[c.metric][1]}</div>
+      ${rows.map((r,i)=>{const v=+r[c.metric]||0, pct=Math.min(100,Math.round(v/tgt*100)), done=v>=tgt;
+        return `<div class="ch-mem"><span>${done?'✅ ':i===0&&v>0?'👑 ':''}${esc(r.user_id===S.user?.id?'אתה':r.name)}</span><span class="small num ${done?'':'muted'}" style="${done?'color:var(--accent);font-weight:700':''}">${metricVal(r,c.metric)}${c.metric!=='volume'?' מתוך '+tgt:''}</span>
+          <div class="ch-bar"><i style="width:${pct}%;${done?'':'opacity:.75'}"></i></div></div>`;}).join('')}
+      ${c.created_by===S.user?.id?`<button class="linkbtn" data-act="soc-chall-del" data-id="${c.id}" style="align-self:flex-start;color:var(--muted);font-size:13px">מחיקת האתגר</button>`:''}
+    </div>`;}).join('')}</div>`;
+}
+function socNewSheet(){
+  SOC.newEmo=SOC.newEmo||'💪';
+  openSheet(`<h3>קבוצה חדשה</h3>
+    <div class="label" style="margin-bottom:6px">שם הקבוצה</div>
+    <input id="sg-name" type="text" maxlength="40" placeholder="למשל: החבר׳ה מהמכון, אני ודני">
+    <div class="label" style="margin:12px 0 6px">אייקון</div>
+    <div class="emo-pick">${SOC_EMO.map(e=>`<button class="${SOC.newEmo===e?'on':''}" data-act="soc-emo" data-e="${e}">${e}</button>`).join('')}</div>
+    <div class="small muted" style="margin-top:12px">שותף אימונים? פשוט צור קבוצה ושלח לו את ההזמנה.</div>
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-create">צור קבוצה</button></div>`);
+  setTimeout(()=>$('#sg-name')?.focus(),60);
+}
+function socJoinSheet(){
+  openSheet(`<h3>הצטרפות לקבוצה</h3><div class="muted" style="margin:-4px 0 12px">הכנס את הקוד בן 6 התווים שקיבלת מחבר.</div>
+    <input id="sg-code" type="text" maxlength="6" dir="ltr" autocapitalize="characters" autocomplete="off" placeholder="ABC123" style="text-align:center;font-size:26px;letter-spacing:6px;text-transform:uppercase">
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-join-go">הצטרף</button></div>`);
+  setTimeout(()=>$('#sg-code')?.focus(),60);
+}
+function socInviteSheet(){
+  const info=SOC.info[SOC.gid]||{}; const code=info.invite_code||((SOC.groups||[]).find(g=>g.id===SOC.gid)||{}).invite_code||'';
+  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">שלח את הקישור. מי שאין לו חשבון יירשם ויצטרף אחרי אישור.</div>
+    <div class="inv-code">${esc(code)}</div>
+    <button class="btn primary big" style="margin-top:12px" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
+    <div class="label" style="margin:16px 0 6px">חברים בקבוצה</div>
+    <div class="card" style="padding:4px 14px">${(info.members||[]).map(m=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span>${esc(m.user_id===S.user?.id?'אתה':m.name)}</span><span class="small muted">${m.role==='owner'?'מנהל':''}</span></div>`).join('')}</div>
+    <button class="btn danger" style="width:100%;margin-top:14px" data-act="soc-leave">יציאה מהקבוצה</button>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
+}
+function socChallSheet(){
+  const f=SOC.cf=SOC.cf||{title:'4 אימונים השבוע',metric:'workouts',target:4,days:7};
+  const presets=[['4 אימונים השבוע','workouts',4,7],['12 אימונים בחודש','workouts',12,30],['100 סטים בשבועיים','sets',100,14],['20 טון בחודש','volume',20000,30]];
+  openSheet(`<h3>אתגר חדש</h3>
+    <div class="row" style="gap:6px;margin-bottom:12px">${presets.map((p,i)=>`<button class="chip ${f.title===p[0]?'on':''}" data-act="soc-cpreset" data-i="${i}">${p[0]}</button>`).join('')}</div>
+    <div class="label" style="margin-bottom:6px">שם האתגר</div>
+    <input id="cf-title" type="text" maxlength="60" value="${esc(f.title)}">
+    <div class="label" style="margin:12px 0 6px">מה סופרים</div>
+    <div class="row" style="gap:6px">${Object.entries({workouts:'אימונים',sets:'סטים',volume:'נפח (טון)'}).map(([k,t])=>`<button class="chip ${f.metric===k?'on':''}" data-act="soc-cmetric" data-m="${k}">${t}</button>`).join('')}</div>
+    <div class="label" style="margin:12px 0 6px">יעד ${f.metric==='volume'?'(טון)':''}</div>
+    <input id="cf-target" type="text" inputmode="decimal" dir="ltr" value="${f.metric==='volume'?f.target/1000:f.target}" style="text-align:center;font-size:22px">
+    <div class="label" style="margin:12px 0 6px">משך</div>
+    <div class="row" style="gap:6px">${[[7,'שבוע'],[14,'שבועיים'],[30,'חודש']].map(([d,t])=>`<button class="chip ${f.days===d?'on':''}" data-act="soc-cdays" data-d="${d}">${t}</button>`).join('')}</div>
+    <div class="row" style="margin-top:16px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-chall-go">פתיחת האתגר</button></div>`);
+}
+function socReadForm(){ const f=SOC.cf; if(!f)return; const t=$('#cf-title'), g=$('#cf-target'); if(t)f.title=t.value; if(g){const v=parseFloat(g.value)||0; f.target=f.metric==='volume'?v*1000:v;} }
+async function socSend(){
+  const ta=$('#chat-in'); const body=(ta?.value||'').trim(); if(!body||!SOC.gid)return;
+  ta.value=''; SOC.draft=''; ta.style.height='';
+  const {error}=await sb.from('group_messages').insert({group_id:SOC.gid,user_id:S.user.id,kind:'text',body});
+  if(error){toast('ההודעה לא נשלחה');ta.value=body;SOC.draft=body;}
+}
+function socAct(act,b){
+  switch(act){
+    case 'soc-open': socOpen(b.dataset.id); return true;
+    case 'soc-back': SOC.gid=null; render(); socLoad(); window.scrollTo(0,0); return true;
+    case 'soc-view': SOC.view=b.dataset.v; render(); window.scrollTo(0,0);
+      if(SOC.view==='board')socLoadBoard(); else if(SOC.view==='chall')socLoadChall(); else {SOC.toBottom=true;render();} return true;
+    case 'soc-range': SOC.boardRange=b.dataset.r; socLoadBoard(); return true;
+    case 'soc-new': socNewSheet(); return true;
+    case 'soc-emo': SOC.newEmo=b.dataset.e; const nm=$('#sg-name')?.value||''; socNewSheet(); $('#sg-name').value=nm; return true;
+    case 'soc-create': { const name=($('#sg-name')?.value||'').trim(); if(!name){toast('תן שם לקבוצה');return true;} b.disabled=true;
+      sb.rpc('create_group',{p_name:name,p_emoji:SOC.newEmo||'💪'}).then(async({data,error})=>{
+        if(error){b.disabled=false;toast(/too_many/.test(error.message)?'הגעת למקסימום 10 קבוצות':'יצירת הקבוצה נכשלה');return;}
+        closeSheet(); await socLoad(); await socOpen(data.id); socInviteSheet(); }); return true; }
+    case 'soc-join': socJoinSheet(); return true;
+    case 'soc-join-go': { const code=($('#sg-code')?.value||'').trim().toUpperCase(); if(code.length!==6){toast('הקוד צריך להיות 6 תווים');return true;} b.disabled=true;
+      sb.rpc('join_group',{p_code:code}).then(async({data,error})=>{ b.disabled=false;
+        if(error){toast(/not_found/.test(error.message)?'לא נמצאה קבוצה עם הקוד הזה':/group_full/.test(error.message)?'הקבוצה מלאה (30 חברים)':'ההצטרפות נכשלה');return;}
+        closeSheet(); toast('הצטרפת לקבוצה 🎉'); await socLoad(); socOpen(data); }); return true; }
+    case 'soc-invite': socInviteSheet(); if(!SOC.info[SOC.gid])socLoadInfo(SOC.gid).then(socInviteSheet); return true;
+    case 'soc-share': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`;
+      const text=`בוא להתאמן איתי ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. קוד הקבוצה: ${code}`;
+      if(navigator.share)navigator.share({title:'NextRep',text,url}).catch(()=>{});
+      else navigator.clipboard?.writeText(text+'\n'+url).then(()=>toast('הקישור הועתק'),()=>toast(url)); return true; }
+    case 'soc-leave': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב ליציאה';return true;}
+      sb.rpc('leave_group',{gid:SOC.gid}).then(()=>{closeSheet();SOC.gid=null;toast('יצאת מהקבוצה');socLoad();render();}); return true;
+    case 'soc-send': socSend(); return true;
+    case 'soc-older': { const gid=SOC.gid, arr=SOC.msgs[gid]||[]; const h0=document.body.scrollHeight;
+      socLoadMsgs(gid,arr[0]?.id).then(rows=>{SOC.msgs[gid]=rows.concat(arr);render();window.scrollTo(0,document.body.scrollHeight-h0);}); return true; }
+    case 'soc-react': { const id=+b.dataset.id, e=b.dataset.e, uid=S.user.id; const rs=SOC.reacts[id]||(SOC.reacts[id]=[]);
+      const mine=rs.some(r=>r.emoji===e&&r.user_id===uid);
+      SOC.reacts[id]=mine?rs.filter(r=>!(r.emoji===e&&r.user_id===uid)):rs.concat([{user_id:uid,emoji:e}]);
+      b.closest('[data-reacts]').outerHTML=socReactsHTML(id); try{navigator.vibrate?.(8);}catch(_){}
+      (mine?sb.from('message_reactions').delete().match({message_id:id,user_id:uid,emoji:e}):sb.from('message_reactions').insert({message_id:id,user_id:uid,emoji:e})).then(()=>{},()=>{});
+      return true; }
+    case 'soc-chall-new': SOC.cf=null; socChallSheet(); return true;
+    case 'soc-cpreset': { const p=[['4 אימונים השבוע','workouts',4,7],['12 אימונים בחודש','workouts',12,30],['100 סטים בשבועיים','sets',100,14],['20 טון בחודש','volume',20000,30]][+b.dataset.i];
+      SOC.cf={title:p[0],metric:p[1],target:p[2],days:p[3]}; socChallSheet(); return true; }
+    case 'soc-cmetric': socReadForm(); if(SOC.cf.metric!==b.dataset.m){SOC.cf.metric=b.dataset.m;SOC.cf.target=b.dataset.m==='volume'?10000:b.dataset.m==='sets'?50:4;} socChallSheet(); return true;
+    case 'soc-cdays': socReadForm(); SOC.cf.days=+b.dataset.d; socChallSheet(); return true;
+    case 'soc-chall-go': { socReadForm(); const f=SOC.cf; if(!f.title.trim()||!(f.target>0)){toast('מלא שם ויעד');return true;} b.disabled=true;
+      sb.rpc('create_challenge',{gid:SOC.gid,p_title:f.title.trim(),p_metric:f.metric,p_target:f.target,p_days:f.days}).then(({error})=>{
+        if(error){b.disabled=false;toast('פתיחת האתגר נכשלה');return;} closeSheet(); toast('האתגר נפתח 🏆'); SOC.view='chall'; socLoadChall(); }); return true; }
+    case 'soc-chall-del': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב';return true;}
+      sb.from('challenges').delete().eq('id',b.dataset.id).then(()=>socLoadChall()); return true;
+  }
+  return false;
+}
+document.addEventListener('input',ev=>{ if(ev.target.id==='chat-in'){SOC.draft=ev.target.value; const t=ev.target; t.style.height='auto'; t.style.height=Math.min(120,t.scrollHeight)+'px';} });
+document.addEventListener('keydown',ev=>{ if(ev.target.id==='chat-in'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();socSend();}
+  if(ev.target.id==='sg-code'&&ev.key==='Enter')$('[data-act="soc-join-go"]')?.click(); if(ev.target.id==='sg-name'&&ev.key==='Enter')$('[data-act="soc-create"]')?.click(); });
 
 /* שיתוף סיכום אימון */
 function workoutShareText(w){
@@ -2896,6 +3239,7 @@ async function doSaveWorkout(){
     if(top>0&&top>(bm[e.n]?.w||0))newPRs.push(`${e.n}: ${top} ק״ג`); }
   try{await saveWorkout(w);}catch(e){return;}
   if(newPRs.length&&S.settings.notif?.pr!==false)notify('שיא חדש! 🏅',newPRs.join(' · '));
+  if(newPRs.length)sb.rpc('post_pr',{p_text:newPRs.join(', ')}).then(()=>{},()=>{});
   S.active=null;
   saveLocalActive(); clearTimeout(_aT); flushActive();
   stopRest(); keepAwake(false); closeSheet(); render(); toast('האימון נשמר 💪');
@@ -2909,6 +3253,7 @@ document.addEventListener('click',ev=>{
 });
 function handleAct(b,ev){
   const act=b.dataset.act;
+  if(act.startsWith('soc-')&&socAct(act,b))return;
   switch(act){
     case 'start-free': startWorkout('אימון חופשי'); break;
     case 'start-tpl': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t)startWorkout(t.name,t.id); break; }
@@ -3145,14 +3490,16 @@ document.addEventListener('change',ev=>{
 });
 document.getElementById('tabs').addEventListener('click',ev=>{
   const b=ev.target.closest('[data-tab]'); if(!b)return;
+  if(b.dataset.tab==='social'&&S.tab==='social'&&SOC.gid){SOC.gid=null;} // לחיצה חוזרת = חזרה לרשימה
   S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render();
+  if(S.tab==='social')socLoad();
 });
 document.addEventListener('keydown',ev=>{
   if(ev.key==='Enter'&&(ev.target.id==='au-pass'||ev.target.id==='au-email'))doAuth();
 });
 window.addEventListener('hashchange',()=>{
   const h=(location.hash||'').replace('#','');
-  if(['home','train','food','plans','track'].includes(h)&&h!==S.tab){S.tab=h;render();}
+  if(['home','train','food','plans','track','social'].includes(h)&&h!==S.tab){S.tab=h;render();}
 });
 
 /* ---------- default plans for every new user ---------- */
@@ -3223,6 +3570,7 @@ async function enterApp(user){
   if(localA&&(!S.active||((localA.start===S.active.start)&&JSON.stringify(localA).length>=JSON.stringify(S.active).length)))S.active=localA;
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest();
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
+  socLoad(); socSubscribe(); socPendingJoin();
   if(S.active){startClock();keepAwake(true);}
 }
 function hideSplash(){
