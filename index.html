@@ -285,6 +285,18 @@ body.landing #app{max-width:1120px}
 .consent a{color:var(--accent)}
 .ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
+.pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:right;padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
+.pb-cta .pb-ic{font-size:28px}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
+.pb-top{display:flex;flex-direction:column;gap:6px}
+.pb-prog{height:5px;border-radius:99px;background:var(--surface2);overflow:hidden;display:flex}
+.pb-prog i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .25s}
+.pb-list{display:flex;flex-direction:column;gap:8px}.pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pb-opt{display:flex;flex-direction:column;gap:2px;text-align:right;padding:13px 14px;border-radius:14px;background:var(--surface2);border:2px solid transparent;color:var(--ink)}
+.pb-opt b{font-size:16px}.pb-opt small{color:var(--muted);font-size:13px}
+.pb-opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.pb-sess{background:var(--surface2);border-radius:14px;padding:12px 14px}
+.pb-ex{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;padding:5px 0;border-top:1px solid var(--line)}
+.pb-ex:first-of-type{margin-top:6px}
 /* ===== social ===== */
 .tbadge{position:absolute;top:2px;inset-inline-end:22%;min-width:17px;height:17px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
 .ld-invite{background:var(--accent-soft);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;margin-top:12px;font-weight:600}
@@ -741,7 +753,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.7';
+const APP_VERSION='5.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2034,6 +2046,7 @@ function vPlans(){
       <div class="small muted" style="margin-top:10px">נגיעה ביום קובעת מה מתאמנים בו. התזכורת היומית (בהגדרות ⚙️) תודיע לך בבוקר של יום אימון.</div>
     </div>`;
   return `
+    <button class="pb-cta" data-act="pb-open"><span class="pb-ic">✨</span><span style="flex:1"><b>בנה לי תוכנית</b><small>7 שאלות קצרות ותקבל תוכנית מותאמת לרמה, למטרה ולזמן שלך</small></span><span class="btn primary" style="pointer-events:none">התחל</span></button>
     ${sched}
     <div class="sect">התוכניות</div>
     <button class="btn primary big" data-act="tpl-new">+ תוכנית חדשה</button>
@@ -3830,6 +3843,158 @@ function tourAct(act,b){
   return false;
 }
 
+/* ===================== בונה תוכנית מותאמת (מבוסס כללים — חינם ומיידי) ===================== */
+const PB={step:0,a:{goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]},plan:null,replace:true,sched:true};
+const PB_Q=[
+  {k:'goal',t:'מה המטרה העיקרית שלך?',o:[['mass','💪 לבנות שריר','היפרטרופיה, נפח וצורה'],['strength','🏋️ להתחזק','להעלות משקלים בתרגילי הבסיס'],['cut','🔥 לחטב ולרדת בשומן','לשמור על שריר ולשרוף יותר'],['fit','⚡ כושר כללי','להרגיש טוב, חזק ובריא']]},
+  {k:'level',t:'כמה זמן אתה מתאמן עם משקולות?',o:[['beg','מתחיל','פחות מחצי שנה, או חוזר אחרי הפסקה ארוכה'],['mid','בינוני','חצי שנה עד שנתיים של אימון קבוע'],['adv','מתקדם','יותר משנתיים, מכיר טכניקה היטב']]},
+  {k:'days',t:'כמה ימים בשבוע אתה יכול להתאמן?',o:[[2,'2 ימים'],[3,'3 ימים'],[4,'4 ימים'],[5,'5 ימים'],[6,'6 ימים']],grid:true},
+  {k:'time',t:'כמה זמן יש לך לכל אימון?',o:[[45,'45 דקות'],[60,'שעה'],[75,'שעה ורבע'],[90,'שעה וחצי']],grid:true},
+  {k:'equip',t:'איפה אתה מתאמן?',o:[['gym','🏢 חדר כושר מלא','מוטות, מכונות וכבלים'],['home','🏠 בבית עם משקולות','משקולות יד וספסל'],['bw','🤸 משקל גוף בלבד','בלי ציוד, אולי מוט מתח']]},
+  {k:'focus',t:'על מה תרצה לשים דגש?',sub:'אפשר לבחור כמה, או לדלג',multi:true,o:[['chest','חזה'],['back','גב'],['legs','רגליים'],['glutes','ישבן'],['shoulders','כתפיים'],['arms','ידיים'],['core','בטן']],grid:true},
+  {k:'limits',t:'יש משהו שצריך להיזהר ממנו?',sub:'נוותר על תרגילים שמעמיסים על האזור',multi:true,o:[['knees','ברכיים'],['lowback','גב תחתון'],['shoulders','כתפיים']],grid:true},
+];
+const PB_SLOTS={
+  press:{gym:['לחיצת חזה במוט','לחיצת חזה במשקולות','לחיצה במכונת חזה'],home:['לחיצת חזה במשקולות'],bw:['שכיבות סמיכה'],c:1},
+  incline:{gym:['לחיצת חזה בשיפוע','לחיצה בשיפוע במוט'],home:['לחיצת חזה בשיפוע'],bw:['שכיבות סמיכה'],c:1},
+  fly:{gym:['פרפר (פק-דק)','כבלים מוצלבים'],home:['פרפר במשקולות'],bw:[]},
+  vpull:{gym:['פולי עליון','מתח','פולי צר'],home:['מתח'],bw:['מתח','חתירה הפוכה (משקל גוף)'],c:1},
+  row:{gym:['חתירה בכבל','חתירה במוט','חתירת T','חתירה במשקולת'],home:['חתירה במשקולת'],bw:['חתירה הפוכה (משקל גוף)'],c:1},
+  rear:{gym:['פייס פול','הרחקות אחוריות'],home:['הרחקות אחוריות'],bw:['סופרמן']},
+  ohp:{gym:['לחיצת כתפיים במוט','לחיצת כתפיים במשקולות','לחיצת כתפיים במכונה'],home:['לחיצת כתפיים במשקולות','לחיצת ארנולד'],bw:[],c:1},
+  lat:{gym:['הרחקות צד','הרחקות צד בכבל'],home:['הרחקות צד'],bw:[]},
+  squat:{gym:['סקוואט','האק סקוואט','סקוואט בסמית׳'],home:['סקוואט גביע'],bw:['סקוואט בולגרי'],c:1},
+  lpress:{gym:['לחיצת רגליים'],home:['סקוואט בולגרי'],bw:['לאנג׳ים'],c:1},
+  hinge:{gym:['דדליפט רומני','דדליפט'],home:['דדליפט רומני'],bw:['גשר ישבן'],c:1},
+  lunge:{gym:['לאנג׳ים בהליכה','סקוואט בולגרי'],home:['לאנג׳ים בהליכה','סקוואט בולגרי'],bw:['לאנג׳ים','עליות על ספסל'],c:1},
+  glute:{gym:['היפ תראסט'],home:['היפ תראסט'],bw:['גשר ישבן']},
+  lext:{gym:['פשיטת ברכיים'],home:[],bw:[]},
+  lcurl:{gym:['כפיפת ברכיים','כפיפת ברכיים בישיבה'],home:[],bw:[]},
+  calf:{gym:['הרמות עקבים','הרמות עקבים בישיבה'],home:['הרמות עקבים'],bw:['הרמות עקבים']},
+  bi:{gym:['כפיפת מרפקים במוט','כפיפת מרפקים בכבל','כפיפה בספסל כומר'],home:['כפיפת מרפקים במשקולות','כפיפה בשיפוע'],bw:[]},
+  hammer:{gym:['פטישים','פטישים בכבל (חבל)'],home:['פטישים'],bw:[]},
+  tri:{gym:['פשיטת מרפקים בכבל','פשיטה בחבל בכבל'],home:['לחיצה צרפתית','קיקבק במשקולת'],bw:['מקבילים על ספסל']},
+  trioh:{gym:['פשיטה מעל הראש בכבל','לחיצה צרפתית'],home:['לחיצה צרפתית'],bw:['מקבילים על ספסל']},
+  core:{gym:['הרמות רגליים בתלייה','כפיפות בטן בכבל','גלגל בטן','פאלוף פרס'],home:['פלאנק','דד באג','הרמות רגליים בשכיבה'],bw:['פלאנק','דד באג','הרמות רגליים בשכיבה','מטפס הרים']},
+  cardio:{gym:['הליכון','אופניים','אליפטיקל'],home:['קפיצה בחבל'],bw:['קפיצה בחבל'],cardio:1},
+};
+const PB_BAN={knees:['סקוואט','האק סקוואט','סקוואט בסמית׳','סקוואט קדמי','סקוואט בולגרי','לאנג׳ים','לאנג׳ים בהליכה','פשיטת ברכיים','קפיצה לארגז','סקוואט גביע','עליות על ספסל','מטפס הרים'],
+  lowback:['דדליפט','דדליפט סומו','חתירה במוט','חתירת T','סקוואט','סקוואט קדמי','גלגל בטן','סופרמן','דדליפט רומני','הרמות רגליים בתלייה'],
+  shoulders:['לחיצת כתפיים במוט','לחיצת כתפיים במשקולות','לחיצת כתפיים במכונה','לחיצת ארנולד','פוש פרס','מקבילים','מקבילים על ספסל','לחיצת חזה במוט','לחיצה בשיפוע במוט','חתירה אנכית']};
+// חלופות כשמגבלה מוציאה תרגיל בסיס
+const PB_ALT={squat:['לחיצת רגליים','היפ תראסט','גשר ישבן'],lpress:['היפ תראסט','גשר ישבן'],lunge:['היפ תראסט','גשר ישבן'],hinge:['היפ תראסט','כפיפת ברכיים','גשר ישבן'],row:['חתירה בכבל','חתירה במשקולת'],ohp:['הרחקות צד'],press:['לחיצת חזה במשקולות','לחיצה במכונת חזה','שכיבות סמיכה']};
+const PB_SESS={
+  fullA:['אימון גוף מלא A',['squat','press','row','ohp','lcurl','bi','core']],
+  fullB:['אימון גוף מלא B',['hinge','incline','vpull','lunge','lat','tri','core']],
+  fullC:['אימון גוף מלא C',['lpress','press:1','row:1','glute','rear','hammer','core']],
+  push:['דחיפה: חזה, כתפיים, יד אחורית',['press','incline','ohp','fly','lat','tri','trioh']],
+  pull:['משיכה: גב ויד קדמית',['vpull','row','row:1','rear','bi','hammer','core']],
+  legs:['רגליים ובטן',['squat','hinge','lpress','lcurl','lext','calf','core']],
+  push2:['דחיפה B',['incline:1','press:1','ohp:1','fly:1','lat:1','trioh','tri:1']],
+  pull2:['משיכה B',['row:1','vpull:1','row:2','rear:1','bi:1','hammer:1','core:1']],
+  legs2:['רגליים B',['hinge','lunge','glute','lext','lcurl:1','calf:1','core:1']],
+  upA:['פלג עליון A',['press','row','ohp','vpull','lat','bi','tri']],
+  upB:['פלג עליון B',['incline','vpull:1','fly','row:1','rear','hammer','trioh']],
+  loA:['פלג תחתון A',['squat','hinge','lpress','lcurl','calf','core']],
+  loB:['פלג תחתון B',['hinge:1','lunge','glute','lext','calf:1','core:1']],
+};
+const PB_FOCUS={chest:['fly','incline'],back:['row','rear'],legs:['lpress','lext'],glutes:['glute','lunge'],shoulders:['lat','rear'],arms:['bi','tri'],core:['core']};
+const PB_SPLIT=(days,level)=>days<=2?['fullA','fullB']:days===3?(level==='beg'?['fullA','fullB','fullC']:['push','pull','legs']):days===4?['upA','loA','upB','loB']:days===5?['push','pull','legs','upA','loB']:['push','pull','legs','push2','pull2','legs2'];
+const PB_DAYS={2:[0,3],3:[0,2,4],4:[0,1,3,4],5:[0,1,2,3,4],6:[0,1,2,3,4,5]};
+const PB_SPLIT_NAME=(days,level)=>days<=2?'גוף מלא, פעמיים בשבוע':days===3?(level==='beg'?'גוף מלא, 3 פעמים בשבוע':'דחיפה, משיכה, רגליים'):days===4?'פלג עליון ותחתון':days===5?'דחיפה, משיכה, רגליים + עליון ותחתון':'דחיפה, משיכה, רגליים פעמיים';
+function pbMuscle(n){ for(const [g,arr] of Object.entries(LIB))if(arr.includes(n))return g; return ''; }
+function pbBuild(){
+  const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[]));
+  const prog=A.goal==='strength'?'כוח':A.goal==='cut'?'חיטוב':A.goal==='fit'?'כושר':'מסה';
+  const sessions=PB_SPLIT(A.days,A.level).map((key,si)=>{
+    const [title,slots0]=PB_SESS[key]; const slots=[...slots0]; const used=new Set();
+    // דגש: תרגיל בידוד נוסף לשריר הנבחר, אם מתאים לאימון
+    for(const f of A.focus)for(const sl of PB_FOCUS[f]||[]){ const base=sl; const fits=slots.some(x=>x.split(':')[0]===base)||(['fly','incline'].includes(base)&&/push|up|full/.test(key))||(['bi','tri'].includes(base)&&/pull|push|up|full/.test(key))||(['glute','lpress','lext','lunge'].includes(base)&&/legs|lo|full/.test(key))||(['lat','rear','row'].includes(base)&&/push|pull|up|full/.test(key))||base==='core';
+      if(fits){ slots.push(base+':f'); break; } }
+    if(A.goal==='cut')slots.push('cardio');
+    const ex=[]; let compIdx=0;
+    for(const sl of slots){
+      const [k,vi]=sl.split(':'), def=PB_SLOTS[k]; if(!def)continue;
+      let pool=(def[A.equip]||[]).filter(n=>!banned.has(n)&&!used.has(n));
+      if(!pool.length&&PB_ALT[k])pool=PB_ALT[k].filter(n=>!banned.has(n)&&!used.has(n)&&(A.equip==='gym'||!['לחיצת רגליים','לחיצה במכונת חזה','חתירה בכבל','כפיפת ברכיים'].includes(n)));
+      if(!pool.length)continue;
+      const idx=vi==='f'?pool.length-1:(+vi||0)+(key.endsWith('2')?1:0);
+      const n=pool[idx%pool.length]; used.add(n);
+      if(def.cardio){ ex.push({n,m:'אירובי',t:'c',min:A.goal==='cut'?20:10}); continue; }
+      const comp=!!def.c&&vi!=='f'; const first=comp&&compIdx===0; if(comp)compIdx++;
+      let sets,reps,rest;
+      if(A.goal==='strength'){ if(first){sets=5;reps='3–5';rest=180;} else if(comp){sets=4;reps='5–8';rest=150;} else {sets=3;reps='8–12';rest=90;} }
+      else if(A.goal==='cut'){ if(comp){sets=3;reps='8–12';rest=90;} else {sets=3;reps='12–15';rest=50;} }
+      else if(A.goal==='fit'){ if(comp){sets=3;reps='8–12';rest=90;} else {sets=2;reps='12–15';rest=60;} }
+      else { if(comp){sets=first?4:3;reps=first?'6–10':'8–12';rest=first?150:120;} else {sets=3;reps='10–15';rest=75;} }
+      if(A.level==='beg')sets=Math.max(2,sets-1);
+      if(A.level==='adv'&&compIdx<=2&&comp)sets+=1;
+      const g=pbMuscle(n);
+      if(A.focus.some(f=>({chest:'חזה',back:'גב',legs:'רגליים',glutes:'רגליים',shoulders:'כתפיים',arms:g==='יד קדמית'?'יד קדמית':'יד אחורית',core:'בטן וליבה'}[f]===g)))sets+=vi==='f'?0:1;
+      if(['פלאנק'].includes(n))reps='30–60 שנ׳';
+      ex.push({n,m:g,t:'s',s:sets,reps,rest});
+    }
+    // אם מגבלות/ציוד השאירו מעט תרגילים — משלימים מתרגילים בטוחים שמתאימים לציוד
+    const FILL={gym:['חתירה בכבל','לחיצה במכונת חזה','הרחקות צד','פייס פול','כפיפת ברכיים','היפ תראסט','פלאנק','דד באג','הרמות עקבים'],home:['חתירה במשקולת','לחיצת חזה במשקולות','הרחקות צד','הרחקות אחוריות','היפ תראסט','פלאנק','דד באג','הרמות עקבים','פטישים'],bw:['שכיבות סמיכה','חתירה הפוכה (משקל גוף)','גשר ישבן','פלאנק','דד באג','הרמות רגליים בשכיבה','הרמות עקבים','סופרמן']}[A.equip];
+    for(const n of FILL){ if(ex.filter(e=>e.t==='s').length>=4)break; if(banned.has(n)||used.has(n))continue; used.add(n);
+      ex.splice(ex.findIndex(e=>e.t==='c')<0?ex.length:ex.findIndex(e=>e.t==='c'),0,{n,m:pbMuscle(n),t:'s',s:A.level==='beg'?2:3,reps:n==='פלאנק'?'30–60 שנ׳':'10–15',rest:60}); }
+    // התאמה לזמן: 45 שניות עבודה לסט + מנוחה + 8 דקות חימום
+    const mins=e=>e.reduce((a,x)=>a+(x.t==='c'?x.min:x.s*(45+x.rest)/60),8);
+    while(ex.length>4&&mins(ex)>A.time+3){ const i=ex.map(x=>x.t).lastIndexOf('s'); const cardio=ex.find(x=>x.t==='c'); if(cardio&&cardio.min>10){cardio.min-=5;continue;} ex.splice(i,1); }
+    // עדיין ארוך? מורידים סטים (לא פחות מ-2) ומקצרים מעט את המנוחה בתרגילי הבידוד
+    for(let g=0;g<40&&mins(ex)>A.time+3;g++){ const cand=ex.filter(x=>x.t==='s'&&x.s>2).sort((p,q)=>q.s-p.s)[0];
+      if(cand)cand.s--; else { const iso=ex.find(x=>x.t==='s'&&x.rest>60); if(iso)iso.rest-=15; else { const c=ex.find(x=>x.t==='c'); if(c&&c.min>5)c.min-=5; else if(ex.length>3)ex.pop(); else break; } } }
+    const letter='ABCDEF'[si];
+    return {name:`${letter} — ${title.replace(/ ?[AB]$/,'')}`,ex,min:Math.round(mins(ex))};
+  });
+  PB.plan={prog,split:PB_SPLIT_NAME(A.days,A.level),sessions};
+}
+function pbSheet(){
+  const st=PB.step, Q=PB_Q[st];
+  if(st>=PB_Q.length){ pbBuild(); return pbPreview(); }
+  const val=PB.a[Q.k], sel=v=>Q.multi?val.includes(v):val===v;
+  openSheet(`<div class="pb-top"><span class="small muted">שאלה ${st+1} מתוך ${PB_Q.length}</span><div class="pb-prog"><i style="width:${(st+1)/PB_Q.length*100}%"></i></div></div>
+    <h3 style="margin:8px 0 ${Q.sub?'2':'12'}px">${Q.t}</h3>${Q.sub?`<div class="small muted" style="margin-bottom:12px">${Q.sub}</div>`:''}
+    <div class="${Q.grid?'pb-grid':'pb-list'}">${Q.o.map(([v,l,d])=>`<button class="pb-opt ${sel(v)?'on':''}" data-act="pb-pick" data-v="${v}"><b>${l}</b>${d?`<small>${d}</small>`:''}</button>`).join('')}</div>
+    <div class="row" style="margin-top:16px;gap:8px">
+      <button class="btn" style="flex:1" data-act="${st?'pb-back':'sheet-close'}">${st?'חזרה':'ביטול'}</button>
+      ${Q.multi?`<button class="btn primary" style="flex:2" data-act="pb-next">${val.length?'המשך':'דלג'}</button>`:''}
+    </div>`);
+}
+function pbPreview(){
+  const P=PB.plan, A=PB.a;
+  openSheet(`<h3 style="margin-bottom:2px">התוכנית שלך מוכנה ✨</h3>
+    <div class="small muted" style="margin-bottom:12px">${P.prog} · ${A.days} ימים · ${P.split}</div>
+    <div class="stack" style="gap:10px">${P.sessions.map(se=>`<div class="pb-sess"><div class="spread"><b>${esc(se.name)}</b><span class="small muted">~${se.min} דק׳</span></div>
+      ${se.ex.map(e=>`<div class="pb-ex"><span>${esc(e.n)}</span><span class="num muted" ${e.t==='c'?'':'dir="ltr"'}>${e.t==='c'?e.min+' דק׳':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}</div>`).join('')}</div>
+    <div class="small muted" style="margin:12px 0">מתחילים במשקל שמאפשר את כל החזרות בטכניקה טובה. כשמגיעים לקצה העליון של טווח החזרות בכל הסטים, מעלים 2.5–5 ק״ג.</div>
+    <label class="setrow" style="padding:6px 0"><span>החלף את התוכניות הקיימות</span><input type="checkbox" class="sw" id="pb-rep" ${PB.replace?'checked':''}></label>
+    <label class="setrow" style="padding:6px 0;border-bottom:0"><span>קבע לי לו״ז שבועי (${PB_DAYS[A.days].map(d=>DAY_LETTERS[d]).join(', ')})</span><input type="checkbox" class="sw" id="pb-sch" ${PB.sched?'checked':''}></label>
+    <div class="row" style="margin-top:14px;gap:8px"><button class="btn" style="flex:1" data-act="pb-restart">שינוי תשובות</button><button class="btn primary" style="flex:2" data-act="pb-save">שמירת התוכנית</button></div>`);
+}
+async function pbSave(){
+  const A=PB.a, P=PB.plan, rep=$('#pb-rep')?.checked, sch=$('#pb-sch')?.checked;
+  if(rep)for(const t of [...S.templates])await deleteTemplate(t.id);
+  const base=rep?0:S.templates.length, now=Date.now(), ids=[];
+  for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
+    await saveTemplate({id,name:se.name,order:base+i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:e)}); }
+  if(sch){ S.settings.schedule={}; PB_DAYS[A.days].forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; }); persistSettings(); }
+  closeSheet(); S.tab='train'; S.trainView='plans'; render(); window.scrollTo(0,0); toast('התוכנית נשמרה 💪 בהצלחה!');
+}
+function pbAct(act,b){
+  switch(act){
+    case 'pb-open': PB.step=0; PB.a={goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]}; pbSheet(); return true;
+    case 'pb-pick': { const Q=PB_Q[PB.step]; let v=b.dataset.v; if(typeof Q.o[0][0]==='number')v=+v;
+      if(Q.multi){ const arr=PB.a[Q.k]; const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); pbSheet(); }
+      else { PB.a[Q.k]=v; PB.step++; pbSheet(); } return true; }
+    case 'pb-next': PB.step++; pbSheet(); return true;
+    case 'pb-back': PB.step=Math.max(0,PB.step-1); pbSheet(); return true;
+    case 'pb-restart': PB.step=0; pbSheet(); return true;
+    case 'pb-save': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; b.disabled=true; b.textContent='שומר…'; pbSave(); return true;
+  }
+  return false;
+}
+
 /* שיתוף סיכום אימון */
 function workoutShareText(w){
   const lines=[`🏋️ ${w.name} · ${new Date(w.start).toLocaleDateString('he-IL')}`,
@@ -3972,6 +4137,7 @@ function handleAct(b,ev){
   const act=b.dataset.act;
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
+  if(act.startsWith('pb-')&&pbAct(act,b))return;
   if((act.startsWith('tour-')||act.startsWith('inst-'))&&tourAct(act,b))return;
   if((act.startsWith('adm-')||act.startsWith('ev-')||act==='admin-open')&&admAct(act,b))return;
   if(act==='ct-topic'){S.ctDraft=$('#ct-body')?.value||'';openContact(b.dataset.t);return;}
