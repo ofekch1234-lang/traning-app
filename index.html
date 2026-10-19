@@ -741,7 +741,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='5.6';
+const APP_VERSION='5.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1111,6 +1111,20 @@ function render_(){
 let GOOGLE_ON=false;
 // מציג את כפתור Google רק אם הספק מופעל ב-Supabase
 fetch(SUPABASE_URL+'/auth/v1/settings',{headers:{apikey:SUPABASE_KEY}}).then(r=>r.json()).then(j=>{ GOOGLE_ON=!!j?.external?.google; if(GOOGLE_ON&&S.mode==='auth')render(); }).catch(()=>{});
+// משתמש שנכנס עם Google: השם מגיע מחשבון Google. רושמים הסכמה לתקנון, ואם אין שם — מבקשים פעם אחת
+function socialProfileFix(){
+  const u=S.user; if(!u)return; const md=u.user_metadata||{};
+  const viaOAuth=(u.app_metadata?.provider&&u.app_metadata.provider!=='email');
+  if(!viaOAuth)return;
+  const patch={};
+  if(!md.terms_accepted){ patch.terms_accepted=new Date().toISOString(); patch.terms_v='2026-10-20'; }
+  if(!md.full_name&&md.name)patch.full_name=md.name;
+  if(Object.keys(patch).length)sb.auth.updateUser({data:patch}).then(({data})=>{ if(data?.user){S.user=data.user; render();} });
+  if(!md.full_name&&!md.name)setTimeout(()=>{ if(TOUR.on||$('#instgate'))return;
+    openSheet(`<h3>איך קוראים לך?</h3><div class="muted" style="margin:-4px 0 12px">כך נפנה אליך באפליקציה, וכך יראו אותך החברים בקבוצות.</div>
+      <input id="set-name" type="text" autocomplete="name" placeholder="השם שלך"><button class="btn primary big" style="margin-top:12px" data-act="save-name">שמירה</button>`);
+    setTimeout(()=>$('#set-name')?.focus(),80); },1200);
+}
 function openNewPassword(){
   openSheet(`<h3>בחירת סיסמה חדשה</h3><div class="muted" style="margin:-4px 0 12px">הקלד סיסמה חדשה לחשבון שלך.</div>
     <input id="pw1" type="password" dir="ltr" autocomplete="new-password" placeholder="סיסמה חדשה (לפחות 6 תווים)">
@@ -4026,7 +4040,7 @@ function handleAct(b,ev){
     case 'save-name': { const nm=($('#set-name')?.value||'').trim(); if(!nm){toast('השם ריק');break;}
       sb.auth.updateUser({data:{full_name:nm}}).then(({data,error})=>{
         if(error){toast('שמירת השם נכשלה');return;}
-        if(data?.user)S.user=data.user; toast('השם עודכן 👋'); render();
+        if(data?.user)S.user=data.user; toast('השם עודכן 👋'); if(!$('#sheet').hidden&&!$('#logoutbtn').hidden&&!document.querySelector('[data-act="rest-test"]'))closeSheet(); render();
       }); break; }
     case 'notif-on': ensureNotifPerm().then(ok=>{toast(ok?'ההתראות הופעלו 🔔':'ההרשאה לא אושרה');render();}); break;
     case 'notif-dis': try{localStorage.setItem('np-dis','1');}catch(e){} render(); break;
@@ -4297,6 +4311,7 @@ async function enterApp(user){
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
   setTimeout(()=>{ if(!checkInstallGate())maybeStartTour(); },700);
+  socialProfileFix();
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}
 }
