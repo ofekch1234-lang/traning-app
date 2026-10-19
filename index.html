@@ -649,7 +649,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='3.6';
+const APP_VERSION='3.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2785,8 +2785,8 @@ function renderSettings(){
       <span><b>🎯 היעדים שלי</b><span class="small muted" style="display:block">${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</span></span>
       <span class="muted">›</span>
     </button>
-    ${S.plan&&!S.plan.admin&&S.plan.billing?`<button class="card spread" data-act="plans-open" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:10px">
-      <span><b>⭐ המנוי שלי</b><span class="small muted" style="display:block">${S.plan.paid?'פעיל':'תקופת ניסיון'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString('he-IL'):'—'}</span></span><span class="muted">הארכה ›</span></button>`:''}
+    ${S.plan&&(S.plan.admin||S.plan.billing)?`<button class="card spread" data-act="plans-open" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:10px">
+      <span><b>⭐ ${S.plan.admin?'מסלולים ותשלום':'המנוי שלי'}</b><span class="small muted" style="display:block">${S.plan.admin?'כפי שהמשתמשים רואים. אפשר לשלם מכאן לבדיקה':`${S.plan.paid?'פעיל':'תקופת ניסיון'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString('he-IL'):'—'}`}</span></span><span class="muted">${S.plan.admin?'פתיחה':'הארכה'} ›</span></button>`:''}
     <button class="card spread" data-act="share-app" style="width:100%;text-align:right;padding:12px 14px;margin-bottom:14px">
       <span><b>📲 שתף את NextRep</b><span class="small muted" style="display:block">קישור או ברקוד לסריקה לחבר</span></span><span class="muted">›</span></button>
     <div class="label" style="margin-bottom:6px">התראות</div>
@@ -2884,6 +2884,7 @@ function adminBillingHTML(){
       <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לדף התשלום ב-Grow" value="${esc(p.link||'')}"></div>`).join('')}
     <div class="small muted">אפשר לשלב בקישור {email}, {uid} או {name}, והם יוחלפו בפרטי המשתמש.</div>
     <button class="btn primary" data-act="admin-billing-save">שמירת הגדרות</button>
+    <button class="btn" data-act="plans-open">תצוגת מסך המסלולים ותשלום בדיקה</button>
   </div>
   ${adminGrowHTML()}
   <div class="card stack" style="padding:14px;margin-top:10px;gap:8px">
