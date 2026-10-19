@@ -214,8 +214,10 @@ svg text{font-family:var(--body)}
 .npgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0}
 .npgrid button{padding:12px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:17px;font-weight:500}
 .npgrid button.sel{background:var(--accent);color:var(--accent-ink);border-color:transparent;font-weight:700}
-.npdigits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
-.npdigits button{padding:13px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:20px;font-weight:600}
+.npdigits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0;direction:ltr}
+.npgrid,.npstep,.npdisp{direction:ltr}
+.npdigits button{padding:14px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:600}
+.npdigits button:active{background:var(--accent-soft)}
 .npchips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0}
 /* מתלה משקולות נגלל */
 .rack{display:flex;align-items:flex-end;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
@@ -257,6 +259,33 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mkcal b{font-family:var(--disp);font-size:20px;line-height:1;display:block}
 .mkcal span{font-size:10px;color:var(--muted)}
 .mdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;vertical-align:1px}
+
+/* weight calendar */
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;direction:rtl}
+.calhd{text-align:center;font-size:11px;color:var(--muted);padding-bottom:2px}
+.calday{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;min-height:44px;padding:4px 0;
+  border-radius:8px;background:var(--surface2);border:1px solid transparent}
+.calday i{font-style:normal;font-size:10.5px;color:var(--muted);line-height:1.2}
+.calday b{font-family:var(--disp);font-size:15px;line-height:1.1;color:var(--ink)}
+.calday.has{background:var(--accent-soft)}
+.calday.tdy{border-color:var(--accent)}
+.calday.tdy i{color:var(--ink);font-weight:700}
+/* progress photos */
+.phslots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.phslot{position:relative;aspect-ratio:3/4;max-width:100%;border-radius:10px;border:1.5px dashed var(--line);background:var(--surface2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden;cursor:pointer;font-size:12.5px;color:var(--muted)}
+.phslot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.phslot.has{border-style:solid;border-color:var(--accent)}
+.phslot .lbl{position:absolute;bottom:0;inset-inline:0;background:rgba(0,0,0,.55);color:#fff;font-size:11px;text-align:center;padding:3px 0}
+.phrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);width:100%;text-align:right}
+.phrow:last-child{border-bottom:none}
+.phthumbs{display:flex;gap:4px;flex-shrink:0;direction:ltr}
+.phthumbs span{width:38px;height:50px;border-radius:6px;background:var(--surface2);overflow:hidden;display:block}
+.phthumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.cmpgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmpgrid figure{margin:0}
+.cmpgrid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block;background:var(--surface2)}
+.cmpgrid figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:4px}
 
 /* settings switches */
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
@@ -384,6 +413,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 
 <script>
 "use strict";
+/* תאריך מקומי YYYY-MM-DD (לא UTC — אחרי חצות בישראל נשאר היום הנכון) */
+const ymd=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 /* ---------- Supabase config ---------- */
 const SUPABASE_URL='https://dmeougthlruspxwyvrnc.supabase.co';
 const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
@@ -504,7 +535,7 @@ const fmtRest=s=>s>=60?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} דק
 const S={
   mode:'boot', user:null, authMode:'login', authEmail:'',
   workouts:[], templates:[], weights:[], meals:[],
-  foodDate:new Date().toISOString().slice(0,10), ai:{busy:false}, trackView:'body',
+  foodDate:ymd(), ai:{busy:false}, trackView:'body',
   active:null,                       // {start, name, tid, ex:[{n,m,t,sets:[{w,r,done}],c:{min,km,inc,done}}]}
   settings:{rest:90,notif:{rest:true,pr:true,sound:true,vib:true}},
   tab:(location.hash||'').replace('#','')||'home',
@@ -619,7 +650,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); flushActive(); }
@@ -838,6 +869,11 @@ function vHome(){
         </div>
       </div>
     </div>`:''}
+    ${S.settings.photoDay!=null&&new Date().getDay()===+S.settings.photoDay&&!PH.sets.some(s=>s.d===ymd())?`
+      <button class="card spread" style="width:100%;text-align:right" data-act="photo-open" data-d="${ymd()}">
+        <div><b>📸 היום יום צילום</b><div class="small muted">חזית, גב וצד — לבקרה השבועית</div></div>
+        <span class="btn primary">צלם</span>
+      </button>`:''}
     ${S.active?`
       <button class="card spread" style="width:100%;text-align:right;background:var(--accent-soft);border-color:var(--accent)" data-act="go" data-to="train">
         <div><div class="label">אימון פעיל ממשיך לרוץ</div><b style="font-size:17px">${esc(S.active.name)}</b></div>
@@ -865,7 +901,7 @@ function vHome(){
       <div class="tile"><div class="v">${fmtNum(wkVol)}</div><div class="k">נפח שבועי (ק״ג)</div></div>
       <button class="tile" data-act="bw-quick" style="background:none;border:none;border-inline-start:1px solid var(--line);border-radius:0"><div class="v">${lastBw?lastBw.kg:'+'}</div><div class="k">${lastBw?`משקל${bwD!==null?` (${bwD>0?'+':''}${bwD})`:''}`:'שקילה ⚖️'}</div></button>
     </div>
-    ${(S.settings.kcalT||mealsOf(new Date().toISOString().slice(0,10)).length)?(()=>{const t=dayTotals(new Date().toISOString().slice(0,10));const kT=+S.settings.kcalT||0;return `
+    ${(S.settings.kcalT||mealsOf(ymd()).length)?(()=>{const t=dayTotals(ymd());const kT=+S.settings.kcalT||0;return `
       <button class="card spread" style="width:100%;text-align:right" data-act="go" data-to="food">
         <div><span class="label">תזונה היום 🍽️</span>
           <div class="num" style="margin-top:4px"><b style="font-family:var(--disp);font-size:22px">${fmtNum(t.kcal)}</b> <span class="muted small">${kT?'/ '+fmtNum(kT)+' קק״ל':'קק״ל'} · חלבון ${t.protein}${S.settings.protT?'/'+S.settings.protT:''} גר׳</span></div>
@@ -928,7 +964,7 @@ function recentMealNames(){
   return out;
 }
 function vFood(){
-  const d=S.foodDate, today=new Date().toISOString().slice(0,10);
+  const d=S.foodDate, today=ymd();
   const dt=new Date(d+'T12:00:00');
   const t=dayTotals(d);
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
@@ -938,11 +974,11 @@ function vFood(){
   return `
     <div class="card">
       <div class="spread">
-        <button class="btn" data-act="food-nav" data-dir="-1" aria-label="יום קודם" style="padding:6px 12px">‹</button>
+        <button class="btn" data-act="food-nav" data-dir="-1" aria-label="יום קודם" style="padding:6px 12px">›</button>
         <b>${d===today?'היום':fmtDateFull(+dt)}</b>
         <div class="row" style="gap:6px">
           <button class="pill" data-act="food-targets-open" style="cursor:pointer">🎯 יעדים</button>
-          <button class="btn" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>›</button>
+          <button class="btn" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>‹</button>
         </div>
       </div>
       <div class="row" style="justify-content:center;gap:18px;margin-top:10px;flex-wrap:nowrap">
@@ -1408,7 +1444,7 @@ function bwChange(days){
   const ws=S.weights||[]; if(ws.length<2)return null;
   const last=ws[ws.length-1];
   const cutoff=new Date(last.d); cutoff.setDate(cutoff.getDate()-days);
-  const cs=cutoff.toISOString().slice(0,10);
+  const cs=ymd(cutoff);
   let base=null; for(const p of ws){ if(p.d<=cs)base=p; }
   if(!base)base=ws[0]; if(base===last)return null;
   return Math.round((last.kg-base.kg)*10)/10;
@@ -1420,7 +1456,7 @@ function deltaChip(v,label){
 }
 function vBody(){
   const ws=S.weights||[]; const last=ws[ws.length-1];
-  const today=new Date().toISOString().slice(0,10);
+  const today=ymd();
   const goal=+S.settings.goalKg||0;
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
   let goalLine='';
@@ -1448,15 +1484,16 @@ function vBody(){
       <div class="row" style="gap:6px;margin-top:10px">${deltaChip(bwChange(7),'שבוע')}${deltaChip(bwChange(30),'חודש')}</div>
       ${goalLine}
     </div>
+    ${bwCalendarHTML()}
     ${bwChartHTML(goal)}
+    ${photosHTML()}
     <div class="sect spread"><span>היעדים שלי</span><button class="linkbtn small" data-act="food-targets-open" style="font-family:var(--body)">עריכה</button></div>
     <button class="tiles num" data-act="food-targets-open" style="width:100%;padding:0;text-align:center">
-      <div class="tile"><div class="v">${kT?fmtNum(kT):'—'}</div><div class="k">קק״ל ליום</div></div>
+      <div class="tile"><div class="v">${kT?kT.toLocaleString('en-US'):'—'}</div><div class="k">קק״ל ליום</div></div>
       <div class="tile"><div class="v">${pT||'—'}</div><div class="k">גר׳ חלבון</div></div>
       <div class="tile"><div class="v">${goal||'—'}</div><div class="k">משקל יעד</div></div>
     </button>
     ${nutritionWeekHTML()}
-    ${bwLogHTML()}
   `;
 }
 function bwChartHTML(goal){
@@ -1483,6 +1520,168 @@ function bwChartHTML(goal){
     </svg>
   </div>`;
 }
+/* ----- תמונות התקדמות שבועיות ----- */
+const ANGLES=[['front','חזית'],['back','גב'],['side','צד']];
+const PH={sets:[],urls:{},loaded:false,loading:false,busy:null};
+async function loadPhotos(force){
+  if(!S.user||PH.loading||(PH.loaded&&!force))return;
+  PH.loading=true;
+  try{
+    const {data,error}=await sb.storage.from('progress').list(S.user.id,{limit:1000,sortBy:{column:'name',order:'desc'}});
+    if(error)throw error;
+    const by={};
+    for(const f of data||[]){ const m=/^(\d{4}-\d{2}-\d{2})_(front|back|side)\.jpg$/.exec(f.name); if(!m)continue;
+      (by[m[1]]=by[m[1]]||{d:m[1]})[m[2]]=`${S.user.id}/${f.name}`; }
+    PH.sets=Object.values(by).sort((a,b)=>a.d<b.d?1:-1);
+    const paths=PH.sets.flatMap(s=>ANGLES.map(([k])=>s[k]).filter(Boolean)).filter(p=>!PH.urls[p]);
+    if(paths.length){
+      const {data:signed}=await sb.storage.from('progress').createSignedUrls(paths,3600);
+      for(const x of signed||[])if(x.signedUrl)PH.urls[x.path]=x.signedUrl;
+    }
+    PH.loaded=true;
+  }catch(e){ console.error(e); }
+  PH.loading=false;
+  if((S.tab==='home'||(S.tab==='track'&&S.trackView==='body'))&&$('#sheet').hidden&&$('#np').hidden)render();
+}
+function shrinkBlob(file,max=1280){
+  return new Promise((res,rej)=>{
+    const img=new Image();
+    img.onload=()=>{ try{
+      const sc=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement('canvas'); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      c.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',0.82);
+    }catch(e){rej(e);} };
+    img.onerror=rej; img.src=URL.createObjectURL(file);
+  });
+}
+async function uploadPhoto(file,date,angle){
+  if(!navigator.onLine){toast('העלאת תמונות דורשת חיבור לרשת');return;}
+  PH.busy=angle; openPhotoSet(date);
+  try{
+    const blob=await shrinkBlob(file);
+    const path=`${S.user.id}/${date}_${angle}.jpg`;
+    const {error}=await sb.storage.from('progress').upload(path,blob,{upsert:true,contentType:'image/jpeg',cacheControl:'3600'});
+    if(error)throw error;
+    const {data:s}=await sb.storage.from('progress').createSignedUrl(path,3600);
+    if(s?.signedUrl)PH.urls[path]=s.signedUrl;
+    let set=PH.sets.find(x=>x.d===date); if(!set){set={d:date};PH.sets.unshift(set);PH.sets.sort((a,b)=>a.d<b.d?1:-1);}
+    set[angle]=path;
+    toast('התמונה נשמרה 📸');
+  }catch(e){ console.error(e); toast('ההעלאה נכשלה — נסה שוב'); }
+  PH.busy=null; openPhotoSet(date);
+}
+async function deletePhoto(date,angle){
+  const set=PH.sets.find(x=>x.d===date); if(!set||!set[angle])return;
+  const path=set[angle];
+  try{ const {error}=await sb.storage.from('progress').remove([path]); if(error)throw error;
+    delete set[angle]; delete PH.urls[path];
+    if(!ANGLES.some(([k])=>set[k]))PH.sets=PH.sets.filter(x=>x!==set);
+    toast('התמונה נמחקה');
+  }catch(e){ toast('המחיקה נכשלה'); }
+  openPhotoSet(date);
+}
+function openPhotoSet(date){
+  const set=PH.sets.find(x=>x.d===date)||{d:date};
+  const nice=date===ymd()?'היום':fmtDateFull(+new Date(date+'T12:00:00'));
+  openSheet(`
+    <h3>תמונות התקדמות · ${nice}</h3>
+    <div class="small muted" style="margin-bottom:10px">אותה תאורה, אותה תנוחה ואותו מרחק בכל שבוע — כך ההשוואה אמינה.</div>
+    <div class="phslots">
+      ${ANGLES.map(([k,l])=>{ const p=set[k]; const u=p&&PH.urls[p];
+        return `<div>
+          <label class="phslot ${p?'has':''}" aria-label="העלאת תמונה ${l}">
+            ${PH.busy===k?'<span>מעלה…</span>':u?`<img src="${esc(u)}" alt="${l}">`:`<span style="font-size:22px">📷</span><span>${l}</span>`}
+            ${u?`<span class="lbl">${l} · החלף</span>`:''}
+            <input type="file" accept="image/*" hidden data-photo-angle="${k}" data-photo-date="${date}">
+          </label>
+          ${p?`<button class="linkbtn small" data-act="photo-del" data-d="${date}" data-a="${k}" style="display:block;margin:4px auto 0;color:var(--danger)">מחק</button>`:''}
+        </div>`;}).join('')}
+    </div>
+    <button class="btn big" style="margin-top:14px" data-act="sheet-close">סיום</button>
+  `);
+}
+function openPhotoCompare(angle){
+  angle=angle||'front';
+  const withA=PH.sets.filter(s=>s[angle]);
+  const first=withA[withA.length-1], last=withA[0];
+  const lbl=ANGLES.find(a=>a[0]===angle)[1];
+  const wOf=d=>{ const w=(S.weights||[]).filter(x=>x.d<=d).pop(); return w?` · ${w.kg} ק״ג`:''; };
+  openSheet(`
+    <h3>השוואה · לפני ואחרי</h3>
+    <div class="row" style="margin-bottom:10px">
+      ${ANGLES.map(([k,l])=>`<button class="chip ${k===angle?'on':''}" data-act="photo-cmp" data-a="${k}">${l}</button>`).join('')}
+    </div>
+    ${withA.length>=2?`<div class="cmpgrid">
+      <figure><img src="${esc(PH.urls[first[angle]]||'')}" alt="${lbl} לפני"><figcaption>${fmtDate(+new Date(first.d+'T12:00:00'))}${wOf(first.d)}</figcaption></figure>
+      <figure><img src="${esc(PH.urls[last[angle]]||'')}" alt="${lbl} עכשיו"><figcaption>${fmtDate(+new Date(last.d+'T12:00:00'))}${wOf(last.d)}</figcaption></figure>
+    </div>`:`<div class="empty">צריך לפחות שתי תמונות ${lbl} מתאריכים שונים כדי להשוות.</div>`}
+    <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>
+  `);
+}
+function photosHTML(){
+  if(!PH.loaded)loadPhotos();
+  const pd=S.settings.photoDay;
+  const today=ymd(), isDay=pd!=null&&new Date().getDay()===+pd;
+  const hasToday=PH.sets.some(s=>s.d===today);
+  return `<div class="sect spread"><span>תמונות התקדמות 📸</span>${PH.sets.length>=2?`<button class="linkbtn small" data-act="photo-cmp" data-a="front" style="font-family:var(--body)">השוואה</button>`:''}</div>
+  <div class="card stack" style="gap:10px">
+    <div class="row small" style="gap:4px;align-items:center">
+      <span class="muted" style="margin-inline-end:4px">יום צילום:</span>
+      ${DAY_LETTERS.map((l,i)=>`<button class="chip" data-act="photo-day" data-d="${i}" style="padding:5px 9px;${+pd===i&&pd!=null?'background:var(--accent);color:var(--accent-ink);border-color:var(--accent)':''}">${l}</button>`).join('')}
+    </div>
+    <button class="btn ${isDay&&!hasToday?'primary':''} big" data-act="photo-open" data-d="${today}">${hasToday?'📸 עדכן את תמונות היום':isDay?'📸 היום יום צילום — צלם עכשיו':'📸 צלם סט תמונות'}</button>
+    ${PH.loading&&!PH.loaded?'<div class="small muted">טוען תמונות…</div>':''}
+    ${PH.sets.length?`<div>
+      ${PH.sets.slice(0,8).map(s=>`<button class="phrow" data-act="photo-open" data-d="${s.d}">
+        <span style="flex:1"><b>${fmtDateFull(+new Date(s.d+'T12:00:00'))}</b><span class="small muted" style="display:block">${ANGLES.filter(([k])=>s[k]).map(a=>a[1]).join(' · ')}</span></span>
+        <span class="phthumbs">${ANGLES.map(([k])=>`<span>${s[k]&&PH.urls[s[k]]?`<img src="${esc(PH.urls[s[k]])}" alt="" loading="lazy">`:''}</span>`).join('')}</span>
+      </button>`).join('')}
+    </div>`:''}
+  </div>`;
+}
+
+/* לוח שנה חודשי של שקילות */
+function bwCalendarHTML(){
+  const now=new Date();
+  const [yy,mm]=(S.calMonth||`${now.getFullYear()}-${now.getMonth()+1}`).split('-').map(Number);
+  const first=new Date(yy,mm-1,1), daysIn=new Date(yy,mm,0).getDate();
+  const today=ymd();
+  const byDay={}; for(const p of S.weights||[])byDay[p.d]=p.kg;
+  const sorted=(S.weights||[]).map(p=>p.d).sort();
+  const prevOf=d=>{ let pv=null; for(const x of sorted){ if(x>=d)break; pv=x; } return pv?byDay[pv]:null; };
+  const monthVals=[]; for(let i=1;i<=daysIn;i++){ const k=ymd(new Date(yy,mm-1,i)); if(byDay[k]!=null)monthVals.push(byDay[k]); }
+  const isCur=yy===now.getFullYear()&&mm===now.getMonth()+1;
+  let cells='';
+  for(let i=0;i<first.getDay();i++)cells+='<span></span>';
+  for(let i=1;i<=daysIn;i++){
+    const k=ymd(new Date(yy,mm-1,i)); const v=byDay[k]; const fut=k>today;
+    let cls='calday'; if(k===today)cls+=' tdy'; if(v!=null)cls+=' has';
+    let col='';
+    if(v!=null){ const pv=prevOf(k); if(pv!=null)col=v<pv?'var(--accent)':v>pv?'var(--gold)':''; }
+    cells+=fut?`<span class="${cls}" style="opacity:.35"><i>${i}</i></span>`
+      :`<button class="${cls}" data-act="cal-day" data-d="${k}" aria-label="${i} ${v!=null?v+' ק״ג':'ללא שקילה'}"><i>${i}</i>${v!=null?`<b class="num" style="${col?`color:${col}`:''}">${v}</b>`:''}</button>`;
+  }
+  const monthName=first.toLocaleDateString('he-IL',{month:'long',year:'numeric'});
+  const chg=monthVals.length>1?Math.round((monthVals[monthVals.length-1]-monthVals[0])*10)/10:null;
+  const avg=monthVals.length?Math.round(monthVals.reduce((a,b)=>a+b,0)/monthVals.length*10)/10:null;
+  return `<div class="sect">לוח שקילות</div>
+  <div class="card">
+    <div class="spread" style="margin-bottom:8px">
+      <button class="btn" data-act="cal-nav" data-dir="-1" aria-label="חודש קודם" style="padding:6px 12px">›</button>
+      <b>${monthName}</b>
+      <button class="btn" data-act="cal-nav" data-dir="1" aria-label="חודש הבא" ${isCur?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>‹</button>
+    </div>
+    <div class="calgrid">
+      ${DAY_LETTERS.map(l=>`<span class="calhd">${l}</span>`).join('')}
+      ${cells}
+    </div>
+    <div class="spread small muted" style="margin-top:10px">
+      <span>${monthVals.length?`${monthVals.length} שקילות · ממוצע <b class="num">${avg}</b>`:'אין שקילות בחודש הזה'}</span>
+      <span>${chg!==null?`<b class="num" style="color:${chg<0?'var(--accent)':chg>0?'var(--gold)':'inherit'}">${chg>0?'+':''}${chg} ק״ג</b> בחודש`:'נגיעה ביום = הוספה'}</span>
+    </div>
+  </div>`;
+}
 function bwLogHTML(){
   const ws=S.weights||[]; if(!ws.length)return '';
   return `<div class="sect">יומן שקילות</div>
@@ -1499,7 +1698,7 @@ function bwLogHTML(){
 function nutritionWeekHTML(){
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
   const days=[];
-  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10);
+  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=ymd(d);
     days.push({ds,dow:d.getDay(),t:dayTotals(ds),has:mealsOf(ds).length>0}); }
   const logged=days.filter(x=>x.has);
   if(!logged.length)return '';
@@ -1523,15 +1722,20 @@ function nutritionWeekHTML(){
     ${pT?`<div class="small muted" style="margin-top:8px">${avgP>=pT?'✓ עומד ביעד החלבון':`חסרים בממוצע ${pT-avgP} גר׳ חלבון ביום`}</div>`:''}
   </div>`;
 }
-function openWeighIn(){
-  const ws=S.weights||[]; const last=ws[ws.length-1];
-  openNumpad({ title:`שקילה היום${last?` · קודם: ${last.kg} ק״ג`:''}`, unit:'ק״ג', mode:'num', value:0, apply(v){ saveBodyweight(v); } });
+function openWeighIn(date){
+  const d=date||ymd();
+  const ws=S.weights||[]; const cur=ws.find(x=>x.d===d); const last=ws[ws.length-1];
+  const label=d===ymd()?'שקילה היום':`שקילה · ${fmtDate(+new Date(d+'T12:00:00'))}`;
+  openNumpad({ title:`${label}${cur?` · רשום: ${cur.kg} ק״ג`:last?` · אחרונה: ${last.kg} ק״ג`:''}`,
+    unit:'ק״ג', mode:'num', value:0,
+    apply(v){ if(!v){ if(cur)toast('לא נשמר — הקלד משקל'); return; } saveBodyweight(v,d); },
+    extra:cur?{label:'מחק',fn(){ deleteBodyweight(d); }}:null });
 }
 /* משקל גוף — הגרסה הקודמת, נשמרת לתאימות */
 function bodyweightHTML(){
   const ws=S.weights||[];
   const last=ws[ws.length-1];
-  const today=new Date().toISOString().slice(0,10);
+  const today=ymd();
   let chart='';
   if(ws.length>=2){
     const W=520,H=150,L=44,R=14,Tp=14,B=24;
@@ -1567,10 +1771,15 @@ function bodyweightHTML(){
     </div>`:''}
   </div>`;
 }
-async function saveBodyweight(val){
+async function deleteBodyweight(d){
+  S.weights=(S.weights||[]).filter(x=>x.d!==d); saveSnapshot(); render();
+  try{ const {error}=await sb.from('bodyweight').delete().eq('d',d); if(error)throw error; toast('השקילה נמחקה'); }
+  catch(e){ toast('המחיקה נכשלה — בדוק חיבור'); }
+}
+async function saveBodyweight(val,date){
   const v=val!=null?+val:parseFloat(($('#bw-input')?.value||'').replace(',','.'));
   if(!v||v<25||v>400){toast('הקלד משקל תקין בק״ג');return;}
-  const d=new Date().toISOString().slice(0,10);
+  const d=date||ymd();
   S.weights=(S.weights||[]).filter(x=>x.d!==d); S.weights.push({d,kg:v}); S.weights.sort((a,b)=>a.d<b.d?-1:1);
   saveSnapshot(); render();
   const row={user_id:S.user.id,d,kg:v};
@@ -1710,8 +1919,8 @@ function renderNumpad(){
     <div class="npstep"><button data-npadd="-15">−15</button><button data-npadd="15">+15</button></div>`;
   }else{ // num — ספרות חופשיות (אירובי, משקל גוף)
     body=`<div class="npdigits">
-      ${[7,8,9,4,5,6,1,2,3].map(n=>`<button data-npd="${n}" class="num">${n}</button>`).join('')}
-      <button data-npd=".">.</button><button data-npd="0" class="num">0</button><button data-npc="back">⌫</button>
+      ${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-npd="${n}" class="num">${n}</button>`).join('')}
+      <button data-npd="." aria-label="נקודה עשרונית">.</button><button data-npd="0" class="num">0</button><button data-npc="back" aria-label="מחק ספרה">⌫</button>
     </div>`;
   }
   $('#np').innerHTML=`
@@ -1721,7 +1930,7 @@ function renderNumpad(){
     <div class="npact">
       ${c.next?`<button class="btn primary big" style="flex:2" data-npc="next">בחרתי — לחזרות ←</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
        :c.applyDone?`<button class="btn primary big" style="flex:2" data-npc="savedone">שמור סט ✓</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
-       :`<button class="btn primary big" data-npc="save">שמור</button>`}
+       :`${c.extra?`<button class="btn danger big" style="flex:1" data-npc="extra">${esc(c.extra.label)}</button>`:''}<button class="btn primary big" style="flex:2" data-npc="save">שמור</button>`}
     </div>`;
   const rack=$('#rack');
   if(rack){
@@ -1782,6 +1991,7 @@ document.addEventListener('click',ev=>{
   else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
   else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); return; }
   else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
+  else if(t.dataset.npc==='extra'){ const c=NP.cfg; closeNumpad(); c.extra&&c.extra.fn(); return; }
   else if(t.dataset.npc==='next'){ const c=NP.cfg, v=NP.val; closeNumpad(); c.apply(v); c.next&&c.next(); return; }
   npUpdate();
 });
@@ -2123,7 +2333,7 @@ function handleAct(b,ev){
     case 'notif-on': ensureNotifPerm().then(ok=>{toast(ok?'ההתראות הופעלו 🔔':'ההרשאה לא אושרה');render();}); break;
     case 'notif-dis': try{localStorage.setItem('np-dis','1');}catch(e){} render(); break;
     case 'food-nav': { const dt=new Date(S.foodDate+'T12:00:00'); dt.setDate(dt.getDate()+(+b.dataset.dir));
-      const nd=dt.toISOString().slice(0,10), today=new Date().toISOString().slice(0,10);
+      const nd=ymd(dt), today=ymd();
       if(nd<=today){S.foodDate=nd;render();} break; }
     case 'food-ai': { const txt=($('#food-text')?.value||'').trim();
       if(!txt){toast('כתוב מה אכלת');break;} foodAI({text:txt}); break; }
@@ -2192,6 +2402,17 @@ function handleAct(b,ev){
     case 'track-view': S.trackView=b.dataset.v; render(); break;
     case 'bw-save': saveBodyweight(); break;
     case 'bw-quick': openWeighIn(); break;
+    case 'cal-day': openWeighIn(b.dataset.d); break;
+    case 'cal-nav': { const n=new Date(); const [yy,mm]=(S.calMonth||`${n.getFullYear()}-${n.getMonth()+1}`).split('-').map(Number);
+      const t=new Date(yy,mm-1+(+b.dataset.dir),1);
+      if(t>new Date(n.getFullYear(),n.getMonth(),1))break;
+      S.calMonth=`${t.getFullYear()}-${t.getMonth()+1}`; render(); break; }
+    case 'photo-open': openPhotoSet(b.dataset.d); break;
+    case 'photo-del': deletePhoto(b.dataset.d,b.dataset.a); break;
+    case 'photo-cmp': openPhotoCompare(b.dataset.a); break;
+    case 'photo-day': { const d=+b.dataset.d; S.settings.photoDay=(S.settings.photoDay!=null&&+S.settings.photoDay===d)?null:d;
+      persistSettings(); render();
+      if(S.settings.photoDay!=null)toast(`יום צילום: ${DAY_NAMES[d]} — נזכיר לך בבוקר אם התזכורות פעילות`); break; }
     case 'share-w': { const w=S.workouts.find(x=>x.id===b.dataset.id); if(w)shareText(workoutShareText(w)); break; }
     case 'share-active': { if(S.active)shareText(workoutShareText({...clone(S.active),end:Date.now()})); break; }
     case 'auth-go': doAuth(); break;
@@ -2218,6 +2439,10 @@ document.addEventListener('input',ev=>{
   else if(k==='tplf'){ const e=_tplDraft?.ex[+i.dataset.i]; if(e){const f=i.dataset.f; e[f]=f==='reps'?i.value:(+i.value||0);} }
 });
 document.addEventListener('change',ev=>{
+  if(ev.target.dataset&&ev.target.dataset.photoAngle&&ev.target.files&&ev.target.files[0]){
+    const f=ev.target.files[0], a=ev.target.dataset.photoAngle, d=ev.target.dataset.photoDate; ev.target.value='';
+    uploadPhoto(f,d,a); return;
+  }
   if(ev.target.id==='food-photo'&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0]; ev.target.value='';
     toast('מעבד תמונה…');
@@ -2297,7 +2522,7 @@ async function enterApp(user){
       sb.from('workouts').select('id,name,start_ts,end_ts,ex'),
       sb.from('settings').select('rest,active,prefs').maybeSingle(),
       sb.from('bodyweight').select('d,kg').order('d'),
-      sb.from('meals').select('id,d,ts,name,kcal,protein,carbs,fat,items').gte('d',new Date(Date.now()-60*864e5).toISOString().slice(0,10)),
+      sb.from('meals').select('id,d,ts,name,kcal,protein,carbs,fat,items').gte('d',ymd(new Date(Date.now()-60*864e5))),
     ]);
     if(tpl.error||wo.error)throw tpl.error||wo.error;
     S.templates=(tpl.data||[]).map(r=>({id:r.id,name:r.name,order:r.ord||0,ex:r.ex||[]}));
@@ -2307,7 +2532,7 @@ async function enterApp(user){
     if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null;
       S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},st.data.prefs?.notif);
       S.settings.schedule=st.data.prefs?.schedule||{};
-      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; }
+      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; }
     if(!S.templates.length){ // משתמש חדש — טעינת תוכניות ברירת המחדל
       S.templates=clone(DEFAULT_TEMPLATES);
       sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{});
@@ -2321,7 +2546,7 @@ async function enterApp(user){
   }
   const localA=loadLocalActive();
   if(localA&&(!S.active||((localA.start===S.active.start)&&JSON.stringify(localA).length>=JSON.stringify(S.active).length)))S.active=localA;
-  S.mode='app'; render(); updateSyncBadge(); trySync();
+  S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos();
   if(S.active){startClock();keepAwake(true);}
 }
 function hideSplash(){
@@ -2338,7 +2563,7 @@ function hideSplash(){
   hideSplash();
   sb.auth.onAuthStateChange((ev,sess)=>{
     if(sess&&!S.user)enterApp(sess.user);
-    if(ev==='SIGNED_OUT'){S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
+    if(ev==='SIGNED_OUT'){PH.sets=[];PH.urls={};PH.loaded=false;S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
   });
 })();
 </script>
