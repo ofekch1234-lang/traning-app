@@ -268,6 +268,14 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 @media (prefers-reduced-motion:no-preference){ .demo .fb{animation:demoflip 2.4s ease-in-out infinite} }
 @keyframes demoflip{0%,30%{opacity:0}45%,80%{opacity:1}95%,100%{opacity:0}}
 .libthumb{width:42px;height:32px;border-radius:6px;object-fit:cover;background:#fff;border:1px solid var(--line);flex-shrink:0}
+/* reorder mode */
+.rlist{display:flex;flex-direction:column;gap:8px}
+.rrow{display:flex;align-items:center;gap:10px;padding:10px 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:grab}
+.rrow .rname{flex:1;min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rarrow{width:38px;height:38px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);font-size:13px;color:var(--ink);flex-shrink:0}
+.rarrow:disabled{opacity:.3}
+.drag-drag{opacity:.95!important;box-shadow:0 14px 34px rgba(10,20,14,.28);transform:scale(1.02)}
 /* drag to reorder */
 .drag-h{cursor:grab;touch-action:none;padding:6px 8px;color:var(--muted);font-size:18px;line-height:1;user-select:none;-webkit-user-select:none}
 .drag-ghost{opacity:.35}
@@ -2089,20 +2097,23 @@ function addExercise(n,g){
 let _tplDraft=null;
 function renderTplEditor(){
   const t=_tplDraft;
+  if(t._reorder)return renderTplReorder();
   openSheet(`
     <h3>${t.isNew?'תוכנית חדשה':'עריכת תוכנית'}</h3>
     <div class="label" style="margin-bottom:4px">שם התוכנית</div>
     <input id="tpl-name" data-bind="tpln" value="${esc(t.name)}" placeholder="למשל: אימון A — דחיפה">
-    <div class="label" style="margin:14px 0 4px">תרגילים (${t.ex.length})${t.ex.length>1?' · <span style="letter-spacing:0">גרור ⠿ לשינוי הסדר</span>':''}</div>
-    <div class="stack" style="gap:10px" id="tpl-list">
+    <div class="spread" style="margin:14px 0 6px">
+      <span class="label">תרגילים (${t.ex.length})</span>
+      ${t.ex.length>1?`<button class="btn" data-act="tpl-reorder" style="padding:7px 12px;font-size:13.5px">↕ סדר מחדש</button>`:''}
+    </div>
+    <div class="stack" style="gap:10px">
       ${t.ex.map((e,i)=>`<div style="border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--surface)">
         <div class="spread" style="flex-wrap:nowrap">
-          <span class="drag-h" aria-label="גרור לשינוי סדר">⠿</span>
           ${EXDB[e.n]?`<img class="libthumb" ${exImg(EXDB[e.n],0)} alt="" loading="lazy">`:''}
           <button data-act="lib-info-tpl" data-n="${esc(e.n)}" style="flex:1;text-align:right;padding:0;min-width:0">
             <b style="font-size:14.5px">${i+1}. ${esc(e.n)}</b> <span class="muted small">· ${esc(e.m)}</span>
           </button>
-          <button class="btn danger" data-act="tpl-rm-ex" data-i="${i}" style="padding:4px 8px">✕</button>
+          <button class="btn danger" data-act="tpl-rm-ex" data-i="${i}" style="padding:4px 8px" aria-label="הסר תרגיל">✕</button>
         </div>
         ${e.t==='c'?'':`<div class="setgrid" style="grid-template-columns:1fr 1.4fr 1fr;margin-top:8px">
           <span class="h">סטים</span><span class="h">חזרות (יעד)</span><span class="h">מנוחה (שנ׳)</span>
@@ -2118,14 +2129,40 @@ function renderTplEditor(){
       <button class="btn" style="flex:1" data-act="sheet-close">ביטול</button>
       <button class="btn primary" style="flex:1" data-act="tpl-save">שמור</button>
     </div>
-  `);  loadSortable().then(()=>{
-    const el=document.getElementById('tpl-list'); if(!el||!window.Sortable)return;
-    Sortable.create(el,{handle:'.drag-h',animation:180,ghostClass:'drag-ghost',chosenClass:'drag-chosen',
+  `);
+}
+/* מצב סידור מחדש: שורות קומפקטיות — גרירה בכל השורה + חיצים ▲▼ */
+function renderTplReorder(){
+  const t=_tplDraft;
+  openSheet(`
+    <h3>סדר התרגילים</h3>
+    <div class="small muted" style="margin-bottom:10px">החזק שורה וגרור למקום החדש, או השתמש בחיצים.</div>
+    <div id="tpl-rlist" class="rlist">
+      ${t.ex.map((e,i)=>`<div class="rrow" data-i="${i}">
+        <span class="drag-h" aria-hidden="true">⠿</span>
+        ${EXDB[e.n]?`<img class="libthumb" ${exImg(EXDB[e.n],0)} alt="" loading="lazy">`:''}
+        <span class="rname"><b class="num">${i+1}.</b> ${esc(e.n)}</span>
+        <button class="rarrow" data-act="tpl-move" data-i="${i}" data-dir="-1" ${i===0?'disabled':''} aria-label="הזז למעלה">▲</button>
+        <button class="rarrow" data-act="tpl-move" data-i="${i}" data-dir="1" ${i===t.ex.length-1?'disabled':''} aria-label="הזז למטה">▼</button>
+      </div>`).join('')}
+    </div>
+    <button class="btn primary big" style="margin-top:14px" data-act="tpl-reorder-done">סיום ✓</button>
+  `);
+  loadSortable().then(()=>{
+    const el=document.getElementById('tpl-rlist'); if(!el||!window.Sortable)return;
+    Sortable.create(el,{
+      draggable:'.rrow', filter:'.rarrow', preventOnFilter:false,
+      forceFallback:true, fallbackOnBody:true, fallbackTolerance:4,
+      animation:200, easing:'cubic-bezier(.2,.8,.3,1)',
+      ghostClass:'drag-ghost', chosenClass:'drag-chosen', dragClass:'drag-drag',
+      scroll:document.getElementById('sheet'), scrollSensitivity:80, scrollSpeed:14, bubbleScroll:true,
+      onChoose(){ vibrate(8); },
       onEnd(ev){ if(ev.oldIndex===ev.newIndex||!_tplDraft)return;
-        const [m]=_tplDraft.ex.splice(ev.oldIndex,1); _tplDraft.ex.splice(ev.newIndex,0,m); vibrate(12); renderTplEditor(); }});
+        const [m]=_tplDraft.ex.splice(ev.oldIndex,1); _tplDraft.ex.splice(ev.newIndex,0,m); vibrate(12);
+        requestAnimationFrame(renderTplReorder); }
+    });
   }).catch(()=>{});
 }
-
 function shortName(n){ return String(n).replace(/^אימון\s*/,'').split('—')[0].trim().slice(0,8)||n; }
 function renderSchedPicker(d){
   const cur=(S.settings.schedule||{})[String(d)];
@@ -2370,6 +2407,11 @@ function handleAct(b,ev){
         <div style="margin-bottom:14px">${ytLink(n)}</div>
         <button class="btn big" data-act="tpl-back">חזרה לעריכה</button>`); break; }
     case 'tpl-back': if(_tplDraft)renderTplEditor(); break;
+    case 'tpl-reorder': if(_tplDraft){_tplDraft._reorder=true; renderTplEditor();} break;
+    case 'tpl-reorder-done': if(_tplDraft){_tplDraft._reorder=false; renderTplEditor();} break;
+    case 'tpl-move': { if(!_tplDraft)break; const i=+b.dataset.i, j=i+(+b.dataset.dir);
+      if(j<0||j>=_tplDraft.ex.length)break;
+      const ex=_tplDraft.ex; [ex[i],ex[j]]=[ex[j],ex[i]]; vibrate(10); renderTplReorder(); break; }
     case 'cardio-done': { const e=S.active.ex[+b.dataset.ei]; e.c.done=!e.c.done; persistActive(); render(); break; }
     case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings();
       if(!$('#sheet').hidden)renderSettings(); else render(); break;
@@ -2442,7 +2484,7 @@ function handleAct(b,ev){
     case 'tpl-add-ex': { if(_tplDraft)_tplDraft.name=$('#tpl-name')?.value||_tplDraft.name; openLibrary('tpl'); break; }
     case 'tpl-rm-ex': _tplDraft.ex.splice(+b.dataset.i,1); renderTplEditor(); break;
     case 'tpl-save': { _tplDraft.name=($('#tpl-name')?.value||'').trim()||'תוכנית ללא שם';
-      const {isNew,...t}=_tplDraft; saveTemplate(t); closeSheet(); toast('התוכנית נשמרה'); break; }
+      const {isNew,_reorder,...t}=_tplDraft; saveTemplate(t); closeSheet(); toast('התוכנית נשמרה'); break; }
     case 'tpl-del': deleteTemplate(_tplDraft.id); closeSheet(); break;
     case 'hist-toggle': S.openHist[b.dataset.id]=!S.openHist[b.dataset.id]; S.confirmDel=null; render(); break;
     case 'hist-del1': S.confirmDel=b.dataset.id; render(); break;
