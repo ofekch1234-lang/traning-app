@@ -268,6 +268,16 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 @media (prefers-reduced-motion:no-preference){ .demo .fb{animation:demoflip 2.4s ease-in-out infinite} }
 @keyframes demoflip{0%,30%{opacity:0}45%,80%{opacity:1}95%,100%{opacity:0}}
 .libthumb{width:42px;height:32px;border-radius:6px;object-fit:cover;background:#fff;border:1px solid var(--line);flex-shrink:0}
+/* food database search */
+.fsugg{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.fs-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 12px;border-bottom:1px solid var(--line);border-radius:0;text-align:right}
+.fs-name{flex:1;min-width:0;font-size:14.5px}
+.fs-val{flex-shrink:0;font-weight:600;font-size:14px}
+.fs-val small{font-weight:400;color:var(--muted);font-size:10.5px}
+.fs-foot{padding:8px 12px;background:var(--surface2)}
+.basket{border:1.5px solid var(--accent);border-radius:12px;padding:10px 12px;background:var(--accent-soft)}
+.bitem{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.bitem>span:first-child{flex:1;min-width:0}
 /* reorder mode */
 .rlist{display:flex;flex-direction:column;gap:8px}
 .rrow{display:flex;align-items:center;gap:10px;padding:10px 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);
@@ -441,7 +451,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='2.5';
+const APP_VERSION='2.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -562,7 +572,7 @@ const fmtRest=s=>s>=60?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} דק
 const S={
   mode:'boot', user:null, authMode:'login', authEmail:'',
   workouts:[], templates:[], weights:[], meals:[],
-  foodDate:ymd(), ai:{busy:false}, trackView:'body',
+  foodDate:ymd(), ai:{busy:false}, trackView:'body', basket:[], foodSugg:[],
   active:null,                       // {start, name, tid, ex:[{n,m,t,sets:[{w,r,done}],c:{min,km,inc,done}}]}
   settings:{rest:90,notif:{rest:true,pr:true,sound:true,vib:true}},
   tab:(location.hash||'').replace('#','')||'home',
@@ -1058,7 +1068,13 @@ function vFood(){
     </div>
     ${d===today?`
     <div class="card hot stack" style="gap:10px">
-      <input id="food-text" type="text" placeholder="מה אכלת? למשל: שניצל, אורז וסלט…" ${S.ai.busy?'disabled':''}>
+      <input id="food-text" type="search" autocomplete="off" data-bind="foodq" placeholder="חפש מזון או תאר ארוחה…" ${S.ai.busy?'disabled':''}>
+      <div id="food-sugg" class="fsugg" hidden></div>
+      ${S.basket.length?`<div class="basket">
+        <div class="spread small"><b>הארוחה שבהרכבה</b><span class="num muted">${Math.round(S.basket.reduce((a,i)=>a+i.kcal,0))} קק״ל · ${Math.round(S.basket.reduce((a,i)=>a+i.protein,0))} גר׳ חלבון</span></div>
+        ${S.basket.map((it,i)=>`<div class="bitem"><span>${esc(it.name)} <span class="muted small">· ${esc(it.portion)}</span></span><span class="num">${it.kcal}</span><button class="linkbtn small" data-act="basket-rm" data-i="${i}" aria-label="הסר" style="color:var(--danger)">✕</button></div>`).join('')}
+        <div class="row" style="margin-top:6px"><button class="btn" data-act="basket-clear">נקה</button><button class="btn primary" style="flex:1" data-act="basket-save">שמור ארוחה ✓ (${S.basket.length})</button></div>
+      </div>`:''}
       <div class="row" style="flex-wrap:nowrap;align-items:stretch">
         <button class="btn primary actmain" data-act="food-ai" ${S.ai.busy?'disabled':''} style="flex:2.1">
           ${S.ai.busy?'<span class="npval" style="font-size:16px">מנתח…</span>':`<svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9z"/></svg> נתח עם AI`}
@@ -1123,7 +1139,9 @@ async function foodAI(payload){
     openMealConfirm(data);
   }catch(e){
     console.error(e);
-    toast(navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
+    const st=e?.context?.status;
+    toast(st===429?'הגעת למכסת ניתוחי ה-AI היומית — אפשר לחפש במאגר או להוסיף ידנית'
+      :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
   }
   S.ai.busy=false; render();
 }
@@ -1150,6 +1168,81 @@ function openMealConfirm(data){
   `);
 }
 let _mealDraft=null;
+/* ----- מאגר התזונה הלאומי (משרד הבריאות) — חיפוש חינמי, בלי AI ----- */
+async function foodSearch(q){
+  const box=document.getElementById('food-sugg'); if(!box)return;
+  q=(q||'').trim();
+  if(q.length<2){ box.hidden=true; box.innerHTML=''; return; }
+  const my=(foodSearch._seq=(foodSearch._seq||0)+1);
+  try{
+    const {data,error}=await sb.rpc('search_foods',{q,lim:7});
+    if(my!==foodSearch._seq)return; if(error)throw error;
+    S.foodSugg=data||[];
+    box.innerHTML=S.foodSugg.length
+      ? S.foodSugg.map((f,i)=>`<button class="fs-row" data-act="food-pick" data-i="${i}">
+          <span class="fs-name">${esc(f.name)}</span>
+          <span class="fs-val num">${Math.round(+f.kcal||0)} <small>קק״ל/100ג׳</small></span></button>`).join('')
+        +`<div class="fs-foot small muted">מתוך מאגר התזונה הלאומי · לא מצאת? לחץ ✨ לניתוח AI</div>`
+      : `<div class="fs-foot small muted">לא נמצא במאגר — לחץ ✨ נתח עם AI כדי לנתח את התיאור</div>`;
+    box.hidden=false;
+  }catch(e){ box.hidden=true; }
+}
+let _portion=null;
+function openPortion(f){
+  const units=(f.units||[]).map(u=>({u:u.u,g:+u.g})).filter(u=>u.g>0);
+  const pref=['יחידה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
+  const def=pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
+  _portion={f,units,unit:def,qty:def?1:100};
+  renderPortion();
+}
+function portionCalc(){
+  const p=_portion; const grams=p.unit?p.qty*p.unit.g:p.qty;
+  const k=v=>Math.round((+v||0)*grams/100);
+  return {grams:Math.round(grams),kcal:k(p.f.kcal),protein:k(p.f.protein),carbs:k(p.f.carbs),fat:k(p.f.fat)};
+}
+function renderPortion(){
+  const p=_portion, c=portionCalc();
+  openSheet(`
+    <h3 style="font-size:20px">${esc(p.f.name)}</h3>
+    <div class="small muted" style="margin:-6px 0 12px">ל-100 גר׳: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}</div>
+    <div class="label" style="margin-bottom:6px">יחידת מידה</div>
+    <div class="row" style="gap:6px;margin-bottom:12px">
+      ${p.units.map((u,i)=>`<button class="chip ${p.unit&&p.unit.u===u.u?'on':''}" data-act="portion-unit" data-i="${i}">${esc(u.u)} <span class="muted num">(${u.g}ג׳)</span></button>`).join('')}
+      <button class="chip ${!p.unit?'on':''}" data-act="portion-unit" data-i="-1">גרמים</button>
+    </div>
+    <div class="label" style="margin-bottom:6px">כמות</div>
+    <div class="row" style="flex-wrap:nowrap;align-items:center;gap:10px">
+      <button class="rarrow" data-act="portion-step" data-d="-1" aria-label="פחות" style="width:48px;height:48px;font-size:22px">−</button>
+      <input id="portion-qty" class="num" type="text" readonly data-np="num" data-bind="pqty" data-unit="${p.unit?esc(p.unit.u):'גרם'}" aria-label="כמות"
+        value="${p.qty}" style="flex:1;text-align:center;font-family:var(--disp);font-size:30px;padding:6px">
+      <button class="rarrow" data-act="portion-step" data-d="1" aria-label="יותר" style="width:48px;height:48px;font-size:22px">+</button>
+    </div>
+    <div class="summary-grid" style="grid-template-columns:repeat(4,1fr);margin-top:14px">
+      <div class="tile"><div class="v num" style="font-size:24px">${c.kcal}</div><div class="k">קק״ל</div></div>
+      <div class="tile"><div class="v num" style="font-size:24px">${c.protein}</div><div class="k">חלבון</div></div>
+      <div class="tile"><div class="v num" style="font-size:24px">${c.carbs}</div><div class="k">פחמימה</div></div>
+      <div class="tile"><div class="v num" style="font-size:24px">${c.fat}</div><div class="k">שומן</div></div>
+    </div>
+    <div class="small muted" style="text-align:center;margin-bottom:12px">סה״כ ${c.grams} גרם</div>
+    <div class="row"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button>
+      <button class="btn primary" style="flex:2" data-act="portion-add">הוסף לארוחה ✓</button></div>
+  `);
+}
+function addPortionToBasket(){
+  const p=_portion; if(!p)return; const c=portionCalc(); if(!c.grams)return;
+  const portion=p.unit?`${p.qty} ${p.unit.u}`:`${c.grams} גר׳`;
+  S.basket.push({name:p.f.name.split(',')[0].trim()||p.f.name,full:p.f.name,code:p.f.code,portion,grams:c.grams,kcal:c.kcal,protein:c.protein,carbs:c.carbs,fat:c.fat});
+  _portion=null; closeSheet(); render(); toast('נוסף לארוחה ✓');
+}
+function saveBasket(){
+  if(!S.basket.length)return;
+  const items=S.basket.map(i=>({name:`${i.name} (${i.portion})`,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat}));
+  const tot=items.reduce((a,i)=>({kcal:a.kcal+i.kcal,protein:a.protein+i.protein,carbs:a.carbs+i.carbs,fat:a.fat+i.fat}),{kcal:0,protein:0,carbs:0,fat:0});
+  const h=new Date().getHours();
+  const nm=S.basket.length===1?S.basket[0].name:(h<11?'ארוחת בוקר':h<16?'ארוחת צהריים':h<20?'ארוחת ערב':'ארוחת לילה');
+  for(const i of S.basket)if(i.code)sb.rpc('bump_food',{c:i.code}).then(()=>{},()=>{});
+  _mealDraft={name:nm,items,...tot}; S.basket=[]; saveMealDraft();
+}
 /* צפייה ועריכת ארוחה: מרכיבים, קלוריות וחלבון לכל פריט */
 let _mealEdit=null;
 function openMealEdit(id){
@@ -1211,7 +1304,7 @@ function shrinkImage(file){
   return new Promise((res,rej)=>{
     const img=new Image();
     img.onload=()=>{ try{
-      const MAX=1024, sc=Math.min(1,MAX/Math.max(img.width,img.height));
+      const MAX=768, sc=Math.min(1,MAX/Math.max(img.width,img.height));
       const c=document.createElement('canvas'); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
       c.getContext('2d').drawImage(img,0,0,c.width,c.height);
       res(c.toDataURL('image/jpeg',0.8).split(',')[1]);
@@ -2503,6 +2596,15 @@ function handleAct(b,ev){
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
+    case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(f)openPortion(f); break; }
+    case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
+      _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
+    case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:10;
+      _portion.qty=Math.max(st,Math.round((_portion.qty+st*(+b.dataset.d))*10)/10); renderPortion(); break; }
+    case 'portion-add': addPortionToBasket(); break;
+    case 'basket-rm': S.basket.splice(+b.dataset.i,1); render(); break;
+    case 'basket-clear': S.basket=[]; render(); break;
+    case 'basket-save': saveBasket(); break;
     case 'meal-open': openMealEdit(b.dataset.id); break;
     case 'meal-item-del': { if(_mealEdit){_mealEdit.items.splice(+b.dataset.i,1); renderMealEdit();} break; }
     case 'meal-item-add': { if(_mealEdit){_mealEdit.items.push({name:'',kcal:0,protein:0,carbs:0,fat:0}); renderMealEdit();} break; }
@@ -2578,7 +2680,9 @@ document.addEventListener('input',ev=>{
   if(k==='w'||k==='r'){ const s=S.active?.ex[+i.dataset.ei]?.sets[+i.dataset.si]; if(s){s[k]=i.value; persistActive();} }
   else if(k==='cmin'||k==='ckm'||k==='cinc'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc'}[k]]=i.value; persistActive();} }
   else if(k==='libq'){ S.lib.q=i.value; renderLibrary(); }
+  else if(k==='foodq'){ clearTimeout(foodSearch._t); foodSearch._t=setTimeout(()=>foodSearch(i.value),220); }
   else if(k==='tpln'){ if(_tplDraft)_tplDraft.name=i.value; }
+  else if(k==='pqty'&&_portion){ const v=+String(i.value).replace(',','.'); if(v>0){_portion.qty=v; renderPortion();} }
   else if(k==='mif'){ if(!_mealEdit)return;
     if(i.dataset.mf==='mealname'){_mealEdit.name=i.value;return;}
     const it=_mealEdit.items[+i.dataset.mi]; if(!it)return;

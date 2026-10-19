@@ -22,6 +22,12 @@ Deno.serve(async (req: Request) => {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: cors });
 
+    // מכסה: עד 30 ניתוחי AI ל-24 שעות למשתמש — הגנה מניצול לרעה של המפתח
+    const DAILY_LIMIT = 30;
+    const { count } = await sb.from("ai_usage").select("id", { count: "exact", head: true })
+      .eq("user_id", user.id).gte("created_at", new Date(Date.now() - 864e5).toISOString());
+    if ((count ?? 0) >= DAILY_LIMIT) return new Response(JSON.stringify({ error: "quota", limit: DAILY_LIMIT }), { status: 429, headers: cors });
+
     const body = await req.json();
     const content: unknown[] = [];
     if (body.image) {
