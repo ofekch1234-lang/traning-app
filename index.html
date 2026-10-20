@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=73b502d8"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=73b502d8"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=73b502d8"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=209a6850"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=209a6850"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=209a6850"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -425,7 +425,17 @@ body.landing #app{max-width:1120px}
 .ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
 .gconsent a{color:inherit;text-decoration:underline}
 .gsi-wrap{display:flex;justify-content:center;min-height:44px}
-.otp-in{font-size:30px;letter-spacing:10px;text-align:center;font-weight:700}
+.otp-in{font-size:34px;letter-spacing:14px;text-align:center;font-weight:700;height:68px;padding-inline-start:14px;font-family:var(--body)}
+.otp-in::placeholder{letter-spacing:14px;color:var(--line)}
+#authwrap.code{padding-top:max(14px,env(safe-area-inset-top));min-height:calc(100dvh - 20px)}
+#authwrap.code .logo{flex-direction:row;justify-content:center;gap:8px;margin-bottom:2px}
+#authwrap.code .logo img{width:34px;height:34px;border-radius:9px}
+#authwrap.code .logo .brand{font-size:24px}
+#authwrap.code h3{font-size:24px}
+#authwrap.code .card{padding:20px 18px;gap:14px}
+#authwrap.code .btn.primary.big{height:56px;font-size:18px}
+.otp-mail{display:flex;align-items:center;gap:8px;background:var(--surface2);border-radius:12px;padding:10px 12px;font-size:14px}
+.otp-mail b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
 .pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:var(--start);padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
 .pb-cta .pb-ic{font-size:28px}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
@@ -1150,7 +1160,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.2';
+const APP_VERSION='11.2.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1535,17 +1545,17 @@ function vOtp(){
       <button class="linkbtn" data-act="auth-g" data-v="x" style="color:var(--muted)">לא משנה לי</button>
       ${IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
     </div></div>`;
-  return `<div id="authwrap">
+  return `<div id="authwrap" class="${code?'code':''}">
     <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div>${code?'':langPillsHTML()}</div>
     <div class="card stack">
-      <h3 style="margin:0">${code?'הקלד את הקוד':'כניסה או הרשמה'}</h3>
-      <div class="muted small">${code?`שלחנו קוד למייל שלך. הוא תקף לשעה.<b dir="ltr" data-notr style="display:block;margin-top:4px;color:var(--ink)">${esc(OTP.email)}</b>`:'בלי סיסמה: מקלידים אימייל ומקבלים קוד חד-פעמי. אם אין לך חשבון, הוא ייפתח אוטומטית.'}</div>
+      <h3 style="margin:0">${code?'📬 הקלד את הקוד מהמייל':'כניסה או הרשמה'}</h3>
+      ${code?`<div class="otp-mail"><span>✉️</span><b dir="ltr" data-notr>${esc(OTP.email)}</b><button class="linkbtn small" data-act="otp-change" style="padding:0">שינוי</button></div><div class="muted small">6 ספרות. הקוד תקף לשעה. לא רואה? בדוק בתיקיית הספאם.</div>`:`<div class="muted small">בלי סיסמה: מקלידים אימייל ומקבלים קוד חד-פעמי. אם אין לך חשבון, הוא ייפתח אוטומטית.</div>`}
       ${code?`<input id="otp-code" class="otp-in num" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" dir="ltr" placeholder="••••••">`
         :`<input id="otp-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(OTP.email||S.authEmail||'')}">`}
       <div class="autherr">${esc(OTP.err||'')}</div>
       <button class="btn primary big" data-act="${code?'otp-verify':'otp-send'}" ${OTP.busy?'disabled':''}>${OTP.busy?'רגע…':code?'התחברות':'שלח לי קוד'}</button>
       ${code?`<button class="linkbtn" data-act="otp-send" ${Date.now()<OTP.until?'disabled':''}>${Date.now()<OTP.until?'אפשר לשלוח שוב בעוד דקה':'לא הגיע? שלח שוב'}</button>
-        <button class="linkbtn" data-act="otp-change" style="color:var(--muted)">שינוי אימייל</button>`
+`
         :`<div class="small muted gconsent" style="text-align:center">בהמשך אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>`}
       ${code?'':`<button class="linkbtn" data-act="auth-email-open" style="font-size:13.5px;color:var(--muted)">התחברות עם סיסמה</button>`}
       ${code?'':`<button class="linkbtn" data-act="auth-g-reset" style="font-size:12.5px;color:var(--muted)">${{m:'פנייה בלשון זכר',f:'פנייה בלשון נקבה',x:'פנייה: לא משנה'}[window.NR_G]||''} · שינוי</button>`}

@@ -1402,5 +1402,13 @@
 "🎁 {0} עם גישה במתנה (הזמינו חבר ששילם, בלי תשלום משלהם)": {
 "en": "🎁 {0} with gifted access (invited a paying friend, no payment of their own)",
 "ar": "🎁 {0} بوصول هدية (دعوا صديقًا دفع، دون دفع منهم)"
+},
+"📬 הקלד את הקוד מהמייל": {
+"en": "📬 Enter the code from your email",
+"ar": "📬 أدخل الرمز من البريد"
+},
+"6 ספרות. הקוד תקף לשעה. לא רואה? בדוק בתיקיית הספאם.": {
+"en": "6 digits. Valid for one hour. Can't find it? Check your spam folder.",
+"ar": "6 أرقام. الرمز صالح لساعة. لا تجده؟ تحقق من مجلد الرسائل غير المرغوبة."
 }
 }
