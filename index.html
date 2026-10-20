@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5436fd7a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9f796d1c"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -939,7 +939,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='6.9';
+const APP_VERSION='7.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1681,7 +1681,10 @@ function vHome(){
     ${planBanner()}
     <div class="greet-wrap">
       <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''} 💪</div>
-      <div class="muted small">${S.workouts.length?`אימון מס׳ ${S.workouts.length+1} מחכה לך`:'האימון הראשון שלך מחכה'}</div>
+      <div class="muted small">${(()=>{ if(!S.workouts.length)return 'האימון הראשון שלך מחכה';
+        const ws=weekKeyOf(Date.now()), done=S.workouts.filter(w=>w.start>=ws).length, plan=Object.values(S.settings.schedule||{}).filter(Boolean).length;
+        if(plan)return done>=plan?`עמדת ביעד השבועי: ${done} מתוך ${plan} ✅`:`אימון ${done+1} מתוך ${plan} השבוע 💪`;
+        return done?`אימון ${done+1} השבוע מחכה לך`:'האימון הראשון של השבוע מחכה לך'; })()}</div>
     </div>
     ${(()=>{try{return !TOUR.on&&('Notification' in window)&&Notification.permission==='default'&&!localStorage.getItem('np-dis');}catch(e){return false;}})()?`
     <div class="card">

@@ -1,5 +1,5 @@
 /* יומן הברזל — service worker: עבודה אופליין */
-const CACHE = 'nextrep-v56';
+const CACHE = 'nextrep-v57';
 const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png'];
 
 self.addEventListener('install', e => {
