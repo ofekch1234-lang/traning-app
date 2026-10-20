@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5a8cd408"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5a8cd408"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5a8cd408"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9866981e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9866981e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9866981e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -93,6 +93,8 @@
 :root[data-theme="dark"][data-accent="violet"]{--accent:#A78BFA;--accent-soft:#2A1F47;--accent-ink:#120A24}
 :root[data-theme="dark"][data-accent="blue"]{--accent:#60A5FA;--accent-soft:#16294A;--accent-ink:#06122A}
 :root[data-theme="dark"][data-accent="teal"]{--accent:#2DD4BF;--accent-soft:#0F332F;--accent-ink:#04201C}
+.ph-lock{display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--accent-soft);font-size:12.5px;line-height:1.5}
+.ph-lock b{display:block}
 .acc-row{display:flex;gap:12px;justify-content:center;margin:6px 0 4px}
 .acc-dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 2px var(--line);display:grid;place-items:center;color:#fff;font-weight:700}
 .acc-dot.on{box-shadow:0 0 0 3px var(--ink)}
@@ -1096,7 +1098,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.8';
+const APP_VERSION='10.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2965,6 +2967,32 @@ function bwChartHTML(goal){
 /* ----- תמונות התקדמות שבועיות ----- */
 const ANGLES=[['front','חזית'],['back','גב'],['side','צד']];
 const PH={sets:[],urls:{},loaded:false,loading:false,busy:null};
+/* תמונות התקדמות: מוקטנות (1080px, בלי מטא-דאטה/מיקום) ומוצפנות במכשיר (AES-256-GCM) לפני ההעלאה.
+   בשרת נשמר רק קובץ מוצפן בתיקייה פרטית של המשתמש; המפתח האישי נשמר בטבלה סגורה ומוחזר רק לבעליו. */
+const PHK={p:null};
+function photoKey(){
+  if(!PHK.p)PHK.p=(async()=>{ const {data,error}=await sb.rpc('my_photo_key'); if(error||!data)throw error||new Error('key');
+    const raw=Uint8Array.from(atob(data),c=>c.charCodeAt(0)); return crypto.subtle.importKey('raw',raw,{name:'AES-GCM'},false,['encrypt','decrypt']); })().catch(e=>{PHK.p=null;throw e;});
+  return PHK.p;
+}
+const PH_MAGIC=[78,82,69,49]; // "NRE1"
+async function encPhoto(blob){
+  const key=await photoKey(), iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,await blob.arrayBuffer()));
+  const out=new Uint8Array(4+12+ct.length); out.set(PH_MAGIC,0); out.set(iv,4); out.set(ct,16);
+  return new Blob([out],{type:'application/octet-stream'});
+}
+async function decPhoto(buf){
+  const u=new Uint8Array(buf);
+  if(!(u[0]===78&&u[1]===82&&u[2]===69&&u[3]===49))return new Blob([u],{type:'image/jpeg'}); // קובץ ישן לא מוצפן
+  const key=await photoKey();
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(4,16)},key,u.slice(16));
+  return new Blob([pt],{type:'image/jpeg'});
+}
+async function fetchPhoto(path){
+  const {data,error}=await sb.storage.from('progress').download(path); if(error||!data)throw error||new Error('dl');
+  return URL.createObjectURL(await decPhoto(await data.arrayBuffer()));
+}
 async function loadPhotos(force){
   if(!S.user||PH.loading||(PH.loaded&&!force))return;
   PH.loading=true;
@@ -2972,27 +3000,24 @@ async function loadPhotos(force){
     const {data,error}=await sb.storage.from('progress').list(S.user.id,{limit:1000,sortBy:{column:'name',order:'desc'}});
     if(error)throw error;
     const by={};
-    for(const f of data||[]){ const m=/^(\d{4}-\d{2}-\d{2})_(front|back|side)\.jpg$/.exec(f.name); if(!m)continue;
+    for(const f of data||[]){ const m=/^(\d{4}-\d{2}-\d{2})_(front|back|side)\.(jpg|enc)$/.exec(f.name); if(!m)continue;
       (by[m[1]]=by[m[1]]||{d:m[1]})[m[2]]=`${S.user.id}/${f.name}`; }
     PH.sets=Object.values(by).sort((a,b)=>a.d<b.d?1:-1);
     const paths=PH.sets.flatMap(s=>ANGLES.map(([k])=>s[k]).filter(Boolean)).filter(p=>!PH.urls[p]);
-    if(paths.length){
-      const {data:signed}=await sb.storage.from('progress').createSignedUrls(paths,3600);
-      for(const x of signed||[])if(x.signedUrl)PH.urls[x.path]=x.signedUrl;
-    }
+    for(let i=0;i<paths.length;i+=4) await Promise.all(paths.slice(i,i+4).map(p=>fetchPhoto(p).then(u=>{PH.urls[p]=u;},e=>console.error(e))));
     PH.loaded=true;
   }catch(e){ console.error(e); }
   PH.loading=false;
   if((S.tab==='home'||(S.tab==='track'&&S.trackView==='body'))&&$('#sheet').hidden&&$('#np').hidden)render();
 }
-function shrinkBlob(file,max=1280){
+function shrinkBlob(file,max=1080){
   return new Promise((res,rej)=>{
     const img=new Image();
     img.onload=()=>{ try{
       const sc=Math.min(1,max/Math.max(img.width,img.height));
       const c=document.createElement('canvas'); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
-      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      c.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',0.82);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(img.src);
+      c.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',0.8); // ציור מחדש על canvas מוחק EXIF (כולל מיקום GPS)
     }catch(e){rej(e);} };
     img.onerror=rej; img.src=URL.createObjectURL(file);
   });
@@ -3002,14 +3027,16 @@ async function uploadPhoto(file,date,angle){
   PH.busy=angle; openPhotoSet(date);
   try{
     const blob=await shrinkBlob(file);
-    const path=`${S.user.id}/${date}_${angle}.jpg`;
-    const {error}=await sb.storage.from('progress').upload(path,blob,{upsert:true,contentType:'image/jpeg',cacheControl:'3600'});
+    const enc=await encPhoto(blob);
+    const path=`${S.user.id}/${date}_${angle}.enc`;
+    const set0=PH.sets.find(x=>x.d===date), old=set0&&set0[angle];
+    const {error}=await sb.storage.from('progress').upload(path,enc,{upsert:true,contentType:'application/octet-stream',cacheControl:'0'});
     if(error)throw error;
-    const {data:s}=await sb.storage.from('progress').createSignedUrl(path,3600);
-    if(s?.signedUrl)PH.urls[path]=s.signedUrl;
+    if(old&&old!==path)sb.storage.from('progress').remove([old]).catch(()=>{});
+    PH.urls[path]=URL.createObjectURL(blob);
     let set=PH.sets.find(x=>x.d===date); if(!set){set={d:date};PH.sets.unshift(set);PH.sets.sort((a,b)=>a.d<b.d?1:-1);}
     set[angle]=path;
-    toast('התמונה נשמרה 📸');
+    toast('התמונה נשמרה מוצפנת 🔒');
   }catch(e){ console.error(e); toast('ההעלאה נכשלה — נסה שוב'); }
   PH.busy=null; openPhotoSet(date);
 }
@@ -3040,6 +3067,7 @@ function openPhotoSet(date){
           ${p?`<button class="linkbtn small" data-act="photo-del" data-d="${date}" data-a="${k}" style="display:block;margin:4px auto 0;color:var(--danger)">מחק</button>`:''}
         </div>`;}).join('')}
     </div>
+    <div class="ph-lock">🔒 <span><b>${G('רק אתה רואה את התמונות האלה.','רק את רואה את התמונות האלה.','רק את/ה רואה את התמונות האלה.')}</b> הן מוקטנות ומוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.</span></div>
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סיום</button>
   `);
 }
@@ -5167,7 +5195,7 @@ function demoHTML(name){
   </div>`;
 }
 function ytLink(name){
-  const id=EXDB[name]; const q=id?id.replace(/_/g,' ').replace(/ - /g,' ')+' proper form':name+' תרגיל ביצוע נכון';
+  const id=EXDB[name], w=S.settings.g==='f'; const q=id?id.replace(/_/g,' ').replace(/ - /g,' ')+(w?' women proper form':' proper form'):name+(w?' תרגיל לנשים ביצוע נכון':' תרגיל ביצוע נכון');
   return `<a class="linkbtn small" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}" target="_blank" rel="noopener">🎬 סרטון הסבר מלא ביוטיוב ↗</a>`;
 }
 /* גרירה לשינוי סדר — SortableJS נטען לפי צורך */

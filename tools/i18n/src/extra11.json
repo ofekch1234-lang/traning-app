@@ -1082,5 +1082,25 @@
 "פנייה: לא משנה": {
 "en": "Address: either",
 "ar": "المخاطبة: لا فرق"
+},
+"רק את/ה רואה את התמונות האלה.": {
+"en": "Only you can see these photos.",
+"ar": "أنت فقط من يرى هذه الصور."
+},
+"הן מוקטנות ומוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.": {
+"en": "They're resized and encrypted on your phone before they leave it. The server only stores an encrypted file, with no location or device details. Group members can't see them, and the NextRep team doesn't open them.",
+"ar": "تُصغَّر وتُشفَّر على هاتفك قبل أن تغادره. يُحفظ على الخادم ملف مشفّر فقط، بلا موقع أو تفاصيل جهاز. أعضاء الفرق لا يرونها، وفريق NextRep لا يفتحها."
+},
+"התמונה נשמרה מוצפנת 🔒": {
+"en": "Photo saved, encrypted 🔒",
+"ar": "حُفظت الصورة مشفّرة 🔒"
+},
+"רק אתה רואה את התמונות האלה.": {
+"en": "Only you can see these photos.",
+"ar": "أنت فقط من يرى هذه الصور."
+},
+"רק את רואה את התמונות האלה.": {
+"en": "Only you can see these photos.",
+"ar": "أنتِ فقط من ترى هذه الصور."
 }
 }
