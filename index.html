@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9f796d1c"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8d4ef3ba"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -478,9 +478,17 @@ header.top{
 #stcam .stc-bar .stc-shot{width:72px;height:72px;background:#fff;border:5px solid rgba(255,255,255,.4);background-clip:padding-box}
 #stcam .stc-tools{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);inset-inline-end:14px;display:flex;flex-direction:column;gap:10px}
 #stcam .stc-tools button{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;border:none;font-size:20px}
+.co-row{display:flex;gap:6px;align-items:flex-end;align-self:flex-start;max-width:88%}
+.co-row img{width:28px;height:28px;flex-shrink:0;margin-bottom:16px}
+.co-row .cm{max-width:100%}
+.co-intro{align-self:center;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:14px 18px 6px;max-width:320px}
+.co-intro img{width:84px;height:84px;margin-bottom:4px}
+.co-intro span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.co-cheer{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;color:var(--accent)}
+.co-cheer img{width:44px;height:44px}
 .coach-card{position:relative;overflow:hidden}
 .coach-card .co-h{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.co-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0f766e);display:grid;place-items:center;font-size:19px;flex-shrink:0;color:#fff}
+.co-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:block}
 .coach-card .co-txt{white-space:pre-wrap;line-height:1.55;font-size:15px;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
 .coach-card .co-acts{display:flex;gap:8px;margin-top:12px}
 .co-skel{height:12px;border-radius:6px;background:var(--surface2);margin:8px 0;animation:coPulse 1.2s ease-in-out infinite}
@@ -939,7 +947,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.0';
+const APP_VERSION='7.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3222,7 +3230,7 @@ function renderSettings(){
       ${sw('rest','סיום מנוחה','התראה כשהטיימר נגמר, גם כשהמסך כבוי')}
       ${sw('pr','שיא חדש 🏅','חגיגה כששברת שיא אישי')}
       ${sw('social','קבוצות 👥','הודעות, אימונים ואתגרים של החברים')}
-      ${sw('coach','סיכום שבועי מהמאמן 💬','בכל יום ראשון בבוקר')}
+      ${sw('coach','סיכום שבועי מקובי הבוט 💬','בכל יום ראשון בבוקר')}
       ${sw('nudge','תזכורות חכמות 🔔','כשלא התאמנת כמה ימים, או כשהרצף שלך בסכנה')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
       ${sw('vib','רטט','משוב מישוש בלחיצות ובטיימר')}
@@ -4316,6 +4324,7 @@ function openBadgeSheet(id,celebrate){
   const b=BADGES.find(x=>x[0]===id); if(!b)return; const st=badgeStats(); const on=st[b[4]]>=b[5];
   const pct=Math.min(100,Math.round(st[b[4]]/b[5]*100));
   openSheet(`${celebrate?`<div class="small" style="text-align:center;color:var(--accent);font-weight:700;margin-top:4px">הישג חדש! 🎉</div>`:''}
+    ${celebrate?`<div class="co-cheer"><img src="img/kobi-cheer.svg" alt=""><span>כל הכבוד! 🎉</span></div>`:''}
     <div class="bdg-big ${celebrate?'bdg-pop':''}" style="${on?'':'filter:grayscale(1);opacity:.4'}">${b[1]}</div>
     <h3 style="text-align:center;margin:0">${esc(b[2])}</h3>
     <div class="muted" style="text-align:center;margin:4px 0 12px">${esc(b[3])}</div>
@@ -4543,13 +4552,13 @@ function coachCardHTML(){
   if(!S.user||S.mode!=='app')return '';
   if(CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
   if(!S.workouts.length&&!CO.sum)return '';
-  const head=`<div class="co-h"><span class="co-av">🧠</span><div style="flex:1"><b>המאמן שלך</b><div class="small muted">${CO.sum?'סיכום שבועי':'מכיר את האימונים והתזונה שלך'}</div></div></div>`;
+  const head=`<div class="co-h"><img class="co-av" src="img/kobi-${CO.sum?'wink':'happy'}.svg" alt=""><div style="flex:1"><b>קובי הבוט</b><div class="small muted">${CO.sum?'הסיכום השבועי שלך':'המאמן האישי שלך'}</div></div></div>`;
   let body;
-  if(CO.loading||CO.sum===undefined)body=`<div class="small muted">המאמן מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
+  if(CO.loading||CO.sum===undefined)body=`<div class="small muted">קובי מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
   else if(CO.sum)body=`<div class="co-txt" dir="auto" data-notr>${esc(CO.sum.body)}</div>`;
-  else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים המאמן ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
+  else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים קובי ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
   else body=`<div class="small muted">לא הצלחנו לטעון את הסיכום עכשיו.</div>`;
-  const acts=`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את המאמן':'🔒 שאל את המאמן'}</button></div>`;
+  const acts=`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את קובי':'🔒 שאל את קובי'}</button></div>`;
   return `<div class="card coach-card">${head}${body}${acts}</div>`;
 }
 async function coachLoadMsgs(){
@@ -4560,24 +4569,25 @@ const CO_CHIPS=['למה אני לא מתקדם?','מה לאכול אחרי אי�
 function vCoach(){
   const head=`<div class="sg-head">
     <button class="rarrow" data-act="coach-back" aria-label="חזרה" style="width:40px;height:40px;font-size:18px;direction:ltr;unicode-bidi:isolate">${ARW_PREV}</button>
-    <span class="co-av" style="width:40px;height:40px">🧠</span>
-    <span class="t"><b>המאמן שלך</b><span class="small muted">מכיר את האימונים והתזונה שלך</span></span></div>`;
+    <img class="co-av" src="img/kobi-${CO.busy?'think':'happy'}.svg" alt="" style="width:42px;height:42px">
+    <span class="t"><b>קובי הבוט</b><span class="small muted">${CO.busy?'חושב…':'המאמן האישי שלך'}</span></span></div>`;
   const M=CO.msgs;
   let list='';
   if(!M)list=`<div class="c-sys">טוען…</div>`;
   else{
-    list+=`<div class="c-sys">שאל כל דבר על אימונים, תזונה והתקדמות. התשובות מבוססות על הנתונים שלך. לא ייעוץ רפואי.</div>`;
+    list+=`<div class="co-intro"><img src="img/kobi-happy.svg" alt=""><b>היי, אני קובי 👋</b><span>המאמן האישי שלך. שאל אותי כל דבר על אימונים, תזונה והתקדמות. אני עונה לפי הנתונים שלך. לא ייעוץ רפואי.</span></div>`;
     for(const m of M){
-      if(m.role==='summary')list+=`<div class="co-sum"><span class="lbl">📅 סיכום שבועי · ${fmtDate(m.created_at)}</span><span dir="auto" data-notr style="display:block">${esc(m.body)}</span></div>`;
-      else list+=`<div class="cm ${m.role==='user'?'me':''}"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
+      if(m.role==='summary')list+=`<div class="co-sum"><span class="lbl"><img src="img/kobi-wink.svg" alt="" style="width:22px;height:22px;vertical-align:-6px;margin-inline-end:4px">📅 סיכום שבועי · ${fmtDate(m.created_at)}</span><span dir="auto" data-notr style="display:block">${esc(m.body)}</span></div>`;
+      else if(m.role==='user')list+=`<div class="cm me"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
+      else list+=`<div class="co-row"><img src="img/kobi-happy.svg" alt=""><div class="cm"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div></div>`;
     }
-    if(CO.busy)list+=`<div class="cm co-typing"><div class="bub"><i></i><i></i><i></i></div></div>`;
+    if(CO.busy)list+=`<div class="co-row"><img src="img/kobi-think.svg" alt=""><div class="cm co-typing"><div class="bub"><i></i><i></i><i></i></div></div></div>`;
   }
   const foot=coachCanChat()
     ?`${M&&!M.some(m=>m.role==='user')?`<div class="co-chips">${CO_CHIPS.map(q=>`<button data-act="coach-chip" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>`:''}
-      <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="שאל את המאמן…" maxlength="500" enterkeyhint="send" ${CO.busy?'disabled':''}></textarea>
+      <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="שאל את קובי…" maxlength="500" enterkeyhint="send" ${CO.busy?'disabled':''}></textarea>
       <button data-act="coach-send" aria-label="שליחה" ${CO.busy?'disabled':''}><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="flipx" style="transform:scaleX(-1)"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button></div>`
-    :`<div class="co-lock"><div style="font-weight:600;margin-bottom:4px">🔒 השיחה עם המאמן זמינה למנויים</div><div class="small muted" style="margin-bottom:10px">הסיכום השבועי פתוח לכולם. כדי לשאול את המאמן שאלות, בחר מסלול.</div><button class="btn primary" data-act="plans-open">לבחירת מסלול</button></div>`;
+    :`<div class="co-lock"><div style="font-weight:600;margin-bottom:4px">🔒 השיחה עם קובי זמינה למנויים</div><div class="small muted" style="margin-bottom:10px">הסיכום השבועי פתוח לכולם. כדי לשאול את קובי שאלות, בחר מסלול.</div><button class="btn primary" data-act="plans-open">לבחירת מסלול</button></div>`;
   return `<div id="chatroot">${head}<div id="chatlist">${list}</div>${foot}</div>`;
 }
 async function coachSend(text){
@@ -4590,10 +4600,10 @@ async function coachSend(text){
     const {data,error}=await sb.functions.invoke('coach',{body:{mode:'chat',text,lang:LANG}});
     let code=data?.error; if(error){ try{ code=(await error.context?.json?.())?.error||code; }catch(_){} }
     if(code==='quota'){ toast('הגעת ל-20 שאלות היום. נמשיך מחר 💪'); CO.msgs.pop(); CO.draft=text; }
-    else if(code==='paid_only'){ toast('השיחה עם המאמן זמינה למנויים'); CO.msgs.pop(); }
+    else if(code==='paid_only'){ toast('השיחה עם קובי זמינה למנויים'); CO.msgs.pop(); }
     else if(error||!data?.reply)throw error||new Error('empty');
     else{ CO.msgs.push({id:'r'+Date.now(),role:'assistant',body:data.reply,created_at:new Date().toISOString()}); CO.left=data.left; }
-  }catch(e){ console.error(e); CO.msgs.pop(); CO.draft=text; toast('המאמן לא זמין כרגע. נסה שוב בעוד רגע'); }
+  }catch(e){ console.error(e); CO.msgs.pop(); CO.draft=text; toast('קובי לא זמין כרגע. נסה שוב בעוד רגע'); }
   CO.busy=false; CO.toBottom=true; render(); setTimeout(()=>$('#chat-in')?.focus(),50);
 }
 function coachAct(act,b){

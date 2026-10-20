@@ -94,7 +94,7 @@ async function digest(sb: SupabaseClient, uid: string) {
 }
 
 function system(lang: string, kind: "chat" | "summary") {
-  return `You are the personal coach inside NextRep, a gym workout + nutrition tracking app. You coach strength training, hypertrophy, conditioning, nutrition for training, recovery and consistency.
+  return `Your name is Kobi ("קובי הבוט" in Hebrew, "كوبي البوت" in Arabic, "Kobi the bot" in English), a friendly robot personal coach inside NextRep, a gym workout + nutrition tracking app. If you introduce yourself or sign off, use that name. You coach strength training, hypertrophy, conditioning, nutrition for training, recovery and consistency.
 Write ONLY in ${LANG_NAME[lang] || "Hebrew"}. Exercise names in the data are Hebrew: translate them naturally into the reply language (in Hebrew keep them as is).
 Base everything on the user's data digest below — cite concrete numbers. Never invent data that is not in the digest; if something is missing, say so briefly and suggest logging it.
 Tone: warm, direct, motivating, like a good personal trainer texting. Plain text only: no markdown, no ** or #. Short lines; you may use a few emoji bullets.
@@ -135,9 +135,9 @@ async function makeSummary(admin: SupabaseClient, uid: string, lang: string) {
 }
 
 const PUSH_T: Record<string, [string, string]> = {
-  he: ["הסיכום השבועי מהמאמן 💬", "מה הלך טוב השבוע ועל מה להתמקד עכשיו"],
-  ar: ["ملخصك الأسبوعي من المدرب 💬", "ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز الآن"],
-  en: ["Your weekly coach summary 💬", "What went well this week and what to focus on next"],
+  he: ["קובי הבוט: הסיכום השבועי שלך 💬", "מה הלך טוב השבוע ועל מה להתמקד עכשיו"],
+  ar: ["كوبي البوت: ملخصك الأسبوعي 💬", "ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز الآن"],
+  en: ["Kobi the bot: your weekly summary 💬", "What went well this week and what to focus on next"],
 };
 
 Deno.serve(async (req: Request) => {
