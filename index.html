@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=48b2a90c"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=48b2a90c"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=48b2a90c"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a8c0f3a5"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a8c0f3a5"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a8c0f3a5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -340,6 +340,8 @@ body.landing #app{max-width:1120px}
 .adm-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .adm-acts .btn{text-align:center;text-decoration:none}
 .adm-det{padding:12px 14px}
+.set-det .det-arr{transition:transform .2s}.set-det[open] .det-arr{transform:rotate(90deg)}
+[dir=ltr] .set-det .det-arr{display:inline-block;transform:scaleX(-1)}[dir=ltr] .set-det[open] .det-arr{transform:rotate(90deg)}
 .adm-det summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none}
 .adm-det summary::-webkit-details-marker{display:none}
 .weighrow{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);border:1px solid var(--accent);color:var(--ink);font-weight:600;text-align:var(--start)}
@@ -1146,7 +1148,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.1';
+const APP_VERSION='11.1.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3772,8 +3774,8 @@ function renderSettings(){
       <span><b>🧭 סיור במערכת</b><span class="small muted" style="display:block">הצגה קצרה של כל היכולות</span></span><span class="muted">›</span></button>
     <button class="card spread" data-act="contact-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin:0 0 14px">
       <span><b>💬 צור קשר</b><span class="small muted" style="display:block">שאלה, תקלה או רעיון. נחזור אליך כאן</span></span><span class="muted">›</span></button>
-    <div class="label" style="margin-bottom:6px">התראות</div>
-    <div class="card stack" style="gap:0;padding:4px 14px">
+    <details class="card adm-det set-det" ${S.settings.notifOpen?'open':''} data-det="notifOpen"><summary><span><b>🔔 התראות</b><span class="small muted" style="display:block">${(()=>{const ks=['remind','rest','pr','social','coach','nudge'];const on=ks.filter(k=>k==='remind'?n.remind===true:n[k]!==false).length;return on===ks.length?'הכל פעיל':on?`${on} מתוך ${ks.length} פעילות`:'כבויות';})()}</span></span><span class="muted det-arr">›</span></summary>
+    <div class="stack" style="gap:0;margin-top:6px">
       <label class="setrow">
         <span><b>תזכורת אימון יומית 🗓️</b><span class="small muted" style="display:block">בבוקר של יום מתוזמן בלו״ז — גם כשהאפליקציה סגורה</span></span>
         <input type="checkbox" class="sw" data-bind="notif" data-k="remind" ${n.remind===true?'checked':''}>
@@ -3787,6 +3789,7 @@ function renderSettings(){
       ${sw('vib','רטט','משוב מישוש בלחיצות ובטיימר')}
     </div>
     ${'Notification' in window&&Notification.permission==='denied'?`<div class="small muted" style="margin-top:8px">⚠️ ההתראות חסומות בדפדפן — אפשר לאפשר מחדש בהגדרות האתר של הדפדפן.</div>`:''}
+    </details>
     <div class="label" style="margin:16px 0 6px">מנוחה בין סטים (ברירת מחדל)</div>
     <div class="row">
       ${[60,90,120,180].map(s=>`<button class="chip num ${S.settings.rest===s?'on':''}" data-act="rest-set" data-s="${s}">${s<120?s+' שנ׳':(s/60)+' דק׳'}</button>`).join('')}
@@ -5703,6 +5706,7 @@ document.addEventListener('input',ev=>{
   }
   else if(k==='tplf'){ const e=_tplDraft?.ex[+i.dataset.i]; if(e){const f=i.dataset.f; e[f]=f==='reps'?i.value:(+i.value||0);} }
 });
+document.addEventListener('toggle',ev=>{ const d=ev.target; if(d?.dataset?.det)S.settings[d.dataset.det]=d.open; },true);
 document.addEventListener('change',ev=>{
   if(ev.target.dataset&&ev.target.dataset.photoAngle&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0], a=ev.target.dataset.photoAngle, d=ev.target.dataset.photoDate; ev.target.value='';
