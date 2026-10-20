@@ -21,8 +21,11 @@
     else if(ls[0].indexOf('ar')===0)L='ar'; else if(ls[0].indexOf('en')===0)L='en'; else L='he';
   }
   window.NR_LANG=L;
-  var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=13897d5a"><\/script>');
+  var g=null,ac=null; try{ g=localStorage.getItem('nr-g'); ac=localStorage.getItem('nr-acc'); }catch(e){}
+  window.NR_G=g; ac=ac||(g==='f'?'rose':'green');
+  var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl'; if(ac!=='green')h.setAttribute('data-accent',ac);
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b5208b9d"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b5208b9d"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -69,6 +72,23 @@
     --overlay-shadow:0 -8px 30px rgba(0,0,0,.5);
   color-scheme: dark;
 }
+:root[data-accent="rose"]{--accent:#DB2777;--accent-soft:#FCE7F3}
+:root[data-accent="violet"]{--accent:#7C3AED;--accent-soft:#EDE9FE}
+:root[data-accent="blue"]{--accent:#2563EB;--accent-soft:#DBEAFE}
+:root[data-accent="teal"]{--accent:#0D9488;--accent-soft:#CCFBF1}
+@media (prefers-color-scheme: dark){
+  :root[data-accent="rose"]:not([data-theme="light"]){--accent:#F472B6;--accent-soft:#3B1428;--accent-ink:#1F0611}
+  :root[data-accent="violet"]:not([data-theme="light"]){--accent:#A78BFA;--accent-soft:#2A1F47;--accent-ink:#120A24}
+  :root[data-accent="blue"]:not([data-theme="light"]){--accent:#60A5FA;--accent-soft:#16294A;--accent-ink:#06122A}
+  :root[data-accent="teal"]:not([data-theme="light"]){--accent:#2DD4BF;--accent-soft:#0F332F;--accent-ink:#04201C}
+}
+:root[data-theme="dark"][data-accent="rose"]{--accent:#F472B6;--accent-soft:#3B1428;--accent-ink:#1F0611}
+:root[data-theme="dark"][data-accent="violet"]{--accent:#A78BFA;--accent-soft:#2A1F47;--accent-ink:#120A24}
+:root[data-theme="dark"][data-accent="blue"]{--accent:#60A5FA;--accent-soft:#16294A;--accent-ink:#06122A}
+:root[data-theme="dark"][data-accent="teal"]{--accent:#2DD4BF;--accent-soft:#0F332F;--accent-ink:#04201C}
+.acc-row{display:flex;gap:12px;justify-content:center;margin:6px 0 4px}
+.acc-dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 2px var(--line);display:grid;place-items:center;color:#fff;font-weight:700}
+.acc-dot.on{box-shadow:0 0 0 3px var(--ink)}
 *{box-sizing:border-box}
 html{height:100%}
 body{
@@ -972,7 +992,8 @@ const LOC={he:'he-IL',ar:'ar-u-nu-latn',en:'en-GB'}[LANG];
 const HEB=/[֐-׿]/;
 const ARW_PREV=LANG==='en'?'‹':'›', ARW_NEXT=LANG==='en'?'›':'‹';
 const I18=(()=>{
-  if(LANG==='he')return null;
+  const FEM=LANG==='he'; // עברית בלשון נקבה: מילון מחרוזות מלאות בלבד, בלי תרגום חלקי
+  if(FEM&&window.NR_G!=='f')return null;
   const D=window.I18N_DATA||{k:{},p:[]}; const K=D.k||{};
   const rx=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const P=(D.p||[]).map(([h,t])=>{
@@ -990,12 +1011,12 @@ const I18=(()=>{
     const nm=c.match(/^(\d+[.)]\s+)([\s\S]+)$/); if(nm){ const x=core(nm[2],d+1); if(x!=null)return nm[1]+x; }
     const e=c.match(EDGE); if(e&&(e[1]||e[3])&&e[2]&&K[e[2]]!=null)return e[1]+K[e[2]]+e[3];
     for(const p of P){ const m=c.match(p.re); if(!m)continue; let out=p.t, ok=true;
-      p.order.forEach((n,i)=>{ if(!ok)return; let g=m[i+1]; if(HEB.test(g)){ const sp=g.match(/^(\s*)([\s\S]*?)(\s*)$/); const x=core(sp[2],d+1); if(x==null){ok=false;return;} g=sp[1]+x+sp[3]; } out=out.split('{'+n+'}').join(g); });
+      p.order.forEach((n,i)=>{ if(!ok)return; let g=m[i+1]; if(HEB.test(g)){ const sp=g.match(/^(\s*)([\s\S]*?)(\s*)$/); const x=core(sp[2],d+1)??(FEM?sp[2]:null); if(x==null){ok=false;return;} g=sp[1]+x+sp[3]; } out=out.split('{'+n+'}').join(g); });
       if(ok)return out; }
-    for(const sep of [' · ',' | ',' — ',' – ','\n',': ',' / ',', ']) if(c.includes(sep)){ const parts=c.split(sep); const tr=parts.map(x=>x.trim()?(core(x.trim(),d+1)??null):x); if(tr.every(x=>x!=null))return tr.join(sep); }
+    for(const sep of [' · ',' | ',' — ',' – ','\n',': ',' / ',', ']) if(c.includes(sep)){ const parts=c.split(sep); const tr=parts.map(x=>x.trim()?(core(x.trim(),d+1)??(FEM?x.trim():null)):x); if(tr.every(x=>x!=null)&&(!FEM||tr.join(sep)!==parts.map(x=>x.trim()?x.trim():x).join(sep)))return tr.join(sep); }
     // רצפים עבריים בתוך טקסט מעורב (מספרים/סמלים) — מילה-במילה מתוך המילון
     // ביטויים מוכרים בתוך טקסט מעורב (שם משתמש + "הצטרף לקבוצה", מספרים וכו׳): התאמה חמדנית של רצפי מילים מהמילון
-    if(d>0)return null; // בתוך תבנית — רק תרגום מלא, לא חלקי
+    if(d>0||FEM)return null; // בתוך תבנית — רק תרגום מלא, לא חלקי
     let hit=false; const r=c.replace(/[\u0590-\u05FF][\u0590-\u05FF\s"״'׳\-]*[\u0590-\u05FF"״'׳]|[\u0590-\u05FF]/g,(run,off,str)=>{
       if(K[run]!=null){hit=true;return K[run];}
       const nx=str[off+run.length]; if(nx&&'!?.:'.includes(nx)&&K[run+nx]!=null){ hit=true; const t=K[run+nx]; return t.endsWith(nx)?t.slice(0,-1):t; }
@@ -1055,7 +1076,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.5';
+const APP_VERSION='10.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1297,10 +1318,10 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
-async function persistSettings(){ clearTimeout(_aT); flushActive(); }
+async function persistSettings(){ clearTimeout(_aT); return flushActive(); }
 async function saveTemplate(t){
   const i=S.templates.findIndex(x=>x.id===t.id); if(i>=0)S.templates[i]=t; else S.templates.push(t); render(); saveSnapshot();
   const row={id:t.id,user_id:S.user.id,name:t.name,ord:t.order||0,ex:t.ex||[]};
@@ -2151,29 +2172,51 @@ function tgCalc(t){
   const wk=Math.round((tdee*adj*7/7700)*10)/10; // kg per week
   return {bmr:Math.round(bmr),tdee:Math.round(tdee),kcal,prot,fat,carbs,wk};
 }
+/* פנייה לפי מגדר + צבע ראשי. נקבה בעברית = מילון i18n/he-f.js (נטען בראש הדף) */
+const G=(m,f,x)=>S.settings.g==='f'?f:S.settings.g==='m'?m:(x??m);
+const ACCENTS=[['green','#16A34A','ירוק'],['rose','#DB2777','ורוד'],['violet','#7C3AED','סגול'],['blue','#2563EB','כחול'],['teal','#0D9488','טורקיז']];
+function applyLook(g,acc){
+  const a=acc||(g==='f'?'rose':'green');
+  try{ if(g)localStorage.setItem('nr-g',g); if(acc)localStorage.setItem('nr-acc',acc); else localStorage.removeItem('nr-acc'); }catch(_){}
+  if(a==='green')document.documentElement.removeAttribute('data-accent'); else document.documentElement.setAttribute('data-accent',a);
+  if(LANG==='he'&&(g==='f')!==(window.NR_G==='f')){ location.reload(); return true; }
+  window.NR_G=g; return false;
+}
+function openGenderSheet(first){
+  const sx=S.settings.body?.sex||PB?.a?.sex||null, cur=S.settings.g||null;
+  const opt=(v,e,l,d)=>`<button class="pb-opt ${(cur||sx)===v?'on':''}" data-act="g-set" data-v="${v}" data-first="${first?1:''}"><b>${e} ${l}</b>${d?`<small>${d}</small>`:''}</button>`;
+  openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>${first?'רגע לפני שמתחילים: איך לפנות אליך?':'איך לפנות אליך?'}</b><span>ככה אדבר איתך בכל האפליקציה.</span></div></div>
+    <div class="pb-list">${opt('m','🙋‍♂️','בלשון זכר','')}${opt('f','🙋‍♀️','בלשון נקבה','')}${opt('x','🙂','לא משנה לי','')}</div>`);
+}
+function openAccentSheet(){
+  const cur=S.settings.accent||(S.settings.g==='f'?'rose':'green');
+  openSheet(`<h3>🎨 צבע האפליקציה</h3><div class="acc-row">${ACCENTS.map(([k,c,l])=>`<button class="acc-dot ${k===cur?'on':''}" style="background:${c}" data-act="acc-set" data-v="${k}" aria-label="${l}">${k===cur?'✓':''}</button>`).join('')}</div>
+    <div class="small muted" style="text-align:center;margin-top:8px">${ACCENTS.find(a=>a[0]===cur)[2]}</div>
+    <button class="btn big" style="margin-top:14px;width:100%" data-act="sheet-close">סגור</button>`);
+}
 function openTargetsSheet(){
   const b=S.settings.body||{}, lw=tgLastWeight();
   TG={sex:b.sex||PB?.a?.sex||null,age:+b.age||null,h:+b.h||null,w:lw||+b.w||null,act:b.act||null,goal:b.goal||null,pace:b.pace||'norm',goalKg:+S.settings.goalKg||'',edit:false,step:0};
   tgRender();
 }
 const TG_STEPS=['sex','age','h','w','act','goal','res'];
-const TG_NUM={age:{min:14,max:90,step:1,unit:'שנים',def:()=>30,q:'בן/בת כמה את/ה?',k:'ככה אדע כמה האנרגיה שהגוף שלך שורף במנוחה.'},
-  h:{min:140,max:210,step:1,unit:'ס״מ',def:()=>TG.sex==='f'?163:176,q:'מה הגובה שלך?',k:'גובה ומשקל יחד קובעים כמה הגוף צריך.'},
-  w:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>TG.sex==='f'?65:78,q:'כמה את/ה שוקל/ת?',k:'לקחתי את השקילה האחרונה שלך. אפשר לעדכן.'}};
+const TG_NUM={age:{min:14,max:90,step:1,unit:'שנים',def:()=>30,q:()=>G('בן כמה אתה?','בת כמה את?','בן/בת כמה את/ה?'),k:'ככה אדע כמה האנרגיה שהגוף שלך שורף במנוחה.'},
+  h:{min:140,max:210,step:1,unit:'ס״מ',def:()=>TG.sex==='f'?163:176,q:()=>'מה הגובה שלך?',k:'גובה ומשקל יחד קובעים כמה הגוף צריך.'},
+  w:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>TG.sex==='f'?65:78,q:()=>G('כמה אתה שוקל?','כמה את שוקלת?','כמה את/ה שוקל/ת?'),k:'לקחתי את השקילה האחרונה שלך. אפשר לעדכן.'}};
 function tgRender(){
   const t=TG, key=TG_STEPS[t.step], n=TG_STEPS.length-1;
   const top=`<div class="tgw-top"><button class="tgw-back" data-act="tg-back" aria-label="חזרה" ${t.step?'':'style="visibility:hidden"'}>→</button>
     <div class="pb-prog" style="flex:1"><i style="width:${Math.round(Math.min(t.step,n)/n*100)}%"></i></div><span class="small muted num">${Math.min(t.step+1,n)}/${n}</span></div>`;
   const kobi=(q,k,img='happy')=>`<div class="tgw-q"><img src="img/kobi-${img}.svg" alt=""><div><b>${q}</b>${k?`<span>${k}</span>`:''}</div></div>`;
   let body='';
-  if(key==='sex')body=kobi('נתחיל: את/ה…','')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
+  if(key==='sex')body=kobi(G('נתחיל: אתה…','נתחיל: את…','נתחיל: את/ה…'),'')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
   else if(TG_NUM[key]){ const c=TG_NUM[key]; if(t[key]==null)t[key]=c.def(); const v=t[key];
-    body=kobi(c.q,c.k,key==='w'?'wink':'happy')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
+    body=kobi(c.q(),c.k,key==='w'?'wink':'happy')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
       <div class="tgw-val"><b class="num" id="tgw-v">${v}</b><span>${c.unit}</span></div>
       <button class="tgw-pm" data-act="tg-step" data-d="1" aria-label="יותר">+</button></div>
-      <input type="range" class="tgw-range" id="tgw-r" min="${c.min}" max="${c.max}" step="${c.step}" value="${v}" aria-label="${c.q}">
+      <input type="range" class="tgw-range" id="tgw-r" min="${c.min}" max="${c.max}" step="${c.step}" value="${v}" aria-label="${c.q()}">
       <button class="btn primary big" data-act="tg-next" style="margin-top:14px;width:100%">המשך</button>`; }
-  else if(key==='act')body=kobi('כמה את/ה זז/ה ביום-יום?','כולל אימונים, עבודה והליכה.')+`<div class="pb-list">${TG_ACT.map(([v,a,d],i)=>`<button class="pb-opt ${t.act===v?'on':''}" data-act="tg-pick" data-k="act" data-v="${v}"><b>${['🛋️','🚶','🏃','🔥','🏆'][i]} ${a}</b><small>${d}</small></button>`).join('')}</div>`;
+  else if(key==='act')body=kobi(G('כמה אתה זז ביום-יום?','כמה את זזה ביום-יום?','כמה את/ה זז/ה ביום-יום?'),'כולל אימונים, עבודה והליכה.')+`<div class="pb-list">${TG_ACT.map(([v,a,d],i)=>`<button class="pb-opt ${t.act===v?'on':''}" data-act="tg-pick" data-k="act" data-v="${v}"><b>${['🛋️','🚶','🏃','🔥','🏆'][i]} ${a}</b><small>${d}</small></button>`).join('')}</div>`;
   else if(key==='goal')body=kobi('ומה המטרה?','')+`<div class="pb-list">${[['cut','🔥','ירידה במשקל','לרדת בשומן ולשמור על השריר'],['keep','⚖️','שמירה','להישאר במשקל ולהשתפר בכוח'],['bulk','💪','עלייה במסה','לבנות שריר, עם מעט שומן']].map(([v,e,l,d])=>`<button class="pb-opt ${t.goal===v?'on':''}" data-act="tg-pick" data-k="goal" data-v="${v}"><b>${e} ${l}</b><small>${d}</small></button>`).join('')}</div>
     ${t.goal==='cut'||t.goal==='bulk'?`<div class="label" style="margin-top:12px">באיזה קצב?</div><div class="pb-grid">${[['slow','🐢',t.goal==='cut'?'רגוע':'עלייה נקייה',t.goal==='cut'?'קל יותר להתמיד':'פחות שומן'],['norm','⚡',t.goal==='cut'?'רגיל':'מהיר יותר',t.goal==='cut'?'תוצאות מהר יותר':'יותר כוח מהר']].map(([v,e,l,d])=>`<button class="pb-opt ${t.pace===v?'on':''}" data-act="tg-pace" data-v="${v}"><b>${e} ${l}</b><small>${d}</small></button>`).join('')}</div>
       <button class="btn primary big" data-act="tg-next" style="margin-top:14px;width:100%">לתוצאה ✨</button>`:''}`;
@@ -2191,7 +2234,7 @@ function tgRender(){
         :`<button class="linkbtn small" data-act="tg-edit" style="display:block;margin:10px auto 0">✏️ לשנות את המספרים</button>`}
       <button class="btn primary big" data-act="food-targets" style="margin-top:14px;width:100%">שמור יעד ✓</button>
       <div class="small muted" style="text-align:center;margin-top:8px">לפי נוסחת Mifflin-St Jeor. הערכה כללית, לא ייעוץ רפואי.</div>`
-      :kobi('חסרים כמה פרטים','חזור אחורה והשלם אותם.');
+      :kobi('חסרים כמה פרטים',G('חזור אחורה והשלם אותם.','חזרי אחורה והשלימי אותם.'));
   }
   openSheet(top+`<div class="tgw-body">${body}</div>`);
   if(key==='res')requestAnimationFrame(()=>{ const el=$('[data-count]'); if(!el)return; const to=+el.dataset.count, t0=performance.now();
@@ -3583,6 +3626,9 @@ function renderSettings(){
       <span><b>⭐ ${S.plan.admin?'מסלולים ותשלום':'המנוי שלי'}</b><span class="small muted" style="display:block">${S.plan.admin?'כפי שהמשתמשים רואים. אפשר לשלם מכאן לבדיקה':`${S.plan.paid?'פעיל':'תקופת ניסיון'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString(LOC):'—'}`}</span></span><span class="muted">${S.plan.admin?'פתיחה':'הארכה'} ›</span></button>`:''}
     <button class="card spread" data-act="lang-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:10px">
       <span><b>🌐 שפה</b><span class="small muted" style="display:block" data-notr>${LANG_NAMES[LANG]}</span></span><span class="muted">›</span></button>
+    <div class="row" style="gap:10px;margin-bottom:10px">
+      <button class="card spread" data-act="g-open" style="flex:1;text-align:var(--start);padding:12px 14px"><span><b>🗣️ פנייה</b><span class="small muted" style="display:block">${{m:'לשון זכר',f:'לשון נקבה',x:'לא משנה'}[S.settings.g]||'לא נבחר'}</span></span><span class="muted">›</span></button>
+      <button class="card spread" data-act="acc-open" style="flex:1;text-align:var(--start);padding:12px 14px"><span><b>🎨 צבע</b><span class="small muted" style="display:block">${(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]}</span></span><span class="muted">›</span></button></div>
     <button class="card spread" data-act="share-app" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:14px">
       <span><b>📲 שתף את NextRep</b><span class="small muted" style="display:block">קישור או ברקוד לסריקה לחבר</span></span><span class="muted">›</span></button>
     <button class="card spread" data-act="tour-restart" style="width:100%;text-align:var(--start);padding:12px 14px;margin:-6px 0 8px">
@@ -5321,6 +5367,14 @@ function handleAct(b,ev){
       S.meals=S.meals.filter(m=>m.id!==id); saveSnapshot(); render();
       sb.from('meals').delete().eq('id',id).then(()=>{}); break; }
     case 'food-targets-open': openTargetsSheet(); break;
+    case 'g-open': openGenderSheet(false); break;
+    case 'acc-open': openAccentSheet(); break;
+    case 'g-set': { const v=b.dataset.v, first=!!b.dataset.first; S.settings.g=v;
+      if(!S.settings.body)S.settings.body={}; if((v==='m'||v==='f')&&!S.settings.body.sex)S.settings.body.sex=v;
+      document.querySelectorAll('[data-act="g-set"]').forEach(x=>x.classList.toggle('on',x===b));
+      Promise.resolve(persistSettings()).catch(()=>{}).then(()=>{ closeSheet();
+        if(applyLook(v,S.settings.accent))return; render(); if(first)setTimeout(maybeStartTour,300); else toast('עודכן ✓'); }); break; }
+    case 'acc-set': { const v=b.dataset.v; S.settings.accent=v; applyLook(S.settings.g,v); persistSettings(); openAccentSheet(); break; }
     case 'tg-pick': case 'tg-pace': case 'tg-edit': case 'tg-back': case 'tg-next': case 'tg-step': tgAct(act,b); break;
     case 'food-targets': { const r=TG?tgCalc(TG):null, man=!!$('#t-kcal');
       S.settings.kcalT=(man?Math.round(+($('#t-kcal')?.value)||0):r?.kcal)||null;
@@ -5547,6 +5601,8 @@ async function enterApp(user){
       S.settings.schedule=st.data.prefs?.schedule||{};
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
+      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null;
+      if(S.settings.g&&applyLook(S.settings.g,S.settings.accent))return;
       // שפה שנבחרה במכשיר אחר — מסנכרנים; משתמש ותיק בלי שפה שמורה — שומרים את הנוכחית
       const pl=st.data.prefs?.lang; let lsl=null; try{lsl=localStorage.getItem('nr_lang');}catch(e){}
       if(pl&&pl!==LANG&&!lsl){ try{localStorage.setItem('nr_lang',pl);}catch(e){} location.reload(); return; }
@@ -5567,7 +5623,7 @@ async function enterApp(user){
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest();
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
-  setTimeout(()=>{ if(!checkInstallGate())maybeStartTour(); },700);
+  setTimeout(()=>{ if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else maybeStartTour(); } },700);
   socialProfileFix();
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}

@@ -14,8 +14,10 @@ for(const L of ['ar','en']){
   console.log(L,Object.keys(k).length,'keys',p.length,'patterns');
 }
 console.log('missing',missing.length);
+{ const F=JSON.parse(fs.readFileSync('fem.json','utf8')); const k={},p=[]; for(const [m,f] of Object.entries(F)){ if(/\{\d+\}/.test(m))p.push([m,f]); else k[m]=f; }
+  fs.writeFileSync(`${ROOT}/i18n/he-f.js`,'window.I18N_DATA='+JSON.stringify({k,p})+';\n'); console.log('he-f',Object.keys(k).length,'keys',p.length,'patterns'); }
 // cache-busting: hash of both dictionaries → index.html loader
 const crypto=require('crypto');
-const h=crypto.createHash('md5').update(fs.readFileSync(ROOT+'/i18n/ar.js')).update(fs.readFileSync(ROOT+'/i18n/en.js')).digest('hex').slice(0,8);
+const h=crypto.createHash('md5').update(fs.readFileSync(ROOT+'/i18n/ar.js')).update(fs.readFileSync(ROOT+'/i18n/en.js')).update(fs.readFileSync(ROOT+'/i18n/he-f.js')).digest('hex').slice(0,8);
 const ip=ROOT+'/index.html'; let html=fs.readFileSync(ip,'utf8');
-html=html.replace(/i18n\/'\+L\+'\.js\?v=[^"']*/,"i18n/'+L+'.js?v="+h); fs.writeFileSync(ip,html); console.log('hash',h);
+html=html.replace(/(i18n\/(?:'\+L\+'|he-f)\.js\?v=)[^"'<\\]*/g,(m,a)=>a+h); fs.writeFileSync(ip,html); console.log('hash',h);
