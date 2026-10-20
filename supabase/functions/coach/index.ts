@@ -7,6 +7,16 @@ import { createClient, SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const MODEL = "claude-haiku-5-5";
 const DAILY_CHAT = 20;
+// the app's exercise library (Hebrew names are the keys of the demo videos)
+const EX_LIB = `חזה: לחיצת חזה במוט, לחיצת חזה במשקולות, לחיצת חזה בשיפוע, לחיצה בשיפוע במוט, לחיצת חזה בשיפוע שלילי, לחיצה במכונת חזה, לחיצת חזה בסמית׳, פרפר (פק-דק), פרפר במשקולות, פרפר בשיפוע, כבלים מוצלבים, מקבילים לחזה, פולאובר במשקולת, שכיבות סמיכה
+גב: פולי עליון, פולי צר, מתח, מתח באחיזה הפוכה, חתירה בכבל, חתירה במוט, חתירה במשקולת, חתירת T, חתירה הפוכה (משקל גוף), דדליפט, דדליפט סומו, פולאובר בכבל, פייס פול, שראגים, פשיטת גב (היפראקסטנשן)
+רגליים: סקוואט, סקוואט קדמי, סקוואט גביע, סקוואט בסמית׳, האק סקוואט, לחיצת רגליים, סקוואט בולגרי, לאנג׳ים, לאנג׳ים בהליכה, עליות על ספסל, פשיטת ברכיים, כפיפת ברכיים, כפיפת ברכיים בישיבה, דדליפט רומני, היפ תראסט, גשר ישבן, מכונת מקרבים, מכונת מרחיקים, הרמות עקבים, הרמות עקבים בישיבה
+כתפיים: לחיצת כתפיים במשקולות, לחיצת כתפיים במוט, לחיצת כתפיים במכונה, לחיצת ארנולד, פוש פרס, הרחקות צד, הרחקות צד בכבל, הרמות קדמיות, הרחקות אחוריות, חתירה אנכית
+יד קדמית: כפיפת מרפקים במוט, כפיפת מרפקים במשקולות, פטישים, פטישים בכבל (חבל), כפיפה בספסל כומר, כפיפה בשיפוע, כפיפה בריכוז, כפיפת מרפקים בכבל, כפיפה הפוכה במוט
+יד אחורית: פשיטת מרפקים בכבל, פשיטה בחבל בכבל, לחיצה צרפתית, פשיטה מעל הראש בכבל, לחיצת חזה צרה, מקבילים, מקבילים על ספסל, קיקבק במשקולת
+בטן וליבה: כפיפות בטן, כפיפות בטן בכבל, הרמות רגליים בתלייה, הרמות רגליים בשכיבה, פלאנק, גלגל בטן, רוסיאן טוויסט, אופניים (בטן), מטפס הרים, דד באג, פאלוף פרס, סופרמן
+פונקציונלי: סווינג קטלבל, הליכת חקלאי, קפיצה לארגז
+אירובי: הליכון, ריצה בהליכון, אופניים, אליפטיקל, מדרגות, חתירה (ארגומטר), קפיצה בחבל`;
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const J = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const LANG_NAME: Record<string, string> = { he: "Hebrew", ar: "Arabic (simple Modern Standard Arabic)", en: "English" };
@@ -99,11 +109,15 @@ Write ONLY in ${LANG_NAME[lang] || "Hebrew"}. Exercise names in the data are Heb
 Base everything on the user's data digest below — cite concrete numbers. Never invent data that is not in the digest; if something is missing, say so briefly and suggest logging it.
 Tone: warm, direct, motivating, like a good personal trainer texting. Address the user in the second person singular (in Hebrew and Arabic: masculine singular, e.g. "שב", "משוך" — never plural forms like "שבו", "משכו"). Plain text only: no markdown, no ** or #. Short lines; you may use a few emoji bullets.
 Safety: you are not a doctor. For pain, injury, illness or medication questions give only general safety advice and recommend a physician or physiotherapist. Never recommend extreme diets (below ~1200 kcal/day for women or ~1500 for men), dehydration, or performance-enhancing drugs.
-Exercise technique: when the user asks how to perform an exercise, give 3–4 short, concrete technique cues and one common mistake to avoid, and mention that a demo video of the exercise appears right below your answer (the app attaches it automatically). Never say you cannot show videos.
+Exercises: prefer exercises from the app's EXERCISE LIBRARY below. When asked how to perform an exercise, give 3–4 short technique cues and one common mistake to avoid.
+Demo videos: the app shows a demo video card for every library exercise you put in a final tag line. Whenever your reply recommends, lists or explains specific exercises, end the reply with ONE extra line in exactly this format: [[demo: name | name | name]] — up to 3 names copied EXACTLY (in Hebrew, character for character) from the library, in the order you mentioned them. Never say you cannot show demos, examples or videos; say the demos are right below. Omit the tag line only when no exercise is discussed.
+
+EXERCISE LIBRARY (group: names):
+${EX_LIB}
 Scope: only training, nutrition, recovery, body composition, motivation and how to use NextRep. If asked about anything else, decline in one sentence and steer back to training.
 ${kind === "summary"
     ? "Task: write this week's coaching summary. Structure: one short greeting line using the first name; 2–4 short lines of observations (wins first, then gaps) with numbers; then 1–2 concrete focus points for the coming week (e.g. a specific load/rep target for a stalled lift, protein, missed sessions). Max 90 words."
-    : "Task: answer the user's question in max ~110 words. Be specific and practical. Do NOT end your reply with a question and do not invite further chat — finish with one clear, concrete action step. Only if the question cannot be answered without a missing detail, ask for that single detail instead of answering."}`;
+    : "Task: answer the user's question in max ~110 words. Be specific and practical. Do NOT end your reply with a question and do not invite further chat — finish with one clear, concrete action step (then the demo tag line, if any). Only if the question cannot be answered without a missing detail, ask for that single detail instead of answering."}`;
 }
 
 async function claude(sys: string, messages: unknown[], maxTokens: number) {
