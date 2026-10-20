@@ -2030,5 +2030,13 @@
 "כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת, ומחשב קלוריות מצילום של הצלחת במקום שתספור.": {
 "en": "To get stronger you add a little every workout, and you can't add to what you don't remember. NextRep remembers every set for you, tells you when rest is over, and counts calories from a photo of your plate so you don't have to.",
 "ar": "لتصبح أقوى تضيف قليلًا في كل تمرين، ولا يمكن الإضافة إلى ما لا تتذكره. NextRep يتذكر كل مجموعة عنك، ويخبرك عند انتهاء الراحة، ويحسب السعرات من صورة طبقك بدل أن تعدّها."
+},
+"מתאמנת מצלמת צלחת, והאפליקציה מזהה את המרכיבים": {
+"en": "A woman photographs her plate and the app identifies the ingredients",
+"ar": "متدربة تصوّر طبقها والتطبيق يتعرف على المكونات"
+},
+"מתאמן מצלם צלחת, והאפליקציה מזהה את המרכיבים": {
+"en": "A man photographs his plate and the app identifies the ingredients",
+"ar": "متدرب يصوّر طبقه والتطبيق يتعرف على المكونات"
 }
 }

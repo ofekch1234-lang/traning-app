@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=af019839"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=af019839"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=af019839"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=666b8a25"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=666b8a25"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=666b8a25"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -208,6 +208,7 @@ body.landing #app{max-width:1120px}
 .ld-badges{display:flex;gap:8px;flex-wrap:wrap}.ld-badges span{width:44px;height:44px;border-radius:50%;background:var(--accent-soft,#e8f6ed);display:grid;place-items:center;font-size:21px;border:1px solid var(--line)}
 .ld-prices{display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
 @media (min-width:900px){ .ld-prices{grid-template-columns:repeat(3,1fr);max-width:none} }
+.ld-scanimg img{width:100%;height:auto;border-radius:22px;display:block;box-shadow:0 20px 50px -24px rgba(0,0,0,.35)}
 .ld-kicker{display:inline-block;align-self:flex-start;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700}
 .ld-photo{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#F6E7C8,#E9D3A8);border-radius:14px;padding:12px 14px;margin-bottom:10px;color:#4a3a1a}
 .ld-photo span{font-size:34px}.ld-photo b{font-size:14px}
@@ -1190,7 +1191,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.5.3';
+const APP_VERSION='11.5.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1809,14 +1810,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
         <li>${F?'בסוף היום את רואה בדיוק איפה את עומדת מול היעד':'בסוף היום אתה רואה בדיוק איפה אתה עומד מול היעד'}</li>
       </ul>
     </div>
-    <div class="ld-feat ld-plate" aria-hidden="true">
-      <div class="ld-photo"><span>🍛</span><b>📸 מנתח את הצלחת…</b></div>
-      <div class="ld-items">
-        ${(F?[['חזה עוף בגריל','130 גר׳',215],['אורז לבן','120 גר׳',156],['סלט ירקות עם שמן זית','150 גר׳',95],['חצי פיתה','45 גר׳',125]]:[['שניצל','160 גר׳',390],['אורז לבן','180 גר׳',234],['סלט ירקות','120 גר׳',48],['פיתה','90 גר׳',250]]).map(([n,g,k])=>`<div><span>${n}</span><span class="small muted">${g}</span><b class="num">${k}</b></div>`).join('')}
-      </div>
-      <div class="ld-tot"><span>סה״כ</span><b class="num">${F?'591':'922'} <small>קק״ל · ${F?'52':'48'} גר׳ חלבון</small></b></div>
-      <div class="ld-prev" style="margin-top:8px">${F?'נשארו לך 760 קק״ל להיום':'נשארו לך 1,330 קק״ל להיום'}</div>
-      <div class="ld-btn">הוסף ליום ✓</div>
+    <picture class="ld-scanimg"><source srcset="img/scan-${F?'f':'m'}.webp" type="image/webp"><img src="img/scan-${F?'f':'m'}.jpg" width="900" height="1125" loading="lazy" alt="${F?'מתאמנת מצלמת צלחת, והאפליקציה מזהה את המרכיבים':'מתאמן מצלם צלחת, והאפליקציה מזהה את המרכיבים'}"></picture>
     </div>
   </section>
 
