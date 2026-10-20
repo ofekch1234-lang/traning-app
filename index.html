@@ -1192,7 +1192,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.5.4';
+const APP_VERSION='11.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1341,7 +1341,9 @@ const S={
 };
 if(['history','progress'].includes(S.tab)){S.trackView=S.tab;S.tab='track';}
 const PAID_RETURN=(location.hash||'')==='#paid'; if(PAID_RETURN){ try{history.replaceState(null,'',location.pathname);}catch(_){} }
-{ const rm=(location.hash||'').match(/ref=([0-9a-f-]{36})/i); if(rm){ try{localStorage.setItem('nr-ref',rm[1]);}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
+{ /* מקור הגעה (utm) לדפי המזון והמחשבונים: נשמר במכשיר ונרשם פעם אחת אחרי ההרשמה */
+  try{ const q=new URLSearchParams(location.search); const src=q.get('utm_source'); if(src){ localStorage.setItem('nr-src',JSON.stringify({s:src.slice(0,30),m:(q.get('utm_medium')||'').slice(0,30),c:(q.get('utm_content')||'').slice(0,60),t:Date.now()})); history.replaceState(null,'',location.pathname+location.hash); } }catch(_){}
+  const rm=(location.hash||'').match(/ref=([0-9a-f-]{36})/i); if(rm){ try{localStorage.setItem('nr-ref',rm[1]);}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 { const jm=(location.hash||'').match(/join=([A-Za-z0-9]{6})/); if(jm){ try{localStorage.setItem('nr-join',jm[1].toUpperCase());}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 if(!['home','train','food','plans','track','social'].includes(S.tab)) S.tab='home';
 
@@ -4101,6 +4103,14 @@ function admGrowthHTML(){
       <div class="small muted" style="margin-top:8px">${F.inv_opens} פתיחות של מסך ההזמנה, ${F.inv_shares} שיתופים. ${F.inv_days} ימי מתנה חולקו. מקדם ויראלי משוער: <b class="num">${F.signups?(F.inv_joined/F.signups).toFixed(2):'—'}</b> הצטרפות דרך חבר לכל נרשם.</div>
       ${(F.top_referrers||[]).length?`<div class="label" style="margin:10px 0 4px">המזמינים המובילים</div>${F.top_referrers.map(r=>`<div class="spread small" style="padding:5px 0;border-top:1px solid var(--line)"><span data-notr>${esc(r.name)}</span><span class="num">${r.n} הזמינו · ${r.paid} שילמו</span></div>`).join('')}`:''}
     </div>
+    <div class="card">
+      <div class="spread" style="margin-bottom:10px"><b>🔎 הגיעו מגוגל (דפי מזון ומחשבונים)</b><span class="small muted">מצטבר</span></div>
+      <div class="tiles" style="border:0;background:none;gap:6px">
+        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.seo_signups||0}</div><div class="k">נרשמו</div></div>
+        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.seo_food||0} / ${F.seo_calc||0}</div><div class="k">מזון / מחשבונים</div></div>
+        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.seo_paid||0}</div><div class="k">מהם שילמו</div></div></div>
+      <div class="small muted" style="margin-top:8px">נספר מי שנרשם אחרי שהגיע מדף מזון או מחשבון. כמות הכניסות והחיפושים עצמם: ב-Google Search Console.${F.src_other&&Object.keys(F.src_other).length?' מקורות נוספים: '+Object.entries(F.src_other).map(([k,v])=>`${esc(k)} ${v}`).join(', ')+'.':''}</div>
+    </div>
     <div class="card adm-span">
       <div class="spread" style="margin-bottom:8px"><b>קבוצות שבועיות</b><span class="small muted">12 השבועות האחרונים · לפי שבוע הרשמה</span></div>
       <div style="overflow-x:auto"><table class="adm-tbl"><thead><tr><th>שבוע</th><th>נרשמו</th><th>דרך חבר</th><th>אימון ב-48ש׳</th><th>פעילים יום 7</th><th>פעילים יום 30</th><th>שילמו</th></tr></thead><tbody>
@@ -6001,6 +6011,7 @@ async function enterApp(user){
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
       S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null;
+      try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1'); logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
       if(S.settings.g&&applyLook(S.settings.g,S.settings.accent))return;
       // שפה שנבחרה במכשיר אחר — מסנכרנים; משתמש ותיק בלי שפה שמורה — שומרים את הנוכחית

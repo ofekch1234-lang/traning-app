@@ -148,6 +148,8 @@ ${alts.map(([al,p])=>`<link rel="alternate" hreflang="${al}" href="${SITE}${p}">
 const FOOT=(l,alts)=>`<div class="foot">${T[l].footer}<br><br>${T[l].app}
 <div class="langs">${alts.map(([al,p])=>`<a href="${p}" hreflang="${al}">${{he:'עברית',en:'English',ar:'العربية'}[al]}</a>`).join('')}</div></div></div></body></html>`;
 
+const calcBase=l=>l==='he'?'/calc/':`/${l}/calc/`;
+const calcLinks=l=>`<a href="${calcBase(l)}">${T[l].calc}</a><a href="${calcBase(l)}bmi">${T[l].calcBmi}</a><a href="${calcBase(l)}protein">${T[l].calcProt}</a>`;
 function foodPage(f,l){
   const t=T[l], n=nameOf(f,l), u=f.def, alts=LANGS.map(al=>[al,pathOf(f,al)]), canon=pathOf(f,l);
   const kU=u?r0(f.k*u.g/100):r0(f.k), pU=u?r1(f.p*u.g/100):r1(f.p), cU=u?r1(f.cb*u.g/100):r1(f.cb), fU=u?r1(f.ft*u.g/100):r1(f.ft);
@@ -170,7 +172,7 @@ ${cmp.length?`<div class="card cmp"><h2>${esc(t.vs(n))}</h2><div class="sub" sty
 <div class="cta"><img src="/img/kobi-happy.svg" alt=""><div style="flex:1"><b>${esc(t.ctaT(n))}</b><span>${t.ctaS}</span></div><a href="/?utm_source=seo&utm_medium=food&utm_content=${f.c}">${t.ctaB}</a></div>
 <div class="card faq"><h2>${t.faq}</h2>${faq.map(([q,a],i)=>`<details${i?'':' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
 ${cmp.length?`<h2 style="font-size:15px;color:var(--mut)">${t.related}</h2><div class="links">${cmp.map(x=>`<a href="${pathOf(x,l)}">${esc(nameOf(x,l))}</a>`).join('')}<a href="${catPath(f.cat,l)}">${esc(catName(f.cat,l))} ›</a></div>`:''}
-<div class="links" style="margin-top:14px"><a href="/calc/${l==='he'?'':l+'/'}">${t.calc}</a><a href="/calc/${l==='he'?'':l+'/'}bmi">${t.calcBmi}</a><a href="/calc/${l==='he'?'':l+'/'}protein">${t.calcProt}</a></div>`+FOOT(l,alts);
+<div class="links" style="margin-top:14px">${calcLinks(l)}</div>`+FOOT(l,alts);
 }
 function catPage(id,l){
   const t=T[l], list=(byCat[id]||[]).slice().sort((a,b)=>(b.g?1:0)-(a.g?1:0)||(b.pk||0)-(a.pk||0)||a.n.localeCompare(b.n)), alts=LANGS.map(al=>[al,catPath(id,al)]);
@@ -206,11 +208,14 @@ for(const l of LANGS){
   w(indexPath(l),indexPage(l)); urls[l].push(indexPath(l));
   w(indexPath(l)+'index.json',JSON.stringify(foods.map(f=>[nameOf(f,l),r0(f.k),pathOf(f,l)])));
 }
+// calculators
+const calc=require('./calc.js'); const calcUrls=[];
+for(const l of LANGS){ for(const [kind,p] of [['cal',''],['bmi','bmi'],['prot','protein']]){ const u=calcBase(l)+p; w(u||'/calc/',calc.page(HEAD,FOOT,l,kind,calcLinks)); calcUrls.push(u); } }
 // sitemaps
 const sm=list=>`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${list.map(u=>`<url><loc>${SITE}${u}</loc></url>`).join('')}</urlset>`;
 for(const l of LANGS)w(`/sitemap-food-${l}.xml`,sm(urls[l]));
 w('/sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${LANGS.map(l=>`<sitemap><loc>${SITE}/sitemap-food-${l}.xml</loc></sitemap>`).join('')}<sitemap><loc>${SITE}/sitemap-pages.xml</loc></sitemap></sitemapindex>`);
-w('/sitemap-pages.xml',sm(['/','/terms.html','/privacy.html','/accessibility.html']));
+w('/sitemap-pages.xml',sm(['/','/terms.html','/privacy.html','/accessibility.html',...calcUrls]));
 fs.writeFileSync(path.join(OUT,'food','food.css'),CSS);
 w('/robots.txt',`User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: ${SITE}/sitemap.xml\n`);
 console.log('food pages:',n,'→',OUT);
