@@ -1646,5 +1646,205 @@
 "· משקל יעד {0} ק״ג": {
 "en": "· goal weight {0} kg",
 "ar": "· الوزن المستهدف {0} كغ"
+},
+"הדף מותאם ל:": {
+"en": "Page tailored for:",
+"ar": "الصفحة مخصصة لـ:"
+},
+"עומדת מול המכונה ולא זוכרת אם בפעם שעברה שמת 30 או 35.": {
+"en": "Standing at the machine, not sure if last time it was 30 or 35.",
+"ar": "تقفين أمام الجهاز ولا تتذكرين إن كان 30 أم 35 في المرة الماضية."
+},
+"הטיימר מתחיל לבד ושולח התראה כשצריך לחזור לתרגיל.": {
+"en": "The timer starts on its own and pings you when it's time to get back to the exercise.",
+"ar": "يبدأ المؤقت تلقائيًا ويرسل إشعارًا عندما يحين وقت العودة للتمرين."
+},
+"אוכלת \"בערך בסדר\" ולא מבינה למה המשקל לא זז.": {
+"en": "Eating \"roughly fine\" and can't tell why the scale won't move.",
+"ar": "تأكلين \"بشكل مقبول تقريبًا\" ولا تفهمين لماذا لا يتغير الوزن."
+},
+"מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד. בלי ספירה ידנית.": {
+"en": "Snap the plate, the AI breaks it down and counts calories and protein against your target. No manual counting.",
+"ar": "تصوّرين الطبق، يفكّكه الذكاء الاصطناعي ويحسب السعرات والبروتين مقابل هدفك. بلا عدّ يدوي."
+},
+"מתאמנת כבר חודשים ולא בטוחה שמשהו באמת השתנה.": {
+"en": "Training for months and not sure anything really changed.",
+"ar": "تتدربين منذ أشهر ولست متأكدة أن شيئًا تغيّر فعلًا."
+},
+"גרף משקל, תמונות שבועיות ושיאים אישיים מראים בדיוק מה זז. גם כשהמשקל עומד והגוף משתנה.": {
+"en": "A weight graph, weekly photos and personal records show exactly what moved. Even when the scale stalls and the body changes.",
+"ar": "رسم الوزن والصور الأسبوعية والأرقام القياسية تُظهر بدقة ما تغيّر. حتى عندما يثبت الوزن ويتغير الجسم."
+},
+"רק את. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך. גם צוות NextRep לא פותח אותן.": {
+"en": "Only you. Photos are encrypted on your phone and kept in private storage tied to your account. Even the NextRep team doesn't open them.",
+"ar": "أنتِ فقط. تُشفَّر الصور على هاتفك وتُحفظ في تخزين خاص مرتبط بحسابك. حتى فريق NextRep لا يفتحها."
+},
+"רק אתה. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך.": {
+"en": "Only you. Photos are encrypted on your phone and kept in private storage tied to your account.",
+"ar": "أنت فقط. تُشفَّر الصور على هاتفك وتُحفظ في تخزين خاص مرتبط بحسابك."
+},
+"אימוני כוח לא יעשו אותי \"גדולה\"?": {
+"en": "Won't strength training make me \"bulky\"?",
+"ar": "ألن تجعلني تمارين القوة \"ضخمة\"؟"
+},
+"לא. בלי תוספים ועם תזונה רגילה, אימוני משקולות בונים שריר לאט ובצורה שמחטבת ומחזקת. זה הדבר הכי יעיל לשינוי הרכב גוף, הרבה יותר מאירובי לבד.": {
+"en": "No. Without supplements and on a normal diet, lifting builds muscle slowly in a way that tones and strengthens. It's the most effective thing for changing body composition, far more than cardio alone.",
+"ar": "لا. بدون مكملات ومع تغذية عادية، تبني تمارين الأوزان العضل ببطء وبشكل يشدّ ويقوّي. إنها الأكثر فعالية لتغيير تركيب الجسم، أكثر بكثير من الكارديو وحده."
+},
+"גרף התקדמות לדוגמה": {
+"en": "Sample progress chart",
+"ar": "رسم تقدم توضيحي"
+},
+"תפסיקי לנחש": {
+"en": "Stop guessing",
+"ar": "توقفي عن التخمين"
+},
+"כדי להתחזק ולהתחטב צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכרת כל סט במקומך, מודיעה כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאת מתקדמת.": {
+"en": "To get stronger and leaner you add a little every workout, and you can't add to what you don't remember. NextRep remembers every set for you, tells you when rest is over and shows you in black and white that you're progressing.",
+"ar": "لتصبحي أقوى وأرشق تضيفين قليلًا في كل تمرين، ولا يمكن الإضافة إلى ما لا تتذكرينه. NextRep يتذكر كل مجموعة عنك، ويخبرك عند انتهاء الراحة ويريك بوضوح أنك تتقدمين."
+},
+"פנייה בלשון נקבה בכל האפליקציה.": {
+"en": "Addressed to you as a woman throughout the app.",
+"ar": "مخاطبة بصيغة المؤنث في كل التطبيق."
+},
+"בפעם שעברה: 60 × 10, היום כבר 65": {
+"en": "Last time: 60 × 10, today already 65",
+"ar": "المرة الماضية: 60 × 10، اليوم 65"
+},
+"היפ תראסט, 12 שבועות": {
+"en": "Hip thrust, 12 weeks",
+"ar": "هيب ثراست، 12 أسبوعًا"
+},
+"ההיפ תראסט שלי תקוע על 60 כבר שבועיים, מה לעשות?": {
+"en": "My hip thrust has been stuck at 60 for two weeks, what should I do?",
+"ar": "الهيب ثراست عالق عند 60 منذ أسبوعين، ماذا أفعل؟"
+},
+"ראיתי: 60×10 בשלושת האימונים האחרונים 💪 השבוע נסי 65 לסט ראשון, גם אם יוצאות רק 8 חזרות. ותוסיפי סקוואט בולגרי כתרגיל שני.": {
+"en": "I see 60×10 in your last three sessions 💪 This week try 65 on the first set, even if you only get 8 reps. And add Bulgarian split squats as a second exercise.",
+"ar": "رأيت 60×10 في آخر ثلاث تمارين 💪 هذا الأسبوع جرّبي 65 في المجموعة الأولى حتى لو خرجت 8 تكرارات فقط. وأضيفي السكوات البلغاري كتمرين ثانٍ."
+},
+"דנה": {
+"en": "Dana",
+"ar": "دانا"
+},
+"נועה": {
+"en": "Noa",
+"ar": "نوى"
+},
+"את": {
+"en": "You",
+"ar": "أنتِ"
+},
+"אתה": {
+"en": "You",
+"ar": "أنت"
+},
+"את מתאמנת עם משקולות פעמיים עד שש בשבוע": {
+"en": "You lift weights two to six times a week",
+"ar": "تتدربين بالأوزان من مرتين إلى ست مرات أسبوعيًا"
+},
+"את רוצה להתחזק ולהתחטב, ולראות את זה במספרים": {
+"en": "You want to get stronger and leaner, and see it in numbers",
+"ar": "تريدين أن تصبحي أقوى وأرشق، وأن تري ذلك بالأرقام"
+},
+"חשוב לך אימון מסודר שנגמר בזמן": {
+"en": "You want an organized workout that ends on time",
+"ar": "يهمك تمرين منظم ينتهي في وقته"
+},
+"את מחפשת שיעורי וידאו עם מאמנת מול המצלמה": {
+"en": "You're looking for video classes with a trainer on camera",
+"ar": "تبحثين عن دروس فيديو مع مدربة أمام الكاميرا"
+},
+"את מתאמנת בעיקר בריצה, ביוגה או בפילאטיס": {
+"en": "You mainly run, do yoga or Pilates",
+"ar": "تتدربين أساسًا بالجري أو اليوغا أو البيلاتس"
+},
+"סקוואט בולגרי": {
+"en": "Bulgarian split squat",
+"ar": "سكوات بلغاري"
+},
+"היפ תראסט": {
+"en": "Hip thrust",
+"ar": "هيب ثراست"
+},
+"💚 ההצעה הבריאה": {
+"en": "💚 Healthy suggestion",
+"ar": "💚 الاقتراح الصحي"
+},
+"✓ ההצעה הבריאה": {
+"en": "✓ Healthy suggestion",
+"ar": "✓ الاقتراح الصحي"
+},
+"הטווח הבריא לגובה שלך: {0}–{1} ק״ג · עכשיו BMI {2}": {
+"en": "Healthy range for your height: {0}–{1} kg · now BMI {2}",
+"ar": "النطاق الصحي لطولك: {0}–{1} كغ · الآن BMI {2}"
+},
+"BMI {0}, בתוך הטווח הבריא": {
+"en": "BMI {0}, within the healthy range",
+"ar": "BMI {0}، ضمن النطاق الصحي"
+},
+"⚠️ מתחת לטווח הבריא (BMI {0}). יעד כזה לא מומלץ.": {
+"en": "⚠️ Below the healthy range (BMI {0}). Not a recommended goal.",
+"ar": "⚠️ تحت النطاق الصحي (BMI {0}). هدف غير موصى به."
+},
+"⚠️ עדיין מעל הטווח הבריא (BMI {0}). אפשר להתחיל ממנו כיעד ראשון.": {
+"en": "⚠️ Still above the healthy range (BMI {0}). Fine as a first milestone.",
+"ar": "⚠️ ما زال فوق النطاق الصحي (BMI {0}). يصلح كهدف أول."
+},
+"חישבתי הצעה לפי הגובה, המשקל והמטרה שלך. אפשר לקחת אותה או לבחור אחרת.": {
+"en": "I worked out a suggestion from your height, weight and goal. Take it or pick your own.",
+"ar": "حسبت اقتراحًا حسب طولك ووزنك وهدفك. خذه أو اختر غيره."
+},
+"ירידה של עד 10% מהמשקל היא היעד הראשון המומלץ. אחרי שמגיעים אליו, מגדירים את הבא.": {
+"en": "Losing up to 10% of body weight is the recommended first goal. Once you get there, set the next one.",
+"ar": "خسارة حتى 10% من الوزن هي الهدف الأول الموصى به. عند بلوغه، حدّد التالي."
+},
+"מביא אותך לאמצע הטווח הבריא לגובה שלך, בלי לרדת יותר מדי.": {
+"en": "Brings you to the middle of the healthy range for your height, without going too low.",
+"ar": "يوصلك إلى منتصف النطاق الصحي لطولك دون النزول أكثر من اللازم."
+},
+"אתה כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
+"en": "You're already in the healthy range. A small loss, with the focus on keeping muscle.",
+"ar": "أنت بالفعل في النطاق الصحي. نزول بسيط مع التركيز على الحفاظ على العضل."
+},
+"את כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
+"en": "You're already in the healthy range. A small loss, with the focus on keeping muscle.",
+"ar": "أنتِ بالفعل في النطاق الصحي. نزول بسيط مع التركيز على الحفاظ على العضل."
+},
+"כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
+"en": "Already in the healthy range. A small loss, with the focus on keeping muscle.",
+"ar": "في النطاق الصحي بالفعل. نزول بسيط مع التركيز على الحفاظ على العضل."
+},
+"המשקל כבר בתחתית הטווח הבריא. במקום לרדת, עדיף להתחזק ולשנות הרכב גוף.": {
+"en": "Your weight is already at the bottom of the healthy range. Rather than losing, get stronger and change body composition.",
+"ar": "وزنك في أسفل النطاق الصحي بالفعل. بدل النزول، الأفضل التقوية وتغيير تركيب الجسم."
+},
+"מעלה אותך לתוך הטווח הבריא, בקצב שבונה שריר ולא רק שומן.": {
+"en": "Brings you into the healthy range, at a pace that builds muscle, not just fat.",
+"ar": "يرفعك إلى النطاق الصحي بوتيرة تبني العضل لا الدهون فقط."
+},
+"עלייה של 3 עד 4 ק״ג בשריר לוקחת כמה חודשים. זה יעד ראשון אמיתי.": {
+"en": "Gaining 3 to 4 kg of muscle takes a few months. That's a real first goal.",
+"ar": "زيادة 3 إلى 4 كغ من العضل تستغرق بضعة أشهر. هذا هدف أول حقيقي."
+},
+"אתה כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
+"en": "You're already in the upper part of the range. A small, slow gain so most of it is muscle.",
+"ar": "أنت في الجزء العلوي من النطاق. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
+},
+"את כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
+"en": "You're already in the upper part of the range. A small, slow gain so most of it is muscle.",
+"ar": "أنتِ في الجزء العلوي من النطاق. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
+},
+"כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
+"en": "Already in the upper part of the range. A small, slow gain so most of it is muscle.",
+"ar": "في الجزء العلوي من النطاق بالفعل. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
+},
+"שמירה: המשקל הנוכחי הוא היעד.": {
+"en": "Maintenance: your current weight is the goal.",
+"ar": "الحفاظ: وزنك الحالي هو الهدف."
+},
+"הטווח הבריא לגובה שלך: {0} עד {1} ק״ג · עכשיו BMI {2}": {
+"en": "Healthy range for your height: {0} to {1} kg · now BMI {2}",
+"ar": "النطاق الصحي لطولك: {0} إلى {1} كغ · الآن BMI {2}"
 }
 }

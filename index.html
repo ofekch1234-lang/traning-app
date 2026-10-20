@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=fab39183"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=fab39183"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=fab39183"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=51d5a085"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=51d5a085"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=51d5a085"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -208,6 +208,10 @@ body.landing #app{max-width:1120px}
 .ld-badges{display:flex;gap:8px;flex-wrap:wrap}.ld-badges span{width:44px;height:44px;border-radius:50%;background:var(--accent-soft,#e8f6ed);display:grid;place-items:center;font-size:21px;border:1px solid var(--line)}
 .ld-prices{display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
 @media (min-width:900px){ .ld-prices{grid-template-columns:repeat(3,1fr);max-width:none} }
+.ld-g{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0 6px;font-size:13.5px;color:var(--muted)}
+.ld-gsw{display:flex;background:var(--surface2);border-radius:999px;padding:3px;gap:2px}
+.ld-gsw button{border-radius:999px;padding:7px 14px;font-size:14px;color:var(--muted)}
+.ld-gsw button.on{background:var(--accent);color:var(--accent-ink);font-weight:700}
 .ld-foot{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 0}
 #landlogin{font-weight:600}
 .ld-prev{font-size:12px;color:var(--accent);font-weight:600;padding:2px 34px 4px 0}
@@ -280,6 +284,11 @@ body.landing #app{max-width:1120px}
 .tgw-q b{font-size:17px}.tgw-q span{font-size:13.5px;color:var(--muted);line-height:1.45}
 .tgw-big{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 10px;border-radius:18px;background:var(--surface2);border:2px solid transparent;color:inherit}
 .tgw-big span{font-size:40px}.tgw-big b{font-size:17px}.tgw-big.on{border-color:var(--accent);background:var(--accent-soft)}
+.tgw-sug{display:flex;flex-direction:column;gap:3px;width:100%;text-align:var(--start);padding:12px 14px;border-radius:16px;background:var(--surface2);border:2px solid transparent;color:inherit;margin-bottom:8px}
+.tgw-sug.on{border-color:var(--accent);background:var(--accent-soft)}
+.tgw-sug-k{font-size:12.5px;font-weight:700;color:var(--accent)}.tgw-sug b{font-family:var(--disp);font-size:34px;line-height:1}.tgw-sug b small{font-size:14px;font-family:var(--body);font-weight:400;color:var(--muted)}
+.tgw-sug>span:nth-child(3){font-size:13px;line-height:1.4}
+.tgw-note .warn{color:var(--danger);font-weight:600}
 .tgw-num{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 10px}
 .tgw-pm{width:56px;height:56px;border-radius:50%;background:var(--surface2);font-size:28px;font-weight:700;color:var(--ink);flex-shrink:0}
 .tgw-pm:active{transform:scale(.92)}
@@ -1152,10 +1161,11 @@ if(I18)I18.start();
   // הקשה כפולה: נחסמת ב-CSS (touch-action:manipulation) בלי לבלוע לחיצות מהירות על כפתורים
 })();
 /* אישה: קובי ואייקון האפליקציה בוורוד */
+window.__fixF=null;
 if(window.NR_G==='f'){ const fx=root=>{ if(!root||root.nodeType!==1)return; const L=root.matches?.('img')?[root]:[]; root.querySelectorAll?.('img').forEach(i=>L.push(i));
     for(const i of L){ const v=i.getAttribute('src')||''; const n=v.replace(/img\/kobi-([a-z]+)\.svg/,'img/kobi-$1-f.svg').replace(/^icon-192\.png/,'icon-f-192.png'); if(n!==v)i.setAttribute('src',n); } };
   const go=()=>{ fx(document.body); new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='childList')m.addedNodes.forEach(fx); else fx(m.target); } }).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['src']}); };
-  if(document.body)go(); else document.addEventListener('DOMContentLoaded',go); }
+  window.__fixF=fx; if(document.body)go(); else document.addEventListener('DOMContentLoaded',go); }
 const LANG_NAMES={he:'עברית',ar:'العربية',en:'English'};
 function langPillsHTML(){ return `<div class="langpills" data-notr>${Object.entries(LANG_NAMES).map(([k,v])=>`<button type="button" class="${k===LANG?'on':''}" data-act="lang-set" data-l="${k}" lang="${k}">${v}</button>`).join('')}</div>`; }
 function setLang(l){
@@ -1173,7 +1183,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.4.1';
+const APP_VERSION='11.5.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1707,10 +1717,26 @@ function loadLandPrices(){ if(LP.loaded)return; LP.loaded=true;
   try{ sb.rpc('public_plans').then(({data})=>{ if(!data||!Array.isArray(data.plans)||!data.plans.length)return;
     LP.trial=+data.trial_days||7; LP.plans=data.plans;
     if(document.querySelector('.ld'))render(); }).catch(()=>{}); }catch(_){} }
-function vLanding(){ loadLandPrices();
+/* דף הנחיתה לפי מגדר: מתג למעלה, צבע ורוד, וקופי בלשון נקבה עם מסרים לנשים */
+const LW=(m,f)=>window.NR_G==='f'?f:m;
+function landSetG(g){
+  try{ localStorage.setItem('nr-g',g); localStorage.removeItem('nr-acc'); }catch(_){}
+  window.NR_G=g; const h=document.documentElement;
+  if(g==='f'){ h.setAttribute('data-accent','rose'); h.setAttribute('data-g','f'); } else { h.removeAttribute('data-accent'); h.removeAttribute('data-g'); }
+  render(); window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('img').forEach(i=>{ const v=i.getAttribute('src')||''; const n=g==='f'?v.replace(/img\/kobi-([a-z]+)\.svg/,'img/kobi-$1-f.svg').replace(/^icon-192\.png/,'icon-f-192.png'):v.replace(/img\/kobi-([a-z]+)-f\.svg/,'img/kobi-$1.svg').replace(/^icon-f-192\.png/,'icon-192.png'); if(n!==v)i.setAttribute('src',n); });
+}
+function landGenderHTML(){ const g=window.NR_G; return `<div class="ld-g" data-notr><span>${tt('הדף מותאם ל:')}</span><div class="ld-gsw"><button class="${g==='f'?'':'on'}" data-act="land-g" data-v="m">🙋‍♂️ ${tt('גבר')}</button><button class="${g==='f'?'on':''}" data-act="land-g" data-v="f">🙋‍♀️ ${tt('אישה')}</button></div></div>`; }
+function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   const ring=(p)=>{const r=20,c=2*Math.PI*r;return `<svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/>
     <circle id="ld-ring" cx="25" cy="25" r="${r}" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p)).toFixed(1)}" transform="rotate(-90 25 25)"/></svg>`;};
-  const pains=[
+  const pains=F?[
+    ['עומדת מול המכונה ולא זוכרת אם בפעם שעברה שמת 30 או 35.','המשקל והחזרות מהאימון הקודם מחכים לך בשורה של הסט.'],
+    ['המנוחה של דקה וחצי הופכת לחמש דקות של גלילה באינסטגרם.','הטיימר מתחיל לבד ושולח התראה כשצריך לחזור לתרגיל.'],
+    ['הפתקים בטלפון מבולגנים, ואחרי חודש אי אפשר למצוא בהם כלום.','כל אימון נשמר מסודר, עם היסטוריה וגרף לכל תרגיל.'],
+    ['אוכלת "בערך בסדר" ולא מבינה למה המשקל לא זז.','מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד. בלי ספירה ידנית.'],
+    ['מתאמנת כבר חודשים ולא בטוחה שמשהו באמת השתנה.','גרף משקל, תמונות שבועיות ושיאים אישיים מראים בדיוק מה זז. גם כשהמשקל עומד והגוף משתנה.'],
+  ]:[
     ['עומד מול המוט ולא זוכר אם בפעם שעברה הרמת 80 או 82.5.','המשקל והחזרות מהאימון הקודם מחכים לך בשורה של הסט.'],
     ['המנוחה של דקה וחצי הופכת לחמש דקות של גלילה באינסטגרם.','הטיימר מתחיל לבד ושולח התראה כשצריך לחזור למוט.'],
     ['הפתקים בטלפון מבולגנים, ואחרי חודש אי אפשר למצוא בהם כלום.','כל אימון נשמר מסודר, עם היסטוריה וגרף לכל תרגיל.'],
@@ -1724,34 +1750,35 @@ function vLanding(){ loadLandPrices();
     ['זה עובד בחדר כושר בלי קליטה?','כן. האימון נשמר בטלפון ומסתנכרן ברגע שחוזרת קליטה.'],
     ['אני מתחיל, זה מתאים לי?','כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.'],
     ['באיזו שפה האפליקציה?','עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.'],
-    ['מי רואה את הנתונים והתמונות שלי?','רק אתה. התמונות נשמרות באחסון פרטי שמשויך לחשבון שלך.'],
-    ['למה החשבון צריך אישור?','אנחנו פותחים את NextRep בהדרגה כדי לשמור על איכות. אחרי ההרשמה החשבון נכנס לתור ומאושר בהקדם.'],
+    ['מי רואה את הנתונים והתמונות שלי?',F?'רק את. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך. גם צוות NextRep לא פותח אותן.':'רק אתה. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך.'],
+    ...(F?[['אימוני כוח לא יעשו אותי "גדולה"?','לא. בלי תוספים ועם תזונה רגילה, אימוני משקולות בונים שריר לאט ובצורה שמחטבת ומחזקת. זה הדבר הכי יעיל לשינוי הרכב גוף, הרבה יותר מאירובי לבד.']]:[]),
   ];
   let inv=null, refd=null; try{inv=localStorage.getItem('nr-join'); refd=localStorage.getItem('nr-ref');}catch(_){}
   return `<div class="ld">
+  ${landGenderHTML()}
   ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: 14 ימי ניסיון במתנה במקום 7. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
   <section class="ld-hero">
     <div class="stack" style="gap:16px">
-      <h1>תפסיק לנחש<br>מה הרמת<br>בפעם שעברה.</h1>
-      <p class="lead">כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאתה מתקדם.</p>
+      <h1>${F?'תפסיקי לנחש<br>מה הרמת<br>בפעם שעברה.':'תפסיק לנחש<br>מה הרמת<br>בפעם שעברה.'}</h1>
+      <p class="lead">${F?'כדי להתחזק ולהתחטב צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכרת כל סט במקומך, מודיעה כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאת מתקדמת.':'כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאתה מתקדם.'}</p>
       <div class="ld-cta">
         <button class="btn primary" data-act="land-signup">אני רוצה להתחיל</button>
         <button class="btn" data-act="land-login">כבר יש לי חשבון</button>
       </div>
-      <div class="ld-note">7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.</div>
+      <div class="ld-note">7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.${F?' פנייה בלשון נקבה בכל האפליקציה.':''}</div>
     </div>
     <div class="ld-phone" aria-hidden="true"><div class="ld-screen">
       <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
       <div class="ld-card">
-        <div class="spread" style="margin-bottom:6px"><b>לחיצת חזה במוט</b><span class="ld-pr" style="font-size:11.5px;padding:2px 8px">🏅 שיא</span></div>
-        <div class="ld-set done"><span class="n">1</span><span class="v">80 <small>ק״ג</small></span><span class="v">8 <small>חזרות</small></span><span class="ck">✓</span></div>
-        <div class="ld-set done"><span class="n">2</span><span class="v">82.5 <small>ק״ג</small></span><span class="v">8 <small>חזרות</small></span><span class="ck">✓</span></div>
-        <div class="ld-set now"><span class="n">3</span><span class="v">82.5 <small>ק״ג</small></span><span class="v">8 <small>חזרות</small></span><span class="ck"></span></div>
-        <div class="ld-prev">בפעם שעברה: 80 × 8, היום כבר 82.5</div>
+        <div class="spread" style="margin-bottom:6px"><b>${F?'היפ תראסט':'לחיצת חזה במוט'}</b><span class="ld-pr" style="font-size:11.5px;padding:2px 8px">🏅 שיא</span></div>
+        <div class="ld-set done"><span class="n">1</span><span class="v">${F?'60':'80'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
+        <div class="ld-set done"><span class="n">2</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
+        <div class="ld-set now"><span class="n">3</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck"></span></div>
+        <div class="ld-prev">${F?'בפעם שעברה: 60 × 10, היום כבר 65':'בפעם שעברה: 80 × 8, היום כבר 82.5'}</div>
         <div class="ld-set"><span class="n">4</span><span class="v muted">—</span><span class="v muted">—</span><span class="ck"></span></div>
       </div>
       <div class="ld-card" style="display:flex;justify-content:space-between;align-items:center">
-        <span><b style="display:block">לחיצת כתפיים במשקולות</b><span class="small muted">הבא בתור, 3 סטים</span></span><span class="muted">›</span>
+        <span><b style="display:block">${F?'סקוואט בולגרי':'לחיצת כתפיים במשקולות'}</b><span class="small muted">הבא בתור, 3 סטים</span></span><span class="muted">›</span>
       </div>
       <div class="ld-rest">${ring(.7)}<div><div class="t" id="ld-t">1:03</div><div class="k">מנוחה, הבא: סט 3 של 4</div></div></div>
     </div></div>
@@ -1772,13 +1799,13 @@ function vLanding(){ loadLandPrices();
       <p>NextRep שם את המספר הקודם מול העיניים שלך בכל סט, ושומר את כל השאר לגרף.</p>
     </div>
     <div class="ld-feat">
-      <div class="spread"><b>לחיצת חזה, 12 שבועות</b><span class="small muted">דוגמה</span></div>
-      <svg class="ld-chart" viewBox="0 0 320 150" aria-label="גרף התקדמות לדוגמה מ-80 ל-95 ק״ג" style="direction:ltr">
-        ${[0,1,2].map(k=>`<line x1="30" x2="316" y1="${20+k*50}" y2="${20+k*50}" stroke="var(--line)"/><text x="24" y="${24+k*50}" font-size="11" text-anchor="end" fill="var(--muted)">${95-k*7.5}</text>`).join('')}
+      <div class="spread"><b>${F?'היפ תראסט, 12 שבועות':'לחיצת חזה, 12 שבועות'}</b><span class="small muted">דוגמה</span></div>
+      <svg class="ld-chart" viewBox="0 0 320 150" aria-label="גרף התקדמות לדוגמה" style="direction:ltr">
+        ${[0,1,2].map(k=>`<line x1="30" x2="316" y1="${20+k*50}" y2="${20+k*50}" stroke="var(--line)"/><text x="24" y="${24+k*50}" font-size="11" text-anchor="end" fill="var(--muted)">${(F?75:95)-k*(F?10:7.5)}</text>`).join('')}
         <polyline fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
-          points="${[80,80,82.5,82.5,85,85,85,87.5,90,90,92.5,95].map((v,k)=>`${36+k*25},${120-(v-80)/15*100}`).join(' ')}"/>
+          points="${(F?[55,55,57.5,60,60,62.5,65,65,67.5,70,72.5,75]:[80,80,82.5,82.5,85,85,85,87.5,90,90,92.5,95]).map((v,k)=>`${36+k*25},${120-(v-(F?55:80))/(F?20:15)*100}`).join(' ')}"/>
         <circle cx="${36+11*25}" cy="20" r="6" fill="var(--accent)"/>
-        <text x="${36+11*25-8}" y="40" font-size="12" text-anchor="end" fill="var(--ink)" font-weight="700">‎+15 ק״ג</text>
+        <text x="${36+11*25-8}" y="40" font-size="12" text-anchor="end" fill="var(--ink)" font-weight="700">‎+${F?20:15} ק״ג</text>
         <text x="36" y="145" font-size="11" fill="var(--muted)">שבוע 1</text><text x="311" y="145" font-size="11" text-anchor="end" fill="var(--muted)">שבוע 12</text>
       </svg>
     </div>
@@ -1848,9 +1875,9 @@ function vLanding(){ loadLandPrices();
     </div>
     <div class="ld-feat ld-kobi" aria-hidden="true">
       <div class="ld-kh"><img src="img/kobi-happy.svg" alt=""><b>קובי הבוט</b></div>
-      <div class="ld-bub me">לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?</div>
-      <div class="ld-bub">ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.</div>
-      <div class="ld-demo"><span>▶</span>לחיצת חזה בשיפוע<small>צפה בהדגמה</small></div>
+      <div class="ld-bub me">${F?'ההיפ תראסט שלי תקוע על 60 כבר שבועיים, מה לעשות?':'לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?'}</div>
+      <div class="ld-bub">${F?'ראיתי: 60×10 בשלושת האימונים האחרונים 💪 השבוע נסי 65 לסט ראשון, גם אם יוצאות רק 8 חזרות. ותוסיפי סקוואט בולגרי כתרגיל שני.':'ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.'}</div>
+      <div class="ld-demo"><span>▶</span>${F?'סקוואט בולגרי':'לחיצת חזה בשיפוע'}<small>צפה בהדגמה</small></div>
     </div>
   </section>
 
@@ -1861,7 +1888,7 @@ function vLanding(){ loadLandPrices();
         <h3>קבוצות ואתגרים</h3>
         <p>פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.</p>
         <div class="ui ld-board">
-          ${[['🥇','דניאל','14 אימונים'],['🥈','את/ה','12 אימונים'],['🥉','נועם','9 אימונים']].map(([m,n,v])=>`<div><span>${m} ${n}</span><b class="num">${v}</b></div>`).join('')}
+          ${(F?[['🥇','דנה','14 אימונים'],['🥈','את','12 אימונים'],['🥉','נועה','9 אימונים']]:[['🥇','דניאל','14 אימונים'],['🥈','אתה','12 אימונים'],['🥉','נועם','9 אימונים']]).map(([m,n,v])=>`<div><span>${m} ${n}</span><b class="num">${v}</b></div>`).join('')}
         </div>
       </div>
       <div class="ld-feat">
@@ -1896,17 +1923,21 @@ function vLanding(){ loadLandPrices();
     <div class="ld-fit yes">
       <h3>NextRep בשבילך אם</h3>
       <ul>
-        <li>אתה מתאמן עם משקולות פעמיים עד שש בשבוע</li>
+        ${F?`<li>את מתאמנת עם משקולות פעמיים עד שש בשבוע</li>
+        <li>את רוצה להתחזק ולהתחטב, ולראות את זה במספרים</li>
+        <li>נמאס לך מפתקים, צילומי מסך ואקסלים</li>
+        <li>חשוב לך אימון מסודר שנגמר בזמן</li>`:`<li>אתה מתאמן עם משקולות פעמיים עד שש בשבוע</li>
         <li>אתה רוצה לראות מספרים, לא רק "להרגיש" שהתקדמת</li>
         <li>נמאס לך מפתקים, צילומי מסך ואקסלים</li>
-        <li>חשוב לך לסיים אימון בזמן</li>
+        <li>חשוב לך לסיים אימון בזמן</li>`}
       </ul>
     </div>
     <div class="ld-fit no">
       <h3>פחות בשבילך אם</h3>
       <ul>
-        <li>אתה מחפש שיעורי וידאו עם מאמן מול המצלמה</li>
-        <li>אתה מתאמן בעיקר בריצה או ביוגה</li>
+        ${F?`<li>את מחפשת שיעורי וידאו עם מאמנת מול המצלמה</li>
+        <li>את מתאמנת בעיקר בריצה, ביוגה או בפילאטיס</li>`:`<li>אתה מחפש שיעורי וידאו עם מאמן מול המצלמה</li>
+        <li>אתה מתאמן בעיקר בריצה או ביוגה</li>`}
       </ul>
     </div>
   </section>
@@ -1920,7 +1951,7 @@ function vLanding(){ loadLandPrices();
 
   <section class="ld-end">
     <div class="stack" style="gap:10px">
-      <h2>האימון הבא שלך יכול להיות הראשון שנספר</h2>
+      <h2>${F?'האימון הבא שלך יכול להיות הראשון שנספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
       <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. ${LP.trial} ימים ראשונים עלינו.</p>
     </div>
     <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">אני רוצה להתחיל</button>
@@ -2320,10 +2351,32 @@ function openTargetsSheet(){
   tgRender();
 }
 const TG_STEPS=['sex','age','h','w','act','goal','gw','res'];
+/* הצעת משקל יעד בריאה: לפי BMI (18.5–24.9) והמטרה. יעד ראשון ריאלי, לא קיצוני */
+function tgGoalSuggest(t){
+  const h=(+t.h||170)/100, w=+t.w||70, bmi=w/(h*h), lo=Math.round(18.5*h*h*2)/2, hi=Math.round(24.9*h*h*2)/2;
+  const at=b=>Math.round(b*h*h*2)/2;
+  let kg, why;
+  if(t.goal==='cut'){
+    if(bmi>27){ kg=Math.max(at(24.5), Math.round((w*0.9)*2)/2); why='ירידה של עד 10% מהמשקל היא היעד הראשון המומלץ. אחרי שמגיעים אליו, מגדירים את הבא.'; }
+    else if(bmi>22.5){ kg=at(22); why='מביא אותך לאמצע הטווח הבריא לגובה שלך, בלי לרדת יותר מדי.'; }
+    else if(bmi>20){ kg=Math.max(at(20), Math.round((w-2)*2)/2); why=G('אתה כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.','את כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.','כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.'); }
+    else { kg=w; why='המשקל כבר בתחתית הטווח הבריא. במקום לרדת, עדיף להתחזק ולשנות הרכב גוף.'; }
+  } else if(t.goal==='bulk'){
+    if(bmi<18.5){ kg=at(20); why='מעלה אותך לתוך הטווח הבריא, בקצב שבונה שריר ולא רק שומן.'; }
+    else if(bmi<24){ kg=Math.min(at(24.5), Math.round((w+4)*2)/2); why='עלייה של 3 עד 4 ק״ג בשריר לוקחת כמה חודשים. זה יעד ראשון אמיתי.'; }
+    else { kg=Math.round((w+2)*2)/2; why=G('אתה כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.','את כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.','כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.'); }
+  } else { kg=w; why='שמירה: המשקל הנוכחי הוא היעד.'; }
+  return {kg:Math.max(lo,Math.min(hi>w?hi:w,kg)),why,lo,hi,bmi:Math.round(bmi*10)/10};
+}
+function tgGoalNote(t){
+  const g=tgGoalSuggest(t), v=+t.gw||g.kg, h=(+t.h||170)/100, b=Math.round(v/(h*h)*10)/10;
+  const flag=b<18.5?'⚠️ מתחת לטווח הבריא (BMI '+b+'). יעד כזה לא מומלץ.':b>30?'⚠️ עדיין מעל הטווח הבריא (BMI '+b+'). אפשר להתחיל ממנו כיעד ראשון.':v===g.kg?'✓ ההצעה הבריאה':`BMI ${b}, בתוך הטווח הבריא`;
+  return `<span class="${b<18.5?'warn':''}">${flag}</span>`;
+}
 const TG_NUM={age:{min:14,max:90,step:1,unit:'שנים',def:()=>30,q:()=>G('בן כמה אתה?','בת כמה את?','בן/בת כמה את/ה?'),k:'ככה אדע כמה האנרגיה שהגוף שלך שורף במנוחה.'},
   h:{min:140,max:210,step:1,unit:'ס״מ',def:()=>TG.sex==='f'?163:176,q:()=>'מה הגובה שלך?',k:'גובה ומשקל יחד קובעים כמה הגוף צריך.'},
   w:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>TG.sex==='f'?65:78,q:()=>G('כמה אתה שוקל?','כמה את שוקלת?','כמה את/ה שוקל/ת?'),k:'לקחתי את השקילה האחרונה שלך. אפשר לעדכן.'},
-  gw:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>{ const w=+TG.w||75; return TG.goal==='cut'?Math.round((w-5)*2)/2:Math.round((w+3)*2)/2; },q:()=>G('לאיזה משקל אתה רוצה להגיע?','לאיזה משקל את רוצה להגיע?','לאיזה משקל להגיע?'),k:'לא חובה. אם יש יעד, אראה לך בכל שבוע כמה נשאר ומתי תגיע לשם בקצב הנוכחי.'}};
+  gw:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>tgGoalSuggest(TG).kg,q:()=>G('לאיזה משקל אתה רוצה להגיע?','לאיזה משקל את רוצה להגיע?','לאיזה משקל להגיע?'),k:'חישבתי הצעה לפי הגובה, המשקל והמטרה שלך. אפשר לקחת אותה או לבחור אחרת.'}};
 function tgRender(){
   const t=TG, key=TG_STEPS[t.step], n=TG_STEPS.length-1;
   const top=`<div class="tgw-top"><button class="tgw-back" data-act="tg-back" aria-label="חזרה" ${t.step?'':'style="visibility:hidden"'}>→</button>
@@ -2332,10 +2385,11 @@ function tgRender(){
   let body='';
   if(key==='sex')body=kobi(G('נתחיל: אתה…','נתחיל: את…','נתחיל: את/ה…'),'')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
   else if(TG_NUM[key]){ const c=TG_NUM[key]; if(t[key]==null)t[key]=c.def(); const v=t[key];
-    body=kobi(c.q(),c.k,key==='w'?'wink':'happy')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
+    const sg=key==='gw'?tgGoalSuggest(t):null;
+    body=kobi(c.q(),c.k,key==='w'?'wink':'happy')+(sg?`<button class="tgw-sug ${+t.gw===sg.kg?'on':''}" data-act="tg-sug" data-v="${sg.kg}"><span class="tgw-sug-k">💚 ההצעה הבריאה</span><b class="num">${sg.kg} <small>ק״ג</small></b><span>${sg.why}</span><span class="small muted">הטווח הבריא לגובה שלך: ${sg.lo} עד ${sg.hi} ק״ג · עכשיו BMI ${sg.bmi}</span></button>`:'')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
       <div class="tgw-val"><b class="num" id="tgw-v">${v}</b><span>${c.unit}</span></div>
       <button class="tgw-pm" data-act="tg-step" data-d="1" aria-label="יותר">+</button></div>
-      <input type="range" class="tgw-range" id="tgw-r" min="${c.min}" max="${c.max}" step="${c.step}" value="${v}" aria-label="${c.q()}">
+      <input type="range" class="tgw-range" id="tgw-r" min="${c.min}" max="${c.max}" step="${c.step}" value="${v}" aria-label="${c.q()}">${key==='gw'?`<div class="small tgw-note" id="gw-note" style="text-align:center;margin-top:6px">${tgGoalNote(t)}</div>`:''}
       <button class="btn primary big" data-act="tg-next" style="margin-top:14px;width:100%">המשך</button>${key==='gw'?`<button class="linkbtn" data-act="tg-nogoal" style="display:block;margin:10px auto 0;color:var(--muted)">בלי משקל יעד</button>`:''}`; }
   else if(key==='act')body=kobi(G('כמה אתה זז ביום-יום?','כמה את זזה ביום-יום?','כמה את/ה זז/ה ביום-יום?'),'כולל אימונים, עבודה והליכה.')+`<div class="pb-list">${TG_ACT.map(([v,a,d],i)=>`<button class="pb-opt ${t.act===v?'on':''}" data-act="tg-pick" data-k="act" data-v="${v}"><b>${['🛋️','🚶','🏃','🔥','🏆'][i]} ${a}</b><small>${d}</small></button>`).join('')}</div>`;
   else if(key==='goal')body=kobi('ומה המטרה?','')+`<div class="pb-list">${[['cut','🔥','ירידה במשקל','לרדת בשומן ולשמור על השריר'],['keep','⚖️','שמירה','להישאר במשקל ולהשתפר בכוח'],['bulk','💪','עלייה במסה','לבנות שריר, עם מעט שומן']].map(([v,e,l,d])=>`<button class="pb-opt ${t.goal===v?'on':''}" data-act="tg-pick" data-k="goal" data-v="${v}"><b>${e} ${l}</b><small>${d}</small></button>`).join('')}</div>
@@ -2369,14 +2423,15 @@ function tgAct(act,b){
   if(act==='tg-edit'){ t.edit=true; return tgRender(); }
   if(act==='tg-pace'){ t.pace=b.dataset.v; return tgRender(); }
   if(act==='tg-step'){ const c=TG_NUM[key]; if(!c)return; t[key]=Math.max(c.min,Math.min(c.max,Math.round(((+t[key]||c.def())+(+b.dataset.d)*c.step)*10)/10));
-    const v=$('#tgw-v'), r=$('#tgw-r'); if(v)v.textContent=t[key]; if(r)r.value=t[key]; return; }
+    const v=$('#tgw-v'), r=$('#tgw-r'); if(v)v.textContent=t[key]; if(r)r.value=t[key]; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(t); document.querySelector('.tgw-sug')?.classList.toggle('on',+t.gw===tgGoalSuggest(t).kg); return; }
+  if(act==='tg-sug'){ t.gw=+b.dataset.v; const v=$('#tgw-v'), r=$('#tgw-r'); if(v)v.textContent=t.gw; if(r)r.value=t.gw; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(t); b.classList.add('on'); return; }
   if(act==='tg-pick'){ const k=b.dataset.k; t[k]=k==='act'?+b.dataset.v:b.dataset.v;
     document.querySelectorAll('[data-act="tg-pick"]').forEach(x=>x.classList.toggle('on',x===b));
     if(k==='goal'){ if(t.goal==='keep'){ t.pace='norm'; t.goalKg=''; setTimeout(()=>{ t.step+=2; tgRender(); },220); } else { t.pace=t.pace||'norm'; tgRender(); } return; }
     setTimeout(()=>{ t.step++; tgRender(); },220); }
 }
 document.addEventListener('input',ev=>{ if(!TG||ev.target.id!=='tgw-r')return; const key=TG_STEPS[TG.step];
-  TG[key]=+ev.target.value; const v=$('#tgw-v'); if(v)v.textContent=TG[key]; });
+  TG[key]=+ev.target.value; const v=$('#tgw-v'); if(v)v.textContent=TG[key]; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(TG); document.querySelector('.tgw-sug')?.classList.toggle('on',+TG.gw===tgGoalSuggest(TG).kg); });
 /* monthly AI photo allowance (server: 300 photo/label analyses per calendar month + 40/day safety cap; admins unlimited) */
 const AIQ={photo:null,loaded:0,LIM:300};
 function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)return; AIQ.loaded=Date.now();
@@ -5683,7 +5738,7 @@ function handleAct(b,ev){
       Promise.resolve(persistSettings()).catch(()=>{}).then(()=>{ closeSheet();
         if(applyLook(v,S.settings.accent))return; render(); if(first)setTimeout(maybeStartTour,300); else toast('עודכן ✓'); }); break; }
     case 'acc-set': { const v=b.dataset.v; S.settings.accent=v; applyLook(S.settings.g,v); persistSettings(); openAccentSheet(); break; }
-    case 'tg-pick': case 'tg-pace': case 'tg-edit': case 'tg-back': case 'tg-next': case 'tg-step': tgAct(act,b); break;
+    case 'tg-pick': case 'tg-pace': case 'tg-edit': case 'tg-back': case 'tg-next': case 'tg-step': case 'tg-nogoal': case 'tg-sug': tgAct(act,b); break;
     case 'food-targets': { const r=TG?tgCalc(TG):null, man=!!$('#t-kcal');
       S.settings.kcalT=(man?Math.round(+($('#t-kcal')?.value)||0):r?.kcal)||null;
       S.settings.protT=(man?Math.round(+($('#t-prot')?.value)||0):r?.prot)||null;
@@ -5713,8 +5768,9 @@ function handleAct(b,ev){
     case 'acct-delete-go': { if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב לאישור';break;} const why=($('#del-why')?.value||'').trim();
       sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ בקשה למחיקת חשבון ומידע.'+(why?' סיבה: '+why:'')}).then(({error})=>{ if(error){toast('השליחה נכשלה, כתוב לנו במייל');return;} closeSheet(); toast('הבקשה התקבלה. נמחק את החשבון תוך 30 יום ונעדכן אותך'); }); break; }
     case 'train-view': S.trainView=b.dataset.v; render(); break;
-    case 'land-signup': S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
-    case 'land-login': S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
+    case 'land-g': { if(b.dataset.v!==window.NR_G)landSetG(b.dataset.v); return true; }
+    case 'land-signup': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
+    case 'land-login': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': sb.auth.signOut(); break;
