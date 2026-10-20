@@ -1602,5 +1602,49 @@
 "לא נרשמו ארוחות השבוע. בלי זה אי אפשר לדעת למה המשקל זז או לא.": {
 "en": "No meals logged this week. Without that there's no telling why the weight moves or doesn't.",
 "ar": "لم تُسجّل وجبات هذا الأسبوع. بدون ذلك لا يمكن معرفة سبب تغيّر الوزن."
+},
+"לאיזה משקל אתה רוצה להגיע?": {
+"en": "What weight do you want to reach?",
+"ar": "ما الوزن الذي تريد الوصول إليه؟"
+},
+"לאיזה משקל את רוצה להגיע?": {
+"en": "What weight do you want to reach?",
+"ar": "ما الوزن الذي تريدين الوصول إليه؟"
+},
+"לאיזה משקל להגיע?": {
+"en": "What weight to reach?",
+"ar": "ما الوزن المطلوب؟"
+},
+"לא חובה. אם יש יעד, אראה לך בכל שבוע כמה נשאר ומתי תגיע לשם בקצב הנוכחי.": {
+"en": "Optional. With a goal, I'll show you each week how much is left and when you'll get there at the current pace.",
+"ar": "اختياري. مع هدف سأريك كل أسبوع كم تبقى ومتى ستصل بالوتيرة الحالية."
+},
+"בלי משקל יעד": {
+"en": "No goal weight",
+"ar": "بدون وزن مستهدف"
+},
+"🎯 הגדר משקל יעד": {
+"en": "🎯 Set a goal weight",
+"ar": "🎯 حدّد وزنًا مستهدفًا"
+},
+"משקל יעד · עכשיו {0} ק״ג": {
+"en": "Goal weight · now {0} kg",
+"ar": "الوزن المستهدف · الآن {0} كغ"
+},
+"הסר יעד": {
+"en": "Remove goal",
+"ar": "إزالة الهدف"
+},
+"משקל היעד נשמר 🎯": {
+"en": "Goal weight saved 🎯",
+"ar": "حُفظ الوزن المستهدف 🎯"
+},
+"משקל היעד הוסר": {
+"en": "Goal weight removed",
+"ar": "أُزيل الوزن المستهدف"
+},
+"· משקל יעד {0} ק״ג": {
+"en": "· goal weight {0} kg",
+"ar": "· الوزن المستهدف {0} كغ"
 }
 }
