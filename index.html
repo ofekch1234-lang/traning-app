@@ -971,7 +971,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.4';
+const APP_VERSION='8.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5298,7 +5298,7 @@ function hideSplash(){
   sb.auth.onAuthStateChange((ev,sess)=>{
     if(ev==='PASSWORD_RECOVERY'){ setTimeout(openNewPassword,600); }
     if(sess&&!S.user)enterApp(sess.user);
-    if(ev==='SIGNED_OUT'){PH.sets=[];PH.urls={};PH.loaded=false;S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
+    if(ev==='SIGNED_OUT'){try{closeSheet();}catch(_){} try{CO.open=false;}catch(_){} document.getElementById('wrap')?.setAttribute('hidden',''); try{S.showAuth=false;window.scrollTo(0,0);}catch(_){} PH.sets=[];PH.urls={};PH.loaded=false;S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
   });
 })();
 </script>
