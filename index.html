@@ -317,7 +317,9 @@ body.landing #app{max-width:1120px}
 .fn-bar{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-bottom:6px}.fn-bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
 .adm-tbl{width:100%;border-collapse:collapse;font-size:13px}.adm-tbl th{font-weight:600;color:var(--muted);text-align:var(--start);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .adm-tbl td{padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-.adm-grid{display:grid;gap:12px}
+.adm-grid{display:grid;gap:12px;min-width:0}.adm-grid>*{min-width:0;max-width:100%}
+.adm-tbl th{white-space:normal;font-size:12px;line-height:1.2}
+@media (max-width:420px){ .adm-seg button{font-size:12.5px;padding-inline:4px} .adm-tbl{font-size:12px} .adm-tbl td,.adm-tbl th{padding:6px 5px} }
 @media (min-width:900px){
   body.adm #app{max-width:1180px}
   .adm-grid{grid-template-columns:1fr 1fr}.adm-grid .adm-span{grid-column:span 2}
@@ -1148,7 +1150,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.1.1';
+const APP_VERSION='11.1.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3879,7 +3881,7 @@ function vAdmin(){
   if(!O)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
   const openEv=(A.events||[]).filter(e=>e.open).length;
   const tabs=[['overview','סקירה',0],['growth','צמיחה',0],['users','משתמשים',O.pending],['pay','תשלומים',openEv],['msgs','פניות',O.open_msgs]];
-  const seg=`<div class="sg-seg" style="position:sticky;top:0;z-index:5">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?` <span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
+  const seg=`<div class="sg-seg adm-seg" style="position:sticky;top:0;z-index:5">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?` <span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
   const body=A.tab==='users'?admUsersHTML():A.tab==='pay'?admPayHTML():A.tab==='msgs'?admMsgsHTML():A.tab==='growth'?admGrowthHTML():admOverviewHTML();
   return head+seg+`<div class="adm-body adm-${A.tab}">${body}</div>`;
 }
