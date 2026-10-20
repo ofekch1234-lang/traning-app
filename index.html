@@ -971,7 +971,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.2';
+const APP_VERSION='8.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1344,7 +1344,7 @@ function render_(){
 let GOOGLE_ON=false;
 /* Google Identity Services: in the browser, Google's own button (shows NextRep / our domain instead of the supabase.co address).
    The ID token is exchanged with Supabase via signInWithIdToken. Home-screen app keeps the redirect flow. */
-const GSI_MOBILE_REDIRECT=false; // turn on once /api/gsi is an authorized redirect URI in Google Cloud
+const GSI_MOBILE_REDIRECT=true; // turn on once /api/gsi is an authorized redirect URI in Google Cloud
 const GSI_TOUCH=matchMedia('(pointer:coarse)').matches;
 const GSI={cid:'746149894483-jmu5n97ncm2khai8m3s68cp4lh1hicn9.apps.googleusercontent.com',ready:false,loading:false,nonce:''};
 function gsiLoad(){ if(GSI.ready||GSI.loading||IS_STANDALONE||(GSI_TOUCH&&!GSI_MOBILE_REDIRECT))return; GSI.loading=true;
