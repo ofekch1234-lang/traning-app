@@ -1,0 +1,134 @@
+{
+"מחיר לפני (מחיר השקה, ריק = בלי)": {
+"en": "Price before (launch price, empty = none)",
+"ar": "السعر السابق (سعر الإطلاق، فارغ = بدون)"
+},
+"תוכנית שבנויה בשבילך": {
+"en": "A plan built for you",
+"ar": "خطة مبنية لك"
+},
+"כשהוא ממליץ על תרגיל, סרטון ההדגמה מופיע מתחת לתשובה": {
+"en": "When he recommends an exercise, the demo video appears right below the answer",
+"ar": "عندما يوصي بتمرين، يظهر فيديو التوضيح تحت الإجابة مباشرة"
+},
+"מתאמנים ביחד": {
+"en": "Train together",
+"ar": "تدرّبوا معًا"
+},
+"🥇 דניאל": {
+"en": "🥇 Daniel",
+"ar": "🥇 دانيال"
+},
+"🥈 את/ה": {
+"en": "🥈 You",
+"ar": "🥈 أنت"
+},
+"🥉 נועם": {
+"en": "🥉 Noam",
+"ar": "🥉 نوعام"
+},
+"הישגים ששווה לשתף": {
+"en": "Achievements worth sharing",
+"ar": "إنجازات تستحق المشاركة"
+},
+"סיכום חודשי": {
+"en": "Monthly recap",
+"ar": "ملخص شهري"
+},
+"מחיר אחד, בלי הפתעות": {
+"en": "One price, no surprises",
+"ar": "سعر واحد، بلا مفاجآت"
+},
+"7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.": {
+"en": "7 days free. No app store. iPhone and Android.",
+"ar": "7 أيام مجانًا. بدون متجر تطبيقات. آيفون وأندرويد."
+},
+"מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד.": {
+"en": "Snap your plate, the AI breaks it into items and counts calories and protein against your target.",
+"ar": "صوّر طبقك، فيفصّله الذكاء الاصطناعي إلى مكوّنات ويحسب السعرات والبروتين مقابل هدفك."
+},
+"עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.": {
+"en": "Answer a few questions: goal, days per week, equipment and time, and get a tailored plan. 98 exercises with demo videos, and a reminder on the morning of a training day.",
+"ar": "أجب عن بضعة أسئلة: الهدف، الأيام في الأسبوع، المعدات والوقت، واحصل على خطة مخصصة. 98 تمرينًا مع فيديو توضيحي، وتذكير صباح يوم التدريب."
+},
+"מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא \"cottage cheese\" אמריקאי. ואם אין כוח לחפש, מצלמים את הצלחת: ה-AI מזהה כל רכיב, מעריך כמה גרם יש ומחשב קלוריות וחלבון. סורקים גם טבלה תזונתית מהאריזה.": {
+"en": "The Israeli Ministry of Health food database: local foods, not a generic American list. Too lazy to search? Snap your plate: the AI identifies each item, estimates the grams and counts calories and protein. You can also scan a nutrition label.",
+"ar": "قاعدة بيانات التغذية الإسرائيلية: أطعمة محلية، لا قائمة أمريكية عامة. لا رغبة لك في البحث؟ صوّر طبقك: يتعرّف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات ويحسب السعرات والبروتين. ويمكنك أيضًا مسح الملصق الغذائي."
+},
+"קובי הבוט, המאמן שלך בכיס": {
+"en": "Kobi the bot, your coach in your pocket",
+"ar": "كوبي البوت، مدربك في جيبك"
+},
+"קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.": {
+"en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic internet advice: he looks at your numbers.",
+"ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. لا نصائح عامة من الإنترنت، بل ينظر إلى أرقامك."
+},
+"סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע": {
+"en": "Weekly summary: what improved, where you're stuck and what to focus on this week",
+"ar": "ملخص أسبوعي: ما الذي تحسّن، أين توقفت وعلى ماذا تركّز هذا الأسبوع"
+},
+"שואלים אותו כל שאלה על אימון, תזונה והתאוששות": {
+"en": "Ask him anything about training, nutrition and recovery",
+"ar": "اسأله أي سؤال عن التدريب والتغذية والتعافي"
+},
+"ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.": {
+"en": "I see it: 80×8 in your last three workouts 💪 This week try 82.5 on the first set, even if you only get 6 reps. And add incline bench press as your second exercise.",
+"ar": "رأيت ذلك: 80×8 في آخر ثلاثة تمارين 💪 هذا الأسبوع جرّب 82.5 في المجموعة الأولى حتى لو خرجت 6 تكرارات فقط. وأضف ضغط الصدر المائل كتمرين ثانٍ."
+},
+"פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.": {
+"en": "Start a group with your gym friends and launch a challenge: who trains the most this month, who's first to 100,000 kg of volume, or everyone together toward a shared goal.",
+"ar": "أنشئ مجموعة مع أصدقاء النادي وأطلق تحديًا: من يتدرب أكثر هذا الشهر، من يصل أولًا إلى 100 ألف كغ من الحجم، أو الجميع معًا نحو هدف مشترك."
+},
+"20 הישגים לפתוח בדרך, ושיתוף בעיצוב מוכן לסטורי. אפשר גם לצלם מהמצלמה ולהדביק את ההישג כמו מדבקה.": {
+"en": "20 achievements to unlock along the way, with story-ready share designs. You can also shoot with your camera and stick the achievement on like a sticker.",
+"ar": "20 إنجازًا لتفتحها في الطريق، مع تصاميم جاهزة للستوري. ويمكنك أيضًا التصوير بالكاميرا ولصق الإنجاز كملصق."
+},
+"בתחילת כל חודש מחכה לך סיכום בסגנון \"Wrapped\": כמה אימונים, כמה ק״ג הרמת, השיאים שלך והתרגיל האהוב.": {
+"en": "At the start of every month a \"Wrapped\"-style recap is waiting: how many workouts, how many kg you lifted, your PRs and your favorite exercise.",
+"ar": "في بداية كل شهر ينتظرك ملخص بأسلوب \"Wrapped\": كم تمرينًا، كم كغ رفعت، أرقامك القياسية وتمرينك المفضل."
+},
+"ק״ג הורמו החודש": {
+"en": "kg lifted this month",
+"ar": "كغ رُفعت هذا الشهر"
+},
+"{0} ימים ראשונים בחינם עם כל הפיצ׳רים. אחר כך בוחרים מסלול: תשלום חד-פעמי, בלי חידוש אוטומטי ובלי התחייבות.": {
+"en": "First {0} days free with every feature. Then pick a plan: one payment, no auto-renewal, no commitment.",
+"ar": "أول {0} أيام مجانًا مع كل الميزات. بعدها اختر باقة: دفعة واحدة، بلا تجديد تلقائي وبلا التزام."
+},
+"כל המסלולים כוללים הכל: אימונים, תזונה עם AI, קובי הבוט, קבוצות ואתגרים.": {
+"en": "Every plan includes everything: workouts, AI nutrition, Kobi the bot, groups and challenges.",
+"ar": "كل الباقات تشمل كل شيء: التمارين، التغذية بالذكاء الاصطناعي، كوبي البوت، المجموعات والتحديات."
+},
+"7 ימים ראשונים בחינם, עם כל הפיצ׳רים. אחר כך ממשיכים במסלול בתשלום חד-פעמי: בלי מנוי מתחדש, בלי חיוב אוטומטי ובלי התחייבות. המחירים מופיעים למעלה.": {
+"en": "The first 7 days are free, with every feature. Then you continue with a one-time-payment plan: no recurring subscription, no automatic charge and no commitment. Prices are shown above.",
+"ar": "أول 7 أيام مجانية مع كل الميزات. بعدها تتابع بباقة بدفعة واحدة: بلا اشتراك متجدد، بلا خصم تلقائي وبلا التزام. الأسعار معروضة في الأعلى."
+},
+"מה קובי הבוט יודע לעשות?": {
+"en": "What can Kobi the bot do?",
+"ar": "ماذا يستطيع كوبي البوت أن يفعل؟"
+},
+"קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומנויים יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
+"en": "Kobi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and subscribers can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
+"ar": "كوبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وعلى ماذا تركّز، ويمكن للمشتركين سؤاله أي شيء عن التدريب والتغذية والتعافي. وعندما يوصي بتمرين، يظهر فيديو توضيحي."
+},
+"כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.": {
+"en": "Yes. Answer a few questions and get a plan tailored to you, with a demo video for every exercise. But the tool is built for people who train regularly and want to see numbers.",
+"ar": "نعم. أجب عن بضعة أسئلة واحصل على خطة مخصصة لك، مع فيديو توضيحي لكل تمرين. لكن الأداة مبنية لمن يتدرب بانتظام ويريد رؤية الأرقام."
+},
+"באיזו שפה האפליקציה?": {
+"en": "What language is the app in?",
+"ar": "بأي لغة التطبيق؟"
+},
+"עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.": {
+"en": "Hebrew, Arabic and English, including Kobi, notifications and meal recognition. Switch language in settings anytime.",
+"ar": "العبرية والعربية والإنجليزية، بما في ذلك كوبي والإشعارات والتعرّف على الوجبات. غيّر اللغة من الإعدادات في أي وقت."
+},
+"נרשמים בקליק עם Google, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. {0} ימים ראשונים עלינו.": {
+"en": "Sign up in one click with Google, add it to your home screen, and from your next workout every set is saved. The first {0} days are on us.",
+"ar": "سجّل بنقرة واحدة عبر Google، أضفه إلى الشاشة الرئيسية، ومن تمرينك القادم تُحفظ كل مجموعة. أول {0} أيام علينا."
+},
+"לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?": {
+"en": "My bench press has been stuck at 80 for two weeks, what should I do?",
+"ar": "ضغط الصدر عالق عندي على 80 منذ أسبوعين، ماذا أفعل؟"
+}
+}

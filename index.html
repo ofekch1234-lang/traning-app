@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=bfcca9cb"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=080d0ab5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -149,6 +149,20 @@ body.landing #app{max-width:1120px}
 .ld-end{background:var(--ink);color:var(--bg);border-radius:24px;padding:34px 22px;display:grid;gap:14px;margin-top:56px}
 .ld-end p{color:var(--bg);opacity:.75}
 .ld-end .btn.primary{justify-self:start}
+.ld-list{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+.ld-list li{display:flex;gap:10px;line-height:1.5}.ld-list li::before{content:'✓';color:var(--accent);font-weight:700}
+.ld-kobi{gap:10px}.ld-kh{display:flex;align-items:center;gap:10px}.ld-kh img{width:44px;height:44px}
+.ld-bub{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:10px 13px;font-size:14.5px;line-height:1.55;max-width:92%}
+.ld-bub.me{align-self:flex-end;background:var(--accent);color:#fff;border-color:var(--accent)}
+.ld-demo{display:flex;align-items:center;gap:10px;border:1px solid var(--accent);border-radius:12px;padding:9px 12px;font-weight:600;font-size:14px}
+.ld-demo span{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:11px}
+.ld-demo small{margin-inline-start:auto;color:var(--accent);font-weight:600}
+.ld-board{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.ld-board div{display:flex;justify-content:space-between;padding:9px 12px;font-size:14px;border-top:1px solid var(--line)}.ld-board div:first-child{border-top:0}
+.ld-board b{font-weight:600;color:var(--muted)}
+.ld-badges{display:flex;gap:8px;flex-wrap:wrap}.ld-badges span{width:44px;height:44px;border-radius:50%;background:var(--accent-soft,#e8f6ed);display:grid;place-items:center;font-size:21px;border:1px solid var(--line)}
+.ld-prices{display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
+@media (min-width:900px){ .ld-prices{grid-template-columns:repeat(3,1fr);max-width:none} }
 .ld-foot{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 0}
 #landlogin{font-weight:600}
 .ld-prev{font-size:12px;color:var(--accent);font-weight:600;padding:2px 34px 4px 0}
@@ -201,7 +215,7 @@ body.landing #app{max-width:1120px}
 .plan .pn{font-weight:700;font-size:17px}
 .plan .pp{font-family:var(--disp);font-size:40px;line-height:1;grid-row:1/3;grid-column:2}
 .plan .pm{font-size:13px;color:var(--muted)}
-.plan .was{font-size:18px;color:var(--muted);margin-inline-end:6px;font-weight:400;vertical-align:middle}.plan .tag.launch{background:#E8590C}
+.plan .was{display:block;font-size:17px;line-height:1.1;color:var(--muted);font-weight:400;text-align:end;margin-bottom:2px}.plan .tag.launch{background:#E8590C}
 .plan .tag{position:absolute;top:-11px;inset-inline-start:14px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px}
 .planbanner{display:flex;gap:10px;align-items:center;width:100%;text-align:var(--start);background:var(--gold-soft);border:1px solid var(--gold);border-radius:14px;padding:11px 14px;margin-bottom:12px;color:var(--ink)}
 .qrbox{background:#fff;border-radius:16px;padding:14px;display:grid;place-items:center;margin:4px auto;width:min(260px,100%)}
@@ -954,7 +968,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.8';
+const APP_VERSION='7.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1381,21 +1395,29 @@ function landBarbell(){
     ${left}${right}
     <text x="260" y="88" text-anchor="middle" font-size="13" fill="var(--muted)" style="font-family:var(--body)">20 + 2×(25+20+15+10) = 160 ק״ג</text></svg>`;
 }
-function vLanding(){
+/* landing prices: live from public_plans(), with a fallback */
+const LP={trial:7,plans:[{id:'4m',months:4,price:79},{id:'6m',months:6,price:99},{id:'12m',months:12,price:119,was:149,best:true}],loaded:false};
+function loadLandPrices(){ if(LP.loaded)return; LP.loaded=true;
+  try{ sb.rpc('public_plans').then(({data})=>{ if(!data||!Array.isArray(data.plans)||!data.plans.length)return;
+    LP.trial=+data.trial_days||7; LP.plans=data.plans;
+    if(document.querySelector('.ld'))render(); }).catch(()=>{}); }catch(_){} }
+function vLanding(){ loadLandPrices();
   const ring=(p)=>{const r=20,c=2*Math.PI*r;return `<svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/>
     <circle id="ld-ring" cx="25" cy="25" r="${r}" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p)).toFixed(1)}" transform="rotate(-90 25 25)"/></svg>`;};
   const pains=[
     ['עומד מול המוט ולא זוכר אם בפעם שעברה הרמת 80 או 82.5.','המשקל והחזרות מהאימון הקודם מחכים לך בשורה של הסט.'],
     ['המנוחה של דקה וחצי הופכת לחמש דקות של גלילה באינסטגרם.','הטיימר מתחיל לבד ושולח התראה כשצריך לחזור למוט.'],
     ['הפתקים בטלפון מבולגנים, ואחרי חודש אי אפשר למצוא בהם כלום.','כל אימון נשמר מסודר, עם היסטוריה וגרף לכל תרגיל.'],
-    ['אוכל "בערך בסדר" ולא מבין למה המשקל לא זז.','רושמים ארוחה בחיפוש מהיר או בצילום, ורואים קלוריות וחלבון מול היעד.'],
+    ['אוכל "בערך בסדר" ולא מבין למה המשקל לא זז.','מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד.'],
     ['מתאמן כבר חודשים ולא בטוח שמשהו באמת השתנה.','גרף משקל, תמונות שבועיות ושיאים אישיים מראים בדיוק מה זז.'],
   ];
   const faq=[
-    ['כמה זה עולה?','ההרשמה והשימוש חינמיים.'],
+    ['כמה זה עולה?','7 ימים ראשונים בחינם, עם כל הפיצ׳רים. אחר כך ממשיכים במסלול בתשלום חד-פעמי: בלי מנוי מתחדש, בלי חיוב אוטומטי ובלי התחייבות. המחירים מופיעים למעלה.'],
+    ['מה קובי הבוט יודע לעשות?','קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומנויים יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.'],
     ['צריך להוריד משהו מחנות האפליקציות?','לא. נכנסים מהדפדפן ומוסיפים למסך הבית. האפליקציה נפתחת במסך מלא עם אייקון, כמו כל אפליקציה אחרת.'],
     ['זה עובד בחדר כושר בלי קליטה?','כן. האימון נשמר בטלפון ומסתנכרן ברגע שחוזרת קליטה.'],
-    ['אני מתחיל, זה מתאים לי?','כן, יש שלוש תוכניות מוכנות עם הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.'],
+    ['אני מתחיל, זה מתאים לי?','כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.'],
+    ['באיזו שפה האפליקציה?','עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.'],
     ['מי רואה את הנתונים והתמונות שלי?','רק אתה. התמונות נשמרות באחסון פרטי שמשויך לחשבון שלך.'],
     ['למה החשבון צריך אישור?','אנחנו פותחים את NextRep בהדרגה כדי לשמור על איכות. אחרי ההרשמה החשבון נכנס לתור ומאושר בהקדם.'],
   ];
@@ -1410,7 +1432,7 @@ function vLanding(){
         <button class="btn primary" data-act="land-signup">אני רוצה להתחיל</button>
         <button class="btn" data-act="land-login">כבר יש לי חשבון</button>
       </div>
-      <div class="ld-note">חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.</div>
+      <div class="ld-note">7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.</div>
     </div>
     <div class="ld-phone" aria-hidden="true"><div class="ld-screen">
       <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
@@ -1476,8 +1498,8 @@ function vLanding(){
         </div>
       </div>
       <div class="ld-feat">
-        <h3>יודע מה לעשות היום</h3>
-        <p>תוכניות מוכנות לכוח ולמסה, 98 תרגילים עם הדגמה, ותזכורת בבוקר של יום אימון. אפשר גם לבנות תוכנית משלך.</p>
+        <h3>תוכנית שבנויה בשבילך</h3>
+        <p>עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.</p>
         <div class="ui stack" style="gap:6px">
           ${[['A','דחיפה: חזה, כתפיים, יד אחורית'],['B','משיכה: גב ויד קדמית'],['C','רגליים ובטן']].map(([k,t])=>`<div class="ld-read" style="padding:6px 12px;justify-content:flex-start;gap:10px"><b style="font-size:30px;color:var(--accent)">${k}</b><span style="font-size:14px">${t}</span></div>`).join('')}
         </div>
@@ -1493,7 +1515,7 @@ function vLanding(){
     <div class="ld-feats" style="grid-template-columns:1fr">
       <div class="ld-feat">
         <h3>תזונה שמבינה עברית</h3>
-        <p>מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא "cottage cheese" אמריקאי. ואם אין כוח לחפש, מצלמים את הצלחת.</p>
+        <p>מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא "cottage cheese" אמריקאי. ואם אין כוח לחפש, מצלמים את הצלחת: ה-AI מזהה כל רכיב, מעריך כמה גרם יש ומחשב קלוריות וחלבון. סורקים גם טבלה תזונתית מהאריזה.</p>
         <div class="ui ld-sugg">
           <div class="q"><span>קוטג</span><span>🔍</span></div>
           <div><span>קוטג׳ 5% שומן</span><span>95 קק״ל</span></div>
@@ -1506,6 +1528,62 @@ function vLanding(){
         <div class="ui ld-cal" aria-hidden="true">${Array.from({length:14},(_,i)=>`<i class="${[0,2,4,7,9,11].includes(i)?'w':''}">${i+1}</i>`).join('')}</div>
       </div>
     </div>
+  </section>
+
+  <section class="ld-sec two">
+    <div class="stack" style="gap:12px">
+      <h2>קובי הבוט, המאמן שלך בכיס</h2>
+      <p>קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.</p>
+      <ul class="ld-list">
+        <li>סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע</li>
+        <li>שואלים אותו כל שאלה על אימון, תזונה והתאוששות</li>
+        <li>כשהוא ממליץ על תרגיל, סרטון ההדגמה מופיע מתחת לתשובה</li>
+      </ul>
+    </div>
+    <div class="ld-feat ld-kobi" aria-hidden="true">
+      <div class="ld-kh"><img src="img/kobi-happy.svg" alt=""><b>קובי הבוט</b></div>
+      <div class="ld-bub me">לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?</div>
+      <div class="ld-bub">ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.</div>
+      <div class="ld-demo"><span>▶</span>לחיצת חזה בשיפוע<small>צפה בהדגמה</small></div>
+    </div>
+  </section>
+
+  <section class="ld-sec">
+    <h2>מתאמנים ביחד</h2>
+    <div class="ld-feats">
+      <div class="ld-feat">
+        <h3>קבוצות ואתגרים</h3>
+        <p>פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.</p>
+        <div class="ui ld-board">
+          ${[['🥇','דניאל','14 אימונים'],['🥈','את/ה','12 אימונים'],['🥉','נועם','9 אימונים']].map(([m,n,v])=>`<div><span>${m} ${n}</span><b class="num">${v}</b></div>`).join('')}
+        </div>
+      </div>
+      <div class="ld-feat">
+        <h3>הישגים ששווה לשתף</h3>
+        <p>20 הישגים לפתוח בדרך, ושיתוף בעיצוב מוכן לסטורי. אפשר גם לצלם מהמצלמה ולהדביק את ההישג כמו מדבקה.</p>
+        <div class="ui ld-badges">${['🔥','🏋️','💯','🥇','📸','🍽️'].map(e=>`<span>${e}</span>`).join('')}</div>
+      </div>
+      <div class="ld-feat">
+        <h3>סיכום חודשי</h3>
+        <p>בתחילת כל חודש מחכה לך סיכום בסגנון "Wrapped": כמה אימונים, כמה ק״ג הרמת, השיאים שלך והתרגיל האהוב.</p>
+        <div class="ui ld-read"><b class="num">48,250</b><span class="muted small">ק״ג הורמו החודש</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ld-sec" id="ld-pricing">
+    <div class="stack" style="gap:8px">
+      <h2>מחיר אחד, בלי הפתעות</h2>
+      <p>${LP.trial} ימים ראשונים בחינם עם כל הפיצ׳רים. אחר כך בוחרים מסלול: תשלום חד-פעמי, בלי חידוש אוטומטי ובלי התחייבות.</p>
+    </div>
+    <div class="ld-prices">
+      ${LP.plans.map(p=>{const pm=p.price/p.months;return `<button class="plan ${p.best?'best':''}" data-act="land-signup">
+        ${p.was>p.price?'<span class="tag launch">🚀 מחיר השקה</span>':p.best?'<span class="tag">הכי משתלם</span>':''}
+        <span class="pn">${esc(({'4m':'4 חודשים','6m':'6 חודשים','12m':'שנה'})[p.id]||p.months+' חודשים')}</span>
+        <span class="pp num">${p.was>p.price?`<s class="was">₪${p.was}</s>`:''}₪${p.price}</span>
+        <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span></button>`;}).join('')}
+    </div>
+    <div class="ld-note" style="text-align:center">כל המסלולים כוללים הכל: אימונים, תזונה עם AI, קובי הבוט, קבוצות ואתגרים.</div>
   </section>
 
   <section class="ld-sec two">
@@ -1537,7 +1615,7 @@ function vLanding(){
   <section class="ld-end">
     <div class="stack" style="gap:10px">
       <h2>האימון הבא שלך יכול להיות הראשון שנספר</h2>
-      <p>נרשמים בדקה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. הגישה נפתחת בהדרגה, אז כדאי להיכנס לתור עכשיו.</p>
+      <p>נרשמים בקליק עם Google, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. ${LP.trial} ימים ראשונים עלינו.</p>
     </div>
     <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">אני רוצה להתחיל</button>
   </section>
