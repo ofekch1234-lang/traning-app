@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=6c0c0c86"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cde4e27b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1001,7 +1001,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.7';
+const APP_VERSION='9.8';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2101,7 +2101,8 @@ async function foodAI(payload){
   if(S.ai.busy)return;
   S.ai.busy=true; S.ai.q=payload.text||''; S.ai.img=payload.image?'data:image/jpeg;base64,'+payload.image:null; render(); aiTicker(true);
   try{
-    const {data,error}=await sb.functions.invoke('nutrition',{body:{...payload,lang:LANG}});
+    const {data,error}=await Promise.race([sb.functions.invoke('nutrition',{body:{...payload,lang:LANG}}),
+      new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error('timeout'),{slow:true})),125000))]);
     if(error)throw error;
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
     S.ai.keep=false; openMealConfirm(data);
@@ -2109,16 +2110,17 @@ async function foodAI(payload){
     console.error(e);
     S.ai.keep=true; const st=e?.context?.status;
     toast(st===429?'הגעת למכסת ניתוחי ה-AI היומית — אפשר לחפש במאגר או להוסיף ידנית'
+      :(e?.slow||st===502||st===503||st===504)?'הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת'
       :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
   }
   S.ai.busy=false; S.ai.img=null; aiTicker(false); render();
   if(S.ai.keep){ const t=$('#food-text'); if(t){t.value=S.ai.q; t.closest('.fsearch')?.classList.add('has'); t.style.height=Math.min(132,t.scrollHeight+2)+'px';} }
 }
-const AI_STEPS=['מזהה את המרכיבים…','מעריך כמויות למנה…','מחשב קלוריות וחלבון…','כמעט מוכן…'];
+const AI_STEPS=['מזהה את המרכיבים…','מעריך כמויות למנה…','מחשב קלוריות וחלבון…','כמעט מוכן…','עוד כמה שניות…'];
 function aiTicker(on){
   clearInterval(aiTicker._i); if(!on)return; let i=0, t0=Date.now();
   aiTicker._i=setInterval(()=>{ const el=$('#ai-step'), bar=$('#ai-bar'); if(!el)return;
-    i=Math.min(AI_STEPS.length-1,Math.floor((Date.now()-t0)/1800)); el.textContent=AI_STEPS[i];
+    i=Math.min(AI_STEPS.length-1,Math.floor((Date.now()-t0)/(i<3?1800:6000))); el.textContent=AI_STEPS[i];
     if(bar)bar.style.width=Math.min(92,8+(Date.now()-t0)/90)+'%'; },300);
 }
 function openMealConfirm(data){

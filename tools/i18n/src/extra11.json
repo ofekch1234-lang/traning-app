@@ -458,5 +458,13 @@
 "20 הישגים לפתוח, כל אחד עם חגיגה ותמונה לשיתוף. ובתחילת כל חודש מחכה לך סיכום של החודש שעבר.": {
 "en": "20 achievements to unlock, each with a celebration and a shareable image. And at the start of every month, a recap of the last month is waiting.",
 "ar": "20 إنجازًا لتفتحها، لكل منها احتفال وصورة للمشاركة. وفي بداية كل شهر ينتظرك ملخص الشهر الماضي."
+},
+"הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת": {
+"en": "The analysis took too long. Try again, or briefly type what's on the plate",
+"ar": "استغرق التحليل وقتًا طويلًا. حاول مجددًا، أو اكتب باختصار ما في الطبق"
+},
+"עוד כמה שניות…": {
+"en": "A few more seconds…",
+"ar": "بضع ثوانٍ أخرى…"
 }
 }
