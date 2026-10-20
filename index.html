@@ -1247,7 +1247,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.9.2';
+const APP_VERSION='11.9.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2763,6 +2763,20 @@ function mnAlts(it,slotKind){
     .sort((a,b)=>a.score-b.score).slice(0,4);
 }
 let SWP=null;
+/* יחידה טבעית למזון מהמאגר המלא: פחית, יחידה, גביע, פרוסה… (כפות רק כשאין משהו טבעי יותר) */
+const DBU_PL={'פחית':['פחיות','cans','علب'],'יחידה':['יחידות','units','وحدات'],'אריזה':['אריזות','packs','عبوات'],'גביע':['גביעים','cups','علب'],'פרוסה':['פרוסות','slices','شرائح'],'כוס':['כוסות','cups','أكواب'],'מנה':['מנות','servings','حصص'],'פיתה':['פיתות','pitas','أرغفة'],'בקבוק':['בקבוקים','bottles','زجاجات'],'חטיף':['חטיפים','bars','قطع']};
+function dbUnit(f){
+  const U=(f.units||[]).filter(u=>+u.g>=15&&+u.g<=400);
+  const pri=['פחית','קופסה','אריזה אישית','יחידה בינונית','יחידה','גביע','פרוסה','פיתה','חטיף','בקבוק','אריזה','מנה בינונית','כוס'];
+  let u=U.find(x=>x.d); if(!u)for(const n of pri){ u=U.find(x=>x.u===n); if(u)break; }
+  if(!u)return null;
+  let he=u.u, en=u.ue||u.u, ar=u.ua||u.u;
+  if(he==='קופסה'){ he='פחית'; en='can'; ar='علبة'; } else if(he==='אריזה אישית'){ he='אריזה'; en='pack'; ar='عبوة'; }
+  else if(he==='יחידה בינונית'){ he='יחידה'; en='unit'; ar='وحدة'; } else if(he==='מנה בינונית'){ he='מנה'; en='serving'; ar='حصة'; }
+  const pl=DBU_PL[he]; return {u:[he,en,ar],up:pl||[he,en,ar],ug:+u.g,us:.5};
+}
+function dbItem(f,g){ const it={n:f.name.split(',')[0].trim(),k:+f.kcal||0,p:+f.protein||0,cb:+f.carbs||0,ft:+f.fat||0,g,c:f.code};
+  const u=dbUnit(f); if(u)Object.assign(it,u); else { const tb=dbTb(f); if(tb)it.tb=tb; } return it; }
 function dbTb(f){ const U=f.units||[], u=U.find(x=>x.u==='כף')||U.find(x=>x.u==='כף שטוחה'); return u&&+u.g>0?+u.g:undefined; }
 function openSwap(mi,ii){
   const M=menuS(), it=M.day.meals[mi].items[ii], f=miFood(it); if(!f)return;
@@ -2778,6 +2792,7 @@ function openSwap(mi,ii){
 }
 /* כמה גרם מהמזון החדש נותנים אותו חלבון / אותן קלוריות כמו הפריט שמחליפים */
 function swapG(food,isCat){
+  if(!isCat&&food.ug){ const v0=swapG({...food,ug:0},false); if(v0==null)return null; const h=food.ug/2; return Math.max(h,Math.round(v0/h)*h); }
   const it=menuS().day.meals[SWP.mi].items[SWP.ii], v=miVals(it);
   let key=SWP.mode, per=+food[key==='p'?'p':'k']||0;
   if(key==='p'&&per<3){ key='k'; per=+food.k||0; }
@@ -2786,7 +2801,7 @@ function swapG(food,isCat){
   return isCat?mfClamp(food,g):Math.max(10,Math.min(500,Math.round(g/5)*5));
 }
 function swapRow(name,e,g,food,attrs,isCat){
-  const vv={p:(+food.p||0)*g/100,k:(+food.k||0)*g/100}, amt=isCat?miAmt({id:food.id,g}):miAmt({n:name,k:food.k,p:food.p,g,tb:food.tb});
+  const vv={p:(+food.p||0)*g/100,k:(+food.k||0)*g/100}, amt=isCat?miAmt({id:food.id,g}):miAmt({n:name,k:food.k,p:food.p,g,tb:food.tb,u:food.u,up:food.up,ug:food.ug});
   return `<button class="sw-row" ${attrs}><span class="sw-e">${e||'🍽️'}</span><span class="sw-n"><b>${esc(name)}</b><small class="num">${Math.round(vv.p)} גר׳ חלבון · ${kcalN(vv.k)} קק״ל</small></span><span class="sw-a num">${amt}</span></button>`;
 }
 function swapList(){
@@ -2802,7 +2817,7 @@ function swapList(){
   const loc=L.map(a=>swapRow(mfName(a.x),a.x.e,a.g,a.x,`data-act="mn-swap-pick" ${at} data-id="${a.x.id}" data-g="${a.g}"`,true)).join('');
   const seen=new Set([...L.map(a=>mfName(a.x)),mfName(cur)]);
   const db=(SWP.db||[]).map((f,i)=>({f,i,nm:f.name.split(',')[0].trim()})).filter(x=>!seen.has(x.nm)&&(seen.add(x.nm),true)).slice(0,6)
-    .map(({f,i,nm})=>{ const fd={k:+f.kcal||0,p:+f.protein||0,tb:dbTb(f)}; const g=swapG(fd,false); return g?swapRow(nm,'',g,fd,`data-act="mn-swap-db" ${at} data-db="${i}" data-g="${g}"`,false):''; }).join('');
+    .map(({f,i,nm})=>{ const du=dbUnit(f), fd={k:+f.kcal||0,p:+f.protein||0,...(du||{tb:dbTb(f)})}; const g=swapG(fd,false); return g?swapRow(nm,'',g,fd,`data-act="mn-swap-db" ${at} data-db="${i}" data-g="${g}"`,false):''; }).join('');
   const lbl=t=>`<div class="sw-h">${t}</div>`;
   if(!q)return lbl(SWP.mode==='p'?'חלופות עם כמות חלבון דומה':'חלופות עם כמות קלוריות דומה')+(loc?`<div class="sw-list">${loc}</div>`:`<div class="empty">אין חלופות שמתאימות להעדפות שלך.</div>`);
   return (loc?lbl('מהתפריט')+`<div class="sw-list">${loc}</div>`:'')+(db?lbl('מהמאגר המלא')+`<div class="sw-list">${db}</div>`:'')
@@ -2868,7 +2883,7 @@ function menuAct(act,b){
     case 'mn-swap': openSwap(mi,ii); return true;
     case 'mn-swap-pick': { const it=M.day.meals[mi].items[ii]; for(const k of Object.keys(it))delete it[k]; it.id=b.dataset.id; it.g=+b.dataset.g; SWP=null; persistSettings(); closeSheet(); render(); return true; }
     case 'mn-swap-db': { const f=SWP?.db?.[+b.dataset.db]; if(!f)return true; const it=M.day.meals[mi].items[ii]; for(const k of Object.keys(it))delete it[k];
-      Object.assign(it,{n:f.name.split(',')[0].trim(),k:+f.kcal||0,p:+f.protein||0,cb:+f.carbs||0,ft:+f.fat||0,g:+b.dataset.g,c:f.code}); const tb=dbTb(f); if(tb)it.tb=tb; M.day.auto=false; SWP=null; persistSettings(); closeSheet(); render(); return true; }
+      Object.assign(it,dbItem(f,+b.dataset.g)); M.day.auto=false; SWP=null; persistSettings(); closeSheet(); render(); return true; }
     case 'mn-smode': if(SWP){ SWP.mode=b.dataset.v; document.querySelectorAll('[data-act="mn-smode"]').forEach(x=>x.classList.toggle('on',x===b)); const r=$('#mn-sres'); if(r)r.innerHTML=swapList(); } return true;
     case 'mn-dislike': { const it=M.day.meals[mi].items[ii]; if(it.id&&!M.no.includes(it.id))M.no.push(it.id);
       if(M.p?.likes)M.p.likes=M.p.likes.filter(x=>x!==it.id);
@@ -2877,7 +2892,7 @@ function menuAct(act,b){
     case 'mn-add': openMenuAdd(mi); return true;
     case 'mn-add-pick': { const f=MFI(b.dataset.id); if(!f||!MADD)return true; M.day.meals[MADD.mi].items.push({id:f.id,g:f.df}); M.day.auto=false; MADD=null; persistSettings(); closeSheet(); render(); return true; }
     case 'mn-add-db': { const f=MADD?.db?.[+b.dataset.i]; if(!f)return true;
-      M.day.meals[MADD.mi].items.push({n:f.name.split(',')[0].trim(),k:+f.kcal||0,p:+f.protein||0,cb:+f.carbs||0,ft:+f.fat||0,g:100,c:f.code,...(dbTb(f)?{tb:dbTb(f)}:{})}); M.day.auto=false; MADD=null; persistSettings(); closeSheet(); render(); return true; }
+      { const du=dbUnit(f); M.day.meals[MADD.mi].items.push(dbItem(f,du?du.ug:100)); } M.day.auto=false; MADD=null; persistSettings(); closeSheet(); render(); return true; }
     case 'mn-log': mnLog(mi); return true;
     case 'mn-min': M.min=b.dataset.v==='1'; persistSettings(); render(); if(M.min)toast(G('אפשר לפתוח שוב מתי שתרצה','אפשר לפתוח שוב מתי שתרצי','אפשר לפתוח שוב בכל זמן')); return true;
     case 'mn-del': if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent=tt('בטוח? לחץ שוב'); return true; }
