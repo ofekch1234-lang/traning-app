@@ -529,7 +529,10 @@ body.chatting{overflow:hidden}
 .emo-pick button.on{border-color:var(--accent)}
 .inv-code{font-family:var(--disp);font-size:56px;letter-spacing:6px;text-align:center;direction:ltr;line-height:1;padding:10px;background:var(--surface2);border-radius:14px}
 /* auth screen */
-#authwrap{max-width:400px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 20px 24px;display:flex;flex-direction:column;gap:12px}
+#authwrap{max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 0 24px;display:flex;flex-direction:column;gap:12px}
+#authwrap .card{padding:20px 18px}
+#authwrap input:not([type=checkbox]){height:52px;font-size:17px}
+#authwrap .otp-in{height:68px;font-size:34px}
 #authwrap .logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
 #authwrap .logo img{width:72px;height:72px;border-radius:18px;box-shadow:var(--shadow)}
 @media (max-height:760px){#authwrap .logo img{width:56px;height:56px;border-radius:14px}#authwrap .logo{gap:6px;margin-bottom:4px}#authwrap .logo .brand{font-size:26px}}
@@ -1160,7 +1163,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.2.1';
+const APP_VERSION='11.2.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
