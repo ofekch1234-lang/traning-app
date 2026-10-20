@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ac1583c7"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b971b4e5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -207,7 +207,14 @@ body.landing #app{max-width:1120px}
 
 /* ===== plans / paywall / share / scanner ===== */
 .pw{max-width:440px;margin:0 auto;padding:28px 0 20px;display:flex;flex-direction:column;gap:14px}
-.pw h2{font-family:var(--disp);font-weight:400;font-size:46px;line-height:.95;margin:0}
+.pw h2{font-family:var(--disp);font-weight:400;font-size:40px;line-height:.95;margin:0}
+.pw-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.pw-x{width:36px;height:36px;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:15px;flex-shrink:0;display:grid;place-items:center}
+.pw ul.pw-f{display:flex;flex-wrap:wrap;gap:6px}
+.pw ul.pw-f li{background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:5px 11px;font-size:13px;font-weight:600}
+.pw ul.pw-f li::before{content:'✓';margin-inline-end:2px}
+.pw .plan{padding:10px 16px}.pw .plan .pp{font-size:34px}.pw .plan .pm{font-size:12.5px}
+.pw-links{display:flex;justify-content:center;align-items:center;gap:8px;font-size:13.5px}
 .pw ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
 .pw li{display:flex;gap:9px}.pw li::before{content:'✓';color:var(--accent);font-weight:700}
 .plan{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;width:100%;text-align:var(--start);background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px}
@@ -790,6 +797,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 /* home dashboard */
 .greet-wrap{margin:4px 0 2px}
 .greet{font-family:var(--disp);font-size:36px;line-height:1.05}
+.planpill{margin-top:8px;display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;background:var(--gold-soft);color:var(--gold);font-size:13px;font-weight:600;border:0}
+.planpill.paid{background:var(--accent-soft);color:var(--accent)}
 .dots{display:flex;justify-content:space-between;margin-top:10px;padding:0 2px;direction:var(--dir)}
 .day.miss i{background:transparent;border:2px dashed var(--line)}
 .day{text-align:center;font-size:11.5px;color:var(--muted)}
@@ -991,7 +1000,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.2';
+const APP_VERSION='9.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1877,6 +1886,7 @@ function vHome(){
         const ws=weekKeyOf(Date.now()), done=S.workouts.filter(w=>w.start>=ws).length, plan=Object.values(S.settings.schedule||{}).filter(Boolean).length;
         if(plan)return done>=plan?`עמדת ביעד השבועי: ${done} מתוך ${plan} ✅`:`אימון ${done+1} מתוך ${plan} השבוע 💪`;
         return done?`אימון ${done+1} השבוע מחכה לך`:'האימון הראשון של השבוע מחכה לך'; })()}</div>
+      ${planPill()}
     </div>
     ${(()=>{try{return !TOUR.on&&('Notification' in window)&&Notification.permission==='default'&&!localStorage.getItem('np-dis');}catch(e){return false;}})()?`
     <div class="card">
@@ -4073,16 +4083,22 @@ function vPaywall(full){
   const paid=!!S.plan?.access_until;
   const body=`
     ${full?`<div style="text-align:center"><img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:16px"></div>`:''}
-    <h2>${full?(paid?'המנוי שלך הסתיים':'תקופת הניסיון הסתיימה'):'ממשיכים להתקדם'}</h2>
-    <div class="muted">${full?'כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.':'בוחרים מסלול, משלמים פעם אחת, וממשיכים בלי הפסקה.'}</div>
-    <ul><li>רישום אימונים, טיימר מנוחה והתראות</li><li>תזונה מהמאגר הישראלי, ברקוד וצילום AI</li><li>קבוצות, אתגרים ושותפים לאימון</li><li>גרפים, שיאים ותמונות התקדמות</li></ul>
-    <div class="stack" style="gap:14px;margin-top:6px">${plansHTML()}</div>
-    <div class="small muted" style="text-align:center">בדף התשלום הקלד את מספר הטלפון שתאשר כאן. לפיו הגישה נפתחת אוטומטית תוך דקה.</div>
-    <div class="small muted" style="text-align:center">תשלום חד-פעמי, ללא חידוש אוטומטי. ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
-    <button class="btn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button>
-    <button class="linkbtn" style="text-align:center" data-act="contact-open" data-t="payment">שילמת והגישה לא נפתחה? כתוב לנו</button>
+    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':'תקופת הניסיון הסתיימה'):'ממשיכים להתקדם'}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
+    <div class="muted small">${full?'כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
+    <ul class="pw-f"><li>אימונים וטיימר</li><li>תזונה עם AI</li><li>קובי הבוט</li><li>קבוצות ואתגרים</li></ul>
+    <div class="stack" style="gap:10px">${plansHTML()}</div>
+    <div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
+    <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
   return full?`<div class="pw">${body}</div>`:body;
+}
+const PLAN_LABEL={4:'מנוי 4 חודשים',6:'מנוי 6 חודשים',12:'מנוי שנתי'};
+function planPill(){
+  const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null)return '';
+  if(planBanner())return ''; // the urgent banner already says it
+  if(p.paid){ const d=p.access_until?new Date(p.access_until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'';
+    return `<button class="planpill paid" data-act="plans-open">⭐ ${PLAN_LABEL[p.plan_months]||'מנוי פעיל'}${d?` · עד ${d}`:''}</button>`; }
+  return `<button class="planpill" data-act="plans-open">🎁 ניסיון חינם · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
 }
 function planBanner(){
   const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null||p.days_left>(p.paid?5:3))return '';
@@ -4198,7 +4214,7 @@ async function phoneThen(next,p){
 }
 function payAct(act,b){
   switch(act){
-    case 'plans-open': closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div><button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>`); return true;
+    case 'plans-open': closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div>`); return true;
     case 'plan-buy': { const p=(S.plan?.plans||[]).find(x=>x.id===b.dataset.id); if(!p)return true;
       if(S.plan?.grow){ b.disabled=true; const pn=b.querySelector('.pn'); const t0=pn?.textContent; if(pn)pn.textContent='פותח תשלום מאובטח…';
         sb.functions.invoke('grow-pay',{body:{plan:p.id,origin:location.origin}}).then(({data,error})=>{
