@@ -185,7 +185,8 @@ Deno.serve(async (req: Request) => {
     const week = weekKey();
     const since = Date.now() - 14 * 864e5;
     const { data: act } = await admin.from("workouts").select("user_id").gte("start_ts", since);
-    const users = [...new Set((act || []).map((x: any) => x.user_id))];
+    // body.uids: specific users (trial day-5 summary) instead of everyone active
+    const users = Array.isArray(body.uids) ? body.uids.filter((u: unknown) => typeof u === "string").slice(0, 50) : [...new Set((act || []).map((x: any) => x.user_id))];
     const { data: done } = await admin.from("coach_messages").select("user_id").eq("role", "summary").eq("week", week).in("user_id", users.length ? users : ["00000000-0000-0000-0000-000000000000"]);
     const doneSet = new Set((done || []).map((x: any) => x.user_id));
     const todo = users.filter((u) => !doneSet.has(u)).slice(0, Number(body.limit) || 25);

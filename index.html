@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=011620ef"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=bfcca9cb"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -201,6 +201,7 @@ body.landing #app{max-width:1120px}
 .plan .pn{font-weight:700;font-size:17px}
 .plan .pp{font-family:var(--disp);font-size:40px;line-height:1;grid-row:1/3;grid-column:2}
 .plan .pm{font-size:13px;color:var(--muted)}
+.plan .was{font-size:18px;color:var(--muted);margin-inline-end:6px;font-weight:400;vertical-align:middle}.plan .tag.launch{background:#E8590C}
 .plan .tag{position:absolute;top:-11px;inset-inline-start:14px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px}
 .planbanner{display:flex;gap:10px;align-items:center;width:100%;text-align:var(--start);background:var(--gold-soft);border:1px solid var(--gold);border-radius:14px;padding:11px 14px;margin-bottom:12px;color:var(--ink)}
 .qrbox{background:#fff;border-radius:16px;padding:14px;display:grid;place-items:center;margin:4px auto;width:min(260px,100%)}
@@ -953,7 +954,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.7';
+const APP_VERSION='7.8';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3421,10 +3422,11 @@ function admPayHTML(){
       <div class="stack" style="gap:10px;margin-top:10px">
       <label class="setrow" style="padding:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
       <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם מתחיל ניסיון מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
-      <div class="spread"><b>ימי ניסיון</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??14}" style="width:80px;text-align:center"></div>
+      <div class="spread"><b>ימי ניסיון</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??7}" style="width:80px;text-align:center"></div>
       ${(B.plans||[]).map(p=>`<div class="stack" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">
         <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' ⭐':''}</b><span class="row" style="gap:4px;align-items:center">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
-        <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לעמוד התשלום ב-Grow" value="${esc(p.link||'')}"></div>`).join('')}
+        <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לעמוד התשלום ב-Grow" value="${esc(p.link||'')}">
+        <div class="spread small muted"><span>מחיר לפני (מחיר השקה, ריק = בלי)</span><span class="row" style="gap:4px;align-items:center">₪<input id="adm-was-${p.id}" class="adm-in num" type="number" min="0" value="${p.was||''}" style="width:80px;text-align:center"></span></div></div>`).join('')}
       <div class="small muted">המחיר כאן חייב להיות זהה למחיר בעמוד של Grow.</div>
       <button class="btn primary" data-act="adm-billing-save">שמירה</button>
       <button class="btn" data-act="plans-open">תצוגת מסך המסלולים</button>
@@ -3472,8 +3474,8 @@ function admAct(act,b){
     case 'adm-revoke': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? הגישה תיסגר עכשיו';return true;}
       sb.rpc('admin_revoke',{p_uid:b.dataset.id}).then(({error})=>{ if(error){toast('נכשל');return;} toast('המנוי בוטל'); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true;
     case 'adm-billing-save': { const B=JSON.parse(JSON.stringify(A.cfg?.billing||{}));
-      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||14)); delete B.support;
-      B.plans=(B.plans||[]).map(p=>({...p,price:+$('#adm-price-'+p.id).value||p.price,link:($('#adm-link-'+p.id).value||'').trim()}));
+      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||7)); delete B.support;
+      B.plans=(B.plans||[]).map(p=>{const q={...p,price:+$('#adm-price-'+p.id).value||p.price,link:($('#adm-link-'+p.id).value||'').trim()}; const w=+$('#adm-was-'+p.id).value||0; if(w>q.price)q.was=w; else delete q.was; return q;});
       sb.rpc('admin_set_billing',{cfg:B}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('נשמר ✓'); loadAdmin(); }); return true; }
     case 'ev-assign': { const plans=A.cfg?.billing?.plans||[]; const guess=plans.find(p=>+p.price===+b.dataset.amount); S.evMonths=guess?.months||null;
       sb.rpc('admin_users',{p_q:'',p_filter:'all',p_limit:100,p_offset:0}).then(({data})=>{ const users=(data?.rows||[]).filter(u=>u.access!=='admin');
@@ -3884,9 +3886,9 @@ function plansHTML(){
   const grow=!!S.plan?.grow;
   return plans.map(p=>{const pm=(p.price/p.months); const link=grow||planLink(p);
     return `<button class="plan ${p.best?'best':''}" data-act="plan-buy" data-id="${esc(p.id)}" ${link?'':'disabled style="opacity:.6"'}>
-      ${p.best?'<span class="tag">הכי משתלם</span>':''}
+      ${p.was>p.price?'<span class="tag launch">🚀 מחיר השקה</span>':p.best?'<span class="tag">הכי משתלם</span>':''}
       <span class="pn">${esc(PLAN_NAMES[p.id]||p.months+' חודשים')}</span>
-      <span class="pp num">₪${p.price}</span>
+      <span class="pp num">${p.was>p.price?`<s class="was">₪${p.was}</s>`:''}₪${p.price}</span>
       <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span>
     </button>`;}).join('')+(grow||plans.some(p=>planLink(p))?'':'<div class="small muted" style="text-align:center">התשלום ייפתח בקרוב.</div>');
 }
@@ -3906,7 +3908,7 @@ function vPaywall(full){
   return full?`<div class="pw">${body}</div>`:body;
 }
 function planBanner(){
-  const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null||p.days_left>5)return '';
+  const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null||p.days_left>(p.paid?5:3))return '';
   return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון':`נשארו ${p.days_left} ימים`} ${p.paid?'למנוי':'לתקופת הניסיון'}</b><span class="small muted" style="display:block">בחר מסלול כדי להמשיך בלי הפסקה</span></span><span style="color:var(--accent);font-weight:700">מסלולים</span></button>`;
 }
 /* --- QR + share --- */
