@@ -564,6 +564,11 @@ nav.tabs button.fab .ic{stroke-width:2.2}
 nav.tabs button.fab.on{color:var(--accent)}
 nav.tabs button.fab.on::before{display:none}
 nav.tabs button.fab:active .fabc{transform:scale(.94)}
+/* in a chat (group / Kobi) the workout button lies flat so it never covers the message box */
+body.chatting nav.tabs button.fab{color:var(--muted);font-weight:400}
+body.chatting nav.tabs button.fab .fabc{width:auto;height:auto;margin-top:0;background:none;color:inherit;border:0;box-shadow:none}
+body.chatting nav.tabs button.fab svg{width:23px;height:23px}
+body.chatting nav.tabs button.fab .ic{stroke-width:1.9}
 
 nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 
@@ -986,7 +991,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.1';
+const APP_VERSION='9.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
