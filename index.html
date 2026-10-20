@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1accaec6"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=13897d5a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -224,6 +224,28 @@ body.landing #app{max-width:1120px}
 .pw-recap{background:var(--accent-soft);border-radius:16px;padding:12px 14px}
 .pw-rt{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px;margin-top:6px;text-align:center}
 .pw-rt b{display:block;font-family:var(--disp);font-size:34px;line-height:1;color:var(--accent)}.pw-rt span{font-size:12.5px;color:var(--muted)}
+.tgw-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tgw-back{width:34px;height:34px;border-radius:50%;background:var(--surface2);font-size:16px;flex-shrink:0}
+[dir=ltr] .tgw-back{transform:scaleX(-1)}
+.tgw-body{animation:tgIn .25s ease}
+@keyframes tgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tgw-q{display:flex;gap:10px;align-items:flex-start;margin-bottom:16px}
+.tgw-q img{width:52px;height:52px;flex-shrink:0}
+.tgw-q div{background:var(--surface2);border-radius:16px;padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.tgw-q b{font-size:17px}.tgw-q span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.tgw-big{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 10px;border-radius:18px;background:var(--surface2);border:2px solid transparent;color:inherit}
+.tgw-big span{font-size:40px}.tgw-big b{font-size:17px}.tgw-big.on{border-color:var(--accent);background:var(--accent-soft)}
+.tgw-num{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 10px}
+.tgw-pm{width:56px;height:56px;border-radius:50%;background:var(--surface2);font-size:28px;font-weight:700;color:var(--ink);flex-shrink:0}
+.tgw-pm:active{transform:scale(.92)}
+.tgw-val{display:flex;align-items:baseline;gap:6px;justify-content:center;flex:1}
+.tgw-val b{font-family:var(--disp);font-size:78px;line-height:1}.tgw-val span{font-size:16px;color:var(--muted)}
+.tgw-range{width:100%;accent-color:var(--accent);height:28px}
+.tgw-res{background:var(--surface2);border-radius:18px;padding:16px}
+.tgw-kcal{text-align:center}.tgw-kcal b{display:block;font-family:var(--disp);font-size:72px;line-height:1;color:var(--accent)}.tgw-kcal span{font-size:14px;color:var(--muted)}
+.tgw-macros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px;text-align:center}
+.tgw-macros b{display:block;font-size:20px;margin-top:6px}.tgw-macros b small{font-size:12px;color:var(--muted);font-weight:400}.tgw-macros span{font-size:12.5px;color:var(--muted)}
+.tgw-bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden}.tgw-bar i{display:block;height:100%;border-radius:99px}
 .tg-sec{margin-bottom:12px}
 .tg-acts{display:grid;gap:6px}
 .tg-act{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);text-align:start;color:inherit}
@@ -1033,7 +1055,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.4';
+const APP_VERSION='10.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1917,7 +1939,7 @@ function vHome(){
       <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''} 💪</div>
       <div class="muted small">${(()=>{ if(!S.workouts.length)return 'האימון הראשון שלך מחכה';
         const ws=weekKeyOf(Date.now()), done=S.workouts.filter(w=>w.start>=ws).length, plan=Object.values(S.settings.schedule||{}).filter(Boolean).length;
-        if(plan)return done>=plan?`עמדת ביעד השבועי: ${done} מתוך ${plan} ✅`:`אימון ${done+1} מתוך ${plan} השבוע 💪`;
+        if(plan)return done>=plan?`עמדת ביעד השבועי: ${done} מתוך ${plan} ✅`:`אימון ${done+1} מתוך ${plan} השבוע`;
         return done?`אימון ${done+1} השבוע מחכה לך`:'האימון הראשון של השבוע מחכה לך'; })()}</div>
       ${planPill()}
     </div>
@@ -2130,55 +2152,66 @@ function tgCalc(t){
   return {bmr:Math.round(bmr),tdee:Math.round(tdee),kcal,prot,fat,carbs,wk};
 }
 function openTargetsSheet(){
-  const b=S.settings.body||{};
-  TG={sex:b.sex||PB?.a?.sex||null,age:b.age||'',h:b.h||'',w:tgLastWeight()||b.w||'',act:b.act||null,goal:b.goal||null,pace:b.pace||'norm',goalKg:+S.settings.goalKg||'',edit:false};
+  const b=S.settings.body||{}, lw=tgLastWeight();
+  TG={sex:b.sex||PB?.a?.sex||null,age:+b.age||null,h:+b.h||null,w:lw||+b.w||null,act:b.act||null,goal:b.goal||null,pace:b.pace||'norm',goalKg:+S.settings.goalKg||'',edit:false,step:0};
   tgRender();
 }
+const TG_STEPS=['sex','age','h','w','act','goal','res'];
+const TG_NUM={age:{min:14,max:90,step:1,unit:'שנים',def:()=>30,q:'בן/בת כמה את/ה?',k:'ככה אדע כמה האנרגיה שהגוף שלך שורף במנוחה.'},
+  h:{min:140,max:210,step:1,unit:'ס״מ',def:()=>TG.sex==='f'?163:176,q:'מה הגובה שלך?',k:'גובה ומשקל יחד קובעים כמה הגוף צריך.'},
+  w:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>TG.sex==='f'?65:78,q:'כמה את/ה שוקל/ת?',k:'לקחתי את השקילה האחרונה שלך. אפשר לעדכן.'}};
 function tgRender(){
-  const t=TG, r=tgCalc(t), kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
-  const chip=(act,v,cur,label)=>`<button class="chip ${cur===v?'on':''}" data-act="${act}" data-v="${v}">${label}</button>`;
-  openSheet(`
-    <h3 style="margin-bottom:4px">היעד היומי שלי 🎯</h3>
-    <div class="small muted" style="margin-bottom:12px">כמה פרטים, ונחשב כמה קלוריות וחלבון מתאימים לך.</div>
-    <div class="tg-sec"><div class="label">את/ה</div><div class="row" style="gap:8px">${chip('tg-sex','m',t.sex,'🙋‍♂️ גבר')}${chip('tg-sex','f',t.sex,'🙋‍♀️ אישה')}</div></div>
-    <div class="row tg-sec" style="gap:8px">
-      <div style="flex:1"><div class="label">גיל</div><input class="num" type="text" readonly data-np="num" data-unit="שנים" aria-label="גיל" id="tg-age" value="${t.age||''}" placeholder="30"></div>
-      <div style="flex:1"><div class="label">גובה</div><input class="num" type="text" readonly data-np="num" data-unit="ס״מ" aria-label="גובה" id="tg-h" value="${t.h||''}" placeholder="175"></div>
-      <div style="flex:1"><div class="label">משקל</div><input class="num" type="text" readonly data-np="num" data-unit="ק״ג" aria-label="משקל" id="tg-w" value="${t.w||''}" placeholder="75"></div>
-    </div>
-    <div class="tg-sec"><div class="label">כמה את/ה פעיל/ה?</div><div class="tg-acts">${TG_ACT.map(([v,a,d])=>`<button class="tg-act ${t.act===v?'on':''}" data-act="tg-act" data-v="${v}"><b>${a}</b><span>${d}</span></button>`).join('')}</div></div>
-    <div class="tg-sec"><div class="label">מה המטרה?</div><div class="row" style="gap:8px;flex-wrap:wrap">${TG_GOAL.map(([v,e,l])=>chip('tg-goal',v,t.goal,e+' '+l)).join('')}</div>
-      ${t.goal==='cut'||t.goal==='bulk'?`<div class="row" style="gap:8px;margin-top:8px">${chip('tg-pace','slow',t.pace,t.goal==='cut'?'🐢 בקצב רגוע':'🐢 עלייה נקייה')}${chip('tg-pace','norm',t.pace,t.goal==='cut'?'⚡ בקצב רגיל':'⚡ עלייה מהירה יותר')}</div>`:''}
-    </div>
-    <div class="tg-res" id="tg-res">${tgResHTML(r)}</div>
-    ${t.edit||(!r&&(kT||pT))?`<div class="row tg-sec" style="gap:8px">
-      <div style="flex:1"><div class="label">קלוריות</div><input class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="יעד קלוריות" id="t-kcal" value="${(r&&!t.edit?r.kcal:kT)||''}"></div>
-      <div style="flex:1"><div class="label">חלבון (גר׳)</div><input class="num" type="text" readonly data-np="num" data-unit="גר׳ חלבון" aria-label="יעד חלבון" id="t-prot" value="${(r&&!t.edit?r.prot:pT)||''}"></div>
-      <div style="flex:1"><div class="label">משקל יעד</div><input class="num" type="text" readonly data-np="num" data-unit="ק״ג" aria-label="משקל יעד" id="t-goal" value="${t.goalKg||''}" placeholder="—"></div></div>`
-      :`<button class="linkbtn small" data-act="tg-edit" style="margin-top:6px">✏️ להזין מספרים בעצמי</button>`}
-    <div class="row" style="margin-top:14px">
-      <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
-      <button class="btn primary" style="flex:2" data-act="food-targets" ${r||t.edit?'':'disabled'}>שמור יעדים ✓</button>
-    </div>
-    <div class="small muted" style="text-align:center;margin-top:8px">חישוב לפי נוסחת Mifflin-St Jeor. הערכה כללית, לא ייעוץ רפואי.</div>
-  `);
-}
-function tgResHTML(r){
-  if(!r)return `<div class="small muted" style="text-align:center">מלא את הפרטים למעלה ונחשב לך יעד ✨</div>`;
-  const wk=r.wk<0?`ירידה של ~${Math.abs(r.wk)} ק״ג בשבוע`:r.wk>0?`עלייה של ~${r.wk} ק״ג בשבוע`:'שמירה על המשקל';
-  return `<div class="tg-big"><div><b class="num">${r.kcal.toLocaleString()}</b><span>קק״ל ביום</span></div><div><b class="num">${r.prot}</b><span>גר׳ חלבון</span></div></div>
-    <div class="small muted" style="text-align:center">פחמימה ~${r.carbs} גר׳ · שומן ~${r.fat} גר׳ · ${wk}</div>
-    <div class="small muted" style="text-align:center;margin-top:2px">שריפה יומית משוערת: ${r.tdee.toLocaleString()} קק״ל</div>`;
+  const t=TG, key=TG_STEPS[t.step], n=TG_STEPS.length-1;
+  const top=`<div class="tgw-top"><button class="tgw-back" data-act="tg-back" aria-label="חזרה" ${t.step?'':'style="visibility:hidden"'}>→</button>
+    <div class="pb-prog" style="flex:1"><i style="width:${Math.round(Math.min(t.step,n)/n*100)}%"></i></div><span class="small muted num">${Math.min(t.step+1,n)}/${n}</span></div>`;
+  const kobi=(q,k,img='happy')=>`<div class="tgw-q"><img src="img/kobi-${img}.svg" alt=""><div><b>${q}</b>${k?`<span>${k}</span>`:''}</div></div>`;
+  let body='';
+  if(key==='sex')body=kobi('נתחיל: את/ה…','')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
+  else if(TG_NUM[key]){ const c=TG_NUM[key]; if(t[key]==null)t[key]=c.def(); const v=t[key];
+    body=kobi(c.q,c.k,key==='w'?'wink':'happy')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
+      <div class="tgw-val"><b class="num" id="tgw-v">${v}</b><span>${c.unit}</span></div>
+      <button class="tgw-pm" data-act="tg-step" data-d="1" aria-label="יותר">+</button></div>
+      <input type="range" class="tgw-range" id="tgw-r" min="${c.min}" max="${c.max}" step="${c.step}" value="${v}" aria-label="${c.q}">
+      <button class="btn primary big" data-act="tg-next" style="margin-top:14px;width:100%">המשך</button>`; }
+  else if(key==='act')body=kobi('כמה את/ה זז/ה ביום-יום?','כולל אימונים, עבודה והליכה.')+`<div class="pb-list">${TG_ACT.map(([v,a,d],i)=>`<button class="pb-opt ${t.act===v?'on':''}" data-act="tg-pick" data-k="act" data-v="${v}"><b>${['🛋️','🚶','🏃','🔥','🏆'][i]} ${a}</b><small>${d}</small></button>`).join('')}</div>`;
+  else if(key==='goal')body=kobi('ומה המטרה?','')+`<div class="pb-list">${[['cut','🔥','ירידה במשקל','לרדת בשומן ולשמור על השריר'],['keep','⚖️','שמירה','להישאר במשקל ולהשתפר בכוח'],['bulk','💪','עלייה במסה','לבנות שריר, עם מעט שומן']].map(([v,e,l,d])=>`<button class="pb-opt ${t.goal===v?'on':''}" data-act="tg-pick" data-k="goal" data-v="${v}"><b>${e} ${l}</b><small>${d}</small></button>`).join('')}</div>
+    ${t.goal==='cut'||t.goal==='bulk'?`<div class="label" style="margin-top:12px">באיזה קצב?</div><div class="pb-grid">${[['slow','🐢',t.goal==='cut'?'רגוע':'עלייה נקייה',t.goal==='cut'?'קל יותר להתמיד':'פחות שומן'],['norm','⚡',t.goal==='cut'?'רגיל':'מהיר יותר',t.goal==='cut'?'תוצאות מהר יותר':'יותר כוח מהר']].map(([v,e,l,d])=>`<button class="pb-opt ${t.pace===v?'on':''}" data-act="tg-pace" data-v="${v}"><b>${e} ${l}</b><small>${d}</small></button>`).join('')}</div>
+      <button class="btn primary big" data-act="tg-next" style="margin-top:14px;width:100%">לתוצאה ✨</button>`:''}`;
+  else { const r=tgCalc(t);
+    body=r?kobi('הנה היעד שלך 🎯',r.wk<0?`בקצב הזה: ירידה של ~${Math.abs(r.wk)} ק״ג בשבוע.`:r.wk>0?`בקצב הזה: עלייה של ~${r.wk} ק״ג בשבוע.`:'שמירה על המשקל, עם התקדמות בכוח.','cheer')+`
+      <div class="tgw-res">
+        <div class="tgw-kcal"><b class="num" data-count="${r.kcal}">0</b><span>קלוריות ביום</span></div>
+        <div class="tgw-macros">${[['חלבון',r.prot,4,'#16A34A'],['פחמימה',r.carbs,4,'#2F6FD6'],['שומן',r.fat,9,'#E8590C']].map(([l,g,k,c])=>`<div><div class="tgw-bar"><i style="width:${Math.round(g*k/r.kcal*100)}%;background:${c}"></i></div><b class="num">${g}<small> גר׳</small></b><span>${l}</span></div>`).join('')}</div>
+        <div class="small muted" style="text-align:center;margin-top:8px">הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום</div>
+      </div>
+      ${t.edit?`<div class="row" style="gap:8px;margin-top:12px">
+        <div style="flex:1"><div class="label">קלוריות</div><input class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="יעד קלוריות" id="t-kcal" value="${r.kcal}"></div>
+        <div style="flex:1"><div class="label">חלבון (גר׳)</div><input class="num" type="text" readonly data-np="num" data-unit="גר׳ חלבון" aria-label="יעד חלבון" id="t-prot" value="${r.prot}"></div>
+        <div style="flex:1"><div class="label">משקל יעד</div><input class="num" type="text" readonly data-np="num" data-unit="ק״ג" aria-label="משקל יעד" id="t-goal" value="${t.goalKg||''}" placeholder="—"></div></div>`
+        :`<button class="linkbtn small" data-act="tg-edit" style="display:block;margin:10px auto 0">✏️ לשנות את המספרים</button>`}
+      <button class="btn primary big" data-act="food-targets" style="margin-top:14px;width:100%">שמור יעד ✓</button>
+      <div class="small muted" style="text-align:center;margin-top:8px">לפי נוסחת Mifflin-St Jeor. הערכה כללית, לא ייעוץ רפואי.</div>`
+      :kobi('חסרים כמה פרטים','חזור אחורה והשלם אותם.');
+  }
+  openSheet(top+`<div class="tgw-body">${body}</div>`);
+  if(key==='res')requestAnimationFrame(()=>{ const el=$('[data-count]'); if(!el)return; const to=+el.dataset.count, t0=performance.now();
+    const f=now=>{ const k=Math.min(1,(now-t0)/700); el.textContent=Math.round(to*(1-Math.pow(1-k,3))).toLocaleString(); if(k<1)requestAnimationFrame(f); }; requestAnimationFrame(f); });
 }
 function tgAct(act,b){
-  const v=b.dataset.v; TG.age=$('#tg-age')?.value||TG.age; TG.h=$('#tg-h')?.value||TG.h; TG.w=$('#tg-w')?.value||TG.w;
-  if(act==='tg-sex')TG.sex=v; if(act==='tg-act')TG.act=+v; if(act==='tg-goal'){TG.goal=v; TG.pace='norm';} if(act==='tg-pace')TG.pace=v; if(act==='tg-edit')TG.edit=true;
-  const sc=$('#sheet .sheet-body')||$('#sheet'); const y=sc?.scrollTop||0; tgRender(); const sc2=$('#sheet .sheet-body')||$('#sheet'); if(sc2)sc2.scrollTop=y;
+  const t=TG; if(!t)return; const key=TG_STEPS[t.step];
+  if(act==='tg-back'){ t.step=Math.max(0,t.step-1); t.edit=false; return tgRender(); }
+  if(act==='tg-next'){ t.step=Math.min(TG_STEPS.length-1,t.step+1); return tgRender(); }
+  if(act==='tg-edit'){ t.edit=true; return tgRender(); }
+  if(act==='tg-pace'){ t.pace=b.dataset.v; return tgRender(); }
+  if(act==='tg-step'){ const c=TG_NUM[key]; if(!c)return; t[key]=Math.max(c.min,Math.min(c.max,Math.round(((+t[key]||c.def())+(+b.dataset.d)*c.step)*10)/10));
+    const v=$('#tgw-v'), r=$('#tgw-r'); if(v)v.textContent=t[key]; if(r)r.value=t[key]; return; }
+  if(act==='tg-pick'){ const k=b.dataset.k; t[k]=k==='act'?+b.dataset.v:b.dataset.v;
+    document.querySelectorAll('[data-act="tg-pick"]').forEach(x=>x.classList.toggle('on',x===b));
+    if(k==='goal'){ if(t.goal==='keep'){ t.pace='norm'; setTimeout(()=>{ t.step++; tgRender(); },220); } else { t.pace=t.pace||'norm'; tgRender(); } return; }
+    setTimeout(()=>{ t.step++; tgRender(); },220); }
 }
-document.addEventListener('input',ev=>{ if(!TG||!['tg-age','tg-h','tg-w'].includes(ev.target.id))return;
-  TG[ev.target.id==='tg-age'?'age':ev.target.id==='tg-h'?'h':'w']=ev.target.value;
-  const el=$('#tg-res'); if(el)el.innerHTML=tgResHTML(tgCalc(TG));
-  const sv=$('[data-act="food-targets"]'); if(sv)sv.disabled=!(tgCalc(TG)||TG.edit); });
+document.addEventListener('input',ev=>{ if(!TG||ev.target.id!=='tgw-r')return; const key=TG_STEPS[TG.step];
+  TG[key]=+ev.target.value; const v=$('#tgw-v'); if(v)v.textContent=TG[key]; });
 /* monthly AI photo allowance (server: 300 photo/label analyses per calendar month + 40/day safety cap; admins unlimited) */
 const AIQ={photo:null,loaded:0,LIM:300};
 function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)return; AIQ.loaded=Date.now();
@@ -5288,7 +5321,7 @@ function handleAct(b,ev){
       S.meals=S.meals.filter(m=>m.id!==id); saveSnapshot(); render();
       sb.from('meals').delete().eq('id',id).then(()=>{}); break; }
     case 'food-targets-open': openTargetsSheet(); break;
-    case 'tg-sex': case 'tg-act': case 'tg-goal': case 'tg-pace': case 'tg-edit': tgAct(act,b); break;
+    case 'tg-pick': case 'tg-pace': case 'tg-edit': case 'tg-back': case 'tg-next': case 'tg-step': tgAct(act,b); break;
     case 'food-targets': { const r=TG?tgCalc(TG):null, man=!!$('#t-kcal');
       S.settings.kcalT=(man?Math.round(+($('#t-kcal')?.value)||0):r?.kcal)||null;
       S.settings.protT=(man?Math.round(+($('#t-prot')?.value)||0):r?.prot)||null;
