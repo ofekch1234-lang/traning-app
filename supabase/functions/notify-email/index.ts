@@ -4,7 +4,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const APP = "https://www.nextrep.co.il";
 const LOGO = "https://traning-app-silk.vercel.app/icon-192.png";
-type Item = { uid: string; lang?: string; w?: number; m?: number; g?: string };
+type Item = { uid: string; lang?: string; w?: number; m?: number; g?: string; until?: string };
 // feminine overrides (Hebrew / Arabic address the reader by gender)
 const F: Record<string, { none?: string; body?: string }> = {
   he: { none: "עוד יש זמן לנסות: אימון אחד וצילום ארוחה אחת, ותראי מה NextRep יודעת לעשות." },
@@ -17,8 +17,22 @@ const T: Record<string, { dir: string; subj: string; title: string; did: (w: num
   en: { dir: "ltr", subj: "2 days left in your NextRep trial ⏳", title: "2 days left in your trial", did: (w, m) => `So far: ${w} workouts and ${m} meals. Nice work 💪`, none: "Still time to try it: one workout and one meal photo, and see what NextRep can do.", body: "To keep your plan, Kobi the bot and nutrition tracking without a break, pick a plan in the app. One payment, no auto-renewal.", cta: "Choose a plan", foot: "You're receiving this because you signed up for NextRep." },
 };
 
-function html(l: string, w: number, m: number, g?: string) {
-  const t = { ...(T[l] || T.he), ...(g === "f" ? F[l] || {} : {}) };
+const GIFT: Record<string, Record<string, { subj: string; title: string; none: string; body: string; cta: string }>> = {
+  m: {
+    he: { subj: "חודש המתנה שלך ב-NextRep נגמר בעוד 3 ימים 🎁", title: "חודש המתנה נגמר בעוד 3 ימים", none: "הגישה שלך פתוחה עד {until}. כדי להמשיך בלי הפסקה, בחר מסלול.", body: "או הזמן עוד חבר: כשהוא בוחר מסלול, אתה מקבל עוד חודש מתנה. תשלום אחד, בלי חידוש אוטומטי.", cta: "לבחירת מסלול" },
+    ar: { subj: "شهر الهدية في NextRep ينتهي بعد 3 أيام 🎁", title: "شهر الهدية ينتهي بعد 3 أيام", none: "وصولك مفتوح حتى {until}. لتواصل بلا توقف، اختر باقة.", body: "أو ادعُ صديقًا آخر: عندما يختار باقة تحصل على شهر هدية إضافي. دفعة واحدة، بلا تجديد تلقائي.", cta: "اختيار باقة" },
+    en: { subj: "Your NextRep gift month ends in 3 days 🎁", title: "Your gift month ends in 3 days", none: "Your access is open until {until}. Pick a plan to keep going without a break.", body: "Or invite another friend: when they pick a plan, you get one more free month. One payment, no auto-renewal.", cta: "Choose a plan" },
+  },
+  f: {
+    he: { subj: "חודש המתנה שלך ב-NextRep נגמר בעוד 3 ימים 🎁", title: "חודש המתנה נגמר בעוד 3 ימים", none: "הגישה שלך פתוחה עד {until}. כדי להמשיך בלי הפסקה, בחרי מסלול.", body: "או הזמיני עוד חברה: כשהיא בוחרת מסלול, את מקבלת עוד חודש מתנה. תשלום אחד, בלי חידוש אוטומטי.", cta: "לבחירת מסלול" },
+    ar: { subj: "شهر الهدية في NextRep ينتهي بعد 3 أيام 🎁", title: "شهر الهدية ينتهي بعد 3 أيام", none: "وصولك مفتوح حتى {until}. لتواصلي بلا توقف، اختاري باقة.", body: "أو ادعي صديقة أخرى: عندما تختار باقة تحصلين على شهر هدية إضافي. دفعة واحدة، بلا تجديد تلقائي.", cta: "اختيار باقة" },
+    en: { subj: "Your NextRep gift month ends in 3 days 🎁", title: "Your gift month ends in 3 days", none: "Your access is open until {until}. Pick a plan to keep going without a break.", body: "Or invite another friend: when they pick a plan, you get one more free month. One payment, no auto-renewal.", cta: "Choose a plan" },
+  },
+};
+function html(l: string, w: number, m: number, g?: string, kind?: string, until?: string) {
+  const base = { ...(T[l] || T.he), ...(g === "f" ? F[l] || {} : {}) };
+  const gift = kind === "gift_end" ? (GIFT[g === "f" ? "f" : "m"][l] || GIFT.m.he) : null;
+  const t = gift ? { ...base, title: gift.title, none: gift.none.replace("{until}", until || ""), body: gift.body, cta: gift.cta, did: () => gift.none.replace("{until}", until || "") } : base;
   return `<div dir="${t.dir}" style="background:#f3f5f3;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#141a16">
   <div style="max-width:440px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e3e8e4">
     <div style="background:#141a16;padding:22px;text-align:center"><img src="${LOGO}" width="56" height="56" alt="NextRep" style="border-radius:14px">
@@ -50,7 +64,7 @@ Deno.serve(async (req) => {
       const l = ["he", "ar", "en"].includes(String(it.lang)) ? String(it.lang) : "he";
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST", headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ from, to: [to], subject: (T[l] || T.he).subj, html: html(l, +it.w! || 0, +it.m! || 0, it.g) }),
+        body: JSON.stringify({ from, to: [to], subject: body.kind === "gift_end" ? (GIFT[it.g === "f" ? "f" : "m"][l] || GIFT.m.he).subj : (T[l] || T.he).subj, html: html(l, +it.w! || 0, +it.m! || 0, it.g, body.kind, it.until) }),
         signal: AbortSignal.timeout(15000),
       });
       if (r.ok) sent++; else errs.push(String(r.status) + " " + (await r.text()).slice(0, 120));

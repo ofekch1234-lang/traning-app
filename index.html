@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a8c0f3a5"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a8c0f3a5"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a8c0f3a5"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=73b502d8"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=73b502d8"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=73b502d8"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1150,7 +1150,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.1.2';
+const APP_VERSION='11.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3842,7 +3842,7 @@ function userState(u){
   if(u.access==='rejected')return ['חסום','#DC2626'];
   const until=u.until?new Date(u.until):null, paid=u.access_until&&new Date(u.access_until)>new Date();
   if(!until||until<=new Date())return ['פג תוקף','#DC2626'];
-  return paid?['משלם','var(--accent)']:['בניסיון','#2F6FD6'];
+  return paid?(u.gifted?['🎁 מתנה','#7C3AED']:['משלם','var(--accent)']):['בניסיון','#2F6FD6'];
 }
 const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
 async function loadAdmin(){
@@ -3897,7 +3897,8 @@ function admOverviewHTML(){
   return `${alerts.length?`<div class="stack" style="gap:8px;margin-bottom:12px">${alerts.map(([t,a])=>`<button class="adm-alert" data-act="adm-go" ${a}><span>${t}</span><span>›</span></button>`).join('')}</div>`:`<div class="adm-ok">✓ אין משימות פתוחות</div>`}
     <div class="adm-sec"><div class="label" style="margin-bottom:6px">משתמשים</div>
     <div class="tiles">${tile(O.users,'רשומים','data-t="users" data-f="all"')}${tile(O.paying,'משלמים','data-t="users" data-f="paying"')}${tile(O.trial,'בניסיון','data-t="users" data-f="trial"')}</div>
-    <div class="tiles" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'פג תוקף','data-t="users" data-f="expired"')}</div></div>
+    <div class="tiles" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'פג תוקף','data-t="users" data-f="expired"')}</div>
+    ${O.gifted?`<div class="small muted" style="margin-top:6px">🎁 ${O.gifted} עם גישה במתנה (הזמינו חבר ששילם, בלי תשלום משלהם)</div>`:''}</div>
     <div class="adm-sec"><div class="label" style="margin:14px 0 6px">הכנסות</div>
     <div class="tiles">${tile('₪'+Math.round(O.rev_month),'החודש','data-t="pay"')}${tile(O.pay_month,'תשלומים החודש','data-t="pay"')}${tile('₪'+Math.round(O.rev_total),'סה״כ','data-t="pay"')}</div></div>
     <div class="card adm-chart" style="margin-top:14px;padding:14px">
@@ -3963,6 +3964,7 @@ async function admUserSheet(id){
       <div class="card" style="padding:4px 14px">
         ${[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],['ניסיון עד',dShort(u.trial_until)],['מנוי בתשלום עד',dShort(u.access_until)],
           ...(u.ref_name?[['הוזמן ע״י',esc(u.ref_name)]]:[]),
+          ...(u.referred_paid?[['חברים ששילמו דרכו',`${u.referred_paid} · ${u.referred_paid*30} ימי מתנה`]]:[]),
           ...(d?[['אימונים (30 יום)',`${d.workouts} (${d.workouts30})`],['ארוחות / שקילות',`${d.meals} / ${d.weighins}`],['קבוצות',d.groups],['הזמין חברים',d.referred],['התראות',d.push?'✓ מופעל':'—'],['AI',`${d.ai_calls} ניתוחים · ${money(d.ai_usd)}`],
             ['תשלומים',(d.payments||[]).length?d.payments.map(p=>`₪${+p.amount} (${p.months} ח׳) ${dShort(p.created_at)}`).join('<br>'):'—']]:[['','טוען…']])
         ].map(([k,v])=>`<div class="h-ex" style="padding:7px 0;border-bottom:1px solid var(--line)"><span>${k}</span><span style="text-align:var(--end)">${v}</span></div>`).join('')}
@@ -4488,12 +4490,12 @@ function planPill(){
   const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null)return '';
   if(planBanner())return ''; // the urgent banner already says it
   if(p.paid){ const d=p.access_until?new Date(p.access_until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'';
-    return `<button class="planpill paid" data-act="plans-open">⭐ ${PLAN_LABEL[p.plan_months]||'מנוי פעיל'}${d?` · עד ${d}`:''}</button>`; }
+    return `<button class="planpill paid" data-act="plans-open">${p.gift?'🎁 חודש מתנה':'⭐ '+(PLAN_LABEL[p.plan_months]||'מנוי פעיל')}${d?` · עד ${d}`:''}</button>`; }
   return `<button class="planpill" data-act="plans-open">🎁 ניסיון חינם · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
 }
 function planBanner(){
   const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null||p.days_left>(p.paid?5:3))return '';
-  return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון':`נשארו ${p.days_left} ימים`} ${p.paid?'למנוי':'לתקופת הניסיון'}</b><span class="small muted" style="display:block">בחר מסלול כדי להמשיך בלי הפסקה</span></span><span style="color:var(--accent);font-weight:700">מסלולים</span></button>`;
+  return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון':`נשארו ${p.days_left} ימים`} ${p.paid?(p.gift?'לחודש המתנה':'למנוי'):'לתקופת הניסיון'}</b><span class="small muted" style="display:block">בחר מסלול כדי להמשיך בלי הפסקה</span></span><span style="color:var(--accent);font-weight:700">מסלולים</span></button>`;
 }
 /* --- QR + share --- */
 function loadQR(){ return window.qrcode?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);}); }
