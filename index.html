@@ -989,6 +989,7 @@ function langPillsHTML(){ return `<div class="langpills" data-notr>${Object.entr
 function setLang(l){
   try{ localStorage.setItem('nr_lang',l); }catch(e){}
   window._langNext=l;
+  try{ if(!S.user&&S.showAuth)sessionStorage.setItem('nr-auth-open',JSON.stringify({m:S.authMode||'login',e:(OTP.step?OTP.email:'')||($('#otp-email')||$('#au-email'))?.value||''})); }catch(e){}
   const go=()=>location.reload();
   if(S.user){ Promise.race([flushActive(),new Promise(r=>setTimeout(r,2500))]).then(go,go); } else go();
 }
@@ -1000,7 +1001,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.5';
+const APP_VERSION='9.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4282,6 +4283,8 @@ const TOUR_STEPS=[
 ];
 /* per-screen tours: the first time a new user opens a screen, a short tour of just that screen */
 function toursSeen(){ if(!S.settings.toursSeen||typeof S.settings.toursSeen!=='object'){ let ls={}; try{ls=JSON.parse(localStorage.getItem('nr-tours')||'{}')||{};}catch(_){} S.settings.toursSeen=ls; } return S.settings.toursSeen; }
+// back on the sign-in screen after a language switch (the page reloads)
+try{ const a=JSON.parse(sessionStorage.getItem('nr-auth-open')||'null'); if(a){ sessionStorage.removeItem('nr-auth-open'); S.showAuth=true; S.authMode=a.m||'login'; if(a.e){S.authEmail=a.e; OTP.email=a.e;} } }catch(_){}
 function maybeStartTour(){
   if(TOUR.on||S.active||S.mode!=='app'||$('#instgate'))return;
   if(S.settings.tourDone)return; // finished the old all-in-one tour
