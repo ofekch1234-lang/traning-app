@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b971b4e5"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1ddae793"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1000,7 +1000,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.3';
+const APP_VERSION='9.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4764,12 +4764,13 @@ async function coachLoadSummary(){
 function coachCardHTML(){
   if(!S.user||S.mode!=='app')return '';
   if(CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
-  if(!S.workouts.length&&!CO.sum)return '';
+  const fresh=!S.workouts.length&&!CO.sum; // no workouts yet: Kobi introduces himself instead of hiding
   if(CO.cardOpen===undefined){ try{CO.cardOpen=localStorage.getItem('nr-co-card')==='1';}catch(_){CO.cardOpen=false;} }
   const open=CO.cardOpen;
   const head=`<button class="co-h co-tog" data-act="coach-card-tog" aria-expanded="${open}"><img class="co-av" src="img/kobi-${CO.sum?'wink':'happy'}.svg" alt=""><div style="flex:1;min-width:0;text-align:start"><b>קובי הבוט</b><div class="small muted">${CO.sum?'הסיכום השבועי שלך':'המאמן האישי שלך'}</div></div><span class="co-chev">${open?'▴':'▾'}</span></button>`;
   let body;
-  if(CO.loading||CO.sum===undefined)body=`<div class="small muted">קובי מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
+  if(fresh)body=`<div class="small muted" style="line-height:1.55">היי, אני קובי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
+  else if(CO.loading||CO.sum===undefined)body=`<div class="small muted">קובי מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
   else if(CO.sum)body=`<div class="co-txt" dir="auto" data-notr>${esc(coachParse(CO.sum.body).text)}</div>`;
   else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים קובי ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
   else body=`<div class="small muted">לא הצלחנו לטעון את הסיכום עכשיו.</div>`;
