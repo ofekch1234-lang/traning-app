@@ -952,7 +952,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.3';
+const APP_VERSION='7.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4574,14 +4574,22 @@ async function coachLoadMsgs(){
 }
 /* הדגמות בתשובות של קובי: כשהשאלה היא "איך עושים X" — מזהים את התרגיל (גם בשם המתורגם) ומצרפים כרטיס הדגמה */
 let _coNames=null;
-function coachDemos(q){
-  q=String(q||''); if(!q||!/(איך|כיצד|טכניק|לבצע|מבצעים|עושים|ביצוע|תנוחה|הדגמה|how|technique|form|perform|demo|كيف|طريقة|أداء|تقنية)/i.test(q))return [];
+function coachDemos(q,reply,prevReply){
+  q=String(q||''); if(!q||!/(איך|כיצד|טכניק|לבצע|מבצעים|עושים|ביצוע|תנוחה|הדגמ|דוגמ|תראה|להראות|הראה|סרטון|how|technique|form|perform|demo|show|example|video|كيف|طريقة|أداء|تقنية|أرني|مثال|فيديو)/i.test(q))return [];
+  const found=coachFind(q); if(found.length)return found.slice(0,3);
+  // "תראה לי דוגמאות לתרגילים האלו" — התרגילים מוזכרים בתשובה (הנוכחית או הקודמת)
+  const r1=coachFind(reply); if(r1.length)return r1.slice(0,3);
+  return coachFind(prevReply).slice(0,3);
+}
+function coachFind(q){
+  q=String(q||''); if(!q)return [];
   const nz=x=>String(x).toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/(^|\s)ال/g,'$1').replace(/[-–]/g,' ').replace(/\s+/g,' ');
   if(!_coNames)_coNames=[...new Set(Object.values(LIB).flat())].filter(n=>EXDB[n]||INFO[n]).map(n=>[n,nz(n),I18?nz(tt(n)):'']);
   const t=nz(q);
   let hits=_coNames.filter(([n,h,x])=>t.includes(h)||(x&&x.length>2&&t.includes(x)));
   hits=hits.filter(a=>!hits.some(b=>b!==a&&((b[1].includes(a[1])&&b[1].length>a[1].length)||(a[2]&&b[2].includes(a[2])&&b[2].length>a[2].length))));
-  return hits.slice(0,2).map(x=>x[0]);
+  const pos=x=>{ const i=t.indexOf(x[1]); return i>=0?i:(x[2]?t.indexOf(x[2]):1e9); };
+  return hits.sort((a,b)=>pos(a)-pos(b)).map(x=>x[0]);
 }
 const CO_CHIPS=['למה אני לא מתקדם?','מה לאכול אחרי אימון?','כמה חלבון אני צריך?','איך לשבור שיא בסקוואט?','מה לשפר בשבוע הבא?'];
 function vCoach(){
@@ -4593,12 +4601,13 @@ function vCoach(){
   let list='';
   if(!M)list=`<div class="c-sys">טוען…</div>`;
   else{
-    let lastQ='';
+    let lastQ='', prevA='';
     list+=`<div class="co-intro"><img src="img/kobi-happy.svg" alt=""><b>היי, אני קובי 👋</b><span>המאמן האישי שלך. שאל אותי כל דבר על אימונים, תזונה והתקדמות. אני עונה לפי הנתונים שלך. לא ייעוץ רפואי.</span></div>`;
     for(const m of M){
       if(m.role==='summary')list+=`<div class="co-sum"><span class="lbl"><img src="img/kobi-wink.svg" alt="" style="width:22px;height:22px;vertical-align:-6px;margin-inline-end:4px">📅 סיכום שבועי · ${fmtDate(m.created_at)}</span><span dir="auto" data-notr style="display:block">${esc(m.body)}</span></div>`;
       else if(m.role==='user'){ lastQ=m.body; list+=`<div class="cm me"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`; }
-      else{ const dm=coachDemos(lastQ);
+      else if(!String(m.body||'').trim())continue;
+      else{ const dm=coachDemos(lastQ,m.body,prevA); prevA=m.body;
         list+=`<div class="co-row"><img src="img/kobi-happy.svg" alt=""><div class="cm"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div>${dm.length?`<div class="co-demos">${dm.map(n=>`<button data-act="coach-demo" data-n="${esc(n)}">${EXDB[n]?`<img ${exImg(EXDB[n],0)} alt="">`:'<span class="pl"></span>'}<span><b>▶ צפה בהדגמה</b><small>${esc(n)}</small></span></button>`).join('')}</div>`:''}<div class="tm">${socTime(m.created_at)}</div></div></div>`; }
     }
     if(CO.busy)list+=`<div class="co-row"><img src="img/kobi-think.svg" alt=""><div class="cm co-typing"><div class="bub"><i></i><i></i><i></i></div></div></div>`;

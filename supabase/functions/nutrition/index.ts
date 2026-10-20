@@ -63,7 +63,7 @@ Deno.serve(async (req: Request) => {
       const r = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-        body: JSON.stringify({ model, max_tokens: 700, system: (isLabel ? LABEL : SYSTEM) + langNote, messages: [{ role: "user", content }] }),
+        body: JSON.stringify({ model, max_tokens: 2500, system: (isLabel ? LABEL : SYSTEM) + langNote + "\nהחזר JSON קומפקטי בשורה אחת.", messages: [{ role: "user", content }], output_config: { effort: "low" } }),
       });
       if (r.status === 404) { lastErr = await r.text(); console.log(JSON.stringify({ ev: "model-fallback", from: model, err: lastErr.slice(0, 160) })); continue; } // מודל לא קיים — ננסה את הבא
       if (!r.ok) { lastErr = await r.text(); break; }
@@ -73,11 +73,11 @@ Deno.serve(async (req: Request) => {
       const [pi, po] = PRICES[model] || [1, 5];
       const it = out.usage?.input_tokens || 0, ot = out.usage?.output_tokens || 0;
       const cost = (it * pi + ot * po) / 1e6;
-      console.log(JSON.stringify({ ev: "nutrition", model: out.model || model, in: it, out: ot, usd: cost, kind: isLabel ? "label" : body.image ? "photo" : "text", lang: body.lang || "he" }));
+      console.log(JSON.stringify({ ev: "nutrition", model: out.model || model, in: it, out: ot, usd: cost, kind: isLabel ? "label" : body.image ? "photo" : "text", lang: body.lang || "he", stop: out.stop_reason }));
       try { await sb.from("ai_usage").insert({ user_id: user.id, kind: isLabel ? "label" : body.image ? "photo" : "text", model: out.model || model, input_tokens: it, output_tokens: ot, cost_usd: cost }); } catch (_) { /* לא חוסם */ }
       const txt = (out.content || []).filter((c: { type: string }) => c.type === "text").map((c: { text: string }) => c.text).join("");
       const m = txt.match(/\{[\s\S]*\}/);
-      if (!m) break;
+      if (!m) { lastErr = "no_json stop=" + out.stop_reason + " text=" + txt.slice(0, 120); break; }
       const parsed = JSON.parse(m[0]);
       return new Response(JSON.stringify(parsed), { headers: { ...cors, "Content-Type": "application/json" } });
     }

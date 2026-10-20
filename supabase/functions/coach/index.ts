@@ -97,7 +97,7 @@ function system(lang: string, kind: "chat" | "summary") {
   return `Your name is Kobi ("קובי הבוט" in Hebrew, "كوبي البوت" in Arabic, "Kobi the bot" in English), a friendly robot personal coach inside NextRep, a gym workout + nutrition tracking app. If you introduce yourself or sign off, use that name. You coach strength training, hypertrophy, conditioning, nutrition for training, recovery and consistency.
 Write ONLY in ${LANG_NAME[lang] || "Hebrew"}. Exercise names in the data are Hebrew: translate them naturally into the reply language (in Hebrew keep them as is).
 Base everything on the user's data digest below — cite concrete numbers. Never invent data that is not in the digest; if something is missing, say so briefly and suggest logging it.
-Tone: warm, direct, motivating, like a good personal trainer texting. Plain text only: no markdown, no ** or #. Short lines; you may use a few emoji bullets.
+Tone: warm, direct, motivating, like a good personal trainer texting. Address the user in the second person singular (in Hebrew and Arabic: masculine singular, e.g. "שב", "משוך" — never plural forms like "שבו", "משכו"). Plain text only: no markdown, no ** or #. Short lines; you may use a few emoji bullets.
 Safety: you are not a doctor. For pain, injury, illness or medication questions give only general safety advice and recommend a physician or physiotherapist. Never recommend extreme diets (below ~1200 kcal/day for women or ~1500 for men), dehydration, or performance-enhancing drugs.
 Exercise technique: when the user asks how to perform an exercise, give 3–4 short, concrete technique cues and one common mistake to avoid, and mention that a demo video of the exercise appears right below your answer (the app attaches it automatically). Never say you cannot show videos.
 Scope: only training, nutrition, recovery, body composition, motivation and how to use NextRep. If asked about anything else, decline in one sentence and steer back to training.
@@ -110,13 +110,21 @@ async function claude(sys: string, messages: unknown[], maxTokens: number) {
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "x-api-key": Deno.env.get("ANTHROPIC_API_KEY")!, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, system: sys, messages }),
+    // Haiku 5.5: adaptive thinking is on by default and counts toward max_tokens — keep effort low and leave room for the answer
+    body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, system: sys, messages, output_config: { effort: "low" } }),
   });
   if (!r.ok) throw new Error("ai_" + r.status + ":" + (await r.text()).slice(0, 160));
   const out = await r.json();
   const text = (out.content || []).filter((c: any) => c.type === "text").map((c: any) => c.text).join("").replace(/\*\*/g, "").replace(/^#+\s*/gm, "").trim();
   const it = out.usage?.input_tokens || 0, ot = out.usage?.output_tokens || 0;
-  return { text, it, ot, usd: (it * 0.1 + ot * 0.5) / 1e6, model: out.model || MODEL };
+  return { text, it, ot, usd: (it * 0.1 + ot * 0.5) / 1e6, model: out.model || MODEL, stop: out.stop_reason };
+}
+// retry once with a bigger budget if the model spent everything on thinking and returned no text
+async function claudeText(sys: string, messages: unknown[], maxTokens: number) {
+  let r = await claude(sys, messages, maxTokens);
+  if (!r.text) { const r2 = await claude(sys, messages, maxTokens * 2); r2.it += r.it; r2.ot += r.ot; r2.usd += r.usd; r = r2; }
+  if (!r.text) throw new Error("empty_reply:" + r.stop);
+  return r;
 }
 
 async function makeSummary(admin: SupabaseClient, uid: string, lang: string) {
@@ -125,7 +133,7 @@ async function makeSummary(admin: SupabaseClient, uid: string, lang: string) {
   if (ex) return { summary: ex, cached: true };
   const d = await digest(admin, uid);
   if (!d.hasData) return { summary: null, empty: true };
-  const ai = await claude(system(lang, "summary") + "\n\nUSER DATA DIGEST:\n" + d.text, [{ role: "user", content: "Write my weekly summary." }], 400);
+  const ai = await claudeText(system(lang, "summary") + "\n\nUSER DATA DIGEST:\n" + d.text, [{ role: "user", content: "Write my weekly summary." }], 1200);
   await admin.from("ai_usage").insert({ user_id: uid, kind: "coach_summary", model: ai.model, input_tokens: ai.it, output_tokens: ai.ot, cost_usd: ai.usd });
   const { data: row, error } = await admin.from("coach_messages").insert({ user_id: uid, role: "summary", body: ai.text, week }).select("id,body,week,created_at").single();
   if (error) { // race: another call created it first
@@ -145,6 +153,15 @@ Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const body = await req.json().catch(() => ({}));
+
+  // ----- health check (cron key): one short real call to the model -----
+  if (body.mode === "ping") {
+    const { data: ck } = await admin.from("app_config").select("value").eq("key", "cron_key").maybeSingle();
+    if (typeof ck?.value !== "string" || req.headers.get("x-cron-key") !== ck.value) return J({ error: "forbidden" }, 403);
+    try { const r = await claudeText(system(body.lang || "he", "chat") + "\n\nUSER DATA DIGEST:\n(no data)", [{ role: "user", content: String(body.text || "איך עושים סקוואט?") }], 1500);
+      return J({ ok: true, text: r.text, in: r.it, out: r.ot, usd: r.usd, stop: r.stop }); }
+    catch (e) { return J({ ok: false, error: String(e).slice(0, 300) }, 502); }
+  }
 
   // ----- cron: weekly summaries for active users -----
   if (body.mode === "weekly") {
@@ -201,7 +218,7 @@ Deno.serve(async (req: Request) => {
       if ((count ?? 0) >= DAILY_CHAT) return J({ error: "quota", limit: DAILY_CHAT }, 429);
       const { data: hist } = await admin.from("coach_messages").select("role,body").eq("user_id", user.id).order("id", { ascending: false }).limit(6);
       const msgs: { role: string; content: string }[] = [];
-      for (const h of (hist || []).reverse()) {
+      for (const h of (hist || []).reverse().filter((x: any) => (x.body || "").trim())) {
         const role = h.role === "user" ? "user" : "assistant";
         if (msgs.length && msgs[msgs.length - 1].role === role) msgs[msgs.length - 1].content += "\n\n" + h.body;
         else msgs.push({ role, content: h.body });
@@ -209,7 +226,7 @@ Deno.serve(async (req: Request) => {
       while (msgs.length && msgs[0].role !== "user") msgs.shift();
       if (msgs.length && msgs[msgs.length - 1].role === "user") msgs[msgs.length - 1].content += "\n\n" + text; else msgs.push({ role: "user", content: text });
       const d = await digest(admin, user.id);
-      const ai = await claude(system(lang, "chat") + "\n\nUSER DATA DIGEST:\n" + d.text, msgs, 450);
+      const ai = await claudeText(system(lang, "chat") + "\n\nUSER DATA DIGEST:\n" + d.text, msgs, 1500);
       await admin.from("ai_usage").insert({ user_id: user.id, kind: "coach_chat", model: ai.model, input_tokens: ai.it, output_tokens: ai.ot, cost_usd: ai.usd });
       await admin.from("coach_messages").insert([{ user_id: user.id, role: "user", body: text }, { user_id: user.id, role: "assistant", body: ai.text }]);
       console.log(JSON.stringify({ ev: "coach-chat", user: user.id.slice(0, 8), in: ai.it, out: ai.ot, usd: ai.usd, lang }));
