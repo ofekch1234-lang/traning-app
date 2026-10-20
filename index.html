@@ -1195,7 +1195,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.7';
+const APP_VERSION='11.7.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1269,7 +1269,7 @@ async function notify(title,body){
   try{
     if(!('Notification' in window)||Notification.permission!=='granted')return;
     const reg=await navigator.serviceWorker?.ready;
-    if(reg?.showNotification)reg.showNotification(title,{body,icon:window.NR_G==='f'?'icon-f-192.png':'icon-192.png?v=2',badge:'icon-192.png?v=2',vibrate:[200,100,200]});
+    if(reg?.showNotification)reg.showNotification(title,{body,icon:window.NR_G==='f'?'icon-f-192.png':'icon-192.png?v=2',badge:'badge-96.png',vibrate:[200,100,200]});
     else new Notification(title,{body,icon:'icon-192.png?v=2'});
   }catch(e){}
 }

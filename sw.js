@@ -1,6 +1,6 @@
 /* יומן הברזל — service worker: עבודה אופליין */
-const CACHE = 'nextrep-v116';
-const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png', '/manifest-f.json', '/icon-f-180.png', '/icon-f-192.png', '/icon-f-512.png'];
+const CACHE = 'nextrep-v117';
+const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png', '/manifest-f.json', '/icon-f-180.png', '/icon-f-192.png', '/icon-f-512.png', '/badge-96.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -48,7 +48,7 @@ self.addEventListener('push', e => {
   e.waitUntil(self.registration.showNotification(d.title || 'NextRep', {
     body: d.body || '',
     icon: 'icon-192.png?v=2',
-    badge: 'icon-192.png?v=2',
+    badge: 'badge-96.png',
     vibrate: [200, 100, 200],
     // תג ייחודי לכל התראה: באייפון התראה שמחליפה תג קיים נכנסת בשקט (בלי באנר/צליל)
     tag: (d.kind || 'nr') + '-' + Date.now(),
