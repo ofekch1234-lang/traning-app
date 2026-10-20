@@ -218,5 +218,21 @@
 "שלחנו קוד למייל שלך. הוא תקף לשעה.": {
 "en": "We emailed you a code. It's valid for one hour.",
 "ar": "أرسلنا رمزًا إلى بريدك. صالح لمدة ساعة."
+},
+"כניסה או הרשמה": {
+"en": "Log in or sign up",
+"ar": "تسجيل الدخول أو التسجيل"
+},
+"בלי סיסמה: מקלידים אימייל ומקבלים קוד חד-פעמי. אם אין לך חשבון, הוא ייפתח אוטומטית.": {
+"en": "No password: enter your email and get a one-time code. If you don't have an account, one is created automatically.",
+"ar": "بدون كلمة مرور: أدخل بريدك واحصل على رمز لمرة واحدة. إن لم يكن لديك حساب، سيُنشأ تلقائيًا."
+},
+"✉️ כניסה עם קוד למייל, בלי סיסמה": {
+"en": "✉️ Sign in with an email code, no password",
+"ar": "✉️ الدخول برمز عبر البريد، بدون كلمة مرور"
+},
+"נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. {0} ימים ראשונים עלינו.": {
+"en": "Sign up with your email, no password, add it to your home screen, and from your next workout every set is saved. The first {0} days are on us.",
+"ar": "سجّل ببريدك بدون كلمة مرور، أضفه إلى الشاشة الرئيسية، ومن تمرينك القادم تُحفظ كل مجموعة. أول {0} أيام علينا."
 }
 }
