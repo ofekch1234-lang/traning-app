@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c16129b0"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c16129b0"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c16129b0"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=eb06545a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=eb06545a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=eb06545a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -839,6 +839,23 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden;cursor:pointer;font-size:12.5px;color:var(--muted)}
 .phslot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .phslot.has{border-style:solid;border-color:var(--accent)}
+.ph-hit{position:absolute;inset:0;background:none;border:0;cursor:pointer}
+.ph-acts{position:absolute;inset:0;background:rgba(10,14,12,.62);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px}
+.ph-acts button,.ph-acts label{background:#fff;color:#141a16;border:0;border-radius:10px;padding:8px 4px;font:inherit;font-size:12.5px;font-weight:700;text-align:center;cursor:pointer}
+.ph-acts .del{background:rgba(255,255,255,.18);color:#fff}
+.ph-pd{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--surface2);margin-bottom:12px}
+.ph-pd>span{font-size:26px}.ph-pd b{display:block}.ph-pd div span{font-size:12.5px;color:var(--muted)}
+.ph-pd.now{background:var(--accent);color:var(--accent-ink)}.ph-pd.now div span{color:inherit;opacity:.85}
+.ph-pd.now{animation:pdPulse 1.6s ease 2}@keyframes pdPulse{50%{transform:scale(1.02)}}
+.ph-wt{width:100%;text-align:var(--start);padding:12px 14px;margin:0}
+#phview{position:fixed;inset:0;z-index:120;background:#000;display:flex;align-items:center;justify-content:center}
+#phview[hidden]{display:none}
+#phview>img{max-width:100%;max-height:100%;object-fit:contain}
+#phview .pv-top{position:absolute;top:0;inset-inline:0;display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 12px;color:#fff;background:linear-gradient(rgba(0,0,0,.6),transparent)}
+#phview .pv-top button{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;border:0;font-size:18px}
+#phview .pv-tabs{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);display:flex;gap:8px}
+#phview .pv-tabs button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:99px;padding:8px 16px;font:inherit}
+#phview .pv-tabs button.on{background:#fff;color:#000}
 .phslot .lbl{position:absolute;bottom:0;inset-inline:0;background:rgba(0,0,0,.55);color:#fff;font-size:11px;text-align:center;padding:3px 0}
 .phrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);width:100%;text-align:var(--start)}
 .phrow:last-child{border-bottom:none}
@@ -1098,7 +1115,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.9.1';
+const APP_VERSION='11.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3038,7 +3055,7 @@ async function uploadPhoto(file,date,angle){
     set[angle]=path;
     toast('התמונה נשמרה מוצפנת 🔒');
   }catch(e){ console.error(e); toast('ההעלאה נכשלה — נסה שוב'); }
-  PH.busy=null; openPhotoSet(date);
+  PH.busy=null; PH.sel=null; openPhotoSet(date);
 }
 async function deletePhoto(date,angle){
   const set=PH.sets.find(x=>x.d===date); if(!set||!set[angle])return;
@@ -3046,30 +3063,60 @@ async function deletePhoto(date,angle){
   try{ const {error}=await sb.storage.from('progress').remove([path]); if(error)throw error;
     delete set[angle]; delete PH.urls[path];
     if(!ANGLES.some(([k])=>set[k]))PH.sets=PH.sets.filter(x=>x!==set);
-    toast('התמונה נמחקה');
+    toast('התמונה נמחקה'); PH.sel=null;
   }catch(e){ toast('המחיקה נכשלה'); }
   openPhotoSet(date);
 }
-function openPhotoSet(date){
+function openPhotoSet(date,withWeight){
+  if(withWeight===undefined)withWeight=PH.day?.d===date?PH.day.w:false;
+  if(PH.day?.d!==date)PH.sel=null;
+  PH.day={d:date,w:withWeight};
   const set=PH.sets.find(x=>x.d===date)||{d:date};
-  const nice=date===ymd()?'היום':fmtDateFull(+new Date(date+'T12:00:00'));
+  const today=ymd(), nice=date===today?'היום':fmtDateFull(+new Date(date+'T12:00:00'));
+  const pdw=S.settings.photoDay!=null?+S.settings.photoDay:null;
+  const isPd=pdw!=null&&new Date(date+'T12:00:00').getDay()===pdw;
+  const hasAny=ANGLES.some(([k])=>set[k]);
+  const bw=(S.weights||[]).find(x=>x.d===date);
+  const banner=isPd?`<div class="ph-pd ${date===today?'now':''}"><span>📸</span><div><b>${date===today?'היום יום הצילום השבועי שלך':'יום הצילום השבועי'}</b>
+      <span>${date===today?(hasAny?'כל הכבוד, צילמת היום ✓':'חזית, גב וצד, באותה תאורה ובאותו מקום כמו בשבוע שעבר.'):'חזית, גב וצד, כמו בכל שבוע.'}</span></div></div>`:'';
+  const weigh=withWeight?`<button class="card spread ph-wt" data-act="day-weigh" data-d="${date}">
+      <span><span class="small muted" style="display:block">⚖️ משקל</span>${bw?`<b class="num" style="font-size:24px">${bw.kg}</b> <span class="muted">ק״ג</span>`:'<b>עוד לא נשקלת ביום הזה</b>'}</span>
+      <span class="btn ${bw?'':'primary'}" style="pointer-events:none">${bw?'עריכה':'+ שקילה'}</span></button>`:'';
   openSheet(`
-    <h3>תמונות התקדמות · ${nice}</h3>
-    <div class="small muted" style="margin-bottom:10px">אותה תאורה, אותה תנוחה ואותו מרחק בכל שבוע — כך ההשוואה אמינה.</div>
+    <h3>${withWeight?nice:`תמונות התקדמות · ${nice}`}</h3>
+    ${banner}${weigh}
+    ${withWeight?`<div class="label" style="margin:14px 0 6px">📸 תמונות התקדמות</div>`:`<div class="small muted" style="margin-bottom:10px">אותה תאורה, אותה תנוחה ואותו מרחק בכל שבוע — כך ההשוואה אמינה.</div>`}
     <div class="phslots">
       ${ANGLES.map(([k,l])=>{ const p=set[k]; const u=p&&PH.urls[p];
-        return `<div>
-          <label class="phslot ${p?'has':''}" aria-label="העלאת תמונה ${l}">
-            ${PH.busy===k?'<span>מעלה…</span>':u?`<img src="${esc(u)}" alt="${l}">`:`<span style="font-size:22px">📷</span><span>${l}</span>`}
-            ${u?`<span class="lbl">${l} · החלף</span>`:''}
-            <input type="file" accept="image/*" hidden data-photo-angle="${k}" data-photo-date="${date}">
-          </label>
-          ${p?`<button class="linkbtn small" data-act="photo-del" data-d="${date}" data-a="${k}" style="display:block;margin:4px auto 0;color:var(--danger)">מחק</button>`:''}
-        </div>`;}).join('')}
+        if(PH.busy===k)return `<div><div class="phslot"><span>מעלה…</span></div></div>`;
+        if(!p)return `<div><label class="phslot" aria-label="העלאת תמונה ${l}"><span style="font-size:22px">📷</span><span>${l}</span>
+            <input type="file" accept="image/*" hidden data-photo-angle="${k}" data-photo-date="${date}"></label></div>`;
+        const sel=PH.sel===k;
+        return `<div><div class="phslot has ${sel?'sel':''}">
+            ${u?`<img src="${esc(u)}" alt="${l}">`:'<span>טוען…</span>'}
+            ${sel?`<div class="ph-acts">
+                <button data-act="photo-view" data-d="${date}" data-a="${k}">👁 צפייה</button>
+                <label>🔄 החלפה<input type="file" accept="image/*" hidden data-photo-angle="${k}" data-photo-date="${date}"></label>
+                <button data-act="photo-del" data-d="${date}" data-a="${k}" class="del">🗑 מחיקה</button>
+              </div>`:`<button class="ph-hit" data-act="photo-pick" data-a="${k}" aria-label="אפשרויות לתמונה ${l}"></button><span class="lbl">${l}</span>`}
+          </div></div>`;}).join('')}
     </div>
     <div class="ph-lock">🔒 <span><b>${G('רק אתה רואה את התמונות האלה.','רק את רואה את התמונות האלה.','רק את/ה רואה את התמונות האלה.')}</b> הן מוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.</span></div>
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סיום</button>
   `);
+}
+function openPhotoView(date,angle){
+  const set=PH.sets.find(x=>x.d===date); if(!set)return;
+  const have=ANGLES.filter(([k])=>set[k]&&PH.urls[set[k]]); if(!have.length)return;
+  let i=Math.max(0,have.findIndex(([k])=>k===angle));
+  let v=document.getElementById('phview'); if(!v){ v=document.createElement('div'); v.id='phview'; document.body.appendChild(v); }
+  const draw=()=>{ const [k,l]=have[i];
+    v.innerHTML=`<img src="${esc(PH.urls[set[k]])}" alt="${l}">
+      <div class="pv-top"><span>${l} · ${date===ymd()?'היום':fmtDateFull(+new Date(date+'T12:00:00'))}</span><button data-pv="x" aria-label="סגירה">✕</button></div>
+      ${have.length>1?`<div class="pv-tabs">${have.map(([kk,ll],j)=>`<button data-pv="${j}" class="${j===i?'on':''}">${ll}</button>`).join('')}</div>`:''}`; };
+  draw(); v.hidden=false;
+  v.onclick=e=>{ const b=e.target.closest('[data-pv]'); if(!b){ if(e.target===v){v.hidden=true;} return; }
+    if(b.dataset.pv==='x'){ v.hidden=true; return; } i=+b.dataset.pv; draw(); };
 }
 function openPhotoCompare(angle){
   angle=angle||'front';
@@ -3160,7 +3207,7 @@ function bwCalendarHTML(){
   const monthName=first.toLocaleDateString(LOC,{month:'long',year:'numeric'});
   const chg=monthVals.length>1?Math.round((monthVals[monthVals.length-1]-monthVals[0])*10)/10:null;
   const avg=monthVals.length?Math.round(monthVals.reduce((a,b)=>a+b,0)/monthVals.length*10)/10:null;
-  return `<div class="sect spread"><span>לוח שקילות</span><span class="small muted" style="font-family:var(--body)">לחיצה על יום = שקילה</span></div>
+  return `<div class="sect spread"><span>לוח שקילות</span><span class="small muted" style="font-family:var(--body)">לחיצה על יום = שקילה ותמונות</span></div>
   <div class="card">
     <div class="spread" style="margin-bottom:8px">
       <button class="btn" data-act="cal-nav" data-dir="-1" aria-label="חודש קודם" style="padding:6px 12px">${ARW_PREV}</button>
@@ -3217,14 +3264,14 @@ function nutritionWeekHTML(){
     ${pT?`<div class="small muted" style="margin-top:8px">${avgP>=pT?'✓ עומד ביעד החלבון':`חסרים בממוצע ${pT-avgP} גר׳ חלבון ביום`}</div>`:''}
   </div>`;
 }
-function openWeighIn(date){
+function openWeighIn(date,after){
   const d=date||ymd();
   const ws=S.weights||[]; const cur=ws.find(x=>x.d===d); const last=ws[ws.length-1];
   const label=d===ymd()?'שקילה היום':`שקילה · ${fmtDate(+new Date(d+'T12:00:00'))}`;
   openNumpad({ title:`${label}${cur?` · רשום: ${cur.kg} ק״ג`:last?` · אחרונה: ${last.kg} ק״ג`:''}`,
     unit:'ק״ג', mode:'num', value:0,
-    apply(v){ if(!v){ if(cur)toast('לא נשמר — הקלד משקל'); return; } saveBodyweight(v,d); },
-    extra:cur?{label:'מחק',fn(){ deleteBodyweight(d); }}:null });
+    apply(v){ if(!v){ if(cur)toast('לא נשמר — הקלד משקל'); return; } saveBodyweight(v,d); after&&after(); },
+    extra:cur?{label:'מחק',fn(){ deleteBodyweight(d); after&&after(); }}:null });
 }
 /* משקל גוף — הגרסה הקודמת, נשמרת לתאימות */
 function bodyweightHTML(){
@@ -5490,7 +5537,10 @@ function handleAct(b,ev){
     case 'hist-del': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? מחק';break;} deleteWorkout(b.dataset.id); closeSheet(); toast('האימון נמחק'); break;
     case 'bw-save': saveBodyweight(); break;
     case 'bw-quick': openWeighIn(); break;
-    case 'cal-day': openWeighIn(b.dataset.d); break;
+    case 'cal-day': openPhotoSet(b.dataset.d,true); break;
+    case 'photo-pick': PH.sel=PH.sel===b.dataset.a?null:b.dataset.a; openPhotoSet(PH.day.d); break;
+    case 'photo-view': openPhotoView(b.dataset.d,b.dataset.a); break;
+    case 'day-weigh': { const d=b.dataset.d; openWeighIn(d,()=>setTimeout(()=>openPhotoSet(d,true),60)); break; }
     case 'cal-nav': { const n=new Date(); const [yy,mm]=(S.calMonth||`${n.getFullYear()}-${n.getMonth()+1}`).split('-').map(Number);
       const t=new Date(yy,mm-1+(+b.dataset.dir),1);
       if(t>new Date(n.getFullYear(),n.getMonth(),1))break;

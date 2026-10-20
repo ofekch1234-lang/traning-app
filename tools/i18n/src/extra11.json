@@ -1106,5 +1106,69 @@
 "הן מוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.": {
 "en": "They're encrypted on your phone before they leave it. The server only stores an encrypted file, with no location or device details. Group members can't see them, and the NextRep team doesn't open them.",
 "ar": "تُشفَّر على هاتفك قبل أن تغادره. يُحفظ على الخادم ملف مشفّر فقط، بلا موقع أو تفاصيل جهاز. أعضاء الفرق لا يرونها، وفريق NextRep لا يفتحها."
+},
+"לחיצה על יום = שקילה ותמונות": {
+"en": "Tap a day = weight & photos",
+"ar": "اضغط على يوم = الوزن والصور"
+},
+"היום יום הצילום השבועי שלך": {
+"en": "Today is your weekly photo day",
+"ar": "اليوم هو يوم التصوير الأسبوعي"
+},
+"יום הצילום השבועי": {
+"en": "Weekly photo day",
+"ar": "يوم التصوير الأسبوعي"
+},
+"כל הכבוד, צילמת היום ✓": {
+"en": "Nice, you took today's photos ✓",
+"ar": "أحسنت، التقطت صور اليوم ✓"
+},
+"חזית, גב וצד, באותה תאורה ובאותו מקום כמו בשבוע שעבר.": {
+"en": "Front, back and side, same light and spot as last week.",
+"ar": "أمام وظهر وجانب، بنفس الإضاءة والمكان كالأسبوع الماضي."
+},
+"חזית, גב וצד, כמו בכל שבוע.": {
+"en": "Front, back and side, like every week.",
+"ar": "أمام وظهر وجانب، كما كل أسبوع."
+},
+"⚖️ משקל": {
+"en": "⚖️ Weight",
+"ar": "⚖️ الوزن"
+},
+"עוד לא נשקלת ביום הזה": {
+"en": "No weigh-in this day",
+"ar": "لا يوجد وزن في هذا اليوم"
+},
+"עריכה": {
+"en": "Edit",
+"ar": "تعديل"
+},
+"+ שקילה": {
+"en": "+ Weigh-in",
+"ar": "+ وزن"
+},
+"📸 תמונות התקדמות": {
+"en": "📸 Progress photos",
+"ar": "📸 صور التقدّم"
+},
+"👁 צפייה": {
+"en": "👁 View",
+"ar": "👁 عرض"
+},
+"🔄 החלפה": {
+"en": "🔄 Replace",
+"ar": "🔄 استبدال"
+},
+"🗑 מחיקה": {
+"en": "🗑 Delete",
+"ar": "🗑 حذف"
+},
+"טוען…": {
+"en": "Loading…",
+"ar": "جارٍ التحميل…"
+},
+"סגירה": {
+"en": "Close",
+"ar": "إغلاق"
 }
 }
