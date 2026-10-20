@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>NextRep</title>
 <meta name="theme-color" content="#16A34A">
 <link rel="manifest" href="manifest.json?v=2">
@@ -99,6 +99,8 @@
 .acc-dot{width:44px;height:44px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 2px var(--line);display:grid;place-items:center;color:#fff;font-weight:700}
 .acc-dot.on{box-shadow:0 0 0 3px var(--ink)}
 *{box-sizing:border-box}
+html,body{touch-action:manipulation} /* בלי זום בהקשה כפולה */
+#phview,#phview *{touch-action:pinch-zoom}
 html{height:100%}
 body{
   margin:0; background:var(--bg); color:var(--ink);
@@ -1093,6 +1095,12 @@ const tt=s=>I18?I18.tr(s):s;
 /* חיפוש: גם בשם המתורגם (שמות התרגילים נשמרים בעברית) */
 const hasQ=(name,q)=>{ if(!q)return true; if(String(name).includes(q))return true; return !!I18&&tt(String(name)).toLowerCase().includes(String(q).toLowerCase()); };
 if(I18)I18.start();
+(function noZoom(){
+  const inViewer=t=>t&&t.closest&&t.closest('#phview');
+  ['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev,e=>{ if(!inViewer(e.target))e.preventDefault(); },{passive:false}));
+  document.addEventListener('touchmove',e=>{ if(e.touches.length>1&&!inViewer(e.target))e.preventDefault(); },{passive:false});
+  // הקשה כפולה: נחסמת ב-CSS (touch-action:manipulation) בלי לבלוע לחיצות מהירות על כפתורים
+})();
 /* אישה: קובי ואייקון האפליקציה בוורוד */
 if(window.NR_G==='f'){ const fx=root=>{ if(!root||root.nodeType!==1)return; const L=root.matches?.('img')?[root]:[]; root.querySelectorAll?.('img').forEach(i=>L.push(i));
     for(const i of L){ const v=i.getAttribute('src')||''; const n=v.replace(/img\/kobi-([a-z]+)\.svg/,'img/kobi-$1-f.svg').replace(/^icon-192\.png/,'icon-f-192.png'); if(n!==v)i.setAttribute('src',n); } };
@@ -1115,7 +1123,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.0';
+const APP_VERSION='11.0.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
