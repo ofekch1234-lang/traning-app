@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f41acc9c"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=011620ef"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -817,6 +817,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   @keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
 }
+.mc-g{display:inline-flex;align-items:center;gap:4px;margin-inline-start:6px;white-space:nowrap}.mc-gin{width:64px;padding:4px 6px;border:1px solid var(--line,#ddd);border-radius:8px;font:inherit;font-size:14px;text-align:center;background:var(--card,#fff);color:inherit}
 </style>
 </head>
 <body>
@@ -952,7 +953,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.6';
+const APP_VERSION='7.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1944,15 +1945,25 @@ function openMealConfirm(data){
       <div class="tile"><div class="v num" style="font-size:24px">${tot.fat}</div><div class="k">שומן</div></div>
     </div>
     <div class="prlist" style="margin-bottom:12px">
-      ${items.map(i=>`<div class="pr-row"><span>${esc(i.name)}${i.g?` <span class="muted small num">· ~${i.g} גר׳</span>`:''}</span><span class="num muted">${i.kcal} קק״ל · ${i.protein} ח׳</span></div>`).join('')}
+      ${items.map((i,n)=>`<div class="pr-row"><span>${esc(i.name)}${i.g?`<label class="mc-g muted small"><input type="number" inputmode="decimal" min="1" max="3000" class="mc-gin num" data-mi="${n}" value="${i.g}"> גר׳</label>`:''}</span><span class="num muted" id="mc-r${n}">${i.kcal} קק״ל · ${i.protein} ח׳</span></div>`).join('')}
     </div>
-    <div class="small muted" style="margin-bottom:10px">💡 הערכת AI — אפשר לתקן אחרי ההוספה.</div>
+    <div class="small muted" style="margin-bottom:10px">💡 הערכת AI. ${items.some(i=>i.g)?'המשקל לא מדויק? שנה את הגרמים והערכים יתעדכנו.':'אפשר לתקן אחרי ההוספה.'}</div>
     <div class="row">
       <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
       <button class="btn primary" style="flex:2" data-act="meal-save">הוסף ליום ✓</button>
     </div>
     <div class="small muted" style="text-align:center;margin-top:8px">הערכה בלבד, לא ייעוץ תזונתי. אפשר לערוך כל פריט.</div>
   `);
+  const base=items.map(i=>({...i}));
+  document.querySelectorAll('.mc-gin').forEach(inp=>inp.addEventListener('input',()=>{
+    const n=+inp.dataset.mi, b=base[n], g=+inp.value;
+    if(!b||!b.g||!(g>0)||g>3000)return;
+    const f=g/b.g, it=_mealDraft.items[n];
+    Object.assign(it,{g:Math.round(g),kcal:Math.round(b.kcal*f),protein:Math.round(b.protein*f),carbs:Math.round(b.carbs*f),fat:Math.round(b.fat*f)});
+    ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=_mealDraft.items.reduce((a,x)=>a+x[k],0));
+    const r=document.getElementById('mc-r'+n); if(r)r.textContent=`${it.kcal} ${tt('קק״ל')} · ${it.protein} ${tt('ח׳')}`;
+    document.querySelectorAll('#sheet .summary-grid .v').forEach((v,j)=>v.textContent=_mealDraft[['kcal','protein','carbs','fat'][j]]);
+  }));
 }
 let _mealDraft=null;
 /* ----- מאגר התזונה הלאומי (משרד הבריאות) — חיפוש חינמי, בלי AI ----- */
