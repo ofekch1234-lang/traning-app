@@ -972,7 +972,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.6';
+const APP_VERSION='8.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1343,7 +1343,7 @@ function render_(){
 
 /* ----- ממתין לאישור ----- */
 let GOOGLE_ON=false;
-const OTP_ON=false; // email one-time code login; on once custom SMTP (Resend) is connected
+const OTP_ON=true; // email one-time code login; on once custom SMTP (Resend) is connected
 const OTP={step:'',email:'',busy:false,err:'',until:0};
 function vOtp(){
   const code=OTP.step==='code';
