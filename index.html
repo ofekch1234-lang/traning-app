@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f5b40a91"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ee22897b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -218,6 +218,12 @@ body.landing #app{max-width:1120px}
 .pickplan>div:first-child{flex:1;display:flex;flex-direction:column;gap:1px}.pickplan b{font-size:17px}
 .pickplan .pp{font-family:var(--disp);font-size:34px;line-height:1;color:var(--ink)}.pickplan .pp s{display:block;font-size:15px;color:var(--muted);font-weight:400;text-align:end}
 .pickplan .linkbtn{font-size:13px}
+.pw-kobi{display:flex;align-items:center;gap:12px}
+.pw-kobi img{width:72px;height:72px;flex-shrink:0}
+.pw-bub{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 14px;font-weight:600;font-size:15px;line-height:1.45;position:relative}
+.pw-recap{background:var(--accent-soft);border-radius:16px;padding:12px 14px}
+.pw-rt{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px;margin-top:6px;text-align:center}
+.pw-rt b{display:block;font-family:var(--disp);font-size:34px;line-height:1;color:var(--accent)}.pw-rt span{font-size:12.5px;color:var(--muted)}
 .pw-links{display:flex;justify-content:center;align-items:center;gap:8px;font-size:13.5px}
 .pw ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
 .pw li{display:flex;gap:9px}.pw li::before{content:'✓';color:var(--accent);font-weight:700}
@@ -871,7 +877,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-list{display:grid;gap:8px;max-height:46vh;overflow-y:auto;overscroll-behavior:contain}
 .mc-it{border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:var(--surface)}
 .mc-top{display:flex;gap:6px;align-items:center}
-.mc-name{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-weight:600;font-size:15px;padding:4px 2px;color:inherit;border-bottom:1px dashed var(--line);border-radius:0}
+.mc-name{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-weight:600;font-size:16px;padding:4px 2px;color:inherit;-webkit-appearance:none;appearance:none;border-bottom:1px dashed var(--line);border-radius:0}
 .mc-name:focus{outline:none;border-bottom-color:var(--accent)}
 .mc-x{width:30px;height:30px;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px;flex-shrink:0}
 .mc-bot{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
@@ -881,6 +887,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-sugg button{display:flex;justify-content:space-between;gap:8px;padding:7px 6px;border-radius:8px;text-align:start;font-size:14px;color:inherit}
 .mc-sugg button:active{background:var(--accent-soft)}
 .mc-g{display:inline-flex;align-items:center;gap:4px;margin-inline-start:6px;white-space:nowrap}.mc-gin{width:64px;padding:4px 6px;border:1px solid var(--line,#ddd);border-radius:8px;font:inherit;font-size:14px;text-align:center;background:var(--card,#fff);color:inherit}
+@media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
+.mc-name::-webkit-search-cancel-button{display:none}
 </style>
 </head>
 <body>
@@ -1017,7 +1025,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.1';
+const APP_VERSION='10.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2186,7 +2194,7 @@ function mcRender(){
   _mealDraft.items.forEach((_,n)=>mcCalc(n));
   L.innerHTML=_mealDraft.items.map((it,n)=>{ const b=MC.base[n];
     return `<div class="mc-it">
-      <div class="mc-top"><input class="mc-name" data-mi="${n}" value="${esc(it.name)}" aria-label="${tt('שם הפריט')}" autocomplete="off"><button class="mc-x" data-act="mc-del" data-mi="${n}" aria-label="${tt('הסר')}">✕</button></div>
+      <div class="mc-top"><input class="mc-name" type="search" enterkeyhint="search" name="nr-food-${n}" data-mi="${n}" value="${esc(it.name)}" aria-label="${tt('מאכל')}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button class="mc-x" data-act="mc-del" data-mi="${n}" aria-label="${tt('הסר')}">✕</button></div>
       <div class="mc-bot">
         ${b.noG?`<span class="small muted">${tt('מנה')} ×${it._f}</span>`:`<label class="mc-g muted small"><input type="number" inputmode="decimal" min="1" max="3000" class="mc-gin num" data-mi="${n}" value="${it.g}"> ${tt('גר׳')}</label>`}
         <button class="mc-q" data-act="mc-half" data-mi="${n}">½</button><button class="mc-q" data-act="mc-dbl" data-mi="${n}" dir="ltr">×2</button>
@@ -4145,10 +4153,15 @@ function plansHTML(){
       <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span>
     </button>`;}).join('')+(grow||plans.some(p=>planLink(p))?'':'<div class="small muted" style="text-align:center">התשלום ייפתח בקרוב.</div>');
 }
+function recapHTML(){
+  const r=S.recap; if(!r||!(r.workouts||r.meals||r.weighins))return '';
+  const t=[r.workouts?[r.workouts,'אימונים']:null, r.volume?[r.volume>=1000?(Math.round(r.volume/100)/10)+'K':r.volume,'ק״ג נפח']:null, r.meals?[r.meals,'ארוחות']:null, !r.volume&&r.weighins?[r.weighins,'שקילות']:null].filter(Boolean).slice(0,3);
+  return `<div class="pw-recap"><div class="small muted">מה עשית בתקופת הניסיון</div><div class="pw-rt">${t.map(([v,l])=>`<div><b class="num">${v}</b><span>${tt(l)}</span></div>`).join('')}</div></div>`;
+}
 function vPaywall(full){
   const paid=!!S.plan?.access_until;
   const body=`
-    ${full?`<div style="text-align:center"><img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:16px"></div>`:''}
+    ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
     <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':'תקופת הניסיון הסתיימה'):'ממשיכים להתקדם'}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
     <div class="muted small">${full?'כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
     <ul class="pw-f"><li>אימונים וטיימר</li><li>תזונה עם AI</li><li>קובי הבוט</li><li>קבוצות ואתגרים</li></ul>
@@ -5416,7 +5429,10 @@ async function enterApp(user){
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
   if(PAID_RETURN||enterApp._claim){ enterApp._claim=false; try{ const c=await sb.rpc('claim_payment'); if(c.data?.ok&&!c.data.duplicate)toast('התשלום אומת, הגישה נפתחה 🎉'); }catch(_){} }
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
-    if(st==='expired'){ S.mode='paywall'; render();
+    if(st==='expired'){
+      if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('הניסיון הסתיים, אבל אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }
+      S.mode='paywall'; render();
+      if(!S.recap)sb.rpc('trial_recap').then(({data})=>{ if(data){ S.recap=data; if(S.mode==='paywall')render(); } },()=>{});
       if(PAID_RETURN&&!(enterApp._poll>=8)){ enterApp._poll=(enterApp._poll||0)+1; toast('מאשר את התשלום…'); setTimeout(()=>enterApp(user),4000); }
       return; }
     if(st!=='approved'){ S.access=st; S.mode='pending'; render(); return; } } }catch(_){}
