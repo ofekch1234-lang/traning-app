@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b430d00d"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5753e18e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -376,6 +376,19 @@ body.chatting{overflow:hidden}
 .ch-bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
 .ch-mem{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:14px}
 .ch-mem .ch-bar{grid-column:1/-1}
+.ch-mem.me{background:var(--accent-soft);margin:0 -8px;padding:6px 8px;border-radius:10px}
+.ch-emo{width:42px;height:42px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.ch-you{background:var(--surface2);border-radius:12px;padding:9px 12px;font-weight:600;font-size:14.5px}
+.ch-card.ended{opacity:.95}
+.ch-podium{display:flex;justify-content:center;align-items:flex-end;gap:8px}
+.ch-podium>div{flex:1;max-width:120px;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--surface2);border-radius:12px;padding:8px 4px;text-align:center;font-size:13px}
+.ch-podium .m{font-size:26px}.ch-podium .p0{order:2;padding-top:14px;background:var(--gold-soft)}.ch-podium .p1{order:1}.ch-podium .p2{order:3}
+.ch-res{display:flex;flex-direction:column;gap:8px}
+.ch-presets{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.ch-presets::-webkit-scrollbar{display:none}.ch-presets .chip{flex-shrink:0}
+.ch-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.ch-modes button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;text-align:center;cursor:pointer}
+.ch-modes button.on{border-color:var(--accent);background:var(--accent-soft)}
+.ch-modes .small{font-size:11px;line-height:1.25}
 .emo-pick{display:flex;gap:6px;flex-wrap:wrap}
 .emo-pick button{width:44px;height:44px;border-radius:12px;background:var(--surface2);font-size:22px;border:2px solid transparent}
 .emo-pick button.on{border-color:var(--accent)}
@@ -860,6 +873,7 @@ const I18=(()=>{
     for(const sep of [' · ',' | ',' — ',' – ','\n',': ',' / ',', ']) if(c.includes(sep)){ const parts=c.split(sep); const tr=parts.map(x=>x.trim()?(core(x.trim(),d+1)??null):x); if(tr.every(x=>x!=null))return tr.join(sep); }
     // רצפים עבריים בתוך טקסט מעורב (מספרים/סמלים) — מילה-במילה מתוך המילון
     // ביטויים מוכרים בתוך טקסט מעורב (שם משתמש + "הצטרף לקבוצה", מספרים וכו׳): התאמה חמדנית של רצפי מילים מהמילון
+    if(d>0)return null; // בתוך תבנית — רק תרגום מלא, לא חלקי
     let hit=false; const r=c.replace(/[\u0590-\u05FF][\u0590-\u05FF\s"״'׳\-]*[\u0590-\u05FF"״'׳]|[\u0590-\u05FF]/g,(run,off,str)=>{
       if(K[run]!=null){hit=true;return K[run];}
       const nx=str[off+run.length]; if(nx&&'!?.:'.includes(nx)&&K[run+nx]!=null){ hit=true; const t=K[run+nx]; return t.endsWith(nx)?t.slice(0,-1):t; }
@@ -918,7 +932,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='6.6';
+const APP_VERSION='6.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3555,6 +3569,12 @@ function socMsgHTML(m,prev){
   const sameRun=prev&&prev.kind==='text'&&prev.user_id===m.user_id&&(new Date(m.created_at)-new Date(prev.created_at))<5*60e3&&!h;
   if(m.kind==='text')return h+`<div class="cm ${me?'me':''}">${!me&&!sameRun?`<div class="who" data-notr>${who}</div>`:''}<div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
   if(m.kind==='join')return h+`<div class="c-sys">👋 ${me?'הצטרפת לקבוצה':who+' הצטרף לקבוצה'}</div>`;
+  if(m.kind==='ch_done'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🎯 ${mt.team?'הקבוצה השלימה את האתגר':(me?'השלמת את האתגר':who+' השלים את האתגר')}: <b data-notr>${esc(m.body)}</b> <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגרים</button></div>`;}
+  if(m.kind==='ch_end'){const mt=m.meta||{}; const top=(mt.top||[]).filter(r=>+r.value>0);
+    return h+`<div class="c-card"><div class="h"><span class="ic2">🏁</span><span><b>האתגר הסתיים</b><span class="small muted" style="display:block" data-notr>${esc(m.body)}</span></span></div>
+      ${top.length?`<div class="ch-podium" style="margin-top:8px">${top.map((r,i)=>`<div class="p${i}"><span class="m">${['🥇','🥈','🥉'][i]}</span><b data-notr>${esc(r.user_id===S.user?.id?tt('אתה'):r.name)}</b><span class="small num">${chVal(mt.metric||'workouts',r.value)}${chUnit(mt.metric||'workouts')}</span></div>`).join('')}</div>`:''}
+      ${mt.mode==='goal'?`<div class="small muted" style="text-align:center;margin-top:6px">${mt.done||0} מתוך ${mt.n||0} השלימו את היעד</div>`:mt.mode==='team'?`<div class="small muted" style="text-align:center;margin-top:6px">${(+mt.total||0)>=(+mt.target||1)?'🎉 הקבוצה הגיעה ליעד!':'הקבוצה לא הגיעה ליעד הפעם'}</div>`:''}
+      <button class="linkbtn" data-act="soc-view" data-v="chall" style="display:block;margin:6px auto 0">לכל התוצאות</button></div>`;}
   if(m.kind==='challenge'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🏆 ${who} פתח אתגר: <b>${esc(m.body)}</b> · ${mt.days||''} ימים <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגר</button></div>`;}
   if(m.kind==='pr')return h+`<div class="c-card pr"><div class="h"><span class="ic2">🏅</span><span><b>${me?'שברת שיא אישי!':who+' שבר שיא אישי!'}</b><span class="small muted" style="display:block">${esc(m.body)}</span></span></div>${socReactsHTML(m.id)}</div>`;
   if(m.kind==='workout'){const mt=m.meta||{};return h+`<div class="c-card"><div class="h"><span class="ic2">🏋️</span><span><b>${me?'סיימת':who+' סיים'} ${esc(m.body||'אימון')}</b><span class="small muted" style="display:block">${socTime(m.created_at)}</span></span></div>
@@ -3564,7 +3584,7 @@ function socMsgHTML(m,prev){
 function socLastText(g){
   if(!g.last_id)return 'עוד אין פעילות. הזמן חברים!';
   const n=g.last_uid===S.user?.id?'אתה':(g.last_name||'חבר');
-  return {text:`${n}: ${g.last_body||''}`,workout:`🏋️ ${n} סיים ${g.last_body||'אימון'}`,pr:`🏅 ${n} שבר שיא`,join:`👋 ${n} הצטרף`,challenge:`🏆 אתגר חדש: ${g.last_body||''}`}[g.last_kind]||'';
+  return {text:`${n}: ${g.last_body||''}`,workout:`🏋️ ${n} סיים ${g.last_body||'אימון'}`,pr:`🏅 ${n} שבר שיא`,join:`👋 ${n} הצטרף`,challenge:`🏆 אתגר חדש: ${g.last_body||''}`,ch_done:`🎯 ${n} השלים אתגר`,ch_end:`🏁 אתגר הסתיים: ${g.last_body||''}`}[g.last_kind]||'';
 }
 /* צ'אט במסך מלא כמו וואטסאפ: הכותרת קבועה למעלה, שורת ההקלדה צמודה למקלדת, התפריט התחתון מוסתר */
 function fitChat(){
@@ -3631,69 +3651,82 @@ function vSocBoard(){
       <span style="text-align:var(--end)"><span class="lb-big num">${r.workouts}</span><span class="small muted" style="display:block">אימונים</span></span></div>`).join('')}</div>
     <div class="small muted" style="text-align:center;margin-top:10px">${SOC.boardRange==='week'?'השבוע מתחיל ביום ראשון':'מתחילת החודש'}. הדירוג לפי מספר אימונים, ובשוויון לפי נפח.</div>`;
 }
+const CHM={
+  workouts:['🏋️','אימונים','אימונים',4], days:['📅','ימי אימון','ימים',12], sets:['🔁','סטים','סטים',100], volume:['🏗️','נפח','טון',20000],
+  minutes:['⏱️','דקות אימון','דק׳',300], cardio:['🏃','דקות קרדיו','דק׳',120], ex_reps:['💪','חזרות בתרגיל','חזרות',300], ex_max:['🏆','משקל מקסימלי','ק״ג',100]};
+const CH_MODES={goal:['🎯','כל אחד ליעד','כל מי שמגיע ליעד מנצח'],race:['🏁','תחרות','מי שמוביל בסוף מנצח'],team:['🤝','יעד קבוצתי','כולם יחד מול יעד אחד']};
+const CH_PRESETS=[
+  ['🔥 4 אימונים השבוע','workouts',4,7,'goal'],['📅 12 ימי אימון בחודש','days',12,30,'goal'],['🏁 מי יתאמן הכי הרבה החודש','workouts',1,30,'race'],
+  ['🤝 50 אימונים לכל הקבוצה','workouts',50,30,'team'],['🏗️ 20 טון בחודש','volume',20000,30,'goal'],['🏃 120 דקות קרדיו בשבוע','cardio',120,7,'goal'],
+  ['💪 300 שכיבות סמיכה בשבוע','ex_reps',300,7,'goal','שכיבות סמיכה'],['🏆 מי ירים הכי כבד בסקוואט','ex_max',1,14,'race','סקוואט']];
+const chVal=(m,v)=>m==='volume'?fmtVol(v):`${Math.round((+v||0)*10)/10}`;
+const chUnit=m=>m==='volume'?'':' '+CHM[m][2];
 function vSocChall(){
   const C=SOC.chall;
   const btn=`<button class="btn primary" style="width:100%;margin:4px 0 10px" data-act="soc-chall-new">🏆 אתגר חדש</button>`;
   if(!C)return btn+`<div class="empty"><div class="big">טוען…</div></div>`;
-  if(!C.length)return btn+`<div class="card stack" style="text-align:center;padding:20px;gap:8px"><div style="font-size:38px">🏆</div><b>עוד אין אתגרים</b><div class="muted">פתח אתגר לכל הקבוצה, למשל "4 אימונים השבוע" או "20 טון בחודש", ותראו מי מגיע ראשון ליעד.</div></div>`;
-  const today=ymd();
-  return btn+`<div class="stack" style="gap:10px">${C.map(c=>{
-    const ended=c.end_d<today, left=Math.round((new Date(c.end_d)-new Date(today))/864e5)+1;
-    const rows=[...(c.board||[])].sort((a,b)=>(+b[c.metric]||0)-(+a[c.metric]||0));
-    const tgt=+c.target||1;
-    return `<div class="ch-card">
-      <div class="spread"><b style="font-size:17px">${esc(c.title)}</b><span class="small ${ended?'muted':''}" style="white-space:nowrap">${ended?'הסתיים':left===1?'יום אחרון!':`עוד ${left} ימים`}</span></div>
-      <div class="small muted">יעד: ${c.metric==='volume'?fmtVol(tgt):tgt+' '+METRIC[c.metric][1]}</div>
-      ${rows.map((r,i)=>{const v=+r[c.metric]||0, pct=Math.min(100,Math.round(v/tgt*100)), done=v>=tgt;
-        return `<div class="ch-mem"><span>${done?'✅ ':i===0&&v>0?'👑 ':''}${esc(r.user_id===S.user?.id?'אתה':r.name)}</span><span class="small num ${done?'':'muted'}" style="${done?'color:var(--accent);font-weight:700':''}">${metricVal(r,c.metric)}${c.metric!=='volume'?' מתוך '+tgt:''}</span>
-          <div class="ch-bar"><i style="width:${pct}%;${done?'':'opacity:.75'}"></i></div></div>`;}).join('')}
-      ${c.created_by===S.user?.id?`<button class="linkbtn" data-act="soc-chall-del" data-id="${c.id}" style="align-self:flex-start;color:var(--muted);font-size:13px">מחיקת האתגר</button>`:''}
+  if(!C.length)return btn+`<div class="card stack" style="text-align:center;padding:20px;gap:8px"><div style="font-size:38px">🏆</div><b>עוד אין אתגרים</b><div class="muted">פתחו אתגר אישי, תחרות או יעד קבוצתי, ותראו מי מגיע ראשון</div></div>`;
+  const today=ymd(), me=S.user?.id;
+  return btn+`<div class="stack" style="gap:12px">${C.map(c=>{
+    const M=CHM[c.metric]||CHM.workouts, mode=c.mode||'goal', md=CH_MODES[mode];
+    const ended=c.end_d<today, total=Math.round((new Date(c.end_d)-new Date(c.start_d))/864e5)+1, left=Math.round((new Date(c.end_d)-new Date(today))/864e5)+1;
+    const rows=[...(c.board||[])].map(r=>({...r,v:+(r.value??r[c.metric])||0})).sort((a,b)=>b.v-a.v);
+    const tgt=+c.target||1, lead=Math.max(1,rows[0]?.v||0), sum=rows.reduce((a,r)=>a+r.v,0);
+    const myI=rows.findIndex(r=>r.user_id===me), mine=rows[myI];
+    const exN=c.ex?` · ${esc(c.ex)}`:'';
+    const desc=mode==='race'?`תחרות: מי מוביל ב${M[1]}${exN}`:mode==='team'?`יעד קבוצתי: ${chVal(c.metric,tgt)}${chUnit(c.metric)}${exN}`:`יעד: ${chVal(c.metric,tgt)}${chUnit(c.metric)} לכל אחד${exN}`;
+    const elapsed=Math.min(100,Math.round((total-Math.max(0,left-1))/total*100));
+    let you='';
+    if(mine&&!ended){
+      if(mode==='goal')you=mine.v>=tgt?`✅ השלמת את האתגר!`:`חסרים לך ${chVal(c.metric,tgt-mine.v)}${chUnit(c.metric)}`;
+      else if(mode==='race')you=myI===0&&mine.v>0?`👑 אתה מוביל!`:`אתה במקום ${myI+1} מתוך ${rows.length}${rows[0]?.v>0?` · ${chVal(c.metric,rows[0].v-mine.v)}${chUnit(c.metric)} מהמקום הראשון`:''}`;
+      else you=`תרמת ${chVal(c.metric,mine.v)}${chUnit(c.metric)} (${sum?Math.round(mine.v/sum*100):0}%)`;
+    }
+    const medal=i=>['🥇','🥈','🥉'][i]||`<span class="num muted" style="display:inline-block;width:18px;text-align:center">${i+1}</span>`;
+    const rowHTML=(r,i)=>{ const done=mode==='goal'&&r.v>=tgt; const pct=mode==='goal'?Math.min(100,r.v/tgt*100):mode==='race'?r.v/lead*100:(sum?r.v/sum*100:0);
+      return `<div class="ch-mem ${r.user_id===me?'me':''}"><span>${r.v>0||mode==='goal'?medal(i):medal(i)} <span data-notr>${esc(r.user_id===me?tt('אתה'):r.name)}</span></span><span class="small num" style="${done?'color:var(--accent);font-weight:700':''}">${done?'✅ ':''}${chVal(c.metric,r.v)}${chUnit(c.metric)}</span>
+        <div class="ch-bar"><i style="width:${Math.round(pct)}%"></i></div></div>`; };
+    let res='';
+    if(ended){
+      const top=rows.filter(r=>r.v>0).slice(0,3);
+      const doneN=rows.filter(r=>r.v>=tgt).length;
+      const iWon=mode==='race'?(myI===0&&mine?.v>0):mode==='team'?sum>=tgt:(mine&&mine.v>=tgt);
+      res=`<div class="ch-res">${top.length?`<div class="ch-podium">${top.map((r,i)=>`<div class="p${i}"><span class="m">${['🥇','🥈','🥉'][i]}</span><b data-notr>${esc(r.user_id===me?tt('אתה'):r.name)}</b><span class="small num">${chVal(c.metric,r.v)}${chUnit(c.metric)}</span></div>`).join('')}</div>`:''}
+        <div class="small muted" style="text-align:center">${mode==='goal'?`${doneN} מתוך ${rows.length} השלימו את היעד`:mode==='team'?(sum>=tgt?`🎉 הקבוצה הגיעה ליעד!`:`הקבוצה הגיעה ל-${Math.round(sum/tgt*100)}% מהיעד`):''}</div>
+        ${iWon?`<button class="btn primary" data-act="soc-chall-share" data-id="${c.id}">📤 שתף את ההישג</button>`:''}</div>`;
+    }
+    return `<div class="ch-card ${ended?'ended':''}">
+      <div class="spread" style="align-items:flex-start"><div style="display:flex;gap:10px;align-items:center"><span class="ch-emo">${M[0]}</span><div><b style="font-size:17px" data-notr>${esc(c.title)}</b><div class="small muted">${desc}</div></div></div>
+        <span class="pill" style="white-space:nowrap;${!ended&&left<=1?'background:var(--gold-soft);color:var(--gold);border-color:transparent':''}">${ended?'🏁 הסתיים':left===1?'יום אחרון!':`עוד ${left} ימים`}</span></div>
+      <div class="row small muted" style="gap:6px;align-items:center"><span>${md[0]} ${md[1]}</span><div class="ch-bar" style="flex:1;height:4px"><i style="width:${elapsed}%;background:var(--muted);opacity:.5"></i></div></div>
+      ${you?`<div class="ch-you">${you}</div>`:''}
+      ${mode==='team'&&!ended?`<div><div class="spread small"><b>הקבוצה</b><span class="num">${chVal(c.metric,sum)} מתוך ${chVal(c.metric,tgt)}${chUnit(c.metric)}</span></div><div class="ch-bar" style="height:12px;margin-top:4px"><i style="width:${Math.min(100,Math.round(sum/tgt*100))}%"></i></div></div>`:''}
+      ${res}
+      ${ended?'':rows.map(rowHTML).join('')}
+      ${c.created_by===me?`<button class="linkbtn" data-act="soc-chall-del" data-id="${c.id}" style="align-self:flex-start;color:var(--muted);font-size:13px">מחיקת האתגר</button>`:''}
     </div>`;}).join('')}</div>`;
 }
-function socNewSheet(){
-  SOC.newEmo=SOC.newEmo||'💪';
-  openSheet(`<h3>קבוצה חדשה</h3>
-    <div class="label" style="margin-bottom:6px">שם הקבוצה</div>
-    <input id="sg-name" type="text" maxlength="40" placeholder="למשל: החבר׳ה מהמכון, אני ודני">
-    <div class="label" style="margin:12px 0 6px">אייקון</div>
-    <div class="emo-pick">${SOC_EMO.map(e=>`<button class="${SOC.newEmo===e?'on':''}" data-act="soc-emo" data-e="${e}">${e}</button>`).join('')}</div>
-    <div class="small muted" style="margin-top:12px">שותף אימונים? פשוט צור קבוצה ושלח לו את ההזמנה.</div>
-    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-create">צור קבוצה</button></div>`);
-  setTimeout(()=>$('#sg-name')?.focus(),60);
-}
-function socJoinSheet(){
-  openSheet(`<h3>הצטרפות לקבוצה</h3><div class="muted" style="margin:-4px 0 12px">הכנס את הקוד בן 6 התווים שקיבלת מחבר.</div>
-    <input id="sg-code" type="text" maxlength="6" dir="ltr" autocapitalize="characters" autocomplete="off" placeholder="ABC123" style="text-align:center;font-size:26px;letter-spacing:6px;text-transform:uppercase">
-    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-join-go">הצטרף</button></div>`);
-  setTimeout(()=>$('#sg-code')?.focus(),60);
-}
-function socInviteSheet(){
-  const info=SOC.info[SOC.gid]||{}; const code=info.invite_code||((SOC.groups||[]).find(g=>g.id===SOC.gid)||{}).invite_code||'';
-  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">שלח את הקישור. מי שאין לו חשבון יירשם ויצטרף אחרי אישור.</div>
-    <div class="inv-code">${esc(code)}</div>
-    <div class="row" style="margin-top:12px;flex-wrap:nowrap"><button class="btn primary big" style="flex:2" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
-      <button class="btn big" style="flex:1" data-act="soc-qr" data-code="${esc(code)}">ברקוד</button></div>
-    <div class="label" style="margin:16px 0 6px">חברים בקבוצה</div>
-    <div class="card" style="padding:4px 14px">${(info.members||[]).map(m=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span>${esc(m.user_id===S.user?.id?'אתה':m.name)}</span><span class="small muted">${m.role==='owner'?'מנהל':''}</span></div>`).join('')}</div>
-    <button class="btn danger" style="width:100%;margin-top:14px" data-act="soc-leave">יציאה מהקבוצה</button>
-    <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
-}
 function socChallSheet(){
-  const f=SOC.cf=SOC.cf||{title:'4 אימונים השבוע',metric:'workouts',target:4,days:7};
-  const presets=[['4 אימונים השבוע','workouts',4,7],['12 אימונים בחודש','workouts',12,30],['100 סטים בשבועיים','sets',100,14],['20 טון בחודש','volume',20000,30]];
+  const f=SOC.cf=SOC.cf||{title:tt(CH_PRESETS[0][0]).replace(/^\S+\s/,''),metric:'workouts',target:4,days:7,mode:'goal',ex:''};
+  const exAll=[...new Set(Object.values(LIB).flat())];
+  const isEx=f.metric==='ex_reps'||f.metric==='ex_max';
   openSheet(`<h3>אתגר חדש</h3>
-    <div class="row" style="gap:6px;margin-bottom:12px">${presets.map((p,i)=>`<button class="chip ${f.title===p[0]?'on':''}" data-act="soc-cpreset" data-i="${i}">${p[0]}</button>`).join('')}</div>
-    <div class="label" style="margin-bottom:6px">שם האתגר</div>
+    <div class="label" style="margin-bottom:6px">רעיונות מוכנים</div>
+    <div class="ch-presets">${CH_PRESETS.map((p,i)=>`<button class="chip" data-act="soc-cpreset" data-i="${i}">${p[0]}</button>`).join('')}</div>
+    <div class="label" style="margin:14px 0 6px">סוג האתגר</div>
+    <div class="ch-modes">${Object.entries(CH_MODES).map(([k,m])=>`<button class="${f.mode===k?'on':''}" data-act="soc-cmode" data-m="${k}"><span style="font-size:22px">${m[0]}</span><b>${m[1]}</b><span class="small muted">${m[2]}</span></button>`).join('')}</div>
+    <div class="label" style="margin:14px 0 6px">שם האתגר</div>
     <input id="cf-title" type="text" maxlength="60" value="${esc(f.title)}">
-    <div class="label" style="margin:12px 0 6px">מה סופרים</div>
-    <div class="row" style="gap:6px">${Object.entries({workouts:'אימונים',sets:'סטים',volume:'נפח (טון)'}).map(([k,t])=>`<button class="chip ${f.metric===k?'on':''}" data-act="soc-cmetric" data-m="${k}">${t}</button>`).join('')}</div>
-    <div class="label" style="margin:12px 0 6px">יעד ${f.metric==='volume'?'(טון)':''}</div>
-    <input id="cf-target" type="text" inputmode="decimal" dir="ltr" value="${f.metric==='volume'?f.target/1000:f.target}" style="text-align:center;font-size:22px">
-    <div class="label" style="margin:12px 0 6px">משך</div>
-    <div class="row" style="gap:6px">${[[7,'שבוע'],[14,'שבועיים'],[30,'חודש']].map(([d,t])=>`<button class="chip ${f.days===d?'on':''}" data-act="soc-cdays" data-d="${d}">${t}</button>`).join('')}</div>
+    <div class="label" style="margin:14px 0 6px">מה סופרים</div>
+    <div class="row" style="gap:6px;flex-wrap:wrap">${Object.entries(CHM).filter(([k])=>!(k==='ex_max'&&f.mode!=='race')).map(([k,m])=>`<button class="chip ${f.metric===k?'on':''}" data-act="soc-cmetric" data-m="${k}">${m[0]} ${m[1]}</button>`).join('')}</div>
+    ${isEx?`<div class="label" style="margin:14px 0 6px">התרגיל</div><select id="cf-ex">${exAll.map(n=>`<option value="${esc(n)}" ${f.ex===n?'selected':''}>${esc(n)}</option>`).join('')}</select>`:''}
+    ${f.mode!=='race'?`<div class="label" style="margin:14px 0 6px">${f.mode==='team'?'יעד לכל הקבוצה':'יעד לכל משתתף'} (${f.metric==='volume'?'טון':CHM[f.metric][2]})</div>
+    <input id="cf-target" type="text" inputmode="decimal" dir="ltr" value="${f.metric==='volume'?f.target/1000:f.target}" style="text-align:center;font-size:22px">`:''}
+    <div class="label" style="margin:14px 0 6px">משך</div>
+    <div class="row" style="gap:6px">${[[3,'3 ימים'],[7,'שבוע'],[14,'שבועיים'],[30,'חודש']].map(([d,t])=>`<button class="chip ${f.days===d?'on':''}" data-act="soc-cdays" data-d="${d}">${t}</button>`).join('')}</div>
     <div class="row" style="margin-top:16px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-chall-go">פתיחת האתגר</button></div>`);
 }
-function socReadForm(){ const f=SOC.cf; if(!f)return; const t=$('#cf-title'), g=$('#cf-target'); if(t)f.title=t.value; if(g){const v=parseFloat(g.value)||0; f.target=f.metric==='volume'?v*1000:v;} }
+function socReadForm(){ const f=SOC.cf; if(!f)return; const t=$('#cf-title'), g=$('#cf-target'), e=$('#cf-ex'); if(t)f.title=t.value; if(e)f.ex=e.value; if(g){const v=parseFloat(g.value)||0; f.target=f.metric==='volume'?v*1000:v;} }
 async function socSend(){
   const ta=$('#chat-in'); const body=(ta?.value||'').trim(); if(!body||!SOC.gid)return;
   ta.value=''; SOC.draft=''; ta.style.height='';
@@ -3736,13 +3769,18 @@ function socAct(act,b){
       (mine?sb.from('message_reactions').delete().match({message_id:id,user_id:uid,emoji:e}):sb.from('message_reactions').insert({message_id:id,user_id:uid,emoji:e})).then(()=>{},()=>{});
       return true; }
     case 'soc-chall-new': SOC.cf=null; socChallSheet(); return true;
-    case 'soc-cpreset': { const p=[['4 אימונים השבוע','workouts',4,7],['12 אימונים בחודש','workouts',12,30],['100 סטים בשבועיים','sets',100,14],['20 טון בחודש','volume',20000,30]][+b.dataset.i];
-      SOC.cf={title:p[0],metric:p[1],target:p[2],days:p[3]}; socChallSheet(); return true; }
-    case 'soc-cmetric': socReadForm(); if(SOC.cf.metric!==b.dataset.m){SOC.cf.metric=b.dataset.m;SOC.cf.target=b.dataset.m==='volume'?10000:b.dataset.m==='sets'?50:4;} socChallSheet(); return true;
+    case 'soc-cpreset': { const p=CH_PRESETS[+b.dataset.i]; SOC.cf={title:tt(p[0]).replace(/^\S+\s/,''),metric:p[1],target:p[2],days:p[3],mode:p[4],ex:p[5]||''}; socChallSheet(); return true; }
+    case 'soc-cmode': socReadForm(); SOC.cf.mode=b.dataset.m; if(SOC.cf.mode!=='race'&&SOC.cf.metric==='ex_max'){SOC.cf.metric='ex_reps';SOC.cf.target=CHM.ex_reps[3];} socChallSheet(); return true;
+    case 'soc-cmetric': socReadForm(); if(SOC.cf.metric!==b.dataset.m){SOC.cf.metric=b.dataset.m;SOC.cf.target=CHM[b.dataset.m][3]*(SOC.cf.mode==='team'?3:1); if(!SOC.cf.ex&&b.dataset.m.startsWith('ex_'))SOC.cf.ex=b.dataset.m==='ex_max'?'סקוואט':'שכיבות סמיכה';} socChallSheet(); return true;
     case 'soc-cdays': socReadForm(); SOC.cf.days=+b.dataset.d; socChallSheet(); return true;
-    case 'soc-chall-go': { socReadForm(); const f=SOC.cf; if(!f.title.trim()||!(f.target>0)){toast('מלא שם ויעד');return true;} b.disabled=true;
-      sb.rpc('create_challenge',{gid:SOC.gid,p_title:f.title.trim(),p_metric:f.metric,p_target:f.target,p_days:f.days}).then(({error})=>{
-        if(error){b.disabled=false;toast('פתיחת האתגר נכשלה');return;} closeSheet(); toast('האתגר נפתח 🏆'); SOC.view='chall'; socLoadChall(); }); return true; }
+    case 'soc-chall-go': { socReadForm(); const f=SOC.cf; if(f.mode==='race')f.target=1;
+      if(!f.title.trim()||!(f.target>0)){toast('מלא שם ויעד');return true;} b.disabled=true;
+      sb.rpc('create_challenge2',{gid:SOC.gid,p_title:f.title.trim(),p_metric:f.metric,p_target:f.target,p_days:f.days,p_mode:f.mode,p_ex:f.metric.startsWith('ex_')?f.ex:null}).then(({error})=>{
+        if(error){b.disabled=false;toast(/too_many/.test(error.message)?'יש כבר 6 אתגרים פעילים בקבוצה':'פתיחת האתגר נכשלה');return;} closeSheet(); toast('האתגר נפתח 🏆'); SOC.view='chall'; socLoadChall(); }); return true; }
+    case 'soc-chall-share': { const c=(SOC.chall||[]).find(x=>x.id===b.dataset.id); if(!c)return true; const M=CHM[c.metric]||CHM.workouts;
+      const rows=[...(c.board||[])].map(r=>({...r,v:+(r.value??r[c.metric])||0})).sort((a,b)=>b.v-a.v); const i=rows.findIndex(r=>r.user_id===S.user?.id);
+      openShareStudio({emoji:c.mode==='race'?'🥇':c.mode==='team'?'🤝':'🎯',title:c.title,sub:c.mode==='race'?'ניצחתי באתגר':c.mode==='team'?'השלמנו את האתגר':'השלמתי את האתגר',top:'אתגר קבוצתי',
+        stats:[[chVal(c.metric,rows[i]?.v||0).replace(' טון',''),c.metric==='volume'?'טון':M[2]],[i+1,'מקום'],[rows.length,'משתתפים']]}); return true; }
     case 'soc-chall-del': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב';return true;}
       sb.from('challenges').delete().eq('id',b.dataset.id).then(()=>socLoadChall()); return true;
   }
