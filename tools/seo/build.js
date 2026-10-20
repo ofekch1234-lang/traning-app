@@ -141,7 +141,7 @@ table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:9px 4px;b
 const HEAD=(l,title,desc,canon,alts,extra='')=>`<!doctype html><html lang="${l}" dir="${T[l].dir}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${SITE}${canon}">
 ${alts.map(([al,p])=>`<link rel="alternate" hreflang="${al}" href="${SITE}${p}">`).join('')}<link rel="alternate" hreflang="x-default" href="${SITE}${alts[0][1]}">
-<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:image" content="${SITE}/icon-512.png"><meta name="theme-color" content="#16A34A">
+<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:image" content="${SITE}/icon-512.png"><meta name="theme-color" content="#16A34A"><meta name="google-site-verification" content="DSzgalUkvNBmbAsodxTRFc0sHzMPQaTsiP2vO3B87LI">
 <link rel="icon" href="/icon-192.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/food/food.css?v=1">${extra}</head><body>
 <div class="top"><a class="brand" href="/">Next<b>Rep</b></a><a class="cta-s" href="/?utm_source=seo&utm_medium=food">${T[l].ctaB}</a></div><div class="wrap">`;
