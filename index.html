@@ -1252,7 +1252,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.9.4';
+const APP_VERSION='11.9.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1316,6 +1316,20 @@ async function subscribePush(){
     if(error)throw error;
     return {ok:true};
   }catch(e){ console.error(e); return {ok:false,why:'sub'}; }
+}
+/* בכל פתיחה: אם יש הרשאה, מוודאים שהמינוי הנוכחי של המכשיר שמור בשרת (מכשירים מחליפים מינוי מדי פעם) */
+async function syncPush(){
+  try{
+    if(!S.user||!('Notification' in window)||Notification.permission!=='granted'||!('serviceWorker' in navigator))return;
+    const reg=await navigator.serviceWorker.ready; if(!reg.pushManager)return;
+    let sub=await reg.pushManager.getSubscription();
+    if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64uToU8(PUSH_PUBKEY)});
+    const j=sub.toJSON(); if(!j.endpoint)return;
+    const last=localStorage.getItem('nr-push-ep');
+    if(last===j.endpoint+'|'+S.user.id&&Date.now()-(+localStorage.getItem('nr-push-at')||0)<3*864e5)return;
+    const {error}=await sb.from('push_subs').upsert({endpoint:j.endpoint,user_id:S.user.id,keys:j.keys});
+    if(!error){ localStorage.setItem('nr-push-ep',j.endpoint+'|'+S.user.id); localStorage.setItem('nr-push-at',String(Date.now())); }
+  }catch(e){ console.warn('syncPush',e); }
 }
 async function unsubscribePush(){
   try{
@@ -6645,7 +6659,7 @@ async function enterApp(user){
   }
   const localA=loadLocalActive();
   if(localA&&(!S.active||((localA.start===S.active.start)&&JSON.stringify(localA).length>=JSON.stringify(S.active).length)))S.active=localA;
-  S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest();
+  S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest(); setTimeout(syncPush,1500);
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
   setTimeout(()=>{ if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else maybeStartTour(); } },700);
