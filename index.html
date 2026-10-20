@@ -515,6 +515,11 @@ header.top{
 .co-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:block}
 .coach-card .co-txt{white-space:pre-wrap;line-height:1.55;font-size:15px;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
 .coach-card .co-acts{display:flex;gap:8px;margin-top:12px}
+.coach-card .co-tog{width:100%;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
+.coach-card.mini{padding-top:12px;padding-bottom:12px}
+.coach-card.mini .co-h{margin-bottom:0}.coach-card.mini .co-av{width:38px;height:38px}
+.coach-card .co-chev{color:var(--muted);font-size:16px;padding:4px}
+.coach-card .co-peek{-webkit-line-clamp:1;font-size:14px;color:var(--muted);margin-top:6px;cursor:pointer;white-space:normal}
 .co-skel{height:12px;border-radius:6px;background:var(--surface2);margin:8px 0;animation:coPulse 1.2s ease-in-out infinite}
 @keyframes coPulse{50%{opacity:.45}}
 .co-sum{align-self:stretch;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:16px;padding:12px 14px;margin:6px 0;white-space:pre-wrap;line-height:1.55}
@@ -972,7 +977,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.8';
+const APP_VERSION='8.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4730,14 +4735,16 @@ function coachCardHTML(){
   if(!S.user||S.mode!=='app')return '';
   if(CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
   if(!S.workouts.length&&!CO.sum)return '';
-  const head=`<div class="co-h"><img class="co-av" src="img/kobi-${CO.sum?'wink':'happy'}.svg" alt=""><div style="flex:1"><b>קובי הבוט</b><div class="small muted">${CO.sum?'הסיכום השבועי שלך':'המאמן האישי שלך'}</div></div></div>`;
+  if(CO.cardOpen===undefined){ try{CO.cardOpen=localStorage.getItem('nr-co-card')==='1';}catch(_){CO.cardOpen=false;} }
+  const open=CO.cardOpen;
+  const head=`<button class="co-h co-tog" data-act="coach-card-tog" aria-expanded="${open}"><img class="co-av" src="img/kobi-${CO.sum?'wink':'happy'}.svg" alt=""><div style="flex:1;min-width:0;text-align:start"><b>קובי הבוט</b><div class="small muted">${CO.sum?'הסיכום השבועי שלך':'המאמן האישי שלך'}</div></div><span class="co-chev">${open?'▴':'▾'}</span></button>`;
   let body;
   if(CO.loading||CO.sum===undefined)body=`<div class="small muted">קובי מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
   else if(CO.sum)body=`<div class="co-txt" dir="auto" data-notr>${esc(coachParse(CO.sum.body).text)}</div>`;
   else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים קובי ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
   else body=`<div class="small muted">לא הצלחנו לטעון את הסיכום עכשיו.</div>`;
   const acts=`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את קובי':'🔒 שאל את קובי'}</button></div>`;
-  return `<div class="card coach-card">${head}${body}${acts}</div>`;
+  return `<div class="card coach-card ${open?'open':'mini'}">${head}${open?body+acts:(CO.sum?`<div class="co-txt co-peek" dir="auto" data-notr data-act="coach-card-tog">${esc(coachParse(CO.sum.body).text)}</div>`:'')}</div>`;
 }
 async function coachLoadMsgs(){
   const {data}=await sb.from('coach_messages').select('id,role,body,created_at').order('id',{ascending:false}).limit(60);
@@ -4818,6 +4825,7 @@ async function coachSend(text){
 }
 function coachAct(act,b){
   switch(act){
+    case 'coach-card-tog': CO.cardOpen=!CO.cardOpen; try{localStorage.setItem('nr-co-card',CO.cardOpen?'1':'0');}catch(_){} render(); return true;
     case 'coach-open': CO.open=true; CO.toBottom=true; render(); coachLoadMsgs(); return true;
     case 'coach-back': CO.open=false; render(); window.scrollTo(0,0); return true;
     case 'coach-chip': coachSend(tt(b.dataset.q)); return true;
@@ -5238,7 +5246,8 @@ document.addEventListener('change',ev=>{
 document.getElementById('tabs').addEventListener('click',ev=>{
   const b=ev.target.closest('[data-tab]'); if(!b)return;
   if(b.dataset.tab==='social'&&S.tab==='social'&&SOC.gid){SOC.gid=null;} // לחיצה חוזרת = חזרה לרשימה
-  S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render();
+  const changed=S.tab!==b.dataset.tab;
+  S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render(); if(changed)window.scrollTo(0,0);
   if(S.tab==='social')socLoad();
 });
 document.addEventListener('keydown',ev=>{
