@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=826e5fd2"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ab611a3f"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -320,6 +320,7 @@ body.landing #app{max-width:1120px}
 .ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
 .gconsent a{color:inherit;text-decoration:underline}
 .gsi-wrap{display:flex;justify-content:center;min-height:44px}
+.otp-in{font-size:30px;letter-spacing:10px;text-align:center;font-weight:700}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
 .pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:var(--start);padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
 .pb-cta .pb-ic{font-size:28px}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
@@ -971,7 +972,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.5';
+const APP_VERSION='8.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1342,6 +1343,44 @@ function render_(){
 
 /* ----- ממתין לאישור ----- */
 let GOOGLE_ON=false;
+const OTP_ON=false; // email one-time code login; on once custom SMTP (Resend) is connected
+const OTP={step:'',email:'',busy:false,err:'',until:0};
+function vOtp(){
+  const code=OTP.step==='code';
+  return `<div id="authwrap">
+    <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div></div>
+    <div class="card stack">
+      <h3 style="margin:0">${code?'הקלד את הקוד':'התחברות עם קוד למייל'}</h3>
+      <div class="muted small">${code?`שלחנו קוד למייל שלך. הוא תקף לשעה.<b dir="ltr" data-notr style="display:block;margin-top:4px;color:var(--ink)">${esc(OTP.email)}</b>`:'בלי סיסמה: נשלח אליך קוד חד-פעמי, והאייפון יציע להדביק אותו.'}</div>
+      ${code?`<input id="otp-code" class="otp-in num" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" dir="ltr" placeholder="••••••">`
+        :`<input id="otp-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(OTP.email||S.authEmail||'')}">`}
+      <div class="autherr">${esc(OTP.err||'')}</div>
+      <button class="btn primary big" data-act="${code?'otp-verify':'otp-send'}" ${OTP.busy?'disabled':''}>${OTP.busy?'רגע…':code?'התחברות':'שלח לי קוד'}</button>
+      ${code?`<button class="linkbtn" data-act="otp-send" ${Date.now()<OTP.until?'disabled':''}>${Date.now()<OTP.until?'אפשר לשלוח שוב בעוד דקה':'לא הגיע? שלח שוב'}</button>
+        <button class="linkbtn" data-act="otp-change" style="color:var(--muted)">שינוי אימייל</button>`
+        :`<div class="small muted gconsent" style="text-align:center">בהמשך אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>`}
+      <button class="linkbtn" data-act="otp-back" style="color:var(--muted)">חזרה</button>
+    </div></div>`;
+}
+async function otpSend(){
+  const em=(($('#otp-email')?.value)||OTP.email||'').trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){OTP.err='הקלד אימייל תקין';render();return;}
+  OTP.email=em; OTP.busy=true; OTP.err=''; render();
+  const {error}=await sb.auth.signInWithOtp({email:em,options:{shouldCreateUser:true,data:{lang:LANG,terms_accepted:new Date().toISOString(),terms_v:'2026-10-20'}}});
+  OTP.busy=false;
+  if(error){ OTP.err=/rate|seconds/i.test(error.message)?'נשלחו יותר מדי קודים. נסה שוב בעוד דקה.':'שליחת הקוד נכשלה. נסה שוב.'; render(); return; }
+  OTP.step='code'; OTP.until=Date.now()+60000; render(); setTimeout(()=>$('#otp-code')?.focus(),60);
+  setTimeout(()=>{ if(OTP.step==='code')render(); },61000);
+}
+async function otpVerify(){
+  const t=($('#otp-code')?.value||'').replace(/\D/g,'');
+  if(t.length<6){OTP.err='הקוד צריך להיות 6 ספרות';render();return;}
+  OTP.busy=true; OTP.err=''; render();
+  const {error}=await sb.auth.verifyOtp({email:OTP.email,token:t,type:'email'});
+  OTP.busy=false;
+  if(error){ OTP.err='הקוד שגוי או שפג תוקפו'; render(); return; }
+  OTP.step=''; // onAuthStateChange takes it from here
+}
 /* Google Identity Services: in the browser, Google's own button (shows NextRep / our domain instead of the supabase.co address).
    The ID token is exchanged with Supabase via signInWithIdToken. Home-screen app keeps the redirect flow. */
 const GSI_MOBILE_REDIRECT=true; // turn on once /api/gsi is an authorized redirect URI in Google Cloud
@@ -1670,7 +1709,7 @@ function startLandTimer(){
 }
 
 /* ----- auth screen ----- */
-function vAuth(){ if(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH){gsiLoad(); setTimeout(gsiMount,0);}
+function vAuth(){ if(OTP.step)return vOtp(); if(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH){gsiLoad(); setTimeout(gsiMount,0);}
   const su=S.authMode==='signup';
   const showForm=!GOOGLE_ON||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
@@ -1683,7 +1722,7 @@ function vAuth(){ if(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&
     <div class="card stack">
       ${GOOGLE_ON?`${GSI.ready?'<div id="gsi-btn" class="gsi-wrap"></div>':`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>`}
       <div class="small muted gconsent" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
-      ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
+      ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':OTP_ON?'<button class="btn" data-act="otp-open">✉️ קבל קוד למייל</button><button class="linkbtn" data-act="auth-email-open" style="font-size:13.5px">התחברות עם סיסמה</button>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
       ${showForm?`${su?`<div class="label">שם מלא</div>
       <input id="au-name" type="text" autocomplete="name" placeholder="איך קוראים לך?" value="${esc(S.authName||'')}">`:''}
       <div class="label">אימייל</div>
@@ -4784,6 +4823,8 @@ function coachAct(act,b){
   return false;
 }
 document.addEventListener('input',e=>{ if(e.target.id==='chat-in'&&CO.open){ CO.draft=e.target.value; e.target.style.height='auto'; e.target.style.height=Math.min(120,e.target.scrollHeight)+'px'; } });
+document.addEventListener('input',e=>{ if(e.target.id==='otp-code'&&e.target.value.replace(/\D/g,'').length===6&&!OTP.busy)otpVerify(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&(e.target.id==='otp-email'||e.target.id==='otp-code')){e.preventDefault(); e.target.id==='otp-email'?otpSend():otpVerify();} });
 document.addEventListener('keydown',e=>{ if(e.target.id==='chat-in'&&CO.open&&e.key==='Enter'&&!e.shiftKey&&!e.isComposing){ e.preventDefault(); coachSend(e.target.value); } });
 
 /* שיתוף סיכום אימון */
@@ -5124,6 +5165,11 @@ function handleAct(b,ev){
     case 'pw-save': { const a=$('#pw1')?.value||'', c=$('#pw2')?.value||'';
       if(a.length<6){toast('לפחות 6 תווים');break;} if(a!==c){toast('הסיסמאות לא זהות');break;}
       b.disabled=true; sb.auth.updateUser({password:a}).then(({error})=>{ b.disabled=false; if(error){toast('העדכון נכשל: '+error.message);return;} closeSheet(); toast('הסיסמה עודכנה ✓'); }); break; }
+    case 'otp-open': OTP.step='email'; OTP.err=''; render(); setTimeout(()=>$('#otp-email')?.focus(),60); break;
+    case 'otp-send': otpSend(); break;
+    case 'otp-verify': otpVerify(); break;
+    case 'otp-change': OTP.step='email'; OTP.err=''; render(); break;
+    case 'otp-back': OTP.step=''; OTP.err=''; render(); break;
     case 'auth-email-open': S.authEmailOpen=true; render(); setTimeout(()=>($('#au-name')||$('#au-email'))?.focus(),50); break;
     case 'auth-toggle': S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
     case 'logout':

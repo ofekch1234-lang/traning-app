@@ -1,0 +1,43 @@
+{{ $l := printf "%v" .Data.lang }}{{ if eq $l "ar" }}<div dir="rtl" lang="ar" style="background:#f3f5f3;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#141a16">
+  <div style="max-width:440px;margin:0 auto;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #e3e8e4">
+    <div style="background:#141a16;padding:22px;text-align:center">
+      <img src="https://traning-app-silk.vercel.app/icon-192.png" width="56" height="56" alt="NextRep" style="border-radius:14px;display:inline-block">
+      <div dir="ltr" style="font-size:24px;font-weight:800;color:#ffffff;margin-top:8px;letter-spacing:.5px">Next<span style="color:#16a34a">Rep</span></div>
+    </div>
+    <div style="padding:28px 26px;text-align:center">
+      <h1 style="font-size:21px;margin:0 0 10px">رمز تسجيل الدخول</h1>
+      <p style="font-size:15px;line-height:1.6;color:#55605a;margin:0 0 22px">أدخل الرمز في التطبيق لتسجيل الدخول. صالح لمدة ساعة.</p>
+      <div dir="ltr" style="font-size:38px;font-weight:800;letter-spacing:10px;background:#e8f6ed;color:#0f7a37;border-radius:14px;padding:16px 10px;font-family:'SF Mono',Menlo,Consolas,monospace">{{ .Token }}</div>
+      <p style="font-size:13px;line-height:1.6;color:#8a948d;margin:22px 0 0">لم تطلب تسجيل الدخول؟ يمكنك تجاهل هذه الرسالة، لن يدخل أحد إلى حسابك بدون الرمز.</p>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:12px;color:#8a948d;margin:16px 0 0" dir="ltr">NextRep · nextrep.co.il</p>
+</div>{{ else if eq $l "en" }}<div dir="ltr" lang="en" style="background:#f3f5f3;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#141a16">
+  <div style="max-width:440px;margin:0 auto;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #e3e8e4">
+    <div style="background:#141a16;padding:22px;text-align:center">
+      <img src="https://traning-app-silk.vercel.app/icon-192.png" width="56" height="56" alt="NextRep" style="border-radius:14px;display:inline-block">
+      <div dir="ltr" style="font-size:24px;font-weight:800;color:#ffffff;margin-top:8px;letter-spacing:.5px">Next<span style="color:#16a34a">Rep</span></div>
+    </div>
+    <div style="padding:28px 26px;text-align:center">
+      <h1 style="font-size:21px;margin:0 0 10px">Your sign-in code</h1>
+      <p style="font-size:15px;line-height:1.6;color:#55605a;margin:0 0 22px">Enter this code in the app to sign in. It's valid for one hour.</p>
+      <div dir="ltr" style="font-size:38px;font-weight:800;letter-spacing:10px;background:#e8f6ed;color:#0f7a37;border-radius:14px;padding:16px 10px;font-family:'SF Mono',Menlo,Consolas,monospace">{{ .Token }}</div>
+      <p style="font-size:13px;line-height:1.6;color:#8a948d;margin:22px 0 0">Didn't try to sign in? You can ignore this email. Nobody can access your account without the code.</p>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:12px;color:#8a948d;margin:16px 0 0" dir="ltr">NextRep · nextrep.co.il</p>
+</div>{{ else }}<div dir="rtl" lang="he" style="background:#f3f5f3;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#141a16">
+  <div style="max-width:440px;margin:0 auto;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #e3e8e4">
+    <div style="background:#141a16;padding:22px;text-align:center">
+      <img src="https://traning-app-silk.vercel.app/icon-192.png" width="56" height="56" alt="NextRep" style="border-radius:14px;display:inline-block">
+      <div dir="ltr" style="font-size:24px;font-weight:800;color:#ffffff;margin-top:8px;letter-spacing:.5px">Next<span style="color:#16a34a">Rep</span></div>
+    </div>
+    <div style="padding:28px 26px;text-align:center">
+      <h1 style="font-size:21px;margin:0 0 10px">קוד ההתחברות שלך</h1>
+      <p style="font-size:15px;line-height:1.6;color:#55605a;margin:0 0 22px">הקלד את הקוד באפליקציה כדי להתחבר. הוא תקף לשעה.</p>
+      <div dir="ltr" style="font-size:38px;font-weight:800;letter-spacing:10px;background:#e8f6ed;color:#0f7a37;border-radius:14px;padding:16px 10px;font-family:'SF Mono',Menlo,Consolas,monospace">{{ .Token }}</div>
+      <p style="font-size:13px;line-height:1.6;color:#8a948d;margin:22px 0 0">לא ביקשת להתחבר? אפשר להתעלם מהמייל הזה, אף אחד לא ייכנס לחשבון שלך בלי הקוד.</p>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:12px;color:#8a948d;margin:16px 0 0" dir="ltr">NextRep · nextrep.co.il</p>
+</div>{{ end }}
