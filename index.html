@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=508d684e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=508d684e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=508d684e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5fecb5d4"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5fecb5d4"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5fecb5d4"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1195,7 +1195,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.7.1';
+const APP_VERSION='11.7.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4686,6 +4686,7 @@ function vPaywall(full){
     ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
     <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':'תקופת הניסיון הסתיימה'):'ממשיכים להתקדם'}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
     <div class="muted small">${full?'כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
+    ${!full&&S.plan?.days_left>0&&S.plan.access_until?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">➕ יש לך גישה עד <b class="num">${new Date(S.plan.access_until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'})}</b>. חבילה שתרכוש עכשיו מתווספת לסוף התקופה — לא מתחילה מאפס.</div>`:''}
     <ul class="pw-f"><li>אימונים וטיימר</li><li>תזונה עם AI</li><li>קובי הבוט</li><li>קבוצות ואתגרים</li></ul>
     <div class="stack" style="gap:10px">${plansHTML()}</div>
     <div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>

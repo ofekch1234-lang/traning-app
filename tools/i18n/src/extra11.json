@@ -2050,5 +2050,13 @@
 "אחרי": {
 "en": "After",
 "ar": "بعد"
+},
+"חבילה שתרכוש עכשיו מתווספת לסוף התקופה — לא מתחילה מאפס.": {
+"en": "A plan you buy now is added to the end of that period — it doesn't start from zero.",
+"ar": "الباقة التي تشتريها الآن تُضاف إلى نهاية الفترة — ولا تبدأ من الصفر."
+},
+"גישה עד": {
+"en": "access until",
+"ar": "الوصول حتى"
 }
 }
