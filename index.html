@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1ddae793"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ad1fb271"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1000,7 +1000,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.4';
+const APP_VERSION='9.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1242,7 +1242,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,wrapSeen:S.settings.wrapSeen||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,wrapSeen:S.settings.wrapSeen||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); flushActive(); }
@@ -4268,43 +4268,48 @@ function showInstallGate(){
 /* ---- הסיור ---- */
 const TOUR={on:false,i:0};
 const TOUR_STEPS=[
-  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני קובי, המאמן שלך כאן. סיור קצר של חצי דקה כדי שתדע איפה הכל. אפשר לדלג בכל רגע.'},
+  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני קובי, המאמן שלך כאן. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בקצרה מה יש בו. אפשר לדלג בכל רגע.'},
   {tab:'home',sel:'#tabs [data-tab="train"]',title:'אימון',text:'כאן מתחילים אימון. מסמנים סט בשתי נגיעות, המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. בכל תרגיל יש ״צפה בהדגמה״.'},
   {tab:'train',pre:()=>{S.trainView='plans';},sel:'.pb-cta',title:'בנה לי תוכנית ✨',text:'עונים על 8 שאלות קצרות ומקבלים תוכנית אימון מותאמת למטרה, לרמה, לציוד ולימים שלך. אפשר גם לערוך את התוכניות המוכנות.'},
   {tab:'food',sel:'.goalcta, .goalbar',title:'יעד יומי',text:'מתחילים מכאן: כמה קלוריות וחלבון לאכול כדי להגיע למטרה.'},
   {tab:'food',sel:'#food-text',title:'רישום ארוחות',text:'מקלידים מזון ובוחרים מהמאגר, או כותבים ארוחה שלמה ("שניצל עם אורז") ולוחצים ✨ חשב. אפשר גם לצלם צלחת או לסרוק ברקוד.'},
-  {tab:'home',img:'img/kobi-wink.svg',title:'קובי הבוט, המאמן שלך',text:'בכל יום ראשון אשלח לך סיכום שבועי: מה הלך טוב ועל מה להתמקד. למנויים אני זמין גם לשאלות, לפי הנתונים שלך.'},
+  {tab:'home',sel:'.coach-card',title:'קובי הבוט, המאמן שלך',text:'בכל יום ראשון אשלח לך סיכום שבועי: מה הלך טוב ועל מה להתמקד. למנויים אני זמין גם לשאלות, לפי הנתונים שלך.'},
   {tab:'social',pre:()=>{SOC.gid=null; if(!SOC.groups)SOC.groups=[];},sel:'[data-act="soc-new"]',title:'קבוצות ואתגרים',text:'פותחים קבוצה עם שותף או עם החבר׳ה מהמכון: צ׳אט, טבלה שבועית ואתגרים, אישיים, תחרויות או יעד קבוצתי. כל אימון שתסיים יופיע שם.'},
   {tab:'track',pre:()=>{S.trackView='body';},sel:'.tseg',title:'מעקב',text:'משקל ולוח שקילות, תמונות התקדמות שבועיות, גרפים לכל תרגיל והיסטוריה מלאה.'},
   {tab:'track',pre:()=>{S.trackView='progress';},img:'img/kobi-cheer.svg',title:'הישגים וסיכום חודשי 🏆',text:'20 הישגים לפתוח, עם חגיגה ותמונה לשיתוף על כל אחד. ובתחילת כל חודש מחכה לך סיכום חודשי בסגנון סטורי.'},
   {tab:'home',kind:'notif',title:'לא לפספס את סוף המנוחה 🔔',text:'הפעל התראות ונודיע לך כשהמנוחה נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.'},
   {tab:'home',sel:'#logoutbtn',title:'הגדרות',text:'כאן משנים יעדים, התראות ושפה (עברית, العربية, English), ויש גם "צור קשר" אם משהו לא עובד.',last:true},
 ];
+/* per-screen tours: the first time a new user opens a screen, a short tour of just that screen */
+function toursSeen(){ if(!S.settings.toursSeen||typeof S.settings.toursSeen!=='object'){ let ls={}; try{ls=JSON.parse(localStorage.getItem('nr-tours')||'{}')||{};}catch(_){} S.settings.toursSeen=ls; } return S.settings.toursSeen; }
 function maybeStartTour(){
-  if(TOUR.on||S.settings.tourDone||S.active||S.mode!=='app')return;
+  if(TOUR.on||S.active||S.mode!=='app'||$('#instgate'))return;
+  if(S.settings.tourDone)return; // finished the old all-in-one tour
   try{ if(localStorage.getItem('nr-tour'))return; }catch(_){}
-  const created=new Date(S.user?.created_at||0).getTime(); if(Date.now()-created>3*864e5)return; // רק למשתמשים חדשים
-  startTour();
+  const created=new Date(S.user?.created_at||0).getTime(); if(Date.now()-created>14*864e5)return; // new users only
+  const tab=S.tab; if(toursSeen()[tab])return;
+  if(tab==='social'&&SOC.gid)return; if(tab==='home'&&CO.open)return;
+  if(!TOUR_STEPS.some(st=>st.tab===tab))return;
+  startTour(tab);
 }
-function startTour(){ TOUR.on=true; TOUR.i=0; tourShow(); }
-function tourSteps(){ return TOUR_STEPS.filter(st=>st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE))); }
+function startTour(tab){ TOUR.on=true; TOUR.i=0; TOUR.grp=tab||S.tab||'home'; tourShow(); }
+function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE)))); }
 function tourEnd(){
-  TOUR.on=false; $('#tour')?.remove(); S.settings.tourDone=ymd(); persistSettings();
-  try{localStorage.setItem('nr-tour','1');}catch(_){}
-  S.tab='home'; location.hash='home'; render(); window.scrollTo(0,0);
+  const seen=toursSeen(); seen[TOUR.grp]=1; try{localStorage.setItem('nr-tours',JSON.stringify(seen));}catch(_){}
+  TOUR.on=false; $('#tour')?.remove(); persistSettings(); render();
 }
 function tourShow(){
   const steps=tourSteps(), st=steps[TOUR.i]; if(!st)return tourEnd();
-  closeSheet(); st.pre&&st.pre(); if(S.tab!==st.tab){S.tab=st.tab; location.hash=st.tab;} render(); window.scrollTo(0,0);
+  closeSheet(); if(st.pre){st.pre(); render();} if(TOUR.i===0)window.scrollTo(0,0);
   let el=$('#tour'); if(!el){el=document.createElement('div'); el.id='tour'; document.body.appendChild(el);}
   const isLast=TOUR.i===steps.length-1;
   el.innerHTML=`<div class="tour-spot" hidden></div><div class="tour-card">
-    <div class="tour-dots">${steps.map((_,i)=>`<i class="${i===TOUR.i?'on':''}"></i>`).join('')}</div>
+    <div class="tour-dots"${steps.length<2?' hidden':''}>${steps.map((_,i)=>`<i class="${i===TOUR.i?'on':''}"></i>`).join('')}</div>
     ${st.img?`<img class="tour-img" src="${st.img}" alt="">`:''}<h3>${st.title}</h3><p>${st.text}</p>
     <div class="row" style="gap:8px;margin-top:12px">
       ${st.kind==='notif'?`<button class="btn" style="flex:1" data-act="tour-next">אחר כך</button><button class="btn primary" style="flex:1.6" data-act="tour-notif">🔔 הפעל התראות</button>`
         :`${TOUR.i===0?`<button class="btn" style="flex:1" data-act="tour-skip">דלג</button>`:`<button class="btn" style="flex:1" data-act="tour-back">חזרה</button>`}
-          <button class="btn primary" style="flex:1.6" data-act="tour-next">${isLast?'בוא נתחיל 💪':TOUR.i===0?'קדימה':'הבא'}</button>`}
+          <button class="btn primary" style="flex:1.6" data-act="tour-next">${isLast?'הבנתי 💪':TOUR.i===0?'קדימה':'הבא'}</button>`}
     </div></div>`;
   requestAnimationFrame(()=>tourPlace(st));
 }
@@ -4327,7 +4332,7 @@ function tourAct(act,b){
     case 'tour-back': TOUR.i=Math.max(0,TOUR.i-1); tourShow(); return true;
     case 'tour-skip': tourEnd(); return true;
     case 'tour-notif': b.disabled=true; subscribePush().then(r=>{ toast(r.ok?'ההתראות הופעלו 🔔':'אפשר להפעיל אחר כך בהגדרות'); TOUR.i++; tourShow(); }); return true;
-    case 'tour-restart': closeSheet(); startTour(); return true;
+    case 'tour-restart': closeSheet(); S.settings.tourDone=null; S.settings.toursSeen={}; try{localStorage.removeItem('nr-tour');localStorage.setItem('nr-tours','{}');}catch(_){} persistSettings(); S.tab='home'; location.hash='home'; render(); window.scrollTo(0,0); startTour('home'); return true;
     case 'lang-open': openSheet(`<h3>🌐 שפה</h3><div class="langlist" data-notr>${Object.entries(LANG_NAMES).map(([k,v])=>`<button data-act="lang-set" data-l="${k}" lang="${k}" class="${k===LANG?'on':''}"><span>${v}</span>${k===LANG?'<span>✓</span>':''}</button>`).join('')}</div>`); return true;
     case 'lang-set': { const l=b.dataset.l; if(l&&l!==LANG){ b.innerHTML+=' …'; setLang(l); } else closeSheet(); return true; }
     case 'inst-native': if(_bip){ _bip.prompt(); _bip.userChoice.finally(()=>{_bip=null;}); } return true;
@@ -5279,7 +5284,7 @@ document.getElementById('tabs').addEventListener('click',ev=>{
   const b=ev.target.closest('[data-tab]'); if(!b)return;
   if(b.dataset.tab==='social'&&S.tab==='social'&&SOC.gid){SOC.gid=null;} // לחיצה חוזרת = חזרה לרשימה
   const changed=S.tab!==b.dataset.tab;
-  S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render(); if(changed)window.scrollTo(0,0);
+  S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render(); if(changed){window.scrollTo(0,0); setTimeout(maybeStartTour,350);}
   if(S.tab==='social')socLoad();
 });
 document.addEventListener('keydown',ev=>{
@@ -5347,7 +5352,7 @@ async function enterApp(user){
     if(st.data){ S.settings.rest=st.data.rest??90; S.active=st.data.active||null;
       S.settings.notif=Object.assign({rest:true,pr:true,sound:true,vib:true},st.data.prefs?.notif);
       S.settings.schedule=st.data.prefs?.schedule||{};
-      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null;
+      S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
       // שפה שנבחרה במכשיר אחר — מסנכרנים; משתמש ותיק בלי שפה שמורה — שומרים את הנוכחית
       const pl=st.data.prefs?.lang; let lsl=null; try{lsl=localStorage.getItem('nr_lang');}catch(e){}
