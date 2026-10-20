@@ -24,9 +24,15 @@
   var g=null,ac=null; try{ g=localStorage.getItem('nr-g'); ac=localStorage.getItem('nr-acc'); }catch(e){}
   window.NR_G=g; ac=ac||(g==='f'?'rose':'green');
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl'; if(ac!=='green')h.setAttribute('data-accent',ac);
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9700be18"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9700be18"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9700be18"><\/script>');
+  if(g==='f'){ h.setAttribute('data-g','f'); // אישה: אייקון, מניפסט וצבע עליון ורודים (גם בהוספה למסך הבית)
+    var q=function(s){return document.querySelector(s);};
+    var tc=q('meta[name="theme-color"]'); if(tc)tc.setAttribute('content','#DB2777');
+    var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
+    var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
+    var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5a8cd408"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5a8cd408"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5a8cd408"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -896,6 +902,13 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 #splash .sb{font-family:var(--disp);font-size:32px;color:#fff;letter-spacing:.5px}
 #splash .sb b{font-weight:400;color:#073018}
 #splash .st{color:rgba(255,255,255,.75);font-size:13.5px}
+:root[data-g="f"] #splash{background:linear-gradient(135deg,#F472B6,#DB2777 55%,#831843)}
+:root[data-g="f"] #splash img{box-shadow:0 18px 44px rgba(80,7,36,.45)}
+:root[data-g="f"] #splash .sb b{color:#500724}
+.auth-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.auth-g button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;border-radius:16px;background:var(--surface2);border:2px solid transparent;color:inherit;font:inherit}
+.auth-g button span{font-size:30px}.auth-g button b{font-size:15px}
+.auth-g button[data-v="f"]{border-color:#F9A8D4}.auth-g button[data-v="m"]{border-color:#86EFAC}
 
 @media (prefers-reduced-motion:no-preference){
   .card,.ex-card,.h-card{transition:border-color .15s}
@@ -944,7 +957,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 </head>
 <body>
 <div id="splash">
-  <img src="icon-192.png" alt="NextRep">
+  <img src="icon-192.png" alt="NextRep"><script>if(window.NR_G==='f')document.currentScript.previousElementSibling.src='icon-f-192.png';</script>
   <div class="sb" dir="ltr">Next<b>Rep</b></div>
   <div class="st">הסט הבא שלך מתחיל כאן</div>
 </div>
@@ -1061,6 +1074,11 @@ const tt=s=>I18?I18.tr(s):s;
 /* חיפוש: גם בשם המתורגם (שמות התרגילים נשמרים בעברית) */
 const hasQ=(name,q)=>{ if(!q)return true; if(String(name).includes(q))return true; return !!I18&&tt(String(name)).toLowerCase().includes(String(q).toLowerCase()); };
 if(I18)I18.start();
+/* אישה: קובי ואייקון האפליקציה בוורוד */
+if(window.NR_G==='f'){ const fx=root=>{ if(!root||root.nodeType!==1)return; const L=root.matches?.('img')?[root]:[]; root.querySelectorAll?.('img').forEach(i=>L.push(i));
+    for(const i of L){ const v=i.getAttribute('src')||''; const n=v.replace(/img\/kobi-([a-z]+)\.svg/,'img/kobi-$1-f.svg').replace(/^icon-192\.png/,'icon-f-192.png'); if(n!==v)i.setAttribute('src',n); } };
+  const go=()=>{ fx(document.body); new MutationObserver(ms=>{ for(const m of ms){ if(m.type==='childList')m.addedNodes.forEach(fx); else fx(m.target); } }).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['src']}); };
+  if(document.body)go(); else document.addEventListener('DOMContentLoaded',go); }
 const LANG_NAMES={he:'עברית',ar:'العربية',en:'English'};
 function langPillsHTML(){ return `<div class="langpills" data-notr>${Object.entries(LANG_NAMES).map(([k,v])=>`<button type="button" class="${k===LANG?'on':''}" data-act="lang-set" data-l="${k}" lang="${k}">${v}</button>`).join('')}</div>`; }
 function setLang(l){
@@ -1078,7 +1096,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.7';
+const APP_VERSION='10.8';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1137,7 +1155,7 @@ async function notify(title,body){
   try{
     if(!('Notification' in window)||Notification.permission!=='granted')return;
     const reg=await navigator.serviceWorker?.ready;
-    if(reg?.showNotification)reg.showNotification(title,{body,icon:'icon-192.png?v=2',badge:'icon-192.png?v=2',vibrate:[200,100,200]});
+    if(reg?.showNotification)reg.showNotification(title,{body,icon:window.NR_G==='f'?'icon-f-192.png':'icon-192.png?v=2',badge:'icon-192.png?v=2',vibrate:[200,100,200]});
     else new Notification(title,{body,icon:'icon-192.png?v=2'});
   }catch(e){}
 }
@@ -1454,6 +1472,14 @@ const SHOW_GOOGLE=false; // Google sign-in hidden by choice (code kept; existing
 const OTP={step:'',email:'',busy:false,err:'',until:0};
 function vOtp(){
   const code=OTP.step==='code';
+  if(!code&&!window.NR_G)return `<div id="authwrap">
+    <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div>${langPillsHTML()}</div>
+    <div class="card stack">
+      <div class="tgw-q" style="margin:0"><img src="img/kobi-happy.svg" alt=""><div><b>רגע לפני שמתחילים: איך לפנות אליך?</b><span>ככה אדבר איתך בכל האפליקציה.</span></div></div>
+      <div class="auth-g"><button data-act="auth-g" data-v="m"><span>🙋‍♂️</span><b>בלשון זכר</b></button><button data-act="auth-g" data-v="f"><span>🙋‍♀️</span><b>בלשון נקבה</b></button></div>
+      <button class="linkbtn" data-act="auth-g" data-v="x" style="color:var(--muted)">לא משנה לי</button>
+      ${IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
+    </div></div>`;
   return `<div id="authwrap">
     <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div>${code?'':langPillsHTML()}</div>
     <div class="card stack">
@@ -1467,6 +1493,7 @@ function vOtp(){
         <button class="linkbtn" data-act="otp-change" style="color:var(--muted)">שינוי אימייל</button>`
         :`<div class="small muted gconsent" style="text-align:center">בהמשך אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>`}
       ${code?'':`<button class="linkbtn" data-act="auth-email-open" style="font-size:13.5px;color:var(--muted)">התחברות עם סיסמה</button>`}
+      ${code?'':`<button class="linkbtn" data-act="auth-g-reset" style="font-size:12.5px;color:var(--muted)">${{m:'פנייה בלשון זכר',f:'פנייה בלשון נקבה',x:'פנייה: לא משנה'}[window.NR_G]||''} · שינוי</button>`}
       ${code?'<button class="linkbtn" data-act="otp-back" style="color:var(--muted)">חזרה</button>':IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
     </div></div>`;
 }
@@ -1475,7 +1502,7 @@ async function otpSend(){
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){OTP.err='הקלד אימייל תקין';render();return;}
   OTP.email=em; OTP.busy=true; OTP.err=''; render();
   let ref=null; try{ref=localStorage.getItem('nr-ref');}catch(_){}
-  const {error}=await sb.auth.signInWithOtp({email:em,options:{shouldCreateUser:true,data:Object.assign({lang:LANG,terms_accepted:new Date().toISOString(),terms_v:'2026-10-20'},ref?{ref}:{})}});
+  const {error}=await sb.auth.signInWithOtp({email:em,options:{shouldCreateUser:true,data:Object.assign({lang:LANG,g:window.NR_G||null,terms_accepted:new Date().toISOString(),terms_v:'2026-10-20'},ref?{ref}:{})}});
   OTP.busy=false;
   if(error){ OTP.err=/rate|seconds/i.test(error.message)?'נשלחו יותר מדי קודים. נסה שוב בעוד דקה.':'שליחת הקוד נכשלה. נסה שוב.'; render(); return; }
   OTP.step='code'; OTP.until=Date.now()+60000; render(); setTimeout(()=>$('#otp-code')?.focus(),60);
@@ -5465,6 +5492,10 @@ function handleAct(b,ev){
     case 'otp-verify': otpVerify(); break;
     case 'otp-change': OTP.step='email'; OTP.err=''; render(); break;
     case 'otp-back': OTP.step=''; OTP.err=''; S.authEmailOpen=false; render(); break;
+    case 'auth-g': { const v=b.dataset.v; try{ localStorage.setItem('nr-g',v); localStorage.removeItem('nr-acc'); sessionStorage.setItem('nr-auth-open',JSON.stringify({m:S.authMode||'login',e:''})); }catch(_){}
+      if(v==='f'){ location.reload(); return; } window.NR_G=v; render(); setTimeout(()=>$('#otp-email')?.focus(),60); break; }
+    case 'auth-g-reset': { const wasF=window.NR_G==='f'; try{ localStorage.removeItem('nr-g'); localStorage.removeItem('nr-acc'); sessionStorage.setItem('nr-auth-open',JSON.stringify({m:S.authMode||'login',e:''})); }catch(_){}
+      if(wasF){ location.reload(); return; } window.NR_G=null; render(); break; }
     case 'auth-email-open': S.authEmailOpen=true; render(); setTimeout(()=>($('#au-name')||$('#au-email'))?.focus(),50); break;
     case 'auth-toggle': S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
     case 'logout':
@@ -5604,6 +5635,7 @@ async function enterApp(user){
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
       S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null;
+      if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
       if(S.settings.g&&applyLook(S.settings.g,S.settings.accent))return;
       // שפה שנבחרה במכשיר אחר — מסנכרנים; משתמש ותיק בלי שפה שמורה — שומרים את הנוכחית
       const pl=st.data.prefs?.lang; let lsl=null; try{lsl=localStorage.getItem('nr_lang');}catch(e){}
