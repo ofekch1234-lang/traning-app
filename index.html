@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=59ff1020"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7d36b960"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -479,6 +479,10 @@ header.top{
 #stcam .stc-tools{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);inset-inline-end:14px;display:flex;flex-direction:column;gap:10px}
 #stcam .stc-tools button{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;border:none;font-size:20px}
 .tour-img{width:76px;height:76px;display:block;margin:2px auto 6px}
+.co-demos{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.co-demos button{display:flex;align-items:center;gap:10px;text-align:var(--start);padding:6px 10px 6px 6px;border-radius:14px;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);background:var(--accent-soft);color:var(--ink);font:inherit;cursor:pointer}
+.co-demos img{width:56px;height:42px;border-radius:9px;object-fit:cover;background:#fff;flex-shrink:0}
+.co-demos b{display:block;color:var(--accent);font-size:13.5px}.co-demos small{display:block;font-size:12.5px;color:var(--muted)}
 .co-row{display:flex;gap:6px;align-items:flex-end;align-self:flex-start;max-width:88%}
 .co-row img{width:28px;height:28px;flex-shrink:0;margin-bottom:16px}
 .co-row .cm{max-width:100%}
@@ -948,7 +952,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.2';
+const APP_VERSION='7.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4568,6 +4572,17 @@ async function coachLoadMsgs(){
   const {data}=await sb.from('coach_messages').select('id,role,body,created_at').order('id',{ascending:false}).limit(60);
   CO.msgs=(data||[]).reverse(); CO.toBottom=true; if(CO.open)render();
 }
+/* הדגמות בתשובות של קובי: כשהשאלה היא "איך עושים X" — מזהים את התרגיל (גם בשם המתורגם) ומצרפים כרטיס הדגמה */
+let _coNames=null;
+function coachDemos(q){
+  q=String(q||''); if(!q||!/(איך|כיצד|טכניק|לבצע|מבצעים|עושים|ביצוע|תנוחה|הדגמה|how|technique|form|perform|demo|كيف|طريقة|أداء|تقنية)/i.test(q))return [];
+  const nz=x=>String(x).toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/(^|\s)ال/g,'$1').replace(/[-–]/g,' ').replace(/\s+/g,' ');
+  if(!_coNames)_coNames=[...new Set(Object.values(LIB).flat())].filter(n=>EXDB[n]||INFO[n]).map(n=>[n,nz(n),I18?nz(tt(n)):'']);
+  const t=nz(q);
+  let hits=_coNames.filter(([n,h,x])=>t.includes(h)||(x&&x.length>2&&t.includes(x)));
+  hits=hits.filter(a=>!hits.some(b=>b!==a&&((b[1].includes(a[1])&&b[1].length>a[1].length)||(a[2]&&b[2].includes(a[2])&&b[2].length>a[2].length))));
+  return hits.slice(0,2).map(x=>x[0]);
+}
 const CO_CHIPS=['למה אני לא מתקדם?','מה לאכול אחרי אימון?','כמה חלבון אני צריך?','איך לשבור שיא בסקוואט?','מה לשפר בשבוע הבא?'];
 function vCoach(){
   const head=`<div class="sg-head">
@@ -4578,11 +4593,13 @@ function vCoach(){
   let list='';
   if(!M)list=`<div class="c-sys">טוען…</div>`;
   else{
+    let lastQ='';
     list+=`<div class="co-intro"><img src="img/kobi-happy.svg" alt=""><b>היי, אני קובי 👋</b><span>המאמן האישי שלך. שאל אותי כל דבר על אימונים, תזונה והתקדמות. אני עונה לפי הנתונים שלך. לא ייעוץ רפואי.</span></div>`;
     for(const m of M){
       if(m.role==='summary')list+=`<div class="co-sum"><span class="lbl"><img src="img/kobi-wink.svg" alt="" style="width:22px;height:22px;vertical-align:-6px;margin-inline-end:4px">📅 סיכום שבועי · ${fmtDate(m.created_at)}</span><span dir="auto" data-notr style="display:block">${esc(m.body)}</span></div>`;
-      else if(m.role==='user')list+=`<div class="cm me"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
-      else list+=`<div class="co-row"><img src="img/kobi-happy.svg" alt=""><div class="cm"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div></div>`;
+      else if(m.role==='user'){ lastQ=m.body; list+=`<div class="cm me"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`; }
+      else{ const dm=coachDemos(lastQ);
+        list+=`<div class="co-row"><img src="img/kobi-happy.svg" alt=""><div class="cm"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div>${dm.length?`<div class="co-demos">${dm.map(n=>`<button data-act="coach-demo" data-n="${esc(n)}">${EXDB[n]?`<img ${exImg(EXDB[n],0)} alt="">`:'<span class="pl"></span>'}<span><b>▶ צפה בהדגמה</b><small>${esc(n)}</small></span></button>`).join('')}</div>`:''}<div class="tm">${socTime(m.created_at)}</div></div></div>`; }
     }
     if(CO.busy)list+=`<div class="co-row"><img src="img/kobi-think.svg" alt=""><div class="cm co-typing"><div class="bub"><i></i><i></i><i></i></div></div></div>`;
   }
@@ -4614,6 +4631,7 @@ function coachAct(act,b){
     case 'coach-open': CO.open=true; CO.toBottom=true; render(); coachLoadMsgs(); return true;
     case 'coach-back': CO.open=false; render(); window.scrollTo(0,0); return true;
     case 'coach-chip': coachSend(tt(b.dataset.q)); return true;
+    case 'coach-demo': openExSheet(b.dataset.n,{}); return true;
     case 'coach-send': coachSend($('#chat-in')?.value); return true;
   }
   return false;
