@@ -2058,5 +2058,37 @@
 "גישה עד": {
 "en": "access until",
 "ar": "الوصول حتى"
+},
+"ההתראות עדיין כבויות 🔕": {
+"en": "Notifications are still off 🔕",
+"ar": "الإشعارات لا تزال مطفأة 🔕"
+},
+"בלי התראות אני לא יכול להזכיר לך כלום": {
+"en": "Without notifications I can't remind you of anything",
+"ar": "بدون إشعارات لا أستطيع تذكيرك بأي شيء"
+},
+"זה הדבר שהכי משפר את האימונים. לוקח 2 שניות.": {
+"en": "It's the one thing that improves your workouts most. Takes 2 seconds.",
+"ar": "هذا أكثر ما يحسّن تدريباتك. يستغرق ثانيتين."
+},
+"הפעלה אחת, ואני דואג לשאר:": {
+"en": "Turn them on once, and I'll handle the rest:",
+"ar": "فعّلها مرة واحدة، وأنا أتولى الباقي:"
+},
+"סוף המנוחה בין הסטים, גם כשהטלפון בכיס": {
+"en": "End of rest between sets, even with the phone in your pocket",
+"ar": "نهاية الراحة بين المجموعات، حتى والهاتف في جيبك"
+},
+"תזכורת בימי האימון שלך": {
+"en": "A reminder on your training days",
+"ar": "تذكير في أيام تدريبك"
+},
+"תשובות מקובי והודעות מהקבוצה": {
+"en": "Replies from Kobi and messages from your group",
+"ar": "ردود كوبي ورسائل المجموعة"
+},
+"תזכיר לי מחר": {
+"en": "Remind me tomorrow",
+"ar": "ذكّرني غدًا"
 }
 }

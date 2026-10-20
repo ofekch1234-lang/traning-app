@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5fecb5d4"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5fecb5d4"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5fecb5d4"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=79e385f3"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=79e385f3"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=79e385f3"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -369,6 +369,16 @@ body.landing #app{max-width:1120px}
 .adm-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .adm-acts .btn{text-align:center;text-decoration:none}
 .adm-det{padding:12px 14px}
+.card.ncard{border:1.5px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft,rgba(34,197,94,.08)),transparent 70%),var(--surface);display:flex;flex-direction:column;gap:12px}
+.nc-top{display:flex;gap:12px;align-items:center}
+.nc-top img{width:54px;height:54px;flex-shrink:0}
+.nc-top div{display:flex;flex-direction:column;gap:3px}
+.nc-top b{font-size:17px;line-height:1.3}
+.nc-top span{font-size:14px;color:var(--muted)}
+.nc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:14px}
+.nc-list li{display:flex;gap:9px;align-items:center}
+.nc-list i{font-style:normal;width:30px;height:30px;border-radius:9px;background:var(--surface2);display:grid;place-items:center;flex-shrink:0;font-size:15px}
+.nc-later{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;padding:8px;margin:-4px auto 0;display:block;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .rdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);vertical-align:middle;margin-inline-start:4px}
 .set-det .det-arr{transition:transform .2s}.set-det[open] .det-arr{transform:rotate(90deg)}
 [dir=ltr] .set-det .det-arr{display:inline-block;transform:scaleX(-1)}[dir=ltr] .set-det[open] .det-arr{transform:rotate(90deg)}
@@ -1195,7 +1205,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.7.2';
+const APP_VERSION='11.7.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1236,12 +1246,15 @@ function notifAsk(ctx,title,text){
   if(seen[ctx])return false; seen[ctx]=1; try{localStorage.setItem('np-ctx',JSON.stringify(seen));}catch(_){}
   openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-happy.svg" alt=""><div><b>${title}</b><span>${text}</span></div></div>
     <button class="btn primary big" data-act="notif-on" data-ctx="${ctx}">🔔 הפעל התראות</button>
-    <button class="btn big" style="margin-top:8px" data-act="notif-later">לא עכשיו</button>`);
+    <button class="nc-later" data-act="notif-later">לא עכשיו</button>`);
   return true;
 }
 // "לא עכשיו" במסך הבית: דחייה של 3 ימים, אחר כך שבוע, ואחרי 3 פעמים מפסיקים להציע
-function notifSnoozed(){ try{ const d=JSON.parse(localStorage.getItem('np-dis')||'null'); if(!d)return false; if(d===1||d===true)return true; if(d.n>=3)return true; return Date.now()<d.until; }catch(_){ return true; } }
-function notifSnooze(){ let d={n:0}; try{ const x=JSON.parse(localStorage.getItem('np-dis')||'null'); if(x&&typeof x==='object')d=x; }catch(_){} d.n=(d.n||0)+1; d.until=Date.now()+(d.n===1?3:7)*864e5; try{localStorage.setItem('np-dis',JSON.stringify(d));}catch(_){} }
+// "תזכיר לי מחר": חוזרים כל יום בהתחלה, ואחרי 3 דחיות כל 3 ימים. לא מוותרים, כי בלי התראות החוויה חלשה
+function notifSnoozed(){ try{ const d=JSON.parse(localStorage.getItem('np-dis')||'null'); if(!d||typeof d!=='object')return false; return Date.now()<d.until; }catch(_){ return false; } }
+function notifNagN(){ try{ const d=JSON.parse(localStorage.getItem('np-dis')||'null'); return d&&typeof d==='object'?d.n||0:0; }catch(_){ return 0; } }
+function notifSnooze(){ let d={n:0}; try{ const x=JSON.parse(localStorage.getItem('np-dis')||'null'); if(x&&typeof x==='object')d=x; }catch(_){} d.n=(d.n||0)+1;
+  const t=new Date(); t.setHours(6,0,0,0); t.setDate(t.getDate()+(d.n<=3?1:3)); d.until=+t; try{localStorage.setItem('np-dis',JSON.stringify(d));}catch(_){} }
 function notifDeniedHelp(){ return IS_IOS?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← התראות ← NextRep ← אפשר התראות.':/Android/i.test(navigator.userAgent)?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← אפליקציות ← NextRep ← התראות.':'ההתראות חסומות בדפדפן. לפתיחה: לוחצים על המנעול בשורת הכתובת ← התראות ← אפשר.'; }
 /* מנוי Push לתזכורות יומיות */
 const PUSH_PUBKEY='BEZW8tXMc6pOHrP87-KW8pfmZvr1ueA7S7BqBzUQu-Hp2DC_Yi2B-K_yO7JxWeRClXUDK6K1AsMETaQpvY-hkXw';
@@ -2150,14 +2163,13 @@ function vHome(){
     </div>
     ${todayRowHTML()}
     ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`
-    <div class="card">
-      <div class="spread">
-        <div><b>🔔 הפעל התראות</b><div class="small muted">תדע שהמנוחה נגמרה גם כשהמסך כבוי</div></div>
-        <div class="row" style="gap:6px">
-          <button class="btn" data-act="notif-dis">לא עכשיו</button>
-          <button class="btn primary" data-act="notif-on" data-ctx="home">הפעל</button>
-        </div>
-      </div>
+    <div class="card ncard">
+      <div class="nc-top"><img src="img/kobi-${notifNagN()>=2?'think':'happy'}.svg" alt=""><div>
+        <b>${notifNagN()>=2?'ההתראות עדיין כבויות 🔕':'בלי התראות אני לא יכול להזכיר לך כלום'}</b>
+        <span>${notifNagN()>=2?'זה הדבר שהכי משפר את האימונים. לוקח 2 שניות.':'הפעלה אחת, ואני דואג לשאר:'}</span></div></div>
+      <ul class="nc-list"><li><i>⏱️</i>סוף המנוחה בין הסטים, גם כשהטלפון בכיס</li><li><i>📅</i>תזכורת בימי האימון שלך</li><li><i>💬</i>תשובות מקובי והודעות מהקבוצה</li></ul>
+      <button class="btn primary big" data-act="notif-on" data-ctx="home">🔔 הפעל התראות</button>
+      <button class="nc-later" data-act="notif-dis">תזכיר לי מחר</button>
     </div>`:''}
     ${S.active?`
       <button class="card spread" style="width:100%;text-align:var(--start);background:var(--accent-soft);border-color:var(--accent)" data-act="go" data-to="train">
