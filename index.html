@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ad1fb271"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=6c0c0c86"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1001,7 +1001,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.6';
+const APP_VERSION='9.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4269,17 +4269,29 @@ function showInstallGate(){
 /* ---- הסיור ---- */
 const TOUR={on:false,i:0};
 const TOUR_STEPS=[
-  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני קובי, המאמן שלך כאן. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בקצרה מה יש בו. אפשר לדלג בכל רגע.'},
-  {tab:'home',sel:'#tabs [data-tab="train"]',title:'אימון',text:'כאן מתחילים אימון. מסמנים סט בשתי נגיעות, המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. בכל תרגיל יש ״צפה בהדגמה״.'},
-  {tab:'train',pre:()=>{S.trainView='plans';},sel:'.pb-cta',title:'בנה לי תוכנית ✨',text:'עונים על 8 שאלות קצרות ומקבלים תוכנית אימון מותאמת למטרה, לרמה, לציוד ולימים שלך. אפשר גם לערוך את התוכניות המוכנות.'},
-  {tab:'food',sel:'.goalcta, .goalbar',title:'יעד יומי',text:'מתחילים מכאן: כמה קלוריות וחלבון לאכול כדי להגיע למטרה.'},
-  {tab:'food',sel:'#food-text',title:'רישום ארוחות',text:'מקלידים מזון ובוחרים מהמאגר, או כותבים ארוחה שלמה ("שניצל עם אורז") ולוחצים ✨ חשב. אפשר גם לצלם צלחת או לסרוק ברקוד.'},
-  {tab:'home',sel:'.coach-card',title:'קובי הבוט, המאמן שלך',text:'בכל יום ראשון אשלח לך סיכום שבועי: מה הלך טוב ועל מה להתמקד. למנויים אני זמין גם לשאלות, לפי הנתונים שלך.'},
-  {tab:'social',pre:()=>{SOC.gid=null; if(!SOC.groups)SOC.groups=[];},sel:'[data-act="soc-new"]',title:'קבוצות ואתגרים',text:'פותחים קבוצה עם שותף או עם החבר׳ה מהמכון: צ׳אט, טבלה שבועית ואתגרים, אישיים, תחרויות או יעד קבוצתי. כל אימון שתסיים יופיע שם.'},
-  {tab:'track',pre:()=>{S.trackView='body';},sel:'.tseg',title:'מעקב',text:'משקל ולוח שקילות, תמונות התקדמות שבועיות, גרפים לכל תרגיל והיסטוריה מלאה.'},
-  {tab:'track',pre:()=>{S.trackView='progress';},img:'img/kobi-cheer.svg',title:'הישגים וסיכום חודשי 🏆',text:'20 הישגים לפתוח, עם חגיגה ותמונה לשיתוף על כל אחד. ובתחילת כל חודש מחכה לך סיכום חודשי בסגנון סטורי.'},
-  {tab:'home',kind:'notif',title:'לא לפספס את סוף המנוחה 🔔',text:'הפעל התראות ונודיע לך כשהמנוחה נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.'},
-  {tab:'home',sel:'#logoutbtn',title:'הגדרות',text:'כאן משנים יעדים, התראות ושפה (עברית, العربية, English), ויש גם "צור קשר" אם משהו לא עובד.',last:true},
+  // בית
+  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני קובי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.'},
+  {tab:'home',sel:'.coach-card',title:'הסיכום השבועי שלי',text:'כל יום ראשון אכתוב לך כאן מה הלך טוב השבוע ועל מה להתמקד, לפי האימונים והתזונה שלך. לחיצה על הכרטיס פותחת אותו.'},
+  {tab:'home',sel:'#tabs [data-tab="train"]',title:'מכאן מתחילים להתאמן',text:'הכפתור הירוק באמצע התפריט הוא מסך האימון: בונים תוכנית ומתחילים אימון.'},
+  {tab:'home',kind:'notif',title:'לא לפספס את סוף המנוחה 🔔',text:'הפעל התראות ונודיע לך כשהמנוחה בין הסטים נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.'},
+  {tab:'home',sel:'[data-act="settings"]',title:'הגדרות',text:'יעדים, התראות, שפה וצור קשר. משם אפשר גם להפעיל את ההדרכה הזו מחדש.'},
+  // אימון
+  {tab:'train',pre:()=>{S.trainView='plans';},sel:'.pb-cta',title:'שלב 1: תוכנית אימון',text:'עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית שבנויה בשבילך. אפשר לערוך אותה בכל רגע.'},
+  {tab:'train',pre:()=>{S.trainView='start';},sel:'[data-act="start-free"]',title:'שלב 2: מתחילים אימון',text:'בוחרים אימון מהתוכנית, או מתחילים אימון חופשי ומוסיפים תרגילים תוך כדי.'},
+  {tab:'train',img:'img/kobi-cheer.svg',title:'בזמן האימון',text:'נגיעה בסט מסמנת שסיימת אותו. המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. לא בטוח איך עושים תרגיל? לוחצים ״צפה בהדגמה״.'},
+  // תזונה
+  {tab:'food',sel:'[data-act="food-targets-open"]',title:'קודם כל: יעד יומי',text:'מגדירים כמה קלוריות וחלבון לאכול ביום. נחשב לך את זה לפי המטרה, המשקל והגובה שלך.'},
+  {tab:'food',sel:'#food-text',title:'רושמים מה אכלת',text:'כותבים מאכל ובוחרים מהמאגר הישראלי, או ארוחה שלמה כמו ״שניצל עם אורז״ ולוחצים ✨ חשב.'},
+  {tab:'food',sel:'.acts3',title:'או בלי להקליד',text:'מצלמים את הצלחת וה-AI מזהה כל רכיב ומעריך כמה גרם יש. אפשר לתקן את הגרמים לפני שמוסיפים. או סורקים ברקוד של מוצר מהסופר.'},
+  // קבוצות
+  {tab:'social',pre:()=>{SOC.gid=null; if(!SOC.groups)SOC.groups=[];},sel:'[data-act="soc-new"]',title:'מתאמנים עם חברים',text:'פותחים קבוצה ושולחים קישור לשותף או לחבר׳ה מהמכון. כל אימון שמישהו מסיים מופיע אוטומטית בצ׳אט.'},
+  {tab:'social',sel:'[data-act="soc-join"]',title:'קיבלת קוד?',text:'אם חבר שלח לך קוד הזמנה, מצטרפים לקבוצה שלו מכאן.'},
+  {tab:'social',img:'img/kobi-cheer.svg',title:'אתגרים 🏆',text:'בתוך קבוצה אפשר להשיק אתגר: מי מתאמן הכי הרבה החודש, מרוץ ראשון ליעד, או כולם יחד מול יעד משותף.'},
+  // מעקב
+  {tab:'track',pre:()=>{S.trackView='body';},sel:'.tseg',title:'שלושה חלקים',text:'גוף ויעדים: משקל ותמונות. התקדמות: גרפים, שיאים והישגים. היסטוריה: כל האימונים שעשית.'},
+  {tab:'track',pre:()=>{S.trackView='body';},sel:'[data-act="bw-quick"]',title:'שקילה',text:'שוקלים בבוקר ולוחצים כאן. כל שקילה נכנסת ללוח ולגרף, ככה רואים את המגמה ולא רק מספר של יום אחד.'},
+  {tab:'track',pre:()=>{S.trackView='body';},when:()=>S.settings.photoDay==null,sel:'.phset',title:'תמונות התקדמות',text:'בוחרים יום קבוע בשבוע ומקבלים תזכורת להצטלם. אחרי חודש משווים תמונה מול תמונה.'},
+  {tab:'track',pre:()=>{S.trackView='progress';},img:'img/kobi-cheer.svg',title:'הישגים וסיכום חודשי',text:'20 הישגים לפתוח, כל אחד עם חגיגה ותמונה לשיתוף. ובתחילת כל חודש מחכה לך סיכום של החודש שעבר.'},
 ];
 /* per-screen tours: the first time a new user opens a screen, a short tour of just that screen */
 function toursSeen(){ if(!S.settings.toursSeen||typeof S.settings.toursSeen!=='object'){ let ls={}; try{ls=JSON.parse(localStorage.getItem('nr-tours')||'{}')||{};}catch(_){} S.settings.toursSeen=ls; } return S.settings.toursSeen; }
@@ -4296,7 +4308,7 @@ function maybeStartTour(){
   startTour(tab);
 }
 function startTour(tab){ TOUR.on=true; TOUR.i=0; TOUR.grp=tab||S.tab||'home'; tourShow(); }
-function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE)))); }
+function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(!st.when||st.when())&&(st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE)))); }
 function tourEnd(){
   const seen=toursSeen(); seen[TOUR.grp]=1; try{localStorage.setItem('nr-tours',JSON.stringify(seen));}catch(_){}
   TOUR.on=false; $('#tour')?.remove(); persistSettings(); render();
@@ -4323,7 +4335,7 @@ function tourPlace(st,tries=0){
   el.classList.remove('dim'); card.classList.remove('mid');
   const r=t.getBoundingClientRect(), pad=6;
   const fixed=!!t.closest('nav.tabs,header.top');
-  if(!fixed&&tries<3&&(r.top<70||r.bottom>innerHeight-90)){ t.scrollIntoView({block:'center'}); return setTimeout(()=>tourPlace(st,tries+1),250); }
+  if(!fixed&&tries<3&&(r.top<(scrollY>0?70:0)||r.bottom>innerHeight-90)){ t.scrollIntoView({block:'center'}); return setTimeout(()=>tourPlace(st,tries+1),250); }
   Object.assign(spot.style,{top:(r.top-pad)+'px',left:(r.left-pad)+'px',width:(r.width+pad*2)+'px',height:(r.height+pad*2)+'px'}); spot.hidden=false;
   const below=r.top<innerHeight/2;
   card.style.top=below?(r.bottom+16)+'px':''; card.style.bottom=below?'':(innerHeight-r.top+16)+'px';

@@ -326,5 +326,137 @@
 "הבנתי 💪": {
 "en": "Got it 💪",
 "ar": "فهمت 💪"
+},
+"אני קובי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.": {
+"en": "I'm Kobi, your coach. On every screen you open for the first time, I'll show you in a few short steps what it's for.",
+"ar": "أنا كوبي، مدربك. في كل شاشة تفتحها لأول مرة سأريك في خطوات قصيرة ما الذي تفعله فيها."
+},
+"הסיכום השבועי שלי": {
+"en": "My weekly summary",
+"ar": "ملخصي الأسبوعي"
+},
+"כל יום ראשון אכתוב לך כאן מה הלך טוב השבוע ועל מה להתמקד, לפי האימונים והתזונה שלך. לחיצה על הכרטיס פותחת אותו.": {
+"en": "Every Sunday I'll write here what went well this week and what to focus on, based on your workouts and nutrition. Tap the card to open it.",
+"ar": "كل يوم أحد سأكتب لك هنا ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز، حسب تمارينك وتغذيتك. اضغط على البطاقة لفتحها."
+},
+"מכאן מתחילים להתאמן": {
+"en": "This is where you train",
+"ar": "من هنا تبدأ التدريب"
+},
+"הכפתור הירוק באמצע התפריט הוא מסך האימון: בונים תוכנית ומתחילים אימון.": {
+"en": "The green button in the middle of the menu is the workout screen: build a plan and start a workout.",
+"ar": "الزر الأخضر في منتصف القائمة هو شاشة التدريب: ابنِ خطة وابدأ تمرينًا."
+},
+"הפעל התראות ונודיע לך כשהמנוחה בין הסטים נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.": {
+"en": "Turn on notifications and we'll tell you when your rest between sets is over, even with the phone in your pocket, and remind you on training days.",
+"ar": "فعّل الإشعارات وسنخبرك عندما تنتهي الراحة بين المجموعات، حتى والهاتف في جيبك، ونذكّرك في أيام التدريب."
+},
+"יעדים, התראות, שפה וצור קשר. משם אפשר גם להפעיל את ההדרכה הזו מחדש.": {
+"en": "Goals, notifications, language and contact. You can also restart this guide from there.",
+"ar": "الأهداف والإشعارات واللغة والتواصل. ومن هناك يمكنك أيضًا إعادة تشغيل هذا الدليل."
+},
+"שלב 1: תוכנית אימון": {
+"en": "Step 1: a training plan",
+"ar": "الخطوة 1: خطة تدريب"
+},
+"עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית שבנויה בשבילך. אפשר לערוך אותה בכל רגע.": {
+"en": "Answer a few questions (goal, days per week, equipment and time) and get a plan built for you. You can edit it anytime.",
+"ar": "أجب عن بضعة أسئلة (الهدف، الأيام في الأسبوع، المعدات والوقت) واحصل على خطة مبنية لك. يمكنك تعديلها في أي وقت."
+},
+"שלב 2: מתחילים אימון": {
+"en": "Step 2: start a workout",
+"ar": "الخطوة 2: ابدأ تمرينًا"
+},
+"בוחרים אימון מהתוכנית, או מתחילים אימון חופשי ומוסיפים תרגילים תוך כדי.": {
+"en": "Pick a workout from your plan, or start a free workout and add exercises as you go.",
+"ar": "اختر تمرينًا من خطتك، أو ابدأ تمرينًا حرًا وأضف التمارين أثناءه."
+},
+"בזמן האימון": {
+"en": "During the workout",
+"ar": "أثناء التمرين"
+},
+"נגיעה בסט מסמנת שסיימת אותו. המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. לא בטוח איך עושים תרגיל? לוחצים ״צפה בהדגמה״.": {
+"en": "Tap a set to mark it done. Last time's weight is already filled in, and the rest timer starts on its own. Not sure how to do an exercise? Tap \"Watch demo\".",
+"ar": "اضغط على المجموعة لتسجيل إنهائها. الوزن من المرة السابقة مُعبّأ مسبقًا، ومؤقت الراحة يبدأ تلقائيًا. لست متأكدًا من طريقة التمرين؟ اضغط \"شاهد التوضيح\"."
+},
+"קודם כל: יעד יומי": {
+"en": "First: a daily target",
+"ar": "أولًا: هدف يومي"
+},
+"מגדירים כמה קלוריות וחלבון לאכול ביום. נחשב לך את זה לפי המטרה, המשקל והגובה שלך.": {
+"en": "Set how many calories and how much protein to eat a day. We'll calculate it from your goal, weight and height.",
+"ar": "حدّد كم سعرة وكم بروتين تأكل يوميًا. سنحسب ذلك حسب هدفك ووزنك وطولك."
+},
+"רושמים מה אכלת": {
+"en": "Log what you ate",
+"ar": "سجّل ما أكلت"
+},
+"כותבים מאכל ובוחרים מהמאגר הישראלי, או ארוחה שלמה כמו ״שניצל עם אורז״ ולוחצים ✨ חשב.": {
+"en": "Type a food and pick it from the database, or a whole meal like \"schnitzel with rice\" and tap ✨ Calculate.",
+"ar": "اكتب طعامًا واختره من قاعدة البيانات، أو وجبة كاملة مثل \"شنيتسل مع أرز\" واضغط ✨ احسب."
+},
+"או בלי להקליד": {
+"en": "Or without typing",
+"ar": "أو بدون كتابة"
+},
+"מצלמים את הצלחת וה-AI מזהה כל רכיב ומעריך כמה גרם יש. אפשר לתקן את הגרמים לפני שמוסיפים. או סורקים ברקוד של מוצר מהסופר.": {
+"en": "Snap your plate and the AI identifies each item and estimates the grams. You can fix the grams before adding. Or scan a product's barcode.",
+"ar": "صوّر طبقك فيتعرّف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات. يمكنك تصحيح الغرامات قبل الإضافة. أو امسح باركود منتج."
+},
+"מתאמנים עם חברים": {
+"en": "Train with friends",
+"ar": "تدرّب مع الأصدقاء"
+},
+"פותחים קבוצה ושולחים קישור לשותף או לחבר׳ה מהמכון. כל אימון שמישהו מסיים מופיע אוטומטית בצ׳אט.": {
+"en": "Create a group and send a link to your partner or gym friends. Every workout someone finishes shows up in the chat automatically.",
+"ar": "أنشئ مجموعة وأرسل رابطًا لشريكك أو لأصدقاء النادي. كل تمرين ينهيه أحدهم يظهر في الدردشة تلقائيًا."
+},
+"קיבלת קוד?": {
+"en": "Got a code?",
+"ar": "لديك رمز؟"
+},
+"אם חבר שלח לך קוד הזמנה, מצטרפים לקבוצה שלו מכאן.": {
+"en": "If a friend sent you an invite code, join their group here.",
+"ar": "إذا أرسل لك صديق رمز دعوة، انضم إلى مجموعته من هنا."
+},
+"אתגרים 🏆": {
+"en": "Challenges 🏆",
+"ar": "التحديات 🏆"
+},
+"בתוך קבוצה אפשר להשיק אתגר: מי מתאמן הכי הרבה החודש, מרוץ ראשון ליעד, או כולם יחד מול יעד משותף.": {
+"en": "Inside a group you can launch a challenge: who trains the most this month, a race to a target, or everyone together toward a shared goal.",
+"ar": "داخل المجموعة يمكنك إطلاق تحدٍ: من يتدرب أكثر هذا الشهر، سباق نحو هدف، أو الجميع معًا نحو هدف مشترك."
+},
+"שלושה חלקים": {
+"en": "Three sections",
+"ar": "ثلاثة أقسام"
+},
+"גוף ויעדים: משקל ותמונות. התקדמות: גרפים, שיאים והישגים. היסטוריה: כל האימונים שעשית.": {
+"en": "Body & goals: weight and photos. Progress: charts, PRs and achievements. History: every workout you've done.",
+"ar": "الجسم والأهداف: الوزن والصور. التقدم: رسوم بيانية وأرقام قياسية وإنجازات. السجل: كل تمارينك."
+},
+"שקילה": {
+"en": "Weigh-in",
+"ar": "الوزن"
+},
+"שוקלים בבוקר ולוחצים כאן. כל שקילה נכנסת ללוח ולגרף, ככה רואים את המגמה ולא רק מספר של יום אחד.": {
+"en": "Weigh yourself in the morning and tap here. Every weigh-in goes into the log and the chart, so you see the trend, not just one day's number.",
+"ar": "زن نفسك صباحًا واضغط هنا. كل وزن يدخل السجل والرسم البياني، فترى الاتجاه لا رقم يوم واحد فقط."
+},
+"תמונות התקדמות": {
+"en": "Progress photos",
+"ar": "صور التقدم"
+},
+"בוחרים יום קבוע בשבוע ומקבלים תזכורת להצטלם. אחרי חודש משווים תמונה מול תמונה.": {
+"en": "Pick a fixed day each week and get a reminder to take photos. After a month, compare photo against photo.",
+"ar": "اختر يومًا ثابتًا كل أسبوع واحصل على تذكير بالتصوير. بعد شهر قارن صورة بصورة."
+},
+"הישגים וסיכום חודשי": {
+"en": "Achievements & monthly recap",
+"ar": "الإنجازات والملخص الشهري"
+},
+"20 הישגים לפתוח, כל אחד עם חגיגה ותמונה לשיתוף. ובתחילת כל חודש מחכה לך סיכום של החודש שעבר.": {
+"en": "20 achievements to unlock, each with a celebration and a shareable image. And at the start of every month, a recap of the last month is waiting.",
+"ar": "20 إنجازًا لتفتحها، لكل منها احتفال وصورة للمشاركة. وفي بداية كل شهر ينتظرك ملخص الشهر الماضي."
 }
 }
