@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7d36b960"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f41acc9c"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -952,7 +952,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.5';
+const APP_VERSION='7.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1932,7 +1932,7 @@ function aiTicker(on){
     if(bar)bar.style.width=Math.min(92,8+(Date.now()-t0)/90)+'%'; },300);
 }
 function openMealConfirm(data){
-  const items=data.items.map(it=>({name:String(it.name||''),kcal:Math.round(+it.kcal||0),protein:Math.round(+it.protein||0),carbs:Math.round(+it.carbs||0),fat:Math.round(+it.fat||0)}));
+  const items=data.items.map(it=>({name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:Math.round(+it.kcal||0),protein:Math.round(+it.protein||0),carbs:Math.round(+it.carbs||0),fat:Math.round(+it.fat||0)}));
   const tot=items.reduce((a,i)=>({kcal:a.kcal+i.kcal,protein:a.protein+i.protein,carbs:a.carbs+i.carbs,fat:a.fat+i.fat}),{kcal:0,protein:0,carbs:0,fat:0});
   _mealDraft={name:String(data.name||'ארוחה'),items,...tot};
   openSheet(`
@@ -1944,7 +1944,7 @@ function openMealConfirm(data){
       <div class="tile"><div class="v num" style="font-size:24px">${tot.fat}</div><div class="k">שומן</div></div>
     </div>
     <div class="prlist" style="margin-bottom:12px">
-      ${items.map(i=>`<div class="pr-row"><span>${esc(i.name)}</span><span class="num muted">${i.kcal} קק״ל · ${i.protein} ח׳</span></div>`).join('')}
+      ${items.map(i=>`<div class="pr-row"><span>${esc(i.name)}${i.g?` <span class="muted small num">· ~${i.g} גר׳</span>`:''}</span><span class="num muted">${i.kcal} קק״ל · ${i.protein} ח׳</span></div>`).join('')}
     </div>
     <div class="small muted" style="margin-bottom:10px">💡 הערכת AI — אפשר לתקן אחרי ההוספה.</div>
     <div class="row">
@@ -2090,14 +2090,14 @@ async function saveMealDraft(){
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast('נרשם 🍽️'); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
-function shrinkImage(file){
+function shrinkImage(file,MAXPX=1280,Q=0.85){
   return new Promise((res,rej)=>{
     const img=new Image();
     img.onload=()=>{ try{
-      const MAX=768, sc=Math.min(1,MAX/Math.max(img.width,img.height));
+      const MAX=MAXPX, sc=Math.min(1,MAX/Math.max(img.width,img.height));
       const c=document.createElement('canvas'); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
       c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      res(c.toDataURL('image/jpeg',0.8).split(',')[1]);
+      res(c.toDataURL('image/jpeg',Q).split(',')[1]);
     }catch(e){rej(e);} };
     img.onerror=rej;
     img.src=URL.createObjectURL(file);
@@ -3984,7 +3984,7 @@ function openLabelPrompt(code){
 async function readLabel(file){
   toast('קורא את הטבלה…');
   try{
-    const b64=await shrinkImage(file);
+    const b64=await shrinkImage(file,1600,0.88);
     const {data,error}=await sb.functions.invoke('nutrition',{body:{image:b64,media:'image/jpeg',label:true,lang:LANG}});
     if(error)throw error; if(!data||data.error||!(+data.kcal>=0)||!data.name)throw new Error('no_label');
     const p={barcode:SCAN.code,name:String(data.name),brand:data.brand||null,kcal:+data.kcal||0,protein:+data.protein||0,fat:+data.fat||0,carbs:+data.carbs||0,serving_g:+data.serving_g||null};
@@ -5031,7 +5031,8 @@ document.addEventListener('change',ev=>{
   if(ev.target.id==='food-photo'&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0]; ev.target.value='';
     toast('מעבד תמונה…');
-    shrinkImage(f).then(b64=>foodAI({image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
+    const hint=($('#food-text')?.value||'').trim().slice(0,200);
+    shrinkImage(f).then(b64=>foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
     return;
   }
   const i=ev.target.closest('[data-bind]'); if(!i)return;

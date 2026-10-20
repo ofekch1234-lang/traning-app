@@ -5,8 +5,17 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const MODELS = ["claude-haiku-5-5"];
 const SYSTEM = `אתה תזונאי קליני ישראלי. המשתמש מתאר ארוחה בטקסט או בתמונה.
 החזר אך ורק JSON תקין, בלי טקסט נוסף, במבנה:
-{"name":"שם קצר לארוחה","items":[{"name":"פריט","kcal":מספר,"protein":גרם,"carbs":גרם,"fat":גרם}]}
+{"name":"שם קצר לארוחה","items":[{"name":"פריט","grams":משקל משוער בגרם,"kcal":מספר,"protein":גרם,"carbs":גרם,"fat":גרם}]}
 הערך כמויות סבירות למנה ישראלית ביתית כשלא צוין. עגל למספרים שלמים. אם זו לא ארוחה — החזר {"name":"","items":[]}.`;
+
+const PHOTO = `
+הנחיות לניתוח תמונה — דייק:
+1. זהה כל מרכיב נפרד שנראה בצלחת (כל ירק, תוספת, רוטב, ממרח, לחם, משקה) — אל תאחד מרכיבים שונים לפריט אחד, ואל תדלג על פריטים קטנים.
+2. לכל פריט: שם ספציפי עם אופן ההכנה (למשל "חזה עוף בגריל", "אורז לבן מבושל", "סלט ירקות עם שמן זית", "צ'יפס מטוגן").
+3. הערך משקל בגרם לפי גודל הצלחת (צלחת רגילה ~26 ס"מ), סכו"ם, וגובה/נפח האוכל. היה ריאלי — לא מינימלי ולא מוגזם.
+4. כלול שמן/רטבים/תיבול שמנוני שנראים או סבירים לפי אופן ההכנה (טיגון, צלייה בשמן, טחינה, מיונז) — הם מוסיפים הרבה קלוריות.
+5. חשב קלוריות ומאקרו מהמשקל לפי ערכים תזונתיים סטנדרטיים.
+6. אם המשתמש צירף תיאור, הוא גובר על הזיהוי מהתמונה.`;
 
 const LABEL = `אתה קורא טבלאות סימון תזונתי של מוצרים ישראליים. בתמונה יש טבלה תזונתית ו/או אריזה.
 החזר אך ורק JSON תקין: {"name":"שם המוצר","brand":"יצרן או null","kcal":מספר,"protein":מספר,"carbs":מספר,"fat":מספר,"serving_g":מספר או null}
@@ -48,7 +57,7 @@ Deno.serve(async (req: Request) => {
     const langNote = LANG_NOTE[String(body.lang || "")] || "\nכתוב את כל השמות בעברית.";
     if (body.image) {
       content.push({ type: "image", source: { type: "base64", media_type: body.media || "image/jpeg", data: body.image } });
-      content.push({ type: "text", text: isLabel ? "קרא את הסימון התזונתי." : "נתח את הארוחה שבתמונה." });
+      content.push({ type: "text", text: isLabel ? "קרא את הסימון התזונתי." : "נתח את הארוחה שבתמונה." + (body.hint ? " תיאור מהמשתמש: " + String(body.hint).slice(0, 200) : "") });
     } else if (body.text && String(body.text).length <= 600) {
       content.push({ type: "text", text: "הארוחה / Meal: " + String(body.text) });
     } else {
@@ -63,7 +72,7 @@ Deno.serve(async (req: Request) => {
       const r = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-        body: JSON.stringify({ model, max_tokens: 2500, system: (isLabel ? LABEL : SYSTEM) + langNote + "\nהחזר JSON קומפקטי בשורה אחת.", messages: [{ role: "user", content }], output_config: { effort: "low" } }),
+        body: JSON.stringify({ model, max_tokens: 4000, system: (isLabel ? LABEL : SYSTEM + (body.image ? PHOTO : "")) + langNote + "\nהחזר JSON קומפקטי בשורה אחת.", messages: [{ role: "user", content }], output_config: { effort: body.image ? "medium" : "low" } }),
       });
       if (r.status === 404) { lastErr = await r.text(); console.log(JSON.stringify({ ev: "model-fallback", from: model, err: lastErr.slice(0, 160) })); continue; } // מודל לא קיים — ננסה את הבא
       if (!r.ok) { lastErr = await r.text(); break; }
