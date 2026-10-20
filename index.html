@@ -971,7 +971,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.1';
+const APP_VERSION='8.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1344,19 +1344,31 @@ function render_(){
 let GOOGLE_ON=false;
 /* Google Identity Services: in the browser, Google's own button (shows NextRep / our domain instead of the supabase.co address).
    The ID token is exchanged with Supabase via signInWithIdToken. Home-screen app keeps the redirect flow. */
+const GSI_MOBILE_REDIRECT=false; // turn on once /api/gsi is an authorized redirect URI in Google Cloud
+const GSI_TOUCH=matchMedia('(pointer:coarse)').matches;
 const GSI={cid:'746149894483-jmu5n97ncm2khai8m3s68cp4lh1hicn9.apps.googleusercontent.com',ready:false,loading:false,nonce:''};
-function gsiLoad(){ if(GSI.ready||GSI.loading||IS_STANDALONE)return; GSI.loading=true;
+function gsiLoad(){ if(GSI.ready||GSI.loading||IS_STANDALONE||(GSI_TOUCH&&!GSI_MOBILE_REDIRECT))return; GSI.loading=true;
   const sc=document.createElement('script'); sc.src='https://accounts.google.com/gsi/client'; sc.async=true;
   sc.onload=()=>{ GSI.ready=!!window.google?.accounts?.id; if(GSI.ready&&S.mode==='auth')render(); };
   sc.onerror=()=>{ GSI.loading=false; };
   document.head.appendChild(sc); }
+// mobile redirect return: #gsi=<id token>
+(function gsiReturn(){
+  const h=location.hash; if(!/^#gsi(err)?=/.test(h))return;
+  history.replaceState(null,'',location.pathname+location.search);
+  if(h.startsWith('#gsierr')){ setTimeout(()=>toast('ההתחברות עם Google נכשלה'),800); return; }
+  const tok=decodeURIComponent(h.slice(5)); let nonce=''; try{nonce=sessionStorage.getItem('nr-gsi-nonce')||''; sessionStorage.removeItem('nr-gsi-nonce');}catch(_){}
+  sb.auth.signInWithIdToken({provider:'google',token:tok,nonce}).then(({error})=>{ if(error){console.warn('gsi',error); toast('ההתחברות עם Google נכשלה');} });
+})();
 async function gsiMount(){
   const el=document.getElementById('gsi-btn'); if(!el||!GSI.ready)return;
   try{
     const raw=crypto.getRandomValues(new Uint8Array(16)).reduce((a,b)=>a+b.toString(16).padStart(2,'0'),'');
     const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)))].map(b=>b.toString(16).padStart(2,'0')).join('');
-    GSI.nonce=raw;
+    GSI.nonce=raw; try{sessionStorage.setItem('nr-gsi-nonce',raw);}catch(_){}
+    const redir=GSI_TOUCH&&GSI_MOBILE_REDIRECT;
     google.accounts.id.initialize({client_id:GSI.cid,nonce:hash,auto_select:false,itp_support:true,use_fedcm_for_button:true,
+      ...(redir?{ux_mode:'redirect',login_uri:location.origin+'/api/gsi'}:{}),
       callback:async(r)=>{ const {error}=await sb.auth.signInWithIdToken({provider:'google',token:r.credential,nonce:GSI.nonce});
         if(error){ console.warn('gsi',error); toast('ההתחברות עם Google נכשלה'); } }});
     el.innerHTML='';
@@ -1658,7 +1670,7 @@ function startLandTimer(){
 }
 
 /* ----- auth screen ----- */
-function vAuth(){ if(GOOGLE_ON&&!IS_STANDALONE){gsiLoad(); setTimeout(gsiMount,0);}
+function vAuth(){ if(GOOGLE_ON&&!IS_STANDALONE&&!(GSI_TOUCH&&!GSI_MOBILE_REDIRECT)){gsiLoad(); setTimeout(gsiMount,0);}
   const su=S.authMode==='signup';
   const showForm=!GOOGLE_ON||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
