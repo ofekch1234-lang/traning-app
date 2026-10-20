@@ -490,5 +490,53 @@
 "הגעת למכסת ניתוחי ה-AI היומית. אפשר לחפש במאגר או להוסיף ידנית": {
 "en": "You've reached today's AI limit. You can search the database or add manually",
 "ar": "وصلت إلى حد الذكاء الاصطناعي لليوم. يمكنك البحث في قاعدة البيانات أو الإضافة يدويًا"
+},
+"📸 נותרו {0} ניתוחי תמונה החודש": {
+"en": "📸 {0} photo analyses left this month",
+"ar": "📸 تبقّى {0} تحليلات صور هذا الشهر"
+},
+"📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר": {
+"en": "📸 You've used this month's photo analyses. You can type or search the database",
+"ar": "📸 استنفدت تحليلات الصور لهذا الشهر. يمكنك الكتابة أو البحث في قاعدة البيانات"
+},
+"הגעת לתקרה היומית. נמשיך מחר 💪": {
+"en": "You've hit today's cap. See you tomorrow 💪",
+"ar": "وصلت إلى الحد اليومي. نكمل غدًا 💪"
+},
+"ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר": {
+"en": "You've used this month's photo analyses. You can type what you ate or search the database",
+"ar": "استنفدت تحليلات الصور لهذا الشهر. يمكنك كتابة ما أكلت أو البحث في قاعدة البيانات"
+},
+"הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית": {
+"en": "You've reached this month's AI limit. You can search the database or add manually",
+"ar": "وصلت إلى حد الذكاء الاصطناعي لهذا الشهر. يمكنك البحث في قاعدة البيانات أو الإضافة يدويًا"
+},
+"💡 הערכת AI. אפשר לשנות כל פריט: שם, כמות, או למחוק.": {
+"en": "💡 AI estimate. You can change any item: name, amount, or remove it.",
+"ar": "💡 تقدير بالذكاء الاصطناعي. يمكنك تغيير أي عنصر: الاسم أو الكمية أو حذفه."
+},
+"הערכה בלבד, לא ייעוץ תזונתי.": {
+"en": "Estimate only, not nutritional advice.",
+"ar": "تقدير فقط، وليس استشارة غذائية."
+},
+"שם הפריט": {
+"en": "Item name",
+"ar": "اسم العنصر"
+},
+"הסר": {
+"en": "Remove",
+"ar": "إزالة"
+},
+"מנה": {
+"en": "Portion",
+"ar": "حصة"
+},
+"אין פריטים": {
+"en": "No items",
+"ar": "لا توجد عناصر"
+},
+"קק״ל/100ג׳": {
+"en": "kcal/100g",
+"ar": "سعرة/100غ"
 }
 }

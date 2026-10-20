@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b7dfbe97"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3f5b2dd5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -864,6 +864,18 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   @keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
 }
+.mc-list{display:grid;gap:8px;max-height:46vh;overflow-y:auto;overscroll-behavior:contain}
+.mc-it{border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:var(--surface)}
+.mc-top{display:flex;gap:6px;align-items:center}
+.mc-name{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-weight:600;font-size:15px;padding:4px 2px;color:inherit;border-bottom:1px dashed var(--line);border-radius:0}
+.mc-name:focus{outline:none;border-bottom-color:var(--accent)}
+.mc-x{width:30px;height:30px;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px;flex-shrink:0}
+.mc-bot{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.mc-q{min-width:34px;height:30px;padding:0 8px;border-radius:9px;background:var(--surface2);font-weight:700;font-size:13.5px;color:var(--ink)}
+.mc-r{margin-inline-start:auto;font-size:13px}
+.mc-sugg{display:grid;gap:2px;margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
+.mc-sugg button{display:flex;justify-content:space-between;gap:8px;padding:7px 6px;border-radius:8px;text-align:start;font-size:14px;color:inherit}
+.mc-sugg button:active{background:var(--accent-soft)}
 .mc-g{display:inline-flex;align-items:center;gap:4px;margin-inline-start:6px;white-space:nowrap}.mc-gin{width:64px;padding:4px 6px;border:1px solid var(--line,#ddd);border-radius:8px;font:inherit;font-size:14px;text-align:center;background:var(--card,#fff);color:inherit}
 </style>
 </head>
@@ -1001,7 +1013,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.9';
+const APP_VERSION='10.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2098,13 +2110,14 @@ function openTargetsSheet(){
     </div>
   `);
 }
-/* daily AI photo allowance (server: 15 photo/label analyses per 24h; admins unlimited) */
-const AIQ={photo:null,loaded:0,LIM:15};
+/* monthly AI photo allowance (server: 300 photo/label analyses per calendar month + 40/day safety cap; admins unlimited) */
+const AIQ={photo:null,loaded:0,LIM:300};
 function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)return; AIQ.loaded=Date.now();
-  sb.from('ai_usage').select('id',{count:'exact',head:true}).in('kind',['photo','label']).gte('created_at',new Date(Date.now()-864e5).toISOString())
+  const ms=new Date(); ms.setDate(1); ms.setHours(0,0,0,0);
+  sb.from('ai_usage').select('id',{count:'exact',head:true}).in('kind',['photo','label']).gte('created_at',ms.toISOString())
     .then(({count,error})=>{ if(error)return; AIQ.photo=Math.max(0,AIQ.LIM-(count||0)); if(S.tab==='food'){ const el=$('#aiq'); if(el)el.outerHTML=aiQuotaLine(); } }); }
 function aiQuotaLine(){ if(S.plan?.admin)return ''; aiQuotaLoad(); if(AIQ.photo==null)return '<div id="aiq"></div>';
-  return `<div id="aiq" class="small muted" style="text-align:center;margin-top:6px">${AIQ.photo>0?`📸 נותרו ${AIQ.photo} ניתוחי תמונה היום`:'📸 ניצלת את ניתוחי התמונה להיום. אפשר להקליד או לחפש במאגר'}</div>`; }
+  return `<div id="aiq" class="small muted" style="text-align:center;margin-top:6px">${AIQ.photo>0?`📸 נותרו ${AIQ.photo} ניתוחי תמונה החודש`:'📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר'}</div>`; }
 async function foodAI(payload){
   if(S.ai.busy)return;
   S.ai.busy=true; S.ai.q=payload.text||''; S.ai.img=payload.image?'data:image/jpeg;base64,'+payload.image:null; render(); aiTicker(true);
@@ -2118,8 +2131,8 @@ async function foodAI(payload){
   }catch(e){
     console.error(e);
     S.ai.keep=true; const st=e?.context?.status;
-    if(st===429&&payload.image){AIQ.photo=0;}
-    toast(st===429?(payload.image?'ניצלת את ניתוחי התמונה להיום. אפשר להקליד מה אכלת או לחפש במאגר':'הגעת למכסת ניתוחי ה-AI היומית. אפשר לחפש במאגר או להוסיף ידנית')
+    let qd=null; if(st===429){ try{qd=await e.context.json();}catch(_){} if(payload.image&&qd?.period==='month')AIQ.photo=0; }
+    toast(st===429?(qd?.period==='day'?'הגעת לתקרה היומית. נמשיך מחר 💪':payload.image?'ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר':'הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית')
       :(e?.slow||st===502||st===503||st===504)?'הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת'
       :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
   }
@@ -2133,39 +2146,74 @@ function aiTicker(on){
     i=Math.min(AI_STEPS.length-1,Math.floor((Date.now()-t0)/(i<3?1800:6000))); el.textContent=AI_STEPS[i];
     if(bar)bar.style.width=Math.min(92,8+(Date.now()-t0)/90)+'%'; },300);
 }
+/* meal result before saving: every item is editable — name (with suggestions from the Israeli database, which
+   replaces the nutrition values), grams, ½ / ×2, remove. Values scale from each item's base. */
+const MC={base:[],sugg:{},t:null};
 function openMealConfirm(data){
   const items=data.items.map(it=>({name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:Math.round(+it.kcal||0),protein:Math.round(+it.protein||0),carbs:Math.round(+it.carbs||0),fat:Math.round(+it.fat||0)}));
-  const tot=items.reduce((a,i)=>({kcal:a.kcal+i.kcal,protein:a.protein+i.protein,carbs:a.carbs+i.carbs,fat:a.fat+i.fat}),{kcal:0,protein:0,carbs:0,fat:0});
-  _mealDraft={name:String(data.name||'ארוחה'),items,...tot};
+  MC.base=items.map(i=>({g:i.g||100,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat,noG:!i.g}));
+  items.forEach((i,n)=>{ if(!i.g)i.g=100; i._f=1; });
+  MC.sugg={};
+  _mealDraft={name:String(data.name||'ארוחה'),items,kcal:0,protein:0,carbs:0,fat:0};
   openSheet(`
-    <h3>${esc(_mealDraft.name)}</h3>
-    <div class="summary-grid" style="grid-template-columns:repeat(4,1fr)">
-      <div class="tile"><div class="v num" style="font-size:24px">${tot.kcal}</div><div class="k">קק״ל</div></div>
-      <div class="tile"><div class="v num" style="font-size:24px">${tot.protein}</div><div class="k">חלבון</div></div>
-      <div class="tile"><div class="v num" style="font-size:24px">${tot.carbs}</div><div class="k">פחמימה</div></div>
-      <div class="tile"><div class="v num" style="font-size:24px">${tot.fat}</div><div class="k">שומן</div></div>
-    </div>
-    <div class="prlist" style="margin-bottom:12px">
-      ${items.map((i,n)=>`<div class="pr-row"><span>${esc(i.name)}${i.g?`<label class="mc-g muted small"><input type="number" inputmode="decimal" min="1" max="3000" class="mc-gin num" data-mi="${n}" value="${i.g}"> גר׳</label>`:''}</span><span class="num muted" id="mc-r${n}">${i.kcal} קק״ל · ${i.protein} ח׳</span></div>`).join('')}
-    </div>
-    <div class="small muted" style="margin-bottom:10px">💡 הערכת AI. ${items.some(i=>i.g)?'המשקל לא מדויק? שנה את הגרמים והערכים יתעדכנו.':'אפשר לתקן אחרי ההוספה.'}</div>
-    <div class="row">
+    <h3 style="margin-bottom:8px">${esc(_mealDraft.name)}</h3>
+    <div class="summary-grid" id="mc-tot" style="grid-template-columns:repeat(4,1fr)"></div>
+    <div class="small muted" style="margin:10px 0 6px">💡 הערכת AI. אפשר לשנות כל פריט: שם, כמות, או למחוק.</div>
+    <div id="mc-list" class="mc-list"></div>
+    <div class="row" style="margin-top:12px">
       <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
-      <button class="btn primary" style="flex:2" data-act="meal-save">הוסף ליום ✓</button>
+      <button class="btn primary" style="flex:2" data-act="meal-save" id="mc-save">הוסף ליום ✓</button>
     </div>
-    <div class="small muted" style="text-align:center;margin-top:8px">הערכה בלבד, לא ייעוץ תזונתי. אפשר לערוך כל פריט.</div>
+    <div class="small muted" style="text-align:center;margin-top:8px">הערכה בלבד, לא ייעוץ תזונתי.</div>
   `);
-  const base=items.map(i=>({...i}));
-  document.querySelectorAll('.mc-gin').forEach(inp=>inp.addEventListener('input',()=>{
-    const n=+inp.dataset.mi, b=base[n], g=+inp.value;
-    if(!b||!b.g||!(g>0)||g>3000)return;
-    const f=g/b.g, it=_mealDraft.items[n];
-    Object.assign(it,{g:Math.round(g),kcal:Math.round(b.kcal*f),protein:Math.round(b.protein*f),carbs:Math.round(b.carbs*f),fat:Math.round(b.fat*f)});
-    ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=_mealDraft.items.reduce((a,x)=>a+x[k],0));
-    const r=document.getElementById('mc-r'+n); if(r)r.textContent=`${it.kcal} ${tt('קק״ל')} · ${it.protein} ${tt('ח׳')}`;
-    document.querySelectorAll('#sheet .summary-grid .v').forEach((v,j)=>v.textContent=_mealDraft[['kcal','protein','carbs','fat'][j]]);
-  }));
+  mcRender();
 }
+function mcCalc(n){ const it=_mealDraft.items[n], b=MC.base[n]; if(!it||!b)return;
+  const f=b.noG?it._f:(it.g/b.g);
+  Object.assign(it,{kcal:Math.round(b.kcal*f),protein:Math.round(b.protein*f),carbs:Math.round(b.carbs*f),fat:Math.round(b.fat*f)}); }
+function mcTotals(){
+  ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=_mealDraft.items.reduce((a,x)=>a+x[k],0));
+  const el=$('#mc-tot'); if(el)el.innerHTML=[['kcal','קק״ל'],['protein','חלבון'],['carbs','פחמימה'],['fat','שומן']].map(([k,l])=>`<div class="tile"><div class="v num" style="font-size:24px">${_mealDraft[k]}</div><div class="k">${tt(l)}</div></div>`).join('');
+  const sv=$('#mc-save'); if(sv)sv.disabled=!_mealDraft.items.length;
+}
+function mcRowVals(n){ const it=_mealDraft.items[n]; return `${it.kcal} ${tt('קק״ל')} · ${it.protein} ${tt('ח׳')}`; }
+function mcRender(){
+  const L=$('#mc-list'); if(!L)return;
+  _mealDraft.items.forEach((_,n)=>mcCalc(n));
+  L.innerHTML=_mealDraft.items.map((it,n)=>{ const b=MC.base[n];
+    return `<div class="mc-it">
+      <div class="mc-top"><input class="mc-name" data-mi="${n}" value="${esc(it.name)}" aria-label="${tt('שם הפריט')}" autocomplete="off"><button class="mc-x" data-act="mc-del" data-mi="${n}" aria-label="${tt('הסר')}">✕</button></div>
+      <div class="mc-bot">
+        ${b.noG?`<span class="small muted">${tt('מנה')} ×${it._f}</span>`:`<label class="mc-g muted small"><input type="number" inputmode="decimal" min="1" max="3000" class="mc-gin num" data-mi="${n}" value="${it.g}"> ${tt('גר׳')}</label>`}
+        <button class="mc-q" data-act="mc-half" data-mi="${n}">½</button><button class="mc-q" data-act="mc-dbl" data-mi="${n}" dir="ltr">×2</button>
+        <span class="num muted mc-r" id="mc-r${n}">${mcRowVals(n)}</span>
+      </div>
+      <div class="mc-sugg" id="mc-s${n}"${MC.sugg[n]&&MC.sugg[n].length?'':' hidden'}>${(MC.sugg[n]||[]).map((f,j)=>`<button data-act="mc-pick" data-mi="${n}" data-j="${j}"><span>${esc(f.name)}</span><span class="muted num">${Math.round(+f.kcal||0)} ${tt('קק״ל/100ג׳')}</span></button>`).join('')}</div>
+    </div>`; }).join('')||`<div class="small muted" style="text-align:center;padding:10px">${tt('אין פריטים')}</div>`;
+  mcTotals();
+}
+function mcAct(act,b){
+  const n=+b.dataset.mi, it=_mealDraft?.items[n], base=MC.base[n]; if(!it)return;
+  if(act==='mc-del'){ _mealDraft.items.splice(n,1); MC.base.splice(n,1); MC.sugg={}; mcRender(); return; }
+  if(act==='mc-half'||act==='mc-dbl'){ const k=act==='mc-half'?.5:2;
+    if(base.noG)it._f=Math.max(.25,Math.round(it._f*k*4)/4); else it.g=Math.max(1,Math.min(3000,Math.round(it.g*k))); mcRender(); return; }
+  if(act==='mc-pick'){ const f=(MC.sugg[n]||[])[+b.dataset.j]; if(!f)return;
+    it.name=f.name; MC.base[n]={g:100,kcal:+f.kcal||0,protein:+f.protein||0,carbs:+f.carbs||0,fat:+f.fat||0,noG:false};
+    if(base.noG){ it.g=100; } MC.sugg[n]=[]; mcRender(); return; }
+}
+document.addEventListener('input',ev=>{
+  const t=ev.target; if(!_mealDraft||!t.dataset||t.dataset.mi==null)return;
+  const n=+t.dataset.mi, it=_mealDraft.items[n]; if(!it)return;
+  if(t.classList.contains('mc-gin')){ const g=+String(t.value).replace(',','.'); if(!(g>0)||g>3000)return; it.g=Math.round(g); mcCalc(n);
+    const r=$('#mc-r'+n); if(r)r.textContent=mcRowVals(n); mcTotals(); return; }
+  if(t.classList.contains('mc-name')){ it.name=t.value; const q=t.value.trim(); clearTimeout(MC.t);
+    if(q.length<2){ MC.sugg[n]=[]; const s=$('#mc-s'+n); if(s)s.hidden=true; return; }
+    MC.t=setTimeout(async()=>{ try{ const {data}=await sb.rpc('search_foods',LANG==='he'?{q,lim:5}:{q,lim:5,lang:LANG});
+      if(!_mealDraft||_mealDraft.items[n]!==it)return; MC.sugg[n]=data||[];
+      const s=$('#mc-s'+n); if(!s)return; s.hidden=!MC.sugg[n].length;
+      s.innerHTML=MC.sugg[n].map((f,j)=>`<button data-act="mc-pick" data-mi="${n}" data-j="${j}"><span>${esc(f.name)}</span><span class="muted num">${Math.round(+f.kcal||0)} ${tt('קק״ל/100ג׳')}</span></button>`).join('');
+    }catch(_){} },350); }
+});
 let _mealDraft=null;
 /* ----- מאגר התזונה הלאומי (משרד הבריאות) — חיפוש חינמי, בלי AI ----- */
 async function foodSearch(q){
@@ -2297,7 +2345,8 @@ async function saveMealEdit(){
 }
 async function saveMealDraft(){
   const m=_mealDraft; if(!m)return;
-  const row={id:'m'+Date.now(),user_id:S.user.id,d:S.foodDate,ts:Date.now(),name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items};
+  if(!m.items.length)return;
+  const row={id:'m'+Date.now(),user_id:S.user.id,d:S.foodDate,ts:Date.now(),name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,...x})=>({...x,name:String(x.name||'').trim()||'פריט'}))};
   S.meals.push({...row}); saveSnapshot(); closeSheet(); render(); _mealDraft=null;
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast('נרשם 🍽️'); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
@@ -5144,6 +5193,7 @@ function handleAct(b,ev){
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
+    case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(f)openPortion(f); break; }
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
       _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }

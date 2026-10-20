@@ -43,21 +43,25 @@ Deno.serve(async (req: Request) => {
     if (ok !== true) return new Response(JSON.stringify({ error: "not_approved" }), { status: 403, headers: cors });
 
     const body = await req.json();
-    // מכסות ל-24 שעות: תמונות (צלחת + טבלה) 15, טקסט 60. אדמין — בלי הגבלה.
-    const PHOTO_LIMIT = 15, TEXT_LIMIT = 60;
+    // מכסה חודשית (חודש קלנדרי, שעון ישראל) + תקרה יומית נגד ניצול לרעה. אדמין — בלי הגבלה.
+    const LIM = { photo: { month: 300, day: 40 }, text: { month: 1500, day: 150 } };
     const isPhoto = !!body.image;
+    const L = isPhoto ? LIM.photo : LIM.text, kinds = isPhoto ? ["photo", "label"] : ["text"];
     const { data: plan } = await sb.rpc("my_plan");
     const isAdmin = !!(plan as { admin?: boolean } | null)?.admin;
-    let used = 0;
+    let usedMonth = 0;
     if (!isAdmin) {
-      const { count } = await sb.from("ai_usage").select("id", { count: "exact", head: true })
-        .eq("user_id", user.id).in("kind", isPhoto ? ["photo", "label"] : ["text"])
-        .gte("created_at", new Date(Date.now() - 864e5).toISOString());
-      used = count ?? 0;
-      const lim = isPhoto ? PHOTO_LIMIT : TEXT_LIMIT;
-      if (used >= lim) return new Response(JSON.stringify({ error: "quota", kind: isPhoto ? "photo" : "text", limit: lim }), { status: 429, headers: cors });
+      const ymd = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jerusalem", year: "numeric", month: "2-digit" }).format(new Date());
+      const monthStart = new Date(ymd + "-01T00:00:00+03:00").toISOString();
+      const [m, d] = await Promise.all([
+        sb.from("ai_usage").select("id", { count: "exact", head: true }).eq("user_id", user.id).in("kind", kinds).gte("created_at", monthStart),
+        sb.from("ai_usage").select("id", { count: "exact", head: true }).eq("user_id", user.id).in("kind", kinds).gte("created_at", new Date(Date.now() - 864e5).toISOString()),
+      ]);
+      usedMonth = m.count ?? 0;
+      if (usedMonth >= L.month) return new Response(JSON.stringify({ error: "quota", kind: isPhoto ? "photo" : "text", period: "month", limit: L.month }), { status: 429, headers: cors });
+      if ((d.count ?? 0) >= L.day) return new Response(JSON.stringify({ error: "quota", kind: isPhoto ? "photo" : "text", period: "day", limit: L.day }), { status: 429, headers: cors });
     }
-    const leftAfter = isAdmin ? null : (isPhoto ? PHOTO_LIMIT : TEXT_LIMIT) - used - 1;
+    const leftAfter = isAdmin ? null : L.month - usedMonth - 1;
     const content: unknown[] = [];
     const isLabel = !!body.label;
     // שפת המשתמש: שמות המאכלים/המוצר חוזרים בשפה שלו (הוא יכול לכתוב בכל שפה)
