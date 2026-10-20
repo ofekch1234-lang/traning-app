@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=666b8a25"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=666b8a25"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=666b8a25"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=508d684e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=508d684e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=508d684e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -936,6 +936,9 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .cmpgrid figure{margin:0}
 .cmpgrid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block;background:var(--surface2)}
 .cmpgrid figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:4px}
+.cmpgrid label select{margin-top:3px;padding:7px 8px;font-size:14px}
+.cmpph{width:100%;aspect-ratio:3/4;border-radius:10px;background:var(--surface2);display:grid;place-items:center;color:var(--muted);font-size:13px}
+.phmon{font-weight:700;font-size:13px;padding:10px 0 4px;border-bottom:1px solid var(--line);margin-top:4px}
 
 /* settings switches */
 .setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
@@ -1192,7 +1195,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.6.1';
+const APP_VERSION='11.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3189,7 +3192,16 @@ function bwChartHTML(goal){
 }
 /* ----- תמונות התקדמות שבועיות ----- */
 const ANGLES=[['front','חזית'],['back','גב'],['side','צד']];
-const PH={sets:[],urls:{},loaded:false,loading:false,busy:null};
+const PH={sets:[],urls:{},loaded:false,loading:false,busy:null,pend:{},show:6,cmp:null};
+/* טעינה עצלה: מורידים ומפענחים רק תמונות שבאמת על המסך */
+async function ensurePhotos(paths){
+  paths=[...new Set(paths.filter(p=>p&&!PH.urls[p]))]; if(!paths.length)return false;
+  const fresh=paths.filter(p=>!PH.pend[p]); fresh.forEach(p=>{PH.pend[p]=fetchPhoto(p).then(u=>{PH.urls[p]=u;},e=>console.error(e)).finally(()=>{delete PH.pend[p];});});
+  await Promise.all(paths.map(p=>PH.pend[p]).filter(Boolean)); return true;
+}
+function setPaths(set){ return set?ANGLES.map(([k])=>set[k]).filter(Boolean):[]; }
+function phRefresh(){ if($('#sheet').hidden&&$('#np').hidden&&(S.tab==='home'||(S.tab==='track'&&S.trackView==='body')))render(); }
+function ensureVisible(sets){ ensurePhotos(sets.flatMap(setPaths)).then(ch=>{ if(ch)phRefresh(); }); }
 /* תמונות התקדמות: מוקטנות (1600px, בלי מטא-דאטה/מיקום) ומוצפנות במכשיר (AES-256-GCM) לפני ההעלאה.
    בשרת נשמר רק קובץ מוצפן בתיקייה פרטית של המשתמש; המפתח האישי נשמר בטבלה סגורה ומוחזר רק לבעליו. */
 const PHK={p:null};
@@ -3226,9 +3238,8 @@ async function loadPhotos(force){
     for(const f of data||[]){ const m=/^(\d{4}-\d{2}-\d{2})_(front|back|side)\.(jpg|enc)$/.exec(f.name); if(!m)continue;
       (by[m[1]]=by[m[1]]||{d:m[1]})[m[2]]=`${S.user.id}/${f.name}`; }
     PH.sets=Object.values(by).sort((a,b)=>a.d<b.d?1:-1);
-    const paths=PH.sets.flatMap(s=>ANGLES.map(([k])=>s[k]).filter(Boolean)).filter(p=>!PH.urls[p]);
-    for(let i=0;i<paths.length;i+=4) await Promise.all(paths.slice(i,i+4).map(p=>fetchPhoto(p).then(u=>{PH.urls[p]=u;},e=>console.error(e))));
     PH.loaded=true;
+    await ensurePhotos(PH.sets.slice(0,PH.show).flatMap(setPaths));
   }catch(e){ console.error(e); }
   PH.loading=false;
   if((S.tab==='home'||(S.tab==='track'&&S.trackView==='body'))&&$('#sheet').hidden&&$('#np').hidden)render();
@@ -3278,6 +3289,7 @@ function openPhotoSet(date,withWeight){
   if(PH.day?.d!==date)PH.sel=null;
   PH.day={d:date,w:withWeight};
   const set=PH.sets.find(x=>x.d===date)||{d:date};
+  ensurePhotos(setPaths(set)).then(ch=>{ if(ch&&PH.day?.d===date&&!$('#sheet').hidden)openPhotoSet(date); });
   const today=ymd(), nice=date===today?'היום':fmtDateFull(+new Date(date+'T12:00:00'));
   const pdw=S.settings.photoDay!=null?+S.settings.photoDay:null;
   const isPd=pdw!=null&&new Date(date+'T12:00:00').getDay()===pdw;
@@ -3313,6 +3325,7 @@ function openPhotoSet(date,withWeight){
 }
 function openPhotoView(date,angle){
   const set=PH.sets.find(x=>x.d===date); if(!set)return;
+  if(setPaths(set).some(p=>!PH.urls[p])){ toast('טוען תמונות…'); ensurePhotos(setPaths(set)).then(()=>openPhotoView(date,angle)); return; }
   const have=ANGLES.filter(([k])=>set[k]&&PH.urls[set[k]]); if(!have.length)return;
   let i=Math.max(0,have.findIndex(([k])=>k===angle));
   let v=document.getElementById('phview'); if(!v){ v=document.createElement('div'); v.id='phview'; document.body.appendChild(v); }
@@ -3324,21 +3337,32 @@ function openPhotoView(date,angle){
   v.onclick=e=>{ const b=e.target.closest('[data-pv]'); if(!b){ if(e.target===v){v.hidden=true;} return; }
     if(b.dataset.pv==='x'){ v.hidden=true; return; } i=+b.dataset.pv; draw(); };
 }
-function openPhotoCompare(angle){
+function openPhotoCompare(angle,a,b){
   angle=angle||'front';
   const withA=PH.sets.filter(s=>s[angle]);
-  const first=withA[withA.length-1], last=withA[0];
+  const c=PH.cmp&&PH.cmp.angle===angle?PH.cmp:null;
+  const first=withA.find(s=>s.d===(a||c?.a))||withA[withA.length-1], last=withA.find(s=>s.d===(b||c?.b))||withA[0];
+  PH.cmp={angle,a:first?.d,b:last?.d};
+  const need=[first?.[angle],last?.[angle]].filter(Boolean);
+  if(need.some(p=>!PH.urls[p]))ensurePhotos(need).then(ch=>{ if(ch&&PH.cmp?.angle===angle&&!$('#sheet').hidden&&$('#cmp-a'))openPhotoCompare(angle,first.d,last.d); });
   const lbl=ANGLES.find(a=>a[0]===angle)[1];
   const wOf=d=>{ const w=(S.weights||[]).filter(x=>x.d<=d).pop(); return w?` · ${w.kg} ק״ג`:''; };
+  const opts=sel=>withA.map(s=>`<option value="${s.d}" ${s.d===sel?'selected':''}>${fmtDate(+new Date(s.d+'T12:00:00'))}${wOf(s.d)}</option>`).join('');
+  const fig=(set,cap)=>`<figure>${PH.urls[set[angle]]?`<img src="${esc(PH.urls[set[angle]])}" alt="${lbl} ${cap}">`:'<div class="cmpph"><span>טוען…</span></div>'}<figcaption>${fmtDate(+new Date(set.d+'T12:00:00'))}${wOf(set.d)}</figcaption></figure>`;
+  const dw=first&&last?Math.round(((((S.weights||[]).filter(x=>x.d<=last.d).pop()||{}).kg||0)-(((S.weights||[]).filter(x=>x.d<=first.d).pop()||{}).kg||0))*10)/10:0;
+  const days=first&&last?Math.round((new Date(last.d)-new Date(first.d))/864e5):0;
   openSheet(`
     <h3>השוואה · לפני ואחרי</h3>
     <div class="row" style="margin-bottom:10px">
       ${ANGLES.map(([k,l])=>`<button class="chip ${k===angle?'on':''}" data-act="photo-cmp" data-a="${k}">${l}</button>`).join('')}
     </div>
     ${withA.length>=2?`<div class="cmpgrid">
-      <figure><img src="${esc(PH.urls[first[angle]]||'')}" alt="${lbl} לפני"><figcaption>${fmtDate(+new Date(first.d+'T12:00:00'))}${wOf(first.d)}</figcaption></figure>
-      <figure><img src="${esc(PH.urls[last[angle]]||'')}" alt="${lbl} עכשיו"><figcaption>${fmtDate(+new Date(last.d+'T12:00:00'))}${wOf(last.d)}</figcaption></figure>
-    </div>`:`<div class="empty">צריך לפחות שתי תמונות ${lbl} מתאריכים שונים כדי להשוות.</div>`}
+      <label class="small muted">לפני<select id="cmp-a" data-cmp="a">${opts(first.d)}</select></label>
+      <label class="small muted">אחרי<select id="cmp-b" data-cmp="b">${opts(last.d)}</select></label>
+      ${fig(first,'לפני')}${fig(last,'אחרי')}
+    </div>
+    ${days>0?`<div class="small muted" style="text-align:center;margin-top:8px">${days} ימים${dw?` · ${dw>0?'+':''}${dw} ק״ג`:''}</div>`:''}`
+    :`<div class="empty">צריך לפחות שתי תמונות ${lbl} מתאריכים שונים כדי להשוות.</div>`}
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>
   `);
 }
@@ -3349,6 +3373,7 @@ function homePhotosCard(urgentOnly){
   const due=(isDay&&!has)||(!last)||(days>=7);
   if(urgentOnly!==!!due&&urgentOnly)return ''; // הכרטיס הבולט מופיע למעלה רק כשיש סיבה לצלם
   if(!urgentOnly&&due)return '';
+  ensureVisible(PH.sets.slice(0,4));
   const thumbs=PH.sets.slice(0,4).reverse().map(s=>{const k=['front','side','back'].find(a=>s[a]); const u=k&&PH.urls[s[k]];
     return `<span class="hp-th">${u?`<img src="${u}" alt="" loading="lazy">`:''}<small>${new Date(s.d).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}</small></span>`;}).join('');
   const title=!last?'צלם את תמונת ה״לפני״ שלך':isDay&&!has?'היום יום צילום 📸':days>=7?`עבר${days>=14?'ו':''} ${days} ימים מהצילום האחרון`:'תמונות התקדמות';
@@ -3380,10 +3405,13 @@ function photosHTML(){
     <button class="btn ${isDay&&!hasToday?'primary':''} big" data-act="photo-open" data-d="${today}">${hasToday?'עדכון תמונות היום':isDay?'📸 צלם עכשיו: חזית, גב וצד':'📸 צלם סט תמונות'}</button>
     ${PH.loading&&!PH.loaded?'<div class="small muted">טוען תמונות…</div>':''}
     ${PH.sets.length?`<div>
-      ${PH.sets.slice(0,6).map(x=>`<button class="phrow" data-act="photo-open" data-d="${x.d}">
+      ${(()=>{ const vis=PH.sets.slice(0,PH.show); ensureVisible(vis); const grp=PH.sets.length>12; let mon=''; const cnt={}; if(grp)for(const x of PH.sets){const m=x.d.slice(0,7);cnt[m]=(cnt[m]||0)+1;}
+        return vis.map(x=>{ let h=''; if(grp&&x.d.slice(0,7)!==mon){ mon=x.d.slice(0,7); h=`<div class="phmon">${new Date(x.d+'T12:00:00').toLocaleDateString(LOC,{month:'long',year:'numeric'})} <span class="muted">· ${cnt[mon]} ${tt('סטים')}</span></div>`; }
+        return h+`<button class="phrow" data-act="photo-open" data-d="${x.d}">
         <span style="flex:1"><b>${fmtDateFull(+new Date(x.d+'T12:00:00'))}</b><span class="small muted" style="display:block">${ANGLES.filter(([k])=>x[k]).map(a=>a[1]).join(' · ')}</span></span>
         <span class="phthumbs">${ANGLES.map(([k])=>`<span>${x[k]&&PH.urls[x[k]]?`<img src="${esc(PH.urls[x[k]])}" alt="" loading="lazy">`:''}</span>`).join('')}</span>
-      </button>`).join('')}
+      </button>`;}).join(''); })()}
+      ${PH.sets.length>PH.show?`<button class="btn" style="width:100%;margin-top:8px" data-act="photo-more">${tt('הצג עוד')} (${PH.sets.length-PH.show})</button>`:''}
     </div>`:`<div class="small muted">עוד אין תמונות. הסט הראשון הוא ה״לפני״ שלך.</div>`}
   </div>`;
 }
@@ -5846,6 +5874,7 @@ function handleAct(b,ev){
     case 'photo-day-change': S.settings.photoDay=null; render(); break;
     case 'photo-del': deletePhoto(b.dataset.d,b.dataset.a); break;
     case 'photo-cmp': openPhotoCompare(b.dataset.a); break;
+    case 'photo-more': PH.show+=12; render(); break;
     case 'photo-day': { const d=+b.dataset.d; S.settings.photoDay=(S.settings.photoDay!=null&&+S.settings.photoDay===d)?null:d;
       persistSettings(); render();
       if(S.settings.photoDay!=null)toast(`יום צילום: ${DAY_NAMES[d]} — נזכיר לך בבוקר אם התזכורות פעילות`); break; }
@@ -5898,6 +5927,7 @@ document.addEventListener('input',ev=>{
 });
 document.addEventListener('toggle',ev=>{ const d=ev.target; if(d?.dataset?.det)S.settings[d.dataset.det]=d.open; },true);
 document.addEventListener('change',ev=>{
+  if(ev.target.dataset&&ev.target.dataset.cmp&&PH.cmp){ const c=PH.cmp; c[ev.target.dataset.cmp]=ev.target.value; openPhotoCompare(c.angle,c.a,c.b); return; }
   if(ev.target.dataset&&ev.target.dataset.photoAngle&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0], a=ev.target.dataset.photoAngle, d=ev.target.dataset.photoDate; ev.target.value='';
     uploadPhoto(f,d,a); return;
