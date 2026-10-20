@@ -515,6 +515,7 @@ header.top{
 .co-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:block}
 .coach-card .co-txt{white-space:pre-wrap;line-height:1.55;font-size:15px;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
 .coach-card .co-acts{display:flex;gap:8px;margin-top:12px}
+.coach-card.co-swap{animation:none!important}
 .coach-card .co-tog{width:100%;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
 .coach-card.mini{padding-top:12px;padding-bottom:12px}
 .coach-card.mini .co-h{margin-bottom:0}.coach-card.mini .co-av{width:38px;height:38px}
@@ -977,7 +978,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.9';
+const APP_VERSION='9.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4825,7 +4826,8 @@ async function coachSend(text){
 }
 function coachAct(act,b){
   switch(act){
-    case 'coach-card-tog': CO.cardOpen=!CO.cardOpen; try{localStorage.setItem('nr-co-card',CO.cardOpen?'1':'0');}catch(_){} render(); return true;
+    case 'coach-card-tog': { CO.cardOpen=!CO.cardOpen; try{localStorage.setItem('nr-co-card',CO.cardOpen?'1':'0');}catch(_){}
+      const el=document.querySelector('.coach-card'); if(el){ const t=document.createElement('div'); t.innerHTML=coachCardHTML(); const n=t.firstElementChild; if(n){n.classList.add('co-swap'); el.replaceWith(n);} else render(); } else render(); return true; }
     case 'coach-open': CO.open=true; CO.toBottom=true; render(); coachLoadMsgs(); return true;
     case 'coach-back': CO.open=false; render(); window.scrollTo(0,0); return true;
     case 'coach-chip': coachSend(tt(b.dataset.q)); return true;
