@@ -203,7 +203,7 @@ Deno.serve(async (req: Request) => {
         const r = await makeSummary(admin, uid, lang);
         if (r.summary && !r.cached) {
           made++;
-          const t = PUSH_T[lang];
+          const t = (st as any)?.prefs?.g === "f" && lang === "ar" ? [PUSH_T.ar[0], "ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّزين الآن"] : PUSH_T[lang];
           if (!body.nopush && (st as any)?.prefs?.notif?.coach !== false) await admin.from("push_queue").insert({ user_id: uid, title: t[0], body: t[1], kind: "coach" });
         }
       } catch (e) { errs.push(String(e).slice(0, 120)); }

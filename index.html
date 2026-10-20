@@ -24,8 +24,9 @@
   var g=null,ac=null; try{ g=localStorage.getItem('nr-g'); ac=localStorage.getItem('nr-acc'); }catch(e){}
   window.NR_G=g; ac=ac||(g==='f'?'rose':'green');
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl'; if(ac!=='green')h.setAttribute('data-accent',ac);
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b5208b9d"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b5208b9d"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9700be18"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9700be18"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9700be18"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -994,7 +995,8 @@ const ARW_PREV=LANG==='en'?'‹':'›', ARW_NEXT=LANG==='en'?'›':'‹';
 const I18=(()=>{
   const FEM=LANG==='he'; // עברית בלשון נקבה: מילון מחרוזות מלאות בלבד, בלי תרגום חלקי
   if(FEM&&window.NR_G!=='f')return null;
-  const D=window.I18N_DATA||{k:{},p:[]}; const K=D.k||{};
+  const D=window.I18N_DATA||{k:{},p:[]}; const FA=window.I18N_FEMAR; // ערבית בלשון נקבה: דורס תרגומים קיימים
+  const K=FA?Object.assign({},D.k||{},FA.k):(D.k||{}); if(FA){ const pm=new Map(FA.p); D.p=(D.p||[]).map(([h,t])=>[h,pm.get(h)??t]); }
   const rx=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const P=(D.p||[]).map(([h,t])=>{
     // placeholders צמודים ({1}{2}) — אי אפשר לדעת איפה לחתוך; מאחדים לקבוצה אחת
@@ -1076,7 +1078,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.6';
+const APP_VERSION='10.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2179,7 +2181,7 @@ function applyLook(g,acc){
   const a=acc||(g==='f'?'rose':'green');
   try{ if(g)localStorage.setItem('nr-g',g); if(acc)localStorage.setItem('nr-acc',acc); else localStorage.removeItem('nr-acc'); }catch(_){}
   if(a==='green')document.documentElement.removeAttribute('data-accent'); else document.documentElement.setAttribute('data-accent',a);
-  if(LANG==='he'&&(g==='f')!==(window.NR_G==='f')){ location.reload(); return true; }
+  if(LANG!=='en'&&(g==='f')!==(window.NR_G==='f')){ location.reload(); return true; }
   window.NR_G=g; return false;
 }
 function openGenderSheet(first){
@@ -4004,20 +4006,20 @@ function socReactsHTML(id){
     return `<button class="${mine?'on':''}" data-act="soc-react" data-id="${id}" data-e="${e}" aria-label="תגובה ${e}">${e}${n?`<small>${n}</small>`:''}</button>`;}).join('')}</div>`;
 }
 function socMsgHTML(m,prev){
-  const gid=m.group_id, me=m.user_id===S.user?.id, who=esc(socName(gid,m.user_id));
+  const gid=m.group_id, me=m.user_id===S.user?.id, who=esc(socName(gid,m.user_id)), wf=(SOC.info[gid]?.members||[]).find(x=>x.user_id===m.user_id)?.g==='f', V=(x,y)=>wf?y:x;
   let h=''; if(!prev||ymd(new Date(prev.created_at))!==ymd(new Date(m.created_at)))h+=`<div class="c-day">${socDay(m.created_at)}</div>`;
   const sameRun=prev&&prev.kind==='text'&&prev.user_id===m.user_id&&(new Date(m.created_at)-new Date(prev.created_at))<5*60e3&&!h;
   if(m.kind==='text')return h+`<div class="cm ${me?'me':''}">${!me&&!sameRun?`<div class="who" data-notr>${who}</div>`:''}<div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
-  if(m.kind==='join')return h+`<div class="c-sys">👋 ${me?'הצטרפת לקבוצה':who+' הצטרף לקבוצה'}</div>`;
-  if(m.kind==='ch_done'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🎯 ${mt.team?'הקבוצה השלימה את האתגר':(me?'השלמת את האתגר':who+' השלים את האתגר')}: <b data-notr>${esc(m.body)}</b> <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגרים</button></div>`;}
+  if(m.kind==='join')return h+`<div class="c-sys">👋 ${me?'הצטרפת לקבוצה':who+V(' הצטרף לקבוצה',' הצטרפה לקבוצה')}</div>`;
+  if(m.kind==='ch_done'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🎯 ${mt.team?'הקבוצה השלימה את האתגר':(me?'השלמת את האתגר':who+V(' השלים את האתגר',' השלימה את האתגר'))}: <b data-notr>${esc(m.body)}</b> <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגרים</button></div>`;}
   if(m.kind==='ch_end'){const mt=m.meta||{}; const top=(mt.top||[]).filter(r=>+r.value>0);
     return h+`<div class="c-card"><div class="h"><span class="ic2">🏁</span><span><b>האתגר הסתיים</b><span class="small muted" style="display:block" data-notr>${esc(m.body)}</span></span></div>
       ${top.length?`<div class="ch-podium" style="margin-top:8px">${top.map((r,i)=>`<div class="p${i}"><span class="m">${['🥇','🥈','🥉'][i]}</span><b data-notr>${esc(r.user_id===S.user?.id?tt('אתה'):r.name)}</b><span class="small num">${chVal(mt.metric||'workouts',r.value)}${chUnit(mt.metric||'workouts')}</span></div>`).join('')}</div>`:''}
       ${mt.mode==='goal'?`<div class="small muted" style="text-align:center;margin-top:6px">${mt.done||0} מתוך ${mt.n||0} השלימו את היעד</div>`:mt.mode==='team'?`<div class="small muted" style="text-align:center;margin-top:6px">${(+mt.total||0)>=(+mt.target||1)?'🎉 הקבוצה הגיעה ליעד!':'הקבוצה לא הגיעה ליעד הפעם'}</div>`:''}
       <button class="linkbtn" data-act="soc-view" data-v="chall" style="display:block;margin:6px auto 0">לכל התוצאות</button></div>`;}
-  if(m.kind==='challenge'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🏆 ${who} פתח אתגר: <b>${esc(m.body)}</b> · ${mt.days||''} ימים <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגר</button></div>`;}
-  if(m.kind==='pr')return h+`<div class="c-card pr"><div class="h"><span class="ic2">🏅</span><span><b>${me?'שברת שיא אישי!':who+' שבר שיא אישי!'}</b><span class="small muted" style="display:block">${esc(m.body)}</span></span></div>${socReactsHTML(m.id)}</div>`;
-  if(m.kind==='workout'){const mt=m.meta||{};return h+`<div class="c-card"><div class="h"><span class="ic2">🏋️</span><span><b>${me?'סיימת':who+' סיים'} ${esc(m.body||'אימון')}</b><span class="small muted" style="display:block">${socTime(m.created_at)}</span></span></div>
+  if(m.kind==='challenge'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🏆 ${who}${V(' פתח',' פתחה')} אתגר: <b>${esc(m.body)}</b> · ${mt.days||''} ימים <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגר</button></div>`;}
+  if(m.kind==='pr')return h+`<div class="c-card pr"><div class="h"><span class="ic2">🏅</span><span><b>${me?'שברת שיא אישי!':who+V(' שבר שיא אישי!',' שברה שיא אישי!')}</b><span class="small muted" style="display:block">${esc(m.body)}</span></span></div>${socReactsHTML(m.id)}</div>`;
+  if(m.kind==='workout'){const mt=m.meta||{};return h+`<div class="c-card"><div class="h"><span class="ic2">🏋️</span><span><b>${me?'סיימת':who+V(' סיים',' סיימה')} ${esc(m.body||'אימון')}</b><span class="small muted" style="display:block">${socTime(m.created_at)}</span></span></div>
     <div class="c-stats"><div><b class="num">${mt.min||0}</b><span>דקות</span></div><div><b class="num">${mt.sets||0}</b><span>סטים</span></div><div><b class="num">${fmtVol(mt.vol).split(' ')[0]}</b><span>${(+mt.vol||0)>=1000?'טון':'ק״ג'} נפח</span></div></div>${socReactsHTML(m.id)}</div>`;}
   return '';
 }
