@@ -1025,7 +1025,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.2';
+const APP_VERSION='10.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2249,9 +2249,9 @@ async function foodSearch(q){
 }
 let _portion=null;
 function openPortion(f){
-  const units=(f.units||[]).map(u=>({u:u.u,g:+u.g})).filter(u=>u.g>0);
+  const units=(f.units||[]).map(u=>({u:u.u,g:+u.g,d:!!u.d})).filter(u=>u.g>0);
   const pref=['יחידה בינונית','מנה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
-  const def=pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
+  const def=units.find(u=>u.d)||pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
   _portion={f,units,unit:def,qty:def?1:100};
   renderPortion();
 }
