@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9866981e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9866981e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9866981e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c16129b0"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c16129b0"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c16129b0"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1098,7 +1098,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='10.9';
+const APP_VERSION='10.9.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2967,7 +2967,7 @@ function bwChartHTML(goal){
 /* ----- תמונות התקדמות שבועיות ----- */
 const ANGLES=[['front','חזית'],['back','גב'],['side','צד']];
 const PH={sets:[],urls:{},loaded:false,loading:false,busy:null};
-/* תמונות התקדמות: מוקטנות (1080px, בלי מטא-דאטה/מיקום) ומוצפנות במכשיר (AES-256-GCM) לפני ההעלאה.
+/* תמונות התקדמות: מוקטנות (1600px, בלי מטא-דאטה/מיקום) ומוצפנות במכשיר (AES-256-GCM) לפני ההעלאה.
    בשרת נשמר רק קובץ מוצפן בתיקייה פרטית של המשתמש; המפתח האישי נשמר בטבלה סגורה ומוחזר רק לבעליו. */
 const PHK={p:null};
 function photoKey(){
@@ -3010,14 +3010,14 @@ async function loadPhotos(force){
   PH.loading=false;
   if((S.tab==='home'||(S.tab==='track'&&S.trackView==='body'))&&$('#sheet').hidden&&$('#np').hidden)render();
 }
-function shrinkBlob(file,max=1080){
+function shrinkBlob(file,max=1600){
   return new Promise((res,rej)=>{
     const img=new Image();
     img.onload=()=>{ try{
       const sc=Math.min(1,max/Math.max(img.width,img.height));
       const c=document.createElement('canvas'); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
       c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(img.src);
-      c.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',0.8); // ציור מחדש על canvas מוחק EXIF (כולל מיקום GPS)
+      c.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',0.82); // ציור מחדש על canvas מוחק EXIF (כולל מיקום GPS)
     }catch(e){rej(e);} };
     img.onerror=rej; img.src=URL.createObjectURL(file);
   });
@@ -3067,7 +3067,7 @@ function openPhotoSet(date){
           ${p?`<button class="linkbtn small" data-act="photo-del" data-d="${date}" data-a="${k}" style="display:block;margin:4px auto 0;color:var(--danger)">מחק</button>`:''}
         </div>`;}).join('')}
     </div>
-    <div class="ph-lock">🔒 <span><b>${G('רק אתה רואה את התמונות האלה.','רק את רואה את התמונות האלה.','רק את/ה רואה את התמונות האלה.')}</b> הן מוקטנות ומוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.</span></div>
+    <div class="ph-lock">🔒 <span><b>${G('רק אתה רואה את התמונות האלה.','רק את רואה את התמונות האלה.','רק את/ה רואה את התמונות האלה.')}</b> הן מוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.</span></div>
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סיום</button>
   `);
 }
