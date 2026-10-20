@@ -1170,5 +1170,197 @@
 "סגירה": {
 "en": "Close",
 "ar": "إغلاق"
+},
+"היי! אני משתמש ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים {0} ימי ניסיון במתנה 💪": {
+"en": "Hey! I use NextRep, an app that remembers every set and manages my workouts and nutrition. Sign up with my link and get a {0}-day free trial 💪",
+"ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويدير تدريباتي وتغذيتي. عبر رابطي تحصل على {0} يومًا تجريبيًا هدية 💪"
+},
+"היי! אני משתמשת ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים {0} ימי ניסיון במתנה 💪": {
+"en": "Hey! I use NextRep, an app that remembers every set and manages my workouts and nutrition. Sign up with my link and get a {0}-day free trial 💪",
+"ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويدير تدريباتي وتغذيتي. عبر رابطي تحصل على {0} يومًا تجريبيًا هدية 💪"
+},
+"הזמן חבר, קבל חודש מתנה 🎁": {
+"en": "Invite a friend, get a free month 🎁",
+"ar": "ادعُ صديقًا واحصل على شهر هدية 🎁"
+},
+"הזמיני חברה, קבלי חודש מתנה 🎁": {
+"en": "Invite a friend, get a free month 🎁",
+"ar": "ادعي صديقة واحصلي على شهر هدية 🎁"
+},
+"הזמינו חברים, קבלו חודש מתנה 🎁": {
+"en": "Invite friends, get a free month 🎁",
+"ar": "ادعوا أصدقاء واحصلوا على شهر هدية 🎁"
+},
+"הזמן חבר, קבל חודש מתנה": {
+"en": "Invite a friend, get a free month",
+"ar": "ادعُ صديقًا واحصل على شهر هدية"
+},
+"הזמיני חברה, קבלי חודש מתנה": {
+"en": "Invite a friend, get a free month",
+"ar": "ادعي صديقة واحصلي على شهر هدية"
+},
+"הזמינו חברים, קבלו חודש מתנה": {
+"en": "Invite friends, get a free month",
+"ar": "ادعوا أصدقاء واحصلوا على شهر هدية"
+},
+"החבר מקבל": {
+"en": "Your friend gets",
+"ar": "يحصل صديقك على"
+},
+"החברה מקבלת": {
+"en": "Your friend gets",
+"ar": "تحصل صديقتك على"
+},
+"המוזמן מקבל": {
+"en": "The invitee gets",
+"ar": "يحصل المدعو على"
+},
+"ימי ניסיון": {
+"en": "days of trial",
+"ar": "يومًا تجريبيًا"
+},
+"במקום 7.": {
+"en": "instead of 7.",
+"ar": "بدلًا من 7."
+},
+"כשהוא בוחר מסלול, אתה מקבל": {
+"en": "When they pick a plan, you get",
+"ar": "عندما يختار باقة تحصل على"
+},
+"כשהיא בוחרת מסלול, את מקבלת": {
+"en": "When she picks a plan, you get",
+"ar": "عندما تختار باقة تحصلين على"
+},
+"כשבוחרים מסלול, מקבלים": {
+"en": "When they pick a plan, you get",
+"ar": "عند اختيار باقة تحصلون على"
+},
+"יום": {
+"en": "days",
+"ar": "يومًا"
+},
+"מתנה. בלי הגבלה על כמות החברים.": {
+"en": "free. No limit on how many friends.",
+"ar": "هدية. بلا حد لعدد الأصدقاء."
+},
+"שליחה בוואטסאפ": {
+"en": "Send on WhatsApp",
+"ar": "إرسال عبر واتساب"
+},
+"שיתוף אחר": {
+"en": "Share another way",
+"ar": "مشاركة بطريقة أخرى"
+},
+"ברקוד": {
+"en": "QR code",
+"ar": "رمز QR"
+},
+"הצטרפו": {
+"en": "joined",
+"ar": "انضموا"
+},
+"בחרו מסלול": {
+"en": "picked a plan",
+"ar": "اختاروا باقة"
+},
+"ימי מתנה שקיבלת": {
+"en": "free days you earned",
+"ar": "أيام هدية حصلت عليها"
+},
+"החברים שהזמנת": {
+"en": "Friends you invited",
+"ar": "الأصدقاء الذين دعوتهم"
+},
+"🎁 בחר מסלול": {
+"en": "🎁 picked a plan",
+"ar": "🎁 اختار باقة"
+},
+"בניסיון": {
+"en": "on trial",
+"ar": "في التجربة"
+},
+"החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החבר צריך להירשם דרך הקישור שלך.": {
+"en": "The month is added to the end of your plan, even if it already ended. Your friend must sign up through your link.",
+"ar": "يُضاف الشهر إلى نهاية اشتراكك حتى لو انتهى. يجب أن يسجّل صديقك عبر رابطك."
+},
+"החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החברה צריכה להירשם דרך הקישור שלך.": {
+"en": "The month is added to the end of your plan, even if it already ended. Your friend must sign up through your link.",
+"ar": "يُضاف الشهر إلى نهاية اشتراكك حتى لو انتهى. يجب أن تسجّل صديقتك عبر رابطك."
+},
+"החודש נוסף לסוף המנוי, גם אם הוא כבר הסתיים. ההרשמה חייבת להיות דרך הקישור.": {
+"en": "The month is added to the end of the plan, even if it already ended. Sign-up must be through the link.",
+"ar": "يُضاف الشهر إلى نهاية الاشتراك حتى لو انتهى. يجب أن يكون التسجيل عبر الرابط."
+},
+"שברת שיא 🏅 יש לך חבר שגם יתקדם ככה?": {
+"en": "New PR 🏅 Know a friend who'd progress like this too?",
+"ar": "رقم قياسي 🏅 هل لديك صديق سيتقدم هكذا أيضًا؟"
+},
+"4 אימונים נשמרו 💪 מתאמנים יותר כשיש עם מי.": {
+"en": "4 workouts saved 💪 People train more with a buddy.",
+"ar": "4 تمارين محفوظة 💪 نتدرب أكثر مع رفيق."
+},
+"10 אימונים! חבר שמתאמן איתך = חודש מתנה.": {
+"en": "10 workouts! A friend who trains with you = a free month.",
+"ar": "10 تمارين! صديق يتدرب معك = شهر هدية."
+},
+"20 אימונים 🔥 הגיע הזמן להביא את החבר׳ה.": {
+"en": "20 workouts 🔥 Time to bring the crew.",
+"ar": "20 تمرينًا 🔥 حان وقت جلب الأصدقاء."
+},
+"ואתה": {
+"en": "and you get",
+"ar": "وأنت"
+},
+"ואת": {
+"en": "and you get",
+"ar": "وأنتِ"
+},
+"ואתם": {
+"en": "and you get",
+"ar": "وأنتم"
+},
+"חודש מתנה כשבוחרים מסלול.": {
+"en": "a free month when they pick a plan.",
+"ar": "شهر هدية عند اختيار باقة."
+},
+"🎁 הזמנת חבר": {
+"en": "🎁 Invite a friend",
+"ar": "🎁 دعوة صديق"
+},
+"אולי אחר כך": {
+"en": "Maybe later",
+"ar": "ربما لاحقًا"
+},
+"ברקוד להזמנה": {
+"en": "Invite QR code",
+"ar": "رمز QR للدعوة"
+},
+"החבר סורק ונרשם דרך הקישור שלך.": {
+"en": "Your friend scans it and signs up through your link.",
+"ar": "يمسح صديقك الرمز ويسجّل عبر رابطك."
+},
+"🎁 הזמנת חברים": {
+"en": "🎁 Invite friends",
+"ar": "🎁 دعوة الأصدقاء"
+},
+"חבר מקבל 14 ימי ניסיון, אתה חודש מתנה": {
+"en": "Friend gets 14 trial days, you get a free month",
+"ar": "يحصل صديقك على 14 يومًا، وأنت على شهر هدية"
+},
+"מקבל 14 ימי ניסיון במתנה": {
+"en": "gets 14 free trial days",
+"ar": "يحصل على 14 يومًا تجريبيًا هدية"
+},
+"מקבלת 14 ימי ניסיון במתנה": {
+"en": "gets 14 free trial days",
+"ar": "تحصل على 14 يومًا تجريبيًا هدية"
+},
+"🎁 חבר הזמין אותך ל-NextRep: 14 ימי ניסיון במתנה במקום 7. ההטבה נשמרת כשנרשמים מהמכשיר הזה.": {
+"en": "🎁 A friend invited you to NextRep: 14 free trial days instead of 7. The bonus applies when you sign up from this device.",
+"ar": "🎁 صديق دعاك إلى NextRep: 14 يومًا تجريبيًا بدلًا من 7. تُطبّق الميزة عند التسجيل من هذا الجهاز."
+},
+"צמיחה": {
+"en": "Growth",
+"ar": "النمو"
 }
 }
