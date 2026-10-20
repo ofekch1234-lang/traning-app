@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=51d5a085"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=51d5a085"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=51d5a085"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=af019839"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=af019839"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=af019839"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -208,6 +208,13 @@ body.landing #app{max-width:1120px}
 .ld-badges{display:flex;gap:8px;flex-wrap:wrap}.ld-badges span{width:44px;height:44px;border-radius:50%;background:var(--accent-soft,#e8f6ed);display:grid;place-items:center;font-size:21px;border:1px solid var(--line)}
 .ld-prices{display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
 @media (min-width:900px){ .ld-prices{grid-template-columns:repeat(3,1fr);max-width:none} }
+.ld-kicker{display:inline-block;align-self:flex-start;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700}
+.ld-photo{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#F6E7C8,#E9D3A8);border-radius:14px;padding:12px 14px;margin-bottom:10px;color:#4a3a1a}
+.ld-photo span{font-size:34px}.ld-photo b{font-size:14px}
+.ld-items>div{display:grid;grid-template-columns:1fr auto auto;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
+.ld-items b{font-size:15px}
+.ld-tot{display:flex;justify-content:space-between;align-items:center;padding:10px 0 2px;font-weight:700}.ld-tot b{font-size:22px}.ld-tot small{font-size:12px;font-weight:400;color:var(--muted)}
+.ld-btn{margin-top:10px;background:var(--accent);color:var(--accent-ink);border-radius:12px;padding:12px;text-align:center;font-weight:700}
 .ld-g{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0 6px;font-size:13.5px;color:var(--muted)}
 .ld-gsw{display:flex;background:var(--surface2);border-radius:999px;padding:3px;gap:2px}
 .ld-gsw button{border-radius:999px;padding:7px 14px;font-size:14px;color:var(--muted)}
@@ -1183,7 +1190,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.5.1';
+const APP_VERSION='11.5.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1750,7 +1757,6 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
     ['זה עובד בחדר כושר בלי קליטה?','כן. האימון נשמר בטלפון ומסתנכרן ברגע שחוזרת קליטה.'],
     ['אני מתחיל, זה מתאים לי?','כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.'],
     ['באיזו שפה האפליקציה?','עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.'],
-    ['מי רואה את הנתונים והתמונות שלי?',F?'רק את. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך. גם צוות NextRep לא פותח אותן.':'רק אתה. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך.'],
     ...(F?[['אימוני כוח לא יעשו אותי "גדולה"?','לא. בלי תוספים ועם תזונה רגילה, אימוני משקולות בונים שריר לאט ובצורה שמחטבת ומחזקת. זה הדבר הכי יעיל לשינוי הרכב גוף, הרבה יותר מאירובי לבד.']]:[]),
   ];
   let inv=null, refd=null; try{inv=localStorage.getItem('nr-join'); refd=localStorage.getItem('nr-ref');}catch(_){}
@@ -1759,13 +1765,13 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: 14 ימי ניסיון במתנה במקום 7. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
   <section class="ld-hero">
     <div class="stack" style="gap:16px">
-      <h1>${F?'תפסיקי לנחש<br>מה הרמת<br>בפעם שעברה.':'תפסיק לנחש<br>מה הרמת<br>בפעם שעברה.'}</h1>
-      <p class="lead">${F?'כדי להתחזק ולהתחטב צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכרת כל סט במקומך, מודיעה כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאת מתקדמת.':'כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאתה מתקדם.'}</p>
+      <h1>${F?'תפסיקי לנחש.<br>תתחילי<br>להתחזק.':'תפסיק לנחש<br>מה הרמת<br>בפעם שעברה.'}</h1>
+      <p class="lead">${F?'לא עוד אימון "בערך". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ומצלמים את הצלחת במקום לספור קלוריות. בלי אובססיה, בלי אקסלים.':'כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת, ומחשב קלוריות מצילום של הצלחת במקום שתספור.'}</p>
       <div class="ld-cta">
         <button class="btn primary" data-act="land-signup">אני רוצה להתחיל</button>
         <button class="btn" data-act="land-login">כבר יש לי חשבון</button>
       </div>
-      <div class="ld-note">7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.${F?' פנייה בלשון נקבה בכל האפליקציה.':''}</div>
+      <div class="ld-note">${F?'7 ימים חינם. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.':'7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.'}</div>
     </div>
     <div class="ld-phone" aria-hidden="true"><div class="ld-screen">
       <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
@@ -1786,17 +1792,40 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   </section>
 
   <section class="ld-sec">
-    <h2>נשמע מוכר?</h2>
+    <h2>${F?'מכירה את זה?':'נשמע מוכר?'}</h2>
     <div class="ld-pains">
       ${pains.map(([a,b])=>`<div class="ld-pain"><div class="was">${a}</div><div class="now"><span class="ok">✓</span>${b}</div></div>`).join('')}
     </div>
   </section>
 
+  <section class="ld-sec two ld-scan">
+    <div class="stack" style="gap:12px">
+      <span class="ld-kicker">📸 מעקב קלוריות בלי לספור</span>
+      <h2>${F?'מצלמים את הצלחת. זהו.':'מצלמים את הצלחת. זהו.'}</h2>
+      <p>${F?'לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.':'לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.'}</p>
+      <ul class="ld-list">
+        <li>${F?'מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז':'מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז'}</li>
+        <li>קורא טבלאות תזונתיות על אריזות וסורק ברקודים</li>
+        <li>${F?'בסוף היום את רואה בדיוק איפה את עומדת מול היעד':'בסוף היום אתה רואה בדיוק איפה אתה עומד מול היעד'}</li>
+      </ul>
+    </div>
+    <div class="ld-feat ld-plate" aria-hidden="true">
+      <div class="ld-photo"><span>🍛</span><b>📸 מנתח את הצלחת…</b></div>
+      <div class="ld-items">
+        ${(F?[['חזה עוף בגריל','130 גר׳',215],['אורז לבן','120 גר׳',156],['סלט ירקות עם שמן זית','150 גר׳',95],['חצי פיתה','45 גר׳',125]]:[['שניצל','160 גר׳',390],['אורז לבן','180 גר׳',234],['סלט ירקות','120 גר׳',48],['פיתה','90 גר׳',250]]).map(([n,g,k])=>`<div><span>${n}</span><span class="small muted">${g}</span><b class="num">${k}</b></div>`).join('')}
+      </div>
+      <div class="ld-tot"><span>סה״כ</span><b class="num">${F?'591':'922'} <small>קק״ל · ${F?'52':'48'} גר׳ חלבון</small></b></div>
+      <div class="ld-prev" style="margin-top:8px">${F?'נשארו לך 760 קק״ל להיום':'נשארו לך 1,330 קק״ל להיום'}</div>
+      <div class="ld-btn">הוסף ליום ✓</div>
+    </div>
+  </section>
+
   <section class="ld-sec two">
     <div class="stack" style="gap:12px">
-      <h2>התקדמות היא עניין של מספרים</h2>
-      <p>עוד 2.5 קילו או עוד חזרה אחת בכל שבוע לא מרגישים כמו הרבה. אחרי שלושה חודשים זה ההבדל בין מי שתקוע במקום לבין מי שמתחזק. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.</p>
-      <p>NextRep שם את המספר הקודם מול העיניים שלך בכל סט, ושומר את כל השאר לגרף.</p>
+      <h2>${F?'התחזקות שרואים, לא רק מרגישים':'התקדמות היא עניין של מספרים'}</h2>
+      ${F?`<p>עוד 2.5 קילו בהיפ תראסט או עוד חזרה אחת בסקוואט לא נשמעים כמו הרבה. אחרי שלושה חודשים זה ההבדל שרואים בכל ג׳ינס, ומרגישים בכל מדרגה. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.</p>
+      <p>NextRep שמה את המספר הקודם מול העיניים שלך בכל סט, ושומרת את כל השאר לגרף. ככה את יודעת שהתחזקת, גם ביום שהמשקל לא זז.</p>`:`<p>עוד 2.5 קילו או עוד חזרה אחת בכל שבוע לא מרגישים כמו הרבה. אחרי שלושה חודשים זה ההבדל בין מי שתקוע במקום לבין מי שמתחזק. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.</p>
+      <p>NextRep שם את המספר הקודם מול העיניים שלך בכל סט, ושומר את כל השאר לגרף.</p>`}
     </div>
     <div class="ld-feat">
       <div class="spread"><b>${F?'היפ תראסט, 12 שבועות':'לחיצת חזה, 12 שבועות'}</b><span class="small muted">דוגמה</span></div>
@@ -1812,11 +1841,11 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   </section>
 
   <section class="ld-sec">
-    <h2>בנוי לרצפת חדר הכושר</h2>
+    <h2>${F?'בנוי לאזור המשקולות':'בנוי לרצפת חדר הכושר'}</h2>
     <div class="ld-feats">
       <div class="ld-feat">
         <h3>סט נרשם בשתי נגיעות</h3>
-        <p>בלי להקליד עם ידיים מיוזעות. בוחרים פלטות על המוט, משקולת מהמתלה או פין במכונה, וממשיכים.</p>
+        <p>${F?'בלי להקליד באמצע סט. בוחרים משקולת מהמתלה, פין במכונה או פלטות על המוט, וממשיכים. הטלפון לא גונב לך את האימון.':'בלי להקליד עם ידיים מיוזעות. בוחרים פלטות על המוט, משקולת מהמתלה או פין במכונה, וממשיכים.'}</p>
         <div class="ui stack" style="gap:8px">
           <div class="ld-read"><b class="num">102.5</b><span class="muted small">ק״ג על המוט</span></div>
           <div class="ld-plates"><span style="background:var(--r25)">25</span><span style="background:var(--r20)">20</span><span style="background:var(--r15);color:#3a2c00">15</span><span style="background:var(--r10)">10</span><span style="background:#8a948d">5</span><span style="background:#b6bdb8;color:#222">2.5</span></div>
@@ -1832,9 +1861,9 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
       </div>
       <div class="ld-feat">
         <h3>תוכנית שבנויה בשבילך</h3>
-        <p>עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.</p>
+        <p>${F?'עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה לכל אחד, כדי שלא תצטרכי לנחש איך עושים את זה או לשאול מישהו באולם.':'עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.'}</p>
         <div class="ui stack" style="gap:6px">
-          ${[['A','דחיפה: חזה, כתפיים, יד אחורית'],['B','משיכה: גב ויד קדמית'],['C','רגליים ובטן']].map(([k,t])=>`<div class="ld-read" style="padding:6px 12px;justify-content:flex-start;gap:10px"><b style="font-size:30px;color:var(--accent)">${k}</b><span style="font-size:14px">${t}</span></div>`).join('')}
+          ${(F?[['A','ישבן ורגליים'],['B','גב, כתפיים וידיים'],['C','גוף מלא ובטן']]:[['A','דחיפה: חזה, כתפיים, יד אחורית'],['B','משיכה: גב ויד קדמית'],['C','רגליים ובטן']]).map(([k,t])=>`<div class="ld-read" style="padding:6px 12px;justify-content:flex-start;gap:10px"><b style="font-size:30px;color:var(--accent)">${k}</b><span style="font-size:14px">${t}</span></div>`).join('')}
         </div>
       </div>
     </div>
@@ -1843,11 +1872,11 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   <section class="ld-sec two">
     <div class="stack" style="gap:12px">
       <h2>הכל במקום אחד</h2>
-      <p>אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של סלפי במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן המשקל הולך.</p>
+      <p>${F?'אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של תמונות במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן הגוף הולך, בלי לספור כל עלה חסה.':'אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של סלפי במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן המשקל הולך.'}</p>
     </div>
     <div class="ld-feats" style="grid-template-columns:1fr">
       <div class="ld-feat">
-        <h3>תזונה שמבינה עברית</h3>
+        <h3>${F?'תזונה בלי אובססיה':'תזונה שמבינה עברית'}</h3>
         <p>מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא "cottage cheese" אמריקאי. ואם אין כוח לחפש, מצלמים את הצלחת: ה-AI מזהה כל רכיב, מעריך כמה גרם יש ומחשב קלוריות וחלבון. סורקים גם טבלה תזונתית מהאריזה.</p>
         <div class="ui ld-sugg">
           <div class="q"><span>קוטג</span><span>🔍</span></div>
@@ -1856,8 +1885,8 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
         </div>
       </div>
       <div class="ld-feat">
-        <h3>משקל ותמונות לפני ואחרי</h3>
-        <p>שוקלים בבוקר, מצלמים פעם בשבוע, ומשווים חודש מול חודש. המראה משקרת, הגרף לא.</p>
+        <h3>${F?'המשקל משקר, התמונה לא':'משקל ותמונות לפני ואחרי'}</h3>
+        <p>${F?'בחיטוב המשקל יכול לעמוד שבועות בזמן שהגוף משתנה. תמונה שבועית באותה תנוחה מראה את מה שהמשקל מפספס. התמונות מוצפנות בטלפון, ורק את רואה אותן.':'שוקלים בבוקר, מצלמים פעם בשבוע, ומשווים חודש מול חודש. המראה משקרת, הגרף לא.'}</p>
         <div class="ui ld-cal" aria-hidden="true">${Array.from({length:14},(_,i)=>`<i class="${[0,2,4,7,9,11].includes(i)?'w':''}">${i+1}</i>`).join('')}</div>
       </div>
     </div>
@@ -1865,8 +1894,8 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
 
   <section class="ld-sec two">
     <div class="stack" style="gap:12px">
-      <h2>קובי הבוט, המאמן שלך בכיס</h2>
-      <p>קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.</p>
+      <h2>${F?'מאמן שמכיר אותך ולא שופט':'קובי הבוט, המאמן שלך בכיס'}</h2>
+      <p>${F?'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי "פשוט תאכלי פחות". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.':'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.'}</p>
       <ul class="ld-list">
         <li>סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע</li>
         <li>שואלים אותו כל שאלה על אימון, תזונה והתאוששות</li>
@@ -1882,11 +1911,11 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   </section>
 
   <section class="ld-sec">
-    <h2>מתאמנים ביחד</h2>
+    <h2>${F?'מתאמנות ביחד':'מתאמנים ביחד'}</h2>
     <div class="ld-feats">
       <div class="ld-feat">
         <h3>קבוצות ואתגרים</h3>
-        <p>פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.</p>
+        <p>${F?'פותחות קבוצה עם החברות, ומשיקות אתגר: מי מתאמנת הכי הרבה החודש, או כולן יחד מול יעד משותף. קשה לפספס אימון כשמחכים לך.':'פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.'}</p>
         <div class="ui ld-board">
           ${(F?[['🥇','דנה','14 אימונים'],['🥈','את','12 אימונים'],['🥉','נועה','9 אימונים']]:[['🥇','דניאל','14 אימונים'],['🥈','אתה','12 אימונים'],['🥉','נועם','9 אימונים']]).map(([m,n,v])=>`<div><span>${m} ${n}</span><b class="num">${v}</b></div>`).join('')}
         </div>
@@ -1951,7 +1980,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
 
   <section class="ld-end">
     <div class="stack" style="gap:10px">
-      <h2>${F?'האימון הבא שלך יכול להיות הראשון שנספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
+      <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
       <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. ${LP.trial} ימים ראשונים עלינו.</p>
     </div>
     <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">אני רוצה להתחיל</button>

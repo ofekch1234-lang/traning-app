@@ -1846,5 +1846,189 @@
 "הטווח הבריא לגובה שלך: {0} עד {1} ק״ג · עכשיו BMI {2}": {
 "en": "Healthy range for your height: {0} to {1} kg · now BMI {2}",
 "ar": "النطاق الصحي لطولك: {0} إلى {1} كغ · الآن BMI {2}"
+},
+"תפסיקי לנחש.": {
+"en": "Stop guessing.",
+"ar": "توقفي عن التخمين."
+},
+"תתחילי": {
+"en": "Start",
+"ar": "ابدئي"
+},
+"להתחזק.": {
+"en": "getting stronger.",
+"ar": "بالتقوية."
+},
+"לא עוד אימון \"בערך\". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ודואגת שהמראה במראה והמספרים יזוזו באותו כיוון. בלי אובססיה, בלי אקסלים.": {
+"en": "No more \"roughly\" workouts. NextRep remembers every set and weight for you, shows you getting stronger week by week, and keeps the mirror and the numbers moving in the same direction. No obsession, no spreadsheets.",
+"ar": "لا مزيد من التمارين \"تقريبًا\". NextRep يتذكر كل مجموعة ووزن عنك، ويريك أنك تقوين أسبوعًا بعد أسبوع، ويحرص على أن تتحرك المرآة والأرقام في الاتجاه نفسه. بلا هوس ولا جداول."
+},
+"7 ימים חינם. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.": {
+"en": "7 days free. No app store. Addressed to you as a woman throughout.",
+"ar": "7 أيام مجانًا. بلا متجر تطبيقات. بصيغة المؤنث في كل التطبيق."
+},
+"מכירה את זה?": {
+"en": "Sound familiar?",
+"ar": "هل تعرفين هذا؟"
+},
+"התחזקות שרואים, לא רק מרגישים": {
+"en": "Strength you can see, not just feel",
+"ar": "قوة تُرى، لا تُحسّ فقط"
+},
+"עוד 2.5 קילו בהיפ תראסט או עוד חזרה אחת בסקוואט לא נשמעים כמו הרבה. אחרי שלושה חודשים זה ההבדל שרואים בכל ג׳ינס, ומרגישים בכל מדרגה. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.": {
+"en": "Another 2.5 kg on the hip thrust or one more squat rep doesn't sound like much. After three months it's the difference you see in every pair of jeans and feel on every staircase. But it only works when you know exactly where to pick up.",
+"ar": "2.5 كغ إضافية في الهيب ثراست أو تكرار إضافي في السكوات لا يبدوان كثيرًا. بعد ثلاثة أشهر هذا فرق تلاحظينه في كل بنطال جينز وتشعرين به على كل درج. لكنه ينجح فقط عندما تعرفين من أين تكملين بالضبط."
+},
+"NextRep שמה את המספר הקודם מול העיניים שלך בכל סט, ושומרת את כל השאר לגרף. ככה את יודעת שהתחזקת, גם ביום שהמשקל לא זז.": {
+"en": "NextRep puts your last number in front of you on every set, and saves the rest for the graph. So you know you got stronger, even on a day the scale didn't move.",
+"ar": "يضع NextRep رقمك السابق أمام عينيك في كل مجموعة، ويحفظ الباقي للرسم البياني. هكذا تعرفين أنك أصبحت أقوى حتى في يوم لم يتحرك فيه الميزان."
+},
+"בנוי לאזור המשקולות": {
+"en": "Built for the weights area",
+"ar": "مصمم لمنطقة الأوزان"
+},
+"בלי להקליד באמצע סט. בוחרים משקולת מהמתלה, פין במכונה או פלטות על המוט, וממשיכים. הטלפון לא גונב לך את האימון.": {
+"en": "No typing mid-set. Pick a dumbbell from the rack, a pin on the machine or plates on the bar, and keep going. The phone doesn't steal your workout.",
+"ar": "بلا كتابة في منتصف المجموعة. اختاري دمبل من الرف أو دبوسًا في الجهاز أو أقراصًا على البار وتابعي. الهاتف لا يسرق تمرينك."
+},
+"עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה לכל אחד, כדי שלא תצטרכי לנחש איך עושים את זה או לשאול מישהו באולם.": {
+"en": "Answer a few questions: goal, days a week, equipment and time, and get a tailored plan. 98 exercises, each with a demo video, so you never have to guess how it's done or ask someone on the floor.",
+"ar": "أجيبي عن بضعة أسئلة: الهدف، أيام الأسبوع، المعدات والوقت، واحصلي على خطة مخصصة. 98 تمرينًا مع فيديو توضيحي لكل منها، كي لا تضطري للتخمين أو سؤال أحد في الصالة."
+},
+"ישבן ורגליים": {
+"en": "Glutes & legs",
+"ar": "أرداف وأرجل"
+},
+"גב, כתפיים וידיים": {
+"en": "Back, shoulders & arms",
+"ar": "ظهر وأكتاف وذراعان"
+},
+"גוף מלא ובטן": {
+"en": "Full body & core",
+"ar": "جسم كامل وبطن"
+},
+"אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של תמונות במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן הגוף הולך, בלי לספור כל עלה חסה.": {
+"en": "One app for workouts, another for calories, notes for weight and a folder of mirror photos? Here it's all connected. One screen shows how much you trained, how much you ate and where your body is heading, without counting every lettuce leaf.",
+"ar": "تطبيق للتمارين وآخر للسعرات وملاحظات للوزن ومجلد لصور المرآة؟ هنا كل شيء متصل. شاشة واحدة تُظهر كم تدربتِ وكم أكلتِ وإلى أين يتجه جسمك، دون عدّ كل ورقة خس."
+},
+"תזונה בלי אובססיה": {
+"en": "Nutrition without obsession",
+"ar": "تغذية بلا هوس"
+},
+"המשקל משקר, התמונה לא": {
+"en": "The scale lies, the photo doesn't",
+"ar": "الميزان يكذب، الصورة لا"
+},
+"בחיטוב המשקל יכול לעמוד שבועות בזמן שהגוף משתנה. תמונה שבועית באותה תנוחה מראה את מה שהמשקל מפספס. התמונות מוצפנות בטלפון, ורק את רואה אותן.": {
+"en": "When toning up, the scale can stall for weeks while your body changes. A weekly photo in the same pose shows what the scale misses. Photos are encrypted on your phone, and only you see them.",
+"ar": "أثناء الشدّ قد يثبت الوزن لأسابيع بينما يتغير الجسم. صورة أسبوعية بنفس الوضعية تُظهر ما يفوّته الميزان. الصور مشفّرة على هاتفك، وأنتِ وحدك من ترينها."
+},
+"מאמן שמכיר אותך ולא שופט": {
+"en": "A coach who knows you and doesn't judge",
+"ar": "مدرب يعرفك ولا يحكم عليك"
+},
+"קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי \"פשוט תאכלי פחות\". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.": {
+"en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic advice and no \"just eat less\". He looks at your numbers and tells you the next step.",
+"ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. بلا نصائح عامة ولا \"كلي أقل فحسب\". ينظر إلى أرقامك ويخبرك بالخطوة التالية."
+},
+"מתאמנות ביחד": {
+"en": "Training together",
+"ar": "نتدرب معًا"
+},
+"פותחות קבוצה עם החברות, ומשיקות אתגר: מי מתאמנת הכי הרבה החודש, או כולן יחד מול יעד משותף. קשה לפספס אימון כשמחכים לך.": {
+"en": "Start a group with your friends and launch a challenge: who trains the most this month, or everyone together toward a shared goal. It's hard to skip a workout when people are waiting for you.",
+"ar": "أنشئي فريقًا مع صديقاتك وأطلقي تحديًا: من تتدرب أكثر هذا الشهر، أو الجميع معًا نحو هدف مشترك. يصعب تفويت تمرين عندما ينتظرك أحد."
+},
+"האימון הבא שלך יכול להיות הראשון שבאמת נספר": {
+"en": "Your next workout can be the first that really counts",
+"ar": "قد يكون تمرينك التالي أول تمرين يُحسب فعلًا"
+},
+"📸 מעקב קלוריות בלי לספור": {
+"en": "📸 Calorie tracking without counting",
+"ar": "📸 تتبّع السعرات دون عدّ"
+},
+"מצלמים את הצלחת. זהו.": {
+"en": "Snap the plate. That's it.",
+"ar": "صوّر الطبق. هذا كل شيء."
+},
+"לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.": {
+"en": "No weighing, no tables, no guessing. Snap the meal, the AI identifies each item, estimates the grams on the plate and counts calories and protein against your daily target. Fix it with a tap if it got something wrong, and save.",
+"ar": "لا وزن ولا جداول ولا تخمين. صوّر الوجبة، يتعرف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات ويحسب السعرات والبروتين مقابل هدفك اليومي. صحّح بلمسة إن أخطأ، واحفظ."
+},
+"מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז": {
+"en": "Knows Israeli food: shakshuka, pita with hummus, schnitzel and rice",
+"ar": "يتعرف على الطعام المحلي: شكشوكة، خبز مع حمص، شنيتسل مع أرز"
+},
+"קורא טבלאות תזונתיות על אריזות וסורק ברקודים": {
+"en": "Reads nutrition labels on packages and scans barcodes",
+"ar": "يقرأ جداول القيم الغذائية على العبوات ويمسح الباركود"
+},
+"בסוף היום את רואה בדיוק איפה את עומדת מול היעד": {
+"en": "By the end of the day you see exactly where you stand against your target",
+"ar": "في نهاية اليوم ترين بالضبط أين أنتِ من هدفك"
+},
+"בסוף היום אתה רואה בדיוק איפה אתה עומד מול היעד": {
+"en": "By the end of the day you see exactly where you stand against your target",
+"ar": "في نهاية اليوم ترى بالضبط أين أنت من هدفك"
+},
+"📸 מנתח את הצלחת…": {
+"en": "📸 Analyzing the plate…",
+"ar": "📸 يحلل الطبق…"
+},
+"חזה עוף בגריל": {
+"en": "Grilled chicken breast",
+"ar": "صدر دجاج مشوي"
+},
+"אורז לבן": {
+"en": "White rice",
+"ar": "أرز أبيض"
+},
+"סלט ירקות עם שמן זית": {
+"en": "Vegetable salad with olive oil",
+"ar": "سلطة خضار بزيت الزيتون"
+},
+"חצי פיתה": {
+"en": "Half a pita",
+"ar": "نصف خبزة"
+},
+"שניצל": {
+"en": "Schnitzel",
+"ar": "شنيتسل"
+},
+"סלט ירקות": {
+"en": "Vegetable salad",
+"ar": "سلطة خضار"
+},
+"פיתה": {
+"en": "Pita",
+"ar": "خبز بيتا"
+},
+"סה״כ": {
+"en": "Total",
+"ar": "المجموع"
+},
+"קק״ל · {0} גר׳ חלבון": {
+"en": "kcal · {0} g protein",
+"ar": "سعرة · {0} غ بروتين"
+},
+"נשארו לך 760 קק״ל להיום": {
+"en": "760 kcal left for today",
+"ar": "بقي لك 760 سعرة لليوم"
+},
+"נשארו לך 1,330 קק״ל להיום": {
+"en": "1,330 kcal left for today",
+"ar": "بقي لك 1,330 سعرة لليوم"
+},
+"הוסף ליום ✓": {
+"en": "Add to today ✓",
+"ar": "أضف إلى اليوم ✓"
+},
+"לא עוד אימון \"בערך\". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ומצלמים את הצלחת במקום לספור קלוריות. בלי אובססיה, בלי אקסלים.": {
+"en": "No more \"roughly\" workouts. NextRep remembers every set and weight for you, shows you getting stronger week by week, and you snap your plate instead of counting calories. No obsession, no spreadsheets.",
+"ar": "لا مزيد من التمارين \"تقريبًا\". NextRep يتذكر كل مجموعة ووزن عنك، ويريك أنك تقوين أسبوعًا بعد أسبوع، وتصوّرين طبقك بدل عدّ السعرات. بلا هوس ولا جداول."
+},
+"כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת, ומחשב קלוריות מצילום של הצלחת במקום שתספור.": {
+"en": "To get stronger you add a little every workout, and you can't add to what you don't remember. NextRep remembers every set for you, tells you when rest is over, and counts calories from a photo of your plate so you don't have to.",
+"ar": "لتصبح أقوى تضيف قليلًا في كل تمرين، ولا يمكن الإضافة إلى ما لا تتذكره. NextRep يتذكر كل مجموعة عنك، ويخبرك عند انتهاء الراحة، ويحسب السعرات من صورة طبقك بدل أن تعدّها."
 }
 }
