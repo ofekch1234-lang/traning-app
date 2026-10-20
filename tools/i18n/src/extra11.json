@@ -2690,5 +2690,25 @@
 "בטוח? לחץ שוב": {
 "en": "Sure? Tap again",
 "ar": "متأكد؟ اضغط مرة أخرى"
+},
+"מחליפים את": {
+"en": "Replacing",
+"ar": "استبدال"
+},
+"כמות לפי": {
+"en": "Amount by",
+"ar": "الكمية حسب"
+},
+"חלופות עם כמות חלבון דומה": {
+"en": "Alternatives with similar protein",
+"ar": "بدائل ببروتين مشابه"
+},
+"חלופות עם כמות קלוריות דומה": {
+"en": "Alternatives with similar calories",
+"ar": "بدائل بسعرات مشابهة"
+},
+"מהתפריט": {
+"en": "From the plan foods",
+"ar": "من أطعمة القائمة"
 }
 }
