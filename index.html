@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=080d0ab5"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=826e5fd2"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -318,6 +318,7 @@ body.landing #app{max-width:1120px}
 .consent input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:var(--accent)}
 .consent a{color:var(--accent)}
 .ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
+.gconsent a{color:inherit;text-decoration:underline}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
 .pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:var(--start);padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
 .pb-cta .pb-ic{font-size:28px}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
@@ -411,9 +412,10 @@ body.chatting{overflow:hidden}
 .emo-pick button.on{border-color:var(--accent)}
 .inv-code{font-family:var(--disp);font-size:56px;letter-spacing:6px;text-align:center;direction:ltr;line-height:1;padding:10px;background:var(--surface2);border-radius:14px}
 /* auth screen */
-#authwrap{max-width:400px;margin:0 auto;padding:48px 20px;display:flex;flex-direction:column;gap:14px}
+#authwrap{max-width:400px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 20px 24px;display:flex;flex-direction:column;gap:12px}
 #authwrap .logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
-#authwrap .logo img{width:84px;height:84px;border-radius:20px;box-shadow:var(--shadow)}
+#authwrap .logo img{width:72px;height:72px;border-radius:18px;box-shadow:var(--shadow)}
+@media (max-height:760px){#authwrap .logo img{width:56px;height:56px;border-radius:14px}#authwrap .logo{gap:6px;margin-bottom:4px}#authwrap .logo .brand{font-size:26px}}
 #authwrap .logo .brand{font-size:30px}
 .autherr{color:var(--danger);font-size:14px;min-height:20px;text-align:center}
 .authnote{color:var(--muted);font-size:13px;text-align:center}
@@ -968,7 +970,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='7.9';
+const APP_VERSION='8.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1636,18 +1638,19 @@ function startLandTimer(){
 /* ----- auth screen ----- */
 function vAuth(){
   const su=S.authMode==='signup';
+  const showForm=!GOOGLE_ON||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
     <div class="logo">
       <img src="icon-192.png" alt="">
       <div class="brand" dir="ltr">Next<b>Rep</b></div>
-      <div class="muted small">מעקב אימונים אישי — התרגילים, המשקלים וההתקדמות שלך</div>
+      ${showForm?'':'<div class="muted small">מעקב אימונים אישי — התרגילים, המשקלים וההתקדמות שלך</div>'}
       ${langPillsHTML()}
     </div>
     <div class="card stack">
       ${GOOGLE_ON?`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>
-      <div class="small muted" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
-      <div class="fi-or"><span>או עם אימייל וסיסמה</span></div>`:''}
-      ${su?`<div class="label">שם מלא</div>
+      <div class="small muted gconsent" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
+      ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
+      ${showForm?`${su?`<div class="label">שם מלא</div>
       <input id="au-name" type="text" autocomplete="name" placeholder="איך קוראים לך?" value="${esc(S.authName||'')}">`:''}
       <div class="label">אימייל</div>
       <input id="au-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(S.authEmail||'')}">
@@ -1658,7 +1661,7 @@ function vAuth(){
       <button class="btn primary big" data-act="auth-go" id="authgo">${su?'הרשמה':'התחברות'}</button>
       ${su?'':`<button class="linkbtn" data-act="auth-forgot" style="font-size:13.5px">שכחתי סיסמה</button>`}
       <div class="small muted" style="text-align:center"><a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="terms.html" target="_blank">תקנון</a> · <a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="privacy.html" target="_blank">פרטיות</a></div>
-      <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם בחינם'}</button>
+      <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם בחינם'}</button>`:''}
       ${IS_STANDALONE?'':`<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>`}
     </div>
   </div>`;
@@ -5087,6 +5090,7 @@ function handleAct(b,ev){
     case 'pw-save': { const a=$('#pw1')?.value||'', c=$('#pw2')?.value||'';
       if(a.length<6){toast('לפחות 6 תווים');break;} if(a!==c){toast('הסיסמאות לא זהות');break;}
       b.disabled=true; sb.auth.updateUser({password:a}).then(({error})=>{ b.disabled=false; if(error){toast('העדכון נכשל: '+error.message);return;} closeSheet(); toast('הסיסמה עודכנה ✓'); }); break; }
+    case 'auth-email-open': S.authEmailOpen=true; render(); setTimeout(()=>($('#au-name')||$('#au-email'))?.focus(),50); break;
     case 'auth-toggle': S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
     case 'logout':
       if(b.dataset.sure){sb.auth.signOut();}
