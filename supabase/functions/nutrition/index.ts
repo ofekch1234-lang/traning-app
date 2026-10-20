@@ -42,13 +42,22 @@ Deno.serve(async (req: Request) => {
     const { data: ok } = await sb.rpc("is_approved");
     if (ok !== true) return new Response(JSON.stringify({ error: "not_approved" }), { status: 403, headers: cors });
 
-    // מכסה: עד 30 ניתוחי AI ל-24 שעות למשתמש — הגנה מניצול לרעה של המפתח
-    const DAILY_LIMIT = 30;
-    const { count } = await sb.from("ai_usage").select("id", { count: "exact", head: true })
-      .eq("user_id", user.id).gte("created_at", new Date(Date.now() - 864e5).toISOString());
-    if ((count ?? 0) >= DAILY_LIMIT) return new Response(JSON.stringify({ error: "quota", limit: DAILY_LIMIT }), { status: 429, headers: cors });
-
     const body = await req.json();
+    // מכסות ל-24 שעות: תמונות (צלחת + טבלה) 15, טקסט 60. אדמין — בלי הגבלה.
+    const PHOTO_LIMIT = 15, TEXT_LIMIT = 60;
+    const isPhoto = !!body.image;
+    const { data: plan } = await sb.rpc("my_plan");
+    const isAdmin = !!(plan as { admin?: boolean } | null)?.admin;
+    let used = 0;
+    if (!isAdmin) {
+      const { count } = await sb.from("ai_usage").select("id", { count: "exact", head: true })
+        .eq("user_id", user.id).in("kind", isPhoto ? ["photo", "label"] : ["text"])
+        .gte("created_at", new Date(Date.now() - 864e5).toISOString());
+      used = count ?? 0;
+      const lim = isPhoto ? PHOTO_LIMIT : TEXT_LIMIT;
+      if (used >= lim) return new Response(JSON.stringify({ error: "quota", kind: isPhoto ? "photo" : "text", limit: lim }), { status: 429, headers: cors });
+    }
+    const leftAfter = isAdmin ? null : (isPhoto ? PHOTO_LIMIT : TEXT_LIMIT) - used - 1;
     const content: unknown[] = [];
     const isLabel = !!body.label;
     // שפת המשתמש: שמות המאכלים/המוצר חוזרים בשפה שלו (הוא יכול לכתוב בכל שפה)
@@ -102,6 +111,7 @@ Deno.serve(async (req: Request) => {
       const m = txt.match(/\{[\s\S]*\}/);
       if (!m) { lastErr = "no_json stop=" + out.stop_reason + " text=" + txt.slice(0, 120); break; }
       const parsed = JSON.parse(m[0]);
+      if (leftAfter !== null && parsed && typeof parsed === "object") parsed._left = { kind: isPhoto ? "photo" : "text", n: Math.max(0, leftAfter) };
       return new Response(JSON.stringify(parsed), { headers: { ...cors, "Content-Type": "application/json" } });
     }
     console.error("anthropic error:", lastErr.slice(0, 500));

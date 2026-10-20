@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cde4e27b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b7dfbe97"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1001,7 +1001,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='9.8';
+const APP_VERSION='9.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2045,7 +2045,7 @@ function vFood(){
       <div class="acts3">
         <label class="acttile" aria-label="צילום ארוחה">
           <svg viewBox="0 0 24 24"><path d="M4 8h2.2l1.4-2.2A1.5 1.5 0 0 1 8.9 5h6.2a1.5 1.5 0 0 1 1.3.8L17.8 8H20a1.5 1.5 0 0 1 1.5 1.5V18A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8Z"/><circle cx="12" cy="13.2" r="3.4"/></svg>
-          <b>צלם צלחת</b><small>ה-AI יחשב</small><input id="food-photo" type="file" accept="image/*" capture="environment" hidden>
+          <b>תמונת צלחת</b><small>צילום או מהגלריה</small><input id="food-photo" type="file" accept="image/*" hidden>
         </label>
         <button class="acttile" data-act="scan-open" aria-label="סריקת ברקוד">
           <svg viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M7 8v8M10 8v8M13 8v8M16.5 8v8"/></svg>
@@ -2056,6 +2056,7 @@ function vFood(){
           <b>הקלדה ידנית</b><small>קלוריות ידועות</small>
         </button>
       </div>
+      ${aiQuotaLine()}
       ${recents.length?`<div class="row" style="gap:6px;min-width:0;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px">
         <span class="small muted" style="flex-shrink:0">שוב:</span>
         ${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}" style="flex-shrink:0">↻ ${esc(m.name.slice(0,16))} · ${m.kcal}</button>`).join('')}
@@ -2097,6 +2098,13 @@ function openTargetsSheet(){
     </div>
   `);
 }
+/* daily AI photo allowance (server: 15 photo/label analyses per 24h; admins unlimited) */
+const AIQ={photo:null,loaded:0,LIM:15};
+function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)return; AIQ.loaded=Date.now();
+  sb.from('ai_usage').select('id',{count:'exact',head:true}).in('kind',['photo','label']).gte('created_at',new Date(Date.now()-864e5).toISOString())
+    .then(({count,error})=>{ if(error)return; AIQ.photo=Math.max(0,AIQ.LIM-(count||0)); if(S.tab==='food'){ const el=$('#aiq'); if(el)el.outerHTML=aiQuotaLine(); } }); }
+function aiQuotaLine(){ if(S.plan?.admin)return ''; aiQuotaLoad(); if(AIQ.photo==null)return '<div id="aiq"></div>';
+  return `<div id="aiq" class="small muted" style="text-align:center;margin-top:6px">${AIQ.photo>0?`📸 נותרו ${AIQ.photo} ניתוחי תמונה היום`:'📸 ניצלת את ניתוחי התמונה להיום. אפשר להקליד או לחפש במאגר'}</div>`; }
 async function foodAI(payload){
   if(S.ai.busy)return;
   S.ai.busy=true; S.ai.q=payload.text||''; S.ai.img=payload.image?'data:image/jpeg;base64,'+payload.image:null; render(); aiTicker(true);
@@ -2105,11 +2113,13 @@ async function foodAI(payload){
       new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error('timeout'),{slow:true})),125000))]);
     if(error)throw error;
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
+    if(data._left&&data._left.kind==='photo'){AIQ.photo=data._left.n; AIQ.loaded=Date.now();}
     S.ai.keep=false; openMealConfirm(data);
   }catch(e){
     console.error(e);
     S.ai.keep=true; const st=e?.context?.status;
-    toast(st===429?'הגעת למכסת ניתוחי ה-AI היומית — אפשר לחפש במאגר או להוסיף ידנית'
+    if(st===429&&payload.image){AIQ.photo=0;}
+    toast(st===429?(payload.image?'ניצלת את ניתוחי התמונה להיום. אפשר להקליד מה אכלת או לחפש במאגר':'הגעת למכסת ניתוחי ה-AI היומית. אפשר לחפש במאגר או להוסיף ידנית')
       :(e?.slow||st===502||st===503||st===504)?'הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת'
       :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
   }
@@ -4186,7 +4196,7 @@ function openProduct(p){
 function openLabelPrompt(code){
   SCAN.code=code;
   openSheet(`<h3>המוצר עוד לא במאגר</h3><div class="muted" style="margin:-4px 0 12px">צלם את הטבלה התזונתית שעל האריזה. ה-AI יקרא אותה, והמוצר יישמר במאגר לכל המשתמשים.</div>
-    <label class="btn primary big" style="display:flex;justify-content:center;align-items:center">📷 צילום הטבלה התזונתית<input id="label-photo" type="file" accept="image/*" capture="environment" hidden></label>
+    <label class="btn primary big" style="display:flex;justify-content:center;align-items:center">📷 צילום הטבלה התזונתית<input id="label-photo" type="file" accept="image/*" hidden></label>
     <div class="small muted" style="text-align:center;margin-top:8px" dir="ltr">${esc(code)}</div>
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">ביטול</button>`);
 }

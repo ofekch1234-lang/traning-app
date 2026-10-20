@@ -466,5 +466,29 @@
 "עוד כמה שניות…": {
 "en": "A few more seconds…",
 "ar": "بضع ثوانٍ أخرى…"
+},
+"תמונת צלחת": {
+"en": "Plate photo",
+"ar": "صورة الطبق"
+},
+"צילום או מהגלריה": {
+"en": "Camera or gallery",
+"ar": "كاميرا أو معرض"
+},
+"📸 נותרו {0} ניתוחי תמונה היום": {
+"en": "📸 {0} photo analyses left today",
+"ar": "📸 تبقّى {0} تحليلات صور اليوم"
+},
+"📸 ניצלת את ניתוחי התמונה להיום. אפשר להקליד או לחפש במאגר": {
+"en": "📸 You've used today's photo analyses. You can type or search the database",
+"ar": "📸 استنفدت تحليلات الصور لليوم. يمكنك الكتابة أو البحث في قاعدة البيانات"
+},
+"ניצלת את ניתוחי התמונה להיום. אפשר להקליד מה אכלת או לחפש במאגר": {
+"en": "You've used today's photo analyses. You can type what you ate or search the database",
+"ar": "استنفدت تحليلات الصور لليوم. يمكنك كتابة ما أكلت أو البحث في قاعدة البيانات"
+},
+"הגעת למכסת ניתוחי ה-AI היומית. אפשר לחפש במאגר או להוסיף ידנית": {
+"en": "You've reached today's AI limit. You can search the database or add manually",
+"ar": "وصلت إلى حد الذكاء الاصطناعي لليوم. يمكنك البحث في قاعدة البيانات أو الإضافة يدويًا"
 }
 }

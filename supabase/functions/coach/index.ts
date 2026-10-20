@@ -230,7 +230,7 @@ Deno.serve(async (req: Request) => {
       if (!text) return J({ error: "bad_request" }, 400);
       const { count } = await admin.from("ai_usage").select("id", { count: "exact", head: true })
         .eq("user_id", user.id).eq("kind", "coach_chat").gte("created_at", new Date(Date.now() - 864e5).toISOString());
-      if ((count ?? 0) >= DAILY_CHAT) return J({ error: "quota", limit: DAILY_CHAT }, 429);
+      if (!plan.admin && (count ?? 0) >= DAILY_CHAT) return J({ error: "quota", limit: DAILY_CHAT }, 429);
       const { data: hist } = await admin.from("coach_messages").select("role,body").eq("user_id", user.id).order("id", { ascending: false }).limit(6);
       const msgs: { role: string; content: string }[] = [];
       for (const h of (hist || []).reverse().filter((x: any) => (x.body || "").trim())) {
@@ -245,7 +245,7 @@ Deno.serve(async (req: Request) => {
       await admin.from("ai_usage").insert({ user_id: user.id, kind: "coach_chat", model: ai.model, input_tokens: ai.it, output_tokens: ai.ot, cost_usd: ai.usd });
       await admin.from("coach_messages").insert([{ user_id: user.id, role: "user", body: text }, { user_id: user.id, role: "assistant", body: ai.text }]);
       console.log(JSON.stringify({ ev: "coach-chat", user: user.id.slice(0, 8), in: ai.it, out: ai.ot, usd: ai.usd, lang }));
-      return J({ reply: ai.text, left: DAILY_CHAT - (count ?? 0) - 1 });
+      return J({ reply: ai.text, left: plan.admin ? null : DAILY_CHAT - (count ?? 0) - 1 });
     }
     return J({ error: "bad_mode" }, 400);
   } catch (e) {
