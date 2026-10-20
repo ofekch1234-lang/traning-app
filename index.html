@@ -971,7 +971,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.3';
+const APP_VERSION='8.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1347,7 +1347,7 @@ let GOOGLE_ON=false;
 const GSI_MOBILE_REDIRECT=true; // turn on once /api/gsi is an authorized redirect URI in Google Cloud
 const GSI_TOUCH=matchMedia('(pointer:coarse)').matches;
 const GSI={cid:'746149894483-jmu5n97ncm2khai8m3s68cp4lh1hicn9.apps.googleusercontent.com',ready:false,loading:false,nonce:''};
-function gsiLoad(){ if(GSI.ready||GSI.loading||IS_STANDALONE||(GSI_TOUCH&&!GSI_MOBILE_REDIRECT))return; GSI.loading=true;
+function gsiLoad(){ if(GSI.ready||GSI.loading||(GSI_TOUCH&&!GSI_MOBILE_REDIRECT)||(IS_STANDALONE&&!GSI_MOBILE_REDIRECT))return; GSI.loading=true;
   const sc=document.createElement('script'); sc.src='https://accounts.google.com/gsi/client'; sc.async=true;
   sc.onload=()=>{ GSI.ready=!!window.google?.accounts?.id; if(GSI.ready&&S.mode==='auth')render(); };
   sc.onerror=()=>{ GSI.loading=false; };
@@ -1357,7 +1357,7 @@ function gsiLoad(){ if(GSI.ready||GSI.loading||IS_STANDALONE||(GSI_TOUCH&&!GSI_M
   const h=location.hash; if(!/^#gsi(err)?=/.test(h))return;
   history.replaceState(null,'',location.pathname+location.search);
   if(h.startsWith('#gsierr')){ setTimeout(()=>toast('ההתחברות עם Google נכשלה'),800); return; }
-  const tok=decodeURIComponent(h.slice(5)); let nonce=''; try{nonce=sessionStorage.getItem('nr-gsi-nonce')||''; sessionStorage.removeItem('nr-gsi-nonce');}catch(_){}
+  const tok=decodeURIComponent(h.slice(5)); let nonce=''; try{nonce=localStorage.getItem('nr-gsi-nonce')||''; localStorage.removeItem('nr-gsi-nonce');}catch(_){}
   sb.auth.signInWithIdToken({provider:'google',token:tok,nonce}).then(({error})=>{ if(error){console.warn('gsi',error); toast('ההתחברות עם Google נכשלה');} });
 })();
 async function gsiMount(){
@@ -1365,8 +1365,8 @@ async function gsiMount(){
   try{
     const raw=crypto.getRandomValues(new Uint8Array(16)).reduce((a,b)=>a+b.toString(16).padStart(2,'0'),'');
     const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)))].map(b=>b.toString(16).padStart(2,'0')).join('');
-    GSI.nonce=raw; try{sessionStorage.setItem('nr-gsi-nonce',raw);}catch(_){}
-    const redir=GSI_TOUCH&&GSI_MOBILE_REDIRECT;
+    GSI.nonce=raw; try{localStorage.setItem('nr-gsi-nonce',raw);}catch(_){}
+    const redir=(GSI_TOUCH||IS_STANDALONE)&&GSI_MOBILE_REDIRECT;
     google.accounts.id.initialize({client_id:GSI.cid,nonce:hash,auto_select:false,itp_support:true,use_fedcm_for_button:true,
       ...(redir?{ux_mode:'redirect',login_uri:location.origin+'/api/gsi'}:{}),
       callback:async(r)=>{ const {error}=await sb.auth.signInWithIdToken({provider:'google',token:r.credential,nonce:GSI.nonce});
@@ -1670,7 +1670,7 @@ function startLandTimer(){
 }
 
 /* ----- auth screen ----- */
-function vAuth(){ if(GOOGLE_ON&&!IS_STANDALONE&&!(GSI_TOUCH&&!GSI_MOBILE_REDIRECT)){gsiLoad(); setTimeout(gsiMount,0);}
+function vAuth(){ if(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH){gsiLoad(); setTimeout(gsiMount,0);}
   const su=S.authMode==='signup';
   const showForm=!GOOGLE_ON||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
@@ -1681,7 +1681,7 @@ function vAuth(){ if(GOOGLE_ON&&!IS_STANDALONE&&!(GSI_TOUCH&&!GSI_MOBILE_REDIREC
       ${langPillsHTML()}
     </div>
     <div class="card stack">
-      ${GOOGLE_ON?`${GSI.ready&&!IS_STANDALONE?'<div id="gsi-btn" class="gsi-wrap"></div>':`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>`}
+      ${GOOGLE_ON?`${GSI.ready?'<div id="gsi-btn" class="gsi-wrap"></div>':`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>`}
       <div class="small muted gconsent" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
       ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
       ${showForm?`${su?`<div class="label">שם מלא</div>
