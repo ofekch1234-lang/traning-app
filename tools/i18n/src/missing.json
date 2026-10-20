@@ -210,6 +210,10 @@
   "pattern": true
  },
  {
+  "he": "🔔 התראות{0}",
+  "pattern": true
+ },
+ {
   "he": "({0} מתוך {1})",
   "pattern": true
  },

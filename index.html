@@ -30,9 +30,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=209a6850"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=209a6850"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=209a6850"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=82768fe7"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=82768fe7"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=82768fe7"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -342,6 +342,7 @@ body.landing #app{max-width:1120px}
 .adm-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .adm-acts .btn{text-align:center;text-decoration:none}
 .adm-det{padding:12px 14px}
+.rdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);vertical-align:middle;margin-inline-start:4px}
 .set-det .det-arr{transition:transform .2s}.set-det[open] .det-arr{transform:rotate(90deg)}
 [dir=ltr] .set-det .det-arr{display:inline-block;transform:scaleX(-1)}[dir=ltr] .set-det[open] .det-arr{transform:rotate(90deg)}
 .adm-det summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none}
@@ -1163,7 +1164,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.2.2';
+const APP_VERSION='11.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1196,6 +1197,21 @@ async function ensureNotifPerm(){
     return (await Notification.requestPermission())==='granted';
   }catch(e){return false;}
 }
+/* בקשת התראות ברגע הנכון: שאלה אחת לכל הקשר, עם הסבר של קובי לפני החלון של המערכת */
+function notifCan(){ try{ return ('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE); }catch(_){ return false; } }
+function notifAsk(ctx,title,text){
+  if(!notifCan()||!$('#sheet').hidden||!$('#np').hidden)return false;
+  let seen={}; try{seen=JSON.parse(localStorage.getItem('np-ctx')||'{}');}catch(_){}
+  if(seen[ctx])return false; seen[ctx]=1; try{localStorage.setItem('np-ctx',JSON.stringify(seen));}catch(_){}
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-happy.svg" alt=""><div><b>${title}</b><span>${text}</span></div></div>
+    <button class="btn primary big" data-act="notif-on" data-ctx="${ctx}">🔔 הפעל התראות</button>
+    <button class="btn big" style="margin-top:8px" data-act="notif-later">לא עכשיו</button>`);
+  return true;
+}
+// "לא עכשיו" במסך הבית: דחייה של 3 ימים, אחר כך שבוע, ואחרי 3 פעמים מפסיקים להציע
+function notifSnoozed(){ try{ const d=JSON.parse(localStorage.getItem('np-dis')||'null'); if(!d)return false; if(d===1||d===true)return true; if(d.n>=3)return true; return Date.now()<d.until; }catch(_){ return true; } }
+function notifSnooze(){ let d={n:0}; try{ const x=JSON.parse(localStorage.getItem('np-dis')||'null'); if(x&&typeof x==='object')d=x; }catch(_){} d.n=(d.n||0)+1; d.until=Date.now()+(d.n===1?3:7)*864e5; try{localStorage.setItem('np-dis',JSON.stringify(d));}catch(_){} }
+function notifDeniedHelp(){ return IS_IOS?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← התראות ← NextRep ← אפשר התראות.':/Android/i.test(navigator.userAgent)?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← אפליקציות ← NextRep ← התראות.':'ההתראות חסומות בדפדפן. לפתיחה: לוחצים על המנעול בשורת הכתובת ← התראות ← אפשר.'; }
 /* מנוי Push לתזכורות יומיות */
 const PUSH_PUBKEY='BEZW8tXMc6pOHrP87-KW8pfmZvr1ueA7S7BqBzUQu-Hp2DC_Yi2B-K_yO7JxWeRClXUDK6K1AsMETaQpvY-hkXw';
 function b64uToU8(s){const p='='.repeat((4-s.length%4)%4);const r=atob((s+p).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0));}
@@ -1453,6 +1469,8 @@ async function ensureRestPush(){
       let asked=false; try{asked=!!localStorage.getItem('np-rest-asked');}catch(e){}
       if(asked)return;
       try{localStorage.setItem('np-rest-asked','1');}catch(e){}
+      setTimeout(()=>notifAsk('rest','המנוחה התחילה ⏱️','רוצה שאודיע לך כשהיא נגמרת, גם כשהמסך כבוי או שהטלפון בכיס? זה מה שההתראות בשביל.'),400);
+      return;
     }
     if(Notification.permission==='denied')return;
     const r=await subscribePush(); _pushOk=!!r.ok;
@@ -2061,13 +2079,13 @@ function vHome(){
         return done?`אימון ${done+1} השבוע מחכה לך`:'האימון הראשון של השבוע מחכה לך'; })()}</div>
       ${planPill()}
     </div>
-    ${(()=>{try{return !TOUR.on&&('Notification' in window)&&Notification.permission==='default'&&!localStorage.getItem('np-dis');}catch(e){return false;}})()?`
+    ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`
     <div class="card">
       <div class="spread">
         <div><b>🔔 הפעל התראות</b><div class="small muted">תדע שהמנוחה נגמרה גם כשהמסך כבוי</div></div>
         <div class="row" style="gap:6px">
           <button class="btn" data-act="notif-dis">לא עכשיו</button>
-          <button class="btn primary" data-act="notif-on">הפעל</button>
+          <button class="btn primary" data-act="notif-on" data-ctx="home">הפעל</button>
         </div>
       </div>
     </div>`:''}
@@ -3789,7 +3807,7 @@ function renderSettings(){
       <span><b>🧭 סיור במערכת</b><span class="small muted" style="display:block">הצגה קצרה של כל היכולות</span></span><span class="muted">›</span></button>
     <button class="card spread" data-act="contact-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin:0 0 14px">
       <span><b>💬 צור קשר</b><span class="small muted" style="display:block">שאלה, תקלה או רעיון. נחזור אליך כאן</span></span><span class="muted">›</span></button>
-    <details class="card adm-det set-det" ${S.settings.notifOpen?'open':''} data-det="notifOpen"><summary><span><b>🔔 התראות</b><span class="small muted" style="display:block">${(()=>{const ks=['remind','rest','pr','social','coach','nudge'];const on=ks.filter(k=>k==='remind'?n.remind===true:n[k]!==false).length;return on===ks.length?'הכל פעיל':on?`${on} מתוך ${ks.length} פעילות`:'כבויות';})()}</span></span><span class="muted det-arr">›</span></summary>
+    <details class="card adm-det set-det" ${S.settings.notifOpen?'open':''} data-det="notifOpen"><summary><span><b>🔔 התראות${'Notification' in window&&Notification.permission!=='granted'?' <i class="rdot"></i>':''}</b><span class="small muted" style="display:block">${(()=>{const ks=['remind','rest','pr','social','coach','nudge'];const on=ks.filter(k=>k==='remind'?n.remind===true:n[k]!==false).length;return on===ks.length?'הכל פעיל':on?`${on} מתוך ${ks.length} פעילות`:'כבויות';})()}</span></span><span class="muted det-arr">›</span></summary>
     <div class="stack" style="gap:0;margin-top:6px">
       <label class="setrow">
         <span><b>תזכורת אימון יומית 🗓️</b><span class="small muted" style="display:block">בבוקר של יום מתוזמן בלו״ז — גם כשהאפליקציה סגורה</span></span>
@@ -3803,7 +3821,9 @@ function renderSettings(){
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
       ${sw('vib','רטט','משוב מישוש בלחיצות ובטיימר')}
     </div>
-    ${'Notification' in window&&Notification.permission==='denied'?`<div class="small muted" style="margin-top:8px">⚠️ ההתראות חסומות בדפדפן — אפשר לאפשר מחדש בהגדרות האתר של הדפדפן.</div>`:''}
+    ${'Notification' in window&&Notification.permission==='denied'?`<div class="small" style="margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--gold-soft)">⚠️ ${notifDeniedHelp()}</div>`:''}
+    ${notifCan()?`<button class="btn primary" style="width:100%;margin-top:10px" data-act="notif-on" data-ctx="settings">🔔 הפעל התראות במכשיר הזה</button>`:''}
+    ${IS_IOS&&!IS_STANDALONE?`<div class="small muted" style="margin-top:8px">באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.</div>`:''}
     </details>
     <div class="label" style="margin:16px 0 6px">מנוחה בין סטים (ברירת מחדל)</div>
     <div class="row">
@@ -4131,6 +4151,7 @@ async function socPendingJoin(){
   const {data,error}=await sb.rpc('join_group',{p_code:code});
   if(error){toast(/not_found/.test(error.message)?'קוד ההזמנה לא נמצא':/group_full/.test(error.message)?'הקבוצה מלאה':'ההצטרפות נכשלה');return;}
   toast('הצטרפת לקבוצה 🎉'); await socLoad(); S.tab='social'; location.hash='social'; socOpen(data);
+  setTimeout(()=>notifAsk('group','ברוך הבא לקבוצה 👥','כדי לראות מתי החברים מסיימים אימון, שוברים שיא או כותבים בצ׳אט, צריך להפעיל התראות.'),1200);
 }
 function socOnMsg(m){
   const g=(SOC.groups||[]).find(x=>x.id===m.group_id);
@@ -4416,7 +4437,7 @@ function socAct(act,b){
     case 'soc-join-go': { const code=($('#sg-code')?.value||'').trim().toUpperCase(); if(code.length!==6){toast('הקוד צריך להיות 6 תווים');return true;} b.disabled=true;
       sb.rpc('join_group',{p_code:code}).then(async({data,error})=>{ b.disabled=false;
         if(error){toast(/not_found/.test(error.message)?'לא נמצאה קבוצה עם הקוד הזה':/group_full/.test(error.message)?'הקבוצה מלאה (30 חברים)':'ההצטרפות נכשלה');return;}
-        closeSheet(); toast('הצטרפת לקבוצה 🎉'); await socLoad(); socOpen(data); }); return true; }
+        closeSheet(); toast('הצטרפת לקבוצה 🎉'); await socLoad(); socOpen(data); setTimeout(()=>notifAsk('group','ברוך הבא לקבוצה 👥','כדי לראות מתי החברים מסיימים אימון, שוברים שיא או כותבים בצ׳אט, צריך להפעיל התראות.'),1200); }); return true; }
     case 'soc-mute': { const gid=SOC.gid, u=b.dataset.u; const mu=SOC.mutes[gid]||(SOC.mutes[gid]=new Set()); const on=mu.has(u);
       if(on){ mu.delete(u); let q=sb.from('group_mutes').delete().eq('group_id',gid); q=u==='*'?q.is('muted_id',null):q.eq('muted_id',u); q.then(({error})=>{ if(error){mu.add(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'ההתראות מהקבוצה הופעלו 🔔':'ההשתקה בוטלה 🔔'); }
       else{ mu.add(u); sb.from('group_mutes').insert({group_id:gid,muted_id:u==='*'?null:u}).then(({error})=>{ if(error&&!/duplicate/.test(error.message)){mu.delete(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'הקבוצה הושתקה 🔕':'לא תקבל התראות מההודעות שלו 🔕'); }
@@ -5466,7 +5487,8 @@ async function doSaveWorkout(){
   saveLocalActive(); clearTimeout(_aT); flushActive();
   stopRest(); keepAwake(false); closeSheet(); render(); toast('האימון נשמר 💪');
   setTimeout(checkNewBadges,700);
-  { const n=(S.workouts||[]).length; const r=newPRs.length&&n>=3?'pr':n===4?'w4':n===10?'w10':n===20?'w20':null; if(r)setTimeout(()=>maybeInvitePrompt(r),2500); }
+  { const n=(S.workouts||[]).length; const r=newPRs.length&&n>=3?'pr':n===4?'w4':n===10?'w10':n===20?'w20':null; if(r)setTimeout(()=>maybeInvitePrompt(r),2500);
+    if(n===1)setTimeout(()=>notifAsk('first','אימון ראשון נשמר 💪','רוצה שאזכיר לך בבוקר של יום האימון הבא, ואודיע כשתשבור שיא? רק עם התראות.'),1800); }
 }
 
 /* ---------- event delegation ---------- */
@@ -5553,8 +5575,9 @@ function handleAct(b,ev){
         if(error){toast('שמירת השם נכשלה');return;}
         if(data?.user)S.user=data.user; toast('השם עודכן 👋'); if(!$('#sheet').hidden&&!$('#logoutbtn').hidden&&!document.querySelector('[data-act="rest-test"]'))closeSheet(); render();
       }); break; }
-    case 'notif-on': ensureNotifPerm().then(ok=>{toast(ok?'ההתראות הופעלו 🔔':'ההרשאה לא אושרה');render();}); break;
-    case 'notif-dis': try{localStorage.setItem('np-dis','1');}catch(e){} render(); break;
+    case 'notif-on': closeSheet(); logEv('notif_ask',{ctx:b.dataset.ctx||null}); ensureNotifPerm().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:b.dataset.ctx||null}); if(ok){ toast('ההתראות הופעלו 🔔'); subscribePush().catch(()=>{}); if(S.settings.notif)S.settings.notif.remind=true; persistSettings(); } else toast(Notification.permission==='denied'?'ההרשאה נדחתה. אפשר לשנות בהגדרות הטלפון':'ההרשאה לא אושרה'); render(); }); break;
+    case 'notif-later': closeSheet(); notifSnooze(); render(); break;
+    case 'notif-dis': notifSnooze(); render(); break;
     case 'food-nav': { const dt=new Date(S.foodDate+'T12:00:00'); dt.setDate(dt.getDate()+(+b.dataset.dir));
       const nd=ymd(dt), today=ymd();
       if(nd<=today){S.foodDate=nd;render();} break; }

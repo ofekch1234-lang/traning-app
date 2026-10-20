@@ -1410,5 +1410,61 @@
 "6 ספרות. הקוד תקף לשעה. לא רואה? בדוק בתיקיית הספאם.": {
 "en": "6 digits. Valid for one hour. Can't find it? Check your spam folder.",
 "ar": "6 أرقام. الرمز صالح لساعة. لا تجده؟ تحقق من مجلد الرسائل غير المرغوبة."
+},
+"🔔 הפעל התראות": {
+"en": "🔔 Turn on notifications",
+"ar": "🔔 تفعيل الإشعارات"
+},
+"לא עכשיו": {
+"en": "Not now",
+"ar": "ليس الآن"
+},
+"המנוחה התחילה ⏱️": {
+"en": "Rest started ⏱️",
+"ar": "بدأت الراحة ⏱️"
+},
+"רוצה שאודיע לך כשהיא נגמרת, גם כשהמסך כבוי או שהטלפון בכיס? זה מה שההתראות בשביל.": {
+"en": "Want me to tell you when it's over, even with the screen off or the phone in your pocket? That's what notifications are for.",
+"ar": "أتريد أن أخبرك عند انتهائها حتى والشاشة مطفأة أو الهاتف في جيبك؟ لهذا توجد الإشعارات."
+},
+"אימון ראשון נשמר 💪": {
+"en": "First workout saved 💪",
+"ar": "حُفظ أول تمرين 💪"
+},
+"רוצה שאזכיר לך בבוקר של יום האימון הבא, ואודיע כשתשבור שיא? רק עם התראות.": {
+"en": "Want a reminder on the morning of your next workout day, and a heads-up when you break a PR? Only with notifications.",
+"ar": "أتريد تذكيرًا صباح يوم تدريبك التالي، وتنبيهًا عند تحطيم رقم قياسي؟ فقط مع الإشعارات."
+},
+"ברוך הבא לקבוצה 👥": {
+"en": "Welcome to the group 👥",
+"ar": "أهلًا بك في الفريق 👥"
+},
+"כדי לראות מתי החברים מסיימים אימון, שוברים שיא או כותבים בצ׳אט, צריך להפעיל התראות.": {
+"en": "To know when friends finish a workout, hit a PR or write in the chat, turn on notifications.",
+"ar": "لتعرف متى ينهي أصدقاؤك تمرينًا أو يحطمون رقمًا أو يكتبون في الدردشة، فعّل الإشعارات."
+},
+"ההרשאה נדחתה. אפשר לשנות בהגדרות הטלפון": {
+"en": "Permission denied. You can change it in your phone settings",
+"ar": "رُفض الإذن. يمكنك تغييره في إعدادات الهاتف"
+},
+"🔔 הפעל התראות במכשיר הזה": {
+"en": "🔔 Turn on notifications on this device",
+"ar": "🔔 تفعيل الإشعارات على هذا الجهاز"
+},
+"באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.": {
+"en": "On iPhone, notifications work only when the app is saved to the Home Screen.",
+"ar": "على iPhone تعمل الإشعارات فقط عند حفظ التطبيق على الشاشة الرئيسية."
+},
+"ההתראות חסומות. לפתיחה: הגדרות הטלפון ← התראות ← NextRep ← אפשר התראות.": {
+"en": "Notifications are blocked. To allow: phone Settings → Notifications → NextRep → Allow.",
+"ar": "الإشعارات محظورة. للسماح: إعدادات الهاتف ← الإشعارات ← NextRep ← السماح."
+},
+"ההתראות חסומות. לפתיחה: הגדרות הטלפון ← אפליקציות ← NextRep ← התראות.": {
+"en": "Notifications are blocked. To allow: phone Settings → Apps → NextRep → Notifications.",
+"ar": "الإشعارات محظورة. للسماح: إعدادات الهاتف ← التطبيقات ← NextRep ← الإشعارات."
+},
+"ההתראות חסומות בדפדפן. לפתיחה: לוחצים על המנעול בשורת הכתובת ← התראות ← אפשר.": {
+"en": "Notifications are blocked in the browser. To allow: tap the lock in the address bar → Notifications → Allow.",
+"ar": "الإشعارات محظورة في المتصفح. للسماح: اضغط القفل في شريط العنوان ← الإشعارات ← السماح."
 }
 }
