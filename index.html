@@ -319,6 +319,7 @@ body.landing #app{max-width:1120px}
 .consent a{color:var(--accent)}
 .ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
 .gconsent a{color:inherit;text-decoration:underline}
+.gsi-wrap{display:flex;justify-content:center;min-height:44px}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
 .pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:var(--start);padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
 .pb-cta .pb-ic{font-size:28px}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
@@ -970,7 +971,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='8.0';
+const APP_VERSION='8.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1341,6 +1342,27 @@ function render_(){
 
 /* ----- ממתין לאישור ----- */
 let GOOGLE_ON=false;
+/* Google Identity Services: in the browser, Google's own button (shows NextRep / our domain instead of the supabase.co address).
+   The ID token is exchanged with Supabase via signInWithIdToken. Home-screen app keeps the redirect flow. */
+const GSI={cid:'746149894483-jmu5n97ncm2khai8m3s68cp4lh1hicn9.apps.googleusercontent.com',ready:false,loading:false,nonce:''};
+function gsiLoad(){ if(GSI.ready||GSI.loading||IS_STANDALONE)return; GSI.loading=true;
+  const sc=document.createElement('script'); sc.src='https://accounts.google.com/gsi/client'; sc.async=true;
+  sc.onload=()=>{ GSI.ready=!!window.google?.accounts?.id; if(GSI.ready&&S.mode==='auth')render(); };
+  sc.onerror=()=>{ GSI.loading=false; };
+  document.head.appendChild(sc); }
+async function gsiMount(){
+  const el=document.getElementById('gsi-btn'); if(!el||!GSI.ready)return;
+  try{
+    const raw=crypto.getRandomValues(new Uint8Array(16)).reduce((a,b)=>a+b.toString(16).padStart(2,'0'),'');
+    const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+    GSI.nonce=raw;
+    google.accounts.id.initialize({client_id:GSI.cid,nonce:hash,auto_select:false,itp_support:true,use_fedcm_for_button:true,
+      callback:async(r)=>{ const {error}=await sb.auth.signInWithIdToken({provider:'google',token:r.credential,nonce:GSI.nonce});
+        if(error){ console.warn('gsi',error); toast('ההתחברות עם Google נכשלה'); } }});
+    el.innerHTML='';
+    google.accounts.id.renderButton(el,{type:'standard',theme:'outline',size:'large',shape:'rectangular',text:'continue_with',logo_alignment:'center',locale:LANG,width:Math.min(400,Math.round(el.getBoundingClientRect().width)||320)});
+  }catch(e){ console.warn('gsi mount',e); }
+}
 // מציג את כפתור Google רק אם הספק מופעל ב-Supabase
 fetch(SUPABASE_URL+'/auth/v1/settings',{headers:{apikey:SUPABASE_KEY}}).then(r=>r.json()).then(j=>{ GOOGLE_ON=!!j?.external?.google; if(GOOGLE_ON&&S.mode==='auth')render(); }).catch(()=>{});
 // משתמש שנכנס עם Google: השם מגיע מחשבון Google. רושמים הסכמה לתקנון, ואם אין שם — מבקשים פעם אחת
@@ -1636,7 +1658,7 @@ function startLandTimer(){
 }
 
 /* ----- auth screen ----- */
-function vAuth(){
+function vAuth(){ if(GOOGLE_ON&&!IS_STANDALONE){gsiLoad(); setTimeout(gsiMount,0);}
   const su=S.authMode==='signup';
   const showForm=!GOOGLE_ON||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
@@ -1647,7 +1669,7 @@ function vAuth(){
       ${langPillsHTML()}
     </div>
     <div class="card stack">
-      ${GOOGLE_ON?`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>
+      ${GOOGLE_ON?`${GSI.ready&&!IS_STANDALONE?'<div id="gsi-btn" class="gsi-wrap"></div>':`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>`}
       <div class="small muted gconsent" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
       ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
       ${showForm?`${su?`<div class="label">שם מלא</div>
