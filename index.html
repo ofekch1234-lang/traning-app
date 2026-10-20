@@ -22,7 +22,7 @@
   }
   window.NR_LANG=L;
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl';
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5753e18e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5436fd7a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -376,6 +376,8 @@ body.chatting{overflow:hidden}
 .ch-bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
 .ch-mem{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:14px}
 .ch-mem .ch-bar{grid-column:1/-1}
+.mutebtn{font:inherit;font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);cursor:pointer}
+.mutebtn.off{background:var(--gold-soft);color:var(--gold);border-color:transparent}
 .ch-mem.me{background:var(--accent-soft);margin:0 -8px;padding:6px 8px;border-radius:10px}
 .ch-emo{width:42px;height:42px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;font-size:22px;flex-shrink:0}
 .ch-you{background:var(--surface2);border-radius:12px;padding:9px 12px;font-weight:600;font-size:14.5px}
@@ -937,7 +939,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='6.8';
+const APP_VERSION='6.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3480,7 +3482,7 @@ async function openContact(topic){
   draw(null); const {data}=await sb.rpc('my_support'); if(!$('#sheet').hidden&&$('#ct-body'))draw(data||[]);
 }
 /* ===================== קבוצות: שותפים, צ'אט, טבלה ואתגרים ===================== */
-const SOC={groups:null,gid:null,view:'chat',info:{},msgs:{},reacts:{},board:null,boardRange:'week',chall:null,ch:null,draft:'',lastRead:{},more:{}};
+const SOC={mutes:{},groups:null,gid:null,view:'chat',info:{},msgs:{},reacts:{},board:null,boardRange:'week',chall:null,ch:null,draft:'',lastRead:{},more:{}};
 try{SOC.lastRead=JSON.parse(localStorage.getItem('nr-lastread')||'{}');}catch(_){}
 const SOC_EMO=['💪','🔥','🏋️','🦾','⚡','🐺','🦁','🏆','🥇','🚀'];
 const METRIC={workouts:['אימונים','אימונים'],sets:['סטים','סטים'],volume:['נפח','ק״ג']};
@@ -3641,7 +3643,7 @@ function vSocGroup(){
     <button class="rarrow" data-act="soc-back" aria-label="חזרה" style="width:40px;height:40px;font-size:18px;direction:ltr;unicode-bidi:isolate">${ARW_PREV}</button>
     <span class="sg-emo" style="width:40px;height:40px;font-size:22px">${esc(g.emoji||'💪')}</span>
     <span class="t"><b>${esc(g.name||'')}</b><span class="small muted">${n} חברים</span></span>
-    <button class="btn" data-act="soc-invite">הזמנה</button></div>
+    <button class="btn" data-act="soc-invite">👥 חברים</button></div>
     <div class="sg-seg">${[['chat','צ׳אט'],['board','טבלה'],['chall','אתגרים']].map(([k,t])=>`<button class="${SOC.view===k?'on':''}" data-act="soc-view" data-v="${k}">${t}</button>`).join('')}</div>`;
   if(SOC.view==='board')return head+vSocBoard();
   if(SOC.view==='chall')return head+vSocChall();
@@ -3718,6 +3720,41 @@ function vSocChall(){
       ${c.created_by===me?`<button class="linkbtn" data-act="soc-chall-del" data-id="${c.id}" style="align-self:flex-start;color:var(--muted);font-size:13px">מחיקת האתגר</button>`:''}
     </div>`;}).join('')}</div>`;
 }
+function socNewSheet(){
+  SOC.newEmo=SOC.newEmo||'💪';
+  openSheet(`<h3>קבוצה חדשה</h3>
+    <div class="label" style="margin-bottom:6px">שם הקבוצה</div>
+    <input id="sg-name" type="text" maxlength="40" placeholder="למשל: החבר׳ה מהמכון, אני ודני">
+    <div class="label" style="margin:12px 0 6px">אייקון</div>
+    <div class="emo-pick">${SOC_EMO.map(e=>`<button class="${SOC.newEmo===e?'on':''}" data-act="soc-emo" data-e="${e}">${e}</button>`).join('')}</div>
+    <div class="small muted" style="margin-top:12px">שותף אימונים? פשוט צור קבוצה ושלח לו את ההזמנה.</div>
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-create">צור קבוצה</button></div>`);
+  setTimeout(()=>$('#sg-name')?.focus(),60);
+}
+function socJoinSheet(){
+  openSheet(`<h3>הצטרפות לקבוצה</h3><div class="muted" style="margin:-4px 0 12px">הכנס את הקוד בן 6 התווים שקיבלת מחבר.</div>
+    <input id="sg-code" type="text" maxlength="6" dir="ltr" autocapitalize="characters" autocomplete="off" placeholder="ABC123" style="text-align:center;font-size:26px;letter-spacing:6px;text-transform:uppercase">
+    <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn primary" style="flex:2" data-act="soc-join-go">הצטרף</button></div>`);
+  setTimeout(()=>$('#sg-code')?.focus(),60);
+}
+function socInviteSheet(){
+  const info=SOC.info[SOC.gid]||{}; const code=info.invite_code||((SOC.groups||[]).find(g=>g.id===SOC.gid)||{}).invite_code||'';
+  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">שלח את הקישור. מי שאין לו חשבון יירשם ויצטרף אחרי אישור.</div>
+    <div class="inv-code">${esc(code)}</div>
+    <div class="row" style="margin-top:12px;flex-wrap:nowrap"><button class="btn primary big" style="flex:2" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
+      <button class="btn big" style="flex:1" data-act="soc-qr" data-code="${esc(code)}">ברקוד</button></div>
+    <div class="label" style="margin:16px 0 6px">חברים בקבוצה</div>
+    ${(()=>{ const mu=SOC.mutes[SOC.gid]; const all=mu?.has('*');
+      return `<button class="card spread" data-act="soc-mute" data-u="*" style="width:100%;text-align:var(--start);padding:11px 14px;margin-bottom:8px"><span><b>${all?'🔕 הקבוצה מושתקת':'🔔 התראות מהקבוצה'}</b><span class="small muted" style="display:block">${all?'לא תקבל התראות מהקבוצה. לחץ כדי להפעיל':'לחץ כדי להשתיק את כל הקבוצה'}</span></span><span class="muted">›</span></button>
+      <div class="card" style="padding:4px 14px">${(info.members||[]).map(m=>{ const me=m.user_id===S.user?.id, off=mu?.has(m.user_id);
+        return `<div class="spread" style="padding:7px 0;border-top:1px solid var(--line)"><span><span data-notr>${esc(me?tt('אתה'):m.name)}</span> <span class="small muted">${m.role==='owner'?'מנהל':''}</span></span>
+          ${me?'':`<button class="mutebtn ${off?'off':''}" data-act="soc-mute" data-u="${m.user_id}" aria-label="${off?'בטל השתקה':'השתק התראות'}">${off?'🔕 מושתק':'🔔'}</button>`}</div>`;}).join('')}</div>
+      <div class="small muted" style="margin-top:6px">🔕 השתקה עוצרת רק את ההתראות. ההודעות עדיין יופיעו בצ׳אט.</div>`; })()}
+    <button class="btn danger" style="width:100%;margin-top:14px" data-act="soc-leave">יציאה מהקבוצה</button>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
+}
+async function socMutesLoad(gid){ if(!gid)return; const {data}=await sb.from('group_mutes').select('muted_id').eq('group_id',gid);
+  SOC.mutes[gid]=new Set((data||[]).map(r=>r.muted_id||'*')); if(SOC.gid===gid&&$('#sheet .inv-code'))socInviteSheet(); }
 function socChallSheet(){
   const f=SOC.cf=SOC.cf||{title:tt(CH_PRESETS[0][0]).replace(/^\S+\s/,''),metric:'workouts',target:4,days:7,mode:'goal',ex:''};
   const exAll=[...new Set(Object.values(LIB).flat())];
@@ -3763,7 +3800,11 @@ function socAct(act,b){
       sb.rpc('join_group',{p_code:code}).then(async({data,error})=>{ b.disabled=false;
         if(error){toast(/not_found/.test(error.message)?'לא נמצאה קבוצה עם הקוד הזה':/group_full/.test(error.message)?'הקבוצה מלאה (30 חברים)':'ההצטרפות נכשלה');return;}
         closeSheet(); toast('הצטרפת לקבוצה 🎉'); await socLoad(); socOpen(data); }); return true; }
-    case 'soc-invite': socInviteSheet(); if(!SOC.info[SOC.gid])socLoadInfo(SOC.gid).then(socInviteSheet); return true;
+    case 'soc-mute': { const gid=SOC.gid, u=b.dataset.u; const mu=SOC.mutes[gid]||(SOC.mutes[gid]=new Set()); const on=mu.has(u);
+      if(on){ mu.delete(u); let q=sb.from('group_mutes').delete().eq('group_id',gid); q=u==='*'?q.is('muted_id',null):q.eq('muted_id',u); q.then(({error})=>{ if(error){mu.add(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'ההתראות מהקבוצה הופעלו 🔔':'ההשתקה בוטלה 🔔'); }
+      else{ mu.add(u); sb.from('group_mutes').insert({group_id:gid,muted_id:u==='*'?null:u}).then(({error})=>{ if(error&&!/duplicate/.test(error.message)){mu.delete(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'הקבוצה הושתקה 🔕':'לא תקבל התראות מההודעות שלו 🔕'); }
+      socInviteSheet(); return true; }
+    case 'soc-invite': socMutesLoad(SOC.gid); socInviteSheet(); if(!SOC.info[SOC.gid])socLoadInfo(SOC.gid).then(socInviteSheet); return true;
     case 'soc-share': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`;
       const text=`בוא להתאמן איתי ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. קוד הקבוצה: ${code}`;
       if(navigator.share)navigator.share({title:'NextRep',text:tt(text),url}).catch(()=>{});
