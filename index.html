@@ -38,7 +38,7 @@
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="menu-foods.js?v=3"></script>
+<script src="menu-foods.js?v=4"></script>
 <style>
 /* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
 :root{
@@ -1225,7 +1225,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.8';
+const APP_VERSION='11.8.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2476,6 +2476,18 @@ function solveMeal(items,K,Pt){
   if(F&&k>K+120)F.g=F.f.mn;
   return items;
 }
+/* כשמקור החלבון הגיע לכמות סבירה (למשל 3 ביצים) וחסר עוד חלבון, מוסיפים מקור שני קל: קוטג׳, גבינה, טונה */
+function addSecondP(items,K,Pt,kind,rnd,p){
+  if(kind!=='b'&&kind!=='m')return items;
+  const P=items.find(i=>i.f.r==='P'); if(!P||P.g<P.f.mx||['m','f'].includes(P.f.t)&&kind==='m'&&P.f.id!=='tun')return items;
+  const sum=k=>items.reduce((a,i)=>a+(+i.f[k]||0)*i.g/100,0), miss=Pt-sum('p'); if(miss<8)return items;
+  const kosher=p.style==='kosher';
+  const c=MF().filter(f=>['cot','whc','ylc','tun'].includes(f.id)&&f.id!==P.f.id&&mfAllowed(f,p)&&!(kosher&&(f.t==='d'&&P.f.t==='m'||f.t==='m'&&P.f.t==='d'))&&f.p>=9);
+  const Q=mfPick(c,rnd); if(!Q)return items;
+  const it={f:Q,g:mfClamp(Q,miss/Q.p*100)}; items.splice(1,0,it);
+  const C=items.find(i=>i.f.r==='C'); if(C){ const left=K-items.reduce((a,i)=>i===C?a:a+i.f.k*i.g/100,0); C.g=mfClamp(C.f,left>0?left/C.f.k*100:C.f.mn); }
+  return items;
+}
 function buildMeal(kind,rnd,usedP,p){
   const it=[]; const add=f=>{ if(f)it.push({f,g:f.df}); return f; };
   if(kind==='s'){
@@ -2520,7 +2532,8 @@ function menuGenerate(seed){
   const M=menuS(), p=M.p||{}, kT=+S.settings.kcalT||2000, pT=+S.settings.protT||Math.round(kT*0.25/4);
   seed=seed||((Date.now()%1e9)|0); const rnd=mRand(seed), usedP=[];
   const meals=menuSlots(p).map(sl=>{ const kind=mealKind(sl.k,p);
-    const it=solveMeal(buildMeal(kind,rnd,usedP,p),kT*sl.share,pT*Math.max(sl.share,.12));
+    const K=kT*sl.share, Pt=pT*Math.max(sl.share,.12);
+    const it=addSecondP(solveMeal(buildMeal(kind,rnd,usedP,p),K,Pt),K,Pt,kind,rnd,p);
     return {k:sl.k,pw:sl.pw,_it:it}; });
   menuBalance(meals,kT,pT);
   M.day={seed,auto:true,meals:meals.map(m=>({k:m.k,pw:m.pw,items:m._it.map(i=>({id:i.f.id,g:i.g}))}))};
