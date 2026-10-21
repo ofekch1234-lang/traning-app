@@ -88,3 +88,75 @@ window.MENU_FOODS=[
 {id:'mlk',c:25,e:'🥛',n:['חלב 1%','Milk 1%','حليب 1%'],k:43,p:3.3,cb:5.1,ft:1,r:'L',s:'w',t:'d',x:'l',ck:0,u:['כוס','cup','كوب'],up:['כוסות','cups','أكواب'],ug:240,us:0.5,mn:120,mx:480,df:240},
 {id:'soy',c:1755,e:'🥛',n:['משקה סויה','Soy milk','حليب الصويا'],k:46,p:3.3,cb:4,ft:1.6,r:'L',s:'w',t:'v',x:'s',ck:0,u:['כוס','cup','كوب'],up:['כוסות','cups','أكواب'],ug:240,us:0.5,mn:120,mx:480,df:240}
 ];
+
+/* ספריית ארוחות ישראליות. k: b בוקר מלוח / ערב קל · w בוקר מתוק · m עיקרית · s ביניים
+   c: רכיבים. 'a|b' = אחת מהחלופות · '?' בהתחלה = רכיב רשות (נוסף רק כשצריך עוד חלבון/קלוריות)
+   החלבון הראשי והפחמימה הראשית מתכווננים ליעד; השאר בכמות הגשה רגילה.
+   pw: רק אחרי אימון · npw: לא אחרי אימון · w: משקל בבחירה */
+window.MENU_MEALS=[
+// ---- בוקר מלוח / ערב קל ----
+{id:'b1',k:'b',n:['ארוחת בוקר ישראלית','Israeli breakfast','فطور إسرائيلي'],c:['oml|egg','brd|pit','sld','?cot|whc|bgc','?oli|avo'],w:1.4},
+{id:'b2',k:'b',n:['חביתה בפיתה עם ירקות','Omelette in pita with veggies','عجة في خبز عربي مع خضار'],c:['oml','pit','tom|cuc|sld','?cot|whc'],w:1.1},
+{id:'b3',k:'b',n:['ביצים קשות עם לחם או פריכיות','Boiled eggs with bread or rice cakes','بيض مسلوق مع خبز أو كعك الأرز'],c:['egg','brd|rck','cuc|tom|pep','?cot|whc','?avo']},
+{id:'b4',k:'b',n:['שקשוקה עם לחם','Shakshuka with bread','شكشوكة مع خبز'],c:['shk','pit|brd','?sld','?bgc|whc'],w:1.2},
+{id:'b5',k:'b',n:['קוטג׳, לחם וירקות חתוכים','Cottage, bread & cut veggies','جبنة قريش وخبز وخضار'],c:['cot','brd|rck','cuc|tom|pep|sld','?egg','?oli|avo'],w:1.2},
+{id:'b6',k:'b',n:['גבינה לבנה על לחם עם סלט','Soft white cheese on bread with salad','جبنة بيضاء على خبز مع سلطة'],c:['whc','brd|pit','sld|cuc|tom','?egg','?oli|avo']},
+{id:'b7',k:'b',n:['כריך גבינה צהובה ועגבנייה','Cheese & tomato sandwich','ساندويش جبنة صفراء وطماطم'],c:['ylc','brd','tom|cuc','?cot|egg']},
+{id:'b8',k:'b',n:['בולגרית, לחם, זיתים וסלט','Feta, bread, olives & salad','جبنة بلغارية وخبز وزيتون وسلطة'],c:['bgc','brd|pit','sld|tom|cuc','oli','?egg']},
+{id:'b9',k:'b',n:['סלט טונה עם פיתה או לחם','Tuna salad with pita or bread','سلطة تونة مع خبز عربي أو خبز'],c:['tun','pit|brd','sld|cuc|tom','?avo|oil']},
+{id:'b10',k:'b',n:['טונה עם פריכיות וירקות','Tuna with rice cakes & veggies','تونة مع كعك الأرز وخضار'],c:['tun','rck','cuc|tom|pep','?avo']},
+{id:'b11',k:'b',n:['טוסט אבוקדו וביצה','Avocado toast with egg','توست أفوكادو مع بيضة'],c:['egg','brd','avo','tom|cuc'],w:1.1},
+{id:'b12',k:'b',n:['צלחת חומוס עם פיתה','Hummus plate with pita','صحن حمص مع خبز'],c:['hum','pit','sld|cuc|tom','?egg']},
+{id:'b13',k:'b',n:['טופו מקושקש עם לחם או פריכיות','Tofu scramble with bread or rice cakes','توفو مخفوق مع خبز أو كعك الأرز'],c:['tof','brd|pit|rck','tom|pep|sld','?avo']},
+{id:'b14',k:'b',n:['חביתה, קוטג׳ ופריכיות','Omelette, cottage & rice cakes','عجة وجبنة قريش وكعك الأرز'],c:['oml','cot','rck','cuc|tom|sld']},
+{id:'b15',k:'b',n:['טורטייה עם ביצים וירקות','Egg & veggie wrap','تورتيلا بالبيض والخضار'],c:['oml|egg','tor','pep|tom|sld','?ylc|whc'],w:.8},
+// ---- בוקר מתוק ----
+{id:'w1',k:'w',n:['דייסת שיבולת שועל עם פרי','Oatmeal with fruit','عصيدة الشوفان مع فاكهة'],c:['oat','mlk|soy','ban|blu|str|apl','?why|ygp','?pnb|alm|wal'],w:1.3},
+{id:'w2',k:'w',n:['יוגורט חלבון, גרנולה ופירות','Protein yogurt, granola & fruit','زبادي بروتين مع غرانولا وفاكهة'],c:['ygp','grn|oat','str|blu|ban|mng|kiw','?alm|wal|pst'],w:1.3},
+{id:'w3',k:'w',n:['קערת קוטג׳ עם פירות','Cottage bowl with fruit','وعاء جبنة قريش مع فاكهة'],c:['cot','str|ban|mng|blu|apl','grn|oat','?wal|alm']},
+{id:'w4',k:'w',n:['שייק חלבון עם בננה ושיבולת שועל','Protein shake with banana & oats','مخفوق بروتين مع موز وشوفان'],c:['why','ban|str|blu|mng','mlk|soy','oat','?pnb']},
+{id:'w5',k:'w',n:['לחם עם חמאת בוטנים ובננה','Toast with peanut butter & banana','خبز مع زبدة الفول السوداني وموز'],c:['brd','pnb','ban','?ygp|mlk|soy']},
+// ---- ארוחה עיקרית ----
+{id:'m1',k:'m',n:['עוף, אורז וסלט','Chicken, rice & salad','دجاج وأرز وسلطة'],c:['chk|thg','ric|brr','sld','?thn'],w:1.4},
+{id:'m2',k:'m',n:['חזה עוף, בטטה וירקות מאודים','Chicken breast, sweet potato & steamed veggies','صدر دجاج وبطاطا حلوة وخضار مطهوة'],c:['chk','swp','brc|grb|zuc|cau','?oil|thn'],w:1.2},
+{id:'m3',k:'m',n:['פרגיות עם תוספת וירקות מבושלים','Chicken thighs with a side & cooked veggies','أفخاذ دجاج مع طبق جانبي وخضار مطبوخة'],c:['thg','ric|cus','grb|zuc']},
+{id:'m4',k:'m',n:['הודו עם קינואה או כוסמת וירקות','Turkey with quinoa or buckwheat & veggies','ديك رومي مع كينوا أو حنطة سوداء وخضار'],c:['tky','qui|bkw','brc|spn|cau|zuc','?thn|oil']},
+{id:'m5',k:'m',n:['שניצל עם תוספת וסלט','Schnitzel with a side & salad','شنيتسل مع طبق جانبي وسلطة'],c:['sch','pot|ric','sld'],w:.8,npw:1},
+{id:'m6',k:'m',n:['פסטה בולונז וסלט','Pasta bolognese & salad','باستا بولونيز وسلطة'],c:['bef','pas|wpa','sld|zuc']},
+{id:'m7',k:'m',n:['סטייק עם תפוח אדמה או בטטה וסלט','Steak with potato or sweet potato & salad','ستيك مع بطاطا أو بطاطا حلوة وسلطة'],c:['stk','pot|swp','sld|grb']},
+{id:'m8',k:'m',n:['סלמון עם תוספת וירקות ירוקים','Salmon with a side & greens','سلمون مع طبق جانبي وخضار خضراء'],c:['sal','ric|swp|qui|brr','brc|spn|grb'],w:1.1},
+{id:'m9',k:'m',n:['דג לבן עם תוספת וירקות','White fish with a side & veggies','سمك أبيض مع طبق جانبي وخضار'],c:['fsh|dns','pot|ric|cus','sld|zuc|cau|brc','?thn|oil']},
+{id:'m10',k:'m',n:['פסטה טונה עם סלט','Tuna pasta with salad','باستا بالتونة مع سلطة'],c:['tun','pas|wpa','sld','?oil'],w:.8},
+{id:'m11',k:'m',n:['מג׳דרה (עדשים ואורז) וסלט','Mujadara (lentils & rice) with salad','مجدرة (عدس وأرز) مع سلطة'],c:['len','ric|bul','sld','?thn'],npw:1},
+{id:'m12',k:'m',n:['קערת גרגירי חומוס ודגן עם טחינה','Chickpea & grain bowl with tahini','وعاء حمص حب وحبوب مع طحينة'],c:['chp','qui|cus','sld|egp','thn'],npw:1},
+{id:'m13',k:'m',n:['טופו מוקפץ עם אורז וירקות','Tofu stir-fry with rice & veggies','توفو مقلي مع أرز وخضار'],c:['tof','ric|brr|qui','brc|spn|cau','?oil']},
+{id:'m14',k:'m',n:['עוף עם פתיתים, קוסקוס או בורגול','Chicken with ptitim, couscous or bulgur','دجاج مع بتيتيم أو كسكس أو برغل'],c:['chk|thg|tky','pti|cus|bul','zuc|grb|cau','?oil']},
+{id:'m15',k:'m',n:['שווארמה ביתית בפיתה','Homemade shawarma in pita','شاورما بيتية في خبز عربي'],c:['thg|chk|tky','pit','sld','thn'],w:1.2},
+{id:'m16',k:'m',n:['טורטייה עוף וירקות','Chicken & veggie wrap','تورتيلا دجاج وخضار'],c:['chk|tky','tor','sld','?avo']},
+{id:'m17',k:'m',n:['קערת אדממה עם דגן וירק','Edamame bowl with grain & greens','وعاء إدامامي مع حبوب وخضار'],c:['eda','qui|ric','brc|spn','?oil|thn']},
+{id:'m18',k:'m',n:['עוף עם תפוח אדמה או תירס','Chicken with potato or corn','دجاج مع بطاطا أو ذرة'],c:['chk|tky','pot|crn','sld|grb'],w:.7},
+{id:'m19',k:'m',n:['בקר טחון עם אורז או בורגול','Ground beef with rice or bulgur','لحم مفروم مع أرز أو برغل'],c:['bef','bul|ric','sld|egp','?thn']},
+{id:'m20',k:'m',n:['סלמון עם בטטה או תפוח אדמה וסלט','Salmon with sweet potato or potato & salad','سلمون مع بطاطا حلوة أو بطاطا وسلطة'],c:['sal','swp|pot','sld|grb']},
+{id:'m21',k:'m',n:['הודו בפיתה עם טחינה','Turkey in pita with tahini','ديك رومي في خبز مع طحينة'],c:['tky','pit','sld','thn']},
+{id:'m22',k:'m',n:['עוף עם כוסמת וירקות מבושלים','Chicken with buckwheat & cooked veggies','دجاج مع حنطة سوداء وخضار مطبوخة'],c:['chk|thg','bkw','zuc|cau|brc','?oil']},
+{id:'m23',k:'m',n:['סלט טונה גדול עם תירס','Big tuna salad with corn','سلطة تونة كبيرة مع ذرة'],c:['tun','crn|pit|rck','sld','?oil|avo'],w:.8},
+{id:'m24',k:'m',n:['סלט גרגירי חומוס עם טחינה','Chickpea salad with tahini','سلطة حمص حب مع طحينة'],c:['chp','pit|tor|rck','sld','thn']},
+{id:'m25',k:'m',n:['טורטייה טונה וירקות','Tuna & veggie wrap','تورتيلا تونة وخضار'],c:['tun','tor|pit','sld','?avo']},
+{id:'m26',k:'m',n:['טופו בפיתה עם טחינה','Tofu in pita with tahini','توفو في خبز مع طحينة'],c:['tof','pit|rck','sld','thn'],w:.8},
+{id:'m27',k:'m',n:['ביצים קשות עם סלט גדול','Boiled eggs with a big salad','بيض مسلوق مع سلطة كبيرة'],c:['egg','pit|tor|crn','sld','?cot|whc|bgc','?thn|avo'],w:.6},
+{id:'m28',k:'m',n:['קוטג׳ עם סלט גדול','Cottage with a big salad','جبنة قريش مع سلطة كبيرة'],c:['cot','pit|brd|rck','sld','?egg','?oli|avo'],w:.6},
+// ---- ביניים ----
+{id:'s1',k:'s',n:['יוגורט חלבון ופרי','Protein yogurt & fruit','زبادي بروتين وفاكهة'],c:['ygp','ban|apl|str|blu|org|kiw|mng|clm|per'],w:1.4},
+{id:'s2',k:'s',n:['קוטג׳ עם פריכיות וירק','Cottage with rice cakes & veggies','جبنة قريش مع كعك الأرز وخضار'],c:['cot','rck','cuc|car|tom'],w:1.2},
+{id:'s3',k:'s',n:['פרי עם חמאת בוטנים','Fruit with peanut butter','فاكهة مع زبدة الفول السوداني'],c:['apl|ban','pnb']},
+{id:'s4',k:'s',n:['פרי וחופן אגוזים','Fruit & a handful of nuts','فاكهة وحفنة مكسرات'],c:['apl|ban|org|clm|per|grp|kiw','alm|wal|pst']},
+{id:'s5',k:'s',n:['שייק חלבון ובננה','Protein shake & banana','مخفوق بروتين وموز'],c:['why','ban','?mlk|soy']},
+{id:'s6',k:'s',n:['טונה ופריכיות','Tuna & rice cakes','تونة وكعك الأرز'],c:['tun','rck','cuc|car']},
+{id:'s7',k:'s',n:['חומוס עם ירקות חתוכים ופיתה','Hummus with cut veggies & pita','حمص مع خضار مقطعة وخبز'],c:['hum','car|cuc|pep','pit']},
+{id:'s8',k:'s',n:['אדממה מאודה','Steamed edamame','إدامامي مطهو'],c:['eda','?apl|clm|org']},
+{id:'s9',k:'s',n:['שוקו ובננה','Chocolate milk & banana','حليب بالشوكولاتة وموز'],c:['chm','ban'],pw:1},
+{id:'s10',k:'s',n:['ביצה קשה וירקות','Boiled egg & veggies','بيضة مسلوقة وخضار'],c:['egg','cuc|tom|car','?rck']},
+{id:'s11',k:'s',n:['גבינה לבנה ופריכיות','Soft cheese & rice cakes','جبنة بيضاء وكعك الأرز'],c:['whc','rck','cuc|tom']},
+{id:'s12',k:'s',n:['תמרים ואגוזים','Dates & nuts','تمر ومكسرات'],c:['dat','alm|wal'],w:.7},
+{id:'s13',k:'s',n:['קוטג׳ עם פרי','Cottage with fruit','جبنة قريش مع فاكهة'],c:['cot','str|ban|apl|mng|per']}
+];
