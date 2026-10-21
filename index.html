@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=26f44926"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=26f44926"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=26f44926"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d59a3f1f"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d59a3f1f"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d59a3f1f"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1253,7 +1253,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.9.6';
+const APP_VERSION='11.9.7';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4574,6 +4574,7 @@ function renderSettings(){
         <span><b>תזכורת אימון יומית 🗓️</b><span class="small muted" style="display:block">בבוקר של יום מתוזמן בלו״ז — גם כשהאפליקציה סגורה</span></span>
         <input type="checkbox" class="sw" data-bind="notif" data-k="remind" ${n.remind===true?'checked':''}>
       </label>
+      ${sw('weigh','תזכורת שקילה בבוקר ⚖️','כל בוקר עד שנשקלת. רק אם כבר הזנת משקל')}
       ${sw('rest','סיום מנוחה','התראה כשהטיימר נגמר, גם כשהמסך כבוי')}
       ${sw('pr','שיא חדש 🏅','חגיגה כששברת שיא אישי')}
       ${sw('social','קבוצות 👥','הודעות, אימונים ואתגרים של החברים')}

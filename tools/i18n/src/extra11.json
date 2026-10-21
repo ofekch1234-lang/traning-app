@@ -2730,5 +2730,13 @@
 "לא אוהבים את זה, אל תציע שוב": {
 "en": "Don't like it, don't suggest again",
 "ar": "لا أحبه، لا تقترحه مجددًا"
+},
+"תזכורת שקילה בבוקר ⚖️": {
+"en": "Morning weigh-in reminder ⚖️",
+"ar": "تذكير الوزن الصباحي ⚖️"
+},
+"כל בוקר עד שנשקלת. רק אם כבר הזנת משקל": {
+"en": "Every morning until you've weighed in. Only if you've logged a weight before",
+"ar": "كل صباح حتى تزن نفسك. فقط إذا سجّلت وزنًا من قبل"
 }
 }
