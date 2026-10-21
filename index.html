@@ -38,7 +38,7 @@
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="menu-foods.js?v=10"></script>
+<script src="menu-foods.js?v=11"></script>
 <style>
 /* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
 :root{
@@ -1275,7 +1275,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.3.4';
+const APP_VERSION='12.3.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2507,7 +2507,7 @@ function miAmt(it){ const f=miFood(it)||{};
     const u=q>1&&f.up?(f.up[MLI]||f.up[0]):(f.u[MLI]||f.u[0]); return `${fracQ(q)} ${u}`; }
   const g=Math.round(+it.g||0), GL=['גר׳','g','غ'][MLI]; let s=`${g} ${GL}`;
   const tbn=f.tb?Math.round(g/f.tb):0;
-  if(f.tb&&tbn>=1&&(tbn<=8||!f.hm)){ const TB=[['כף','כפות'],['tbsp','tbsp'],['ملعقة','ملاعق']][MLI]; s+=` · ${tbn} ${tbn>1?TB[1]:TB[0]}`; }
+  if(f.tb&&tbn>=1&&(tbn<=10||!f.hm)){ const TB=[['כף','כפות'],['tbsp','tbsp'],['ملعقة','ملاعق']][MLI]; s+=` · ${tbn} ${tbn>1?TB[1]:TB[0]}`; }
   else if(f.hm){ const step=['כוס','מנה','קערה'].includes(f.hm[1])?4:2, q=Math.round(g/f.hm[0]*step)/step; if(q>=.25)s+=` · ${fracQ(q)} ${q>1?f.hm[2+MLI*2]:f.hm[1+MLI*2]}`; }
   return s; }
 function fracQ(q){ const w=Math.floor(q+1e-9), r=Math.round((q-w)*4)/4; if(r>=1)return String(w+1); const fr=r===.25?'¼':r===.5?'½':r===.75?'¾':''; const t=(w?String(w):'')+fr||'0'; return fr?'\u2066'+t+'\u2069':t; }
