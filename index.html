@@ -31,14 +31,14 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=7af7ff22"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7af7ff22"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=7af7ff22"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=792677dd"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=792677dd"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=792677dd"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="menu-foods.js?v=11"></script>
+<script src="menu-foods.js?v=13"></script>
 <style>
 /* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
 :root{
@@ -1275,7 +1275,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.3.5';
+const APP_VERSION='12.3.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2533,6 +2533,7 @@ function renderQty(){
       <button class="mn-qv" data-act="mn-qn"><b class="num">${u.k==='g'?Math.round(QS.g):fracQ(q)}</b><span>${u.k==='g'?['גרם','grams','غرام'][MLI]:(q>1&&u.np?(u.np[MLI]||u.np[0]):(u.n[MLI]||u.n[0]))}</span></button>
       <button class="tgw-pm" data-act="mn-qs" data-d="1" aria-label="יותר">+</button>
     </div>
+    ${u.k==='tb'?`<div class="small muted" style="text-align:center;margin:-4px 0 6px">${tt('כף מדידה מפולסת (15 מ״ל)')}</div>`:''}
     <div class="mn-qinfo num">${miAmt({...it,g:QS.g})}<br><b>${kcalN(v.k)}</b> קק״ל · <b>${Math.round(v.p)}</b> גר׳ חלבון</div>
     <button class="btn primary big" data-act="mn-qok" style="margin-top:14px;width:100%">שמור ✓</button>`);
 }
