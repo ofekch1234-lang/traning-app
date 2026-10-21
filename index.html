@@ -1281,7 +1281,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.4.0';
+const APP_VERSION='12.4.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3999,7 +3999,7 @@ function weeklyBalanceHTML(){
       ${chip(`${ws}${plan?'/'+plan:''}`,'אימונים')}
       ${chip(d7!=null?`${d7>0?'+':''}${d7}`:'—','ק״ג השבוע')}
     </div>
-    ${proj?`<div class="small" style="margin-top:8px">📈 ${proj}</div>`:''}
+    ${proj?`<div class="small" style="margin-top:8px">📈 <span>${proj}</span></div>`:''}
     ${tip?`<div class="wb-tip"><img src="img/kobi-think.svg" alt=""><span>${tip}</span></div>`:''}
   </div>`;
 }
