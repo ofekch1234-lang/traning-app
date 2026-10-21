@@ -1272,7 +1272,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.3.2';
+const APP_VERSION='12.3.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2482,6 +2482,17 @@ function openAccentSheet(){
    קטלוג במזון (menu-foods.js), שאלון טעם, בנייה עצמית, הצעה חכמה עם חישוב גרמים ליעד, החלפה, רישום ביומן ותבניות.
    הכל מחושב במכשיר, בלי AI: הערכים מגיעים מהמאגר והגרמים נפתרים מול יעד הקלוריות והחלבון. */
 const MLI=LANG==='en'?1:LANG==='ar'?2:0;
+/* אימוג׳י לפי שם המזון (למזונות מהמאגר המלא שאין להם אייקון משלהם) */
+const FOOD_EMO=[['שקשוקה','🍳'],['חביתה','🍳'],['ביצ','🥚'],['קוטג','🧀'],['גבינ','🧀'],['לבנה','🧀'],['ריקוטה','🧀'],['יוגורט','🥛'],['סקיר','🥛'],['מעדן','🍮'],['שוקו','🥛'],['חלב','🥛'],['משקה','🥛'],
+  ['שניצל','🍗'],['עוף','🍗'],['הודו','🍗'],['פרגית','🍗'],['בקר','🥩'],['סטייק','🥩'],['עגל','🥩'],['כבש','🥩'],['קציצ','🥩'],['המבורגר','🍔'],['קבב','🥩'],
+  ['טונה','🥫'],['סרדינ','🥫'],['סלמון','🐟'],['דג','🐟'],['פילה','🐟'],['טופו','🌱'],['אדממה','🫛'],['סויה','🫛'],['שעועית ירוקה','🫛'],['עדשים','🫘'],['שעועית','🫘'],['פול','🫘'],['אפונה','🫛'],['חומוס','🫘'],
+  ['תפוחי אדמה','🥔'],['תפוח אדמה','🥔'],['צ\'יפס','🍟'],['בטטה','🍠'],['תירס','🌽'],['אורז','🍚'],['פסטה','🍝'],['אטריות','🍝'],['ספגטי','🍝'],['פתיתים','🍝'],['קוסקוס','🥣'],['בורגול','🥣'],['קינואה','🥣'],['כוסמת','🥣'],['גריסים','🥣'],['פריקה','🥣'],['שיבולת','🥣'],['גרנולה','🥣'],['דגני','🥣'],
+  ['פיתה','🫓'],['לאפה','🫓'],['טורטי','🌯'],['לחמני','🥯'],['בייגל','🥯'],['חלה','🍞'],['לחם','🍞'],['פריכי','🍘'],['קרקר','🍘'],
+  ['סלט','🥗'],['ברוקולי','🥦'],['כרובית','🥦'],['גזר','🥕'],['מלפפון','🥒'],['קישוא','🥒'],['עגבני','🍅'],['פלפל','🫑'],['חציל','🍆'],['פטריות','🍄'],['תרד','🥬'],['חסה','🥬'],['כרוב','🥬'],['בצל','🧅'],['שום','🧄'],
+  ['תפוח','🍎'],['בננה','🍌'],['תפוז','🍊'],['קלמנטינ','🍊'],['מנדרינ','🍊'],['אגס','🍐'],['ענבים','🍇'],['תות','🍓'],['אוכמניות','🫐'],['מנגו','🥭'],['קיווי','🥝'],['אפרסק','🍑'],['משמש','🍑'],['נקטרינה','🍑'],['אבטיח','🍉'],['מלון','🍈'],['אננס','🍍'],['דובדבן','🍒'],['תמר','🌴'],['לימון','🍋'],['רימון','🍎'],
+  ['אבוקדו','🥑'],['שקדים','🌰'],['אגוז','🌰'],['קשיו','🌰'],['פיסטוק','🌰'],['בוטנים','🥜'],['גרעינ','🌻'],['זית','🫒'],['שמן','🫒'],['טחינה','🥣'],['חמאה','🧈'],['דבש','🍯'],['שוקולד','🍫'],['גלידה','🍦'],['עוגי','🍪'],['עוגה','🍰'],['קפה','☕'],['יין','🍷'],['בירה','🍺']];
+function foodEmoji(name){ const n=String(name||''); for(const [k,e] of FOOD_EMO)if(n.includes(k))return e; return '🍽️'; }
+function fEmoji(f){ return (f&&f.e)||foodEmoji(f&&(f.c&&Array.isArray(f.n)?f.n[0]:(f.n||f.name))); }
 const MF=()=>window.MENU_FOODS||[];
 const MFI=id=>MF().find(f=>f.id===id);
 function menuS(){ const m=S.settings.menu; if(m&&typeof m==='object'){ m.tpl=m.tpl||[]; m.no=m.no||[]; return m; } return (S.settings.menu={p:null,day:null,tpl:[],no:[]}); }
@@ -2512,7 +2523,7 @@ function openQty(mi,ii){
 function renderQty(){
   const it=menuS().day.meals[QS.mi].items[QS.ii], f=miFood(it)||{}, U=qUnits(f), u=U.find(x=>x.k===QS.k)||U[0];
   const q=Math.round(QS.g/u.g/u.st)*u.st, v=miVals({...it,g:QS.g});
-  openSheet(`<h3>${f.e?f.e+' ':''}${esc(mfName(f))}</h3>
+  openSheet(`<h3>${fEmoji(f)} ${esc(mfName(f))}</h3>
     ${U.length>1?`<div class="row" style="gap:6px;margin:6px 0 12px;flex-wrap:wrap">${U.map(x=>`<button class="chip ${x.k===u.k?'on':''}" data-act="mn-qu" data-k="${x.k}">${x.k==='tb'?['כפות','tbsp','ملاعق'][MLI]:(x.n[MLI]||x.n[0])}</button>`).join('')}</div>`:''}
     <div class="mn-qty">
       <button class="tgw-pm" data-act="mn-qs" data-d="-1" aria-label="פחות">−</button>
@@ -2838,7 +2849,7 @@ function mealCardHTML(m,mi){ const mt=mealTot(m), done=m.done===ymd();
         <div class="spread"><b>${mealLabel(m)}${m.pw?' <span class="mn-pw">💪 אחרי אימון</span>':''}</b><span class="row" style="gap:6px;flex-wrap:nowrap">${m.items.length?`<span class="small muted num">${kcalN(Math.round(mt.k))} קק״ל · ${Math.round(mt.p)} גר׳ חלבון</span>`:''}<button class="mn-x2" data-act="mn-meal-rm" data-m="${mi}" aria-label="${tt('הסרת הארוחה')}">🗑</button></span></div>
         ${!m.items.length?`<button class="btn" style="width:100%;margin-top:6px" data-act="mn-fill" data-m="${mi}">✨ מלא לי לפי מה שנשאר מהיעד</button>`:''}
         ${m.items.map((it,ii)=>{ const f=miFood(it)||{};
-          return `<div class="mn-it"><span class="mn-n">${f.e||'🍽️'} ${esc(mfName(f))}</span>
+          return `<div class="mn-it"><span class="mn-n">${fEmoji(f)} ${esc(mfName(f))}</span>
             <button class="mn-g num" data-act="mn-g" data-m="${mi}" data-i="${ii}">${miAmt(it)}</button>
             <button class="mn-ic" data-act="mn-swap" data-m="${mi}" data-i="${ii}" aria-label="החלפה">🔄</button>
             <button class="mn-ic x" data-act="mn-rm" data-m="${mi}" data-i="${ii}" aria-label="הסרה">✕</button></div>`; }).join('')}
@@ -2903,7 +2914,7 @@ function menuCardHTML(){
   const ni=next?day.meals.indexOf(next):-1;
   return `<div class="card mc">
       ${head(next?`${tt('הבא בתור:')} <b>${tt(MSLOT[next.k]?.[1]||'')}</b>`:'כל הארוחות של היום נרשמו ✓')}
-      ${next?`<div class="mc-items">${next.items.map(it=>{ const f=miFood(it)||{}; return `<span>${f.e||'🍽️'} ${esc(mfName(f))} <i>${miAmt(it)}</i></span>`; }).join('')}</div>`:''}
+      ${next?`<div class="mc-items">${next.items.map(it=>{ const f=miFood(it)||{}; return `<span>${fEmoji(f)} ${esc(mfName(f))} <i>${miAmt(it)}</i></span>`; }).join('')}</div>`:''}
       <div class="mc-acts">
         <button class="btn" data-act="mn-open">לתפריט המלא</button>
         ${next?`<button class="btn primary" data-act="mn-log" data-m="${ni}">✓ אכלתי, רשום</button>`:''}
@@ -2990,7 +3001,7 @@ function openSwap(mi,ii){
   const M=menuS(), it=M.day.meals[mi].items[ii], f=miFood(it); if(!f)return;
   const protRich=f.r?f.r==='P':(+f.p||0)*4/Math.max(+f.k||1,1)>.3;
   SWP={mi,ii,mode:protRich?'p':'k',q:'',db:[]};
-  openSheet(`<div class="sw-sticky"><div class="sw-top"><span class="sw-e">${f.e||'🍽️'}</span><span class="sw-n"><small>מחליפים את</small><b>${esc(mfName(f))}</b></span><span class="sw-a num">${miAmt(it)}</span><button class="sw-close" data-act="sheet-close" aria-label="סגור">✕</button></div>
+  openSheet(`<div class="sw-sticky"><div class="sw-top"><span class="sw-e">${fEmoji(f)}</span><span class="sw-n"><small>מחליפים את</small><b>${esc(mfName(f))}</b></span><span class="sw-a num">${miAmt(it)}</span><button class="sw-close" data-act="sheet-close" aria-label="סגור">✕</button></div>
     <div class="sw-search"><span>🔍</span><input id="mn-sq" type="search" enterkeyhint="search" autocomplete="off" placeholder="${tt('חיפוש מזון להחלפה…')}"></div>
     <div class="sw-seg"><span>כמות לפי</span><button class="${SWP.mode==='p'?'on':''}" data-act="mn-smode" data-v="p">חלבון</button><button class="${SWP.mode==='k'?'on':''}" data-act="mn-smode" data-v="k">קלוריות</button></div></div>
     <div id="mn-sres" class="sw-body">${swapList()}</div>
@@ -3009,7 +3020,7 @@ function swapG(food,isCat){
 }
 function swapRow(name,e,g,food,attrs,isCat){
   const vv={p:(+food.p||0)*g/100,k:(+food.k||0)*g/100}, amt=isCat?miAmt({id:food.id,g}):miAmt({n:name,k:food.k,p:food.p,g,tb:food.tb,u:food.u,up:food.up,ug:food.ug});
-  return `<button class="sw-row" ${attrs}><span class="sw-e">${e||'🍽️'}</span><span class="sw-n"><b>${esc(name)}</b><small class="num">${Math.round(vv.p)} גר׳ חלבון · ${kcalN(vv.k)} קק״ל</small></span><span class="sw-a num">${amt}</span></button>`;
+  return `<button class="sw-row" ${attrs}><span class="sw-e">${e||foodEmoji(name)}</span><span class="sw-n"><b>${esc(name)}</b><small class="num">${Math.round(vv.p)} גר׳ חלבון · ${kcalN(vv.k)} קק״ל</small></span><span class="sw-a num">${amt}</span></button>`;
 }
 function swapList(){
   if(!SWP)return '';
