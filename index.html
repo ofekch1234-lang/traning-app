@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=12fd7d9b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=12fd7d9b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=12fd7d9b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cfcd38f5"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cfcd38f5"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cfcd38f5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1318,7 +1318,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.6.2';
+const APP_VERSION='12.6.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3410,6 +3410,7 @@ async function foodAI(payload){
     let qd=null; if(st===429){ try{qd=await e.context.json();}catch(_){} if(payload.image&&qd?.period==='month')AIQ.photo=0; }
     toast(st===429?(qd?.period==='day'?'הגעת לתקרה היומית. נמשיך מחר 💪':payload.image?'ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר':'הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית')
       :(e?.slow||st===502||st===503||st===504)?'הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת'
+      :e?.message==='empty'?'לא זיהינו אוכל או שתייה. נסה לפרט, למשל "2 פרוסות לחם עם גבינה"'
       :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
   }
   S.ai.busy=false; S.ai.img=null; aiTicker(false); render();

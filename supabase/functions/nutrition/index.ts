@@ -6,7 +6,9 @@ const MODELS = ["claude-haiku-5-5"];
 const SYSTEM = `אתה תזונאי קליני ישראלי. המשתמש מתאר ארוחה בטקסט או בתמונה.
 החזר אך ורק JSON תקין, בלי טקסט נוסף, במבנה:
 {"name":"שם קצר לארוחה","items":[{"name":"פריט","grams":משקל משוער בגרם,"kcal":מספר,"protein":גרם,"carbs":גרם,"fat":גרם}]}
-הערך כמויות סבירות למנה ישראלית ביתית כשלא צוין. עגל למספרים שלמים. אם זו לא ארוחה — החזר {"name":"","items":[]}.`;
+הערך כמויות סבירות למנה ישראלית ביתית כשלא צוין. עגל למספרים שלמים.
+כל דבר שנאכל או נשתה הוא פריט תקין: גם משקאות (קפה, מיצים, שייקים, משקאות קלים) וגם אלכוהול (וודקה, וויסקי, יין, בירה, קוקטיילים). באלכוהול חשב קלוריות כולל האלכוהול עצמו (7 קק"ל לגרם אלכוהול) — חלבון ושומן לרוב 0. "כוס" או "צ'ייסר" של משקה חריף = שוט של כ-40 מ"ל אלא אם צוין אחרת; כוס יין ~150 מ"ל; בקבוק בירה ~330 מ"ל.
+רק אם הטקסט בכלל לא מתאר אוכל או שתייה — החזר {"name":"","items":[]}.`;
 
 const PHOTO = `
 הנחיות לניתוח תמונה — דייק:
@@ -115,6 +117,7 @@ Deno.serve(async (req: Request) => {
       const m = txt.match(/\{[\s\S]*\}/);
       if (!m) { lastErr = "no_json stop=" + out.stop_reason + " text=" + txt.slice(0, 120); break; }
       const parsed = JSON.parse(m[0]);
+      if (!isLabel && (!Array.isArray(parsed?.items) || !parsed.items.length)) console.log(JSON.stringify({ ev: "nutrition-empty", kind: body.image ? "photo" : "text", q: String(body.text || body.hint || "").slice(0, 60) }));
       if (leftAfter !== null && parsed && typeof parsed === "object") parsed._left = { kind: isPhoto ? "photo" : "text", n: Math.max(0, leftAfter) };
       return new Response(JSON.stringify(parsed), { headers: { ...cors, "Content-Type": "application/json" } });
     }
