@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d59a3f1f"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d59a3f1f"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d59a3f1f"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=961453fe"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=961453fe"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=961453fe"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1253,7 +1253,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.0';
+const APP_VERSION='12.0.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1750,15 +1750,24 @@ fetch(SUPABASE_URL+'/auth/v1/settings',{headers:{apikey:SUPABASE_KEY}}).then(r=>
 function socialProfileFix(){
   const u=S.user; if(!u)return; const md=u.user_metadata||{};
   const viaOAuth=(u.app_metadata?.provider&&u.app_metadata.provider!=='email');
+  setTimeout(()=>askName(),2500);
   if(!viaOAuth)return;
   const patch={};
   if(!md.terms_accepted){ patch.terms_accepted=new Date().toISOString(); patch.terms_v='2026-10-20'; }
   if(!md.full_name&&md.name)patch.full_name=md.name;
   if(Object.keys(patch).length)sb.auth.updateUser({data:patch}).then(({data})=>{ if(data?.user){S.user=data.user; render();} });
-  if(!md.full_name&&!md.name)setTimeout(()=>{ if(TOUR.on||$('#instgate'))return;
-    openSheet(`<h3>איך קוראים לך?</h3><div class="muted" style="margin:-4px 0 12px">כך נפנה אליך באפליקציה, וכך יראו אותך החברים בקבוצות.</div>
-      <input id="set-name" type="text" autocomplete="name" placeholder="השם שלך"><button class="btn primary big" style="margin-top:12px" data-act="save-name">שמירה</button>`);
-    setTimeout(()=>$('#set-name')?.focus(),80); },1200);
+}
+/* מי שנרשם עם מייל בלבד: שואלים איך לפנות אליו. בכל פתיחה עד שעונה, "אחר כך" דוחה ליום, ואחרי 3 דחיות מפסיקים */
+function askName(force){
+  const md=S.user?.user_metadata||{}; if(!S.user||String(md.full_name||md.name||'').trim())return false;
+  if(TOUR.on||$('#instgate')||!$('#sheet').hidden||!$('#np').hidden)return false;
+  let a={}; try{ a=JSON.parse(localStorage.getItem('nr-name-ask')||'{}')||{}; }catch(_){}
+  if(!force&&((a.n||0)>=3||Date.now()<(a.until||0)))return false;
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>איך קוראים לך? 👋</b><span>${G('ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.','ככה אפנה אלייך באפליקציה, וככה יראו אותך החברות והחברים בקבוצות.','ככה נפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.')}</span></div></div>
+    <input id="set-name" type="text" autocomplete="given-name" enterkeyhint="done" maxlength="40" placeholder="${tt('השם שלך')}">
+    <button class="btn primary big" style="margin-top:12px" data-act="save-name">שמירה</button>
+    <button class="nc-later" data-act="name-later">אחר כך</button>`);
+  setTimeout(()=>$('#set-name')?.focus(),120); return true;
 }
 function openNewPassword(){
   openSheet(`<h3>בחירת סיסמה חדשה</h3><div class="muted" style="margin:-4px 0 12px">הקלד סיסמה חדשה לחשבון שלך.</div>
@@ -2965,6 +2974,7 @@ function menuAct(act,b){
   }
   return false;
 }
+document.addEventListener('keydown',ev=>{ if(ev.key==='Enter'&&ev.target.id==='set-name'){ ev.preventDefault(); document.querySelector('[data-act="save-name"]')?.click(); } });
 document.addEventListener('input',ev=>{ if(ev.target.id==='mn-q'){ clearTimeout(mnAddSearch.t); const v=ev.target.value; if(MADD){ MADD.q=v; const bx=$('#mn-res'); if(bx&&v.trim().length<2)bx.innerHTML=mnAddList(v); } mnAddSearch.t=setTimeout(()=>mnAddSearch(v),250); } if(ev.target.id==='mn-sq'){ clearTimeout(swapSearch.t); const v=ev.target.value; SWP&&(SWP.q=v); const b=$('#mn-sres'); if(b)b.innerHTML=swapList(); swapSearch.t=setTimeout(()=>swapSearch(v),250); } });
 
 function openTargetsSheet(){
@@ -5547,7 +5557,7 @@ function startTour(tab){ TOUR.on=true; TOUR.i=0; TOUR.grp=tab||S.tab||'home'; to
 function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(!st.when||st.when())&&(st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE)))); }
 function tourEnd(){
   const seen=toursSeen(); seen[TOUR.grp]=1; try{localStorage.setItem('nr-tours',JSON.stringify(seen));}catch(_){}
-  TOUR.on=false; $('#tour')?.remove(); persistSettings(); render();
+  TOUR.on=false; $('#tour')?.remove(); persistSettings(); render(); setTimeout(()=>askName(),900);
 }
 function tourShow(){
   const steps=tourSteps(), st=steps[TOUR.i]; if(!st)return tourEnd();
@@ -6343,6 +6353,7 @@ function handleAct(b,ev){
         if(!r.ok){ toast(r.why==='perm'?'צריך לאשר התראות כדי לבדוק':'ההרשמה להתראות נכשלה'); return; }
         _pushOk=true; closeSheet(); startRest(10,'זו התראת בדיקה ✅'); toast('צא מהאפליקציה עכשיו ⏱️');
       }); break; }
+    case 'name-later': { let a={}; try{ a=JSON.parse(localStorage.getItem('nr-name-ask')||'{}')||{}; }catch(_){} a.n=(a.n||0)+1; a.until=Date.now()+864e5; try{localStorage.setItem('nr-name-ask',JSON.stringify(a));}catch(_){} closeSheet(); break; }
     case 'save-name': { const nm=($('#set-name')?.value||'').trim(); if(!nm){toast('השם ריק');break;}
       sb.auth.updateUser({data:{full_name:nm}}).then(({data,error})=>{
         if(error){toast('שמירת השם נכשלה');return;}

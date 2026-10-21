@@ -2738,5 +2738,33 @@
 "כל בוקר עד שנשקלת. רק אם כבר הזנת משקל": {
 "en": "Every morning until you've weighed in. Only if you've logged a weight before",
 "ar": "كل صباح حتى تزن نفسك. فقط إذا سجّلت وزنًا من قبل"
+},
+"איך קוראים לך? 👋": {
+"en": "What's your name? 👋",
+"ar": "ما اسمك؟ 👋"
+},
+"ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
+"en": "That's how I'll address you in the app, and how friends will see you in groups.",
+"ar": "هكذا سأناديك في التطبيق، وهكذا سيراك أصدقاؤك في المجموعات."
+},
+"ככה אפנה אלייך באפליקציה, וככה יראו אותך החברות והחברים בקבוצות.": {
+"en": "That's how I'll address you in the app, and how friends will see you in groups.",
+"ar": "هكذا سأناديكِ في التطبيق، وهكذا سيراكِ أصدقاؤكِ في المجموعات."
+},
+"ככה נפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
+"en": "That's how we'll address you in the app, and how friends will see you in groups.",
+"ar": "هكذا سنناديك في التطبيق، وهكذا سيراك أصدقاؤك في المجموعات."
+},
+"אחר כך": {
+"en": "Later",
+"ar": "لاحقًا"
+},
+"השם שלך": {
+"en": "Your name",
+"ar": "اسمك"
+},
+"שמירה": {
+"en": "Save",
+"ar": "حفظ"
 }
 }
