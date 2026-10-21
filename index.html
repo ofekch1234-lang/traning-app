@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1c57e0f3"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1c57e0f3"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1c57e0f3"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=12fd7d9b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=12fd7d9b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=12fd7d9b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1260,7 +1260,7 @@ const I18=(()=>{
     if(cache.has(s))return cache.get(s);
     const m=s.match(/^(\s*)([\s\S]*?)(\s*)$/); const c=m[2].replace(/[\u200e\u200f]/g,'').replace(/\s+/g,' ');
     let r=core(c,0); if(r==null){ miss.add(c); r=s; } else r=m[1]+r+m[3];
-    cache.set(s,r); return r;
+    cache.set(s,r); if(r!==s&&!cache.has(r))cache.set(r,r); return r;
   }
   const ATTRS=['placeholder','aria-label','title','alt'];
   const skip=el=>!el||el.closest('[data-notr],textarea,script,style,[contenteditable]');
@@ -1279,7 +1279,7 @@ const I18=(()=>{
     new MutationObserver(ms=>{ for(const m of ms){
       if(m.type==='childList')m.addedNodes.forEach(walk);
       else if(m.type==='characterData'){ if(HEB.test(m.target.data))walk(m.target); }
-      else if(m.type==='attributes'){ const v=m.target.getAttribute(m.attributeName); if(v&&HEB.test(v)&&!m.target.closest('[data-notr]'))m.target.setAttribute(m.attributeName,tr(v)); }
+      else if(m.type==='attributes'){ const v=m.target.getAttribute(m.attributeName); if(v&&HEB.test(v)&&!m.target.closest('[data-notr]')){ const t=tr(v); if(t!==v)m.target.setAttribute(m.attributeName,t); } }
     } }).observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:ATTRS});
   }
   return {tr,walk,start};
@@ -1318,7 +1318,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.6.1';
+const APP_VERSION='12.6.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2624,6 +2624,7 @@ function mealLabel(m){ return `${MSLOT[m.k]?.[0]||'🍽️'} <span>${MSLOT[m.k]?
 function mfAllowed(f,p){
   p=p||menuS().p||{}; const st=p.style, av=p.avoid||[];
   if((st==='veg'||st==='vegan')&&(f.t==='m'||f.t==='f'))return false;
+  if(st==='pesc'&&f.t==='m')return false;
   if(st==='vegan'&&(f.t==='d'||f.t==='e'))return false;
   for(const a of ['g','l','n','s'])if(av.includes(a)&&f.x.includes(a))return false;
   if(av.includes('e')&&f.t==='e')return false;
@@ -2672,7 +2673,7 @@ function diaryFreq(){
 }
 function mfW(f){ const p=menuS().p||{}, likes=p.likes||[], st=p.style, fr=diaryFreq()[f.id]||0;
   let w=(likes.includes(f.id)?5:1)*(f.w||1)*(1+Math.min(3,fr)*.6);
-  if(f.r==='P'&&f.t==='v'&&st!=='veg'&&st!=='vegan')w*=.35;
+  if(f.r==='P'&&f.t==='v'&&!['veg','vegan','pesc'].includes(st))w*=.35;
   return w; }
 function mfPick(list,rnd,avoid,prefer){
   let L=list.filter(f=>f&&!(avoid||[]).includes(f.id)); if(!L.length)L=list.filter(Boolean); if(!L.length)return null;
@@ -2778,7 +2779,7 @@ function buildMealOld(kind,rnd,used,p,ctx){
     const T=[];
     const ok=id=>{ const f=MFI(id); return f&&mfAllowed(f,p)&&!used.includes(id); };
     const eggOK=['egg','oml','shk'].some(ok)&&!usedG('egg');
-    const plant=p.style==='veg'||p.style==='vegan', lk=p.likes||[];
+    const plant=['veg','vegan','pesc'].includes(p.style), lk=p.likes||[];
     if(eggOK)T.push('eggs','eggs'); if(ok('tun'))T.push('tuna'); if(['cot','whc'].some(ok))T.push('cheese','cheese'); if(ok('hum')&&(plant||rnd()<.4))T.push('hummus'); if(ok('tof')&&(plant||lk.includes('tof')))T.push('tofu');
     const t=T.length?T[Math.floor(rnd()*T.length)]:'none';
     let P=null, lean=false;
@@ -2799,7 +2800,7 @@ function buildMealOld(kind,rnd,used,p,ctx){
     return it;
   }
   // ארוחה עיקרית
-  let Pl=pool('P','m').filter(f=>(!usedG(f.gp)||f.gp==='legume')&&!(['egg','cheese','spread'].includes(f.gp)&&p.style!=='veg'&&p.style!=='vegan'));
+  let Pl=pool('P','m').filter(f=>(!usedG(f.gp)||f.gp==='legume')&&!(['egg','cheese','spread'].includes(f.gp)&&!['veg','vegan','pesc'].includes(p.style)));
   if(ctx.pw)Pl=Pl.filter(f=>f.gp!=='legume')||Pl;
   const P=mfPick(Pl.length?Pl:pool('P','m'),rnd); add(P);
   let Cl=pool('C','m'); if(ctx.pw)Cl=Cl.filter(f=>['ric','pot','pas','swp','cus','pti','qui'].includes(f.id)).concat([]) ;
@@ -2884,7 +2885,7 @@ function mwRender(){
   const opts=(k,list)=>`<div class="pb-list">${list.map(([v,e,l,d])=>`<button class="pb-opt ${String(p[k])===String(v)?'on':''}" data-act="mw-pick" data-k="${k}" data-v="${v}"><b>${e} ${l}</b>${d?`<small>${d}</small>`:''}</button>`).join('')}</div>`;
   let body='';
   if(key==='style')body=kobi('בוא נבנה תפריט שבאמת מתאים לך 🍽️',G('8 שאלות קצרות. קודם כל, איך אתה אוכל?','8 שאלות קצרות. קודם כל, איך את אוכלת?','8 שאלות קצרות. קודם כל, איך את/ה אוכל/ת?'))
-    +opts('style',[['any','🍗','הכל','בשר, דגים, חלב וביצים'],['kosher','✡️','כשר','בלי בשר וחלב באותה ארוחה'],['veg','🥚','צמחוני','בלי בשר ודגים'],['vegan','🌱','טבעוני','רק מהצומח']]);
+    +opts('style',[['any','🍗','הכל','בשר, דגים, חלב וביצים'],['kosher','✡️','כשר','בלי בשר וחלב באותה ארוחה'],['veg','🥚','צמחוני','בלי בשר ודגים'],['pesc','🐟','צמחוני + דגים','בלי בשר, כן דגים'],['vegan','🌱','טבעוני','רק מהצומח']]);
   else if(key==='avoid'){ const L=[['l','🥛','לקטוז'],['g','🌾','גלוטן'],['n','🥜','אגוזים'],['e','🥚','ביצים'],['f','🐟','דגים'],['s','🫘','סויה']].filter(([v])=>!(p.style==='vegan'&&(v==='e'||v==='f'||v==='l'))&&!(p.style==='veg'&&v==='f'));
     body=kobi(G('יש משהו שאתה לא אוכל?','יש משהו שאת לא אוכלת?','יש משהו שלא אוכלים?'),'רגישות, אלרגיה, או סתם לא אוהבים. אפשר לבחור כמה.')
       +`<div class="mw-chips">${L.map(([v,e,l])=>`<button class="chip ${p.avoid.includes(v)?'on':''}" data-act="mw-tog" data-k="avoid" data-v="${v}">${e} ${l}</button>`).join('')}</div>
