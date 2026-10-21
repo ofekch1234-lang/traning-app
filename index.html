@@ -387,6 +387,7 @@ body.landing #app{max-width:1120px}
 .mn-alt{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;margin-top:8px;text-align:var(--start);background:var(--surface2);color:var(--ink)}
 .mn-alt small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px;font-weight:400}
 .mw-chips{display:flex;flex-wrap:wrap;gap:7px}
+.tr-u{font-size:.42em;font-weight:600;color:var(--muted);margin-inline-start:3px;font-family:var(--body)}
 .mn-wrap{position:relative}.mn-wrap .goalcta{padding-inline-end:44px;width:100%}
 .mn-x{position:absolute;top:6px;inset-inline-end:6px;width:30px;height:30px;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px}
 .mn-x2{width:28px;height:28px;border-radius:8px;background:var(--surface2);color:var(--muted);font-size:12px;flex-shrink:0}
@@ -1252,7 +1253,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='11.9.5';
+const APP_VERSION='11.9.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3671,7 +3672,7 @@ function todayRowHTML(){
   const d=ymd(), t=dayTotals(d), kT=+S.settings.kcalT||0, pT=+S.settings.protT||0, logged=mealsOf(d).length>0;
   const pct=kT?Math.min(1,t.kcal/kT):0, r=20, c=2*Math.PI*r, over=kT&&t.kcal>kT*1.05;
   const ring=`<svg viewBox="0 0 48 48" class="tr-ring"><circle cx="24" cy="24" r="${r}" fill="none" stroke="var(--surface2)" stroke-width="5"/><circle cx="24" cy="24" r="${r}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${(pct*c).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 24 24)"/><text x="24" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)">${kT?Math.round(pct*100)+'%':'🍽️'}</text></svg>`;
-  const food=kT?(logged?(over?`<b class="num">${kcalN(t.kcal-kT)}+</b><span>מעל היעד</span>`:`<b class="num">${kcalN(kT-t.kcal)}</b><span>נותרו מ-${kcalN(kT)}</span>`):`<b>לא נרשם</b><span>${kcalN(kT)} קק״ל ביום</span>`)
+  const food=kT?(logged?(over?`<b class="num">${kcalN(t.kcal-kT)}+<small class="tr-u">קק״ל</small></b><span>מעל היעד</span>`:`<b class="num">${kcalN(kT-t.kcal)}<small class="tr-u">קק״ל</small></b><span>נותרו מ-${kcalN(kT)}</span>`):`<b>לא נרשם</b><span>${kcalN(kT)} קק״ל ביום</span>`)
     :(logged?`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל היום</span>`:`<b>יעד יומי</b><span>לחץ להגדרה</span>`);
   const ws=S.weights||[], lw=ws[ws.length-1], wToday=lw&&lw.d===d, bwD=bwChange(7);
   const weight=lw?`<b class="num">${lw.kg}<small> ק״ג</small></b><span>${wToday?'נשקלת היום ✓':bwD!=null?`${bwD>0?'▲':bwD<0?'▼':'·'} ${Math.abs(bwD)} השבוע`:'+ שקילה'}</span>`:`<b>+ שקילה</b><span>ראשונה</span>`;
