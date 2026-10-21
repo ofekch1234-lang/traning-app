@@ -2918,5 +2918,29 @@
 "בלי פינוק, הכל בתפריט": {
 "en": "No treat, everything is in the plan",
 "ar": "بدون تحلية، كل شيء في القائمة"
+},
+"⏳ מחפש במאגר…": {
+"en": "⏳ Searching the database…",
+"ar": "⏳ جارٍ البحث في قاعدة البيانات…"
+},
+"🎲 עוד חלופות": {
+"en": "🎲 More alternatives",
+"ar": "🎲 بدائل أخرى"
+},
+"🎲 תציע לי חלופות אחרות": {
+"en": "🎲 Suggest other alternatives",
+"ar": "🎲 اقترح بدائل أخرى"
+},
+"מהמאגר המלא, עם חלבון דומה. הכמות כבר מותאמת.": {
+"en": "From the full database, with similar protein. Amount already adjusted.",
+"ar": "من قاعدة البيانات الكاملة، ببروتين مشابه. الكمية معدّلة مسبقًا."
+},
+"מהמאגר המלא, עם קלוריות דומות. הכמות כבר מותאמת.": {
+"en": "From the full database, with similar calories. Amount already adjusted.",
+"ar": "من قاعدة البيانات الكاملة، بسعرات مشابهة. الكمية معدّلة مسبقًا."
+},
+"חלופות נוספות מהמאגר": {
+"en": "More from the database",
+"ar": "بدائل إضافية من قاعدة البيانات"
 }
 }

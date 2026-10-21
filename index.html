@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=04e745de"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=04e745de"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=04e745de"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ccb95dea"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ccb95dea"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ccb95dea"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -417,6 +417,7 @@ body.landing #app{max-width:1120px}
 #sheet.swsheet .sw-sticky{flex-shrink:0;padding-bottom:10px;border-bottom:1px solid var(--line);margin:0 -16px;padding-inline:16px}
 #sheet.swsheet .sw-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;margin:0 -16px;padding:0 16px 16px}
 #sheet.swsheet .sw-foot{flex-shrink:0;margin:0 -16px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.sw-more{width:100%;margin-top:14px;border-style:dashed}
 .sw-close{width:32px;height:32px;border-radius:50%;background:var(--surface2);color:var(--muted);flex-shrink:0;font-size:14px}
 .sw-search{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:0 12px}
 .sw-search input{border:0;background:none;padding:11px 0;flex:1;min-width:0}.sw-search input:focus{outline:none}.sw-search:focus-within{border-color:var(--accent)}
@@ -1271,7 +1272,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.3';
+const APP_VERSION='12.3.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2937,6 +2938,29 @@ function mnAlts(it,slotKind){
     .sort((a,b)=>a.score-b.score).slice(0,4);
 }
 let SWP=null;
+/* קטגוריה לחיפוש חלופות במאגר המלא: גבינה מקבלת גבינות ויוגורטים, אורז מקבל דגנים, עוף מקבל בשר ודגים */
+const ALT_RX={meat:'^(בשר עוף|חזה עוף|בשר הודו|פרגית|שניצל|בשר בקר|סטייק|בשר עגל|דג |פילה|סלמון|טונה)',tuna:'^(דג טונה|טונה|סרדינים|דג סלמון|סלמון|מקרל)',egg:'^(ביצ|חביתה|שקשוקה)',
+  cheese:'^(גבינ|קוטג|יוגורט|לבנה|ריקוטה|מוצרלה|סקיר)',yog:'^(יוגורט|מעדן|סקיר|קפיר|גבינה לבנה)',powder:'^(אבקת חלבון|משקה חלבון|חטיף חלבון)',
+  legume:'^(עדשים|חומוס, גרגירים|חומוס גרגירים|גרגירי חומוס|שעועית לבנה|שעועית אדומה|שעועית שחורה|פול|אפונה|אדממה|טופו|פולי סויה)',spread:'^(חומוס|טחינה|ממרח|סלט חצילים|מטבוחה)',
+  grain:'^(אורז|קינואה|בורגול|קוסקוס|פתיתים|כוסמת|גריסים|פריקה|פסטה|אטריות|ספגטי)',tuber:'^(תפוח אדמה|תפוחי אדמה|בטטה|תירס|דלעת)',
+  bread:'^(לחם|פיתה|לחמני|טורטי|פריכי|בייגל|חלה|קרקר|לאפה)',cereal:'^(שיבולת|גרנולה|דגני|קורנפלקס|מוזלי|סובין)',
+  V:'^(סלט ירקות|ברוקולי|כרובית|שעועית ירוקה|קישוא|גזר|פלפל|מלפפון|עגבני|תרד|חציל|פטריות|כרוב|חסה|סלק|אספרגוס)',
+  X:'^(תפוח עץ|תפוח,|בננה|תפוז|אגס|ענבים|תות|אוכמניות|מנגו|קיווי|אפרסק|שזיף|אבטיח|מלון|קלמנטינה|אננס|רימון|משמש|תמר|פטל|דובדבן|נקטרינה|אפרסמון)',
+  F:'^(שמן|טחינה|אבוקדו|שקדים|אגוז|בוטנים|חמאת|זית|פיסטוק|גרעיני|קשיו)',L:'^(חלב|משקה סויה|משקה שקדים|משקה שיבולת|משקה אורז|שוקו)'};
+function altRx(f){
+  const g=f.gp, m={poultry:'meat',red:'meat',fish:'meat',tofu:'legume',pasta:'grain'}[g]||g;
+  if(m&&ALT_RX[m])return ALT_RX[m]; if(f.r&&ALT_RX[f.r])return ALT_RX[f.r];
+  const nm=String(f.n?.[0]||f.n||f.name||''); for(const k in ALT_RX)if(new RegExp(ALT_RX[k]).test(nm))return ALT_RX[k];
+  return null;
+}
+async function swapMore(){
+  if(!SWP||SWP.busy)return; const it=menuS().day.meals[SWP.mi].items[SWP.ii], f=miFood(it)||{};
+  SWP.off=(SWP.off==null?0:SWP.off+6); SWP.busy=true; SWP.more=true; const box=$('#mn-sres'); if(box)box.innerHTML=swapList();
+  const excl=[...new Set([f.c,...MF().map(x=>x.c)].filter(Number.isInteger))];
+  let data=[]; try{ const r=await sb.rpc('food_alts',{p_kcal:+f.k||0,p_prot:+f.p||0,p_carbs:+f.cb||0,p_fat:+f.ft||0,p_mode:SWP.mode,p_off:SWP.off,p_lim:6,lang:LANG,p_excl:excl,p_pat:altRx(f)}); data=r.data||[]; }catch(_){}
+  if(!data.length&&SWP.off>0){ SWP.off=0; try{ const r=await sb.rpc('food_alts',{p_kcal:+f.k||0,p_prot:+f.p||0,p_carbs:+f.cb||0,p_fat:+f.ft||0,p_mode:SWP.mode,p_off:0,p_lim:6,lang:LANG,p_excl:excl,p_pat:altRx(f)}); data=r.data||[]; }catch(_){} }
+  if(!SWP)return; SWP.busy=false; SWP.db=data; const b=$('#mn-sres'); if(b){ b.innerHTML=swapList(); b.scrollTop=0; }
+}
 /* יחידה טבעית למזון מהמאגר המלא: פחית, יחידה, גביע, פרוסה… (כפות רק כשאין משהו טבעי יותר) */
 const DBU_PL={'פחית':['פחיות','cans','علب'],'יחידה':['יחידות','units','وحدات'],'אריזה':['אריזות','packs','عبوات'],'גביע':['גביעים','cups','علب'],'פרוסה':['פרוסות','slices','شرائح'],'כוס':['כוסות','cups','أكواب'],'מנה':['מנות','servings','حصص'],'פיתה':['פיתות','pitas','أرغفة'],'בקבוק':['בקבוקים','bottles','زجاجات'],'חטיף':['חטיפים','bars','قطع']};
 function dbUnit(f){
@@ -2992,7 +3016,9 @@ function swapList(){
   const db=(SWP.db||[]).map((f,i)=>({f,i,nm:f.name.split(',')[0].trim()})).filter(x=>!seen.has(x.nm)&&(seen.add(x.nm),true)).slice(0,6)
     .map(({f,i,nm})=>{ const du=dbUnit(f), fd={k:+f.kcal||0,p:+f.protein||0,...(du||{tb:dbTb(f)})}; const g=swapG(fd,false); return g?swapRow(nm,'',g,fd,`data-act="mn-swap-db" ${at} data-db="${i}" data-g="${g}"`,false):''; }).join('');
   const lbl=t=>`<div class="sw-h">${t}</div>`;
-  if(!q)return lbl(SWP.mode==='p'?'חלופות עם כמות חלבון דומה':'חלופות עם כמות קלוריות דומה')+(loc?`<div class="sw-list">${loc}</div>`:`<div class="empty">אין חלופות שמתאימות להעדפות שלך.</div>`);
+  const moreBtn=`<button class="btn sw-more" data-act="mn-smore" ${SWP.busy?'disabled':''}>${SWP.busy?'⏳ מחפש במאגר…':SWP.more?'🎲 עוד חלופות':'🎲 תציע לי חלופות אחרות'}</button><div class="small muted" style="text-align:center;margin-top:6px">${SWP.mode==='p'?'מהמאגר המלא, עם חלבון דומה. הכמות כבר מותאמת.':'מהמאגר המלא, עם קלוריות דומות. הכמות כבר מותאמת.'}</div>`;
+  const catalog=lbl(SWP.mode==='p'?'חלופות עם כמות חלבון דומה':'חלופות עם כמות קלוריות דומה')+(loc?`<div class="sw-list">${loc}</div>`:`<div class="empty">אין חלופות שמתאימות להעדפות שלך.</div>`);
+  if(!q)return SWP.more&&(db||SWP.busy)?(db?lbl('חלופות נוספות מהמאגר')+`<div class="sw-list">${db}</div>`:'')+moreBtn+catalog:catalog+moreBtn;
   return (loc?lbl('מהתפריט')+`<div class="sw-list">${loc}</div>`:'')+(db?lbl('מהמאגר המלא')+`<div class="sw-list">${db}</div>`:'')
     +(q.length>=2&&!loc&&!db?`<div class="small muted" style="margin-top:12px;text-align:center">${SWP.busy?'מחפש…':'לא נמצא. נסו מילה אחרת.'}</div>`:'');
 }
@@ -3073,7 +3099,8 @@ function menuAct(act,b){
     case 'mn-swap-pick': { const it=M.day.meals[mi].items[ii]; for(const k of Object.keys(it))delete it[k]; it.id=b.dataset.id; it.g=+b.dataset.g; SWP=null; persistSettings(); closeSheet(); mnPatch(mi); return true; }
     case 'mn-swap-db': { const f=SWP?.db?.[+b.dataset.db]; if(!f)return true; const it=M.day.meals[mi].items[ii]; for(const k of Object.keys(it))delete it[k];
       Object.assign(it,dbItem(f,+b.dataset.g)); M.day.auto=false; SWP=null; persistSettings(); closeSheet(); mnPatch(mi); return true; }
-    case 'mn-smode': if(SWP){ SWP.mode=b.dataset.v; document.querySelectorAll('[data-act="mn-smode"]').forEach(x=>x.classList.toggle('on',x===b)); const r=$('#mn-sres'); if(r)r.innerHTML=swapList(); } return true;
+    case 'mn-smore': swapMore(); return true;
+    case 'mn-smode': if(SWP){ SWP.mode=b.dataset.v; if(SWP.more&&!SWP.q.trim()){ SWP.off=null; SWP.more=false; SWP.db=[]; } document.querySelectorAll('[data-act="mn-smode"]').forEach(x=>x.classList.toggle('on',x===b)); const r=$('#mn-sres'); if(r)r.innerHTML=swapList(); } return true;
     case 'mn-dislike': { const it=M.day.meals[mi].items[ii]; if(it.id&&!M.no.includes(it.id))M.no.push(it.id);
       if(M.p?.likes)M.p.likes=M.p.likes.filter(x=>x!==it.id);
       const alt=mnAlts(it,mealKind(M.day.meals[mi].k,M.p||{}))[0]; if(alt){ it.id=alt.x.id; it.g=alt.g; } else M.day.meals[mi].items.splice(ii,1);
@@ -3109,7 +3136,7 @@ function menuAct(act,b){
   return false;
 }
 document.addEventListener('keydown',ev=>{ if(ev.key==='Enter'&&ev.target.id==='set-name'){ ev.preventDefault(); document.querySelector('[data-act="save-name"]')?.click(); } });
-document.addEventListener('input',ev=>{ if(ev.target.id==='mn-q'){ clearTimeout(mnAddSearch.t); const v=ev.target.value; if(MADD){ MADD.q=v; const bx=$('#mn-res'); if(bx&&v.trim().length<2)bx.innerHTML=mnAddList(v); } mnAddSearch.t=setTimeout(()=>mnAddSearch(v),250); } if(ev.target.id==='mn-sq'){ clearTimeout(swapSearch.t); const v=ev.target.value; SWP&&(SWP.q=v); const b=$('#mn-sres'); if(b)b.innerHTML=swapList(); swapSearch.t=setTimeout(()=>swapSearch(v),250); } });
+document.addEventListener('input',ev=>{ if(ev.target.id==='mn-q'){ clearTimeout(mnAddSearch.t); const v=ev.target.value; if(MADD){ MADD.q=v; const bx=$('#mn-res'); if(bx&&v.trim().length<2)bx.innerHTML=mnAddList(v); } mnAddSearch.t=setTimeout(()=>mnAddSearch(v),250); } if(ev.target.id==='mn-sq'){ clearTimeout(swapSearch.t); const v=ev.target.value; if(SWP){ SWP.q=v; if(v.trim()){ SWP.more=false; SWP.off=null; } } const b=$('#mn-sres'); if(b)b.innerHTML=swapList(); swapSearch.t=setTimeout(()=>swapSearch(v),250); } });
 
 function openTargetsSheet(){
   const b=S.settings.body||{}, lw=tgLastWeight();
