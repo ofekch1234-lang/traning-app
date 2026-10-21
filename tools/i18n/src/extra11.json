@@ -1,2970 +1,2978 @@
 {
-"מחיר לפני (מחיר השקה, ריק = בלי)": {
-"en": "Price before (launch price, empty = none)",
-"ar": "السعر السابق (سعر الإطلاق، فارغ = بدون)"
-},
-"תוכנית שבנויה בשבילך": {
-"en": "A plan built for you",
-"ar": "خطة مبنية لك"
-},
-"כשהוא ממליץ על תרגיל, סרטון ההדגמה מופיע מתחת לתשובה": {
-"en": "When he recommends an exercise, the demo video appears right below the answer",
-"ar": "عندما يوصي بتمرين، يظهر فيديو التوضيح تحت الإجابة مباشرة"
-},
-"מתאמנים ביחד": {
-"en": "Train together",
-"ar": "تدرّبوا معًا"
-},
-"🥇 דניאל": {
-"en": "🥇 Daniel",
-"ar": "🥇 دانيال"
-},
-"🥈 את/ה": {
-"en": "🥈 You",
-"ar": "🥈 أنت"
-},
-"🥉 נועם": {
-"en": "🥉 Noam",
-"ar": "🥉 نوعام"
-},
-"הישגים ששווה לשתף": {
-"en": "Achievements worth sharing",
-"ar": "إنجازات تستحق المشاركة"
-},
-"סיכום חודשי": {
-"en": "Monthly recap",
-"ar": "ملخص شهري"
-},
-"מחיר אחד, בלי הפתעות": {
-"en": "One price, no surprises",
-"ar": "سعر واحد، بلا مفاجآت"
-},
-"7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.": {
-"en": "7 days free. No app store. iPhone and Android.",
-"ar": "7 أيام مجانًا. بدون متجر تطبيقات. آيفون وأندرويد."
-},
-"מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד.": {
-"en": "Snap your plate, the AI breaks it into items and counts calories and protein against your target.",
-"ar": "صوّر طبقك، فيفصّله الذكاء الاصطناعي إلى مكوّنات ويحسب السعرات والبروتين مقابل هدفك."
-},
-"עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.": {
-"en": "Answer a few questions: goal, days per week, equipment and time, and get a tailored plan. 98 exercises with demo videos, and a reminder on the morning of a training day.",
-"ar": "أجب عن بضعة أسئلة: الهدف، الأيام في الأسبوع، المعدات والوقت، واحصل على خطة مخصصة. 98 تمرينًا مع فيديو توضيحي، وتذكير صباح يوم التدريب."
-},
-"מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא \"cottage cheese\" אמריקאי. ואם אין כוח לחפש, מצלמים את הצלחת: ה-AI מזהה כל רכיב, מעריך כמה גרם יש ומחשב קלוריות וחלבון. סורקים גם טבלה תזונתית מהאריזה.": {
-"en": "The Israeli Ministry of Health food database: local foods, not a generic American list. Too lazy to search? Snap your plate: the AI identifies each item, estimates the grams and counts calories and protein. You can also scan a nutrition label.",
-"ar": "قاعدة بيانات التغذية الإسرائيلية: أطعمة محلية، لا قائمة أمريكية عامة. لا رغبة لك في البحث؟ صوّر طبقك: يتعرّف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات ويحسب السعرات والبروتين. ويمكنك أيضًا مسح الملصق الغذائي."
-},
-"קובי הבוט, המאמן שלך בכיס": {
-"en": "Kobi the bot, your coach in your pocket",
-"ar": "كوبي البوت، مدربك في جيبك"
-},
-"קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.": {
-"en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic internet advice: he looks at your numbers.",
-"ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. لا نصائح عامة من الإنترنت، بل ينظر إلى أرقامك."
-},
-"סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע": {
-"en": "Weekly summary: what improved, where you're stuck and what to focus on this week",
-"ar": "ملخص أسبوعي: ما الذي تحسّن، أين توقفت وعلى ماذا تركّز هذا الأسبوع"
-},
-"שואלים אותו כל שאלה על אימון, תזונה והתאוששות": {
-"en": "Ask him anything about training, nutrition and recovery",
-"ar": "اسأله أي سؤال عن التدريب والتغذية والتعافي"
-},
-"ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.": {
-"en": "I see it: 80×8 in your last three workouts 💪 This week try 82.5 on the first set, even if you only get 6 reps. And add incline bench press as your second exercise.",
-"ar": "رأيت ذلك: 80×8 في آخر ثلاثة تمارين 💪 هذا الأسبوع جرّب 82.5 في المجموعة الأولى حتى لو خرجت 6 تكرارات فقط. وأضف ضغط الصدر المائل كتمرين ثانٍ."
-},
-"פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.": {
-"en": "Start a group with your gym friends and launch a challenge: who trains the most this month, who's first to 100,000 kg of volume, or everyone together toward a shared goal.",
-"ar": "أنشئ مجموعة مع أصدقاء النادي وأطلق تحديًا: من يتدرب أكثر هذا الشهر، من يصل أولًا إلى 100 ألف كغ من الحجم، أو الجميع معًا نحو هدف مشترك."
-},
-"20 הישגים לפתוח בדרך, ושיתוף בעיצוב מוכן לסטורי. אפשר גם לצלם מהמצלמה ולהדביק את ההישג כמו מדבקה.": {
-"en": "20 achievements to unlock along the way, with story-ready share designs. You can also shoot with your camera and stick the achievement on like a sticker.",
-"ar": "20 إنجازًا لتفتحها في الطريق، مع تصاميم جاهزة للستوري. ويمكنك أيضًا التصوير بالكاميرا ولصق الإنجاز كملصق."
-},
-"בתחילת כל חודש מחכה לך סיכום בסגנון \"Wrapped\": כמה אימונים, כמה ק״ג הרמת, השיאים שלך והתרגיל האהוב.": {
-"en": "At the start of every month a \"Wrapped\"-style recap is waiting: how many workouts, how many kg you lifted, your PRs and your favorite exercise.",
-"ar": "في بداية كل شهر ينتظرك ملخص بأسلوب \"Wrapped\": كم تمرينًا، كم كغ رفعت، أرقامك القياسية وتمرينك المفضل."
-},
-"ק״ג הורמו החודש": {
-"en": "kg lifted this month",
-"ar": "كغ رُفعت هذا الشهر"
-},
-"{0} ימים ראשונים בחינם עם כל הפיצ׳רים. אחר כך בוחרים מסלול: תשלום חד-פעמי, בלי חידוש אוטומטי ובלי התחייבות.": {
-"en": "First {0} days free with every feature. Then pick a plan: one payment, no auto-renewal, no commitment.",
-"ar": "أول {0} أيام مجانًا مع كل الميزات. بعدها اختر باقة: دفعة واحدة، بلا تجديد تلقائي وبلا التزام."
-},
-"כל המסלולים כוללים הכל: אימונים, תזונה עם AI, קובי הבוט, קבוצות ואתגרים.": {
-"en": "Every plan includes everything: workouts, AI nutrition, Kobi the bot, groups and challenges.",
-"ar": "كل الباقات تشمل كل شيء: التمارين، التغذية بالذكاء الاصطناعي، كوبي البوت، المجموعات والتحديات."
-},
-"7 ימים ראשונים בחינם, עם כל הפיצ׳רים. אחר כך ממשיכים במסלול בתשלום חד-פעמי: בלי מנוי מתחדש, בלי חיוב אוטומטי ובלי התחייבות. המחירים מופיעים למעלה.": {
-"en": "The first 7 days are free, with every feature. Then you continue with a one-time-payment plan: no recurring subscription, no automatic charge and no commitment. Prices are shown above.",
-"ar": "أول 7 أيام مجانية مع كل الميزات. بعدها تتابع بباقة بدفعة واحدة: بلا اشتراك متجدد، بلا خصم تلقائي وبلا التزام. الأسعار معروضة في الأعلى."
-},
-"מה קובי הבוט יודע לעשות?": {
-"en": "What can Kobi the bot do?",
-"ar": "ماذا يستطيع كوبي البوت أن يفعل؟"
-},
-"קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומנויים יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
-"en": "Kobi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and subscribers can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
-"ar": "كوبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وعلى ماذا تركّز، ويمكن للمشتركين سؤاله أي شيء عن التدريب والتغذية والتعافي. وعندما يوصي بتمرين، يظهر فيديو توضيحي."
-},
-"כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.": {
-"en": "Yes. Answer a few questions and get a plan tailored to you, with a demo video for every exercise. But the tool is built for people who train regularly and want to see numbers.",
-"ar": "نعم. أجب عن بضعة أسئلة واحصل على خطة مخصصة لك، مع فيديو توضيحي لكل تمرين. لكن الأداة مبنية لمن يتدرب بانتظام ويريد رؤية الأرقام."
-},
-"באיזו שפה האפליקציה?": {
-"en": "What language is the app in?",
-"ar": "بأي لغة التطبيق؟"
-},
-"עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.": {
-"en": "Hebrew, Arabic and English, including Kobi, notifications and meal recognition. Switch language in settings anytime.",
-"ar": "العبرية والعربية والإنجليزية، بما في ذلك كوبي والإشعارات والتعرّف على الوجبات. غيّر اللغة من الإعدادات في أي وقت."
-},
-"נרשמים בקליק עם Google, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. {0} ימים ראשונים עלינו.": {
-"en": "Sign up in one click with Google, add it to your home screen, and from your next workout every set is saved. The first {0} days are on us.",
-"ar": "سجّل بنقرة واحدة عبر Google، أضفه إلى الشاشة الرئيسية، ومن تمرينك القادم تُحفظ كل مجموعة. أول {0} أيام علينا."
-},
-"לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?": {
-"en": "My bench press has been stuck at 80 for two weeks, what should I do?",
-"ar": "ضغط الصدر عالق عندي على 80 منذ أسبوعين، ماذا أفعل؟"
-},
-"✉️ המשך עם אימייל": {
-"en": "✉️ Continue with email",
-"ar": "✉️ المتابعة بالبريد الإلكتروني"
-},
-"הקלד את הקוד": {
-"en": "Enter the code",
-"ar": "أدخل الرمز"
-},
-"התחברות עם קוד למייל": {
-"en": "Sign in with an email code",
-"ar": "تسجيل الدخول برمز عبر البريد"
-},
-"שלחנו קוד ל-{0}. הוא תקף לשעה.": {
-"en": "We sent a code to {0}. It's valid for one hour.",
-"ar": "أرسلنا رمزًا إلى {0}. صالح لمدة ساعة."
-},
-"בלי סיסמה: נשלח אליך קוד חד-פעמי, והאייפון יציע להדביק אותו.": {
-"en": "No password: we'll email you a one-time code, and your phone will offer to paste it.",
-"ar": "بدون كلمة مرور: سنرسل لك رمزًا لمرة واحدة، وسيعرض هاتفك لصقه."
-},
-"רגע…": {
-"en": "One moment…",
-"ar": "لحظة…"
-},
-"התחברות": {
-"en": "Log in",
-"ar": "تسجيل الدخول"
-},
-"שלח לי קוד": {
-"en": "Send me a code",
-"ar": "أرسل لي رمزًا"
-},
-"אפשר לשלוח שוב בעוד דקה": {
-"en": "You can resend in a minute",
-"ar": "يمكنك الإرسال مجددًا بعد دقيقة"
-},
-"לא הגיע? שלח שוב": {
-"en": "Didn't get it? Send again",
-"ar": "لم يصل؟ أرسل مجددًا"
-},
-"שינוי אימייל": {
-"en": "Change email",
-"ar": "تغيير البريد"
-},
-"בהמשך אתה מסכים ל{0}תקנון{1} ול{2}מדיניות הפרטיות{3}": {
-"en": "By continuing you agree to the {0}Terms{1} and {2}Privacy Policy{3}",
-"ar": "بالمتابعة توافق على {0}الشروط{1} و{2}سياسة الخصوصية{3}"
-},
-"בהמשך אתה מסכים ל": {
-"en": "By continuing you agree to the ",
-"ar": "بالمتابعة توافق على "
-},
-"חזרה": {
-"en": "Back",
-"ar": "رجوع"
-},
-"הקלד אימייל תקין": {
-"en": "Enter a valid email",
-"ar": "أدخل بريدًا إلكترونيًا صحيحًا"
-},
-"נשלחו יותר מדי קודים. נסה שוב בעוד דקה.": {
-"en": "Too many codes sent. Try again in a minute.",
-"ar": "أُرسلت رموز كثيرة. حاول مجددًا بعد دقيقة."
-},
-"שליחת הקוד נכשלה. נסה שוב.": {
-"en": "Sending the code failed. Try again.",
-"ar": "فشل إرسال الرمز. حاول مجددًا."
-},
-"הקוד צריך להיות 6 ספרות": {
-"en": "The code should be 6 digits",
-"ar": "يجب أن يتكون الرمز من 6 أرقام"
-},
-"הקוד שגוי או שפג תוקפו": {
-"en": "The code is wrong or has expired",
-"ar": "الرمز خاطئ أو منتهي الصلاحية"
-},
-"✉️ קבל קוד למייל": {
-"en": "✉️ Get a code by email",
-"ar": "✉️ احصل على رمز بالبريد"
-},
-"התחברות עם סיסמה": {
-"en": "Log in with password",
-"ar": "تسجيل الدخول بكلمة المرور"
-},
-"שלחנו קוד למייל שלך. הוא תקף לשעה.": {
-"en": "We emailed you a code. It's valid for one hour.",
-"ar": "أرسلنا رمزًا إلى بريدك. صالح لمدة ساعة."
-},
-"כניסה או הרשמה": {
-"en": "Log in or sign up",
-"ar": "تسجيل الدخول أو التسجيل"
-},
-"בלי סיסמה: מקלידים אימייל ומקבלים קוד חד-פעמי. אם אין לך חשבון, הוא ייפתח אוטומטית.": {
-"en": "No password: enter your email and get a one-time code. If you don't have an account, one is created automatically.",
-"ar": "بدون كلمة مرور: أدخل بريدك واحصل على رمز لمرة واحدة. إن لم يكن لديك حساب، سيُنشأ تلقائيًا."
-},
-"✉️ כניסה עם קוד למייל, בלי סיסמה": {
-"en": "✉️ Sign in with an email code, no password",
-"ar": "✉️ الدخول برمز عبر البريد، بدون كلمة مرور"
-},
-"נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. {0} ימים ראשונים עלינו.": {
-"en": "Sign up with your email, no password, add it to your home screen, and from your next workout every set is saved. The first {0} days are on us.",
-"ar": "سجّل ببريدك بدون كلمة مرور، أضفه إلى الشاشة الرئيسية، ومن تمرينك القادم تُحفظ كل مجموعة. أول {0} أيام علينا."
-},
-"תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.": {
-"en": "One payment, no auto-renewal, no commitment.",
-"ar": "دفعة واحدة، بلا تجديد تلقائي وبلا التزام."
-},
-"אימונים וטיימר": {
-"en": "Workouts & timer",
-"ar": "التمارين والمؤقت"
-},
-"תזונה עם AI": {
-"en": "AI nutrition",
-"ar": "تغذية بالذكاء الاصطناعي"
-},
-"קובי הבוט": {
-"en": "Kobi the bot",
-"ar": "كوبي البوت"
-},
-"קבוצות ואתגרים": {
-"en": "Groups & challenges",
-"ar": "المجموعات والتحديات"
-},
-"כבר שילמתי, בדוק שוב": {
-"en": "I already paid, check again",
-"ar": "دفعت بالفعل، تحقق مجددًا"
-},
-"בעיה בתשלום?": {
-"en": "Payment issue?",
-"ar": "مشكلة في الدفع؟"
-},
-"מנוי 4 חודשים": {
-"en": "4-month plan",
-"ar": "باقة 4 أشهر"
-},
-"מנוי 6 חודשים": {
-"en": "6-month plan",
-"ar": "باقة 6 أشهر"
-},
-"מנוי שנתי": {
-"en": "Annual plan",
-"ar": "باقة سنوية"
-},
-"מנוי פעיל": {
-"en": "Active plan",
-"ar": "اشتراك فعّال"
-},
-"⭐ {0} · עד {1}": {
-"en": "⭐ {0} · until {1}",
-"ar": "⭐ {0} · حتى {1}"
-},
-"🎁 ניסיון חינם · עוד {0} ימים": {
-"en": "🎁 Free trial · {0} days left",
-"ar": "🎁 تجربة مجانية · بقي {0} أيام"
-},
-"🎁 ניסיון חינם · היום האחרון": {
-"en": "🎁 Free trial · last day",
-"ar": "🎁 تجربة مجانية · اليوم الأخير"
-},
-"⭐ מנוי שנתי · עד {0}": {
-"en": "⭐ Annual plan · until {0}",
-"ar": "⭐ باقة سنوية · حتى {0}"
-},
-"⭐ מנוי 4 חודשים · עד {0}": {
-"en": "⭐ 4-month plan · until {0}",
-"ar": "⭐ باقة 4 أشهر · حتى {0}"
-},
-"⭐ מנוי 6 חודשים · עד {0}": {
-"en": "⭐ 6-month plan · until {0}",
-"ar": "⭐ باقة 6 أشهر · حتى {0}"
-},
-"⭐ מנוי פעיל · עד {0}": {
-"en": "⭐ Active plan · until {0}",
-"ar": "⭐ اشتراك فعّال · حتى {0}"
-},
-"ממשיכים להתקדם": {
-"en": "Keep progressing",
-"ar": "واصل التقدم"
-},
-"ברכישה אתה מסכים ל": {
-"en": "By purchasing you agree to the ",
-"ar": "بالشراء توافق على "
-},
-"היי, אני קובי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.": {
-"en": "Hi, I'm Kobi 👋 After your first workout I'll send you a weekly summary here: what went well and what to focus on.",
-"ar": "مرحبًا، أنا كوبي 👋 بعد تمرينك الأول سأرسل لك هنا ملخصًا أسبوعيًا: ما الذي سار جيدًا وعلى ماذا تركّز."
-},
-"אני קובי, המאמן שלך כאן. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בקצרה מה יש בו. אפשר לדלג בכל רגע.": {
-"en": "I'm Kobi, your coach here. Every screen you open for the first time, I'll quickly show you what's in it. You can skip anytime.",
-"ar": "أنا كوبي، مدربك هنا. في كل شاشة تفتحها لأول مرة سأريك بسرعة ما فيها. يمكنك التخطي في أي وقت."
-},
-"הבנתי 💪": {
-"en": "Got it 💪",
-"ar": "فهمت 💪"
-},
-"אני קובי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.": {
-"en": "I'm Kobi, your coach. On every screen you open for the first time, I'll show you in a few short steps what it's for.",
-"ar": "أنا كوبي، مدربك. في كل شاشة تفتحها لأول مرة سأريك في خطوات قصيرة ما الذي تفعله فيها."
-},
-"הסיכום השבועי שלי": {
-"en": "My weekly summary",
-"ar": "ملخصي الأسبوعي"
-},
-"כל יום ראשון אכתוב לך כאן מה הלך טוב השבוע ועל מה להתמקד, לפי האימונים והתזונה שלך. לחיצה על הכרטיס פותחת אותו.": {
-"en": "Every Sunday I'll write here what went well this week and what to focus on, based on your workouts and nutrition. Tap the card to open it.",
-"ar": "كل يوم أحد سأكتب لك هنا ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز، حسب تمارينك وتغذيتك. اضغط على البطاقة لفتحها."
-},
-"מכאן מתחילים להתאמן": {
-"en": "This is where you train",
-"ar": "من هنا تبدأ التدريب"
-},
-"הכפתור הירוק באמצע התפריט הוא מסך האימון: בונים תוכנית ומתחילים אימון.": {
-"en": "The green button in the middle of the menu is the workout screen: build a plan and start a workout.",
-"ar": "الزر الأخضر في منتصف القائمة هو شاشة التدريب: ابنِ خطة وابدأ تمرينًا."
-},
-"הפעל התראות ונודיע לך כשהמנוחה בין הסטים נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.": {
-"en": "Turn on notifications and we'll tell you when your rest between sets is over, even with the phone in your pocket, and remind you on training days.",
-"ar": "فعّل الإشعارات وسنخبرك عندما تنتهي الراحة بين المجموعات، حتى والهاتف في جيبك، ونذكّرك في أيام التدريب."
-},
-"יעדים, התראות, שפה וצור קשר. משם אפשר גם להפעיל את ההדרכה הזו מחדש.": {
-"en": "Goals, notifications, language and contact. You can also restart this guide from there.",
-"ar": "الأهداف والإشعارات واللغة والتواصل. ومن هناك يمكنك أيضًا إعادة تشغيل هذا الدليل."
-},
-"שלב 1: תוכנית אימון": {
-"en": "Step 1: a training plan",
-"ar": "الخطوة 1: خطة تدريب"
-},
-"עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית שבנויה בשבילך. אפשר לערוך אותה בכל רגע.": {
-"en": "Answer a few questions (goal, days per week, equipment and time) and get a plan built for you. You can edit it anytime.",
-"ar": "أجب عن بضعة أسئلة (الهدف، الأيام في الأسبوع، المعدات والوقت) واحصل على خطة مبنية لك. يمكنك تعديلها في أي وقت."
-},
-"שלב 2: מתחילים אימון": {
-"en": "Step 2: start a workout",
-"ar": "الخطوة 2: ابدأ تمرينًا"
-},
-"בוחרים אימון מהתוכנית, או מתחילים אימון חופשי ומוסיפים תרגילים תוך כדי.": {
-"en": "Pick a workout from your plan, or start a free workout and add exercises as you go.",
-"ar": "اختر تمرينًا من خطتك، أو ابدأ تمرينًا حرًا وأضف التمارين أثناءه."
-},
-"בזמן האימון": {
-"en": "During the workout",
-"ar": "أثناء التمرين"
-},
-"נגיעה בסט מסמנת שסיימת אותו. המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. לא בטוח איך עושים תרגיל? לוחצים ״צפה בהדגמה״.": {
-"en": "Tap a set to mark it done. Last time's weight is already filled in, and the rest timer starts on its own. Not sure how to do an exercise? Tap \"Watch demo\".",
-"ar": "اضغط على المجموعة لتسجيل إنهائها. الوزن من المرة السابقة مُعبّأ مسبقًا، ومؤقت الراحة يبدأ تلقائيًا. لست متأكدًا من طريقة التمرين؟ اضغط \"شاهد التوضيح\"."
-},
-"קודם כל: יעד יומי": {
-"en": "First: a daily target",
-"ar": "أولًا: هدف يومي"
-},
-"מגדירים כמה קלוריות וחלבון לאכול ביום. נחשב לך את זה לפי המטרה, המשקל והגובה שלך.": {
-"en": "Set how many calories and how much protein to eat a day. We'll calculate it from your goal, weight and height.",
-"ar": "حدّد كم سعرة وكم بروتين تأكل يوميًا. سنحسب ذلك حسب هدفك ووزنك وطولك."
-},
-"רושמים מה אכלת": {
-"en": "Log what you ate",
-"ar": "سجّل ما أكلت"
-},
-"כותבים מאכל ובוחרים מהמאגר הישראלי, או ארוחה שלמה כמו ״שניצל עם אורז״ ולוחצים ✨ חשב.": {
-"en": "Type a food and pick it from the database, or a whole meal like \"schnitzel with rice\" and tap ✨ Calculate.",
-"ar": "اكتب طعامًا واختره من قاعدة البيانات، أو وجبة كاملة مثل \"شنيتسل مع أرز\" واضغط ✨ احسب."
-},
-"או בלי להקליד": {
-"en": "Or without typing",
-"ar": "أو بدون كتابة"
-},
-"מצלמים את הצלחת וה-AI מזהה כל רכיב ומעריך כמה גרם יש. אפשר לתקן את הגרמים לפני שמוסיפים. או סורקים ברקוד של מוצר מהסופר.": {
-"en": "Snap your plate and the AI identifies each item and estimates the grams. You can fix the grams before adding. Or scan a product's barcode.",
-"ar": "صوّر طبقك فيتعرّف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات. يمكنك تصحيح الغرامات قبل الإضافة. أو امسح باركود منتج."
-},
-"מתאמנים עם חברים": {
-"en": "Train with friends",
-"ar": "تدرّب مع الأصدقاء"
-},
-"פותחים קבוצה ושולחים קישור לשותף או לחבר׳ה מהמכון. כל אימון שמישהו מסיים מופיע אוטומטית בצ׳אט.": {
-"en": "Create a group and send a link to your partner or gym friends. Every workout someone finishes shows up in the chat automatically.",
-"ar": "أنشئ مجموعة وأرسل رابطًا لشريكك أو لأصدقاء النادي. كل تمرين ينهيه أحدهم يظهر في الدردشة تلقائيًا."
-},
-"קיבלת קוד?": {
-"en": "Got a code?",
-"ar": "لديك رمز؟"
-},
-"אם חבר שלח לך קוד הזמנה, מצטרפים לקבוצה שלו מכאן.": {
-"en": "If a friend sent you an invite code, join their group here.",
-"ar": "إذا أرسل لك صديق رمز دعوة، انضم إلى مجموعته من هنا."
-},
-"אתגרים 🏆": {
-"en": "Challenges 🏆",
-"ar": "التحديات 🏆"
-},
-"בתוך קבוצה אפשר להשיק אתגר: מי מתאמן הכי הרבה החודש, מרוץ ראשון ליעד, או כולם יחד מול יעד משותף.": {
-"en": "Inside a group you can launch a challenge: who trains the most this month, a race to a target, or everyone together toward a shared goal.",
-"ar": "داخل المجموعة يمكنك إطلاق تحدٍ: من يتدرب أكثر هذا الشهر، سباق نحو هدف، أو الجميع معًا نحو هدف مشترك."
-},
-"שלושה חלקים": {
-"en": "Three sections",
-"ar": "ثلاثة أقسام"
-},
-"גוף ויעדים: משקל ותמונות. התקדמות: גרפים, שיאים והישגים. היסטוריה: כל האימונים שעשית.": {
-"en": "Body & goals: weight and photos. Progress: charts, PRs and achievements. History: every workout you've done.",
-"ar": "الجسم والأهداف: الوزن والصور. التقدم: رسوم بيانية وأرقام قياسية وإنجازات. السجل: كل تمارينك."
-},
-"שקילה": {
-"en": "Weigh-in",
-"ar": "الوزن"
-},
-"שוקלים בבוקר ולוחצים כאן. כל שקילה נכנסת ללוח ולגרף, ככה רואים את המגמה ולא רק מספר של יום אחד.": {
-"en": "Weigh yourself in the morning and tap here. Every weigh-in goes into the log and the chart, so you see the trend, not just one day's number.",
-"ar": "زن نفسك صباحًا واضغط هنا. كل وزن يدخل السجل والرسم البياني، فترى الاتجاه لا رقم يوم واحد فقط."
-},
-"תמונות התקדמות": {
-"en": "Progress photos",
-"ar": "صور التقدم"
-},
-"בוחרים יום קבוע בשבוע ומקבלים תזכורת להצטלם. אחרי חודש משווים תמונה מול תמונה.": {
-"en": "Pick a fixed day each week and get a reminder to take photos. After a month, compare photo against photo.",
-"ar": "اختر يومًا ثابتًا كل أسبوع واحصل على تذكير بالتصوير. بعد شهر قارن صورة بصورة."
-},
-"הישגים וסיכום חודשי": {
-"en": "Achievements & monthly recap",
-"ar": "الإنجازات والملخص الشهري"
-},
-"20 הישגים לפתוח, כל אחד עם חגיגה ותמונה לשיתוף. ובתחילת כל חודש מחכה לך סיכום של החודש שעבר.": {
-"en": "20 achievements to unlock, each with a celebration and a shareable image. And at the start of every month, a recap of the last month is waiting.",
-"ar": "20 إنجازًا لتفتحها، لكل منها احتفال وصورة للمشاركة. وفي بداية كل شهر ينتظرك ملخص الشهر الماضي."
-},
-"הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת": {
-"en": "The analysis took too long. Try again, or briefly type what's on the plate",
-"ar": "استغرق التحليل وقتًا طويلًا. حاول مجددًا، أو اكتب باختصار ما في الطبق"
-},
-"עוד כמה שניות…": {
-"en": "A few more seconds…",
-"ar": "بضع ثوانٍ أخرى…"
-},
-"תמונת צלחת": {
-"en": "Plate photo",
-"ar": "صورة الطبق"
-},
-"צילום או מהגלריה": {
-"en": "Camera or gallery",
-"ar": "كاميرا أو معرض"
-},
-"📸 נותרו {0} ניתוחי תמונה היום": {
-"en": "📸 {0} photo analyses left today",
-"ar": "📸 تبقّى {0} تحليلات صور اليوم"
-},
-"📸 ניצלת את ניתוחי התמונה להיום. אפשר להקליד או לחפש במאגר": {
-"en": "📸 You've used today's photo analyses. You can type or search the database",
-"ar": "📸 استنفدت تحليلات الصور لليوم. يمكنك الكتابة أو البحث في قاعدة البيانات"
-},
-"ניצלת את ניתוחי התמונה להיום. אפשר להקליד מה אכלת או לחפש במאגר": {
-"en": "You've used today's photo analyses. You can type what you ate or search the database",
-"ar": "استنفدت تحليلات الصور لليوم. يمكنك كتابة ما أكلت أو البحث في قاعدة البيانات"
-},
-"הגעת למכסת ניתוחי ה-AI היומית. אפשר לחפש במאגר או להוסיף ידנית": {
-"en": "You've reached today's AI limit. You can search the database or add manually",
-"ar": "وصلت إلى حد الذكاء الاصطناعي لليوم. يمكنك البحث في قاعدة البيانات أو الإضافة يدويًا"
-},
-"📸 נותרו {0} ניתוחי תמונה החודש": {
-"en": "📸 {0} photo analyses left this month",
-"ar": "📸 تبقّى {0} تحليلات صور هذا الشهر"
-},
-"📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר": {
-"en": "📸 You've used this month's photo analyses. You can type or search the database",
-"ar": "📸 استنفدت تحليلات الصور لهذا الشهر. يمكنك الكتابة أو البحث في قاعدة البيانات"
-},
-"הגעת לתקרה היומית. נמשיך מחר 💪": {
-"en": "You've hit today's cap. See you tomorrow 💪",
-"ar": "وصلت إلى الحد اليومي. نكمل غدًا 💪"
-},
-"ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר": {
-"en": "You've used this month's photo analyses. You can type what you ate or search the database",
-"ar": "استنفدت تحليلات الصور لهذا الشهر. يمكنك كتابة ما أكلت أو البحث في قاعدة البيانات"
-},
-"הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית": {
-"en": "You've reached this month's AI limit. You can search the database or add manually",
-"ar": "وصلت إلى حد الذكاء الاصطناعي لهذا الشهر. يمكنك البحث في قاعدة البيانات أو الإضافة يدويًا"
-},
-"💡 הערכת AI. אפשר לשנות כל פריט: שם, כמות, או למחוק.": {
-"en": "💡 AI estimate. You can change any item: name, amount, or remove it.",
-"ar": "💡 تقدير بالذكاء الاصطناعي. يمكنك تغيير أي عنصر: الاسم أو الكمية أو حذفه."
-},
-"הערכה בלבד, לא ייעוץ תזונתי.": {
-"en": "Estimate only, not nutritional advice.",
-"ar": "تقدير فقط، وليس استشارة غذائية."
-},
-"שם הפריט": {
-"en": "Item name",
-"ar": "اسم العنصر"
-},
-"הסר": {
-"en": "Remove",
-"ar": "إزالة"
-},
-"מנה": {
-"en": "Portion",
-"ar": "حصة"
-},
-"אין פריטים": {
-"en": "No items",
-"ar": "لا توجد عناصر"
-},
-"קק״ל/100ג׳": {
-"en": "kcal/100g",
-"ar": "سعرة/100غ"
-},
-"החבילה שבחרת": {
-"en": "Your plan",
-"ar": "الباقة التي اخترتها"
-},
-"לחודש": {
-"en": "/month",
-"ar": "شهريًا"
-},
-"שינוי": {
-"en": "Change",
-"ar": "تغيير"
-},
-"הניסיון הסתיים, אבל אפשר לסיים את האימון שהתחלת 💪": {
-"en": "Your trial ended, but you can finish the workout you started 💪",
-"ar": "انتهت فترتك التجريبية، لكن يمكنك إنهاء التمرين الذي بدأته 💪"
-},
-"מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪": {
-"en": "Missing you already. Let's pick up where we left off 💪",
-"ar": "اشتقت إليك. لنكمل من حيث توقفنا 💪"
-},
-"אל תעצור עכשיו, אני כבר מכיר אותך 💪": {
-"en": "Don't stop now, I already know you 💪",
-"ar": "لا تتوقف الآن، أنا أعرفك بالفعل 💪"
-},
-"מה עשית בתקופת הניסיון": {
-"en": "What you did during your trial",
-"ar": "ما أنجزته خلال الفترة التجريبية"
-},
-"אימונים": {
-"en": "workouts",
-"ar": "تمارين"
-},
-"ק״ג נפח": {
-"en": "kg volume",
-"ar": "كغ حجم"
-},
-"ארוחות": {
-"en": "meals",
-"ar": "وجبات"
-},
-"שקילות": {
-"en": "weigh-ins",
-"ar": "أوزان"
-},
-"היעד היומי שלי 🎯": {
-"en": "My daily target 🎯",
-"ar": "هدفي اليومي 🎯"
-},
-"כמה פרטים, ונחשב כמה קלוריות וחלבון מתאימים לך.": {
-"en": "A few details, and we'll calculate the right calories and protein for you.",
-"ar": "بعض التفاصيل، وسنحسب السعرات والبروتين المناسبة لك."
-},
-"את/ה": {
-"en": "You are",
-"ar": "أنت"
-},
-"🙋‍♂️ גבר": {
-"en": "🙋‍♂️ Man",
-"ar": "🙋‍♂️ رجل"
-},
-"🙋‍♀️ אישה": {
-"en": "🙋‍♀️ Woman",
-"ar": "🙋‍♀️ امرأة"
-},
-"גיל": {
-"en": "Age",
-"ar": "العمر"
-},
-"גובה": {
-"en": "Height",
-"ar": "الطول"
-},
-"משקל": {
-"en": "Weight",
-"ar": "الوزن"
-},
-"שנים": {
-"en": "years",
-"ar": "سنة"
-},
-"ס״מ": {
-"en": "cm",
-"ar": "سم"
-},
-"כמה את/ה פעיל/ה?": {
-"en": "How active are you?",
-"ar": "ما مدى نشاطك؟"
-},
-"כמעט לא זז": {
-"en": "Barely moving",
-"ar": "قليل الحركة"
-},
-"עבודה מול מחשב, בלי אימונים": {
-"en": "Desk job, no training",
-"ar": "عمل مكتبي، بلا تمارين"
-},
-"פעילות קלה": {
-"en": "Lightly active",
-"ar": "نشاط خفيف"
-},
-"1–3 אימונים בשבוע": {
-"en": "1–3 workouts a week",
-"ar": "1–3 تمارين أسبوعيًا"
-},
-"פעיל": {
-"en": "Active",
-"ar": "نشيط"
-},
-"3–5 אימונים בשבוע": {
-"en": "3–5 workouts a week",
-"ar": "3–5 تمارين أسبوعيًا"
-},
-"פעיל מאוד": {
-"en": "Very active",
-"ar": "نشيط جدًا"
-},
-"6–7 אימונים, או עבודה פיזית": {
-"en": "6–7 workouts, or a physical job",
-"ar": "6–7 تمارين، أو عمل بدني"
-},
-"ספורטאי": {
-"en": "Athlete",
-"ar": "رياضي"
-},
-"אימונים כבדים כל יום + עבודה פיזית": {
-"en": "Hard training daily + physical job",
-"ar": "تمارين شاقة يوميًا + عمل بدني"
-},
-"מה המטרה?": {
-"en": "What's the goal?",
-"ar": "ما الهدف؟"
-},
-"🔥 ירידה במשקל": {
-"en": "🔥 Lose weight",
-"ar": "🔥 إنقاص الوزن"
-},
-"⚖️ שמירה": {
-"en": "⚖️ Maintain",
-"ar": "⚖️ الحفاظ"
-},
-"💪 עלייה במסה": {
-"en": "💪 Build muscle",
-"ar": "💪 زيادة الكتلة"
-},
-"🐢 בקצב רגוע": {
-"en": "🐢 Gentle pace",
-"ar": "🐢 بوتيرة هادئة"
-},
-"⚡ בקצב רגיל": {
-"en": "⚡ Normal pace",
-"ar": "⚡ بوتيرة عادية"
-},
-"🐢 עלייה נקייה": {
-"en": "🐢 Lean gain",
-"ar": "🐢 زيادة نظيفة"
-},
-"⚡ עלייה מהירה יותר": {
-"en": "⚡ Faster gain",
-"ar": "⚡ زيادة أسرع"
-},
-"✏️ להזין מספרים בעצמי": {
-"en": "✏️ Enter numbers myself",
-"ar": "✏️ إدخال الأرقام بنفسي"
-},
-"שמור יעדים ✓": {
-"en": "Save targets ✓",
-"ar": "احفظ الأهداف ✓"
-},
-"חישוב לפי נוסחת Mifflin-St Jeor. הערכה כללית, לא ייעוץ רפואי.": {
-"en": "Calculated with the Mifflin-St Jeor formula. A general estimate, not medical advice.",
-"ar": "محسوب بمعادلة Mifflin-St Jeor. تقدير عام، وليس استشارة طبية."
-},
-"מלא את הפרטים למעלה ונחשב לך יעד ✨": {
-"en": "Fill in the details above and we'll calculate a target ✨",
-"ar": "املأ التفاصيل أعلاه وسنحسب لك هدفًا ✨"
-},
-"קק״ל ביום": {
-"en": "kcal a day",
-"ar": "سعرة يوميًا"
-},
-"גר׳ חלבון": {
-"en": "g protein",
-"ar": "غ بروتين"
-},
-"פחמימה ~{0} גר׳ · שומן ~{1} גר׳ · ירידה של ~{2} ק״ג בשבוע": {
-"en": "Carbs ~{0} g · fat ~{1} g · losing ~{2} kg a week",
-"ar": "كربوهيدرات ~{0} غ · دهون ~{1} غ · نزول ~{2} كغ أسبوعيًا"
-},
-"פחמימה ~{0} גר׳ · שומן ~{1} גר׳ · עלייה של ~{2} ק״ג בשבוע": {
-"en": "Carbs ~{0} g · fat ~{1} g · gaining ~{2} kg a week",
-"ar": "كربوهيدرات ~{0} غ · دهون ~{1} غ · زيادة ~{2} كغ أسبوعيًا"
-},
-"פחמימה ~{0} גר׳ · שומן ~{1} גר׳ · שמירה על המשקל": {
-"en": "Carbs ~{0} g · fat ~{1} g · maintaining weight",
-"ar": "كربوهيدرات ~{0} غ · دهون ~{1} غ · الحفاظ على الوزن"
-},
-"שריפה יומית משוערת: {0} קק״ל": {
-"en": "Estimated daily burn: {0} kcal",
-"ar": "الحرق اليومي المقدّر: {0} سعرة"
-},
-"משקל יעד": {
-"en": "Goal weight",
-"ar": "الوزن المستهدف"
-},
-"קלוריות": {
-"en": "Calories",
-"ar": "السعرات"
-},
-"חלבון (גר׳)": {
-"en": "Protein (g)",
-"ar": "بروتين (غ)"
-},
-"אימון {0} מתוך {1} השבוע": {
-"en": "Workout {0} of {1} this week",
-"ar": "التدريب {0} من {1} هذا الأسبوع"
-},
-"בן/בת כמה את/ה?": {
-"en": "How old are you?",
-"ar": "كم عمرك؟"
-},
-"ככה אדע כמה האנרגיה שהגוף שלך שורף במנוחה.": {
-"en": "This tells me how much energy your body burns at rest.",
-"ar": "هكذا أعرف كم طاقة يحرق جسمك في الراحة."
-},
-"מה הגובה שלך?": {
-"en": "How tall are you?",
-"ar": "ما طولك؟"
-},
-"גובה ומשקל יחד קובעים כמה הגוף צריך.": {
-"en": "Height and weight together set what your body needs.",
-"ar": "الطول والوزن معًا يحددان ما يحتاجه جسمك."
-},
-"כמה את/ה שוקל/ת?": {
-"en": "How much do you weigh?",
-"ar": "كم وزنك؟"
-},
-"לקחתי את השקילה האחרונה שלך. אפשר לעדכן.": {
-"en": "I used your last weigh-in. You can change it.",
-"ar": "أخذت آخر وزن سجّلته. يمكنك تعديله."
-},
-"נתחיל: את/ה…": {
-"en": "Let's start: you are…",
-"ar": "لنبدأ: أنت…"
-},
-"גבר": {
-"en": "Man",
-"ar": "رجل"
-},
-"אישה": {
-"en": "Woman",
-"ar": "امرأة"
-},
-"פחות": {
-"en": "Less",
-"ar": "أقل"
-},
-"יותר": {
-"en": "More",
-"ar": "أكثر"
-},
-"המשך": {
-"en": "Continue",
-"ar": "متابعة"
-},
-"כמה את/ה זז/ה ביום-יום?": {
-"en": "How active are you day to day?",
-"ar": "ما مدى نشاطك اليومي؟"
-},
-"כולל אימונים, עבודה והליכה.": {
-"en": "Including workouts, work and walking.",
-"ar": "بما في ذلك التمارين والعمل والمشي."
-},
-"ומה המטרה?": {
-"en": "And what's the goal?",
-"ar": "وما الهدف؟"
-},
-"לרדת בשומן ולשמור על השריר": {
-"en": "Lose fat, keep muscle",
-"ar": "خسارة الدهون مع الحفاظ على العضل"
-},
-"להישאר במשקל ולהשתפר בכוח": {
-"en": "Hold weight, get stronger",
-"ar": "ثبات الوزن وزيادة القوة"
-},
-"לבנות שריר, עם מעט שומן": {
-"en": "Build muscle with little fat",
-"ar": "بناء العضل مع قليل من الدهون"
-},
-"באיזה קצב?": {
-"en": "At what pace?",
-"ar": "بأي سرعة؟"
-},
-"רגוע": {
-"en": "Easy",
-"ar": "هادئ"
-},
-"קל יותר להתמיד": {
-"en": "Easier to stick with",
-"ar": "أسهل للاستمرار"
-},
-"עלייה נקייה": {
-"en": "Lean gain",
-"ar": "زيادة نظيفة"
-},
-"פחות שומן": {
-"en": "Less fat",
-"ar": "دهون أقل"
-},
-"רגיל": {
-"en": "Standard",
-"ar": "عادي"
-},
-"תוצאות מהר יותר": {
-"en": "Faster results",
-"ar": "نتائج أسرع"
-},
-"מהיר יותר": {
-"en": "Faster",
-"ar": "أسرع"
-},
-"יותר כוח מהר": {
-"en": "Strength faster",
-"ar": "قوة أسرع"
-},
-"לתוצאה ✨": {
-"en": "See result ✨",
-"ar": "إلى النتيجة ✨"
-},
-"הנה היעד שלך 🎯": {
-"en": "Here's your target 🎯",
-"ar": "هذا هدفك 🎯"
-},
-"בקצב הזה: ירידה של ~{0} ק״ג בשבוע.": {
-"en": "At this pace: about −{0} kg a week.",
-"ar": "بهذه الوتيرة: نزول ~{0} كغ أسبوعيًا."
-},
-"בקצב הזה: עלייה של ~{0} ק״ג בשבוע.": {
-"en": "At this pace: about +{0} kg a week.",
-"ar": "بهذه الوتيرة: زيادة ~{0} كغ أسبوعيًا."
-},
-"שמירה על המשקל, עם התקדמות בכוח.": {
-"en": "Holding weight while getting stronger.",
-"ar": "ثبات الوزن مع تقدم في القوة."
-},
-"קלוריות ביום": {
-"en": "calories a day",
-"ar": "سعرة يوميًا"
-},
-"חלבון": {
-"en": "Protein",
-"ar": "بروتين"
-},
-"פחמימה": {
-"en": "Carbs",
-"ar": "كربوهيدرات"
-},
-"שומן": {
-"en": "Fat",
-"ar": "دهون"
-},
-"גר׳": {
-"en": "g",
-"ar": "غ"
-},
-"הגוף שלך שורף בערך {0} קק״ל ביום": {
-"en": "Your body burns about {0} kcal a day",
-"ar": "جسمك يحرق نحو {0} سعرة يوميًا"
-},
-"✏️ לשנות את המספרים": {
-"en": "✏️ Adjust the numbers",
-"ar": "✏️ تعديل الأرقام"
-},
-"שמור יעד ✓": {
-"en": "Save target ✓",
-"ar": "حفظ الهدف ✓"
-},
-"לפי נוסחת Mifflin-St Jeor. הערכה כללית, לא ייעוץ רפואי.": {
-"en": "Based on Mifflin-St Jeor. A general estimate, not medical advice.",
-"ar": "وفق معادلة Mifflin-St Jeor. تقدير عام وليس نصيحة طبية."
-},
-"חסרים כמה פרטים": {
-"en": "A few details are missing",
-"ar": "تنقص بعض التفاصيل"
-},
-"חזור אחורה והשלם אותם.": {
-"en": "Go back and fill them in.",
-"ar": "ارجع وأكملها."
-},
-"בן כמה אתה?": {
-"en": "How old are you?",
-"ar": "كم عمرك؟"
-},
-"בת כמה את?": {
-"en": "How old are you?",
-"ar": "كم عمرك؟"
-},
-"כמה אתה שוקל?": {
-"en": "How much do you weigh?",
-"ar": "كم وزنك؟"
-},
-"כמה את שוקלת?": {
-"en": "How much do you weigh?",
-"ar": "كم وزنكِ؟"
-},
-"נתחיל: אתה…": {
-"en": "Let's start: you are…",
-"ar": "لنبدأ: أنت…"
-},
-"נתחיל: את…": {
-"en": "Let's start: you are…",
-"ar": "لنبدأ: أنتِ…"
-},
-"כמה אתה זז ביום-יום?": {
-"en": "How active are you day to day?",
-"ar": "ما مدى نشاطك اليومي؟"
-},
-"כמה את זזה ביום-יום?": {
-"en": "How active are you day to day?",
-"ar": "ما مدى نشاطكِ اليومي؟"
-},
-"רגע לפני שמתחילים: איך לפנות אליך?": {
-"en": "Before we start: how should I address you?",
-"ar": "قبل أن نبدأ: كيف أخاطبك؟"
-},
-"איך לפנות אליך?": {
-"en": "How should I address you?",
-"ar": "كيف أخاطبك؟"
-},
-"ככה אדבר איתך בכל האפליקציה.": {
-"en": "That's how I'll talk to you across the app.",
-"ar": "هكذا سأخاطبك في كل التطبيق."
-},
-"בלשון זכר": {
-"en": "As a man",
-"ar": "بصيغة المذكر"
-},
-"בלשון נקבה": {
-"en": "As a woman",
-"ar": "بصيغة المؤنث"
-},
-"לא משנה לי": {
-"en": "Doesn't matter",
-"ar": "لا يهمني"
-},
-"🎨 צבע האפליקציה": {
-"en": "🎨 App color",
-"ar": "🎨 لون التطبيق"
-},
-"ירוק": {
-"en": "Green",
-"ar": "أخضر"
-},
-"ורוד": {
-"en": "Pink",
-"ar": "وردي"
-},
-"סגול": {
-"en": "Purple",
-"ar": "بنفسجي"
-},
-"כחול": {
-"en": "Blue",
-"ar": "أزرق"
-},
-"טורקיז": {
-"en": "Teal",
-"ar": "فيروزي"
-},
-"🗣️ פנייה": {
-"en": "🗣️ Address",
-"ar": "🗣️ المخاطبة"
-},
-"🎨 צבע": {
-"en": "🎨 Color",
-"ar": "🎨 اللون"
-},
-"לשון זכר": {
-"en": "Masculine",
-"ar": "مذكر"
-},
-"לשון נקבה": {
-"en": "Feminine",
-"ar": "مؤنث"
-},
-"לא משנה": {
-"en": "Either",
-"ar": "لا فرق"
-},
-"לא נבחר": {
-"en": "Not set",
-"ar": "غير محدد"
-},
-"עודכן ✓": {
-"en": "Updated ✓",
-"ar": "تم التحديث ✓"
-},
-"סגור": {
-"en": "Close",
-"ar": "إغلاق"
-},
-"ירידה במשקל": {
-"en": "Lose weight",
-"ar": "خسارة الوزن"
-},
-"עלייה במסה": {
-"en": "Build mass",
-"ar": "زيادة الكتلة"
-},
-"חזרי אחורה והשלימי אותם.": {
-"en": "Go back and fill them in.",
-"ar": "ارجعي وأكمليها."
-},
-"הצטרפה לקבוצה": {
-"en": "joined the group",
-"ar": "انضمت إلى الفريق"
-},
-"השלימה את האתגר": {
-"en": "completed the challenge",
-"ar": "أكملت التحدي"
-},
-"שברה שיא אישי!": {
-"en": "hit a new PR!",
-"ar": "حققت رقمًا قياسيًا شخصيًا!"
-},
-"🏆 {0} פתחה אתגר:": {
-"en": "🏆 {0} started a challenge:",
-"ar": "🏆 {0} أطلقت تحديًا:"
-},
-"🏋️ {0} סיימה {1}": {
-"en": "🏋️ {0} finished {1}",
-"ar": "🏋️ {0} أنهت {1}"
-},
-"פנייה בלשון זכר": {
-"en": "Addressed as a man",
-"ar": "المخاطبة بصيغة المذكر"
-},
-"פנייה בלשון נקבה": {
-"en": "Addressed as a woman",
-"ar": "المخاطبة بصيغة المؤنث"
-},
-"פנייה: לא משנה": {
-"en": "Address: either",
-"ar": "المخاطبة: لا فرق"
-},
-"רק את/ה רואה את התמונות האלה.": {
-"en": "Only you can see these photos.",
-"ar": "أنت فقط من يرى هذه الصور."
-},
-"הן מוקטנות ומוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.": {
-"en": "They're resized and encrypted on your phone before they leave it. The server only stores an encrypted file, with no location or device details. Group members can't see them, and the NextRep team doesn't open them.",
-"ar": "تُصغَّر وتُشفَّر على هاتفك قبل أن تغادره. يُحفظ على الخادم ملف مشفّر فقط، بلا موقع أو تفاصيل جهاز. أعضاء الفرق لا يرونها، وفريق NextRep لا يفتحها."
-},
-"התמונה נשמרה מוצפנת 🔒": {
-"en": "Photo saved, encrypted 🔒",
-"ar": "حُفظت الصورة مشفّرة 🔒"
-},
-"רק אתה רואה את התמונות האלה.": {
-"en": "Only you can see these photos.",
-"ar": "أنت فقط من يرى هذه الصور."
-},
-"רק את רואה את התמונות האלה.": {
-"en": "Only you can see these photos.",
-"ar": "أنتِ فقط من ترى هذه الصور."
-},
-"הן מוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.": {
-"en": "They're encrypted on your phone before they leave it. The server only stores an encrypted file, with no location or device details. Group members can't see them, and the NextRep team doesn't open them.",
-"ar": "تُشفَّر على هاتفك قبل أن تغادره. يُحفظ على الخادم ملف مشفّر فقط، بلا موقع أو تفاصيل جهاز. أعضاء الفرق لا يرونها، وفريق NextRep لا يفتحها."
-},
-"לחיצה על יום = שקילה ותמונות": {
-"en": "Tap a day = weight & photos",
-"ar": "اضغط على يوم = الوزن والصور"
-},
-"היום יום הצילום השבועי שלך": {
-"en": "Today is your weekly photo day",
-"ar": "اليوم هو يوم التصوير الأسبوعي"
-},
-"יום הצילום השבועי": {
-"en": "Weekly photo day",
-"ar": "يوم التصوير الأسبوعي"
-},
-"כל הכבוד, צילמת היום ✓": {
-"en": "Nice, you took today's photos ✓",
-"ar": "أحسنت، التقطت صور اليوم ✓"
-},
-"חזית, גב וצד, באותה תאורה ובאותו מקום כמו בשבוע שעבר.": {
-"en": "Front, back and side, same light and spot as last week.",
-"ar": "أمام وظهر وجانب، بنفس الإضاءة والمكان كالأسبوع الماضي."
-},
-"חזית, גב וצד, כמו בכל שבוע.": {
-"en": "Front, back and side, like every week.",
-"ar": "أمام وظهر وجانب، كما كل أسبوع."
-},
-"⚖️ משקל": {
-"en": "⚖️ Weight",
-"ar": "⚖️ الوزن"
-},
-"עוד לא נשקלת ביום הזה": {
-"en": "No weigh-in this day",
-"ar": "لا يوجد وزن في هذا اليوم"
-},
-"עריכה": {
-"en": "Edit",
-"ar": "تعديل"
-},
-"+ שקילה": {
-"en": "+ Weigh-in",
-"ar": "+ وزن"
-},
-"📸 תמונות התקדמות": {
-"en": "📸 Progress photos",
-"ar": "📸 صور التقدّم"
-},
-"👁 צפייה": {
-"en": "👁 View",
-"ar": "👁 عرض"
-},
-"🔄 החלפה": {
-"en": "🔄 Replace",
-"ar": "🔄 استبدال"
-},
-"🗑 מחיקה": {
-"en": "🗑 Delete",
-"ar": "🗑 حذف"
-},
-"טוען…": {
-"en": "Loading…",
-"ar": "جارٍ التحميل…"
-},
-"סגירה": {
-"en": "Close",
-"ar": "إغلاق"
-},
-"היי! אני משתמש ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים {0} ימי ניסיון במתנה 💪": {
-"en": "Hey! I use NextRep, an app that remembers every set and manages my workouts and nutrition. Sign up with my link and get a {0}-day free trial 💪",
-"ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويدير تدريباتي وتغذيتي. عبر رابطي تحصل على {0} يومًا تجريبيًا هدية 💪"
-},
-"היי! אני משתמשת ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים {0} ימי ניסיון במתנה 💪": {
-"en": "Hey! I use NextRep, an app that remembers every set and manages my workouts and nutrition. Sign up with my link and get a {0}-day free trial 💪",
-"ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويدير تدريباتي وتغذيتي. عبر رابطي تحصل على {0} يومًا تجريبيًا هدية 💪"
-},
-"הזמן חבר, קבל חודש מתנה 🎁": {
-"en": "Invite a friend, get a free month 🎁",
-"ar": "ادعُ صديقًا واحصل على شهر هدية 🎁"
-},
-"הזמיני חברה, קבלי חודש מתנה 🎁": {
-"en": "Invite a friend, get a free month 🎁",
-"ar": "ادعي صديقة واحصلي على شهر هدية 🎁"
-},
-"הזמינו חברים, קבלו חודש מתנה 🎁": {
-"en": "Invite friends, get a free month 🎁",
-"ar": "ادعوا أصدقاء واحصلوا على شهر هدية 🎁"
-},
-"הזמן חבר, קבל חודש מתנה": {
-"en": "Invite a friend, get a free month",
-"ar": "ادعُ صديقًا واحصل على شهر هدية"
-},
-"הזמיני חברה, קבלי חודש מתנה": {
-"en": "Invite a friend, get a free month",
-"ar": "ادعي صديقة واحصلي على شهر هدية"
-},
-"הזמינו חברים, קבלו חודש מתנה": {
-"en": "Invite friends, get a free month",
-"ar": "ادعوا أصدقاء واحصلوا على شهر هدية"
-},
-"החבר מקבל": {
-"en": "Your friend gets",
-"ar": "يحصل صديقك على"
-},
-"החברה מקבלת": {
-"en": "Your friend gets",
-"ar": "تحصل صديقتك على"
-},
-"המוזמן מקבל": {
-"en": "The invitee gets",
-"ar": "يحصل المدعو على"
-},
-"ימי ניסיון": {
-"en": "days of trial",
-"ar": "يومًا تجريبيًا"
-},
-"במקום 7.": {
-"en": "instead of 7.",
-"ar": "بدلًا من 7."
-},
-"כשהוא בוחר מסלול, אתה מקבל": {
-"en": "When they pick a plan, you get",
-"ar": "عندما يختار باقة تحصل على"
-},
-"כשהיא בוחרת מסלול, את מקבלת": {
-"en": "When she picks a plan, you get",
-"ar": "عندما تختار باقة تحصلين على"
-},
-"כשבוחרים מסלול, מקבלים": {
-"en": "When they pick a plan, you get",
-"ar": "عند اختيار باقة تحصلون على"
-},
-"יום": {
-"en": "days",
-"ar": "يومًا"
-},
-"מתנה. בלי הגבלה על כמות החברים.": {
-"en": "free. No limit on how many friends.",
-"ar": "هدية. بلا حد لعدد الأصدقاء."
-},
-"שליחה בוואטסאפ": {
-"en": "Send on WhatsApp",
-"ar": "إرسال عبر واتساب"
-},
-"שיתוף אחר": {
-"en": "Share another way",
-"ar": "مشاركة بطريقة أخرى"
-},
-"ברקוד": {
-"en": "QR code",
-"ar": "رمز QR"
-},
-"הצטרפו": {
-"en": "joined",
-"ar": "انضموا"
-},
-"בחרו מסלול": {
-"en": "picked a plan",
-"ar": "اختاروا باقة"
-},
-"ימי מתנה שקיבלת": {
-"en": "free days you earned",
-"ar": "أيام هدية حصلت عليها"
-},
-"החברים שהזמנת": {
-"en": "Friends you invited",
-"ar": "الأصدقاء الذين دعوتهم"
-},
-"🎁 בחר מסלול": {
-"en": "🎁 picked a plan",
-"ar": "🎁 اختار باقة"
-},
-"בניסיון": {
-"en": "on trial",
-"ar": "في التجربة"
-},
-"החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החבר צריך להירשם דרך הקישור שלך.": {
-"en": "The month is added to the end of your plan, even if it already ended. Your friend must sign up through your link.",
-"ar": "يُضاف الشهر إلى نهاية اشتراكك حتى لو انتهى. يجب أن يسجّل صديقك عبر رابطك."
-},
-"החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החברה צריכה להירשם דרך הקישור שלך.": {
-"en": "The month is added to the end of your plan, even if it already ended. Your friend must sign up through your link.",
-"ar": "يُضاف الشهر إلى نهاية اشتراكك حتى لو انتهى. يجب أن تسجّل صديقتك عبر رابطك."
-},
-"החודש נוסף לסוף המנוי, גם אם הוא כבר הסתיים. ההרשמה חייבת להיות דרך הקישור.": {
-"en": "The month is added to the end of the plan, even if it already ended. Sign-up must be through the link.",
-"ar": "يُضاف الشهر إلى نهاية الاشتراك حتى لو انتهى. يجب أن يكون التسجيل عبر الرابط."
-},
-"שברת שיא 🏅 יש לך חבר שגם יתקדם ככה?": {
-"en": "New PR 🏅 Know a friend who'd progress like this too?",
-"ar": "رقم قياسي 🏅 هل لديك صديق سيتقدم هكذا أيضًا؟"
-},
-"4 אימונים נשמרו 💪 מתאמנים יותר כשיש עם מי.": {
-"en": "4 workouts saved 💪 People train more with a buddy.",
-"ar": "4 تمارين محفوظة 💪 نتدرب أكثر مع رفيق."
-},
-"10 אימונים! חבר שמתאמן איתך = חודש מתנה.": {
-"en": "10 workouts! A friend who trains with you = a free month.",
-"ar": "10 تمارين! صديق يتدرب معك = شهر هدية."
-},
-"20 אימונים 🔥 הגיע הזמן להביא את החבר׳ה.": {
-"en": "20 workouts 🔥 Time to bring the crew.",
-"ar": "20 تمرينًا 🔥 حان وقت جلب الأصدقاء."
-},
-"ואתה": {
-"en": "and you get",
-"ar": "وأنت"
-},
-"ואת": {
-"en": "and you get",
-"ar": "وأنتِ"
-},
-"ואתם": {
-"en": "and you get",
-"ar": "وأنتم"
-},
-"חודש מתנה כשבוחרים מסלול.": {
-"en": "a free month when they pick a plan.",
-"ar": "شهر هدية عند اختيار باقة."
-},
-"🎁 הזמנת חבר": {
-"en": "🎁 Invite a friend",
-"ar": "🎁 دعوة صديق"
-},
-"אולי אחר כך": {
-"en": "Maybe later",
-"ar": "ربما لاحقًا"
-},
-"ברקוד להזמנה": {
-"en": "Invite QR code",
-"ar": "رمز QR للدعوة"
-},
-"החבר סורק ונרשם דרך הקישור שלך.": {
-"en": "Your friend scans it and signs up through your link.",
-"ar": "يمسح صديقك الرمز ويسجّل عبر رابطك."
-},
-"🎁 הזמנת חברים": {
-"en": "🎁 Invite friends",
-"ar": "🎁 دعوة الأصدقاء"
-},
-"חבר מקבל 14 ימי ניסיון, אתה חודש מתנה": {
-"en": "Friend gets 14 trial days, you get a free month",
-"ar": "يحصل صديقك على 14 يومًا، وأنت على شهر هدية"
-},
-"מקבל 14 ימי ניסיון במתנה": {
-"en": "gets 14 free trial days",
-"ar": "يحصل على 14 يومًا تجريبيًا هدية"
-},
-"מקבלת 14 ימי ניסיון במתנה": {
-"en": "gets 14 free trial days",
-"ar": "تحصل على 14 يومًا تجريبيًا هدية"
-},
-"🎁 חבר הזמין אותך ל-NextRep: 14 ימי ניסיון במתנה במקום 7. ההטבה נשמרת כשנרשמים מהמכשיר הזה.": {
-"en": "🎁 A friend invited you to NextRep: 14 free trial days instead of 7. The bonus applies when you sign up from this device.",
-"ar": "🎁 صديق دعاك إلى NextRep: 14 يومًا تجريبيًا بدلًا من 7. تُطبّق الميزة عند التسجيل من هذا الجهاز."
-},
-"צמיחה": {
-"en": "Growth",
-"ar": "النمو"
-},
-"🔔 התראות": {
-"en": "🔔 Notifications",
-"ar": "🔔 الإشعارات"
-},
-"הכל פעיל": {
-"en": "All on",
-"ar": "الكل مفعّل"
-},
-"{0} מתוך {1} פעילות": {
-"en": "{0} of {1} on",
-"ar": "{0} من {1} مفعّلة"
-},
-"כבויות": {
-"en": "Off",
-"ar": "مطفأة"
-},
-"🎁 מתנה": {
-"en": "🎁 Gift",
-"ar": "🎁 هدية"
-},
-"🎁 חודש מתנה": {
-"en": "🎁 Gift month",
-"ar": "🎁 شهر هدية"
-},
-"לחודש המתנה": {
-"en": "of your gift month",
-"ar": "على شهر الهدية"
-},
-"חברים ששילמו דרכו": {
-"en": "Friends who paid via them",
-"ar": "أصدقاء دفعوا عبره"
-},
-"{0} · {1} ימי מתנה": {
-"en": "{0} · {1} gift days",
-"ar": "{0} · {1} يوم هدية"
-},
-"🎁 {0} עם גישה במתנה (הזמינו חבר ששילם, בלי תשלום משלהם)": {
-"en": "🎁 {0} with gifted access (invited a paying friend, no payment of their own)",
-"ar": "🎁 {0} بوصول هدية (دعوا صديقًا دفع، دون دفع منهم)"
-},
-"📬 הקלד את הקוד מהמייל": {
-"en": "📬 Enter the code from your email",
-"ar": "📬 أدخل الرمز من البريد"
-},
-"6 ספרות. הקוד תקף לשעה. לא רואה? בדוק בתיקיית הספאם.": {
-"en": "6 digits. Valid for one hour. Can't find it? Check your spam folder.",
-"ar": "6 أرقام. الرمز صالح لساعة. لا تجده؟ تحقق من مجلد الرسائل غير المرغوبة."
-},
-"🔔 הפעל התראות": {
-"en": "🔔 Turn on notifications",
-"ar": "🔔 تفعيل الإشعارات"
-},
-"לא עכשיו": {
-"en": "Not now",
-"ar": "ليس الآن"
-},
-"המנוחה התחילה ⏱️": {
-"en": "Rest started ⏱️",
-"ar": "بدأت الراحة ⏱️"
-},
-"רוצה שאודיע לך כשהיא נגמרת, גם כשהמסך כבוי או שהטלפון בכיס? זה מה שההתראות בשביל.": {
-"en": "Want me to tell you when it's over, even with the screen off or the phone in your pocket? That's what notifications are for.",
-"ar": "أتريد أن أخبرك عند انتهائها حتى والشاشة مطفأة أو الهاتف في جيبك؟ لهذا توجد الإشعارات."
-},
-"אימון ראשון נשמר 💪": {
-"en": "First workout saved 💪",
-"ar": "حُفظ أول تمرين 💪"
-},
-"רוצה שאזכיר לך בבוקר של יום האימון הבא, ואודיע כשתשבור שיא? רק עם התראות.": {
-"en": "Want a reminder on the morning of your next workout day, and a heads-up when you break a PR? Only with notifications.",
-"ar": "أتريد تذكيرًا صباح يوم تدريبك التالي، وتنبيهًا عند تحطيم رقم قياسي؟ فقط مع الإشعارات."
-},
-"ברוך הבא לקבוצה 👥": {
-"en": "Welcome to the group 👥",
-"ar": "أهلًا بك في الفريق 👥"
-},
-"כדי לראות מתי החברים מסיימים אימון, שוברים שיא או כותבים בצ׳אט, צריך להפעיל התראות.": {
-"en": "To know when friends finish a workout, hit a PR or write in the chat, turn on notifications.",
-"ar": "لتعرف متى ينهي أصدقاؤك تمرينًا أو يحطمون رقمًا أو يكتبون في الدردشة، فعّل الإشعارات."
-},
-"ההרשאה נדחתה. אפשר לשנות בהגדרות הטלפון": {
-"en": "Permission denied. You can change it in your phone settings",
-"ar": "رُفض الإذن. يمكنك تغييره في إعدادات الهاتف"
-},
-"🔔 הפעל התראות במכשיר הזה": {
-"en": "🔔 Turn on notifications on this device",
-"ar": "🔔 تفعيل الإشعارات على هذا الجهاز"
-},
-"באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.": {
-"en": "On iPhone, notifications work only when the app is saved to the Home Screen.",
-"ar": "على iPhone تعمل الإشعارات فقط عند حفظ التطبيق على الشاشة الرئيسية."
-},
-"ההתראות חסומות. לפתיחה: הגדרות הטלפון ← התראות ← NextRep ← אפשר התראות.": {
-"en": "Notifications are blocked. To allow: phone Settings → Notifications → NextRep → Allow.",
-"ar": "الإشعارات محظورة. للسماح: إعدادات الهاتف ← الإشعارات ← NextRep ← السماح."
-},
-"ההתראות חסומות. לפתיחה: הגדרות הטלפון ← אפליקציות ← NextRep ← התראות.": {
-"en": "Notifications are blocked. To allow: phone Settings → Apps → NextRep → Notifications.",
-"ar": "الإشعارات محظورة. للسماح: إعدادات الهاتف ← التطبيقات ← NextRep ← الإشعارات."
-},
-"ההתראות חסומות בדפדפן. לפתיחה: לוחצים על המנעול בשורת הכתובת ← התראות ← אפשר.": {
-"en": "Notifications are blocked in the browser. To allow: tap the lock in the address bar → Notifications → Allow.",
-"ar": "الإشعارات محظورة في المتصفح. للسماح: اضغط القفل في شريط العنوان ← الإشعارات ← السماح."
-},
-"מעל היעד": {
-"en": "over target",
-"ar": "فوق الهدف"
-},
-"נותרו מ-{0}": {
-"en": "left of {0}",
-"ar": "المتبقي من {0}"
-},
-"לא נרשם": {
-"en": "Nothing logged",
-"ar": "لم يُسجّل"
-},
-"{0} קק״ל ביום": {
-"en": "{0} kcal a day",
-"ar": "{0} سعرة يوميًا"
-},
-"קק״ל היום": {
-"en": "kcal today",
-"ar": "سعرة اليوم"
-},
-"יעד יומי": {
-"en": "Daily target",
-"ar": "الهدف اليومي"
-},
-"לחץ להגדרה": {
-"en": "Tap to set",
-"ar": "اضغط للضبط"
-},
-"נשקלת היום ✓": {
-"en": "Weighed today ✓",
-"ar": "وزنت اليوم ✓"
-},
-"{0} השבוע": {
-"en": "{0} this week",
-"ar": "{0} هذا الأسبوع"
-},
-"ראשונה": {
-"en": "first one",
-"ar": "الأول"
-},
-"פעיל ⏱️": {
-"en": "Active ⏱️",
-"ar": "نشط ⏱️"
-},
-"חזור לאימון": {
-"en": "Back to workout",
-"ar": "العودة للتدريب"
-},
-"התאמנת ✓": {
-"en": "Trained ✓",
-"ar": "تدربت ✓"
-},
-"כל הכבוד": {
-"en": "Nice work",
-"ar": "أحسنت"
-},
-"היום בלו״ז": {
-"en": "Scheduled today",
-"ar": "مجدول اليوم"
-},
-"מנוחה": {
-"en": "Rest day",
-"ar": "راحة"
-},
-"או אימון חופשי": {
-"en": "or a free workout",
-"ar": "أو تدريب حر"
-},
-"רצף שבועות": {
-"en": "week streak",
-"ar": "أسابيع متتالية"
-},
-"מאזן השבוע": {
-"en": "This week's balance",
-"ar": "ميزان الأسبوع"
-},
-"7 ימים": {
-"en": "7 days",
-"ar": "7 أيام"
-},
-"קק״ל / יעד {0}": {
-"en": "kcal / target {0}",
-"ar": "سعرة / الهدف {0}"
-},
-"ק״ג השבוע": {
-"en": "kg this week",
-"ar": "كغ هذا الأسبوع"
-},
-"בקצב הזה תגיע ליעד השבוע 🎯": {
-"en": "At this pace you'll hit your goal this week 🎯",
-"ar": "بهذه الوتيرة ستصل لهدفك هذا الأسبوع 🎯"
-},
-"בקצב הזה תגיע ל-{0} ק״ג בעוד {1}": {
-"en": "At this pace you'll reach {0} kg in {1}",
-"ar": "بهذه الوتيرة ستصل إلى {0} كغ خلال {1}"
-},
-"{0} שבועות": {
-"en": "{0} weeks",
-"ar": "{0} أسابيع"
-},
-"{0} חודשים": {
-"en": "{0} months",
-"ar": "{0} أشهر"
-},
-"בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת": {
-"en": "At this pace the goal is far off, worth tightening up a bit",
-"ar": "بهذه الوتيرة الطريق طويل، يستحق شدّ الحزام قليلًا"
-},
-"המשקל זז בכיוון ההפוך ליעד השבועות האחרונים": {
-"en": "Your weight has been moving away from the goal lately",
-"ar": "الوزن يتحرك عكس الهدف في الأسابيع الأخيرة"
-},
-"אוכל בממוצע {0} קק״ל מעל היעד, וזה מה שעוצר את הירידה.": {
-"en": "Averaging {0} kcal over target, and that's what's stalling the loss.",
-"ar": "تأكل بمعدل {0} سعرة فوق الهدف، وهذا ما يوقف النزول."
-},
-"חסרות בממוצע {0} קק״ל ביום כדי לעלות במסה.": {
-"en": "About {0} kcal a day short of what's needed to gain mass.",
-"ar": "ينقصك بمعدل {0} سعرة يوميًا لزيادة الكتلة."
-},
-"החלבון נמוך: {0} במקום {1} גר׳ ביום. זה הדבר הראשון לתקן.": {
-"en": "Protein is low: {0} instead of {1} g a day. Fix that first.",
-"ar": "البروتين منخفض: {0} بدل {1} غ يوميًا. هذا أول ما يجب إصلاحه."
-},
-"תזונה ואימונים בקו. ככה זה נראה כשזה עובד 👌": {
-"en": "Nutrition and training are aligned. This is what working looks like 👌",
-"ar": "التغذية والتمارين متناسقة. هكذا يبدو النجاح 👌"
-},
-"התזונה בסדר, חסרים {0} אימונים השבוע.": {
-"en": "Nutrition is fine, {0} workouts missing this week.",
-"ar": "التغذية جيدة، ينقص {0} تمارين هذا الأسبوع."
-},
-"לא נרשמו ארוחות השבוע. בלי זה אי אפשר לדעת למה המשקל זז או לא.": {
-"en": "No meals logged this week. Without that there's no telling why the weight moves or doesn't.",
-"ar": "لم تُسجّل وجبات هذا الأسبوع. بدون ذلك لا يمكن معرفة سبب تغيّر الوزن."
-},
-"לאיזה משקל אתה רוצה להגיע?": {
-"en": "What weight do you want to reach?",
-"ar": "ما الوزن الذي تريد الوصول إليه؟"
-},
-"לאיזה משקל את רוצה להגיע?": {
-"en": "What weight do you want to reach?",
-"ar": "ما الوزن الذي تريدين الوصول إليه؟"
-},
-"לאיזה משקל להגיע?": {
-"en": "What weight to reach?",
-"ar": "ما الوزن المطلوب؟"
-},
-"לא חובה. אם יש יעד, אראה לך בכל שבוע כמה נשאר ומתי תגיע לשם בקצב הנוכחי.": {
-"en": "Optional. With a goal, I'll show you each week how much is left and when you'll get there at the current pace.",
-"ar": "اختياري. مع هدف سأريك كل أسبوع كم تبقى ومتى ستصل بالوتيرة الحالية."
-},
-"בלי משקל יעד": {
-"en": "No goal weight",
-"ar": "بدون وزن مستهدف"
-},
-"🎯 הגדר משקל יעד": {
-"en": "🎯 Set a goal weight",
-"ar": "🎯 حدّد وزنًا مستهدفًا"
-},
-"משקל יעד · עכשיו {0} ק״ג": {
-"en": "Goal weight · now {0} kg",
-"ar": "الوزن المستهدف · الآن {0} كغ"
-},
-"הסר יעד": {
-"en": "Remove goal",
-"ar": "إزالة الهدف"
-},
-"משקל היעד נשמר 🎯": {
-"en": "Goal weight saved 🎯",
-"ar": "حُفظ الوزن المستهدف 🎯"
-},
-"משקל היעד הוסר": {
-"en": "Goal weight removed",
-"ar": "أُزيل الوزن المستهدف"
-},
-"· משקל יעד {0} ק״ג": {
-"en": "· goal weight {0} kg",
-"ar": "· الوزن المستهدف {0} كغ"
-},
-"הדף מותאם ל:": {
-"en": "Page tailored for:",
-"ar": "الصفحة مخصصة لـ:"
-},
-"עומדת מול המכונה ולא זוכרת אם בפעם שעברה שמת 30 או 35.": {
-"en": "Standing at the machine, not sure if last time it was 30 or 35.",
-"ar": "تقفين أمام الجهاز ولا تتذكرين إن كان 30 أم 35 في المرة الماضية."
-},
-"הטיימר מתחיל לבד ושולח התראה כשצריך לחזור לתרגיל.": {
-"en": "The timer starts on its own and pings you when it's time to get back to the exercise.",
-"ar": "يبدأ المؤقت تلقائيًا ويرسل إشعارًا عندما يحين وقت العودة للتمرين."
-},
-"אוכלת \"בערך בסדר\" ולא מבינה למה המשקל לא זז.": {
-"en": "Eating \"roughly fine\" and can't tell why the scale won't move.",
-"ar": "تأكلين \"بشكل مقبول تقريبًا\" ولا تفهمين لماذا لا يتغير الوزن."
-},
-"מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד. בלי ספירה ידנית.": {
-"en": "Snap the plate, the AI breaks it down and counts calories and protein against your target. No manual counting.",
-"ar": "تصوّرين الطبق، يفكّكه الذكاء الاصطناعي ويحسب السعرات والبروتين مقابل هدفك. بلا عدّ يدوي."
-},
-"מתאמנת כבר חודשים ולא בטוחה שמשהו באמת השתנה.": {
-"en": "Training for months and not sure anything really changed.",
-"ar": "تتدربين منذ أشهر ولست متأكدة أن شيئًا تغيّر فعلًا."
-},
-"גרף משקל, תמונות שבועיות ושיאים אישיים מראים בדיוק מה זז. גם כשהמשקל עומד והגוף משתנה.": {
-"en": "A weight graph, weekly photos and personal records show exactly what moved. Even when the scale stalls and the body changes.",
-"ar": "رسم الوزن والصور الأسبوعية والأرقام القياسية تُظهر بدقة ما تغيّر. حتى عندما يثبت الوزن ويتغير الجسم."
-},
-"רק את. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך. גם צוות NextRep לא פותח אותן.": {
-"en": "Only you. Photos are encrypted on your phone and kept in private storage tied to your account. Even the NextRep team doesn't open them.",
-"ar": "أنتِ فقط. تُشفَّر الصور على هاتفك وتُحفظ في تخزين خاص مرتبط بحسابك. حتى فريق NextRep لا يفتحها."
-},
-"רק אתה. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך.": {
-"en": "Only you. Photos are encrypted on your phone and kept in private storage tied to your account.",
-"ar": "أنت فقط. تُشفَّر الصور على هاتفك وتُحفظ في تخزين خاص مرتبط بحسابك."
-},
-"אימוני כוח לא יעשו אותי \"גדולה\"?": {
-"en": "Won't strength training make me \"bulky\"?",
-"ar": "ألن تجعلني تمارين القوة \"ضخمة\"؟"
-},
-"לא. בלי תוספים ועם תזונה רגילה, אימוני משקולות בונים שריר לאט ובצורה שמחטבת ומחזקת. זה הדבר הכי יעיל לשינוי הרכב גוף, הרבה יותר מאירובי לבד.": {
-"en": "No. Without supplements and on a normal diet, lifting builds muscle slowly in a way that tones and strengthens. It's the most effective thing for changing body composition, far more than cardio alone.",
-"ar": "لا. بدون مكملات ومع تغذية عادية، تبني تمارين الأوزان العضل ببطء وبشكل يشدّ ويقوّي. إنها الأكثر فعالية لتغيير تركيب الجسم، أكثر بكثير من الكارديو وحده."
-},
-"גרף התקדמות לדוגמה": {
-"en": "Sample progress chart",
-"ar": "رسم تقدم توضيحي"
-},
-"תפסיקי לנחש": {
-"en": "Stop guessing",
-"ar": "توقفي عن التخمين"
-},
-"כדי להתחזק ולהתחטב צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכרת כל סט במקומך, מודיעה כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאת מתקדמת.": {
-"en": "To get stronger and leaner you add a little every workout, and you can't add to what you don't remember. NextRep remembers every set for you, tells you when rest is over and shows you in black and white that you're progressing.",
-"ar": "لتصبحي أقوى وأرشق تضيفين قليلًا في كل تمرين، ولا يمكن الإضافة إلى ما لا تتذكرينه. NextRep يتذكر كل مجموعة عنك، ويخبرك عند انتهاء الراحة ويريك بوضوح أنك تتقدمين."
-},
-"פנייה בלשון נקבה בכל האפליקציה.": {
-"en": "Addressed to you as a woman throughout the app.",
-"ar": "مخاطبة بصيغة المؤنث في كل التطبيق."
-},
-"בפעם שעברה: 60 × 10, היום כבר 65": {
-"en": "Last time: 60 × 10, today already 65",
-"ar": "المرة الماضية: 60 × 10، اليوم 65"
-},
-"היפ תראסט, 12 שבועות": {
-"en": "Hip thrust, 12 weeks",
-"ar": "هيب ثراست، 12 أسبوعًا"
-},
-"ההיפ תראסט שלי תקוע על 60 כבר שבועיים, מה לעשות?": {
-"en": "My hip thrust has been stuck at 60 for two weeks, what should I do?",
-"ar": "الهيب ثراست عالق عند 60 منذ أسبوعين، ماذا أفعل؟"
-},
-"ראיתי: 60×10 בשלושת האימונים האחרונים 💪 השבוע נסי 65 לסט ראשון, גם אם יוצאות רק 8 חזרות. ותוסיפי סקוואט בולגרי כתרגיל שני.": {
-"en": "I see 60×10 in your last three sessions 💪 This week try 65 on the first set, even if you only get 8 reps. And add Bulgarian split squats as a second exercise.",
-"ar": "رأيت 60×10 في آخر ثلاث تمارين 💪 هذا الأسبوع جرّبي 65 في المجموعة الأولى حتى لو خرجت 8 تكرارات فقط. وأضيفي السكوات البلغاري كتمرين ثانٍ."
-},
-"דנה": {
-"en": "Dana",
-"ar": "دانا"
-},
-"נועה": {
-"en": "Noa",
-"ar": "نوى"
-},
-"את": {
-"en": "You",
-"ar": "أنتِ"
-},
-"אתה": {
-"en": "You",
-"ar": "أنت"
-},
-"את מתאמנת עם משקולות פעמיים עד שש בשבוע": {
-"en": "You lift weights two to six times a week",
-"ar": "تتدربين بالأوزان من مرتين إلى ست مرات أسبوعيًا"
-},
-"את רוצה להתחזק ולהתחטב, ולראות את זה במספרים": {
-"en": "You want to get stronger and leaner, and see it in numbers",
-"ar": "تريدين أن تصبحي أقوى وأرشق، وأن تري ذلك بالأرقام"
-},
-"חשוב לך אימון מסודר שנגמר בזמן": {
-"en": "You want an organized workout that ends on time",
-"ar": "يهمك تمرين منظم ينتهي في وقته"
-},
-"את מחפשת שיעורי וידאו עם מאמנת מול המצלמה": {
-"en": "You're looking for video classes with a trainer on camera",
-"ar": "تبحثين عن دروس فيديو مع مدربة أمام الكاميرا"
-},
-"את מתאמנת בעיקר בריצה, ביוגה או בפילאטיס": {
-"en": "You mainly run, do yoga or Pilates",
-"ar": "تتدربين أساسًا بالجري أو اليوغا أو البيلاتس"
-},
-"סקוואט בולגרי": {
-"en": "Bulgarian split squat",
-"ar": "سكوات بلغاري"
-},
-"היפ תראסט": {
-"en": "Hip thrust",
-"ar": "هيب ثراست"
-},
-"💚 ההצעה הבריאה": {
-"en": "💚 Healthy suggestion",
-"ar": "💚 الاقتراح الصحي"
-},
-"✓ ההצעה הבריאה": {
-"en": "✓ Healthy suggestion",
-"ar": "✓ الاقتراح الصحي"
-},
-"הטווח הבריא לגובה שלך: {0}–{1} ק״ג · עכשיו BMI {2}": {
-"en": "Healthy range for your height: {0}–{1} kg · now BMI {2}",
-"ar": "النطاق الصحي لطولك: {0}–{1} كغ · الآن BMI {2}"
-},
-"BMI {0}, בתוך הטווח הבריא": {
-"en": "BMI {0}, within the healthy range",
-"ar": "BMI {0}، ضمن النطاق الصحي"
-},
-"⚠️ מתחת לטווח הבריא (BMI {0}). יעד כזה לא מומלץ.": {
-"en": "⚠️ Below the healthy range (BMI {0}). Not a recommended goal.",
-"ar": "⚠️ تحت النطاق الصحي (BMI {0}). هدف غير موصى به."
-},
-"⚠️ עדיין מעל הטווח הבריא (BMI {0}). אפשר להתחיל ממנו כיעד ראשון.": {
-"en": "⚠️ Still above the healthy range (BMI {0}). Fine as a first milestone.",
-"ar": "⚠️ ما زال فوق النطاق الصحي (BMI {0}). يصلح كهدف أول."
-},
-"חישבתי הצעה לפי הגובה, המשקל והמטרה שלך. אפשר לקחת אותה או לבחור אחרת.": {
-"en": "I worked out a suggestion from your height, weight and goal. Take it or pick your own.",
-"ar": "حسبت اقتراحًا حسب طولك ووزنك وهدفك. خذه أو اختر غيره."
-},
-"ירידה של עד 10% מהמשקל היא היעד הראשון המומלץ. אחרי שמגיעים אליו, מגדירים את הבא.": {
-"en": "Losing up to 10% of body weight is the recommended first goal. Once you get there, set the next one.",
-"ar": "خسارة حتى 10% من الوزن هي الهدف الأول الموصى به. عند بلوغه، حدّد التالي."
-},
-"מביא אותך לאמצע הטווח הבריא לגובה שלך, בלי לרדת יותר מדי.": {
-"en": "Brings you to the middle of the healthy range for your height, without going too low.",
-"ar": "يوصلك إلى منتصف النطاق الصحي لطولك دون النزول أكثر من اللازم."
-},
-"אתה כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
-"en": "You're already in the healthy range. A small loss, with the focus on keeping muscle.",
-"ar": "أنت بالفعل في النطاق الصحي. نزول بسيط مع التركيز على الحفاظ على العضل."
-},
-"את כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
-"en": "You're already in the healthy range. A small loss, with the focus on keeping muscle.",
-"ar": "أنتِ بالفعل في النطاق الصحي. نزول بسيط مع التركيز على الحفاظ على العضل."
-},
-"כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
-"en": "Already in the healthy range. A small loss, with the focus on keeping muscle.",
-"ar": "في النطاق الصحي بالفعل. نزول بسيط مع التركيز على الحفاظ على العضل."
-},
-"המשקל כבר בתחתית הטווח הבריא. במקום לרדת, עדיף להתחזק ולשנות הרכב גוף.": {
-"en": "Your weight is already at the bottom of the healthy range. Rather than losing, get stronger and change body composition.",
-"ar": "وزنك في أسفل النطاق الصحي بالفعل. بدل النزول، الأفضل التقوية وتغيير تركيب الجسم."
-},
-"מעלה אותך לתוך הטווח הבריא, בקצב שבונה שריר ולא רק שומן.": {
-"en": "Brings you into the healthy range, at a pace that builds muscle, not just fat.",
-"ar": "يرفعك إلى النطاق الصحي بوتيرة تبني العضل لا الدهون فقط."
-},
-"עלייה של 3 עד 4 ק״ג בשריר לוקחת כמה חודשים. זה יעד ראשון אמיתי.": {
-"en": "Gaining 3 to 4 kg of muscle takes a few months. That's a real first goal.",
-"ar": "زيادة 3 إلى 4 كغ من العضل تستغرق بضعة أشهر. هذا هدف أول حقيقي."
-},
-"אתה כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
-"en": "You're already in the upper part of the range. A small, slow gain so most of it is muscle.",
-"ar": "أنت في الجزء العلوي من النطاق. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
-},
-"את כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
-"en": "You're already in the upper part of the range. A small, slow gain so most of it is muscle.",
-"ar": "أنتِ في الجزء العلوي من النطاق. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
-},
-"כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
-"en": "Already in the upper part of the range. A small, slow gain so most of it is muscle.",
-"ar": "في الجزء العلوي من النطاق بالفعل. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
-},
-"שמירה: המשקל הנוכחי הוא היעד.": {
-"en": "Maintenance: your current weight is the goal.",
-"ar": "الحفاظ: وزنك الحالي هو الهدف."
-},
-"הטווח הבריא לגובה שלך: {0} עד {1} ק״ג · עכשיו BMI {2}": {
-"en": "Healthy range for your height: {0} to {1} kg · now BMI {2}",
-"ar": "النطاق الصحي لطولك: {0} إلى {1} كغ · الآن BMI {2}"
-},
-"תפסיקי לנחש.": {
-"en": "Stop guessing.",
-"ar": "توقفي عن التخمين."
-},
-"תתחילי": {
-"en": "Start",
-"ar": "ابدئي"
-},
-"להתחזק.": {
-"en": "getting stronger.",
-"ar": "بالتقوية."
-},
-"לא עוד אימון \"בערך\". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ודואגת שהמראה במראה והמספרים יזוזו באותו כיוון. בלי אובססיה, בלי אקסלים.": {
-"en": "No more \"roughly\" workouts. NextRep remembers every set and weight for you, shows you getting stronger week by week, and keeps the mirror and the numbers moving in the same direction. No obsession, no spreadsheets.",
-"ar": "لا مزيد من التمارين \"تقريبًا\". NextRep يتذكر كل مجموعة ووزن عنك، ويريك أنك تقوين أسبوعًا بعد أسبوع، ويحرص على أن تتحرك المرآة والأرقام في الاتجاه نفسه. بلا هوس ولا جداول."
-},
-"7 ימים חינם. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.": {
-"en": "7 days free. No app store. Addressed to you as a woman throughout.",
-"ar": "7 أيام مجانًا. بلا متجر تطبيقات. بصيغة المؤنث في كل التطبيق."
-},
-"מכירה את זה?": {
-"en": "Sound familiar?",
-"ar": "هل تعرفين هذا؟"
-},
-"התחזקות שרואים, לא רק מרגישים": {
-"en": "Strength you can see, not just feel",
-"ar": "قوة تُرى، لا تُحسّ فقط"
-},
-"עוד 2.5 קילו בהיפ תראסט או עוד חזרה אחת בסקוואט לא נשמעים כמו הרבה. אחרי שלושה חודשים זה ההבדל שרואים בכל ג׳ינס, ומרגישים בכל מדרגה. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.": {
-"en": "Another 2.5 kg on the hip thrust or one more squat rep doesn't sound like much. After three months it's the difference you see in every pair of jeans and feel on every staircase. But it only works when you know exactly where to pick up.",
-"ar": "2.5 كغ إضافية في الهيب ثراست أو تكرار إضافي في السكوات لا يبدوان كثيرًا. بعد ثلاثة أشهر هذا فرق تلاحظينه في كل بنطال جينز وتشعرين به على كل درج. لكنه ينجح فقط عندما تعرفين من أين تكملين بالضبط."
-},
-"NextRep שמה את המספר הקודם מול העיניים שלך בכל סט, ושומרת את כל השאר לגרף. ככה את יודעת שהתחזקת, גם ביום שהמשקל לא זז.": {
-"en": "NextRep puts your last number in front of you on every set, and saves the rest for the graph. So you know you got stronger, even on a day the scale didn't move.",
-"ar": "يضع NextRep رقمك السابق أمام عينيك في كل مجموعة، ويحفظ الباقي للرسم البياني. هكذا تعرفين أنك أصبحت أقوى حتى في يوم لم يتحرك فيه الميزان."
-},
-"בנוי לאזור המשקולות": {
-"en": "Built for the weights area",
-"ar": "مصمم لمنطقة الأوزان"
-},
-"בלי להקליד באמצע סט. בוחרים משקולת מהמתלה, פין במכונה או פלטות על המוט, וממשיכים. הטלפון לא גונב לך את האימון.": {
-"en": "No typing mid-set. Pick a dumbbell from the rack, a pin on the machine or plates on the bar, and keep going. The phone doesn't steal your workout.",
-"ar": "بلا كتابة في منتصف المجموعة. اختاري دمبل من الرف أو دبوسًا في الجهاز أو أقراصًا على البار وتابعي. الهاتف لا يسرق تمرينك."
-},
-"עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה לכל אחד, כדי שלא תצטרכי לנחש איך עושים את זה או לשאול מישהו באולם.": {
-"en": "Answer a few questions: goal, days a week, equipment and time, and get a tailored plan. 98 exercises, each with a demo video, so you never have to guess how it's done or ask someone on the floor.",
-"ar": "أجيبي عن بضعة أسئلة: الهدف، أيام الأسبوع، المعدات والوقت، واحصلي على خطة مخصصة. 98 تمرينًا مع فيديو توضيحي لكل منها، كي لا تضطري للتخمين أو سؤال أحد في الصالة."
-},
-"ישבן ורגליים": {
-"en": "Glutes & legs",
-"ar": "أرداف وأرجل"
-},
-"גב, כתפיים וידיים": {
-"en": "Back, shoulders & arms",
-"ar": "ظهر وأكتاف وذراعان"
-},
-"גוף מלא ובטן": {
-"en": "Full body & core",
-"ar": "جسم كامل وبطن"
-},
-"אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של תמונות במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן הגוף הולך, בלי לספור כל עלה חסה.": {
-"en": "One app for workouts, another for calories, notes for weight and a folder of mirror photos? Here it's all connected. One screen shows how much you trained, how much you ate and where your body is heading, without counting every lettuce leaf.",
-"ar": "تطبيق للتمارين وآخر للسعرات وملاحظات للوزن ومجلد لصور المرآة؟ هنا كل شيء متصل. شاشة واحدة تُظهر كم تدربتِ وكم أكلتِ وإلى أين يتجه جسمك، دون عدّ كل ورقة خس."
-},
-"תזונה בלי אובססיה": {
-"en": "Nutrition without obsession",
-"ar": "تغذية بلا هوس"
-},
-"המשקל משקר, התמונה לא": {
-"en": "The scale lies, the photo doesn't",
-"ar": "الميزان يكذب، الصورة لا"
-},
-"בחיטוב המשקל יכול לעמוד שבועות בזמן שהגוף משתנה. תמונה שבועית באותה תנוחה מראה את מה שהמשקל מפספס. התמונות מוצפנות בטלפון, ורק את רואה אותן.": {
-"en": "When toning up, the scale can stall for weeks while your body changes. A weekly photo in the same pose shows what the scale misses. Photos are encrypted on your phone, and only you see them.",
-"ar": "أثناء الشدّ قد يثبت الوزن لأسابيع بينما يتغير الجسم. صورة أسبوعية بنفس الوضعية تُظهر ما يفوّته الميزان. الصور مشفّرة على هاتفك، وأنتِ وحدك من ترينها."
-},
-"מאמן שמכיר אותך ולא שופט": {
-"en": "A coach who knows you and doesn't judge",
-"ar": "مدرب يعرفك ولا يحكم عليك"
-},
-"קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי \"פשוט תאכלי פחות\". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.": {
-"en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic advice and no \"just eat less\". He looks at your numbers and tells you the next step.",
-"ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. بلا نصائح عامة ولا \"كلي أقل فحسب\". ينظر إلى أرقامك ويخبرك بالخطوة التالية."
-},
-"מתאמנות ביחד": {
-"en": "Training together",
-"ar": "نتدرب معًا"
-},
-"פותחות קבוצה עם החברות, ומשיקות אתגר: מי מתאמנת הכי הרבה החודש, או כולן יחד מול יעד משותף. קשה לפספס אימון כשמחכים לך.": {
-"en": "Start a group with your friends and launch a challenge: who trains the most this month, or everyone together toward a shared goal. It's hard to skip a workout when people are waiting for you.",
-"ar": "أنشئي فريقًا مع صديقاتك وأطلقي تحديًا: من تتدرب أكثر هذا الشهر، أو الجميع معًا نحو هدف مشترك. يصعب تفويت تمرين عندما ينتظرك أحد."
-},
-"האימון הבא שלך יכול להיות הראשון שבאמת נספר": {
-"en": "Your next workout can be the first that really counts",
-"ar": "قد يكون تمرينك التالي أول تمرين يُحسب فعلًا"
-},
-"📸 מעקב קלוריות בלי לספור": {
-"en": "📸 Calorie tracking without counting",
-"ar": "📸 تتبّع السعرات دون عدّ"
-},
-"מצלמים את הצלחת. זהו.": {
-"en": "Snap the plate. That's it.",
-"ar": "صوّر الطبق. هذا كل شيء."
-},
-"לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.": {
-"en": "No weighing, no tables, no guessing. Snap the meal, the AI identifies each item, estimates the grams on the plate and counts calories and protein against your daily target. Fix it with a tap if it got something wrong, and save.",
-"ar": "لا وزن ولا جداول ولا تخمين. صوّر الوجبة، يتعرف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات ويحسب السعرات والبروتين مقابل هدفك اليومي. صحّح بلمسة إن أخطأ، واحفظ."
-},
-"מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז": {
-"en": "Knows Israeli food: shakshuka, pita with hummus, schnitzel and rice",
-"ar": "يتعرف على الطعام المحلي: شكشوكة، خبز مع حمص، شنيتسل مع أرز"
-},
-"קורא טבלאות תזונתיות על אריזות וסורק ברקודים": {
-"en": "Reads nutrition labels on packages and scans barcodes",
-"ar": "يقرأ جداول القيم الغذائية على العبوات ويمسح الباركود"
-},
-"בסוף היום את רואה בדיוק איפה את עומדת מול היעד": {
-"en": "By the end of the day you see exactly where you stand against your target",
-"ar": "في نهاية اليوم ترين بالضبط أين أنتِ من هدفك"
-},
-"בסוף היום אתה רואה בדיוק איפה אתה עומד מול היעד": {
-"en": "By the end of the day you see exactly where you stand against your target",
-"ar": "في نهاية اليوم ترى بالضبط أين أنت من هدفك"
-},
-"📸 מנתח את הצלחת…": {
-"en": "📸 Analyzing the plate…",
-"ar": "📸 يحلل الطبق…"
-},
-"חזה עוף בגריל": {
-"en": "Grilled chicken breast",
-"ar": "صدر دجاج مشوي"
-},
-"אורז לבן": {
-"en": "White rice",
-"ar": "أرز أبيض"
-},
-"סלט ירקות עם שמן זית": {
-"en": "Vegetable salad with olive oil",
-"ar": "سلطة خضار بزيت الزيتون"
-},
-"חצי פיתה": {
-"en": "Half a pita",
-"ar": "نصف خبزة"
-},
-"שניצל": {
-"en": "Schnitzel",
-"ar": "شنيتسل"
-},
-"סלט ירקות": {
-"en": "Vegetable salad",
-"ar": "سلطة خضار"
-},
-"פיתה": {
-"en": "Pita",
-"ar": "خبز بيتا"
-},
-"סה״כ": {
-"en": "Total",
-"ar": "المجموع"
-},
-"קק״ל · {0} גר׳ חלבון": {
-"en": "kcal · {0} g protein",
-"ar": "سعرة · {0} غ بروتين"
-},
-"נשארו לך 760 קק״ל להיום": {
-"en": "760 kcal left for today",
-"ar": "بقي لك 760 سعرة لليوم"
-},
-"נשארו לך 1,330 קק״ל להיום": {
-"en": "1,330 kcal left for today",
-"ar": "بقي لك 1,330 سعرة لليوم"
-},
-"הוסף ליום ✓": {
-"en": "Add to today ✓",
-"ar": "أضف إلى اليوم ✓"
-},
-"לא עוד אימון \"בערך\". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ומצלמים את הצלחת במקום לספור קלוריות. בלי אובססיה, בלי אקסלים.": {
-"en": "No more \"roughly\" workouts. NextRep remembers every set and weight for you, shows you getting stronger week by week, and you snap your plate instead of counting calories. No obsession, no spreadsheets.",
-"ar": "لا مزيد من التمارين \"تقريبًا\". NextRep يتذكر كل مجموعة ووزن عنك، ويريك أنك تقوين أسبوعًا بعد أسبوع، وتصوّرين طبقك بدل عدّ السعرات. بلا هوس ولا جداول."
-},
-"כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת, ומחשב קלוריות מצילום של הצלחת במקום שתספור.": {
-"en": "To get stronger you add a little every workout, and you can't add to what you don't remember. NextRep remembers every set for you, tells you when rest is over, and counts calories from a photo of your plate so you don't have to.",
-"ar": "لتصبح أقوى تضيف قليلًا في كل تمرين، ولا يمكن الإضافة إلى ما لا تتذكره. NextRep يتذكر كل مجموعة عنك، ويخبرك عند انتهاء الراحة، ويحسب السعرات من صورة طبقك بدل أن تعدّها."
-},
-"מתאמנת מצלמת צלחת, והאפליקציה מזהה את המרכיבים": {
-"en": "A woman photographs her plate and the app identifies the ingredients",
-"ar": "متدربة تصوّر طبقها والتطبيق يتعرف على المكونات"
-},
-"מתאמן מצלם צלחת, והאפליקציה מזהה את המרכיבים": {
-"en": "A man photographs his plate and the app identifies the ingredients",
-"ar": "متدرب يصوّر طبقه والتطبيق يتعرف على المكونات"
-},
-"גרמים": {
-"en": "Grams",
-"ar": "غرامات"
-},
-"הצג עוד": {
-"en": "Show more",
-"ar": "عرض المزيد"
-},
-"אחרי": {
-"en": "After",
-"ar": "بعد"
-},
-"חבילה שתרכוש עכשיו מתווספת לסוף התקופה — לא מתחילה מאפס.": {
-"en": "A plan you buy now is added to the end of that period — it doesn't start from zero.",
-"ar": "الباقة التي تشتريها الآن تُضاف إلى نهاية الفترة — ولا تبدأ من الصفر."
-},
-"גישה עד": {
-"en": "access until",
-"ar": "الوصول حتى"
-},
-"ההתראות עדיין כבויות 🔕": {
-"en": "Notifications are still off 🔕",
-"ar": "الإشعارات لا تزال مطفأة 🔕"
-},
-"בלי התראות אני לא יכול להזכיר לך כלום": {
-"en": "Without notifications I can't remind you of anything",
-"ar": "بدون إشعارات لا أستطيع تذكيرك بأي شيء"
-},
-"זה הדבר שהכי משפר את האימונים. לוקח 2 שניות.": {
-"en": "It's the one thing that improves your workouts most. Takes 2 seconds.",
-"ar": "هذا أكثر ما يحسّن تدريباتك. يستغرق ثانيتين."
-},
-"הפעלה אחת, ואני דואג לשאר:": {
-"en": "Turn them on once, and I'll handle the rest:",
-"ar": "فعّلها مرة واحدة، وأنا أتولى الباقي:"
-},
-"סוף המנוחה בין הסטים, גם כשהטלפון בכיס": {
-"en": "End of rest between sets, even with the phone in your pocket",
-"ar": "نهاية الراحة بين المجموعات، حتى والهاتف في جيبك"
-},
-"תזכורת בימי האימון שלך": {
-"en": "A reminder on your training days",
-"ar": "تذكير في أيام تدريبك"
-},
-"תשובות מקובי והודעות מהקבוצה": {
-"en": "Replies from Kobi and messages from your group",
-"ar": "ردود كوبي ورسائل المجموعة"
-},
-"תזכיר לי מחר": {
-"en": "Remind me tomorrow",
-"ar": "ذكّرني غدًا"
-},
-"ארוחת ביניים": {
-"en": "Snack",
-"ar": "وجبة خفيفة"
-},
-"פחמימות": {
-"en": "Carbs",
-"ar": "كربوهيدرات"
-},
-"פירות": {
-"en": "Fruit",
-"ar": "فواكه"
-},
-"תוספות": {
-"en": "Extras",
-"ar": "إضافات"
-},
-"בוא נבנה תפריט שבאמת מתאים לך 🍽️": {
-"en": "Let's build a meal plan that really fits you 🍽️",
-"ar": "لنبنِ قائمة طعام تناسبك فعلًا 🍽️"
-},
-"8 שאלות קצרות. קודם כל, איך אתה אוכל?": {
-"en": "8 quick questions. First, how do you eat?",
-"ar": "8 أسئلة قصيرة. أولًا، كيف تأكل؟"
-},
-"8 שאלות קצרות. קודם כל, איך את אוכלת?": {
-"en": "8 quick questions. First, how do you eat?",
-"ar": "8 أسئلة قصيرة. أولًا، كيف تأكلين؟"
-},
-"8 שאלות קצרות. קודם כל, איך את/ה אוכל/ת?": {
-"en": "8 quick questions. First, how do you eat?",
-"ar": "8 أسئلة قصيرة. أولًا، كيف تأكل/ين؟"
-},
-"בשר, דגים, חלב וביצים": {
-"en": "Meat, fish, dairy and eggs",
-"ar": "لحوم، أسماك، ألبان وبيض"
-},
-"כשר": {
-"en": "Kosher",
-"ar": "كوشير"
-},
-"בלי בשר וחלב באותה ארוחה": {
-"en": "No meat and dairy in the same meal",
-"ar": "بدون لحم وحليب في نفس الوجبة"
-},
-"צמחוני": {
-"en": "Vegetarian",
-"ar": "نباتي"
-},
-"בלי בשר ודגים": {
-"en": "No meat or fish",
-"ar": "بدون لحوم وأسماك"
-},
-"טבעוני": {
-"en": "Vegan",
-"ar": "نباتي صرف"
-},
-"רק מהצומח": {
-"en": "Plant-based only",
-"ar": "من النبات فقط"
-},
-"לקטוז": {
-"en": "Lactose",
-"ar": "لاكتوز"
-},
-"גלוטן": {
-"en": "Gluten",
-"ar": "غلوتين"
-},
-"אגוזים": {
-"en": "Nuts",
-"ar": "مكسرات"
-},
-"ביצים": {
-"en": "Eggs",
-"ar": "بيض"
-},
-"דגים": {
-"en": "Fish",
-"ar": "أسماك"
-},
-"סויה": {
-"en": "Soy",
-"ar": "صويا"
-},
-"יש משהו שאתה לא אוכל?": {
-"en": "Anything you don't eat?",
-"ar": "هل هناك شيء لا تأكله؟"
-},
-"יש משהו שאת לא אוכלת?": {
-"en": "Anything you don't eat?",
-"ar": "هل هناك شيء لا تأكلينه؟"
-},
-"יש משהו שלא אוכלים?": {
-"en": "Anything you don't eat?",
-"ar": "هل هناك شيء لا تأكله/ينه؟"
-},
-"רגישות, אלרגיה, או סתם לא אוהבים. אפשר לבחור כמה.": {
-"en": "Sensitivity, allergy, or just don't like it. Pick as many as you want.",
-"ar": "حساسية، أو ببساطة لا تحبه. يمكن اختيار أكثر من واحد."
-},
-"אין, אני אוכל הכל": {
-"en": "Nope, I eat everything",
-"ar": "لا، آكل كل شيء"
-},
-"כמה ארוחות ביום נוח לך?": {
-"en": "How many meals a day suit you?",
-"ar": "كم وجبة في اليوم تناسبك؟"
-},
-"כולל ארוחות ביניים. אין נכון או לא נכון, רק מה שמתאים לסדר היום שלך.": {
-"en": "Including snacks. There's no right or wrong, just what fits your day.",
-"ar": "بما في ذلك الوجبات الخفيفة. لا صح ولا خطأ، فقط ما يناسب يومك."
-},
-"3 ארוחות": {
-"en": "3 meals",
-"ar": "3 وجبات"
-},
-"בוקר, צהריים וערב": {
-"en": "Breakfast, lunch and dinner",
-"ar": "فطور، غداء وعشاء"
-},
-"4 ארוחות": {
-"en": "4 meals",
-"ar": "4 وجبات"
-},
-"3 ארוחות וביניים אחת": {
-"en": "3 meals and one snack",
-"ar": "3 وجبات ووجبة خفيفة"
-},
-"5 ארוחות": {
-"en": "5 meals",
-"ar": "5 وجبات"
-},
-"3 ארוחות ו-2 ביניים. נוח כשהיעד גבוה": {
-"en": "3 meals and 2 snacks. Easier with a high target",
-"ar": "3 وجبات ووجبتان خفيفتان. أسهل عندما يكون الهدف مرتفعًا"
-},
-"ואיך נראה הבוקר שלך?": {
-"en": "And what does your breakfast look like?",
-"ar": "وكيف يبدو فطورك؟"
-},
-"מלוח": {
-"en": "Savory",
-"ar": "مالح"
-},
-"ביצים, גבינות, לחם וסלט": {
-"en": "Eggs, cheese, bread and salad",
-"ar": "بيض، أجبان، خبز وسلطة"
-},
-"מתוק": {
-"en": "Sweet",
-"ar": "حلو"
-},
-"יוגורט, שיבולת שועל ופירות": {
-"en": "Yogurt, oats and fruit",
-"ar": "زبادي، شوفان وفواكه"
-},
-"אני לא אוכל בבוקר": {
-"en": "I don't eat breakfast",
-"ar": "لا آكل في الصباح"
-},
-"אני לא אוכלת בבוקר": {
-"en": "I don't eat breakfast",
-"ar": "لا آكل في الصباح"
-},
-"לא אוכלים בבוקר": {
-"en": "No breakfast",
-"ar": "بدون فطور"
-},
-"הארוחה הראשונה בצהריים": {
-"en": "First meal is lunch",
-"ar": "أول وجبة هي الغداء"
-},
-"ארוחת ערב אצלך היא…": {
-"en": "Your dinner is…",
-"ar": "عشاؤك عادةً…"
-},
-"קלה": {
-"en": "Light",
-"ar": "خفيف"
-},
-"כמו ארוחת בוקר: ביצים, גבינה, סלט": {
-"en": "Like breakfast: eggs, cheese, salad",
-"ar": "مثل الفطور: بيض، جبنة، سلطة"
-},
-"מבושלת": {
-"en": "Cooked",
-"ar": "مطبوخ"
-},
-"ארוחה מלאה, כמו צהריים": {
-"en": "A full meal, like lunch",
-"ar": "وجبة كاملة، مثل الغداء"
-},
-"מתי אתה בדרך כלל מתאמן?": {
-"en": "When do you usually train?",
-"ar": "متى تتدرب عادةً؟"
-},
-"מתי את בדרך כלל מתאמנת?": {
-"en": "When do you usually train?",
-"ar": "متى تتدربين عادةً؟"
-},
-"מתי בדרך כלל מתאמנים?": {
-"en": "When do you usually train?",
-"ar": "متى تتدرب/ين عادةً؟"
-},
-"הארוחה שאחרי האימון תקבל יותר חלבון ופחמימה.": {
-"en": "The meal after your workout gets more protein and carbs.",
-"ar": "الوجبة بعد التمرين ستحصل على بروتين وكربوهيدرات أكثر."
-},
-"בבוקר": {
-"en": "Morning",
-"ar": "في الصباح"
-},
-"בצהריים": {
-"en": "Midday",
-"ar": "في الظهيرة"
-},
-"בערב": {
-"en": "Evening",
-"ar": "في المساء"
-},
-"משתנה": {
-"en": "It varies",
-"ar": "متغيّر"
-},
-"בלי ארוחה מיוחדת אחרי אימון": {
-"en": "No special post-workout meal",
-"ar": "بدون وجبة خاصة بعد التمرين"
-},
-"מה אתה אוהב לאכול?": {
-"en": "What do you like to eat?",
-"ar": "ماذا تحب أن تأكل؟"
-},
-"מה את אוהבת לאכול?": {
-"en": "What do you like to eat?",
-"ar": "ماذا تحبين أن تأكلي؟"
-},
-"מה אוהבים לאכול?": {
-"en": "What do you like to eat?",
-"ar": "ماذا تحب/ين أن تأكل/ي؟"
-},
-"סימנתי את הנפוצים. מה שתסמן יופיע יותר בתפריט, ומה שלא, פחות.": {
-"en": "I've ticked the common ones. What you tick shows up more in your plan, the rest less.",
-"ar": "حدّدتُ الأكثر شيوعًا. ما تحدده سيظهر أكثر في القائمة، وما لا تحدده أقل."
-},
-"שאלה אחרונה: כמה זמן יש לך לבשל?": {
-"en": "Last one: how much time do you have to cook?",
-"ar": "سؤال أخير: كم لديك من الوقت للطبخ؟"
-},
-"אין לי זמן בכלל": {
-"en": "No time at all",
-"ar": "لا وقت لدي إطلاقًا"
-},
-"רק דברים מוכנים: טונה, ביצים, גבינות, פיתה": {
-"en": "Ready-to-eat only: tuna, eggs, cheese, pita",
-"ar": "أشياء جاهزة فقط: تونة، بيض، أجبان، خبز"
-},
-"עד 20 דקות": {
-"en": "Up to 20 minutes",
-"ar": "حتى 20 دقيقة"
-},
-"עוף, אורז, פסטה, ירקות מאודים": {
-"en": "Chicken, rice, pasta, steamed veggies",
-"ar": "دجاج، أرز، معكرونة، خضار مطهوة"
-},
-"אין בעיה": {
-"en": "No problem",
-"ar": "لا مشكلة"
-},
-"כולל בטטה, אורז מלא ותנור": {
-"en": "Including sweet potato, brown rice and oven dishes",
-"ar": "بما في ذلك البطاطا الحلوة والأرز البني والفرن"
-},
-"התפריט שלך מוכן 🍽️": {
-"en": "Your meal plan is ready 🍽️",
-"ar": "قائمتك الغذائية جاهزة 🍽️"
-},
-"ההעדפות עודכנו ✓": {
-"en": "Preferences updated ✓",
-"ar": "تم تحديث التفضيلات ✓"
-},
-"קודם צריך יעד יומי 🎯": {
-"en": "First, a daily target 🎯",
-"ar": "أولًا نحتاج هدفًا يوميًا 🎯"
-},
-"🎯 להגדרת יעד": {
-"en": "🎯 Set a target",
-"ar": "🎯 تحديد الهدف"
-},
-"כדי לבנות תפריט אני צריך לדעת כמה קלוריות וחלבון אתה צריך ביום. לוקח דקה, ומשקל יעד לא חובה.": {
-"en": "To build a plan I need to know how many calories and how much protein you need a day. Takes a minute, and a goal weight is optional.",
-"ar": "لبناء قائمة أحتاج أن أعرف كم سعرة وكم بروتين تحتاج يوميًا. يستغرق دقيقة، والوزن المستهدف ليس إلزاميًا."
-},
-"כדי לבנות תפריט אני צריך לדעת כמה קלוריות וחלבון את צריכה ביום. לוקח דקה, ומשקל יעד לא חובה.": {
-"en": "To build a plan I need to know how many calories and how much protein you need a day. Takes a minute, and a goal weight is optional.",
-"ar": "لبناء قائمة أحتاج أن أعرف كم سعرة وكم بروتين تحتاجين يوميًا. يستغرق دقيقة، والوزن المستهدف ليس إلزاميًا."
-},
-"כדי לבנות תפריט צריך לדעת כמה קלוריות וחלבון צריך ביום. לוקח דקה, ומשקל יעד לא חובה.": {
-"en": "To build a plan I need to know your daily calories and protein. Takes a minute, and a goal weight is optional.",
-"ar": "لبناء قائمة يجب معرفة السعرات والبروتين اليومية. يستغرق دقيقة، والوزن المستهدف ليس إلزاميًا."
-},
-"התפריט שלי": {
-"en": "My meal plan",
-"ar": "قائمتي الغذائية"
-},
-"⚙️ העדפות": {
-"en": "⚙️ Preferences",
-"ar": "⚙️ التفضيلات"
-},
-"✓ התפריט תואם ליעד שלך": {
-"en": "✓ The plan matches your target",
-"ar": "✓ القائمة تطابق هدفك"
-},
-"קק״ל מעל היעד": {
-"en": "kcal over target",
-"ar": "سعرة فوق الهدف"
-},
-"תציע לי": {
-"en": "Suggest for me",
-"ar": "اقترح لي"
-},
-"תפריט מלא לפי היעד והטעם שלך": {
-"en": "A full plan based on your target and taste",
-"ar": "قائمة كاملة حسب هدفك وذوقك"
-},
-"אבנה לבד": {
-"en": "I'll build it",
-"ar": "سأبنيها بنفسي"
-},
-"מוסיפים מזונות ורואים כמה נשאר": {
-"en": "Add foods and see what's left",
-"ar": "أضف أطعمة وشاهد كم تبقّى"
-},
-"הערכים מהמאגר הישראלי. הערכה כללית, לא ייעוץ תזונתי.": {
-"en": "Values from the Israeli food database. A general estimate, not dietary advice.",
-"ar": "القيم من قاعدة البيانات الإسرائيلية. تقدير عام، وليس استشارة غذائية."
-},
-"תפריט אחר": {
-"en": "Another plan",
-"ar": "قائمة أخرى"
-},
-"✍️ אבנה לבד": {
-"en": "✍️ I'll build it",
-"ar": "✍️ سأبنيها بنفسي"
-},
-"+ הוסף": {
-"en": "+ Add",
-"ar": "+ أضف"
-},
-"💪 אחרי אימון": {
-"en": "💪 Post-workout",
-"ar": "💪 بعد التمرين"
-},
-"הסרה": {
-"en": "Remove",
-"ar": "إزالة"
-},
-"החלפה": {
-"en": "Swap",
-"ar": "استبدال"
-},
-"✓ נרשם ביומן": {
-"en": "✓ Logged",
-"ar": "✓ سُجّلت في اليوميات"
-},
-"✓ אכלתי, רשום": {
-"en": "✓ Ate it, log it",
-"ar": "✓ أكلتها، سجّل"
-},
-"💾 תבניות": {
-"en": "💾 Templates",
-"ar": "💾 قوالب"
-},
-"שמור את היום כתבנית": {
-"en": "Save this day as a template",
-"ar": "احفظ اليوم كقالب"
-},
-"שמור תפריט שאהבת, למשל \"יום אימון\" ו\"יום מנוחה\", ותטען אותו בלחיצה.": {
-"en": "Save a plan you liked, like \"Training day\" and \"Rest day\", and load it in one tap.",
-"ar": "احفظ قائمة أعجبتك، مثل \"يوم تمرين\" و\"يوم راحة\"، وحمّلها بضغطة."
-},
-"שמרי תפריט שאהבת, למשל \"יום אימון\" ו\"יום מנוחה\", ותטעני אותו בלחיצה.": {
-"en": "Save a plan you liked, like \"Training day\" and \"Rest day\", and load it in one tap.",
-"ar": "احفظي قائمة أعجبتك، مثل \"يوم تمرين\" و\"يوم راحة\"، وحمّليها بضغطة."
-},
-"בנה תפריט יומי שתואם ליעד ולטעם שלך": {
-"en": "Build a daily plan that fits your target and taste",
-"ar": "ابنِ قائمة يومية تناسب هدفك وذوقك"
-},
-"תפריט אישי לפי היעד והטעם שלך, עם גרמים מדויקים": {
-"en": "A personal plan for your target and taste, with exact grams",
-"ar": "قائمة شخصية حسب هدفك وذوقك، بغرامات دقيقة"
-},
-"פתח": {
-"en": "Open",
-"ar": "افتح"
-},
-"בואו נתחיל": {
-"en": "Let's start",
-"ar": "لنبدأ"
-},
-"🍽️ התפריט שלי": {
-"en": "🍽️ My meal plan",
-"ar": "🍽️ قائمتي الغذائية"
-},
-"לתפריט המלא ←": {
-"en": "Full plan →",
-"ar": "القائمة الكاملة ←"
-},
-"הבא בתור:": {
-"en": "Up next:",
-"ar": "التالي:"
-},
-"✓ אכלתי, רשום ביומן": {
-"en": "✓ Ate it, log it",
-"ar": "✓ أكلتها، سجّلها في اليوميات"
-},
-"כל הארוחות של היום נרשמו ✓": {
-"en": "All of today's meals are logged ✓",
-"ar": "سُجّلت كل وجبات اليوم ✓"
-},
-"חלופות עם כמות חלבון דומה. הגרמים כבר מותאמים.": {
-"en": "Alternatives with similar protein. Grams already adjusted.",
-"ar": "بدائل بكمية بروتين مشابهة. الغرامات معدّلة مسبقًا."
-},
-"חלופות עם כמות קלוריות דומה. הגרמים כבר מותאמים.": {
-"en": "Alternatives with similar calories. Grams already adjusted.",
-"ar": "بدائل بسعرات مشابهة. الغرامات معدّلة مسبقًا."
-},
-"אין חלופות שמתאימות להעדפות שלך.": {
-"en": "No alternatives match your preferences.",
-"ar": "لا توجد بدائل تناسب تفضيلاتك."
-},
-"לא אוהב את זה": {
-"en": "Don't like it",
-"ar": "لا أحبه"
-},
-"לא אוהבת את זה": {
-"en": "Don't like it",
-"ar": "لا أحبه"
-},
-"לא אוהבים את זה": {
-"en": "Don't like it",
-"ar": "لا أحبه"
-},
-"הוספת מזון": {
-"en": "Add food",
-"ar": "إضافة طعام"
-},
-"חיפוש: עוף, קוטג׳, אורז…": {
-"en": "Search: chicken, cottage, rice…",
-"ar": "بحث: دجاج، جبنة قريش، أرز…"
-},
-"לא נמצא. נסו מילה אחרת.": {
-"en": "Not found. Try another word.",
-"ar": "لم يُعثر عليه. جرّب كلمة أخرى."
-},
-"מהמאגר המלא": {
-"en": "From the full database",
-"ar": "من قاعدة البيانات الكاملة"
-},
-"הארוחה כבר נרשמה היום ✓": {
-"en": "Already logged today ✓",
-"ar": "الوجبة سُجّلت اليوم ✓"
-},
-"✨ תפריט חדש": {
-"en": "✨ New plan",
-"ar": "✨ قائمة جديدة"
-},
-"הבנתי, לא אציע את זה יותר 👍": {
-"en": "Got it, I won't suggest it again 👍",
-"ar": "فهمت، لن أقترحه مرة أخرى 👍"
-},
-"שמירת תבנית": {
-"en": "Save template",
-"ar": "حفظ القالب"
-},
-"שמור ✓": {
-"en": "Save ✓",
-"ar": "احفظ ✓"
-},
-"יום מנוחה": {
-"en": "Rest day",
-"ar": "يوم راحة"
-},
-"יום אימון": {
-"en": "Training day",
-"ar": "يوم تمرين"
-},
-"תבנית": {
-"en": "Template",
-"ar": "قالب"
-},
-"התבנית נשמרה 💾": {
-"en": "Template saved 💾",
-"ar": "تم حفظ القالب 💾"
-},
-"התבנית נטענה ✓": {
-"en": "Template loaded ✓",
-"ar": "تم تحميل القالب ✓"
-},
-"שמור והמשך לתפריט ←": {
-"en": "Save and continue to plan →",
-"ar": "احفظ وتابع إلى القائمة ←"
-},
-"שמור ובנה לי תפריט לפי היעד": {
-"en": "Save and build me a plan for this target",
-"ar": "احفظ وابنِ لي قائمة حسب الهدف"
-},
-"שמרי ובני לי תפריט לפי היעד": {
-"en": "Save and build me a plan for this target",
-"ar": "احفظي وابني لي قائمة حسب الهدف"
-},
-"שמירה ובניית תפריט לפי היעד": {
-"en": "Save and build a plan for this target",
-"ar": "حفظ وبناء قائمة حسب الهدف"
-},
-"➕ יש לך גישה עד": {
-"en": "➕ You have access until",
-"ar": "➕ لديك وصول حتى"
-},
-". חבילה שתרכוש עכשיו מתווספת לסוף התקופה — לא מתחילה מאפס.": {
-"en": ". A plan you buy now is added to the end of that period — it doesn't start from zero.",
-"ar": ". الباقة التي تشتريها الآن تُضاف إلى نهاية الفترة — ولا تبدأ من الصفر."
-},
-"🎁 ניסיון חינם": {
-"en": "🎁 Free trial",
-"ar": "🎁 تجربة مجانية"
-},
-"היום האחרון": {
-"en": "Last day",
-"ar": "اليوم الأخير"
-},
-"חיפוש מזון להחלפה…": {
-"en": "Search a food to swap in…",
-"ar": "ابحث عن طعام للاستبدال…"
-},
-"התאמת כמות לפי:": {
-"en": "Match amount by:",
-"ar": "مطابقة الكمية حسب:"
-},
-"מחפש…": {
-"en": "Searching…",
-"ar": "جارٍ البحث…"
-},
-"גרם": {
-"en": "grams",
-"ar": "غرام"
-},
-"כפות": {
-"en": "tbsp",
-"ar": "ملاعق"
-},
-"צמצום": {
-"en": "Minimize",
-"ar": "تصغير"
-},
-"הצג ▾": {
-"en": "Show ▾",
-"ar": "عرض ▾"
-},
-"אפשר לפתוח שוב מתי שתרצה": {
-"en": "You can reopen it anytime",
-"ar": "يمكنك فتحها مجددًا متى شئت"
-},
-"אפשר לפתוח שוב מתי שתרצי": {
-"en": "You can reopen it anytime",
-"ar": "يمكنكِ فتحها مجددًا متى شئتِ"
-},
-"אפשר לפתוח שוב בכל זמן": {
-"en": "You can reopen it anytime",
-"ar": "يمكن فتحها مجددًا في أي وقت"
-},
-"התפריט נמחק": {
-"en": "Plan deleted",
-"ar": "تم حذف القائمة"
-},
-"הוספת ארוחה": {
-"en": "Add a meal",
-"ar": "إضافة وجبة"
-},
-"+ הוסף ארוחה": {
-"en": "+ Add a meal",
-"ar": "+ أضف وجبة"
-},
-"הסרת הארוחה": {
-"en": "Remove meal",
-"ar": "إزالة الوجبة"
-},
-"✨ מלא לי לפי מה שנשאר מהיעד": {
-"en": "✨ Fill it from what's left of my target",
-"ar": "✨ املأها مما تبقّى من الهدف"
-},
-"🗑 מחק את התפריט": {
-"en": "🗑 Delete this plan",
-"ar": "🗑 احذف القائمة"
-},
-"בטוח? לחץ שוב": {
-"en": "Sure? Tap again",
-"ar": "متأكد؟ اضغط مرة أخرى"
-},
-"מחליפים את": {
-"en": "Replacing",
-"ar": "استبدال"
-},
-"כמות לפי": {
-"en": "Amount by",
-"ar": "الكمية حسب"
-},
-"חלופות עם כמות חלבון דומה": {
-"en": "Alternatives with similar protein",
-"ar": "بدائل ببروتين مشابه"
-},
-"חלופות עם כמות קלוריות דומה": {
-"en": "Alternatives with similar calories",
-"ar": "بدائل بسعرات مشابهة"
-},
-"מהתפריט": {
-"en": "From the plan foods",
-"ar": "من أطعمة القائمة"
-},
-"הוספת מזון ל": {
-"en": "Add food to",
-"ar": "إضافة طعام إلى"
-},
-"מתאים לארוחה הזאת": {
-"en": "Fits this meal",
-"ar": "يناسب هذه الوجبة"
-},
-"לא אוהב את זה, אל תציע שוב": {
-"en": "Don't like it, don't suggest again",
-"ar": "لا أحبه، لا تقترحه مجددًا"
-},
-"לא אוהבת את זה, אל תציע שוב": {
-"en": "Don't like it, don't suggest again",
-"ar": "لا أحبه، لا تقترحه مجددًا"
-},
-"לא אוהבים את זה, אל תציע שוב": {
-"en": "Don't like it, don't suggest again",
-"ar": "لا أحبه، لا تقترحه مجددًا"
-},
-"תזכורת שקילה בבוקר ⚖️": {
-"en": "Morning weigh-in reminder ⚖️",
-"ar": "تذكير الوزن الصباحي ⚖️"
-},
-"כל בוקר עד שנשקלת. רק אם כבר הזנת משקל": {
-"en": "Every morning until you've weighed in. Only if you've logged a weight before",
-"ar": "كل صباح حتى تزن نفسك. فقط إذا سجّلت وزنًا من قبل"
-},
-"איך קוראים לך? 👋": {
-"en": "What's your name? 👋",
-"ar": "ما اسمك؟ 👋"
-},
-"ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
-"en": "That's how I'll address you in the app, and how friends will see you in groups.",
-"ar": "هكذا سأناديك في التطبيق، وهكذا سيراك أصدقاؤك في المجموعات."
-},
-"ככה אפנה אלייך באפליקציה, וככה יראו אותך החברות והחברים בקבוצות.": {
-"en": "That's how I'll address you in the app, and how friends will see you in groups.",
-"ar": "هكذا سأناديكِ في التطبيق، وهكذا سيراكِ أصدقاؤكِ في المجموعات."
-},
-"ככה נפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
-"en": "That's how we'll address you in the app, and how friends will see you in groups.",
-"ar": "هكذا سنناديك في التطبيق، وهكذا سيراك أصدقاؤك في المجموعات."
-},
-"אחר כך": {
-"en": "Later",
-"ar": "لاحقًا"
-},
-"השם שלך": {
-"en": "Your name",
-"ar": "اسمك"
-},
-"שמירה": {
-"en": "Save",
-"ar": "حفظ"
-},
-"הסתר": {
-"en": "Hide",
-"ar": "إخفاء"
-},
-"הצג": {
-"en": "Show",
-"ar": "عرض"
-},
-"תפריט יומי לפי היעד והטעם שלך": {
-"en": "A daily plan for your target and taste",
-"ar": "قائمة يومية حسب هدفك وذوقك"
-},
-"🎯 מותאם ליעד": {
-"en": "🎯 Fits your target",
-"ar": "🎯 مطابقة للهدف"
-},
-"⚖️ גרמים מדויקים": {
-"en": "⚖️ Exact grams",
-"ar": "⚖️ غرامات دقيقة"
-},
-"🔄 החלפה בלחיצה": {
-"en": "🔄 One-tap swaps",
-"ar": "🔄 استبدال بضغطة"
-},
-"✨ בנה לי תפריט": {
-"en": "✨ Build my plan",
-"ar": "✨ ابنِ لي قائمة"
-},
-"✨ בואו נתחיל": {
-"en": "✨ Let's start",
-"ar": "✨ لنبدأ"
-},
-"לתפריט המלא": {
-"en": "Full plan",
-"ar": "القائمة الكاملة"
-},
-"גר׳ פחמימה": {
-"en": "g carbs",
-"ar": "غ كربوهيدرات"
-},
-"גר׳ שומן": {
-"en": "g fat",
-"ar": "غ دهون"
-},
-"גר׳ ירקות": {
-"en": "g veggies",
-"ar": "غ خضار"
-},
-"4 קוביות שוקולד מריר": {
-"en": "4 squares dark chocolate",
-"ar": "4 مربعات شوكولاتة داكنة"
-},
-"כדור גלידה": {
-"en": "A scoop of ice cream",
-"ar": "كرة آيس كريم"
-},
-"שקית במבה קטנה": {
-"en": "Small bag of Bamba",
-"ar": "كيس بامبا صغير"
-},
-"3 כוסות פופקורן": {
-"en": "3 cups popcorn",
-"ar": "3 أكواب فشار"
-},
-"כוס יין": {
-"en": "A glass of wine",
-"ar": "كأس نبيذ"
-},
-"בקבוק בירה": {
-"en": "A bottle of beer",
-"ar": "زجاجة بيرة"
-},
-"קרמבו": {
-"en": "Krembo",
-"ar": "كرمبو"
-},
-"2 עוגיות": {
-"en": "2 cookies",
-"ar": "قطعتا بسكويت"
-},
-"מקום לפינוק": {
-"en": "Room for a treat",
-"ar": "مساحة للتحلية"
-},
-"להשאיר כל יום קלוריות לשוקולד, גלידה או יין": {
-"en": "Keep daily calories for chocolate, ice cream or wine",
-"ar": "اترك سعرات يومية للشوكولاتة أو الآيس كريم أو النبيذ"
-},
-"הוסף": {
-"en": "Add",
-"ar": "أضف"
-},
-"פינוק יומי ·": {
-"en": "Daily treat ·",
-"ar": "تحلية يومية ·"
-},
-"שמור מחוץ לתפריט. נכנס בתקציב, למשל:": {
-"en": "Kept outside the plan. Fits the budget, e.g.:",
-"ar": "محفوظة خارج القائمة. تناسب الميزانية، مثلًا:"
-},
-"🍫 מקום לפינוק": {
-"en": "🍫 Room for a treat",
-"ar": "🍫 مساحة للتحلية"
-},
-"הקלוריות האלה נשמרות מחוץ לתפריט, והתפריט ייבנה על השאר.": {
-"en": "These calories are kept outside the plan, and the plan is built on the rest.",
-"ar": "هذه السعرات تبقى خارج القائمة، وتُبنى القائمة على الباقي."
-},
-"בלי": {
-"en": "None",
-"ar": "بدون"
-},
-"ושאלה אחרונה: להשאיר מקום לפינוק? 🍫": {
-"en": "Last one: leave room for a treat? 🍫",
-"ar": "سؤال أخير: نترك مساحة للتحلية؟ 🍫"
-},
-"שוקולד, גלידה או כוס יין. תזונאים ממליצים על בערך 10% מהקלוריות, זה עוזר להתמיד. התפריט ייבנה על השאר.": {
-"en": "Chocolate, ice cream or a glass of wine. Dietitians suggest about 10% of calories, it helps you stick with it. The plan is built on the rest.",
-"ar": "شوكولاتة أو آيس كريم أو كأس نبيذ. ينصح خبراء التغذية بنحو 10% من السعرات، فهذا يساعد على الالتزام. تُبنى القائمة على الباقي."
-},
-"רק מה שבתפריט": {
-"en": "Only what is in the plan",
-"ar": "فقط ما في القائمة"
-},
-"קטן · 100 קק״ל": {
-"en": "Small · 100 kcal",
-"ar": "صغيرة · 100 سعرة"
-},
-"כמו 4 קוביות שוקולד מריר": {
-"en": "Like 4 squares of dark chocolate",
-"ar": "مثل 4 مربعات شوكولاتة داكنة"
-},
-"בינוני · 150 קק״ל": {
-"en": "Medium · 150 kcal",
-"ar": "متوسطة · 150 سعرة"
-},
-"כמו כדור גלידה או כוס יין": {
-"en": "Like a scoop of ice cream or a glass of wine",
-"ar": "مثل كرة آيس كريم أو كأس نبيذ"
-},
-"ההמלצה של רוב התזונאים": {
-"en": "What most dietitians recommend",
-"ar": "توصية معظم خبراء التغذية"
-},
-"כמה זמן יש לך לבשל?": {
-"en": "How much time do you have to cook?",
-"ar": "كم لديك من الوقت للطبخ؟"
-},
-"בלי פינוק, הכל בתפריט": {
-"en": "No treat, everything is in the plan",
-"ar": "بدون تحلية، كل شيء في القائمة"
-},
-"⏳ מחפש במאגר…": {
-"en": "⏳ Searching the database…",
-"ar": "⏳ جارٍ البحث في قاعدة البيانات…"
-},
-"🎲 עוד חלופות": {
-"en": "🎲 More alternatives",
-"ar": "🎲 بدائل أخرى"
-},
-"🎲 תציע לי חלופות אחרות": {
-"en": "🎲 Suggest other alternatives",
-"ar": "🎲 اقترح بدائل أخرى"
-},
-"מהמאגר המלא, עם חלבון דומה. הכמות כבר מותאמת.": {
-"en": "From the full database, with similar protein. Amount already adjusted.",
-"ar": "من قاعدة البيانات الكاملة، ببروتين مشابه. الكمية معدّلة مسبقًا."
-},
-"מהמאגר המלא, עם קלוריות דומות. הכמות כבר מותאמת.": {
-"en": "From the full database, with similar calories. Amount already adjusted.",
-"ar": "من قاعدة البيانات الكاملة، بسعرات مشابهة. الكمية معدّلة مسبقًا."
-},
-"חלופות נוספות מהמאגר": {
-"en": "More from the database",
-"ar": "بدائل إضافية من قاعدة البيانات"
-},
-"⚠️ חורג מהיעד ב-": {
-"en": "⚠️ Over target by",
-"ar": "⚠️ تجاوز الهدف بـ"
-},
-"🍫 חורג מהתפריט ב-": {
-"en": "🍫 Over the plan by",
-"ar": "🍫 تجاوز القائمة بـ"
-},
-"קק״ל. זה יורד מתקציב הפינוק (נשארו": {
-"en": "kcal. It comes out of your treat budget (left:",
-"ar": "سعرة. تُخصم من ميزانية التحلية (المتبقي:"
-},
-"אפשר להקטין כמות, להסיר פריט או ללחוץ \"✨ תפריט אחר\"": {
-"en": "Reduce an amount, remove an item or tap \"✨ Another plan\"",
-"ar": "يمكن تقليل كمية أو إزالة عنصر أو الضغط على \"✨ قائمة أخرى\""
-},
-"כף מדידה מפולסת (15 מ״ל)": {
-"en": "Level measuring tablespoon (15 ml)",
-"ar": "ملعقة قياس مسطّحة (15 مل)"
-},
-"כף אוכל גדושה, כמו בהגשה": {
-"en": "Heaped eating spoon, as served",
-"ar": "ملعقة طعام ممتلئة، كما في التقديم"
-}
+ "מחיר לפני (מחיר השקה, ריק = בלי)": {
+  "en": "Price before (launch price, empty = none)",
+  "ar": "السعر السابق (سعر الإطلاق، فارغ = بدون)"
+ },
+ "תוכנית שבנויה בשבילך": {
+  "en": "A plan built for you",
+  "ar": "خطة مبنية لك"
+ },
+ "כשהוא ממליץ על תרגיל, סרטון ההדגמה מופיע מתחת לתשובה": {
+  "en": "When he recommends an exercise, the demo video appears right below the answer",
+  "ar": "عندما يوصي بتمرين، يظهر فيديو التوضيح تحت الإجابة مباشرة"
+ },
+ "מתאמנים ביחד": {
+  "en": "Train together",
+  "ar": "تدرّبوا معًا"
+ },
+ "🥇 דניאל": {
+  "en": "🥇 Daniel",
+  "ar": "🥇 دانيال"
+ },
+ "🥈 את/ה": {
+  "en": "🥈 You",
+  "ar": "🥈 أنت"
+ },
+ "🥉 נועם": {
+  "en": "🥉 Noam",
+  "ar": "🥉 نوعام"
+ },
+ "הישגים ששווה לשתף": {
+  "en": "Achievements worth sharing",
+  "ar": "إنجازات تستحق المشاركة"
+ },
+ "סיכום חודשי": {
+  "en": "Monthly recap",
+  "ar": "ملخص شهري"
+ },
+ "מחיר אחד, בלי הפתעות": {
+  "en": "One price, no surprises",
+  "ar": "سعر واحد، بلا مفاجآت"
+ },
+ "7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.": {
+  "en": "7 days free. No app store. iPhone and Android.",
+  "ar": "7 أيام مجانًا. بدون متجر تطبيقات. آيفون وأندرويد."
+ },
+ "מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד.": {
+  "en": "Snap your plate, the AI breaks it into items and counts calories and protein against your target.",
+  "ar": "صوّر طبقك، فيفصّله الذكاء الاصطناعي إلى مكوّنات ويحسب السعرات والبروتين مقابل هدفك."
+ },
+ "עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.": {
+  "en": "Answer a few questions: goal, days per week, equipment and time, and get a tailored plan. 98 exercises with demo videos, and a reminder on the morning of a training day.",
+  "ar": "أجب عن بضعة أسئلة: الهدف، الأيام في الأسبوع، المعدات والوقت، واحصل على خطة مخصصة. 98 تمرينًا مع فيديو توضيحي، وتذكير صباح يوم التدريب."
+ },
+ "מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא \"cottage cheese\" אמריקאי. ואם אין כוח לחפש, מצלמים את הצלחת: ה-AI מזהה כל רכיב, מעריך כמה גרם יש ומחשב קלוריות וחלבון. סורקים גם טבלה תזונתית מהאריזה.": {
+  "en": "The Israeli Ministry of Health food database: local foods, not a generic American list. Too lazy to search? Snap your plate: the AI identifies each item, estimates the grams and counts calories and protein. You can also scan a nutrition label.",
+  "ar": "قاعدة بيانات التغذية الإسرائيلية: أطعمة محلية، لا قائمة أمريكية عامة. لا رغبة لك في البحث؟ صوّر طبقك: يتعرّف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات ويحسب السعرات والبروتين. ويمكنك أيضًا مسح الملصق الغذائي."
+ },
+ "קובי הבוט, המאמן שלך בכיס": {
+  "en": "Kobi the bot, your coach in your pocket",
+  "ar": "كوبي البوت، مدربك في جيبك"
+ },
+ "קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.": {
+  "en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic internet advice: he looks at your numbers.",
+  "ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. لا نصائح عامة من الإنترنت، بل ينظر إلى أرقامك."
+ },
+ "סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע": {
+  "en": "Weekly summary: what improved, where you're stuck and what to focus on this week",
+  "ar": "ملخص أسبوعي: ما الذي تحسّن، أين توقفت وعلى ماذا تركّز هذا الأسبوع"
+ },
+ "שואלים אותו כל שאלה על אימון, תזונה והתאוששות": {
+  "en": "Ask him anything about training, nutrition and recovery",
+  "ar": "اسأله أي سؤال عن التدريب والتغذية والتعافي"
+ },
+ "ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.": {
+  "en": "I see it: 80×8 in your last three workouts 💪 This week try 82.5 on the first set, even if you only get 6 reps. And add incline bench press as your second exercise.",
+  "ar": "رأيت ذلك: 80×8 في آخر ثلاثة تمارين 💪 هذا الأسبوع جرّب 82.5 في المجموعة الأولى حتى لو خرجت 6 تكرارات فقط. وأضف ضغط الصدر المائل كتمرين ثانٍ."
+ },
+ "פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.": {
+  "en": "Start a group with your gym friends and launch a challenge: who trains the most this month, who's first to 100,000 kg of volume, or everyone together toward a shared goal.",
+  "ar": "أنشئ مجموعة مع أصدقاء النادي وأطلق تحديًا: من يتدرب أكثر هذا الشهر، من يصل أولًا إلى 100 ألف كغ من الحجم، أو الجميع معًا نحو هدف مشترك."
+ },
+ "20 הישגים לפתוח בדרך, ושיתוף בעיצוב מוכן לסטורי. אפשר גם לצלם מהמצלמה ולהדביק את ההישג כמו מדבקה.": {
+  "en": "20 achievements to unlock along the way, with story-ready share designs. You can also shoot with your camera and stick the achievement on like a sticker.",
+  "ar": "20 إنجازًا لتفتحها في الطريق، مع تصاميم جاهزة للستوري. ويمكنك أيضًا التصوير بالكاميرا ولصق الإنجاز كملصق."
+ },
+ "בתחילת כל חודש מחכה לך סיכום בסגנון \"Wrapped\": כמה אימונים, כמה ק״ג הרמת, השיאים שלך והתרגיל האהוב.": {
+  "en": "At the start of every month a \"Wrapped\"-style recap is waiting: how many workouts, how many kg you lifted, your PRs and your favorite exercise.",
+  "ar": "في بداية كل شهر ينتظرك ملخص بأسلوب \"Wrapped\": كم تمرينًا، كم كغ رفعت، أرقامك القياسية وتمرينك المفضل."
+ },
+ "ק״ג הורמו החודש": {
+  "en": "kg lifted this month",
+  "ar": "كغ رُفعت هذا الشهر"
+ },
+ "{0} ימים ראשונים בחינם עם כל הפיצ׳רים. אחר כך בוחרים מסלול: תשלום חד-פעמי, בלי חידוש אוטומטי ובלי התחייבות.": {
+  "en": "First {0} days free with every feature. Then pick a plan: one payment, no auto-renewal, no commitment.",
+  "ar": "أول {0} أيام مجانًا مع كل الميزات. بعدها اختر باقة: دفعة واحدة، بلا تجديد تلقائي وبلا التزام."
+ },
+ "כל המסלולים כוללים הכל: אימונים, תזונה עם AI, קובי הבוט, קבוצות ואתגרים.": {
+  "en": "Every plan includes everything: workouts, AI nutrition, Kobi the bot, groups and challenges.",
+  "ar": "كل الباقات تشمل كل شيء: التمارين، التغذية بالذكاء الاصطناعي، كوبي البوت، المجموعات والتحديات."
+ },
+ "7 ימים ראשונים בחינם, עם כל הפיצ׳רים. אחר כך ממשיכים במסלול בתשלום חד-פעמי: בלי מנוי מתחדש, בלי חיוב אוטומטי ובלי התחייבות. המחירים מופיעים למעלה.": {
+  "en": "The first 7 days are free, with every feature. Then you continue with a one-time-payment plan: no recurring subscription, no automatic charge and no commitment. Prices are shown above.",
+  "ar": "أول 7 أيام مجانية مع كل الميزات. بعدها تتابع بباقة بدفعة واحدة: بلا اشتراك متجدد، بلا خصم تلقائي وبلا التزام. الأسعار معروضة في الأعلى."
+ },
+ "מה קובי הבוט יודע לעשות?": {
+  "en": "What can Kobi the bot do?",
+  "ar": "ماذا يستطيع كوبي البوت أن يفعل؟"
+ },
+ "קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומנויים יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
+  "en": "Kobi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and subscribers can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
+  "ar": "كوبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وعلى ماذا تركّز، ويمكن للمشتركين سؤاله أي شيء عن التدريب والتغذية والتعافي. وعندما يوصي بتمرين، يظهر فيديو توضيحي."
+ },
+ "כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.": {
+  "en": "Yes. Answer a few questions and get a plan tailored to you, with a demo video for every exercise. But the tool is built for people who train regularly and want to see numbers.",
+  "ar": "نعم. أجب عن بضعة أسئلة واحصل على خطة مخصصة لك، مع فيديو توضيحي لكل تمرين. لكن الأداة مبنية لمن يتدرب بانتظام ويريد رؤية الأرقام."
+ },
+ "באיזו שפה האפליקציה?": {
+  "en": "What language is the app in?",
+  "ar": "بأي لغة التطبيق؟"
+ },
+ "עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.": {
+  "en": "Hebrew, Arabic and English, including Kobi, notifications and meal recognition. Switch language in settings anytime.",
+  "ar": "العبرية والعربية والإنجليزية، بما في ذلك كوبي والإشعارات والتعرّف على الوجبات. غيّر اللغة من الإعدادات في أي وقت."
+ },
+ "נרשמים בקליק עם Google, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. {0} ימים ראשונים עלינו.": {
+  "en": "Sign up in one click with Google, add it to your home screen, and from your next workout every set is saved. The first {0} days are on us.",
+  "ar": "سجّل بنقرة واحدة عبر Google، أضفه إلى الشاشة الرئيسية، ومن تمرينك القادم تُحفظ كل مجموعة. أول {0} أيام علينا."
+ },
+ "לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?": {
+  "en": "My bench press has been stuck at 80 for two weeks, what should I do?",
+  "ar": "ضغط الصدر عالق عندي على 80 منذ أسبوعين، ماذا أفعل؟"
+ },
+ "✉️ המשך עם אימייל": {
+  "en": "✉️ Continue with email",
+  "ar": "✉️ المتابعة بالبريد الإلكتروني"
+ },
+ "הקלד את הקוד": {
+  "en": "Enter the code",
+  "ar": "أدخل الرمز"
+ },
+ "התחברות עם קוד למייל": {
+  "en": "Sign in with an email code",
+  "ar": "تسجيل الدخول برمز عبر البريد"
+ },
+ "שלחנו קוד ל-{0}. הוא תקף לשעה.": {
+  "en": "We sent a code to {0}. It's valid for one hour.",
+  "ar": "أرسلنا رمزًا إلى {0}. صالح لمدة ساعة."
+ },
+ "בלי סיסמה: נשלח אליך קוד חד-פעמי, והאייפון יציע להדביק אותו.": {
+  "en": "No password: we'll email you a one-time code, and your phone will offer to paste it.",
+  "ar": "بدون كلمة مرور: سنرسل لك رمزًا لمرة واحدة، وسيعرض هاتفك لصقه."
+ },
+ "רגע…": {
+  "en": "One moment…",
+  "ar": "لحظة…"
+ },
+ "התחברות": {
+  "en": "Log in",
+  "ar": "تسجيل الدخول"
+ },
+ "שלח לי קוד": {
+  "en": "Send me a code",
+  "ar": "أرسل لي رمزًا"
+ },
+ "אפשר לשלוח שוב בעוד דקה": {
+  "en": "You can resend in a minute",
+  "ar": "يمكنك الإرسال مجددًا بعد دقيقة"
+ },
+ "לא הגיע? שלח שוב": {
+  "en": "Didn't get it? Send again",
+  "ar": "لم يصل؟ أرسل مجددًا"
+ },
+ "שינוי אימייל": {
+  "en": "Change email",
+  "ar": "تغيير البريد"
+ },
+ "בהמשך אתה מסכים ל{0}תקנון{1} ול{2}מדיניות הפרטיות{3}": {
+  "en": "By continuing you agree to the {0}Terms{1} and {2}Privacy Policy{3}",
+  "ar": "بالمتابعة توافق على {0}الشروط{1} و{2}سياسة الخصوصية{3}"
+ },
+ "בהמשך אתה מסכים ל": {
+  "en": "By continuing you agree to the ",
+  "ar": "بالمتابعة توافق على "
+ },
+ "חזרה": {
+  "en": "Back",
+  "ar": "رجوع"
+ },
+ "הקלד אימייל תקין": {
+  "en": "Enter a valid email",
+  "ar": "أدخل بريدًا إلكترونيًا صحيحًا"
+ },
+ "נשלחו יותר מדי קודים. נסה שוב בעוד דקה.": {
+  "en": "Too many codes sent. Try again in a minute.",
+  "ar": "أُرسلت رموز كثيرة. حاول مجددًا بعد دقيقة."
+ },
+ "שליחת הקוד נכשלה. נסה שוב.": {
+  "en": "Sending the code failed. Try again.",
+  "ar": "فشل إرسال الرمز. حاول مجددًا."
+ },
+ "הקוד צריך להיות 6 ספרות": {
+  "en": "The code should be 6 digits",
+  "ar": "يجب أن يتكون الرمز من 6 أرقام"
+ },
+ "הקוד שגוי או שפג תוקפו": {
+  "en": "The code is wrong or has expired",
+  "ar": "الرمز خاطئ أو منتهي الصلاحية"
+ },
+ "✉️ קבל קוד למייל": {
+  "en": "✉️ Get a code by email",
+  "ar": "✉️ احصل على رمز بالبريد"
+ },
+ "התחברות עם סיסמה": {
+  "en": "Log in with password",
+  "ar": "تسجيل الدخول بكلمة المرور"
+ },
+ "שלחנו קוד למייל שלך. הוא תקף לשעה.": {
+  "en": "We emailed you a code. It's valid for one hour.",
+  "ar": "أرسلنا رمزًا إلى بريدك. صالح لمدة ساعة."
+ },
+ "כניסה או הרשמה": {
+  "en": "Log in or sign up",
+  "ar": "تسجيل الدخول أو التسجيل"
+ },
+ "בלי סיסמה: מקלידים אימייל ומקבלים קוד חד-פעמי. אם אין לך חשבון, הוא ייפתח אוטומטית.": {
+  "en": "No password: enter your email and get a one-time code. If you don't have an account, one is created automatically.",
+  "ar": "بدون كلمة مرور: أدخل بريدك واحصل على رمز لمرة واحدة. إن لم يكن لديك حساب، سيُنشأ تلقائيًا."
+ },
+ "✉️ כניסה עם קוד למייל, בלי סיסמה": {
+  "en": "✉️ Sign in with an email code, no password",
+  "ar": "✉️ الدخول برمز عبر البريد، بدون كلمة مرور"
+ },
+ "נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. {0} ימים ראשונים עלינו.": {
+  "en": "Sign up with your email, no password, add it to your home screen, and from your next workout every set is saved. The first {0} days are on us.",
+  "ar": "سجّل ببريدك بدون كلمة مرور، أضفه إلى الشاشة الرئيسية، ومن تمرينك القادم تُحفظ كل مجموعة. أول {0} أيام علينا."
+ },
+ "תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.": {
+  "en": "One payment, no auto-renewal, no commitment.",
+  "ar": "دفعة واحدة، بلا تجديد تلقائي وبلا التزام."
+ },
+ "אימונים וטיימר": {
+  "en": "Workouts & timer",
+  "ar": "التمارين والمؤقت"
+ },
+ "תזונה עם AI": {
+  "en": "AI nutrition",
+  "ar": "تغذية بالذكاء الاصطناعي"
+ },
+ "קובי הבוט": {
+  "en": "Kobi the bot",
+  "ar": "كوبي البوت"
+ },
+ "קבוצות ואתגרים": {
+  "en": "Groups & challenges",
+  "ar": "المجموعات والتحديات"
+ },
+ "כבר שילמתי, בדוק שוב": {
+  "en": "I already paid, check again",
+  "ar": "دفعت بالفعل، تحقق مجددًا"
+ },
+ "בעיה בתשלום?": {
+  "en": "Payment issue?",
+  "ar": "مشكلة في الدفع؟"
+ },
+ "מנוי 4 חודשים": {
+  "en": "4-month plan",
+  "ar": "باقة 4 أشهر"
+ },
+ "מנוי 6 חודשים": {
+  "en": "6-month plan",
+  "ar": "باقة 6 أشهر"
+ },
+ "מנוי שנתי": {
+  "en": "Annual plan",
+  "ar": "باقة سنوية"
+ },
+ "מנוי פעיל": {
+  "en": "Active plan",
+  "ar": "اشتراك فعّال"
+ },
+ "⭐ {0} · עד {1}": {
+  "en": "⭐ {0} · until {1}",
+  "ar": "⭐ {0} · حتى {1}"
+ },
+ "🎁 ניסיון חינם · עוד {0} ימים": {
+  "en": "🎁 Free trial · {0} days left",
+  "ar": "🎁 تجربة مجانية · بقي {0} أيام"
+ },
+ "🎁 ניסיון חינם · היום האחרון": {
+  "en": "🎁 Free trial · last day",
+  "ar": "🎁 تجربة مجانية · اليوم الأخير"
+ },
+ "⭐ מנוי שנתי · עד {0}": {
+  "en": "⭐ Annual plan · until {0}",
+  "ar": "⭐ باقة سنوية · حتى {0}"
+ },
+ "⭐ מנוי 4 חודשים · עד {0}": {
+  "en": "⭐ 4-month plan · until {0}",
+  "ar": "⭐ باقة 4 أشهر · حتى {0}"
+ },
+ "⭐ מנוי 6 חודשים · עד {0}": {
+  "en": "⭐ 6-month plan · until {0}",
+  "ar": "⭐ باقة 6 أشهر · حتى {0}"
+ },
+ "⭐ מנוי פעיל · עד {0}": {
+  "en": "⭐ Active plan · until {0}",
+  "ar": "⭐ اشتراك فعّال · حتى {0}"
+ },
+ "ממשיכים להתקדם": {
+  "en": "Keep progressing",
+  "ar": "واصل التقدم"
+ },
+ "ברכישה אתה מסכים ל": {
+  "en": "By purchasing you agree to the ",
+  "ar": "بالشراء توافق على "
+ },
+ "היי, אני קובי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.": {
+  "en": "Hi, I'm Kobi 👋 After your first workout I'll send you a weekly summary here: what went well and what to focus on.",
+  "ar": "مرحبًا، أنا كوبي 👋 بعد تمرينك الأول سأرسل لك هنا ملخصًا أسبوعيًا: ما الذي سار جيدًا وعلى ماذا تركّز."
+ },
+ "אני קובי, המאמן שלך כאן. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בקצרה מה יש בו. אפשר לדלג בכל רגע.": {
+  "en": "I'm Kobi, your coach here. Every screen you open for the first time, I'll quickly show you what's in it. You can skip anytime.",
+  "ar": "أنا كوبي، مدربك هنا. في كل شاشة تفتحها لأول مرة سأريك بسرعة ما فيها. يمكنك التخطي في أي وقت."
+ },
+ "הבנתי 💪": {
+  "en": "Got it 💪",
+  "ar": "فهمت 💪"
+ },
+ "אני קובי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.": {
+  "en": "I'm Kobi, your coach. On every screen you open for the first time, I'll show you in a few short steps what it's for.",
+  "ar": "أنا كوبي، مدربك. في كل شاشة تفتحها لأول مرة سأريك في خطوات قصيرة ما الذي تفعله فيها."
+ },
+ "הסיכום השבועי שלי": {
+  "en": "My weekly summary",
+  "ar": "ملخصي الأسبوعي"
+ },
+ "כל יום ראשון אכתוב לך כאן מה הלך טוב השבוע ועל מה להתמקד, לפי האימונים והתזונה שלך. לחיצה על הכרטיס פותחת אותו.": {
+  "en": "Every Sunday I'll write here what went well this week and what to focus on, based on your workouts and nutrition. Tap the card to open it.",
+  "ar": "كل يوم أحد سأكتب لك هنا ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز، حسب تمارينك وتغذيتك. اضغط على البطاقة لفتحها."
+ },
+ "מכאן מתחילים להתאמן": {
+  "en": "This is where you train",
+  "ar": "من هنا تبدأ التدريب"
+ },
+ "הכפתור הירוק באמצע התפריט הוא מסך האימון: בונים תוכנית ומתחילים אימון.": {
+  "en": "The green button in the middle of the menu is the workout screen: build a plan and start a workout.",
+  "ar": "الزر الأخضر في منتصف القائمة هو شاشة التدريب: ابنِ خطة وابدأ تمرينًا."
+ },
+ "הפעל התראות ונודיע לך כשהמנוחה בין הסטים נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.": {
+  "en": "Turn on notifications and we'll tell you when your rest between sets is over, even with the phone in your pocket, and remind you on training days.",
+  "ar": "فعّل الإشعارات وسنخبرك عندما تنتهي الراحة بين المجموعات، حتى والهاتف في جيبك، ونذكّرك في أيام التدريب."
+ },
+ "יעדים, התראות, שפה וצור קשר. משם אפשר גם להפעיל את ההדרכה הזו מחדש.": {
+  "en": "Goals, notifications, language and contact. You can also restart this guide from there.",
+  "ar": "الأهداف والإشعارات واللغة والتواصل. ومن هناك يمكنك أيضًا إعادة تشغيل هذا الدليل."
+ },
+ "שלב 1: תוכנית אימון": {
+  "en": "Step 1: a training plan",
+  "ar": "الخطوة 1: خطة تدريب"
+ },
+ "עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית שבנויה בשבילך. אפשר לערוך אותה בכל רגע.": {
+  "en": "Answer a few questions (goal, days per week, equipment and time) and get a plan built for you. You can edit it anytime.",
+  "ar": "أجب عن بضعة أسئلة (الهدف، الأيام في الأسبوع، المعدات والوقت) واحصل على خطة مبنية لك. يمكنك تعديلها في أي وقت."
+ },
+ "שלב 2: מתחילים אימון": {
+  "en": "Step 2: start a workout",
+  "ar": "الخطوة 2: ابدأ تمرينًا"
+ },
+ "בוחרים אימון מהתוכנית, או מתחילים אימון חופשי ומוסיפים תרגילים תוך כדי.": {
+  "en": "Pick a workout from your plan, or start a free workout and add exercises as you go.",
+  "ar": "اختر تمرينًا من خطتك، أو ابدأ تمرينًا حرًا وأضف التمارين أثناءه."
+ },
+ "בזמן האימון": {
+  "en": "During the workout",
+  "ar": "أثناء التمرين"
+ },
+ "נגיעה בסט מסמנת שסיימת אותו. המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. לא בטוח איך עושים תרגיל? לוחצים ״צפה בהדגמה״.": {
+  "en": "Tap a set to mark it done. Last time's weight is already filled in, and the rest timer starts on its own. Not sure how to do an exercise? Tap \"Watch demo\".",
+  "ar": "اضغط على المجموعة لتسجيل إنهائها. الوزن من المرة السابقة مُعبّأ مسبقًا، ومؤقت الراحة يبدأ تلقائيًا. لست متأكدًا من طريقة التمرين؟ اضغط \"شاهد التوضيح\"."
+ },
+ "קודם כל: יעד יומי": {
+  "en": "First: a daily target",
+  "ar": "أولًا: هدف يومي"
+ },
+ "מגדירים כמה קלוריות וחלבון לאכול ביום. נחשב לך את זה לפי המטרה, המשקל והגובה שלך.": {
+  "en": "Set how many calories and how much protein to eat a day. We'll calculate it from your goal, weight and height.",
+  "ar": "حدّد كم سعرة وكم بروتين تأكل يوميًا. سنحسب ذلك حسب هدفك ووزنك وطولك."
+ },
+ "רושמים מה אכלת": {
+  "en": "Log what you ate",
+  "ar": "سجّل ما أكلت"
+ },
+ "כותבים מאכל ובוחרים מהמאגר הישראלי, או ארוחה שלמה כמו ״שניצל עם אורז״ ולוחצים ✨ חשב.": {
+  "en": "Type a food and pick it from the database, or a whole meal like \"schnitzel with rice\" and tap ✨ Calculate.",
+  "ar": "اكتب طعامًا واختره من قاعدة البيانات، أو وجبة كاملة مثل \"شنيتسل مع أرز\" واضغط ✨ احسب."
+ },
+ "או בלי להקליד": {
+  "en": "Or without typing",
+  "ar": "أو بدون كتابة"
+ },
+ "מצלמים את הצלחת וה-AI מזהה כל רכיב ומעריך כמה גרם יש. אפשר לתקן את הגרמים לפני שמוסיפים. או סורקים ברקוד של מוצר מהסופר.": {
+  "en": "Snap your plate and the AI identifies each item and estimates the grams. You can fix the grams before adding. Or scan a product's barcode.",
+  "ar": "صوّر طبقك فيتعرّف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات. يمكنك تصحيح الغرامات قبل الإضافة. أو امسح باركود منتج."
+ },
+ "מתאמנים עם חברים": {
+  "en": "Train with friends",
+  "ar": "تدرّب مع الأصدقاء"
+ },
+ "פותחים קבוצה ושולחים קישור לשותף או לחבר׳ה מהמכון. כל אימון שמישהו מסיים מופיע אוטומטית בצ׳אט.": {
+  "en": "Create a group and send a link to your partner or gym friends. Every workout someone finishes shows up in the chat automatically.",
+  "ar": "أنشئ مجموعة وأرسل رابطًا لشريكك أو لأصدقاء النادي. كل تمرين ينهيه أحدهم يظهر في الدردشة تلقائيًا."
+ },
+ "קיבלת קוד?": {
+  "en": "Got a code?",
+  "ar": "لديك رمز؟"
+ },
+ "אם חבר שלח לך קוד הזמנה, מצטרפים לקבוצה שלו מכאן.": {
+  "en": "If a friend sent you an invite code, join their group here.",
+  "ar": "إذا أرسل لك صديق رمز دعوة، انضم إلى مجموعته من هنا."
+ },
+ "אתגרים 🏆": {
+  "en": "Challenges 🏆",
+  "ar": "التحديات 🏆"
+ },
+ "בתוך קבוצה אפשר להשיק אתגר: מי מתאמן הכי הרבה החודש, מרוץ ראשון ליעד, או כולם יחד מול יעד משותף.": {
+  "en": "Inside a group you can launch a challenge: who trains the most this month, a race to a target, or everyone together toward a shared goal.",
+  "ar": "داخل المجموعة يمكنك إطلاق تحدٍ: من يتدرب أكثر هذا الشهر، سباق نحو هدف، أو الجميع معًا نحو هدف مشترك."
+ },
+ "שלושה חלקים": {
+  "en": "Three sections",
+  "ar": "ثلاثة أقسام"
+ },
+ "גוף ויעדים: משקל ותמונות. התקדמות: גרפים, שיאים והישגים. היסטוריה: כל האימונים שעשית.": {
+  "en": "Body & goals: weight and photos. Progress: charts, PRs and achievements. History: every workout you've done.",
+  "ar": "الجسم والأهداف: الوزن والصور. التقدم: رسوم بيانية وأرقام قياسية وإنجازات. السجل: كل تمارينك."
+ },
+ "שקילה": {
+  "en": "Weigh-in",
+  "ar": "الوزن"
+ },
+ "שוקלים בבוקר ולוחצים כאן. כל שקילה נכנסת ללוח ולגרף, ככה רואים את המגמה ולא רק מספר של יום אחד.": {
+  "en": "Weigh yourself in the morning and tap here. Every weigh-in goes into the log and the chart, so you see the trend, not just one day's number.",
+  "ar": "زن نفسك صباحًا واضغط هنا. كل وزن يدخل السجل والرسم البياني، فترى الاتجاه لا رقم يوم واحد فقط."
+ },
+ "תמונות התקדמות": {
+  "en": "Progress photos",
+  "ar": "صور التقدم"
+ },
+ "בוחרים יום קבוע בשבוע ומקבלים תזכורת להצטלם. אחרי חודש משווים תמונה מול תמונה.": {
+  "en": "Pick a fixed day each week and get a reminder to take photos. After a month, compare photo against photo.",
+  "ar": "اختر يومًا ثابتًا كل أسبوع واحصل على تذكير بالتصوير. بعد شهر قارن صورة بصورة."
+ },
+ "הישגים וסיכום חודשי": {
+  "en": "Achievements & monthly recap",
+  "ar": "الإنجازات والملخص الشهري"
+ },
+ "20 הישגים לפתוח, כל אחד עם חגיגה ותמונה לשיתוף. ובתחילת כל חודש מחכה לך סיכום של החודש שעבר.": {
+  "en": "20 achievements to unlock, each with a celebration and a shareable image. And at the start of every month, a recap of the last month is waiting.",
+  "ar": "20 إنجازًا لتفتحها، لكل منها احتفال وصورة للمشاركة. وفي بداية كل شهر ينتظرك ملخص الشهر الماضي."
+ },
+ "הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת": {
+  "en": "The analysis took too long. Try again, or briefly type what's on the plate",
+  "ar": "استغرق التحليل وقتًا طويلًا. حاول مجددًا، أو اكتب باختصار ما في الطبق"
+ },
+ "עוד כמה שניות…": {
+  "en": "A few more seconds…",
+  "ar": "بضع ثوانٍ أخرى…"
+ },
+ "תמונת צלחת": {
+  "en": "Plate photo",
+  "ar": "صورة الطبق"
+ },
+ "צילום או מהגלריה": {
+  "en": "Camera or gallery",
+  "ar": "كاميرا أو معرض"
+ },
+ "📸 נותרו {0} ניתוחי תמונה היום": {
+  "en": "📸 {0} photo analyses left today",
+  "ar": "📸 تبقّى {0} تحليلات صور اليوم"
+ },
+ "📸 ניצלת את ניתוחי התמונה להיום. אפשר להקליד או לחפש במאגר": {
+  "en": "📸 You've used today's photo analyses. You can type or search the database",
+  "ar": "📸 استنفدت تحليلات الصور لليوم. يمكنك الكتابة أو البحث في قاعدة البيانات"
+ },
+ "ניצלת את ניתוחי התמונה להיום. אפשר להקליד מה אכלת או לחפש במאגר": {
+  "en": "You've used today's photo analyses. You can type what you ate or search the database",
+  "ar": "استنفدت تحليلات الصور لليوم. يمكنك كتابة ما أكلت أو البحث في قاعدة البيانات"
+ },
+ "הגעת למכסת ניתוחי ה-AI היומית. אפשר לחפש במאגר או להוסיף ידנית": {
+  "en": "You've reached today's AI limit. You can search the database or add manually",
+  "ar": "وصلت إلى حد الذكاء الاصطناعي لليوم. يمكنك البحث في قاعدة البيانات أو الإضافة يدويًا"
+ },
+ "📸 נותרו {0} ניתוחי תמונה החודש": {
+  "en": "📸 {0} photo analyses left this month",
+  "ar": "📸 تبقّى {0} تحليلات صور هذا الشهر"
+ },
+ "📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר": {
+  "en": "📸 You've used this month's photo analyses. You can type or search the database",
+  "ar": "📸 استنفدت تحليلات الصور لهذا الشهر. يمكنك الكتابة أو البحث في قاعدة البيانات"
+ },
+ "הגעת לתקרה היומית. נמשיך מחר 💪": {
+  "en": "You've hit today's cap. See you tomorrow 💪",
+  "ar": "وصلت إلى الحد اليومي. نكمل غدًا 💪"
+ },
+ "ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר": {
+  "en": "You've used this month's photo analyses. You can type what you ate or search the database",
+  "ar": "استنفدت تحليلات الصور لهذا الشهر. يمكنك كتابة ما أكلت أو البحث في قاعدة البيانات"
+ },
+ "הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית": {
+  "en": "You've reached this month's AI limit. You can search the database or add manually",
+  "ar": "وصلت إلى حد الذكاء الاصطناعي لهذا الشهر. يمكنك البحث في قاعدة البيانات أو الإضافة يدويًا"
+ },
+ "💡 הערכת AI. אפשר לשנות כל פריט: שם, כמות, או למחוק.": {
+  "en": "💡 AI estimate. You can change any item: name, amount, or remove it.",
+  "ar": "💡 تقدير بالذكاء الاصطناعي. يمكنك تغيير أي عنصر: الاسم أو الكمية أو حذفه."
+ },
+ "הערכה בלבד, לא ייעוץ תזונתי.": {
+  "en": "Estimate only, not nutritional advice.",
+  "ar": "تقدير فقط، وليس استشارة غذائية."
+ },
+ "שם הפריט": {
+  "en": "Item name",
+  "ar": "اسم العنصر"
+ },
+ "הסר": {
+  "en": "Remove",
+  "ar": "إزالة"
+ },
+ "מנה": {
+  "en": "Portion",
+  "ar": "حصة"
+ },
+ "אין פריטים": {
+  "en": "No items",
+  "ar": "لا توجد عناصر"
+ },
+ "קק״ל/100ג׳": {
+  "en": "kcal/100g",
+  "ar": "سعرة/100غ"
+ },
+ "החבילה שבחרת": {
+  "en": "Your plan",
+  "ar": "الباقة التي اخترتها"
+ },
+ "לחודש": {
+  "en": "/month",
+  "ar": "شهريًا"
+ },
+ "שינוי": {
+  "en": "Change",
+  "ar": "تغيير"
+ },
+ "הניסיון הסתיים, אבל אפשר לסיים את האימון שהתחלת 💪": {
+  "en": "Your trial ended, but you can finish the workout you started 💪",
+  "ar": "انتهت فترتك التجريبية، لكن يمكنك إنهاء التمرين الذي بدأته 💪"
+ },
+ "מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪": {
+  "en": "Missing you already. Let's pick up where we left off 💪",
+  "ar": "اشتقت إليك. لنكمل من حيث توقفنا 💪"
+ },
+ "אל תעצור עכשיו, אני כבר מכיר אותך 💪": {
+  "en": "Don't stop now, I already know you 💪",
+  "ar": "لا تتوقف الآن، أنا أعرفك بالفعل 💪"
+ },
+ "מה עשית בתקופת הניסיון": {
+  "en": "What you did during your trial",
+  "ar": "ما أنجزته خلال الفترة التجريبية"
+ },
+ "אימונים": {
+  "en": "workouts",
+  "ar": "تمارين"
+ },
+ "ק״ג נפח": {
+  "en": "kg volume",
+  "ar": "كغ حجم"
+ },
+ "ארוחות": {
+  "en": "meals",
+  "ar": "وجبات"
+ },
+ "שקילות": {
+  "en": "weigh-ins",
+  "ar": "أوزان"
+ },
+ "היעד היומי שלי 🎯": {
+  "en": "My daily target 🎯",
+  "ar": "هدفي اليومي 🎯"
+ },
+ "כמה פרטים, ונחשב כמה קלוריות וחלבון מתאימים לך.": {
+  "en": "A few details, and we'll calculate the right calories and protein for you.",
+  "ar": "بعض التفاصيل، وسنحسب السعرات والبروتين المناسبة لك."
+ },
+ "את/ה": {
+  "en": "You are",
+  "ar": "أنت"
+ },
+ "🙋‍♂️ גבר": {
+  "en": "🙋‍♂️ Man",
+  "ar": "🙋‍♂️ رجل"
+ },
+ "🙋‍♀️ אישה": {
+  "en": "🙋‍♀️ Woman",
+  "ar": "🙋‍♀️ امرأة"
+ },
+ "גיל": {
+  "en": "Age",
+  "ar": "العمر"
+ },
+ "גובה": {
+  "en": "Height",
+  "ar": "الطول"
+ },
+ "משקל": {
+  "en": "Weight",
+  "ar": "الوزن"
+ },
+ "שנים": {
+  "en": "years",
+  "ar": "سنة"
+ },
+ "ס״מ": {
+  "en": "cm",
+  "ar": "سم"
+ },
+ "כמה את/ה פעיל/ה?": {
+  "en": "How active are you?",
+  "ar": "ما مدى نشاطك؟"
+ },
+ "כמעט לא זז": {
+  "en": "Barely moving",
+  "ar": "قليل الحركة"
+ },
+ "עבודה מול מחשב, בלי אימונים": {
+  "en": "Desk job, no training",
+  "ar": "عمل مكتبي، بلا تمارين"
+ },
+ "פעילות קלה": {
+  "en": "Lightly active",
+  "ar": "نشاط خفيف"
+ },
+ "1–3 אימונים בשבוע": {
+  "en": "1–3 workouts a week",
+  "ar": "1–3 تمارين أسبوعيًا"
+ },
+ "פעיל": {
+  "en": "Active",
+  "ar": "نشيط"
+ },
+ "3–5 אימונים בשבוע": {
+  "en": "3–5 workouts a week",
+  "ar": "3–5 تمارين أسبوعيًا"
+ },
+ "פעיל מאוד": {
+  "en": "Very active",
+  "ar": "نشيط جدًا"
+ },
+ "6–7 אימונים, או עבודה פיזית": {
+  "en": "6–7 workouts, or a physical job",
+  "ar": "6–7 تمارين، أو عمل بدني"
+ },
+ "ספורטאי": {
+  "en": "Athlete",
+  "ar": "رياضي"
+ },
+ "אימונים כבדים כל יום + עבודה פיזית": {
+  "en": "Hard training daily + physical job",
+  "ar": "تمارين شاقة يوميًا + عمل بدني"
+ },
+ "מה המטרה?": {
+  "en": "What's the goal?",
+  "ar": "ما الهدف؟"
+ },
+ "🔥 ירידה במשקל": {
+  "en": "🔥 Lose weight",
+  "ar": "🔥 إنقاص الوزن"
+ },
+ "⚖️ שמירה": {
+  "en": "⚖️ Maintain",
+  "ar": "⚖️ الحفاظ"
+ },
+ "💪 עלייה במסה": {
+  "en": "💪 Build muscle",
+  "ar": "💪 زيادة الكتلة"
+ },
+ "🐢 בקצב רגוע": {
+  "en": "🐢 Gentle pace",
+  "ar": "🐢 بوتيرة هادئة"
+ },
+ "⚡ בקצב רגיל": {
+  "en": "⚡ Normal pace",
+  "ar": "⚡ بوتيرة عادية"
+ },
+ "🐢 עלייה נקייה": {
+  "en": "🐢 Lean gain",
+  "ar": "🐢 زيادة نظيفة"
+ },
+ "⚡ עלייה מהירה יותר": {
+  "en": "⚡ Faster gain",
+  "ar": "⚡ زيادة أسرع"
+ },
+ "✏️ להזין מספרים בעצמי": {
+  "en": "✏️ Enter numbers myself",
+  "ar": "✏️ إدخال الأرقام بنفسي"
+ },
+ "שמור יעדים ✓": {
+  "en": "Save targets ✓",
+  "ar": "احفظ الأهداف ✓"
+ },
+ "חישוב לפי נוסחת Mifflin-St Jeor. הערכה כללית, לא ייעוץ רפואי.": {
+  "en": "Calculated with the Mifflin-St Jeor formula. A general estimate, not medical advice.",
+  "ar": "محسوب بمعادلة Mifflin-St Jeor. تقدير عام، وليس استشارة طبية."
+ },
+ "מלא את הפרטים למעלה ונחשב לך יעד ✨": {
+  "en": "Fill in the details above and we'll calculate a target ✨",
+  "ar": "املأ التفاصيل أعلاه وسنحسب لك هدفًا ✨"
+ },
+ "קק״ל ביום": {
+  "en": "kcal a day",
+  "ar": "سعرة يوميًا"
+ },
+ "גר׳ חלבון": {
+  "en": "g protein",
+  "ar": "غ بروتين"
+ },
+ "פחמימה ~{0} גר׳ · שומן ~{1} גר׳ · ירידה של ~{2} ק״ג בשבוע": {
+  "en": "Carbs ~{0} g · fat ~{1} g · losing ~{2} kg a week",
+  "ar": "كربوهيدرات ~{0} غ · دهون ~{1} غ · نزول ~{2} كغ أسبوعيًا"
+ },
+ "פחמימה ~{0} גר׳ · שומן ~{1} גר׳ · עלייה של ~{2} ק״ג בשבוע": {
+  "en": "Carbs ~{0} g · fat ~{1} g · gaining ~{2} kg a week",
+  "ar": "كربوهيدرات ~{0} غ · دهون ~{1} غ · زيادة ~{2} كغ أسبوعيًا"
+ },
+ "פחמימה ~{0} גר׳ · שומן ~{1} גר׳ · שמירה על המשקל": {
+  "en": "Carbs ~{0} g · fat ~{1} g · maintaining weight",
+  "ar": "كربوهيدرات ~{0} غ · دهون ~{1} غ · الحفاظ على الوزن"
+ },
+ "שריפה יומית משוערת: {0} קק״ל": {
+  "en": "Estimated daily burn: {0} kcal",
+  "ar": "الحرق اليومي المقدّر: {0} سعرة"
+ },
+ "משקל יעד": {
+  "en": "Goal weight",
+  "ar": "الوزن المستهدف"
+ },
+ "קלוריות": {
+  "en": "Calories",
+  "ar": "السعرات"
+ },
+ "חלבון (גר׳)": {
+  "en": "Protein (g)",
+  "ar": "بروتين (غ)"
+ },
+ "אימון {0} מתוך {1} השבוע": {
+  "en": "Workout {0} of {1} this week",
+  "ar": "التدريب {0} من {1} هذا الأسبوع"
+ },
+ "בן/בת כמה את/ה?": {
+  "en": "How old are you?",
+  "ar": "كم عمرك؟"
+ },
+ "ככה אדע כמה האנרגיה שהגוף שלך שורף במנוחה.": {
+  "en": "This tells me how much energy your body burns at rest.",
+  "ar": "هكذا أعرف كم طاقة يحرق جسمك في الراحة."
+ },
+ "מה הגובה שלך?": {
+  "en": "How tall are you?",
+  "ar": "ما طولك؟"
+ },
+ "גובה ומשקל יחד קובעים כמה הגוף צריך.": {
+  "en": "Height and weight together set what your body needs.",
+  "ar": "الطول والوزن معًا يحددان ما يحتاجه جسمك."
+ },
+ "כמה את/ה שוקל/ת?": {
+  "en": "How much do you weigh?",
+  "ar": "كم وزنك؟"
+ },
+ "לקחתי את השקילה האחרונה שלך. אפשר לעדכן.": {
+  "en": "I used your last weigh-in. You can change it.",
+  "ar": "أخذت آخر وزن سجّلته. يمكنك تعديله."
+ },
+ "נתחיל: את/ה…": {
+  "en": "Let's start: you are…",
+  "ar": "لنبدأ: أنت…"
+ },
+ "גבר": {
+  "en": "Man",
+  "ar": "رجل"
+ },
+ "אישה": {
+  "en": "Woman",
+  "ar": "امرأة"
+ },
+ "פחות": {
+  "en": "Less",
+  "ar": "أقل"
+ },
+ "יותר": {
+  "en": "More",
+  "ar": "أكثر"
+ },
+ "המשך": {
+  "en": "Continue",
+  "ar": "متابعة"
+ },
+ "כמה את/ה זז/ה ביום-יום?": {
+  "en": "How active are you day to day?",
+  "ar": "ما مدى نشاطك اليومي؟"
+ },
+ "כולל אימונים, עבודה והליכה.": {
+  "en": "Including workouts, work and walking.",
+  "ar": "بما في ذلك التمارين والعمل والمشي."
+ },
+ "ומה המטרה?": {
+  "en": "And what's the goal?",
+  "ar": "وما الهدف؟"
+ },
+ "לרדת בשומן ולשמור על השריר": {
+  "en": "Lose fat, keep muscle",
+  "ar": "خسارة الدهون مع الحفاظ على العضل"
+ },
+ "להישאר במשקל ולהשתפר בכוח": {
+  "en": "Hold weight, get stronger",
+  "ar": "ثبات الوزن وزيادة القوة"
+ },
+ "לבנות שריר, עם מעט שומן": {
+  "en": "Build muscle with little fat",
+  "ar": "بناء العضل مع قليل من الدهون"
+ },
+ "באיזה קצב?": {
+  "en": "At what pace?",
+  "ar": "بأي سرعة؟"
+ },
+ "רגוע": {
+  "en": "Easy",
+  "ar": "هادئ"
+ },
+ "קל יותר להתמיד": {
+  "en": "Easier to stick with",
+  "ar": "أسهل للاستمرار"
+ },
+ "עלייה נקייה": {
+  "en": "Lean gain",
+  "ar": "زيادة نظيفة"
+ },
+ "פחות שומן": {
+  "en": "Less fat",
+  "ar": "دهون أقل"
+ },
+ "רגיל": {
+  "en": "Standard",
+  "ar": "عادي"
+ },
+ "תוצאות מהר יותר": {
+  "en": "Faster results",
+  "ar": "نتائج أسرع"
+ },
+ "מהיר יותר": {
+  "en": "Faster",
+  "ar": "أسرع"
+ },
+ "יותר כוח מהר": {
+  "en": "Strength faster",
+  "ar": "قوة أسرع"
+ },
+ "לתוצאה ✨": {
+  "en": "See result ✨",
+  "ar": "إلى النتيجة ✨"
+ },
+ "הנה היעד שלך 🎯": {
+  "en": "Here's your target 🎯",
+  "ar": "هذا هدفك 🎯"
+ },
+ "בקצב הזה: ירידה של ~{0} ק״ג בשבוע.": {
+  "en": "At this pace: about −{0} kg a week.",
+  "ar": "بهذه الوتيرة: نزول ~{0} كغ أسبوعيًا."
+ },
+ "בקצב הזה: עלייה של ~{0} ק״ג בשבוע.": {
+  "en": "At this pace: about +{0} kg a week.",
+  "ar": "بهذه الوتيرة: زيادة ~{0} كغ أسبوعيًا."
+ },
+ "שמירה על המשקל, עם התקדמות בכוח.": {
+  "en": "Holding weight while getting stronger.",
+  "ar": "ثبات الوزن مع تقدم في القوة."
+ },
+ "קלוריות ביום": {
+  "en": "calories a day",
+  "ar": "سعرة يوميًا"
+ },
+ "חלבון": {
+  "en": "Protein",
+  "ar": "بروتين"
+ },
+ "פחמימה": {
+  "en": "Carbs",
+  "ar": "كربوهيدرات"
+ },
+ "שומן": {
+  "en": "Fat",
+  "ar": "دهون"
+ },
+ "גר׳": {
+  "en": "g",
+  "ar": "غ"
+ },
+ "הגוף שלך שורף בערך {0} קק״ל ביום": {
+  "en": "Your body burns about {0} kcal a day",
+  "ar": "جسمك يحرق نحو {0} سعرة يوميًا"
+ },
+ "✏️ לשנות את המספרים": {
+  "en": "✏️ Adjust the numbers",
+  "ar": "✏️ تعديل الأرقام"
+ },
+ "שמור יעד ✓": {
+  "en": "Save target ✓",
+  "ar": "حفظ الهدف ✓"
+ },
+ "לפי נוסחת Mifflin-St Jeor. הערכה כללית, לא ייעוץ רפואי.": {
+  "en": "Based on Mifflin-St Jeor. A general estimate, not medical advice.",
+  "ar": "وفق معادلة Mifflin-St Jeor. تقدير عام وليس نصيحة طبية."
+ },
+ "חסרים כמה פרטים": {
+  "en": "A few details are missing",
+  "ar": "تنقص بعض التفاصيل"
+ },
+ "חזור אחורה והשלם אותם.": {
+  "en": "Go back and fill them in.",
+  "ar": "ارجع وأكملها."
+ },
+ "בן כמה אתה?": {
+  "en": "How old are you?",
+  "ar": "كم عمرك؟"
+ },
+ "בת כמה את?": {
+  "en": "How old are you?",
+  "ar": "كم عمرك؟"
+ },
+ "כמה אתה שוקל?": {
+  "en": "How much do you weigh?",
+  "ar": "كم وزنك؟"
+ },
+ "כמה את שוקלת?": {
+  "en": "How much do you weigh?",
+  "ar": "كم وزنكِ؟"
+ },
+ "נתחיל: אתה…": {
+  "en": "Let's start: you are…",
+  "ar": "لنبدأ: أنت…"
+ },
+ "נתחיל: את…": {
+  "en": "Let's start: you are…",
+  "ar": "لنبدأ: أنتِ…"
+ },
+ "כמה אתה זז ביום-יום?": {
+  "en": "How active are you day to day?",
+  "ar": "ما مدى نشاطك اليومي؟"
+ },
+ "כמה את זזה ביום-יום?": {
+  "en": "How active are you day to day?",
+  "ar": "ما مدى نشاطكِ اليومي؟"
+ },
+ "רגע לפני שמתחילים: איך לפנות אליך?": {
+  "en": "Before we start: how should I address you?",
+  "ar": "قبل أن نبدأ: كيف أخاطبك؟"
+ },
+ "איך לפנות אליך?": {
+  "en": "How should I address you?",
+  "ar": "كيف أخاطبك؟"
+ },
+ "ככה אדבר איתך בכל האפליקציה.": {
+  "en": "That's how I'll talk to you across the app.",
+  "ar": "هكذا سأخاطبك في كل التطبيق."
+ },
+ "בלשון זכר": {
+  "en": "As a man",
+  "ar": "بصيغة المذكر"
+ },
+ "בלשון נקבה": {
+  "en": "As a woman",
+  "ar": "بصيغة المؤنث"
+ },
+ "לא משנה לי": {
+  "en": "Doesn't matter",
+  "ar": "لا يهمني"
+ },
+ "🎨 צבע האפליקציה": {
+  "en": "🎨 App color",
+  "ar": "🎨 لون التطبيق"
+ },
+ "ירוק": {
+  "en": "Green",
+  "ar": "أخضر"
+ },
+ "ורוד": {
+  "en": "Pink",
+  "ar": "وردي"
+ },
+ "סגול": {
+  "en": "Purple",
+  "ar": "بنفسجي"
+ },
+ "כחול": {
+  "en": "Blue",
+  "ar": "أزرق"
+ },
+ "טורקיז": {
+  "en": "Teal",
+  "ar": "فيروزي"
+ },
+ "🗣️ פנייה": {
+  "en": "🗣️ Address",
+  "ar": "🗣️ المخاطبة"
+ },
+ "🎨 צבע": {
+  "en": "🎨 Color",
+  "ar": "🎨 اللون"
+ },
+ "לשון זכר": {
+  "en": "Masculine",
+  "ar": "مذكر"
+ },
+ "לשון נקבה": {
+  "en": "Feminine",
+  "ar": "مؤنث"
+ },
+ "לא משנה": {
+  "en": "Either",
+  "ar": "لا فرق"
+ },
+ "לא נבחר": {
+  "en": "Not set",
+  "ar": "غير محدد"
+ },
+ "עודכן ✓": {
+  "en": "Updated ✓",
+  "ar": "تم التحديث ✓"
+ },
+ "סגור": {
+  "en": "Close",
+  "ar": "إغلاق"
+ },
+ "ירידה במשקל": {
+  "en": "Lose weight",
+  "ar": "خسارة الوزن"
+ },
+ "עלייה במסה": {
+  "en": "Build mass",
+  "ar": "زيادة الكتلة"
+ },
+ "חזרי אחורה והשלימי אותם.": {
+  "en": "Go back and fill them in.",
+  "ar": "ارجعي وأكمليها."
+ },
+ "הצטרפה לקבוצה": {
+  "en": "joined the group",
+  "ar": "انضمت إلى الفريق"
+ },
+ "השלימה את האתגר": {
+  "en": "completed the challenge",
+  "ar": "أكملت التحدي"
+ },
+ "שברה שיא אישי!": {
+  "en": "hit a new PR!",
+  "ar": "حققت رقمًا قياسيًا شخصيًا!"
+ },
+ "🏆 {0} פתחה אתגר:": {
+  "en": "🏆 {0} started a challenge:",
+  "ar": "🏆 {0} أطلقت تحديًا:"
+ },
+ "🏋️ {0} סיימה {1}": {
+  "en": "🏋️ {0} finished {1}",
+  "ar": "🏋️ {0} أنهت {1}"
+ },
+ "פנייה בלשון זכר": {
+  "en": "Addressed as a man",
+  "ar": "المخاطبة بصيغة المذكر"
+ },
+ "פנייה בלשון נקבה": {
+  "en": "Addressed as a woman",
+  "ar": "المخاطبة بصيغة المؤنث"
+ },
+ "פנייה: לא משנה": {
+  "en": "Address: either",
+  "ar": "المخاطبة: لا فرق"
+ },
+ "רק את/ה רואה את התמונות האלה.": {
+  "en": "Only you can see these photos.",
+  "ar": "أنت فقط من يرى هذه الصور."
+ },
+ "הן מוקטנות ומוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.": {
+  "en": "They're resized and encrypted on your phone before they leave it. The server only stores an encrypted file, with no location or device details. Group members can't see them, and the NextRep team doesn't open them.",
+  "ar": "تُصغَّر وتُشفَّر على هاتفك قبل أن تغادره. يُحفظ على الخادم ملف مشفّر فقط، بلا موقع أو تفاصيل جهاز. أعضاء الفرق لا يرونها، وفريق NextRep لا يفتحها."
+ },
+ "התמונה נשמרה מוצפנת 🔒": {
+  "en": "Photo saved, encrypted 🔒",
+  "ar": "حُفظت الصورة مشفّرة 🔒"
+ },
+ "רק אתה רואה את התמונות האלה.": {
+  "en": "Only you can see these photos.",
+  "ar": "أنت فقط من يرى هذه الصور."
+ },
+ "רק את רואה את התמונות האלה.": {
+  "en": "Only you can see these photos.",
+  "ar": "أنتِ فقط من ترى هذه الصور."
+ },
+ "הן מוצפנות עוד בטלפון, לפני שהן יוצאות ממנו. בשרת נשמר רק קובץ מוצפן, בלי מיקום ובלי פרטי מכשיר. החברים בקבוצות לא רואים אותן, וגם צוות NextRep לא פותח אותן.": {
+  "en": "They're encrypted on your phone before they leave it. The server only stores an encrypted file, with no location or device details. Group members can't see them, and the NextRep team doesn't open them.",
+  "ar": "تُشفَّر على هاتفك قبل أن تغادره. يُحفظ على الخادم ملف مشفّر فقط، بلا موقع أو تفاصيل جهاز. أعضاء الفرق لا يرونها، وفريق NextRep لا يفتحها."
+ },
+ "לחיצה על יום = שקילה ותמונות": {
+  "en": "Tap a day = weight & photos",
+  "ar": "اضغط على يوم = الوزن والصور"
+ },
+ "היום יום הצילום השבועי שלך": {
+  "en": "Today is your weekly photo day",
+  "ar": "اليوم هو يوم التصوير الأسبوعي"
+ },
+ "יום הצילום השבועי": {
+  "en": "Weekly photo day",
+  "ar": "يوم التصوير الأسبوعي"
+ },
+ "כל הכבוד, צילמת היום ✓": {
+  "en": "Nice, you took today's photos ✓",
+  "ar": "أحسنت، التقطت صور اليوم ✓"
+ },
+ "חזית, גב וצד, באותה תאורה ובאותו מקום כמו בשבוע שעבר.": {
+  "en": "Front, back and side, same light and spot as last week.",
+  "ar": "أمام وظهر وجانب، بنفس الإضاءة والمكان كالأسبوع الماضي."
+ },
+ "חזית, גב וצד, כמו בכל שבוע.": {
+  "en": "Front, back and side, like every week.",
+  "ar": "أمام وظهر وجانب، كما كل أسبوع."
+ },
+ "⚖️ משקל": {
+  "en": "⚖️ Weight",
+  "ar": "⚖️ الوزن"
+ },
+ "עוד לא נשקלת ביום הזה": {
+  "en": "No weigh-in this day",
+  "ar": "لا يوجد وزن في هذا اليوم"
+ },
+ "עריכה": {
+  "en": "Edit",
+  "ar": "تعديل"
+ },
+ "+ שקילה": {
+  "en": "+ Weigh-in",
+  "ar": "+ وزن"
+ },
+ "📸 תמונות התקדמות": {
+  "en": "📸 Progress photos",
+  "ar": "📸 صور التقدّم"
+ },
+ "👁 צפייה": {
+  "en": "👁 View",
+  "ar": "👁 عرض"
+ },
+ "🔄 החלפה": {
+  "en": "🔄 Replace",
+  "ar": "🔄 استبدال"
+ },
+ "🗑 מחיקה": {
+  "en": "🗑 Delete",
+  "ar": "🗑 حذف"
+ },
+ "טוען…": {
+  "en": "Loading…",
+  "ar": "جارٍ التحميل…"
+ },
+ "סגירה": {
+  "en": "Close",
+  "ar": "إغلاق"
+ },
+ "היי! אני משתמש ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים {0} ימי ניסיון במתנה 💪": {
+  "en": "Hey! I use NextRep, an app that remembers every set and manages my workouts and nutrition. Sign up with my link and get a {0}-day free trial 💪",
+  "ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويدير تدريباتي وتغذيتي. عبر رابطي تحصل على {0} يومًا تجريبيًا هدية 💪"
+ },
+ "היי! אני משתמשת ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים {0} ימי ניסיון במתנה 💪": {
+  "en": "Hey! I use NextRep, an app that remembers every set and manages my workouts and nutrition. Sign up with my link and get a {0}-day free trial 💪",
+  "ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويدير تدريباتي وتغذيتي. عبر رابطي تحصل على {0} يومًا تجريبيًا هدية 💪"
+ },
+ "הזמן חבר, קבל חודש מתנה 🎁": {
+  "en": "Invite a friend, get a free month 🎁",
+  "ar": "ادعُ صديقًا واحصل على شهر هدية 🎁"
+ },
+ "הזמיני חברה, קבלי חודש מתנה 🎁": {
+  "en": "Invite a friend, get a free month 🎁",
+  "ar": "ادعي صديقة واحصلي على شهر هدية 🎁"
+ },
+ "הזמינו חברים, קבלו חודש מתנה 🎁": {
+  "en": "Invite friends, get a free month 🎁",
+  "ar": "ادعوا أصدقاء واحصلوا على شهر هدية 🎁"
+ },
+ "הזמן חבר, קבל חודש מתנה": {
+  "en": "Invite a friend, get a free month",
+  "ar": "ادعُ صديقًا واحصل على شهر هدية"
+ },
+ "הזמיני חברה, קבלי חודש מתנה": {
+  "en": "Invite a friend, get a free month",
+  "ar": "ادعي صديقة واحصلي على شهر هدية"
+ },
+ "הזמינו חברים, קבלו חודש מתנה": {
+  "en": "Invite friends, get a free month",
+  "ar": "ادعوا أصدقاء واحصلوا على شهر هدية"
+ },
+ "החבר מקבל": {
+  "en": "Your friend gets",
+  "ar": "يحصل صديقك على"
+ },
+ "החברה מקבלת": {
+  "en": "Your friend gets",
+  "ar": "تحصل صديقتك على"
+ },
+ "המוזמן מקבל": {
+  "en": "The invitee gets",
+  "ar": "يحصل المدعو على"
+ },
+ "ימי ניסיון": {
+  "en": "days of trial",
+  "ar": "يومًا تجريبيًا"
+ },
+ "במקום 7.": {
+  "en": "instead of 7.",
+  "ar": "بدلًا من 7."
+ },
+ "כשהוא בוחר מסלול, אתה מקבל": {
+  "en": "When they pick a plan, you get",
+  "ar": "عندما يختار باقة تحصل على"
+ },
+ "כשהיא בוחרת מסלול, את מקבלת": {
+  "en": "When she picks a plan, you get",
+  "ar": "عندما تختار باقة تحصلين على"
+ },
+ "כשבוחרים מסלול, מקבלים": {
+  "en": "When they pick a plan, you get",
+  "ar": "عند اختيار باقة تحصلون على"
+ },
+ "יום": {
+  "en": "days",
+  "ar": "يومًا"
+ },
+ "מתנה. בלי הגבלה על כמות החברים.": {
+  "en": "free. No limit on how many friends.",
+  "ar": "هدية. بلا حد لعدد الأصدقاء."
+ },
+ "שליחה בוואטסאפ": {
+  "en": "Send on WhatsApp",
+  "ar": "إرسال عبر واتساب"
+ },
+ "שיתוף אחר": {
+  "en": "Share another way",
+  "ar": "مشاركة بطريقة أخرى"
+ },
+ "ברקוד": {
+  "en": "QR code",
+  "ar": "رمز QR"
+ },
+ "הצטרפו": {
+  "en": "joined",
+  "ar": "انضموا"
+ },
+ "בחרו מסלול": {
+  "en": "picked a plan",
+  "ar": "اختاروا باقة"
+ },
+ "ימי מתנה שקיבלת": {
+  "en": "free days you earned",
+  "ar": "أيام هدية حصلت عليها"
+ },
+ "החברים שהזמנת": {
+  "en": "Friends you invited",
+  "ar": "الأصدقاء الذين دعوتهم"
+ },
+ "🎁 בחר מסלול": {
+  "en": "🎁 picked a plan",
+  "ar": "🎁 اختار باقة"
+ },
+ "בניסיון": {
+  "en": "on trial",
+  "ar": "في التجربة"
+ },
+ "החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החבר צריך להירשם דרך הקישור שלך.": {
+  "en": "The month is added to the end of your plan, even if it already ended. Your friend must sign up through your link.",
+  "ar": "يُضاف الشهر إلى نهاية اشتراكك حتى لو انتهى. يجب أن يسجّل صديقك عبر رابطك."
+ },
+ "החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החברה צריכה להירשם דרך הקישור שלך.": {
+  "en": "The month is added to the end of your plan, even if it already ended. Your friend must sign up through your link.",
+  "ar": "يُضاف الشهر إلى نهاية اشتراكك حتى لو انتهى. يجب أن تسجّل صديقتك عبر رابطك."
+ },
+ "החודש נוסף לסוף המנוי, גם אם הוא כבר הסתיים. ההרשמה חייבת להיות דרך הקישור.": {
+  "en": "The month is added to the end of the plan, even if it already ended. Sign-up must be through the link.",
+  "ar": "يُضاف الشهر إلى نهاية الاشتراك حتى لو انتهى. يجب أن يكون التسجيل عبر الرابط."
+ },
+ "שברת שיא 🏅 יש לך חבר שגם יתקדם ככה?": {
+  "en": "New PR 🏅 Know a friend who'd progress like this too?",
+  "ar": "رقم قياسي 🏅 هل لديك صديق سيتقدم هكذا أيضًا؟"
+ },
+ "4 אימונים נשמרו 💪 מתאמנים יותר כשיש עם מי.": {
+  "en": "4 workouts saved 💪 People train more with a buddy.",
+  "ar": "4 تمارين محفوظة 💪 نتدرب أكثر مع رفيق."
+ },
+ "10 אימונים! חבר שמתאמן איתך = חודש מתנה.": {
+  "en": "10 workouts! A friend who trains with you = a free month.",
+  "ar": "10 تمارين! صديق يتدرب معك = شهر هدية."
+ },
+ "20 אימונים 🔥 הגיע הזמן להביא את החבר׳ה.": {
+  "en": "20 workouts 🔥 Time to bring the crew.",
+  "ar": "20 تمرينًا 🔥 حان وقت جلب الأصدقاء."
+ },
+ "ואתה": {
+  "en": "and you get",
+  "ar": "وأنت"
+ },
+ "ואת": {
+  "en": "and you get",
+  "ar": "وأنتِ"
+ },
+ "ואתם": {
+  "en": "and you get",
+  "ar": "وأنتم"
+ },
+ "חודש מתנה כשבוחרים מסלול.": {
+  "en": "a free month when they pick a plan.",
+  "ar": "شهر هدية عند اختيار باقة."
+ },
+ "🎁 הזמנת חבר": {
+  "en": "🎁 Invite a friend",
+  "ar": "🎁 دعوة صديق"
+ },
+ "אולי אחר כך": {
+  "en": "Maybe later",
+  "ar": "ربما لاحقًا"
+ },
+ "ברקוד להזמנה": {
+  "en": "Invite QR code",
+  "ar": "رمز QR للدعوة"
+ },
+ "החבר סורק ונרשם דרך הקישור שלך.": {
+  "en": "Your friend scans it and signs up through your link.",
+  "ar": "يمسح صديقك الرمز ويسجّل عبر رابطك."
+ },
+ "🎁 הזמנת חברים": {
+  "en": "🎁 Invite friends",
+  "ar": "🎁 دعوة الأصدقاء"
+ },
+ "חבר מקבל 14 ימי ניסיון, אתה חודש מתנה": {
+  "en": "Friend gets 14 trial days, you get a free month",
+  "ar": "يحصل صديقك على 14 يومًا، وأنت على شهر هدية"
+ },
+ "מקבל 14 ימי ניסיון במתנה": {
+  "en": "gets 14 free trial days",
+  "ar": "يحصل على 14 يومًا تجريبيًا هدية"
+ },
+ "מקבלת 14 ימי ניסיון במתנה": {
+  "en": "gets 14 free trial days",
+  "ar": "تحصل على 14 يومًا تجريبيًا هدية"
+ },
+ "🎁 חבר הזמין אותך ל-NextRep: 14 ימי ניסיון במתנה במקום 7. ההטבה נשמרת כשנרשמים מהמכשיר הזה.": {
+  "en": "🎁 A friend invited you to NextRep: 14 free trial days instead of 7. The bonus applies when you sign up from this device.",
+  "ar": "🎁 صديق دعاك إلى NextRep: 14 يومًا تجريبيًا بدلًا من 7. تُطبّق الميزة عند التسجيل من هذا الجهاز."
+ },
+ "צמיחה": {
+  "en": "Growth",
+  "ar": "النمو"
+ },
+ "🔔 התראות": {
+  "en": "🔔 Notifications",
+  "ar": "🔔 الإشعارات"
+ },
+ "הכל פעיל": {
+  "en": "All on",
+  "ar": "الكل مفعّل"
+ },
+ "{0} מתוך {1} פעילות": {
+  "en": "{0} of {1} on",
+  "ar": "{0} من {1} مفعّلة"
+ },
+ "כבויות": {
+  "en": "Off",
+  "ar": "مطفأة"
+ },
+ "🎁 מתנה": {
+  "en": "🎁 Gift",
+  "ar": "🎁 هدية"
+ },
+ "🎁 חודש מתנה": {
+  "en": "🎁 Gift month",
+  "ar": "🎁 شهر هدية"
+ },
+ "לחודש המתנה": {
+  "en": "of your gift month",
+  "ar": "على شهر الهدية"
+ },
+ "חברים ששילמו דרכו": {
+  "en": "Friends who paid via them",
+  "ar": "أصدقاء دفعوا عبره"
+ },
+ "{0} · {1} ימי מתנה": {
+  "en": "{0} · {1} gift days",
+  "ar": "{0} · {1} يوم هدية"
+ },
+ "🎁 {0} עם גישה במתנה (הזמינו חבר ששילם, בלי תשלום משלהם)": {
+  "en": "🎁 {0} with gifted access (invited a paying friend, no payment of their own)",
+  "ar": "🎁 {0} بوصول هدية (دعوا صديقًا دفع، دون دفع منهم)"
+ },
+ "📬 הקלד את הקוד מהמייל": {
+  "en": "📬 Enter the code from your email",
+  "ar": "📬 أدخل الرمز من البريد"
+ },
+ "6 ספרות. הקוד תקף לשעה. לא רואה? בדוק בתיקיית הספאם.": {
+  "en": "6 digits. Valid for one hour. Can't find it? Check your spam folder.",
+  "ar": "6 أرقام. الرمز صالح لساعة. لا تجده؟ تحقق من مجلد الرسائل غير المرغوبة."
+ },
+ "🔔 הפעל התראות": {
+  "en": "🔔 Turn on notifications",
+  "ar": "🔔 تفعيل الإشعارات"
+ },
+ "לא עכשיו": {
+  "en": "Not now",
+  "ar": "ليس الآن"
+ },
+ "המנוחה התחילה ⏱️": {
+  "en": "Rest started ⏱️",
+  "ar": "بدأت الراحة ⏱️"
+ },
+ "רוצה שאודיע לך כשהיא נגמרת, גם כשהמסך כבוי או שהטלפון בכיס? זה מה שההתראות בשביל.": {
+  "en": "Want me to tell you when it's over, even with the screen off or the phone in your pocket? That's what notifications are for.",
+  "ar": "أتريد أن أخبرك عند انتهائها حتى والشاشة مطفأة أو الهاتف في جيبك؟ لهذا توجد الإشعارات."
+ },
+ "אימון ראשון נשמר 💪": {
+  "en": "First workout saved 💪",
+  "ar": "حُفظ أول تمرين 💪"
+ },
+ "רוצה שאזכיר לך בבוקר של יום האימון הבא, ואודיע כשתשבור שיא? רק עם התראות.": {
+  "en": "Want a reminder on the morning of your next workout day, and a heads-up when you break a PR? Only with notifications.",
+  "ar": "أتريد تذكيرًا صباح يوم تدريبك التالي، وتنبيهًا عند تحطيم رقم قياسي؟ فقط مع الإشعارات."
+ },
+ "ברוך הבא לקבוצה 👥": {
+  "en": "Welcome to the group 👥",
+  "ar": "أهلًا بك في الفريق 👥"
+ },
+ "כדי לראות מתי החברים מסיימים אימון, שוברים שיא או כותבים בצ׳אט, צריך להפעיל התראות.": {
+  "en": "To know when friends finish a workout, hit a PR or write in the chat, turn on notifications.",
+  "ar": "لتعرف متى ينهي أصدقاؤك تمرينًا أو يحطمون رقمًا أو يكتبون في الدردشة، فعّل الإشعارات."
+ },
+ "ההרשאה נדחתה. אפשר לשנות בהגדרות הטלפון": {
+  "en": "Permission denied. You can change it in your phone settings",
+  "ar": "رُفض الإذن. يمكنك تغييره في إعدادات الهاتف"
+ },
+ "🔔 הפעל התראות במכשיר הזה": {
+  "en": "🔔 Turn on notifications on this device",
+  "ar": "🔔 تفعيل الإشعارات على هذا الجهاز"
+ },
+ "באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.": {
+  "en": "On iPhone, notifications work only when the app is saved to the Home Screen.",
+  "ar": "على iPhone تعمل الإشعارات فقط عند حفظ التطبيق على الشاشة الرئيسية."
+ },
+ "ההתראות חסומות. לפתיחה: הגדרות הטלפון ← התראות ← NextRep ← אפשר התראות.": {
+  "en": "Notifications are blocked. To allow: phone Settings → Notifications → NextRep → Allow.",
+  "ar": "الإشعارات محظورة. للسماح: إعدادات الهاتف ← الإشعارات ← NextRep ← السماح."
+ },
+ "ההתראות חסומות. לפתיחה: הגדרות הטלפון ← אפליקציות ← NextRep ← התראות.": {
+  "en": "Notifications are blocked. To allow: phone Settings → Apps → NextRep → Notifications.",
+  "ar": "الإشعارات محظورة. للسماح: إعدادات الهاتف ← التطبيقات ← NextRep ← الإشعارات."
+ },
+ "ההתראות חסומות בדפדפן. לפתיחה: לוחצים על המנעול בשורת הכתובת ← התראות ← אפשר.": {
+  "en": "Notifications are blocked in the browser. To allow: tap the lock in the address bar → Notifications → Allow.",
+  "ar": "الإشعارات محظورة في المتصفح. للسماح: اضغط القفل في شريط العنوان ← الإشعارات ← السماح."
+ },
+ "מעל היעד": {
+  "en": "over target",
+  "ar": "فوق الهدف"
+ },
+ "נותרו מ-{0}": {
+  "en": "left of {0}",
+  "ar": "المتبقي من {0}"
+ },
+ "לא נרשם": {
+  "en": "Nothing logged",
+  "ar": "لم يُسجّل"
+ },
+ "{0} קק״ל ביום": {
+  "en": "{0} kcal a day",
+  "ar": "{0} سعرة يوميًا"
+ },
+ "קק״ל היום": {
+  "en": "kcal today",
+  "ar": "سعرة اليوم"
+ },
+ "יעד יומי": {
+  "en": "Daily target",
+  "ar": "الهدف اليومي"
+ },
+ "לחץ להגדרה": {
+  "en": "Tap to set",
+  "ar": "اضغط للضبط"
+ },
+ "נשקלת היום ✓": {
+  "en": "Weighed today ✓",
+  "ar": "وزنت اليوم ✓"
+ },
+ "{0} השבוע": {
+  "en": "{0} this week",
+  "ar": "{0} هذا الأسبوع"
+ },
+ "ראשונה": {
+  "en": "first one",
+  "ar": "الأول"
+ },
+ "פעיל ⏱️": {
+  "en": "Active ⏱️",
+  "ar": "نشط ⏱️"
+ },
+ "חזור לאימון": {
+  "en": "Back to workout",
+  "ar": "العودة للتدريب"
+ },
+ "התאמנת ✓": {
+  "en": "Trained ✓",
+  "ar": "تدربت ✓"
+ },
+ "כל הכבוד": {
+  "en": "Nice work",
+  "ar": "أحسنت"
+ },
+ "היום בלו״ז": {
+  "en": "Scheduled today",
+  "ar": "مجدول اليوم"
+ },
+ "מנוחה": {
+  "en": "Rest day",
+  "ar": "راحة"
+ },
+ "או אימון חופשי": {
+  "en": "or a free workout",
+  "ar": "أو تدريب حر"
+ },
+ "רצף שבועות": {
+  "en": "week streak",
+  "ar": "أسابيع متتالية"
+ },
+ "מאזן השבוע": {
+  "en": "This week's balance",
+  "ar": "ميزان الأسبوع"
+ },
+ "7 ימים": {
+  "en": "7 days",
+  "ar": "7 أيام"
+ },
+ "קק״ל / יעד {0}": {
+  "en": "kcal / target {0}",
+  "ar": "سعرة / الهدف {0}"
+ },
+ "ק״ג השבוע": {
+  "en": "kg this week",
+  "ar": "كغ هذا الأسبوع"
+ },
+ "בקצב הזה תגיע ליעד השבוע 🎯": {
+  "en": "At this pace you'll hit your goal this week 🎯",
+  "ar": "بهذه الوتيرة ستصل لهدفك هذا الأسبوع 🎯"
+ },
+ "בקצב הזה תגיע ל-{0} ק״ג בעוד {1}": {
+  "en": "At this pace you'll reach {0} kg in {1}",
+  "ar": "بهذه الوتيرة ستصل إلى {0} كغ خلال {1}"
+ },
+ "{0} שבועות": {
+  "en": "{0} weeks",
+  "ar": "{0} أسابيع"
+ },
+ "{0} חודשים": {
+  "en": "{0} months",
+  "ar": "{0} أشهر"
+ },
+ "בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת": {
+  "en": "At this pace the goal is far off, worth tightening up a bit",
+  "ar": "بهذه الوتيرة الطريق طويل، يستحق شدّ الحزام قليلًا"
+ },
+ "המשקל זז בכיוון ההפוך ליעד השבועות האחרונים": {
+  "en": "Your weight has been moving away from the goal lately",
+  "ar": "الوزن يتحرك عكس الهدف في الأسابيع الأخيرة"
+ },
+ "אוכל בממוצע {0} קק״ל מעל היעד, וזה מה שעוצר את הירידה.": {
+  "en": "Averaging {0} kcal over target, and that's what's stalling the loss.",
+  "ar": "تأكل بمعدل {0} سعرة فوق الهدف، وهذا ما يوقف النزول."
+ },
+ "חסרות בממוצע {0} קק״ל ביום כדי לעלות במסה.": {
+  "en": "About {0} kcal a day short of what's needed to gain mass.",
+  "ar": "ينقصك بمعدل {0} سعرة يوميًا لزيادة الكتلة."
+ },
+ "החלבון נמוך: {0} במקום {1} גר׳ ביום. זה הדבר הראשון לתקן.": {
+  "en": "Protein is low: {0} instead of {1} g a day. Fix that first.",
+  "ar": "البروتين منخفض: {0} بدل {1} غ يوميًا. هذا أول ما يجب إصلاحه."
+ },
+ "תזונה ואימונים בקו. ככה זה נראה כשזה עובד 👌": {
+  "en": "Nutrition and training are aligned. This is what working looks like 👌",
+  "ar": "التغذية والتمارين متناسقة. هكذا يبدو النجاح 👌"
+ },
+ "התזונה בסדר, חסרים {0} אימונים השבוע.": {
+  "en": "Nutrition is fine, {0} workouts missing this week.",
+  "ar": "التغذية جيدة، ينقص {0} تمارين هذا الأسبوع."
+ },
+ "לא נרשמו ארוחות השבוע. בלי זה אי אפשר לדעת למה המשקל זז או לא.": {
+  "en": "No meals logged this week. Without that there's no telling why the weight moves or doesn't.",
+  "ar": "لم تُسجّل وجبات هذا الأسبوع. بدون ذلك لا يمكن معرفة سبب تغيّر الوزن."
+ },
+ "לאיזה משקל אתה רוצה להגיע?": {
+  "en": "What weight do you want to reach?",
+  "ar": "ما الوزن الذي تريد الوصول إليه؟"
+ },
+ "לאיזה משקל את רוצה להגיע?": {
+  "en": "What weight do you want to reach?",
+  "ar": "ما الوزن الذي تريدين الوصول إليه؟"
+ },
+ "לאיזה משקל להגיע?": {
+  "en": "What weight to reach?",
+  "ar": "ما الوزن المطلوب؟"
+ },
+ "לא חובה. אם יש יעד, אראה לך בכל שבוע כמה נשאר ומתי תגיע לשם בקצב הנוכחי.": {
+  "en": "Optional. With a goal, I'll show you each week how much is left and when you'll get there at the current pace.",
+  "ar": "اختياري. مع هدف سأريك كل أسبوع كم تبقى ومتى ستصل بالوتيرة الحالية."
+ },
+ "בלי משקל יעד": {
+  "en": "No goal weight",
+  "ar": "بدون وزن مستهدف"
+ },
+ "🎯 הגדר משקל יעד": {
+  "en": "🎯 Set a goal weight",
+  "ar": "🎯 حدّد وزنًا مستهدفًا"
+ },
+ "משקל יעד · עכשיו {0} ק״ג": {
+  "en": "Goal weight · now {0} kg",
+  "ar": "الوزن المستهدف · الآن {0} كغ"
+ },
+ "הסר יעד": {
+  "en": "Remove goal",
+  "ar": "إزالة الهدف"
+ },
+ "משקל היעד נשמר 🎯": {
+  "en": "Goal weight saved 🎯",
+  "ar": "حُفظ الوزن المستهدف 🎯"
+ },
+ "משקל היעד הוסר": {
+  "en": "Goal weight removed",
+  "ar": "أُزيل الوزن المستهدف"
+ },
+ "· משקל יעד {0} ק״ג": {
+  "en": "· goal weight {0} kg",
+  "ar": "· الوزن المستهدف {0} كغ"
+ },
+ "הדף מותאם ל:": {
+  "en": "Page tailored for:",
+  "ar": "الصفحة مخصصة لـ:"
+ },
+ "עומדת מול המכונה ולא זוכרת אם בפעם שעברה שמת 30 או 35.": {
+  "en": "Standing at the machine, not sure if last time it was 30 or 35.",
+  "ar": "تقفين أمام الجهاز ولا تتذكرين إن كان 30 أم 35 في المرة الماضية."
+ },
+ "הטיימר מתחיל לבד ושולח התראה כשצריך לחזור לתרגיל.": {
+  "en": "The timer starts on its own and pings you when it's time to get back to the exercise.",
+  "ar": "يبدأ المؤقت تلقائيًا ويرسل إشعارًا عندما يحين وقت العودة للتمرين."
+ },
+ "אוכלת \"בערך בסדר\" ולא מבינה למה המשקל לא זז.": {
+  "en": "Eating \"roughly fine\" and can't tell why the scale won't move.",
+  "ar": "تأكلين \"بشكل مقبول تقريبًا\" ولا تفهمين لماذا لا يتغير الوزن."
+ },
+ "מצלמים את הצלחת, ה-AI מפרק אותה לרכיבים ומחשב קלוריות וחלבון מול היעד. בלי ספירה ידנית.": {
+  "en": "Snap the plate, the AI breaks it down and counts calories and protein against your target. No manual counting.",
+  "ar": "تصوّرين الطبق، يفكّكه الذكاء الاصطناعي ويحسب السعرات والبروتين مقابل هدفك. بلا عدّ يدوي."
+ },
+ "מתאמנת כבר חודשים ולא בטוחה שמשהו באמת השתנה.": {
+  "en": "Training for months and not sure anything really changed.",
+  "ar": "تتدربين منذ أشهر ولست متأكدة أن شيئًا تغيّر فعلًا."
+ },
+ "גרף משקל, תמונות שבועיות ושיאים אישיים מראים בדיוק מה זז. גם כשהמשקל עומד והגוף משתנה.": {
+  "en": "A weight graph, weekly photos and personal records show exactly what moved. Even when the scale stalls and the body changes.",
+  "ar": "رسم الوزن والصور الأسبوعية والأرقام القياسية تُظهر بدقة ما تغيّر. حتى عندما يثبت الوزن ويتغير الجسم."
+ },
+ "רק את. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך. גם צוות NextRep לא פותח אותן.": {
+  "en": "Only you. Photos are encrypted on your phone and kept in private storage tied to your account. Even the NextRep team doesn't open them.",
+  "ar": "أنتِ فقط. تُشفَّر الصور على هاتفك وتُحفظ في تخزين خاص مرتبط بحسابك. حتى فريق NextRep لا يفتحها."
+ },
+ "רק אתה. התמונות מוצפנות עוד בטלפון ונשמרות באחסון פרטי שמשויך לחשבון שלך.": {
+  "en": "Only you. Photos are encrypted on your phone and kept in private storage tied to your account.",
+  "ar": "أنت فقط. تُشفَّر الصور على هاتفك وتُحفظ في تخزين خاص مرتبط بحسابك."
+ },
+ "אימוני כוח לא יעשו אותי \"גדולה\"?": {
+  "en": "Won't strength training make me \"bulky\"?",
+  "ar": "ألن تجعلني تمارين القوة \"ضخمة\"؟"
+ },
+ "לא. בלי תוספים ועם תזונה רגילה, אימוני משקולות בונים שריר לאט ובצורה שמחטבת ומחזקת. זה הדבר הכי יעיל לשינוי הרכב גוף, הרבה יותר מאירובי לבד.": {
+  "en": "No. Without supplements and on a normal diet, lifting builds muscle slowly in a way that tones and strengthens. It's the most effective thing for changing body composition, far more than cardio alone.",
+  "ar": "لا. بدون مكملات ومع تغذية عادية، تبني تمارين الأوزان العضل ببطء وبشكل يشدّ ويقوّي. إنها الأكثر فعالية لتغيير تركيب الجسم، أكثر بكثير من الكارديو وحده."
+ },
+ "גרף התקדמות לדוגמה": {
+  "en": "Sample progress chart",
+  "ar": "رسم تقدم توضيحي"
+ },
+ "תפסיקי לנחש": {
+  "en": "Stop guessing",
+  "ar": "توقفي عن التخمين"
+ },
+ "כדי להתחזק ולהתחטב צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכרת כל סט במקומך, מודיעה כשהמנוחה נגמרת ומראה לך שחור על גבי לבן שאת מתקדמת.": {
+  "en": "To get stronger and leaner you add a little every workout, and you can't add to what you don't remember. NextRep remembers every set for you, tells you when rest is over and shows you in black and white that you're progressing.",
+  "ar": "لتصبحي أقوى وأرشق تضيفين قليلًا في كل تمرين، ولا يمكن الإضافة إلى ما لا تتذكرينه. NextRep يتذكر كل مجموعة عنك، ويخبرك عند انتهاء الراحة ويريك بوضوح أنك تتقدمين."
+ },
+ "פנייה בלשון נקבה בכל האפליקציה.": {
+  "en": "Addressed to you as a woman throughout the app.",
+  "ar": "مخاطبة بصيغة المؤنث في كل التطبيق."
+ },
+ "בפעם שעברה: 60 × 10, היום כבר 65": {
+  "en": "Last time: 60 × 10, today already 65",
+  "ar": "المرة الماضية: 60 × 10، اليوم 65"
+ },
+ "היפ תראסט, 12 שבועות": {
+  "en": "Hip thrust, 12 weeks",
+  "ar": "هيب ثراست، 12 أسبوعًا"
+ },
+ "ההיפ תראסט שלי תקוע על 60 כבר שבועיים, מה לעשות?": {
+  "en": "My hip thrust has been stuck at 60 for two weeks, what should I do?",
+  "ar": "الهيب ثراست عالق عند 60 منذ أسبوعين، ماذا أفعل؟"
+ },
+ "ראיתי: 60×10 בשלושת האימונים האחרונים 💪 השבוע נסי 65 לסט ראשון, גם אם יוצאות רק 8 חזרות. ותוסיפי סקוואט בולגרי כתרגיל שני.": {
+  "en": "I see 60×10 in your last three sessions 💪 This week try 65 on the first set, even if you only get 8 reps. And add Bulgarian split squats as a second exercise.",
+  "ar": "رأيت 60×10 في آخر ثلاث تمارين 💪 هذا الأسبوع جرّبي 65 في المجموعة الأولى حتى لو خرجت 8 تكرارات فقط. وأضيفي السكوات البلغاري كتمرين ثانٍ."
+ },
+ "דנה": {
+  "en": "Dana",
+  "ar": "دانا"
+ },
+ "נועה": {
+  "en": "Noa",
+  "ar": "نوى"
+ },
+ "את": {
+  "en": "You",
+  "ar": "أنتِ"
+ },
+ "אתה": {
+  "en": "You",
+  "ar": "أنت"
+ },
+ "את מתאמנת עם משקולות פעמיים עד שש בשבוע": {
+  "en": "You lift weights two to six times a week",
+  "ar": "تتدربين بالأوزان من مرتين إلى ست مرات أسبوعيًا"
+ },
+ "את רוצה להתחזק ולהתחטב, ולראות את זה במספרים": {
+  "en": "You want to get stronger and leaner, and see it in numbers",
+  "ar": "تريدين أن تصبحي أقوى وأرشق، وأن تري ذلك بالأرقام"
+ },
+ "חשוב לך אימון מסודר שנגמר בזמן": {
+  "en": "You want an organized workout that ends on time",
+  "ar": "يهمك تمرين منظم ينتهي في وقته"
+ },
+ "את מחפשת שיעורי וידאו עם מאמנת מול המצלמה": {
+  "en": "You're looking for video classes with a trainer on camera",
+  "ar": "تبحثين عن دروس فيديو مع مدربة أمام الكاميرا"
+ },
+ "את מתאמנת בעיקר בריצה, ביוגה או בפילאטיס": {
+  "en": "You mainly run, do yoga or Pilates",
+  "ar": "تتدربين أساسًا بالجري أو اليوغا أو البيلاتس"
+ },
+ "סקוואט בולגרי": {
+  "en": "Bulgarian split squat",
+  "ar": "سكوات بلغاري"
+ },
+ "היפ תראסט": {
+  "en": "Hip thrust",
+  "ar": "هيب ثراست"
+ },
+ "💚 ההצעה הבריאה": {
+  "en": "💚 Healthy suggestion",
+  "ar": "💚 الاقتراح الصحي"
+ },
+ "✓ ההצעה הבריאה": {
+  "en": "✓ Healthy suggestion",
+  "ar": "✓ الاقتراح الصحي"
+ },
+ "הטווח הבריא לגובה שלך: {0}–{1} ק״ג · עכשיו BMI {2}": {
+  "en": "Healthy range for your height: {0}–{1} kg · now BMI {2}",
+  "ar": "النطاق الصحي لطولك: {0}–{1} كغ · الآن BMI {2}"
+ },
+ "BMI {0}, בתוך הטווח הבריא": {
+  "en": "BMI {0}, within the healthy range",
+  "ar": "BMI {0}، ضمن النطاق الصحي"
+ },
+ "⚠️ מתחת לטווח הבריא (BMI {0}). יעד כזה לא מומלץ.": {
+  "en": "⚠️ Below the healthy range (BMI {0}). Not a recommended goal.",
+  "ar": "⚠️ تحت النطاق الصحي (BMI {0}). هدف غير موصى به."
+ },
+ "⚠️ עדיין מעל הטווח הבריא (BMI {0}). אפשר להתחיל ממנו כיעד ראשון.": {
+  "en": "⚠️ Still above the healthy range (BMI {0}). Fine as a first milestone.",
+  "ar": "⚠️ ما زال فوق النطاق الصحي (BMI {0}). يصلح كهدف أول."
+ },
+ "חישבתי הצעה לפי הגובה, המשקל והמטרה שלך. אפשר לקחת אותה או לבחור אחרת.": {
+  "en": "I worked out a suggestion from your height, weight and goal. Take it or pick your own.",
+  "ar": "حسبت اقتراحًا حسب طولك ووزنك وهدفك. خذه أو اختر غيره."
+ },
+ "ירידה של עד 10% מהמשקל היא היעד הראשון המומלץ. אחרי שמגיעים אליו, מגדירים את הבא.": {
+  "en": "Losing up to 10% of body weight is the recommended first goal. Once you get there, set the next one.",
+  "ar": "خسارة حتى 10% من الوزن هي الهدف الأول الموصى به. عند بلوغه، حدّد التالي."
+ },
+ "מביא אותך לאמצע הטווח הבריא לגובה שלך, בלי לרדת יותר מדי.": {
+  "en": "Brings you to the middle of the healthy range for your height, without going too low.",
+  "ar": "يوصلك إلى منتصف النطاق الصحي لطولك دون النزول أكثر من اللازم."
+ },
+ "אתה כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
+  "en": "You're already in the healthy range. A small loss, with the focus on keeping muscle.",
+  "ar": "أنت بالفعل في النطاق الصحي. نزول بسيط مع التركيز على الحفاظ على العضل."
+ },
+ "את כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
+  "en": "You're already in the healthy range. A small loss, with the focus on keeping muscle.",
+  "ar": "أنتِ بالفعل في النطاق الصحي. نزول بسيط مع التركيز على الحفاظ على العضل."
+ },
+ "כבר בטווח הבריא. ירידה קטנה, והדגש על שמירת שריר.": {
+  "en": "Already in the healthy range. A small loss, with the focus on keeping muscle.",
+  "ar": "في النطاق الصحي بالفعل. نزول بسيط مع التركيز على الحفاظ على العضل."
+ },
+ "המשקל כבר בתחתית הטווח הבריא. במקום לרדת, עדיף להתחזק ולשנות הרכב גוף.": {
+  "en": "Your weight is already at the bottom of the healthy range. Rather than losing, get stronger and change body composition.",
+  "ar": "وزنك في أسفل النطاق الصحي بالفعل. بدل النزول، الأفضل التقوية وتغيير تركيب الجسم."
+ },
+ "מעלה אותך לתוך הטווח הבריא, בקצב שבונה שריר ולא רק שומן.": {
+  "en": "Brings you into the healthy range, at a pace that builds muscle, not just fat.",
+  "ar": "يرفعك إلى النطاق الصحي بوتيرة تبني العضل لا الدهون فقط."
+ },
+ "עלייה של 3 עד 4 ק״ג בשריר לוקחת כמה חודשים. זה יעד ראשון אמיתי.": {
+  "en": "Gaining 3 to 4 kg of muscle takes a few months. That's a real first goal.",
+  "ar": "زيادة 3 إلى 4 كغ من العضل تستغرق بضعة أشهر. هذا هدف أول حقيقي."
+ },
+ "אתה כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
+  "en": "You're already in the upper part of the range. A small, slow gain so most of it is muscle.",
+  "ar": "أنت في الجزء العلوي من النطاق. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
+ },
+ "את כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
+  "en": "You're already in the upper part of the range. A small, slow gain so most of it is muscle.",
+  "ar": "أنتِ في الجزء العلوي من النطاق. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
+ },
+ "כבר בחלק העליון של הטווח. עלייה קטנה ואיטית, כדי שרובה תהיה שריר.": {
+  "en": "Already in the upper part of the range. A small, slow gain so most of it is muscle.",
+  "ar": "في الجزء العلوي من النطاق بالفعل. زيادة صغيرة وبطيئة ليكون معظمها عضلًا."
+ },
+ "שמירה: המשקל הנוכחי הוא היעד.": {
+  "en": "Maintenance: your current weight is the goal.",
+  "ar": "الحفاظ: وزنك الحالي هو الهدف."
+ },
+ "הטווח הבריא לגובה שלך: {0} עד {1} ק״ג · עכשיו BMI {2}": {
+  "en": "Healthy range for your height: {0} to {1} kg · now BMI {2}",
+  "ar": "النطاق الصحي لطولك: {0} إلى {1} كغ · الآن BMI {2}"
+ },
+ "תפסיקי לנחש.": {
+  "en": "Stop guessing.",
+  "ar": "توقفي عن التخمين."
+ },
+ "תתחילי": {
+  "en": "Start",
+  "ar": "ابدئي"
+ },
+ "להתחזק.": {
+  "en": "getting stronger.",
+  "ar": "بالتقوية."
+ },
+ "לא עוד אימון \"בערך\". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ודואגת שהמראה במראה והמספרים יזוזו באותו כיוון. בלי אובססיה, בלי אקסלים.": {
+  "en": "No more \"roughly\" workouts. NextRep remembers every set and weight for you, shows you getting stronger week by week, and keeps the mirror and the numbers moving in the same direction. No obsession, no spreadsheets.",
+  "ar": "لا مزيد من التمارين \"تقريبًا\". NextRep يتذكر كل مجموعة ووزن عنك، ويريك أنك تقوين أسبوعًا بعد أسبوع، ويحرص على أن تتحرك المرآة والأرقام في الاتجاه نفسه. بلا هوس ولا جداول."
+ },
+ "7 ימים חינם. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.": {
+  "en": "7 days free. No app store. Addressed to you as a woman throughout.",
+  "ar": "7 أيام مجانًا. بلا متجر تطبيقات. بصيغة المؤنث في كل التطبيق."
+ },
+ "מכירה את זה?": {
+  "en": "Sound familiar?",
+  "ar": "هل تعرفين هذا؟"
+ },
+ "התחזקות שרואים, לא רק מרגישים": {
+  "en": "Strength you can see, not just feel",
+  "ar": "قوة تُرى، لا تُحسّ فقط"
+ },
+ "עוד 2.5 קילו בהיפ תראסט או עוד חזרה אחת בסקוואט לא נשמעים כמו הרבה. אחרי שלושה חודשים זה ההבדל שרואים בכל ג׳ינס, ומרגישים בכל מדרגה. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.": {
+  "en": "Another 2.5 kg on the hip thrust or one more squat rep doesn't sound like much. After three months it's the difference you see in every pair of jeans and feel on every staircase. But it only works when you know exactly where to pick up.",
+  "ar": "2.5 كغ إضافية في الهيب ثراست أو تكرار إضافي في السكوات لا يبدوان كثيرًا. بعد ثلاثة أشهر هذا فرق تلاحظينه في كل بنطال جينز وتشعرين به على كل درج. لكنه ينجح فقط عندما تعرفين من أين تكملين بالضبط."
+ },
+ "NextRep שמה את המספר הקודם מול העיניים שלך בכל סט, ושומרת את כל השאר לגרף. ככה את יודעת שהתחזקת, גם ביום שהמשקל לא זז.": {
+  "en": "NextRep puts your last number in front of you on every set, and saves the rest for the graph. So you know you got stronger, even on a day the scale didn't move.",
+  "ar": "يضع NextRep رقمك السابق أمام عينيك في كل مجموعة، ويحفظ الباقي للرسم البياني. هكذا تعرفين أنك أصبحت أقوى حتى في يوم لم يتحرك فيه الميزان."
+ },
+ "בנוי לאזור המשקולות": {
+  "en": "Built for the weights area",
+  "ar": "مصمم لمنطقة الأوزان"
+ },
+ "בלי להקליד באמצע סט. בוחרים משקולת מהמתלה, פין במכונה או פלטות על המוט, וממשיכים. הטלפון לא גונב לך את האימון.": {
+  "en": "No typing mid-set. Pick a dumbbell from the rack, a pin on the machine or plates on the bar, and keep going. The phone doesn't steal your workout.",
+  "ar": "بلا كتابة في منتصف المجموعة. اختاري دمبل من الرف أو دبوسًا في الجهاز أو أقراصًا على البار وتابعي. الهاتف لا يسرق تمرينك."
+ },
+ "עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה לכל אחד, כדי שלא תצטרכי לנחש איך עושים את זה או לשאול מישהו באולם.": {
+  "en": "Answer a few questions: goal, days a week, equipment and time, and get a tailored plan. 98 exercises, each with a demo video, so you never have to guess how it's done or ask someone on the floor.",
+  "ar": "أجيبي عن بضعة أسئلة: الهدف، أيام الأسبوع، المعدات والوقت، واحصلي على خطة مخصصة. 98 تمرينًا مع فيديو توضيحي لكل منها، كي لا تضطري للتخمين أو سؤال أحد في الصالة."
+ },
+ "ישבן ורגליים": {
+  "en": "Glutes & legs",
+  "ar": "أرداف وأرجل"
+ },
+ "גב, כתפיים וידיים": {
+  "en": "Back, shoulders & arms",
+  "ar": "ظهر وأكتاف وذراعان"
+ },
+ "גוף מלא ובטן": {
+  "en": "Full body & core",
+  "ar": "جسم كامل وبطن"
+ },
+ "אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של תמונות במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן הגוף הולך, בלי לספור כל עלה חסה.": {
+  "en": "One app for workouts, another for calories, notes for weight and a folder of mirror photos? Here it's all connected. One screen shows how much you trained, how much you ate and where your body is heading, without counting every lettuce leaf.",
+  "ar": "تطبيق للتمارين وآخر للسعرات وملاحظات للوزن ومجلد لصور المرآة؟ هنا كل شيء متصل. شاشة واحدة تُظهر كم تدربتِ وكم أكلتِ وإلى أين يتجه جسمك، دون عدّ كل ورقة خس."
+ },
+ "תזונה בלי אובססיה": {
+  "en": "Nutrition without obsession",
+  "ar": "تغذية بلا هوس"
+ },
+ "המשקל משקר, התמונה לא": {
+  "en": "The scale lies, the photo doesn't",
+  "ar": "الميزان يكذب، الصورة لا"
+ },
+ "בחיטוב המשקל יכול לעמוד שבועות בזמן שהגוף משתנה. תמונה שבועית באותה תנוחה מראה את מה שהמשקל מפספס. התמונות מוצפנות בטלפון, ורק את רואה אותן.": {
+  "en": "When toning up, the scale can stall for weeks while your body changes. A weekly photo in the same pose shows what the scale misses. Photos are encrypted on your phone, and only you see them.",
+  "ar": "أثناء الشدّ قد يثبت الوزن لأسابيع بينما يتغير الجسم. صورة أسبوعية بنفس الوضعية تُظهر ما يفوّته الميزان. الصور مشفّرة على هاتفك، وأنتِ وحدك من ترينها."
+ },
+ "מאמן שמכיר אותך ולא שופט": {
+  "en": "A coach who knows you and doesn't judge",
+  "ar": "مدرب يعرفك ولا يحكم عليك"
+ },
+ "קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי \"פשוט תאכלי פחות\". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.": {
+  "en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic advice and no \"just eat less\". He looks at your numbers and tells you the next step.",
+  "ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. بلا نصائح عامة ولا \"كلي أقل فحسب\". ينظر إلى أرقامك ويخبرك بالخطوة التالية."
+ },
+ "מתאמנות ביחד": {
+  "en": "Training together",
+  "ar": "نتدرب معًا"
+ },
+ "פותחות קבוצה עם החברות, ומשיקות אתגר: מי מתאמנת הכי הרבה החודש, או כולן יחד מול יעד משותף. קשה לפספס אימון כשמחכים לך.": {
+  "en": "Start a group with your friends and launch a challenge: who trains the most this month, or everyone together toward a shared goal. It's hard to skip a workout when people are waiting for you.",
+  "ar": "أنشئي فريقًا مع صديقاتك وأطلقي تحديًا: من تتدرب أكثر هذا الشهر، أو الجميع معًا نحو هدف مشترك. يصعب تفويت تمرين عندما ينتظرك أحد."
+ },
+ "האימון הבא שלך יכול להיות הראשון שבאמת נספר": {
+  "en": "Your next workout can be the first that really counts",
+  "ar": "قد يكون تمرينك التالي أول تمرين يُحسب فعلًا"
+ },
+ "📸 מעקב קלוריות בלי לספור": {
+  "en": "📸 Calorie tracking without counting",
+  "ar": "📸 تتبّع السعرات دون عدّ"
+ },
+ "מצלמים את הצלחת. זהו.": {
+  "en": "Snap the plate. That's it.",
+  "ar": "صوّر الطبق. هذا كل شيء."
+ },
+ "לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.": {
+  "en": "No weighing, no tables, no guessing. Snap the meal, the AI identifies each item, estimates the grams on the plate and counts calories and protein against your daily target. Fix it with a tap if it got something wrong, and save.",
+  "ar": "لا وزن ولا جداول ولا تخمين. صوّر الوجبة، يتعرف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات ويحسب السعرات والبروتين مقابل هدفك اليومي. صحّح بلمسة إن أخطأ، واحفظ."
+ },
+ "מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז": {
+  "en": "Knows Israeli food: shakshuka, pita with hummus, schnitzel and rice",
+  "ar": "يتعرف على الطعام المحلي: شكشوكة، خبز مع حمص، شنيتسل مع أرز"
+ },
+ "קורא טבלאות תזונתיות על אריזות וסורק ברקודים": {
+  "en": "Reads nutrition labels on packages and scans barcodes",
+  "ar": "يقرأ جداول القيم الغذائية على العبوات ويمسح الباركود"
+ },
+ "בסוף היום את רואה בדיוק איפה את עומדת מול היעד": {
+  "en": "By the end of the day you see exactly where you stand against your target",
+  "ar": "في نهاية اليوم ترين بالضبط أين أنتِ من هدفك"
+ },
+ "בסוף היום אתה רואה בדיוק איפה אתה עומד מול היעד": {
+  "en": "By the end of the day you see exactly where you stand against your target",
+  "ar": "في نهاية اليوم ترى بالضبط أين أنت من هدفك"
+ },
+ "📸 מנתח את הצלחת…": {
+  "en": "📸 Analyzing the plate…",
+  "ar": "📸 يحلل الطبق…"
+ },
+ "חזה עוף בגריל": {
+  "en": "Grilled chicken breast",
+  "ar": "صدر دجاج مشوي"
+ },
+ "אורז לבן": {
+  "en": "White rice",
+  "ar": "أرز أبيض"
+ },
+ "סלט ירקות עם שמן זית": {
+  "en": "Vegetable salad with olive oil",
+  "ar": "سلطة خضار بزيت الزيتون"
+ },
+ "חצי פיתה": {
+  "en": "Half a pita",
+  "ar": "نصف خبزة"
+ },
+ "שניצל": {
+  "en": "Schnitzel",
+  "ar": "شنيتسل"
+ },
+ "סלט ירקות": {
+  "en": "Vegetable salad",
+  "ar": "سلطة خضار"
+ },
+ "פיתה": {
+  "en": "Pita",
+  "ar": "خبز بيتا"
+ },
+ "סה״כ": {
+  "en": "Total",
+  "ar": "المجموع"
+ },
+ "קק״ל · {0} גר׳ חלבון": {
+  "en": "kcal · {0} g protein",
+  "ar": "سعرة · {0} غ بروتين"
+ },
+ "נשארו לך 760 קק״ל להיום": {
+  "en": "760 kcal left for today",
+  "ar": "بقي لك 760 سعرة لليوم"
+ },
+ "נשארו לך 1,330 קק״ל להיום": {
+  "en": "1,330 kcal left for today",
+  "ar": "بقي لك 1,330 سعرة لليوم"
+ },
+ "הוסף ליום ✓": {
+  "en": "Add to today ✓",
+  "ar": "أضف إلى اليوم ✓"
+ },
+ "לא עוד אימון \"בערך\". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ומצלמים את הצלחת במקום לספור קלוריות. בלי אובססיה, בלי אקסלים.": {
+  "en": "No more \"roughly\" workouts. NextRep remembers every set and weight for you, shows you getting stronger week by week, and you snap your plate instead of counting calories. No obsession, no spreadsheets.",
+  "ar": "لا مزيد من التمارين \"تقريبًا\". NextRep يتذكر كل مجموعة ووزن عنك، ويريك أنك تقوين أسبوعًا بعد أسبوع، وتصوّرين طبقك بدل عدّ السعرات. بلا هوس ولا جداول."
+ },
+ "כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת, ומחשב קלוריות מצילום של הצלחת במקום שתספור.": {
+  "en": "To get stronger you add a little every workout, and you can't add to what you don't remember. NextRep remembers every set for you, tells you when rest is over, and counts calories from a photo of your plate so you don't have to.",
+  "ar": "لتصبح أقوى تضيف قليلًا في كل تمرين، ولا يمكن الإضافة إلى ما لا تتذكره. NextRep يتذكر كل مجموعة عنك، ويخبرك عند انتهاء الراحة، ويحسب السعرات من صورة طبقك بدل أن تعدّها."
+ },
+ "מתאמנת מצלמת צלחת, והאפליקציה מזהה את המרכיבים": {
+  "en": "A woman photographs her plate and the app identifies the ingredients",
+  "ar": "متدربة تصوّر طبقها والتطبيق يتعرف على المكونات"
+ },
+ "מתאמן מצלם צלחת, והאפליקציה מזהה את המרכיבים": {
+  "en": "A man photographs his plate and the app identifies the ingredients",
+  "ar": "متدرب يصوّر طبقه والتطبيق يتعرف على المكونات"
+ },
+ "גרמים": {
+  "en": "Grams",
+  "ar": "غرامات"
+ },
+ "הצג עוד": {
+  "en": "Show more",
+  "ar": "عرض المزيد"
+ },
+ "אחרי": {
+  "en": "After",
+  "ar": "بعد"
+ },
+ "חבילה שתרכוש עכשיו מתווספת לסוף התקופה — לא מתחילה מאפס.": {
+  "en": "A plan you buy now is added to the end of that period — it doesn't start from zero.",
+  "ar": "الباقة التي تشتريها الآن تُضاف إلى نهاية الفترة — ولا تبدأ من الصفر."
+ },
+ "גישה עד": {
+  "en": "access until",
+  "ar": "الوصول حتى"
+ },
+ "ההתראות עדיין כבויות 🔕": {
+  "en": "Notifications are still off 🔕",
+  "ar": "الإشعارات لا تزال مطفأة 🔕"
+ },
+ "בלי התראות אני לא יכול להזכיר לך כלום": {
+  "en": "Without notifications I can't remind you of anything",
+  "ar": "بدون إشعارات لا أستطيع تذكيرك بأي شيء"
+ },
+ "זה הדבר שהכי משפר את האימונים. לוקח 2 שניות.": {
+  "en": "It's the one thing that improves your workouts most. Takes 2 seconds.",
+  "ar": "هذا أكثر ما يحسّن تدريباتك. يستغرق ثانيتين."
+ },
+ "הפעלה אחת, ואני דואג לשאר:": {
+  "en": "Turn them on once, and I'll handle the rest:",
+  "ar": "فعّلها مرة واحدة، وأنا أتولى الباقي:"
+ },
+ "סוף המנוחה בין הסטים, גם כשהטלפון בכיס": {
+  "en": "End of rest between sets, even with the phone in your pocket",
+  "ar": "نهاية الراحة بين المجموعات، حتى والهاتف في جيبك"
+ },
+ "תזכורת בימי האימון שלך": {
+  "en": "A reminder on your training days",
+  "ar": "تذكير في أيام تدريبك"
+ },
+ "תשובות מקובי והודעות מהקבוצה": {
+  "en": "Replies from Kobi and messages from your group",
+  "ar": "ردود كوبي ورسائل المجموعة"
+ },
+ "תזכיר לי מחר": {
+  "en": "Remind me tomorrow",
+  "ar": "ذكّرني غدًا"
+ },
+ "ארוחת ביניים": {
+  "en": "Snack",
+  "ar": "وجبة خفيفة"
+ },
+ "פחמימות": {
+  "en": "Carbs",
+  "ar": "كربوهيدرات"
+ },
+ "פירות": {
+  "en": "Fruit",
+  "ar": "فواكه"
+ },
+ "תוספות": {
+  "en": "Extras",
+  "ar": "إضافات"
+ },
+ "בוא נבנה תפריט שבאמת מתאים לך 🍽️": {
+  "en": "Let's build a meal plan that really fits you 🍽️",
+  "ar": "لنبنِ قائمة طعام تناسبك فعلًا 🍽️"
+ },
+ "8 שאלות קצרות. קודם כל, איך אתה אוכל?": {
+  "en": "8 quick questions. First, how do you eat?",
+  "ar": "8 أسئلة قصيرة. أولًا، كيف تأكل؟"
+ },
+ "8 שאלות קצרות. קודם כל, איך את אוכלת?": {
+  "en": "8 quick questions. First, how do you eat?",
+  "ar": "8 أسئلة قصيرة. أولًا، كيف تأكلين؟"
+ },
+ "8 שאלות קצרות. קודם כל, איך את/ה אוכל/ת?": {
+  "en": "8 quick questions. First, how do you eat?",
+  "ar": "8 أسئلة قصيرة. أولًا، كيف تأكل/ين؟"
+ },
+ "בשר, דגים, חלב וביצים": {
+  "en": "Meat, fish, dairy and eggs",
+  "ar": "لحوم، أسماك، ألبان وبيض"
+ },
+ "כשר": {
+  "en": "Kosher",
+  "ar": "كوشير"
+ },
+ "בלי בשר וחלב באותה ארוחה": {
+  "en": "No meat and dairy in the same meal",
+  "ar": "بدون لحم وحليب في نفس الوجبة"
+ },
+ "צמחוני": {
+  "en": "Vegetarian",
+  "ar": "نباتي"
+ },
+ "בלי בשר ודגים": {
+  "en": "No meat or fish",
+  "ar": "بدون لحوم وأسماك"
+ },
+ "טבעוני": {
+  "en": "Vegan",
+  "ar": "نباتي صرف"
+ },
+ "רק מהצומח": {
+  "en": "Plant-based only",
+  "ar": "من النبات فقط"
+ },
+ "לקטוז": {
+  "en": "Lactose",
+  "ar": "لاكتوز"
+ },
+ "גלוטן": {
+  "en": "Gluten",
+  "ar": "غلوتين"
+ },
+ "אגוזים": {
+  "en": "Nuts",
+  "ar": "مكسرات"
+ },
+ "ביצים": {
+  "en": "Eggs",
+  "ar": "بيض"
+ },
+ "דגים": {
+  "en": "Fish",
+  "ar": "أسماك"
+ },
+ "סויה": {
+  "en": "Soy",
+  "ar": "صويا"
+ },
+ "יש משהו שאתה לא אוכל?": {
+  "en": "Anything you don't eat?",
+  "ar": "هل هناك شيء لا تأكله؟"
+ },
+ "יש משהו שאת לא אוכלת?": {
+  "en": "Anything you don't eat?",
+  "ar": "هل هناك شيء لا تأكلينه؟"
+ },
+ "יש משהו שלא אוכלים?": {
+  "en": "Anything you don't eat?",
+  "ar": "هل هناك شيء لا تأكله/ينه؟"
+ },
+ "רגישות, אלרגיה, או סתם לא אוהבים. אפשר לבחור כמה.": {
+  "en": "Sensitivity, allergy, or just don't like it. Pick as many as you want.",
+  "ar": "حساسية، أو ببساطة لا تحبه. يمكن اختيار أكثر من واحد."
+ },
+ "אין, אני אוכל הכל": {
+  "en": "Nope, I eat everything",
+  "ar": "لا، آكل كل شيء"
+ },
+ "כמה ארוחות ביום נוח לך?": {
+  "en": "How many meals a day suit you?",
+  "ar": "كم وجبة في اليوم تناسبك؟"
+ },
+ "כולל ארוחות ביניים. אין נכון או לא נכון, רק מה שמתאים לסדר היום שלך.": {
+  "en": "Including snacks. There's no right or wrong, just what fits your day.",
+  "ar": "بما في ذلك الوجبات الخفيفة. لا صح ولا خطأ، فقط ما يناسب يومك."
+ },
+ "3 ארוחות": {
+  "en": "3 meals",
+  "ar": "3 وجبات"
+ },
+ "בוקר, צהריים וערב": {
+  "en": "Breakfast, lunch and dinner",
+  "ar": "فطور، غداء وعشاء"
+ },
+ "4 ארוחות": {
+  "en": "4 meals",
+  "ar": "4 وجبات"
+ },
+ "3 ארוחות וביניים אחת": {
+  "en": "3 meals and one snack",
+  "ar": "3 وجبات ووجبة خفيفة"
+ },
+ "5 ארוחות": {
+  "en": "5 meals",
+  "ar": "5 وجبات"
+ },
+ "3 ארוחות ו-2 ביניים. נוח כשהיעד גבוה": {
+  "en": "3 meals and 2 snacks. Easier with a high target",
+  "ar": "3 وجبات ووجبتان خفيفتان. أسهل عندما يكون الهدف مرتفعًا"
+ },
+ "ואיך נראה הבוקר שלך?": {
+  "en": "And what does your breakfast look like?",
+  "ar": "وكيف يبدو فطورك؟"
+ },
+ "מלוח": {
+  "en": "Savory",
+  "ar": "مالح"
+ },
+ "ביצים, גבינות, לחם וסלט": {
+  "en": "Eggs, cheese, bread and salad",
+  "ar": "بيض، أجبان، خبز وسلطة"
+ },
+ "מתוק": {
+  "en": "Sweet",
+  "ar": "حلو"
+ },
+ "יוגורט, שיבולת שועל ופירות": {
+  "en": "Yogurt, oats and fruit",
+  "ar": "زبادي، شوفان وفواكه"
+ },
+ "אני לא אוכל בבוקר": {
+  "en": "I don't eat breakfast",
+  "ar": "لا آكل في الصباح"
+ },
+ "אני לא אוכלת בבוקר": {
+  "en": "I don't eat breakfast",
+  "ar": "لا آكل في الصباح"
+ },
+ "לא אוכלים בבוקר": {
+  "en": "No breakfast",
+  "ar": "بدون فطور"
+ },
+ "הארוחה הראשונה בצהריים": {
+  "en": "First meal is lunch",
+  "ar": "أول وجبة هي الغداء"
+ },
+ "ארוחת ערב אצלך היא…": {
+  "en": "Your dinner is…",
+  "ar": "عشاؤك عادةً…"
+ },
+ "קלה": {
+  "en": "Light",
+  "ar": "خفيف"
+ },
+ "כמו ארוחת בוקר: ביצים, גבינה, סלט": {
+  "en": "Like breakfast: eggs, cheese, salad",
+  "ar": "مثل الفطور: بيض، جبنة، سلطة"
+ },
+ "מבושלת": {
+  "en": "Cooked",
+  "ar": "مطبوخ"
+ },
+ "ארוחה מלאה, כמו צהריים": {
+  "en": "A full meal, like lunch",
+  "ar": "وجبة كاملة، مثل الغداء"
+ },
+ "מתי אתה בדרך כלל מתאמן?": {
+  "en": "When do you usually train?",
+  "ar": "متى تتدرب عادةً؟"
+ },
+ "מתי את בדרך כלל מתאמנת?": {
+  "en": "When do you usually train?",
+  "ar": "متى تتدربين عادةً؟"
+ },
+ "מתי בדרך כלל מתאמנים?": {
+  "en": "When do you usually train?",
+  "ar": "متى تتدرب/ين عادةً؟"
+ },
+ "הארוחה שאחרי האימון תקבל יותר חלבון ופחמימה.": {
+  "en": "The meal after your workout gets more protein and carbs.",
+  "ar": "الوجبة بعد التمرين ستحصل على بروتين وكربوهيدرات أكثر."
+ },
+ "בבוקר": {
+  "en": "Morning",
+  "ar": "في الصباح"
+ },
+ "בצהריים": {
+  "en": "Midday",
+  "ar": "في الظهيرة"
+ },
+ "בערב": {
+  "en": "Evening",
+  "ar": "في المساء"
+ },
+ "משתנה": {
+  "en": "It varies",
+  "ar": "متغيّر"
+ },
+ "בלי ארוחה מיוחדת אחרי אימון": {
+  "en": "No special post-workout meal",
+  "ar": "بدون وجبة خاصة بعد التمرين"
+ },
+ "מה אתה אוהב לאכול?": {
+  "en": "What do you like to eat?",
+  "ar": "ماذا تحب أن تأكل؟"
+ },
+ "מה את אוהבת לאכול?": {
+  "en": "What do you like to eat?",
+  "ar": "ماذا تحبين أن تأكلي؟"
+ },
+ "מה אוהבים לאכול?": {
+  "en": "What do you like to eat?",
+  "ar": "ماذا تحب/ين أن تأكل/ي؟"
+ },
+ "סימנתי את הנפוצים. מה שתסמן יופיע יותר בתפריט, ומה שלא, פחות.": {
+  "en": "I've ticked the common ones. What you tick shows up more in your plan, the rest less.",
+  "ar": "حدّدتُ الأكثر شيوعًا. ما تحدده سيظهر أكثر في القائمة، وما لا تحدده أقل."
+ },
+ "שאלה אחרונה: כמה זמן יש לך לבשל?": {
+  "en": "Last one: how much time do you have to cook?",
+  "ar": "سؤال أخير: كم لديك من الوقت للطبخ؟"
+ },
+ "אין לי זמן בכלל": {
+  "en": "No time at all",
+  "ar": "لا وقت لدي إطلاقًا"
+ },
+ "רק דברים מוכנים: טונה, ביצים, גבינות, פיתה": {
+  "en": "Ready-to-eat only: tuna, eggs, cheese, pita",
+  "ar": "أشياء جاهزة فقط: تونة، بيض، أجبان، خبز"
+ },
+ "עד 20 דקות": {
+  "en": "Up to 20 minutes",
+  "ar": "حتى 20 دقيقة"
+ },
+ "עוף, אורז, פסטה, ירקות מאודים": {
+  "en": "Chicken, rice, pasta, steamed veggies",
+  "ar": "دجاج، أرز، معكرونة، خضار مطهوة"
+ },
+ "אין בעיה": {
+  "en": "No problem",
+  "ar": "لا مشكلة"
+ },
+ "כולל בטטה, אורז מלא ותנור": {
+  "en": "Including sweet potato, brown rice and oven dishes",
+  "ar": "بما في ذلك البطاطا الحلوة والأرز البني والفرن"
+ },
+ "התפריט שלך מוכן 🍽️": {
+  "en": "Your meal plan is ready 🍽️",
+  "ar": "قائمتك الغذائية جاهزة 🍽️"
+ },
+ "ההעדפות עודכנו ✓": {
+  "en": "Preferences updated ✓",
+  "ar": "تم تحديث التفضيلات ✓"
+ },
+ "קודם צריך יעד יומי 🎯": {
+  "en": "First, a daily target 🎯",
+  "ar": "أولًا نحتاج هدفًا يوميًا 🎯"
+ },
+ "🎯 להגדרת יעד": {
+  "en": "🎯 Set a target",
+  "ar": "🎯 تحديد الهدف"
+ },
+ "כדי לבנות תפריט אני צריך לדעת כמה קלוריות וחלבון אתה צריך ביום. לוקח דקה, ומשקל יעד לא חובה.": {
+  "en": "To build a plan I need to know how many calories and how much protein you need a day. Takes a minute, and a goal weight is optional.",
+  "ar": "لبناء قائمة أحتاج أن أعرف كم سعرة وكم بروتين تحتاج يوميًا. يستغرق دقيقة، والوزن المستهدف ليس إلزاميًا."
+ },
+ "כדי לבנות תפריט אני צריך לדעת כמה קלוריות וחלבון את צריכה ביום. לוקח דקה, ומשקל יעד לא חובה.": {
+  "en": "To build a plan I need to know how many calories and how much protein you need a day. Takes a minute, and a goal weight is optional.",
+  "ar": "لبناء قائمة أحتاج أن أعرف كم سعرة وكم بروتين تحتاجين يوميًا. يستغرق دقيقة، والوزن المستهدف ليس إلزاميًا."
+ },
+ "כדי לבנות תפריט צריך לדעת כמה קלוריות וחלבון צריך ביום. לוקח דקה, ומשקל יעד לא חובה.": {
+  "en": "To build a plan I need to know your daily calories and protein. Takes a minute, and a goal weight is optional.",
+  "ar": "لبناء قائمة يجب معرفة السعرات والبروتين اليومية. يستغرق دقيقة، والوزن المستهدف ليس إلزاميًا."
+ },
+ "התפריט שלי": {
+  "en": "My meal plan",
+  "ar": "قائمتي الغذائية"
+ },
+ "⚙️ העדפות": {
+  "en": "⚙️ Preferences",
+  "ar": "⚙️ التفضيلات"
+ },
+ "✓ התפריט תואם ליעד שלך": {
+  "en": "✓ The plan matches your target",
+  "ar": "✓ القائمة تطابق هدفك"
+ },
+ "קק״ל מעל היעד": {
+  "en": "kcal over target",
+  "ar": "سعرة فوق الهدف"
+ },
+ "תציע לי": {
+  "en": "Suggest for me",
+  "ar": "اقترح لي"
+ },
+ "תפריט מלא לפי היעד והטעם שלך": {
+  "en": "A full plan based on your target and taste",
+  "ar": "قائمة كاملة حسب هدفك وذوقك"
+ },
+ "אבנה לבד": {
+  "en": "I'll build it",
+  "ar": "سأبنيها بنفسي"
+ },
+ "מוסיפים מזונות ורואים כמה נשאר": {
+  "en": "Add foods and see what's left",
+  "ar": "أضف أطعمة وشاهد كم تبقّى"
+ },
+ "הערכים מהמאגר הישראלי. הערכה כללית, לא ייעוץ תזונתי.": {
+  "en": "Values from the Israeli food database. A general estimate, not dietary advice.",
+  "ar": "القيم من قاعدة البيانات الإسرائيلية. تقدير عام، وليس استشارة غذائية."
+ },
+ "תפריט אחר": {
+  "en": "Another plan",
+  "ar": "قائمة أخرى"
+ },
+ "✍️ אבנה לבד": {
+  "en": "✍️ I'll build it",
+  "ar": "✍️ سأبنيها بنفسي"
+ },
+ "+ הוסף": {
+  "en": "+ Add",
+  "ar": "+ أضف"
+ },
+ "💪 אחרי אימון": {
+  "en": "💪 Post-workout",
+  "ar": "💪 بعد التمرين"
+ },
+ "הסרה": {
+  "en": "Remove",
+  "ar": "إزالة"
+ },
+ "החלפה": {
+  "en": "Swap",
+  "ar": "استبدال"
+ },
+ "✓ נרשם ביומן": {
+  "en": "✓ Logged",
+  "ar": "✓ سُجّلت في اليوميات"
+ },
+ "✓ אכלתי, רשום": {
+  "en": "✓ Ate it, log it",
+  "ar": "✓ أكلتها، سجّل"
+ },
+ "💾 תבניות": {
+  "en": "💾 Templates",
+  "ar": "💾 قوالب"
+ },
+ "שמור את היום כתבנית": {
+  "en": "Save this day as a template",
+  "ar": "احفظ اليوم كقالب"
+ },
+ "שמור תפריט שאהבת, למשל \"יום אימון\" ו\"יום מנוחה\", ותטען אותו בלחיצה.": {
+  "en": "Save a plan you liked, like \"Training day\" and \"Rest day\", and load it in one tap.",
+  "ar": "احفظ قائمة أعجبتك، مثل \"يوم تمرين\" و\"يوم راحة\"، وحمّلها بضغطة."
+ },
+ "שמרי תפריט שאהבת, למשל \"יום אימון\" ו\"יום מנוחה\", ותטעני אותו בלחיצה.": {
+  "en": "Save a plan you liked, like \"Training day\" and \"Rest day\", and load it in one tap.",
+  "ar": "احفظي قائمة أعجبتك، مثل \"يوم تمرين\" و\"يوم راحة\"، وحمّليها بضغطة."
+ },
+ "בנה תפריט יומי שתואם ליעד ולטעם שלך": {
+  "en": "Build a daily plan that fits your target and taste",
+  "ar": "ابنِ قائمة يومية تناسب هدفك وذوقك"
+ },
+ "תפריט אישי לפי היעד והטעם שלך, עם גרמים מדויקים": {
+  "en": "A personal plan for your target and taste, with exact grams",
+  "ar": "قائمة شخصية حسب هدفك وذوقك، بغرامات دقيقة"
+ },
+ "פתח": {
+  "en": "Open",
+  "ar": "افتح"
+ },
+ "בואו נתחיל": {
+  "en": "Let's start",
+  "ar": "لنبدأ"
+ },
+ "🍽️ התפריט שלי": {
+  "en": "🍽️ My meal plan",
+  "ar": "🍽️ قائمتي الغذائية"
+ },
+ "לתפריט המלא ←": {
+  "en": "Full plan →",
+  "ar": "القائمة الكاملة ←"
+ },
+ "הבא בתור:": {
+  "en": "Up next:",
+  "ar": "التالي:"
+ },
+ "✓ אכלתי, רשום ביומן": {
+  "en": "✓ Ate it, log it",
+  "ar": "✓ أكلتها، سجّلها في اليوميات"
+ },
+ "כל הארוחות של היום נרשמו ✓": {
+  "en": "All of today's meals are logged ✓",
+  "ar": "سُجّلت كل وجبات اليوم ✓"
+ },
+ "חלופות עם כמות חלבון דומה. הגרמים כבר מותאמים.": {
+  "en": "Alternatives with similar protein. Grams already adjusted.",
+  "ar": "بدائل بكمية بروتين مشابهة. الغرامات معدّلة مسبقًا."
+ },
+ "חלופות עם כמות קלוריות דומה. הגרמים כבר מותאמים.": {
+  "en": "Alternatives with similar calories. Grams already adjusted.",
+  "ar": "بدائل بسعرات مشابهة. الغرامات معدّلة مسبقًا."
+ },
+ "אין חלופות שמתאימות להעדפות שלך.": {
+  "en": "No alternatives match your preferences.",
+  "ar": "لا توجد بدائل تناسب تفضيلاتك."
+ },
+ "לא אוהב את זה": {
+  "en": "Don't like it",
+  "ar": "لا أحبه"
+ },
+ "לא אוהבת את זה": {
+  "en": "Don't like it",
+  "ar": "لا أحبه"
+ },
+ "לא אוהבים את זה": {
+  "en": "Don't like it",
+  "ar": "لا أحبه"
+ },
+ "הוספת מזון": {
+  "en": "Add food",
+  "ar": "إضافة طعام"
+ },
+ "חיפוש: עוף, קוטג׳, אורז…": {
+  "en": "Search: chicken, cottage, rice…",
+  "ar": "بحث: دجاج، جبنة قريش، أرز…"
+ },
+ "לא נמצא. נסו מילה אחרת.": {
+  "en": "Not found. Try another word.",
+  "ar": "لم يُعثر عليه. جرّب كلمة أخرى."
+ },
+ "מהמאגר המלא": {
+  "en": "From the full database",
+  "ar": "من قاعدة البيانات الكاملة"
+ },
+ "הארוחה כבר נרשמה היום ✓": {
+  "en": "Already logged today ✓",
+  "ar": "الوجبة سُجّلت اليوم ✓"
+ },
+ "✨ תפריט חדש": {
+  "en": "✨ New plan",
+  "ar": "✨ قائمة جديدة"
+ },
+ "הבנתי, לא אציע את זה יותר 👍": {
+  "en": "Got it, I won't suggest it again 👍",
+  "ar": "فهمت، لن أقترحه مرة أخرى 👍"
+ },
+ "שמירת תבנית": {
+  "en": "Save template",
+  "ar": "حفظ القالب"
+ },
+ "שמור ✓": {
+  "en": "Save ✓",
+  "ar": "احفظ ✓"
+ },
+ "יום מנוחה": {
+  "en": "Rest day",
+  "ar": "يوم راحة"
+ },
+ "יום אימון": {
+  "en": "Training day",
+  "ar": "يوم تمرين"
+ },
+ "תבנית": {
+  "en": "Template",
+  "ar": "قالب"
+ },
+ "התבנית נשמרה 💾": {
+  "en": "Template saved 💾",
+  "ar": "تم حفظ القالب 💾"
+ },
+ "התבנית נטענה ✓": {
+  "en": "Template loaded ✓",
+  "ar": "تم تحميل القالب ✓"
+ },
+ "שמור והמשך לתפריט ←": {
+  "en": "Save and continue to plan →",
+  "ar": "احفظ وتابع إلى القائمة ←"
+ },
+ "שמור ובנה לי תפריט לפי היעד": {
+  "en": "Save and build me a plan for this target",
+  "ar": "احفظ وابنِ لي قائمة حسب الهدف"
+ },
+ "שמרי ובני לי תפריט לפי היעד": {
+  "en": "Save and build me a plan for this target",
+  "ar": "احفظي وابني لي قائمة حسب الهدف"
+ },
+ "שמירה ובניית תפריט לפי היעד": {
+  "en": "Save and build a plan for this target",
+  "ar": "حفظ وبناء قائمة حسب الهدف"
+ },
+ "➕ יש לך גישה עד": {
+  "en": "➕ You have access until",
+  "ar": "➕ لديك وصول حتى"
+ },
+ ". חבילה שתרכוש עכשיו מתווספת לסוף התקופה — לא מתחילה מאפס.": {
+  "en": ". A plan you buy now is added to the end of that period — it doesn't start from zero.",
+  "ar": ". الباقة التي تشتريها الآن تُضاف إلى نهاية الفترة — ولا تبدأ من الصفر."
+ },
+ "🎁 ניסיון חינם": {
+  "en": "🎁 Free trial",
+  "ar": "🎁 تجربة مجانية"
+ },
+ "היום האחרון": {
+  "en": "Last day",
+  "ar": "اليوم الأخير"
+ },
+ "חיפוש מזון להחלפה…": {
+  "en": "Search a food to swap in…",
+  "ar": "ابحث عن طعام للاستبدال…"
+ },
+ "התאמת כמות לפי:": {
+  "en": "Match amount by:",
+  "ar": "مطابقة الكمية حسب:"
+ },
+ "מחפש…": {
+  "en": "Searching…",
+  "ar": "جارٍ البحث…"
+ },
+ "גרם": {
+  "en": "grams",
+  "ar": "غرام"
+ },
+ "כפות": {
+  "en": "tbsp",
+  "ar": "ملاعق"
+ },
+ "צמצום": {
+  "en": "Minimize",
+  "ar": "تصغير"
+ },
+ "הצג ▾": {
+  "en": "Show ▾",
+  "ar": "عرض ▾"
+ },
+ "אפשר לפתוח שוב מתי שתרצה": {
+  "en": "You can reopen it anytime",
+  "ar": "يمكنك فتحها مجددًا متى شئت"
+ },
+ "אפשר לפתוח שוב מתי שתרצי": {
+  "en": "You can reopen it anytime",
+  "ar": "يمكنكِ فتحها مجددًا متى شئتِ"
+ },
+ "אפשר לפתוח שוב בכל זמן": {
+  "en": "You can reopen it anytime",
+  "ar": "يمكن فتحها مجددًا في أي وقت"
+ },
+ "התפריט נמחק": {
+  "en": "Plan deleted",
+  "ar": "تم حذف القائمة"
+ },
+ "הוספת ארוחה": {
+  "en": "Add a meal",
+  "ar": "إضافة وجبة"
+ },
+ "+ הוסף ארוחה": {
+  "en": "+ Add a meal",
+  "ar": "+ أضف وجبة"
+ },
+ "הסרת הארוחה": {
+  "en": "Remove meal",
+  "ar": "إزالة الوجبة"
+ },
+ "✨ מלא לי לפי מה שנשאר מהיעד": {
+  "en": "✨ Fill it from what's left of my target",
+  "ar": "✨ املأها مما تبقّى من الهدف"
+ },
+ "🗑 מחק את התפריט": {
+  "en": "🗑 Delete this plan",
+  "ar": "🗑 احذف القائمة"
+ },
+ "בטוח? לחץ שוב": {
+  "en": "Sure? Tap again",
+  "ar": "متأكد؟ اضغط مرة أخرى"
+ },
+ "מחליפים את": {
+  "en": "Replacing",
+  "ar": "استبدال"
+ },
+ "כמות לפי": {
+  "en": "Amount by",
+  "ar": "الكمية حسب"
+ },
+ "חלופות עם כמות חלבון דומה": {
+  "en": "Alternatives with similar protein",
+  "ar": "بدائل ببروتين مشابه"
+ },
+ "חלופות עם כמות קלוריות דומה": {
+  "en": "Alternatives with similar calories",
+  "ar": "بدائل بسعرات مشابهة"
+ },
+ "מהתפריט": {
+  "en": "From the plan foods",
+  "ar": "من أطعمة القائمة"
+ },
+ "הוספת מזון ל": {
+  "en": "Add food to",
+  "ar": "إضافة طعام إلى"
+ },
+ "מתאים לארוחה הזאת": {
+  "en": "Fits this meal",
+  "ar": "يناسب هذه الوجبة"
+ },
+ "לא אוהב את זה, אל תציע שוב": {
+  "en": "Don't like it, don't suggest again",
+  "ar": "لا أحبه، لا تقترحه مجددًا"
+ },
+ "לא אוהבת את זה, אל תציע שוב": {
+  "en": "Don't like it, don't suggest again",
+  "ar": "لا أحبه، لا تقترحه مجددًا"
+ },
+ "לא אוהבים את זה, אל תציע שוב": {
+  "en": "Don't like it, don't suggest again",
+  "ar": "لا أحبه، لا تقترحه مجددًا"
+ },
+ "תזכורת שקילה בבוקר ⚖️": {
+  "en": "Morning weigh-in reminder ⚖️",
+  "ar": "تذكير الوزن الصباحي ⚖️"
+ },
+ "כל בוקר עד שנשקלת. רק אם כבר הזנת משקל": {
+  "en": "Every morning until you've weighed in. Only if you've logged a weight before",
+  "ar": "كل صباح حتى تزن نفسك. فقط إذا سجّلت وزنًا من قبل"
+ },
+ "איך קוראים לך? 👋": {
+  "en": "What's your name? 👋",
+  "ar": "ما اسمك؟ 👋"
+ },
+ "ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
+  "en": "That's how I'll address you in the app, and how friends will see you in groups.",
+  "ar": "هكذا سأناديك في التطبيق، وهكذا سيراك أصدقاؤك في المجموعات."
+ },
+ "ככה אפנה אלייך באפליקציה, וככה יראו אותך החברות והחברים בקבוצות.": {
+  "en": "That's how I'll address you in the app, and how friends will see you in groups.",
+  "ar": "هكذا سأناديكِ في التطبيق، وهكذا سيراكِ أصدقاؤكِ في المجموعات."
+ },
+ "ככה נפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
+  "en": "That's how we'll address you in the app, and how friends will see you in groups.",
+  "ar": "هكذا سنناديك في التطبيق، وهكذا سيراك أصدقاؤك في المجموعات."
+ },
+ "אחר כך": {
+  "en": "Later",
+  "ar": "لاحقًا"
+ },
+ "השם שלך": {
+  "en": "Your name",
+  "ar": "اسمك"
+ },
+ "שמירה": {
+  "en": "Save",
+  "ar": "حفظ"
+ },
+ "הסתר": {
+  "en": "Hide",
+  "ar": "إخفاء"
+ },
+ "הצג": {
+  "en": "Show",
+  "ar": "عرض"
+ },
+ "תפריט יומי לפי היעד והטעם שלך": {
+  "en": "A daily plan for your target and taste",
+  "ar": "قائمة يومية حسب هدفك وذوقك"
+ },
+ "🎯 מותאם ליעד": {
+  "en": "🎯 Fits your target",
+  "ar": "🎯 مطابقة للهدف"
+ },
+ "⚖️ גרמים מדויקים": {
+  "en": "⚖️ Exact grams",
+  "ar": "⚖️ غرامات دقيقة"
+ },
+ "🔄 החלפה בלחיצה": {
+  "en": "🔄 One-tap swaps",
+  "ar": "🔄 استبدال بضغطة"
+ },
+ "✨ בנה לי תפריט": {
+  "en": "✨ Build my plan",
+  "ar": "✨ ابنِ لي قائمة"
+ },
+ "✨ בואו נתחיל": {
+  "en": "✨ Let's start",
+  "ar": "✨ لنبدأ"
+ },
+ "לתפריט המלא": {
+  "en": "Full plan",
+  "ar": "القائمة الكاملة"
+ },
+ "גר׳ פחמימה": {
+  "en": "g carbs",
+  "ar": "غ كربوهيدرات"
+ },
+ "גר׳ שומן": {
+  "en": "g fat",
+  "ar": "غ دهون"
+ },
+ "גר׳ ירקות": {
+  "en": "g veggies",
+  "ar": "غ خضار"
+ },
+ "4 קוביות שוקולד מריר": {
+  "en": "4 squares dark chocolate",
+  "ar": "4 مربعات شوكولاتة داكنة"
+ },
+ "כדור גלידה": {
+  "en": "A scoop of ice cream",
+  "ar": "كرة آيس كريم"
+ },
+ "שקית במבה קטנה": {
+  "en": "Small bag of Bamba",
+  "ar": "كيس بامبا صغير"
+ },
+ "3 כוסות פופקורן": {
+  "en": "3 cups popcorn",
+  "ar": "3 أكواب فشار"
+ },
+ "כוס יין": {
+  "en": "A glass of wine",
+  "ar": "كأس نبيذ"
+ },
+ "בקבוק בירה": {
+  "en": "A bottle of beer",
+  "ar": "زجاجة بيرة"
+ },
+ "קרמבו": {
+  "en": "Krembo",
+  "ar": "كرمبو"
+ },
+ "2 עוגיות": {
+  "en": "2 cookies",
+  "ar": "قطعتا بسكويت"
+ },
+ "מקום לפינוק": {
+  "en": "Room for a treat",
+  "ar": "مساحة للتحلية"
+ },
+ "להשאיר כל יום קלוריות לשוקולד, גלידה או יין": {
+  "en": "Keep daily calories for chocolate, ice cream or wine",
+  "ar": "اترك سعرات يومية للشوكولاتة أو الآيس كريم أو النبيذ"
+ },
+ "הוסף": {
+  "en": "Add",
+  "ar": "أضف"
+ },
+ "פינוק יומי ·": {
+  "en": "Daily treat ·",
+  "ar": "تحلية يومية ·"
+ },
+ "שמור מחוץ לתפריט. נכנס בתקציב, למשל:": {
+  "en": "Kept outside the plan. Fits the budget, e.g.:",
+  "ar": "محفوظة خارج القائمة. تناسب الميزانية، مثلًا:"
+ },
+ "🍫 מקום לפינוק": {
+  "en": "🍫 Room for a treat",
+  "ar": "🍫 مساحة للتحلية"
+ },
+ "הקלוריות האלה נשמרות מחוץ לתפריט, והתפריט ייבנה על השאר.": {
+  "en": "These calories are kept outside the plan, and the plan is built on the rest.",
+  "ar": "هذه السعرات تبقى خارج القائمة، وتُبنى القائمة على الباقي."
+ },
+ "בלי": {
+  "en": "None",
+  "ar": "بدون"
+ },
+ "ושאלה אחרונה: להשאיר מקום לפינוק? 🍫": {
+  "en": "Last one: leave room for a treat? 🍫",
+  "ar": "سؤال أخير: نترك مساحة للتحلية؟ 🍫"
+ },
+ "שוקולד, גלידה או כוס יין. תזונאים ממליצים על בערך 10% מהקלוריות, זה עוזר להתמיד. התפריט ייבנה על השאר.": {
+  "en": "Chocolate, ice cream or a glass of wine. Dietitians suggest about 10% of calories, it helps you stick with it. The plan is built on the rest.",
+  "ar": "شوكولاتة أو آيس كريم أو كأس نبيذ. ينصح خبراء التغذية بنحو 10% من السعرات، فهذا يساعد على الالتزام. تُبنى القائمة على الباقي."
+ },
+ "רק מה שבתפריט": {
+  "en": "Only what is in the plan",
+  "ar": "فقط ما في القائمة"
+ },
+ "קטן · 100 קק״ל": {
+  "en": "Small · 100 kcal",
+  "ar": "صغيرة · 100 سعرة"
+ },
+ "כמו 4 קוביות שוקולד מריר": {
+  "en": "Like 4 squares of dark chocolate",
+  "ar": "مثل 4 مربعات شوكولاتة داكنة"
+ },
+ "בינוני · 150 קק״ל": {
+  "en": "Medium · 150 kcal",
+  "ar": "متوسطة · 150 سعرة"
+ },
+ "כמו כדור גלידה או כוס יין": {
+  "en": "Like a scoop of ice cream or a glass of wine",
+  "ar": "مثل كرة آيس كريم أو كأس نبيذ"
+ },
+ "ההמלצה של רוב התזונאים": {
+  "en": "What most dietitians recommend",
+  "ar": "توصية معظم خبراء التغذية"
+ },
+ "כמה זמן יש לך לבשל?": {
+  "en": "How much time do you have to cook?",
+  "ar": "كم لديك من الوقت للطبخ؟"
+ },
+ "בלי פינוק, הכל בתפריט": {
+  "en": "No treat, everything is in the plan",
+  "ar": "بدون تحلية، كل شيء في القائمة"
+ },
+ "⏳ מחפש במאגר…": {
+  "en": "⏳ Searching the database…",
+  "ar": "⏳ جارٍ البحث في قاعدة البيانات…"
+ },
+ "🎲 עוד חלופות": {
+  "en": "🎲 More alternatives",
+  "ar": "🎲 بدائل أخرى"
+ },
+ "🎲 תציע לי חלופות אחרות": {
+  "en": "🎲 Suggest other alternatives",
+  "ar": "🎲 اقترح بدائل أخرى"
+ },
+ "מהמאגר המלא, עם חלבון דומה. הכמות כבר מותאמת.": {
+  "en": "From the full database, with similar protein. Amount already adjusted.",
+  "ar": "من قاعدة البيانات الكاملة، ببروتين مشابه. الكمية معدّلة مسبقًا."
+ },
+ "מהמאגר המלא, עם קלוריות דומות. הכמות כבר מותאמת.": {
+  "en": "From the full database, with similar calories. Amount already adjusted.",
+  "ar": "من قاعدة البيانات الكاملة، بسعرات مشابهة. الكمية معدّلة مسبقًا."
+ },
+ "חלופות נוספות מהמאגר": {
+  "en": "More from the database",
+  "ar": "بدائل إضافية من قاعدة البيانات"
+ },
+ "⚠️ חורג מהיעד ב-": {
+  "en": "⚠️ Over target by",
+  "ar": "⚠️ تجاوز الهدف بـ"
+ },
+ "🍫 חורג מהתפריט ב-": {
+  "en": "🍫 Over the plan by",
+  "ar": "🍫 تجاوز القائمة بـ"
+ },
+ "קק״ל. זה יורד מתקציב הפינוק (נשארו": {
+  "en": "kcal. It comes out of your treat budget (left:",
+  "ar": "سعرة. تُخصم من ميزانية التحلية (المتبقي:"
+ },
+ "אפשר להקטין כמות, להסיר פריט או ללחוץ \"✨ תפריט אחר\"": {
+  "en": "Reduce an amount, remove an item or tap \"✨ Another plan\"",
+  "ar": "يمكن تقليل كمية أو إزالة عنصر أو الضغط على \"✨ قائمة أخرى\""
+ },
+ "כף מדידה מפולסת (15 מ״ל)": {
+  "en": "Level measuring tablespoon (15 ml)",
+  "ar": "ملعقة قياس مسطّحة (15 مل)"
+ },
+ "כף אוכל גדושה, כמו בהגשה": {
+  "en": "Heaped eating spoon, as served",
+  "ar": "ملعقة طعام ممتلئة، كما في التقديم"
+ },
+ "גודל": {
+  "en": "Size",
+  "ar": "الحجم"
+ },
+ "משקל הביצה בלי הקליפה": {
+  "en": "Egg weight without the shell",
+  "ar": "وزن البيضة بدون القشرة"
+ }
 }
