@@ -2814,5 +2814,109 @@
 "גר׳ ירקות": {
 "en": "g veggies",
 "ar": "غ خضار"
+},
+"4 קוביות שוקולד מריר": {
+"en": "4 squares dark chocolate",
+"ar": "4 مربعات شوكولاتة داكنة"
+},
+"כדור גלידה": {
+"en": "A scoop of ice cream",
+"ar": "كرة آيس كريم"
+},
+"שקית במבה קטנה": {
+"en": "Small bag of Bamba",
+"ar": "كيس بامبا صغير"
+},
+"3 כוסות פופקורן": {
+"en": "3 cups popcorn",
+"ar": "3 أكواب فشار"
+},
+"כוס יין": {
+"en": "A glass of wine",
+"ar": "كأس نبيذ"
+},
+"בקבוק בירה": {
+"en": "A bottle of beer",
+"ar": "زجاجة بيرة"
+},
+"קרמבו": {
+"en": "Krembo",
+"ar": "كرمبو"
+},
+"2 עוגיות": {
+"en": "2 cookies",
+"ar": "قطعتا بسكويت"
+},
+"מקום לפינוק": {
+"en": "Room for a treat",
+"ar": "مساحة للتحلية"
+},
+"להשאיר כל יום קלוריות לשוקולד, גלידה או יין": {
+"en": "Keep daily calories for chocolate, ice cream or wine",
+"ar": "اترك سعرات يومية للشوكولاتة أو الآيس كريم أو النبيذ"
+},
+"הוסף": {
+"en": "Add",
+"ar": "أضف"
+},
+"פינוק יומי ·": {
+"en": "Daily treat ·",
+"ar": "تحلية يومية ·"
+},
+"שמור מחוץ לתפריט. נכנס בתקציב, למשל:": {
+"en": "Kept outside the plan. Fits the budget, e.g.:",
+"ar": "محفوظة خارج القائمة. تناسب الميزانية، مثلًا:"
+},
+"🍫 מקום לפינוק": {
+"en": "🍫 Room for a treat",
+"ar": "🍫 مساحة للتحلية"
+},
+"הקלוריות האלה נשמרות מחוץ לתפריט, והתפריט ייבנה על השאר.": {
+"en": "These calories are kept outside the plan, and the plan is built on the rest.",
+"ar": "هذه السعرات تبقى خارج القائمة، وتُبنى القائمة على الباقي."
+},
+"בלי": {
+"en": "None",
+"ar": "بدون"
+},
+"ושאלה אחרונה: להשאיר מקום לפינוק? 🍫": {
+"en": "Last one: leave room for a treat? 🍫",
+"ar": "سؤال أخير: نترك مساحة للتحلية؟ 🍫"
+},
+"שוקולד, גלידה או כוס יין. תזונאים ממליצים על בערך 10% מהקלוריות, זה עוזר להתמיד. התפריט ייבנה על השאר.": {
+"en": "Chocolate, ice cream or a glass of wine. Dietitians suggest about 10% of calories, it helps you stick with it. The plan is built on the rest.",
+"ar": "شوكولاتة أو آيس كريم أو كأس نبيذ. ينصح خبراء التغذية بنحو 10% من السعرات، فهذا يساعد على الالتزام. تُبنى القائمة على الباقي."
+},
+"רק מה שבתפריט": {
+"en": "Only what is in the plan",
+"ar": "فقط ما في القائمة"
+},
+"קטן · 100 קק״ל": {
+"en": "Small · 100 kcal",
+"ar": "صغيرة · 100 سعرة"
+},
+"כמו 4 קוביות שוקולד מריר": {
+"en": "Like 4 squares of dark chocolate",
+"ar": "مثل 4 مربعات شوكولاتة داكنة"
+},
+"בינוני · 150 קק״ל": {
+"en": "Medium · 150 kcal",
+"ar": "متوسطة · 150 سعرة"
+},
+"כמו כדור גלידה או כוס יין": {
+"en": "Like a scoop of ice cream or a glass of wine",
+"ar": "مثل كرة آيس كريم أو كأس نبيذ"
+},
+"ההמלצה של רוב התזונאים": {
+"en": "What most dietitians recommend",
+"ar": "توصية معظم خبراء التغذية"
+},
+"כמה זמן יש לך לבשל?": {
+"en": "How much time do you have to cook?",
+"ar": "كم لديك من الوقت للطبخ؟"
+},
+"בלי פינוק, הכל בתפריט": {
+"en": "No treat, everything is in the plan",
+"ar": "بدون تحلية، كل شيء في القائمة"
 }
 }
