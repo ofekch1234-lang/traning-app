@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ccb95dea"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ccb95dea"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ccb95dea"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=7af7ff22"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7af7ff22"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=7af7ff22"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -387,6 +387,9 @@ body.landing #app{max-width:1120px}
 .mn-alt{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;margin-top:8px;text-align:var(--start);background:var(--surface2);color:var(--ink)}
 .mn-alt small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px;font-weight:400}
 .mw-chips{display:flex;flex-wrap:wrap;gap:7px}
+.mn-over{margin:-4px 0 10px;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger);font-weight:600;font-size:14px}
+.mn-over.soft{background:var(--gold-soft);color:var(--gold)}
+.mn-bar.over .bar i{background:var(--danger)}.mn-bar.over .num b{color:var(--danger)}.mn-bar.over.soft .bar i{background:var(--gold)}.mn-bar.over.soft .num b{color:var(--gold)}
 .mn-treat{padding:12px 14px}.mn-treat.off{display:flex;align-items:center;gap:12px;width:100%;text-align:var(--start);color:var(--ink)}
 .mn-treat .mc-ic{background:var(--gold-soft)}
 .mn-tr{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.mn-tr span{font-size:12.5px;padding:5px 9px;border-radius:99px;background:var(--surface2)}.mn-tr i{font-style:normal;color:var(--muted);margin-inline-start:3px}
@@ -1272,7 +1275,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.3.3';
+const APP_VERSION='12.3.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2819,8 +2822,8 @@ function openMenu(){
 }
 
 /* --- מסך התפריט --- */
-function mnBar(lbl,v,t,unit){ const pct=t?Math.min(100,Math.round(v/t*100)):0, over=t&&v>t*1.08;
-  return `<div class="mn-bar"><div class="spread small"><span>${lbl}</span><span class="num"><b>${kcalN(Math.round(v))}</b>${t?` / ${kcalN(t)}`:''} ${unit}</span></div><div class="bar"><i style="width:${pct}%;${over?'background:var(--gold)':''}"></i></div></div>`; }
+function mnBar(lbl,v,t,unit,warn){ const pct=t?Math.min(100,Math.round(v/t*100)):0, over=warn&&t&&v>t+30;
+  return `<div class="mn-bar ${over?'over':''} ${over&&warn==='soft'?'soft':''}"><div class="spread small"><span>${lbl}</span><span class="num"><b>${kcalN(Math.round(v))}</b>${t?` / ${kcalN(t)}`:''} ${unit}</span></div><div class="bar"><i style="width:${pct}%"></i></div></div>`; }
 function mnTreatHTML(){
   const f=mnFree();
   if(!f)return `<button class="card mn-treat off" data-act="mn-free"><span class="mc-ic">🍫</span><span class="mc-t"><b>מקום לפינוק</b><small>להשאיר כל יום קלוריות לשוקולד, גלידה או יין</small></span><span class="mc-tog">הוסף</span></button>`;
@@ -2838,11 +2841,13 @@ function openFreeSheet(){
 function mnTotHTML(){
   const M=menuS(), day=M.day, kT=+S.settings.kcalT?mnKT():0, pT=+S.settings.protT||0;
   const t=menuTot(day), has=day&&day.meals.some(m=>m.items.length), left=kT-t.k, pleft=pT-t.p;
-  const fit=has&&Math.abs(left)<=Math.max(80,kT*.05)&&(!pT||pleft<=10);
+  const over=has&&kT&&t.k>kT+30, fit=has&&!over&&left<=Math.max(80,kT*.05)&&(!pT||pleft<=10), free=mnFree();
   const vg=has?day.meals.flatMap(m=>m.items).filter(i=>miFood(i)?.r==='V').reduce((a,i)=>a+(+i.g||0),0):0;
-  return `${mnBar('קלוריות',t.k,kT,'קק״ל')}${mnBar('חלבון',t.p,pT,'גר׳')}
+  const overMsg=!over?'':free&&t.k<=kT+free?`<div class="mn-over soft">🍫 חורג מהתפריט ב-<b class="num">${kcalN(Math.round(-left))}</b> קק״ל. זה יורד מתקציב הפינוק (נשארו <b class="num">${kcalN(Math.round(kT+free-t.k))}</b>)</div>`
+    :`<div class="mn-over">⚠️ חורג מהיעד ב-<b class="num">${kcalN(Math.round(t.k-(kT+free)))}</b> קק״ל</div>`;
+  return `${overMsg}${mnBar('קלוריות',t.k,kT,'קק״ל',over&&free&&t.k<=kT+free?'soft':true)}${mnBar('חלבון',t.p,pT,'גר׳')}
       ${has?`<div class="mn-mac num"><span>🍞 <b>${Math.round(t.cb)}</b> גר׳ פחמימה</span><span>🥑 <b>${Math.round(t.ft)}</b> גר׳ שומן</span><span>🥦 <b>${Math.round(vg)}</b> גר׳ ירקות</span></div>`:''}
-      ${has?`<div class="small ${fit?'mn-fit':'muted'}" style="margin-top:8px">${fit?'✓ התפריט תואם ליעד שלך':left>0?`נשארו <b class="num">${kcalN(Math.round(left))}</b> קק״ל${pleft>0?` · <b class="num">${Math.round(pleft)}</b> גר׳ חלבון`:''}`:`<b class="num">${kcalN(Math.round(-left))}</b> קק״ל מעל היעד`}</div>`:''}`;
+      ${has?`<div class="small ${fit?'mn-fit':'muted'}" style="margin-top:8px">${fit?'✓ התפריט תואם ליעד שלך':left>0?`נשארו <b class="num">${kcalN(Math.round(left))}</b> קק״ל${pleft>0?` · <b class="num">${Math.round(pleft)}</b> גר׳ חלבון`:''}`:over?'אפשר להקטין כמות, להסיר פריט או ללחוץ "✨ תפריט אחר"':'✓ התפריט תואם ליעד שלך'}</div>`:''}`;
 }
 function mealCardHTML(m,mi){ const mt=mealTot(m), done=m.done===ymd();
       return `<div class="card mn-meal ${done?'done':''}" data-mi="${mi}">
