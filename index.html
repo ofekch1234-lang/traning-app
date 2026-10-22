@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.8';
+const APP_VERSION='13.2.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3492,14 +3492,28 @@ async function mnAddSearch(q){
   if(my===mnAddSearch.s&&MADD){ MADD.busy=false; const b=$('#mn-res'); if(b)b.innerHTML=mnAddList(q); }
 }
 /* גובה החלון לפי המקלדת: הכותרת והחיפוש נשארים גלויים, והרשימה גוללת */
-function swFit(){
+/* iOS: changing the sheet's size makes Safari re-scroll to the caret, which fires another viewport event.
+   Coalesce to one update per frame, skip tiny changes, and stop adjusting if it starts ping-ponging. */
+const SWF={raf:0,n:0,t0:0,off:false,logged:false};
+function swFit(){ if(SWF.raf)return; SWF.raf=requestAnimationFrame(()=>{ SWF.raf=0; swFitNow(); }); }
+function swFitNow(){
   const sh=$('#sheet'), vv=window.visualViewport; if(!sh)return;
   const sw=sh.classList.contains('swsheet'), fa=sh.classList.contains('fa');
-  if((!sw&&!fa)||!vv){ sh.style.bottom=''; sh.style.height=''; return; }
+  const reset=()=>{ if(sh.style.bottom||sh.style.height){ sh.style.bottom=''; sh.style.height=''; } };
+  if((!sw&&!fa)||!vv||sh.hidden){ reset(); SWF.off=false; return; }
   const kb=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);
   // add-meal sheet: natural height while the keyboard is closed; above the keyboard, filling the visible area, while it is open
-  if(fa&&kb<40){ sh.style.bottom=''; sh.style.height=''; return; }
-  sh.style.bottom=kb+'px'; sh.style.height=Math.round(Math.min(vv.height-(fa?8:12),window.innerHeight*(fa?.92:.86)))+'px';
+  if(fa&&kb<40){ reset(); SWF.off=false; return; }
+  if(SWF.off)return;
+  const b=Math.round(kb), h=Math.round(Math.min(vv.height-(fa?8:12),window.innerHeight*(fa?.92:.86)));
+  const cb=parseFloat(sh.style.bottom), ch=parseFloat(sh.style.height);
+  if(Math.abs(b-cb)<3&&Math.abs(h-ch)<3)return; // tiny change: leave it, so Safari has nothing to re-scroll
+  const now=Date.now(); if(now-SWF.t0>1000){ SWF.t0=now; SWF.n=0; }
+  if(++SWF.n>20){ // ping-pong with Safari: hold the current layout for a moment, then try once more
+    SWF.off=true; setTimeout(()=>{ SWF.off=false; SWF.n=0; },1500);
+    if(!SWF.logged){ SWF.logged=true; try{ logEv('swloop',{v:APP_VERSION,kb:b,vh:Math.round(vv.height),ot:Math.round(vv.offsetTop),ih:innerHeight,fa}); }catch(_){} }
+    return; }
+  sh.style.bottom=b+'px'; sh.style.height=h+'px';
 }
 try{ window.visualViewport?.addEventListener('resize',swFit); window.visualViewport?.addEventListener('scroll',swFit); }catch(_){}
 /* --- רישום ביומן --- */
