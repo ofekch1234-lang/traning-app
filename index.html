@@ -1526,7 +1526,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.17';
+const APP_VERSION='13.2.18';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3379,9 +3379,9 @@ function openMealAdd(){
 /* --- החלפה --- */
 function mnAlts(it,slotKind){
   const f=MFI(it.id); if(!f)return [];
-  const p=menuS().p||{}, v=miVals(it);
+  const p=menuS().p||{}, v=miVals(it), cap=+S.settings.kcalT?v.k+Math.max(0,mnKT()-menuTot(menuS().day).k)+15:Infinity;
   return MF().filter(x=>x.r===f.r&&x.id!==f.id&&mfAllowed(x,p)&&(x.s.includes(slotKind)||x.s.includes('m')&&slotKind!=='w'&&slotKind!=='s'))
-    .map(x=>{ const g=mfClamp(x,f.r==='P'?v.p/Math.max(x.p,1)*100:v.k/Math.max(x.k,1)*100); const vv=miVals({id:x.id,g});
+    .map(x=>{ const g=capG(x.k,mfClamp(x,f.r==='P'?v.p/Math.max(x.p,1)*100:v.k/Math.max(x.k,1)*100),mfStep(x),x.mn,cap); const vv=miVals({id:x.id,g});
       const likes=p.likes||[]; return {x,g,vv,score:(likes.includes(x.id)?0:1)+(x.s.includes(slotKind)?0:.5)+Math.abs(vv.k-v.k)/400}; })
     .sort((a,b)=>a.score-b.score).slice(0,4);
 }
@@ -3453,15 +3453,22 @@ function openSwap(mi,ii){
     ${it.id?`<div class="sw-foot"><button class="btn" style="width:100%" data-act="mn-dislike" data-m="${mi}" data-i="${ii}">👎 ${G('לא אוהב את זה, אל תציע שוב','לא אוהבת את זה, אל תציע שוב','לא אוהבים את זה, אל תציע שוב')}</button></div>`:''}`);
   $('#sheet').classList.add('swsheet'); swFit();
 }
+/* תקרת קלוריות לפריט החלופי: מה שהפריט הנוכחי תופס + מה שנשאר ביום, כדי שההחלפה לא תחרוג מהיעד */
+function swapCap(mi,ii){ if(!(+S.settings.kcalT))return Infinity; const M=menuS(), it=M.day.meals[mi].items[ii];
+  return miVals(it).k+Math.max(0,mnKT()-menuTot(M.day).k)+15; }
+/* מקטין את הכמות (בצעדים של היחידה) עד שנכנסת בתקרה; לא יורד מתחת לצעד אחד */
+function capG(per,g,step,mn,cap){ if(!(per>0)||!isFinite(cap)||per*g/100<=cap)return g;
+  const fit=Math.floor(cap/per*100/step+1e-6)*step; return Math.max(mn||step,Math.round(fit*10)/10); }
 /* כמה גרם מהמזון החדש נותנים אותו חלבון / אותן קלוריות כמו הפריט שמחליפים */
 function swapG(food,isCat){
-  if(!isCat&&food.ug){ const v0=swapG({...food,ug:0},false); if(v0==null)return null; const h=food.ug/2; return Math.max(h,Math.round(v0/h)*h); }
+  const cap=SWP?swapCap(SWP.mi,SWP.ii):Infinity;
+  if(!isCat&&food.ug){ const v0=swapG({...food,ug:0},false); if(v0==null)return null; const h=food.ug/2; return capG(+food.k||0,Math.max(h,Math.round(v0/h)*h),h,h,cap); }
   const it=menuS().day.meals[SWP.mi].items[SWP.ii], v=miVals(it);
   let key=SWP.mode, per=+food[key==='p'?'p':'k']||0;
   if(key==='p'&&per<3){ key='k'; per=+food.k||0; }
   const tgt=key==='p'?v.p:v.k; if(!(per>0))return null;
   const g=tgt/per*100;
-  return isCat?mfClamp(food,g):Math.max(10,Math.min(500,Math.round(g/5)*5));
+  return isCat?capG(+food.k||0,mfClamp(food,g),mfStep(food),food.mn,cap):capG(+food.k||0,Math.max(10,Math.min(500,Math.round(g/5)*5)),5,10,cap);
 }
 function swapRow(name,e,g,food,attrs,isCat){
   const vv={p:(+food.p||0)*g/100,k:(+food.k||0)*g/100}, amt=isCat?miAmt({id:food.id,g}):miAmt({n:name,k:food.k,p:food.p,g,tb:food.tb,u:food.u,up:food.up,ug:food.ug});
