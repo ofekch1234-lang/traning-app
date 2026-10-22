@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=041b1e99"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=041b1e99"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=041b1e99"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=df3f5f95"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=df3f5f95"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=df3f5f95"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1095,6 +1095,9 @@ svg text{font-family:var(--body)}
 .npdigits button{padding:14px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:600}
 .npdigits button:active{background:var(--accent-soft)}
 .npchips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0}
+.fbank{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border-radius:16px;border:1px solid var(--line);background:var(--accent-soft);color:var(--ink);font-size:14.5px;text-align:start;margin-top:-4px}
+.fbank>svg:first-child{width:20px;height:20px;color:var(--accent);flex-shrink:0}.fbank>span:not(.chev){flex:1;min-width:0}.fbank>.chev{flex:none;color:var(--muted)}
+.fbank.over{background:var(--gold-soft)}.fbank.over>svg:first-child{color:var(--gold)}
 .kbank{display:flex;align-items:center;gap:12px;padding:14px}
 .kbank .lt{display:flex;flex-direction:column;gap:2px;min-width:0}.kbank b{font-size:15.5px}.kbank small{color:var(--muted);font-size:13px}
 .kb-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex-shrink:0;background:var(--accent-soft);color:var(--accent)}
@@ -1505,7 +1508,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.12';
+const APP_VERSION='13.2.13';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2717,6 +2720,7 @@ function vFood(){
         ${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,0,'')}${mb('שומן',t.fat,0,'')}
       </div>
     </div>
+    ${d===today?foodBankLine():''}
     ${d===today?(S.ai.busy?`<div class="card r20 aiload" style="margin:0">
         ${S.ai.img?`<img src="${S.ai.img}" alt="">`:`<span class="ai-spark">✨</span>`}
         <div style="flex:1;min-width:0"><b class="ai-q">${S.ai.q?`״${esc(S.ai.q)}״`:'מנתח את התמונה'}</b>
@@ -4402,18 +4406,28 @@ function balanceLine(){
   return {proj,tip};
 }
 /* weekly calorie bank: Sunday → yesterday, only days that have meals logged (an empty day isn't a 0-kcal day).
-   Today is left out: it isn't over yet. Positive = kcal still available, negative = over the target. */
+   Today counts only once it goes over the target (the overage comes off the bank right away); kcal not yet eaten today
+   aren't "saved" because the day isn't over. Positive = kcal still available, negative = over the target. */
 function kcalBank(){
   const kT=+S.settings.kcalT||0; if(!kT)return null;
-  const now=new Date(), dow=now.getDay(); let bank=0, n=0;
-  for(let i=dow;i>=1;i--){ const x=new Date(now); x.setDate(now.getDate()-i); const ds=ymd(x); if(!mealsOf(ds).length)continue; bank+=kT-dayTotals(ds).kcal; n++; }
-  return n?{bank:Math.round(bank),n,kT}:null;
+  const now=new Date(), dow=now.getDay(); let past=0, n=0;
+  for(let i=dow;i>=1;i--){ const x=new Date(now); x.setDate(now.getDate()-i); const ds=ymd(x); if(!mealsOf(ds).length)continue; past+=kT-dayTotals(ds).kcal; n++; }
+  const tk=mealsOf(ymd()).length?dayTotals(ymd()).kcal:0, todayOver=Math.max(0,tk-kT);
+  if(!n&&!todayOver)return null;
+  return {bank:Math.round(past-todayOver),past:Math.round(past),n:n+(todayOver?1:0),kT,tk:Math.round(tk),todayOver:Math.round(todayOver)};
+}
+/* the same bank, as one line on the Nutrition screen */
+function foodBankLine(){
+  const b=kcalBank(); if(!b||Math.abs(b.bank)<50)return '';
+  return b.bank>0
+    ?`<button class="fbank" data-act="go" data-to="track" data-view="body">${ICON.food}<span>בנק השבוע: עוד <b class="num">${kcalN(b.bank)}</b> קק״ל לנצל</span>${ICON.chev}</button>`
+    :`<button class="fbank over" data-act="go" data-to="track" data-view="body">${ICON.food}<span>עברת את היעד השבועי ב-<b class="num">${kcalN(-b.bank)}</b> קק״ל</span>${ICON.chev}</button>`;
 }
 function kcalBankHTML(){
   const b=kcalBank(); if(!b)return '';
   const days=b.n===1?'יום אחד שרשמת':`${b.n} ימים שרשמת`;
   if(Math.abs(b.bank)<50)return `<div class="card r20 kbank"><span class="kb-ic ok">${ICON.target}</span><span class="lt"><b>בדיוק ביעד השבוע</b><small>לפי ${days}</small></span></div>`;
-  if(b.bank>0)return `<div class="card r20 kbank"><span class="kb-ic">${ICON.food}</span><span class="lt"><b>נשארו לך <span class="num">${kcalN(b.bank)}</span> קק״ל לנצל השבוע</b><small>לפי ${days} · היום אפשר עד <span class="num">${kcalN(b.kT+b.bank)}</span> קק״ל</small></span></div>`;
+  if(b.bank>0)return `<div class="card r20 kbank"><span class="kb-ic">${ICON.food}</span><span class="lt"><b>נשארו לך <span class="num">${kcalN(b.bank)}</span> קק״ל לנצל השבוע</b><small>לפי ${days}${b.todayOver?'':` · היום אפשר עד <span class="num">${kcalN(b.kT+b.past)}</span> קק״ל`}</small></span></div>`;
   return `<div class="card r20 kbank"><span class="kb-ic over">${ICON.food}</span><span class="lt"><b>עברת את היעד ב-<span class="num">${kcalN(-b.bank)}</span> קק״ל השבוע</b><small>לפי ${days}</small></span></div>`;
 }
 function vBody(){
