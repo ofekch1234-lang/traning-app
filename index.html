@@ -655,7 +655,7 @@ body.landing #app{max-width:1120px}
 .sg-seg button{flex:1;padding:8px;border-radius:9px;font-size:14px;color:var(--muted)}
 .sg-seg button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
 body.chatting header.top{display:none}
-body.chatting.kbopen nav.tabs{display:none}
+body.chatting.kbopen nav.tabs,body.typing nav.tabs{display:none}
 body.chatting{overflow:hidden}
 #chatroot{position:fixed;inset-inline:0;top:0;height:calc(100dvh - var(--tabsh,64px));max-width:560px;margin:0 auto;z-index:35;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 12px 0}
 #chatroot .sg-head{position:static;padding-top:10px}
@@ -1533,7 +1533,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.21';
+const APP_VERSION='13.2.22';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3586,6 +3586,12 @@ function swFitNow(){
     if(!SWF.logged){ SWF.logged=true; try{ logEv('swloop',{v:APP_VERSION,kb:b,vh:Math.round(vv.height),ot:Math.round(vv.offsetTop),ih:innerHeight,fa}); }catch(_){} }
     return; }
   sh.style.bottom=b+'px'; sh.style.height=h+'px';
+}
+/* במכשיר מגע: כשהמקלדת פתוחה (שדה טקסט בפוקוס) מסתירים את סרגל הלשוניות, אחרת iOS מקפיץ אותו מעל המקלדת */
+const isTextEl=el=>!!el&&(el.tagName==='TEXTAREA'||el.isContentEditable||el.tagName==='INPUT'&&!/^(checkbox|radio|range|button|submit|reset|file|color|hidden|image)$/i.test(el.type||''));
+if(matchMedia('(pointer:coarse)').matches){
+  document.addEventListener('focusin',ev=>{ if(isTextEl(ev.target))document.body.classList.add('typing'); });
+  document.addEventListener('focusout',()=>setTimeout(()=>{ if(!isTextEl(document.activeElement))document.body.classList.remove('typing'); },60));
 }
 try{ window.visualViewport?.addEventListener('resize',swFit); window.visualViewport?.addEventListener('scroll',swFit); }catch(_){}
 /* --- רישום ביומן --- */
