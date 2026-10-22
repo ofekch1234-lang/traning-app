@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.5';
+const APP_VERSION='13.2.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1828,23 +1828,45 @@ async function ensureRestPush(){
   }catch(e){}
 }
 const REST_KEY='nextrep-rest';
-function saveRestState(){ try{ if(T.int)localStorage.setItem(REST_KEY,JSON.stringify({end:T.end,total:T.total,label:T.label,armed:!!T.armed})); else localStorage.removeItem(REST_KEY); }catch(e){} }
+function saveRestState(){ try{ if(T.int)localStorage.setItem(REST_KEY,JSON.stringify({end:T.end,total:T.total,label:T.label,armed:!!T.armed,fireAt:T.fireAt||''})); else localStorage.removeItem(REST_KEY); }catch(e){} }
 function restoreRest(){
   try{ const r=JSON.parse(localStorage.getItem(REST_KEY)||'null'); if(!r||!S.active)return;
-    if(r.end>Date.now()+500){ T.end=r.end;T.total=r.total;T.label=r.label;T.armed=r.armed;
+    if(r.end>Date.now()+500){ T.end=r.end;T.total=r.total;T.label=r.label;T.armed=r.armed;T.fireAt=r.fireAt||new Date(r.end).toISOString();T.armOk=!!r.armed;
       $('#restbar').hidden=false; clearInterval(T.int);T.int=setInterval(tickRest,250);tickRest(); }
     else localStorage.removeItem(REST_KEY);
   }catch(e){}
 }
-function armServerRest(label){
+function armServerRest(label,tries=0){
   if(!S.user||S.settings.notif?.rest===false)return;
-  T.armed=true; saveRestState();
-  const row={user_id:S.user.id,fire_at:new Date(T.end).toISOString(),title:tt('המנוחה נגמרה 💪'),body:tt(label?`הבא: ${label}`:'הסט הבא מחכה לך')};
-  sb.from('rest_timers').upsert(row).then(({error})=>{ if(error){ console.error('rest arm',error); toast('לא הצלחנו לתזמן את התראת המנוחה — בדוק חיבור'); } },()=>{});
+  T.armed=true; T.armOk=false; T.fireAt=new Date(T.end).toISOString(); saveRestState();
+  const row={user_id:S.user.id,fire_at:T.fireAt,title:tt('המנוחה נגמרה 💪'),body:tt(label?`הבא: ${label}`:'הסט הבא מחכה לך')}, at=T.fireAt;
+  T.row=row;
+  sb.from('rest_timers').upsert(row).then(({error})=>{
+    if(T.fireAt!==at)return; // a newer arm replaced this one
+    if(!error){ T.armOk=true; return; }
+    console.error('rest arm',error);
+    // weak gym reception: retry quietly a few times before telling the user
+    if(tries<3&&T.int&&T.end-Date.now()>4000)setTimeout(()=>{ if(T.int&&T.fireAt===at)armServerRest(label,tries+1); },2000*(tries+1));
+    else toast('לא הצלחנו לתזמן את התראת המנוחה — בדוק חיבור');
+  },()=>{ if(T.fireAt===at&&tries<3&&T.int)setTimeout(()=>{ if(T.int&&T.fireAt===at)armServerRest(label,tries+1); },2000*(tries+1)); });
 }
+/* leaving the app right after a set: if the timer hasn't reached the server yet, send it with keepalive
+   (iOS freezes the page in the background, so a normal request can die halfway) */
+function flushRestArm(){
+  try{ if(!T.int||!T.armed||T.armOk||!T.row||!window._tok||T.end-Date.now()<2500)return;
+    fetch(SUPABASE_URL+'/rest/v1/rest_timers',{method:'POST',keepalive:true,
+      headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+window._tok,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify(T.row)}).then(r=>{ if(r.ok)T.armOk=true; }).catch(()=>{});
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden')flushRestArm(); });
+window.addEventListener('pagehide',flushRestArm);
 function disarmServerRest(){
-  if(!T.armed||!S.user)return; T.armed=false; saveRestState();
-  sb.from('rest_timers').delete().eq('user_id',S.user.id).then(()=>{},()=>{});
+  if(!T.armed||!S.user)return; T.armed=false; T.armOk=false; saveRestState();
+  // delete only THIS timer: a late delete must never wipe a newer rest that was armed right after it
+  let q=sb.from('rest_timers').delete().eq('user_id',S.user.id);
+  if(T.fireAt)q=q.eq('fire_at',T.fireAt);
+  q.then(()=>{},()=>{});
 }
 function startRest(sec,label){
   T.total=sec;T.end=Date.now()+sec*1000;T.label=label||'';
@@ -1858,7 +1880,9 @@ function tickRest(){
   $('#rest-t').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
   $('#rest-fill').style.width=(100*left/(T.total*1000))+'%';
   // האפליקציה פתוחה ממש בסוף המנוחה → מבטלים את הפוש מהשרת כדי שלא תהיה התראה כפולה
-  if(left<=2000&&T.armed&&document.visibilityState==='visible')disarmServerRest();
+  // the app is open and in front at the very end → cancel the server push so there's no double alert.
+  // Only in the last half-second: earlier, the user could still leave the app and get nothing.
+  if(left<=500&&T.armed&&document.visibilityState==='visible'&&(!document.hasFocus||document.hasFocus()))disarmServerRest();
   if(left<=0){stopRest();
     if(S.settings.notif?.sound!==false)beep();
     vibrate([200,100,200,100,400]);
@@ -7601,6 +7625,7 @@ function hideSplash(){
   }catch(e){ S.mode='auth'; render(); }
   hideSplash();
   sb.auth.onAuthStateChange((ev,sess)=>{
+    window._tok=sess?.access_token||null; // for keepalive requests (rest timer) when the app goes to the background
     if(ev==='PASSWORD_RECOVERY'){ setTimeout(openNewPassword,600); }
     if(sess&&!S.user)enterApp(sess.user);
     if(ev==='SIGNED_OUT'){try{closeSheet();}catch(_){} try{CO.open=false;}catch(_){} document.getElementById('wrap')?.setAttribute('hidden',''); try{S.showAuth=false;window.scrollTo(0,0);}catch(_){} PH.sets=[];PH.urls={};PH.loaded=false;S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
