@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d8a2d158"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d8a2d158"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d8a2d158"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=041b1e99"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=041b1e99"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=041b1e99"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1095,6 +1095,10 @@ svg text{font-family:var(--body)}
 .npdigits button{padding:14px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:600}
 .npdigits button:active{background:var(--accent-soft)}
 .npchips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0}
+.kbank{display:flex;align-items:center;gap:12px;padding:14px}
+.kbank .lt{display:flex;flex-direction:column;gap:2px;min-width:0}.kbank b{font-size:15.5px}.kbank small{color:var(--muted);font-size:13px}
+.kb-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex-shrink:0;background:var(--accent-soft);color:var(--accent)}
+.kb-ic.over{background:var(--gold-soft);color:var(--gold)}.kb-ic svg{width:22px;height:22px}
 .nprange{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 2px}
 .nprange>div{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:8px 6px 2px}
 .nprange>div>span{font-size:13px;color:var(--muted);font-weight:600}
@@ -1501,7 +1505,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.11';
+const APP_VERSION='13.2.12';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4397,6 +4401,21 @@ function balanceLine(){
   else if(avgK==null&&kT&&(ws||d7!=null))tip='לא נרשמו ארוחות השבוע. בלי זה אי אפשר לדעת למה המשקל זז או לא.';
   return {proj,tip};
 }
+/* weekly calorie bank: Sunday → yesterday, only days that have meals logged (an empty day isn't a 0-kcal day).
+   Today is left out: it isn't over yet. Positive = kcal still available, negative = over the target. */
+function kcalBank(){
+  const kT=+S.settings.kcalT||0; if(!kT)return null;
+  const now=new Date(), dow=now.getDay(); let bank=0, n=0;
+  for(let i=dow;i>=1;i--){ const x=new Date(now); x.setDate(now.getDate()-i); const ds=ymd(x); if(!mealsOf(ds).length)continue; bank+=kT-dayTotals(ds).kcal; n++; }
+  return n?{bank:Math.round(bank),n,kT}:null;
+}
+function kcalBankHTML(){
+  const b=kcalBank(); if(!b)return '';
+  const days=b.n===1?'יום אחד שרשמת':`${b.n} ימים שרשמת`;
+  if(Math.abs(b.bank)<50)return `<div class="card r20 kbank"><span class="kb-ic ok">${ICON.target}</span><span class="lt"><b>בדיוק ביעד השבוע</b><small>לפי ${days}</small></span></div>`;
+  if(b.bank>0)return `<div class="card r20 kbank"><span class="kb-ic">${ICON.food}</span><span class="lt"><b>נשארו לך <span class="num">${kcalN(b.bank)}</span> קק״ל לנצל השבוע</b><small>לפי ${days} · היום אפשר עד <span class="num">${kcalN(b.kT+b.bank)}</span> קק״ל</small></span></div>`;
+  return `<div class="card r20 kbank"><span class="kb-ic over">${ICON.food}</span><span class="lt"><b>עברת את היעד ב-<span class="num">${kcalN(-b.bank)}</span> קק״ל השבוע</b><small>לפי ${days}</small></span></div>`;
+}
 function vBody(){
   const ws=S.weights||[]; const last=ws[ws.length-1];
   const today=ymd();
@@ -4425,6 +4444,7 @@ function vBody(){
       ${goalLine||`<button class="linkbtn" data-act="goal-kg" style="padding:0;text-decoration:none;font-weight:600;text-align:start">🎯 הגדר משקל יעד</button>`}
       ${last&&last.d===today?`<button class="btn big" data-act="bw-quick">✓ נשקלת היום · עריכה</button>`:`<button class="btn primary big" data-act="bw-quick">${last?'שקילה היום':'השקילה הראשונה'}</button>`}
     </div>
+    ${kcalBankHTML()}
     ${bl.proj||bl.tip?`<div class="card r20 kobi-row" style="padding:12px 14px;align-items:flex-start"><img src="img/kobi-think.svg" alt=""><span class="lt">${bl.proj?`<b>${bl.proj}</b>`:''}${bl.tip?`<span>${bl.tip}</span>`:''}</span></div>`:''}
     <div class="card r20 list">
       ${row('cal',ICON.scale,'לוח שקילות',ws.length?`${ws.filter(x=>x.d.slice(0,7)===today.slice(0,7)).length} שקילות החודש`:'עוד לא נשקלת')}
