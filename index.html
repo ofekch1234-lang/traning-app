@@ -1120,7 +1120,7 @@ svg text{font-family:var(--body)}
 .npdigits button{padding:14px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:600}
 .npdigits button:active{background:var(--accent-soft)}
 .npchips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0}
-.fbank{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border-radius:16px;border:1px solid var(--line);background:var(--accent-soft);color:var(--ink);font-size:14.5px;text-align:start;margin-top:-4px}
+.fbank{cursor:pointer;display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border-radius:16px;border:1px solid var(--line);background:var(--accent-soft);color:var(--ink);font-size:14.5px;text-align:start;margin-top:-4px}
 .fbank>svg:first-child{width:20px;height:20px;color:var(--accent);flex-shrink:0}.fbank>span:not(.chev){flex:1;min-width:0}.fbank>.chev{flex:none;color:var(--muted)}
 .fbank.over{background:var(--gold-soft)}.fbank.over>svg:first-child{color:var(--gold)}
 .kbank{display:flex;align-items:center;gap:12px;padding:14px}
@@ -1533,7 +1533,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.19';
+const APP_VERSION='13.2.20';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4492,8 +4492,8 @@ function kcalBank(){
 function foodBankLine(){
   const b=kcalBank(); if(!b||Math.abs(b.bank)<50)return '';
   return b.bank>0
-    ?`<button class="fbank" data-act="go" data-to="track" data-view="body">${ICON.food}<span>בנק השבוע: עוד <b class="num">${kcalN(b.bank)}</b> קק״ל לנצל</span>${ICON.chev}</button>`
-    :`<button class="fbank over" data-act="go" data-to="track" data-view="body">${ICON.food}<span>עברת את היעד השבועי ב-<b class="num">${kcalN(-b.bank)}</b> קק״ל</span>${ICON.chev}</button>`;
+    ?`<div class="fbank" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>בנק השבוע: עוד <b class="num">${kcalN(b.bank)}</b> קק״ל לנצל</span>${infoI('bank')}</span>${ICON.chev}</div>`
+    :`<div class="fbank over" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>עברת את היעד השבועי ב-<b class="num">${kcalN(-b.bank)}</b> קק״ל</span>${infoI('bank')}</span>${ICON.chev}</div>`;
 }
 function kcalBankHTML(){
   const b=kcalBank(); if(!b)return '';
