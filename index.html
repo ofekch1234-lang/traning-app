@@ -617,7 +617,7 @@ body.landing #app{max-width:1120px}
 .otp-mail b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
 .pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:var(--start);padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
-.pb-cta .pb-ic{font-size:28px}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
+.pb-cta .pb-ic{font-size:28px}.pb-cta .btn{flex-shrink:0;border-radius:12px;padding:10px 16px;font-weight:700}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
 .pb-top{display:flex;flex-direction:column;gap:6px}
 .pb-prog{height:5px;border-radius:99px;background:var(--surface2);overflow:hidden;display:flex}
 .pb-prog i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .25s}
@@ -1256,8 +1256,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .day.today span{color:var(--ink);font-weight:700}
 .linkbtn.small{font-size:12.5px;padding:2px}
 /* weekly schedule grid */
-.schedgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;direction:var(--dir)}
-.schedday{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px;border-radius:10px;background:var(--surface2);border:1px solid var(--line)}
+.schedgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;direction:var(--dir)}
+.schedday{min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px;border-radius:10px;background:var(--surface2);border:1px solid var(--line)}
 .schedday .dl{font-family:var(--disp);font-weight:800;font-size:16px;line-height:1.12;color:var(--muted)}
 .schedday .dn{font-size:10px;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .schedday.has{background:var(--accent-soft);border-color:var(--accent)}
@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.9';
+const APP_VERSION='13.2.10';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
