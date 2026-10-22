@@ -3038,5 +3038,85 @@
  "לא זיהינו אוכל או שתייה. נסה לפרט, למשל \"2 פרוסות לחם עם גבינה\"": {
   "en": "We couldn't find food or drink. Try adding detail, e.g. \"2 slices of bread with cheese\"",
   "ar": "لم نتعرف على طعام أو شراب. جرّب التفصيل، مثلًا \"شريحتا خبز مع جبنة\""
+ },
+ "שלחנו לך קוד לפני רגע, והוא עדיין בתוקף. הקלד את הקוד מהמייל האחרון.": {
+  "en": "We sent you a code a moment ago and it's still valid. Enter the code from the latest email.",
+  "ar": "أرسلنا لك رمزًا قبل لحظة وما زال صالحًا. أدخل الرمز من آخر بريد."
+ },
+ "נשלחו הרבה קודים בזמן קצר. נסה שוב בעוד כמה דקות, או היכנס עם סיסמה.": {
+  "en": "Too many codes were sent in a short time. Try again in a few minutes, or sign in with a password.",
+  "ar": "أُرسلت رموز كثيرة في وقت قصير. حاول بعد بضع دقائق، أو ادخل بكلمة مرور."
+ },
+ "אפשר לשלוח קוד חדש בעוד": {
+  "en": "You can send a new code in",
+  "ar": "يمكن إرسال رمز جديد بعد"
+ },
+ "שניות": {
+  "en": "seconds",
+  "ar": "ثوانٍ"
+ },
+ "🔑 קוד העברה מהדפדפן": {
+  "en": "🔑 Transfer code from the browser",
+  "ar": "🔑 رمز النقل من المتصفح"
+ },
+ "אחרי ההרשמה בדפדפן הופיע קוד בן 6 ספרות. הקלד אותו כאן ותיכנס ישר, בלי מייל.": {
+  "en": "After signing up in the browser you got a 6-digit code. Enter it here to sign in right away, no email needed.",
+  "ar": "بعد التسجيل في المتصفح ظهر رمز من 6 أرقام. أدخله هنا وستدخل مباشرة دون بريد."
+ },
+ "כניסה": {
+  "en": "Sign in",
+  "ar": "دخول"
+ },
+ "אין לי קוד, כניסה עם המייל": {
+  "en": "I don't have a code, use email",
+  "ar": "ليس لدي رمز، الدخول بالبريد"
+ },
+ "נרשמת קודם בדפדפן?": {
+  "en": "Signed up in the browser?",
+  "ar": "سجّلت في المتصفح أولًا؟"
+ },
+ "כניסה עם קוד העברה, בלי לחכות למייל": {
+  "en": "Sign in with a transfer code, no waiting for email",
+  "ar": "ادخل برمز نقل دون انتظار البريد"
+ },
+ "יותר מדי ניסיונות. נסה שוב בעוד כמה דקות.": {
+  "en": "Too many attempts. Try again in a few minutes.",
+  "ar": "محاولات كثيرة. حاول بعد بضع دقائق."
+ },
+ "הקוד שגוי או שפג תוקפו (הוא תקף 15 דקות).": {
+  "en": "The code is wrong or expired (valid for 15 minutes).",
+  "ar": "الرمز خاطئ أو منتهي الصلاحية (صالح 15 دقيقة)."
+ },
+ "הכניסה נכשלה. נסה כניסה עם המייל.": {
+  "en": "Sign-in failed. Try signing in with email.",
+  "ar": "فشل الدخول. جرّب الدخول بالبريد."
+ },
+ "אין חיבור. נסה שוב.": {
+  "en": "No connection. Try again.",
+  "ar": "لا يوجد اتصال. حاول مجددًا."
+ },
+ "מכין קוד העברה…": {
+  "en": "Preparing a transfer code…",
+  "ar": "جارٍ تجهيز رمز النقل…"
+ },
+ "כשתפתח את האפליקציה מהמסך הבית, בחר \"נרשמת קודם בדפדפן?\" והקלד:": {
+  "en": "When you open the app from the home screen, tap \"Signed up in the browser?\" and enter:",
+  "ar": "عند فتح التطبيق من الشاشة الرئيسية، اختر \"سجّلت في المتصفح أولًا؟\" وأدخل:"
+ },
+ "תקף ל-15 דקות": {
+  "en": "Valid for 15 minutes",
+  "ar": "صالح لمدة 15 دقيقة"
+ },
+ "לפני ההרשמה: שמור את NextRep במסך הבית": {
+  "en": "Before signing up: add NextRep to your home screen",
+  "ar": "قبل التسجيل: أضف NextRep إلى الشاشة الرئيسية"
+ },
+ "באייפון האפליקציה שבמסך הבית נפרדת מהדפדפן. כשנרשמים בתוכה, נרשמים פעם אחת בלבד, והיא נפתחת במסך מלא ושולחת התראות.": {
+  "en": "On iPhone, the home-screen app is separate from the browser. Sign up inside it and you only sign up once, plus it opens full screen and sends notifications.",
+  "ar": "على الآيفون، تطبيق الشاشة الرئيسية منفصل عن المتصفح. سجّل بداخله لتسجّل مرة واحدة فقط، ويفتح بملء الشاشة ويرسل الإشعارات."
+ },
+ "להמשיך בדפדפן": {
+  "en": "Continue in the browser",
+  "ar": "المتابعة في المتصفح"
  }
 }

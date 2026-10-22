@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cfcd38f5"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cfcd38f5"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cfcd38f5"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ee3ce4aa"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ee3ce4aa"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ee3ce4aa"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -501,13 +501,18 @@ body.landing #app{max-width:1120px}
 .tour-card.mid{top:50%;transform:translateY(-50%)}
 .tour-card h3{margin:6px 0 4px;font-size:19px}.tour-card p{margin:0;color:var(--muted);line-height:1.55}
 .tour-dots{display:flex;gap:5px}.tour-dots i{width:6px;height:6px;border-radius:99px;background:var(--line)}.tour-dots i.on{width:18px;background:var(--accent)}
-#instgate{position:fixed;inset:0;z-index:95;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
-.ig-body{max-width:400px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:center}
+#instgate{position:fixed;inset:0;z-index:95;background:var(--bg);display:flex;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
+.ig-body{max-width:400px;width:100%;margin:auto;display:flex;flex-direction:column;gap:14px;text-align:center}
 .ig-body h2{margin:0;font-size:24px;line-height:1.25}.ig-body p{margin:0;color:var(--muted);line-height:1.55}
 .ig-icon{width:76px;height:76px;border-radius:18px;margin:0 auto;box-shadow:0 10px 24px -10px rgba(22,163,74,.7)}
 .ig-steps{text-align:var(--start);margin:0;padding:0;list-style:none;counter-reset:ig;display:grid;gap:10px}
 .ig-steps li{counter-increment:ig;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 14px;display:flex;gap:12px;align-items:center;line-height:1.45}
 .ig-steps li::before{content:counter(ig);flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
+.ig-code{background:var(--surface);border:1.5px dashed var(--accent);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;align-items:center}
+.ig-code span{font-size:13.5px;color:var(--muted);line-height:1.5}.ig-code b{font-size:34px;font-weight:800;letter-spacing:4px;color:var(--ink)}.ig-code small{font-size:12px;color:var(--muted)}
+.ho-link{display:flex;flex-direction:column;gap:2px;align-items:center;background:var(--accent-soft);border:1px solid transparent;border-radius:14px;padding:12px;color:var(--ink)}
+.ho-link b{font-size:14.5px}.ho-link span{font-size:12.5px;color:var(--muted)}
+.otp-note{background:var(--accent-soft);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.5}
 .ig-skip{color:var(--muted);font-size:13px;text-decoration:underline;margin-top:6px}
 .fi-title{display:flex;flex-direction:column;gap:1px}.fi-title b{font-size:17px}
 .fsearch{position:relative}
@@ -1318,7 +1323,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.6.3';
+const APP_VERSION='12.7.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1733,15 +1738,27 @@ function render_(){
 let GOOGLE_ON=false;
 const OTP_ON=true;
 const SHOW_GOOGLE=false; // Google sign-in hidden by choice (code kept; existing Google users sign in with an email code) // email one-time code login; on once custom SMTP (Resend) is connected
-const OTP={step:'',email:'',busy:false,err:'',until:0};
+const OTP={step:'',email:'',busy:false,err:'',until:0,note:''};
 function vOtp(){
   const code=OTP.step==='code';
+  if(OTP.step==='ho')return `<div id="authwrap" class="code">
+    <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div></div>
+    <div class="card stack">
+      <h3 style="margin:0">🔑 קוד העברה מהדפדפן</h3>
+      <div class="muted small" style="line-height:1.55">אחרי ההרשמה בדפדפן הופיע קוד בן 6 ספרות. הקלד אותו כאן ותיכנס ישר, בלי מייל.</div>
+      <input id="ho-code" class="otp-in num" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="7" dir="ltr" placeholder="••••••">
+      <div class="autherr">${esc(OTP.err||'')}</div>
+      <button class="btn primary big" data-act="ho-redeem" ${OTP.busy?'disabled':''}>${OTP.busy?'רגע…':'כניסה'}</button>
+      <button class="linkbtn" data-act="otp-back" style="color:var(--muted)">אין לי קוד, כניסה עם המייל</button>
+    </div></div>`;
+  const hoBtn=IS_STANDALONE?`<button class="ho-link" data-act="ho-open"><b>נרשמת קודם בדפדפן?</b><span>כניסה עם קוד העברה, בלי לחכות למייל</span></button>`:'';
   if(!code&&!window.NR_G)return `<div id="authwrap">
     <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div>${langPillsHTML()}</div>
     <div class="card stack">
       <div class="tgw-q" style="margin:0"><img src="img/kobi-happy.svg" alt=""><div><b>רגע לפני שמתחילים: איך לפנות אליך?</b><span>ככה אדבר איתך בכל האפליקציה.</span></div></div>
       <div class="auth-g"><button data-act="auth-g" data-v="m"><span>🙋‍♂️</span><b>בלשון זכר</b></button><button data-act="auth-g" data-v="f"><span>🙋‍♀️</span><b>בלשון נקבה</b></button></div>
       <button class="linkbtn" data-act="auth-g" data-v="x" style="color:var(--muted)">לא משנה לי</button>
+      ${hoBtn}
       ${IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
     </div></div>`;
   return `<div id="authwrap" class="${code?'code':''}">
@@ -1749,14 +1766,16 @@ function vOtp(){
     <div class="card stack">
       <h3 style="margin:0">${code?'📬 הקלד את הקוד מהמייל':'כניסה או הרשמה'}</h3>
       ${code?`<div class="otp-mail"><span>✉️</span><b dir="ltr" data-notr>${esc(OTP.email)}</b><button class="linkbtn small" data-act="otp-change" style="padding:0">שינוי</button></div><div class="muted small">6 ספרות. הקוד תקף לשעה. לא רואה? בדוק בתיקיית הספאם.</div>`:`<div class="muted small">בלי סיסמה: מקלידים אימייל ומקבלים קוד חד-פעמי. אם אין לך חשבון, הוא ייפתח אוטומטית.</div>`}
+      ${code&&OTP.note?`<div class="otp-note">${esc(tt(OTP.note))}</div>`:''}
       ${code?`<input id="otp-code" class="otp-in num" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" dir="ltr" placeholder="••••••">`
         :`<input id="otp-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(OTP.email||S.authEmail||'')}">`}
       <div class="autherr">${esc(OTP.err||'')}</div>
       <button class="btn primary big" data-act="${code?'otp-verify':'otp-send'}" ${OTP.busy?'disabled':''}>${OTP.busy?'רגע…':code?'התחברות':'שלח לי קוד'}</button>
-      ${code?`<button class="linkbtn" data-act="otp-send" ${Date.now()<OTP.until?'disabled':''}>${Date.now()<OTP.until?'אפשר לשלוח שוב בעוד דקה':'לא הגיע? שלח שוב'}</button>
+      ${code?`<button class="linkbtn" data-act="otp-send" ${Date.now()<OTP.until?'disabled':''}>${Date.now()<OTP.until?(OTP.until-Date.now()<60000?tt('אפשר לשלוח קוד חדש בעוד')+' '+Math.ceil((OTP.until-Date.now())/1000)+' '+tt('שניות'):'אפשר לשלוח שוב בעוד דקה'):'לא הגיע? שלח שוב'}</button>
 `
         :`<div class="small muted gconsent" style="text-align:center">בהמשך אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>`}
       ${code?'':`<button class="linkbtn" data-act="auth-email-open" style="font-size:13.5px;color:var(--muted)">התחברות עם סיסמה</button>`}
+      ${code?'':hoBtn}
       ${code?'':`<button class="linkbtn" data-act="auth-g-reset" style="font-size:12.5px;color:var(--muted)">${{m:'פנייה בלשון זכר',f:'פנייה בלשון נקבה',x:'פנייה: לא משנה'}[window.NR_G]||''} · שינוי</button>`}
       ${code?'<button class="linkbtn" data-act="otp-back" style="color:var(--muted)">חזרה</button>':IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
     </div></div>`;
@@ -1768,9 +1787,27 @@ async function otpSend(){
   let ref=null; try{ref=localStorage.getItem('nr-ref');}catch(_){}
   const {error}=await sb.auth.signInWithOtp({email:em,options:{shouldCreateUser:true,data:Object.assign({lang:LANG,g:window.NR_G||null,terms_accepted:new Date().toISOString(),terms_v:'2026-10-20'},ref?{ref}:{})}});
   OTP.busy=false;
-  if(error){ OTP.err=/rate|seconds/i.test(error.message)?'נשלחו יותר מדי קודים. נסה שוב בעוד דקה.':'שליחת הקוד נכשלה. נסה שוב.'; render(); return; }
-  OTP.step='code'; OTP.until=Date.now()+60000; render(); setTimeout(()=>$('#otp-code')?.focus(),60);
+  if(error){ const sec=/(\d+)\s*second/i.exec(error.message||'');
+    if(sec){ // קוד כבר נשלח לפני פחות מדקה (למשל בדפדפן, רגע לפני שפתחו את האפליקציה): הוא עדיין בתוקף
+      OTP.step='code'; OTP.until=Date.now()+(+sec[1]+1)*1000; OTP.note='שלחנו לך קוד לפני רגע, והוא עדיין בתוקף. הקלד את הקוד מהמייל האחרון.'; OTP.err='';
+      render(); setTimeout(()=>$('#otp-code')?.focus(),60); setTimeout(()=>{ if(OTP.step==='code')render(); },(+sec[1]+1.5)*1000); return; }
+    OTP.err=/rate|limit/i.test(error.message)?'נשלחו הרבה קודים בזמן קצר. נסה שוב בעוד כמה דקות, או היכנס עם סיסמה.':'שליחת הקוד נכשלה. נסה שוב.'; render(); return; }
+  OTP.note=''; OTP.step='code'; OTP.until=Date.now()+60000; render(); setTimeout(()=>$('#otp-code')?.focus(),60);
   setTimeout(()=>{ if(OTP.step==='code')render(); },61000);
+}
+async function hoRedeem(){
+  const c=($('#ho-code')?.value||'').replace(/\D/g,'');
+  if(c.length!==6){ OTP.err='הקוד צריך להיות 6 ספרות'; render(); return; }
+  OTP.busy=true; OTP.err=''; render();
+  try{
+    const {data,error}=await sb.functions.invoke('handoff',{body:{action:'redeem',code:c}});
+    if(error||!data?.token_hash){ const st=error?.context?.status; OTP.busy=false; OTP.err=st===429?'יותר מדי ניסיונות. נסה שוב בעוד כמה דקות.':'הקוד שגוי או שפג תוקפו (הוא תקף 15 דקות).'; render(); return; }
+    let r=await sb.auth.verifyOtp({token_hash:data.token_hash,type:'magiclink'});
+    if(r.error)r=await sb.auth.verifyOtp({token_hash:data.token_hash,type:'email'});
+    OTP.busy=false;
+    if(r.error){ OTP.err='הכניסה נכשלה. נסה כניסה עם המייל.'; render(); return; }
+    OTP.step=''; logEv('handoff_ok');
+  }catch(e){ OTP.busy=false; OTP.err='אין חיבור. נסה שוב.'; render(); }
 }
 async function otpVerify(){
   const t=($('#otp-code')?.value||'').replace(/\D/g,'');
@@ -5898,7 +5935,7 @@ function checkInstallGate(){
   try{ const t=+localStorage.getItem('nr-inst-skip')||0; if(Date.now()-t<864e5)return false; }catch(_){}
   showInstallGate(); return true;
 }
-function showInstallGate(){
+function showInstallGate(pre,mode){
   if($('#instgate'))return;
   const share=`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg>`;
   const plus=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-4px"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>`;
@@ -5908,11 +5945,32 @@ function showInstallGate(){
   else steps=`<button id="inst-native" class="btn primary big" data-act="inst-native" ${_bip?'':'hidden'}>התקנת האפליקציה</button>
     <ol class="ig-steps"><li>לחץ על <b>⋮</b> בפינה העליונה של Chrome</li><li>בחר <b>"התקנת אפליקציה"</b> או <b>"הוספה למסך הבית"</b></li><li>פתח את NextRep מהאייקון החדש</li></ol>`;
   const d=document.createElement('div'); d.id='instgate';
-  d.innerHTML=`<div class="ig-body"><img src="icon-192.png" alt="" class="ig-icon"><h2>עוד צעד אחד: שמור את NextRep במסך הבית</h2>
+  d.innerHTML=pre?`<div class="ig-body"><img src="icon-192.png" alt="" class="ig-icon"><h2>לפני ההרשמה: שמור את NextRep במסך הבית</h2>
+    <p>באייפון האפליקציה שבמסך הבית נפרדת מהדפדפן. כשנרשמים בתוכה, נרשמים פעם אחת בלבד, והיא נפתחת במסך מלא ושולחת התראות.</p>
+    ${steps}
+    <button class="ig-skip" data-act="inst-pre-skip" data-m="${mode||'signup'}">להמשיך בדפדפן</button></div>`
+  :`<div class="ig-body"><img src="icon-192.png" alt="" class="ig-icon"><h2>עוד צעד אחד: שמור את NextRep במסך הבית</h2>
     <p>כך היא נפתחת במסך מלא כמו אפליקציה, עובדת בחדר כושר בלי קליטה, ושולחת התראה כשהמנוחה נגמרת. בדפדפן ההתראות לא יעבדו.</p>
     ${steps}
+    ${IS_IOS&&!IN_APP_BROWSER&&S.user?`<div class="ig-code" id="ig-code"><span>מכין קוד העברה…</span></div>`:''}
     <button class="ig-skip" data-act="inst-skip">המכשיר שלי לא מאפשר את זה</button></div>`;
   document.body.appendChild(d);
+  if(IS_IOS&&!IN_APP_BROWSER&&S.user)hoCreate();
+}
+/* באייפון האפליקציה שבמסך הבית לא רואה את ההתחברות של ספארי: מציגים קוד העברה חד-פעמי */
+async function hoCreate(){
+  const show=c=>{ const el=$('#ig-code'); if(el)el.innerHTML=`<span>${tt('כשתפתח את האפליקציה מהמסך הבית, בחר "נרשמת קודם בדפדפן?" והקלד:')}</span><b class="num" dir="ltr">${c.slice(0,3)} ${c.slice(3)}</b><small>${tt('תקף ל-15 דקות')}</small>`; };
+  try{ const o=JSON.parse(sessionStorage.getItem('nr-ho')||'null'); if(o&&Date.now()-o.t<12*60000){ show(o.c); return; } }catch(_){}
+  try{ const {data}=await sb.functions.invoke('handoff',{body:{action:'create'}});
+    if(data?.code){ try{ sessionStorage.setItem('nr-ho',JSON.stringify({c:data.code,t:Date.now()})); }catch(_){} show(data.code); }
+    else $('#ig-code')?.remove();
+  }catch(_){ $('#ig-code')?.remove(); }
+}
+/* באייפון בדפדפן: מציעים לשמור למסך הבית לפני ההרשמה, כדי להירשם פעם אחת בתוך האפליקציה */
+function preInstallGate(mode){
+  if(!IS_IOS||IS_STANDALONE||IN_APP_BROWSER)return false;
+  try{ if(localStorage.getItem('nr-ref')||sessionStorage.getItem('nr-pre-skip'))return false; }catch(_){ return false; }
+  showInstallGate(true,mode); return true;
 }
 /* ---- הסיור ---- */
 const TOUR={on:false,i:0};
@@ -5999,6 +6057,7 @@ function tourAct(act,b){
     case 'lang-open': openSheet(`<h3>🌐 שפה</h3><div class="langlist" data-notr>${Object.entries(LANG_NAMES).map(([k,v])=>`<button data-act="lang-set" data-l="${k}" lang="${k}" class="${k===LANG?'on':''}"><span>${v}</span>${k===LANG?'<span>✓</span>':''}</button>`).join('')}</div>`); return true;
     case 'lang-set': { const l=b.dataset.l; if(l&&l!==LANG){ b.innerHTML+=' …'; setLang(l); } else closeSheet(); return true; }
     case 'inst-native': if(_bip){ _bip.prompt(); _bip.userChoice.finally(()=>{_bip=null;}); } return true;
+    case 'inst-pre-skip': { try{ sessionStorage.setItem('nr-pre-skip','1'); }catch(_){} $('#instgate')?.remove(); const m=b.dataset.m==='login'?'land-login':'land-signup'; setTimeout(()=>document.querySelector('[data-act="'+m+'"]')?.click(),0); return true; }
     case 'inst-skip': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בלי שמירה ההתראות לא יעבדו. להמשיך בכל זאת?';return true;}
       try{localStorage.setItem('nr-inst-skip',String(Date.now()));}catch(_){} $('#instgate')?.remove(); maybeStartTour(); return true;
   }
@@ -6913,8 +6972,8 @@ function handleAct(b,ev){
       sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ בקשה למחיקת חשבון ומידע.'+(why?' סיבה: '+why:'')}).then(({error})=>{ if(error){toast('השליחה נכשלה, כתוב לנו במייל');return;} closeSheet(); toast('הבקשה התקבלה. נמחק את החשבון תוך 30 יום ונעדכן אותך'); }); break; }
     case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-g': { if(b.dataset.v!==window.NR_G)landSetG(b.dataset.v); return true; }
-    case 'land-signup': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
-    case 'land-login': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
+    case 'land-signup': if(preInstallGate('signup'))break; if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
+    case 'land-login': if(preInstallGate('login'))break; if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': sb.auth.signOut(); break;
@@ -6973,10 +7032,12 @@ function handleAct(b,ev){
     case 'pw-save': { const a=$('#pw1')?.value||'', c=$('#pw2')?.value||'';
       if(a.length<6){toast('לפחות 6 תווים');break;} if(a!==c){toast('הסיסמאות לא זהות');break;}
       b.disabled=true; sb.auth.updateUser({password:a}).then(({error})=>{ b.disabled=false; if(error){toast('העדכון נכשל: '+error.message);return;} closeSheet(); toast('הסיסמה עודכנה ✓'); }); break; }
+    case 'ho-open': OTP.step='ho'; OTP.err=''; render(); setTimeout(()=>$('#ho-code')?.focus(),60); break;
+    case 'ho-redeem': hoRedeem(); break;
     case 'otp-open': OTP.step='email'; OTP.err=''; render(); setTimeout(()=>$('#otp-email')?.focus(),60); break;
     case 'otp-send': otpSend(); break;
     case 'otp-verify': otpVerify(); break;
-    case 'otp-change': OTP.step='email'; OTP.err=''; render(); break;
+    case 'otp-change': OTP.step='email'; OTP.err=''; OTP.note=''; render(); break;
     case 'otp-back': OTP.step=''; OTP.err=''; S.authEmailOpen=false; render(); break;
     case 'auth-g': { const v=b.dataset.v; try{ localStorage.setItem('nr-g',v); localStorage.removeItem('nr-acc'); sessionStorage.setItem('nr-auth-open',JSON.stringify({m:S.authMode||'login',e:''})); }catch(_){}
       if(v==='f'){ location.reload(); return; } window.NR_G=v; render(); setTimeout(()=>$('#otp-email')?.focus(),60); break; }
