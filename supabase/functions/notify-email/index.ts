@@ -1,32 +1,34 @@
-// NextRep — transactional emails via Resend (trial ending soon). Called by SQL cron (x-cron-key).
+// NextRep — transactional emails via Resend (gift Premium ending soon). Called by SQL cron (x-cron-key).
 // Needs the RESEND_API_KEY secret (Supabase → Edge Functions → Secrets). Sender: app_config 'mail_from'.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const APP = "https://www.nextrep.co.il";
-const LOGO = "https://traning-app-silk.vercel.app/icon-192.png";
+const LOGO = "https://www.nextrep.co.il/icon-192.png";
 type Item = { uid: string; lang?: string; w?: number; m?: number; g?: string; until?: string };
 // feminine overrides (Hebrew / Arabic address the reader by gender)
 const F: Record<string, { none?: string; body?: string }> = {
-  he: { none: "עוד יש זמן לנסות: אימון אחד וצילום ארוחה אחת, ותראי מה NextRep יודעת לעשות." },
-  ar: { none: "ما زال هناك وقت للتجربة: تمرين واحد وتصوير وجبة واحدة، وسترين ما يمكن لـ NextRep فعله.", body: "لتواصلي مع خطتك وكوبي البوت ومتابعة التغذية دون توقف، اختاري باقة في التطبيق. دفعة واحدة، بلا تجديد تلقائي." },
+  he: { none: "עוד יש זמן לנצל את הפרימיום: צלמי כמה ארוחות שרוצים ושאלי את קובי כל שאלה.", body: "אחרי זה ממשיכים בחינם, וכל הנתונים נשמרים. כדי להשאיר את קובי וניתוח AI ללא הגבלה, שדרגי לפרימיום או הזמיני עוד חברה." },
+  ar: { none: "ما زال هناك وقت للاستفادة من بريميوم: صوّري ما تشائين من الوجبات واسألي كوبي أي سؤال.", body: "بعدها تستمرين مجانًا وتُحفظ كل بياناتك. للإبقاء على كوبي والتحليل غير المحدود، رقّي إلى بريميوم أو ادعي صديقة أخرى." },
 };
 
+// kind "trial_end": a gift Premium week (referral) ends in 2 days
 const T: Record<string, { dir: string; subj: string; title: string; did: (w: number, m: number) => string; none: string; body: string; cta: string; foot: string }> = {
-  he: { dir: "rtl", subj: "נשארו לך יומיים בניסיון ב-NextRep ⏳", title: "נשארו לך יומיים בניסיון", did: (w, m) => `עד עכשיו: ${w} אימונים ו-${m} ארוחות. יפה מאוד 💪`, none: "עוד יש זמן לנסות: אימון אחד וצילום ארוחה אחת, ותראה מה NextRep יודעת לעשות.", body: "כדי להמשיך עם התוכנית, קובי הבוט ומעקב התזונה בלי הפסקה, בוחרים מסלול באפליקציה. תשלום אחד, בלי חידוש אוטומטי.", cta: "לבחירת מסלול", foot: "קיבלת את המייל כי נרשמת ל-NextRep." },
-  ar: { dir: "rtl", subj: "بقي يومان على فترتك التجريبية في NextRep ⏳", title: "بقي يومان على فترتك التجريبية", did: (w, m) => `حتى الآن: ${w} تمارين و${m} وجبات. أحسنت 💪`, none: "ما زال هناك وقت للتجربة: تمرين واحد وتصوير وجبة واحدة، وسترى ما يمكن لـ NextRep فعله.", body: "لتواصل مع خطتك وكوبي البوت ومتابعة التغذية دون توقف، اختر باقة في التطبيق. دفعة واحدة، بلا تجديد تلقائي.", cta: "اختيار باقة", foot: "وصلتك هذه الرسالة لأنك سجّلت في NextRep." },
-  en: { dir: "ltr", subj: "2 days left in your NextRep trial ⏳", title: "2 days left in your trial", did: (w, m) => `So far: ${w} workouts and ${m} meals. Nice work 💪`, none: "Still time to try it: one workout and one meal photo, and see what NextRep can do.", body: "To keep your plan, Kobi the bot and nutrition tracking without a break, pick a plan in the app. One payment, no auto-renewal.", cta: "Choose a plan", foot: "You're receiving this because you signed up for NextRep." },
+  he: { dir: "rtl", subj: "שבוע הפרימיום שלך ב-NextRep נגמר בעוד יומיים ⏳", title: "שבוע הפרימיום נגמר בעוד יומיים", did: (w, m) => `עד עכשיו: ${w} אימונים ו-${m} ארוחות. יפה מאוד 💪`, none: "עוד יש זמן לנצל את הפרימיום: צלם כמה ארוחות שרוצים ושאל את קובי כל שאלה.", body: "אחרי זה ממשיכים בחינם, וכל הנתונים נשמרים. כדי להשאיר את קובי וניתוח AI ללא הגבלה, שדרג לפרימיום או הזמן עוד חבר.", cta: "לפתיחת האפליקציה", foot: "קיבלת את המייל כי נרשמת ל-NextRep." },
+  ar: { dir: "rtl", subj: "أسبوع بريميوم في NextRep ينتهي بعد يومين ⏳", title: "أسبوع بريميوم ينتهي بعد يومين", did: (w, m) => `حتى الآن: ${w} تمارين و${m} وجبات. أحسنت 💪`, none: "ما زال هناك وقت للاستفادة من بريميوم: صوّر ما تشاء من الوجبات واسأل كوبي أي سؤال.", body: "بعدها تستمر مجانًا وتُحفظ كل بياناتك. للإبقاء على كوبي والتحليل غير المحدود، رقِّ إلى بريميوم أو ادعُ صديقًا آخر.", cta: "فتح التطبيق", foot: "وصلتك هذه الرسالة لأنك سجّلت في NextRep." },
+  en: { dir: "ltr", subj: "Your NextRep Premium week ends in 2 days ⏳", title: "Your Premium week ends in 2 days", did: (w, m) => `So far: ${w} workouts and ${m} meals. Nice work 💪`, none: "Still time to enjoy Premium: snap as many meals as you like and ask Kobi anything.", body: "After that you continue for free and all your data is kept. To keep Kobi and unlimited AI analysis, upgrade to Premium or invite another friend.", cta: "Open the app", foot: "You're receiving this because you signed up for NextRep." },
 };
 
+// kind "gift_end": a gift Premium month (friend upgraded) ends in 3 days
 const GIFT: Record<string, Record<string, { subj: string; title: string; none: string; body: string; cta: string }>> = {
   m: {
-    he: { subj: "חודש המתנה שלך ב-NextRep נגמר בעוד 3 ימים 🎁", title: "חודש המתנה נגמר בעוד 3 ימים", none: "הגישה שלך פתוחה עד {until}. כדי להמשיך בלי הפסקה, בחר מסלול.", body: "או הזמן עוד חבר: כשהוא בוחר מסלול, אתה מקבל עוד חודש מתנה. תשלום אחד, בלי חידוש אוטומטי.", cta: "לבחירת מסלול" },
-    ar: { subj: "شهر الهدية في NextRep ينتهي بعد 3 أيام 🎁", title: "شهر الهدية ينتهي بعد 3 أيام", none: "وصولك مفتوح حتى {until}. لتواصل بلا توقف، اختر باقة.", body: "أو ادعُ صديقًا آخر: عندما يختار باقة تحصل على شهر هدية إضافي. دفعة واحدة، بلا تجديد تلقائي.", cta: "اختيار باقة" },
-    en: { subj: "Your NextRep gift month ends in 3 days 🎁", title: "Your gift month ends in 3 days", none: "Your access is open until {until}. Pick a plan to keep going without a break.", body: "Or invite another friend: when they pick a plan, you get one more free month. One payment, no auto-renewal.", cta: "Choose a plan" },
+    he: { subj: "חודש הפרימיום מתנה שלך ב-NextRep נגמר בעוד 3 ימים 🎁", title: "חודש הפרימיום מתנה נגמר בעוד 3 ימים", none: "הפרימיום שלך פתוח עד {until}. אחר כך ממשיכים בחינם, וכל הנתונים נשמרים.", body: "כדי להשאיר את קובי וניתוח AI ללא הגבלה, שדרג לפרימיום. או הזמן עוד חבר: כשהוא משדרג, אתה מקבל עוד חודש מתנה.", cta: "לפתיחת האפליקציה" },
+    ar: { subj: "شهر بريميوم الهدية في NextRep ينتهي بعد 3 أيام 🎁", title: "شهر بريميوم الهدية ينتهي بعد 3 أيام", none: "بريميوم الخاص بك مفتوح حتى {until}. بعدها تستمر مجانًا وتُحفظ كل بياناتك.", body: "للإبقاء على كوبي والتحليل غير المحدود رقِّ إلى بريميوم. أو ادعُ صديقًا آخر: عندما يرقّي تحصل على شهر هدية إضافي.", cta: "فتح التطبيق" },
+    en: { subj: "Your NextRep gift Premium month ends in 3 days 🎁", title: "Your gift Premium month ends in 3 days", none: "Your Premium is open until {until}. After that you continue for free and all your data is kept.", body: "To keep Kobi and unlimited AI analysis, upgrade to Premium. Or invite another friend: when they upgrade, you get one more free month.", cta: "Open the app" },
   },
   f: {
-    he: { subj: "חודש המתנה שלך ב-NextRep נגמר בעוד 3 ימים 🎁", title: "חודש המתנה נגמר בעוד 3 ימים", none: "הגישה שלך פתוחה עד {until}. כדי להמשיך בלי הפסקה, בחרי מסלול.", body: "או הזמיני עוד חברה: כשהיא בוחרת מסלול, את מקבלת עוד חודש מתנה. תשלום אחד, בלי חידוש אוטומטי.", cta: "לבחירת מסלול" },
-    ar: { subj: "شهر الهدية في NextRep ينتهي بعد 3 أيام 🎁", title: "شهر الهدية ينتهي بعد 3 أيام", none: "وصولك مفتوح حتى {until}. لتواصلي بلا توقف، اختاري باقة.", body: "أو ادعي صديقة أخرى: عندما تختار باقة تحصلين على شهر هدية إضافي. دفعة واحدة، بلا تجديد تلقائي.", cta: "اختيار باقة" },
-    en: { subj: "Your NextRep gift month ends in 3 days 🎁", title: "Your gift month ends in 3 days", none: "Your access is open until {until}. Pick a plan to keep going without a break.", body: "Or invite another friend: when they pick a plan, you get one more free month. One payment, no auto-renewal.", cta: "Choose a plan" },
+    he: { subj: "חודש הפרימיום מתנה שלך ב-NextRep נגמר בעוד 3 ימים 🎁", title: "חודש הפרימיום מתנה נגמר בעוד 3 ימים", none: "הפרימיום שלך פתוח עד {until}. אחר כך ממשיכים בחינם, וכל הנתונים נשמרים.", body: "כדי להשאיר את קובי וניתוח AI ללא הגבלה, שדרגי לפרימיום. או הזמיני עוד חברה: כשהיא משדרגת, את מקבלת עוד חודש מתנה.", cta: "לפתיחת האפליקציה" },
+    ar: { subj: "شهر بريميوم الهدية في NextRep ينتهي بعد 3 أيام 🎁", title: "شهر بريميوم الهدية ينتهي بعد 3 أيام", none: "بريميوم الخاص بك مفتوح حتى {until}. بعدها تستمرين مجانًا وتُحفظ كل بياناتك.", body: "للإبقاء على كوبي والتحليل غير المحدود رقّي إلى بريميوم. أو ادعي صديقة أخرى: عندما ترقّي تحصلين على شهر هدية إضافي.", cta: "فتح التطبيق" },
+    en: { subj: "Your NextRep gift Premium month ends in 3 days 🎁", title: "Your gift Premium month ends in 3 days", none: "Your Premium is open until {until}. After that you continue for free and all your data is kept.", body: "To keep Kobi and unlimited AI analysis, upgrade to Premium. Or invite another friend: when they upgrade, you get one more free month.", cta: "Open the app" },
   },
 };
 function html(l: string, w: number, m: number, g?: string, kind?: string, until?: string) {

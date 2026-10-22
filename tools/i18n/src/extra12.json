@@ -1,0 +1,486 @@
+{
+ "האפליקציה חינמית: אימונים, טיימר, שיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. מי שרוצה עוד בוחר בפרימיום: ניתוחי AI ללא הגבלה וקובי המאמן האישי, בתשלום חד-פעמי בלי מנוי מתחדש ובלי התחייבות.": {
+  "en": "The app is free: workouts, timer, PRs, smart menu, calorie tracking and barcode, groups and challenges, and one AI analysis a day. Want more? Go Premium: unlimited AI analysis and Kobi, your personal coach, with a one-time payment, no renewing subscription and no commitment.",
+  "ar": "التطبيق مجاني: التدريبات، المؤقت، الأرقام القياسية، القائمة الذكية، تتبع السعرات والباركود، الفرق والتحديات، وتحليل واحد بالذكاء الاصطناعي يوميًا. من يريد المزيد يختار بريميوم: تحليلات غير محدودة وكوبي المدرب الشخصي، بدفعة واحدة دون اشتراك متجدد ودون التزام."
+ },
+ "קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומשתמשי פרימיום יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
+  "en": "Kobi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and Premium users can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
+  "ar": "كوبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وما يجب التركيز عليه، ويمكن لمستخدمي بريميوم سؤاله أي شيء عن التدريب والتغذية والتعافي. عندما يوصي بتمرين، يظهر فيديو توضيحي."
+ },
+ "מתחילים בחינם": {
+  "en": "Start for free",
+  "ar": "ابدأ مجانًا"
+ },
+ "בלי כרטיס אשראי ובלי תקופת ניסיון: האפליקציה חינמית, ופרימיום רק אם {0} עוד.": {
+  "en": "No credit card and no trial period: the app is free, and Premium only if you want more.",
+  "ar": "بدون بطاقة ائتمان وبدون فترة تجريبية: التطبيق مجاني، وبريميوم فقط إذا أردت المزيد."
+ },
+ "בלי כרטיס אשראי ובלי תקופת ניסיון: האפליקציה חינמית, ופרימיום רק אם": {
+  "en": "No credit card and no trial period: the app is free, and Premium only if you",
+  "ar": "بدون بطاقة ائتمان وبدون فترة تجريبية: التطبيق مجاني، وبريميوم فقط إذا"
+ },
+ "תרצה": {
+  "en": "want",
+  "ar": "أردت"
+ },
+ "תרצי": {
+  "en": "want",
+  "ar": "أردتِ"
+ },
+ "עוד.": {
+  "en": "more.",
+  "ar": "المزيد."
+ },
+ "חינם": {
+  "en": "Free",
+  "ar": "مجاني"
+ },
+ "אימונים, טיימר ושיאים": {
+  "en": "Workouts, timer and PRs",
+  "ar": "التدريبات والمؤقت والأرقام القياسية"
+ },
+ "תפריט חכם לפי היעד": {
+  "en": "Smart menu for your goal",
+  "ar": "قائمة ذكية حسب هدفك"
+ },
+ "מעקב קלוריות, מאגר וברקוד": {
+  "en": "Calorie tracking, food database and barcode",
+  "ar": "تتبع السعرات وقاعدة الأطعمة والباركود"
+ },
+ "ניתוח AI אחד ביום": {
+  "en": "One AI analysis a day",
+  "ar": "تحليل واحد بالذكاء الاصطناعي يوميًا"
+ },
+ "⭐ פרימיום": {
+  "en": "⭐ Premium",
+  "ar": "⭐ بريميوم"
+ },
+ "כל מה שבחינם, ועוד:": {
+  "en": "Everything in Free, plus:",
+  "ar": "كل ما في المجاني، وأيضًا:"
+ },
+ "ניתוח AI ללא הגבלה: צילום, טקסט ותווית": {
+  "en": "Unlimited AI analysis: photo, text and label",
+  "ar": "تحليل غير محدود: صورة ونص وملصق غذائي"
+ },
+ "קובי המאמן: סיכום שבועי ושיחה": {
+  "en": "Kobi the coach: weekly summary and chat",
+  "ar": "كوبي المدرب: ملخص أسبوعي ومحادثة"
+ },
+ "מסלולי פרימיום, תשלום אחד:": {
+  "en": "Premium plans, one payment:",
+  "ar": "باقات بريميوم، دفعة واحدة:"
+ },
+ "נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. חינם, בלי כרטיס אשראי.": {
+  "en": "Sign up with your email, no password, add it to your home screen, and from your next workout every set is saved. Free, no credit card.",
+  "ar": "سجّل بالبريد الإلكتروني بدون كلمة مرور، أضفه إلى الشاشة الرئيسية، ومن التدريب القادم تُحفظ كل مجموعة. مجانًا وبدون بطاقة ائتمان."
+ },
+ "🎁 חבר הזמין אותך ל-NextRep: האפליקציה חינמית, ודרך ההזמנה מקבלים שבוע פרימיום מתנה. ההטבה נשמרת כשנרשמים מהמכשיר הזה.": {
+  "en": "🎁 A friend invited you to NextRep: the app is free, and with the invite you get a free Premium week. The perk is saved when you sign up on this device.",
+  "ar": "🎁 صديق دعاك إلى NextRep: التطبيق مجاني، ومع الدعوة تحصل على أسبوع بريميوم هدية. تُحفظ الميزة عند التسجيل من هذا الجهاز."
+ },
+ "חינם, בלי כרטיס אשראי. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.": {
+  "en": "Free, no credit card. No app store. Feminine Hebrew throughout.",
+  "ar": "مجانًا وبدون بطاقة ائتمان. بدون متجر تطبيقات. بصيغة المؤنث في كل التطبيق."
+ },
+ "חינם, בלי כרטיס אשראי. בלי חנות אפליקציות. אייפון ואנדרואיד.": {
+  "en": "Free, no credit card. No app store. iPhone and Android.",
+  "ar": "مجانًا وبدون بطاقة ائتمان. بدون متجر تطبيقات. آيفون وأندرويد."
+ },
+ "הזמנת חבר? שניכם מקבלים שבוע פרימיום מתנה.": {
+  "en": "Invite a friend? You both get a free Premium week.",
+  "ar": "دعوت صديقًا؟ تحصلان كلاكما على أسبوع بريميوم هدية."
+ },
+ "הזמנת חברה? שתיכן מקבלות שבוע פרימיום מתנה.": {
+  "en": "Invite a friend? You both get a free Premium week.",
+  "ar": "دعوتِ صديقة؟ تحصلان كلتاكما على أسبوع بريميوم هدية."
+ },
+ "ניתוחי AI ללא הגבלה וקובי המאמן": {
+  "en": "Unlimited AI analysis and Kobi the coach",
+  "ar": "تحليلات غير محدودة وكوبي المدرب"
+ },
+ "ניתוחי AI ללא הגבלה וקובי המאמן.": {
+  "en": "unlimited AI analysis and Kobi the coach.",
+  "ar": "تحليلات غير محدودة وكوبي المدرب."
+ },
+ ": ניתוחי AI ללא הגבלה וקובי המאמן. {0}": {
+  "en": ": unlimited AI analysis and Kobi the coach. {0}",
+  "ar": ": تحليلات غير محدودة وكوبي المدرب. {0}"
+ },
+ "הזמן חבר, שניכם מקבלים שבוע פרימיום": {
+  "en": "Invite a friend, you both get a Premium week",
+  "ar": "ادعُ صديقًا، تحصلان كلاكما على أسبوع بريميوم"
+ },
+ "הזמיני חברה, שתיכן מקבלות שבוע פרימיום": {
+  "en": "Invite a friend, you both get a Premium week",
+  "ar": "ادعي صديقة، تحصلان كلتاكما على أسبوع بريميوم"
+ },
+ "הזמנת חבר: שבוע פרימיום לשניכם": {
+  "en": "Invite a friend: a Premium week for both of you",
+  "ar": "دعوة صديق: أسبوع بريميوم لكليكما"
+ },
+ "הזמן חבר: שבוע פרימיום לשניכם": {
+  "en": "Invite a friend: a Premium week for both of you",
+  "ar": "ادعُ صديقًا: أسبوع بريميوم لكليكما"
+ },
+ "הזמיני חברה: שבוע פרימיום לשתיכן": {
+  "en": "Invite a friend: a Premium week for both of you",
+  "ar": "ادعي صديقة: أسبوع بريميوم لكلتيكما"
+ },
+ "או הזמן חבר: שבוע פרימיום לשניכם": {
+  "en": "Or invite a friend: a Premium week for both of you",
+  "ar": "أو ادعُ صديقًا: أسبوع بريميوم لكليكما"
+ },
+ "או הזמיני חברה: שבוע פרימיום לשתיכן": {
+  "en": "Or invite a friend: a Premium week for both of you",
+  "ar": "أو ادعي صديقة: أسبوع بريميوم لكلتيكما"
+ },
+ "או הזמנת חבר: שבוע פרימיום לשניכם": {
+  "en": "Or invite a friend: a Premium week for both of you",
+  "ar": "أو دعوة صديق: أسبوع بريميوم لكليكما"
+ },
+ "⭐ ללא הגבלה": {
+  "en": "⭐ Unlimited",
+  "ar": "⭐ بلا حدود"
+ },
+ "נותרו לך": {
+  "en": "You have",
+  "ar": "تبقّى لك"
+ },
+ "ניתוחי AI חינמיים היום": {
+  "en": "free AI analyses left today",
+  "ar": "تحليلات مجانية اليوم"
+ },
+ "ניתוח AI חינמי אחד מחכה לך היום": {
+  "en": "One free AI analysis is waiting for you today",
+  "ar": "تحليل مجاني واحد بانتظارك اليوم"
+ },
+ "הניתוח החינמי של היום נוצל · מחר יש עוד אחד": {
+  "en": "Today's free analysis is used · another one tomorrow",
+  "ar": "استُخدم التحليل المجاني لليوم · غدًا يوجد واحد آخر"
+ },
+ "⭐ שדרוג": {
+  "en": "⭐ Upgrade",
+  "ar": "⭐ ترقية"
+ },
+ "הניתוח החינמי של היום נוצל ✨": {
+  "en": "Today's free analysis is used ✨",
+  "ar": "استُخدم التحليل المجاني لليوم ✨"
+ },
+ "מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח ללא הגבלה וקובי המאמן האישי.": {
+  "en": "You get another one tomorrow. You can keep going with the food search or barcode, or upgrade to Premium: unlimited analysis and Kobi, your personal coach.",
+  "ar": "غدًا يوجد تحليل آخر. يمكنك المتابعة بالبحث في قاعدة الأطعمة أو الباركود، أو الترقية إلى بريميوم: تحليل غير محدود وكوبي المدرب الشخصي."
+ },
+ "⭐ שדרוג לפרימיום": {
+  "en": "⭐ Upgrade to Premium",
+  "ar": "⭐ الترقية إلى بريميوم"
+ },
+ "אמשיך עם המאגר": {
+  "en": "I'll use the food search",
+  "ar": "سأتابع مع قاعدة الأطعمة"
+ },
+ "פרימיום": {
+  "en": "Premium",
+  "ar": "بريميوم"
+ },
+ "מתנה": {
+  "en": "gift",
+  "ar": "هدية"
+ },
+ "פרימיום {0} עד {1}": {
+  "en": "Premium {0} until {1}",
+  "ar": "بريميوم {0} حتى {1}"
+ },
+ "החשבון שלך חינמי. פרימיום: ניתוח AI ללא הגבלה וקובי": {
+  "en": "Your account is free. Premium: unlimited AI analysis and Kobi",
+  "ar": "حسابك مجاني. بريميوم: تحليل غير محدود وكوبي"
+ },
+ "שדרוג": {
+  "en": "Upgrade",
+  "ar": "ترقية"
+ },
+ "שניכם מקבלים שבוע פרימיום, ואתה חודש כשהוא משדרג": {
+  "en": "You both get a Premium week, and you get a month when they upgrade",
+  "ar": "تحصلان كلاكما على أسبوع بريميوم، وتحصل على شهر عندما يرقّي"
+ },
+ "שתיכן מקבלות שבוע פרימיום, ואת חודש כשהיא משדרגת": {
+  "en": "You both get a Premium week, and you get a month when she upgrades",
+  "ar": "تحصلان كلتاكما على أسبوع بريميوم، وتحصلين على شهر عندما ترقّي"
+ },
+ "שניכם מקבלים שבוע פרימיום, וחודש כשהחבר משדרג": {
+  "en": "You both get a Premium week, and a month when your friend upgrades",
+  "ar": "تحصلان كلاكما على أسبوع بريميوم، وشهر عندما يرقّي الصديق"
+ },
+ "פרימיום מתנה": {
+  "en": "Gift Premium",
+  "ar": "بريميوم هدية"
+ },
+ "🎁 פרימיום מתנה": {
+  "en": "🎁 Gift Premium",
+  "ar": "🎁 بريميوم هدية"
+ },
+ "חינמיים": {
+  "en": "Free users",
+  "ar": "المجانيون"
+ },
+ "חינמי": {
+  "en": "Free",
+  "ar": "مجاني"
+ },
+ "המרה אחרי סוף הפרימיום מתנה:": {
+  "en": "Conversion after gift Premium ends:",
+  "ar": "التحويل بعد انتهاء بريميوم الهدية:"
+ },
+ "פרימיום מתנה עד": {
+  "en": "Gift Premium until",
+  "ar": "بريميوم هدية حتى"
+ },
+ "כבוי: כל נרשם נכנס מיד": {
+  "en": "Off: every signup gets in right away",
+  "ar": "مطفأ: كل مسجل يدخل فورًا"
+ },
+ "ימי פרימיום לכל נרשם חדש": {
+  "en": "Premium days for each new signup",
+  "ar": "أيام بريميوم لكل مسجل جديد"
+ },
+ "ניתוחי AI חינם ביום": {
+  "en": "Free AI analyses per day",
+  "ar": "تحليلات مجانية يوميًا"
+ },
+ "מה עשית עד עכשיו": {
+  "en": "What you've done so far",
+  "ar": "ما أنجزته حتى الآن"
+ },
+ "ניתוח תזונה ללא הגבלה": {
+  "en": "Unlimited nutrition analysis",
+  "ar": "تحليل تغذية غير محدود"
+ },
+ "צילום צלחת, תיאור בטקסט וקריאת תווית, כמה שרוצים": {
+  "en": "Plate photos, text descriptions and label reading, as much as you want",
+  "ar": "تصوير الطبق ووصف نصي وقراءة الملصق، بقدر ما تريد"
+ },
+ "קובי, המאמן האישי שלך": {
+  "en": "Kobi, your personal coach",
+  "ar": "كوبي، مدربك الشخصي"
+ },
+ "סיכום שבועי לפי הנתונים שלך ושיחה עם קובי על אימונים ותזונה": {
+  "en": "A weekly summary based on your data, and chats with Kobi about training and nutrition",
+  "ar": "ملخص أسبوعي حسب بياناتك ومحادثة مع كوبي عن التدريب والتغذية"
+ },
+ "הפרימיום הסתיים": {
+  "en": "Premium has ended",
+  "ar": "انتهى بريميوم"
+ },
+ "⭐ הפרימיום שלך": {
+  "en": "⭐ Your Premium",
+  "ar": "⭐ بريميوم الخاص بك"
+ },
+ "⭐ NextRep פרימיום": {
+  "en": "⭐ NextRep Premium",
+  "ar": "⭐ NextRep بريميوم"
+ },
+ "⭐ הפרימיום שלך פתוח עד": {
+  "en": "⭐ Your Premium is active until",
+  "ar": "⭐ بريميوم الخاص بك فعّال حتى"
+ },
+ ". חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.": {
+  "en": ". A plan you buy now is added to the end, it doesn't start from zero.",
+  "ar": ". الباقة التي تشتريها الآن تُضاف إلى نهاية المدة ولا تبدأ من الصفر."
+ },
+ "בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום.": {
+  "en": "Always free: workouts, timer and PRs, smart menu, calorie tracking, barcode, groups and challenges, and one AI analysis a day.",
+  "ar": "مجانًا دائمًا: التدريبات والمؤقت والأرقام القياسية، القائمة الذكية، تتبع السعرات، الباركود، الفرق والتحديات، وتحليل واحد يوميًا."
+ },
+ "{0}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.": {
+  "en": "{0}One payment, no auto-renewal and no commitment.",
+  "ar": "{0}دفعة واحدة، بدون تجديد تلقائي وبدون التزام."
+ },
+ "חינם · שדרג לפרימיום ⭐": {
+  "en": "Free · Upgrade to Premium ⭐",
+  "ar": "مجاني · ترقَّ إلى بريميوم ⭐"
+ },
+ "חינם · שדרגי לפרימיום ⭐": {
+  "en": "Free · Upgrade to Premium ⭐",
+  "ar": "مجاني · ترقَّي إلى بريميوم ⭐"
+ },
+ "חינם · שדרוג לפרימיום ⭐": {
+  "en": "Free · Upgrade to Premium ⭐",
+  "ar": "مجاني · الترقية إلى بريميوم ⭐"
+ },
+ "🎁 פרימיום מתנה · {0}": {
+  "en": "🎁 Gift Premium · {0}",
+  "ar": "🎁 بريميوم هدية · {0}"
+ },
+ "היום היום האחרון לפרימיום": {
+  "en": "Today is your last Premium day",
+  "ar": "اليوم هو آخر يوم في بريميوم"
+ },
+ "נשארו {0} ימים לפרימיום": {
+  "en": "{0} Premium days left",
+  "ar": "تبقّى {0} أيام من بريميوم"
+ },
+ "ימים לפרימיום": {
+  "en": "Premium days left",
+  "ar": "أيام من بريميوم"
+ },
+ "אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI ללא הגבלה וקובי?": {
+  "en": "After that you continue for free. Want to keep unlimited AI analysis and Kobi?",
+  "ar": "بعدها تستمر مجانًا. تريد الاستمرار مع تحليل غير محدود وكوبي؟"
+ },
+ "היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁": {
+  "en": "Hey! I'm using NextRep, an app that remembers every set for me, counts calories from a photo of my plate and builds me a menu. It's free, and through my link you get a free Premium week 🎁",
+  "ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر لي كل مجموعة، يحسب السعرات من صورة الطبق ويبني لي قائمة طعام. إنه مجاني، ومن خلال رابطي تحصل على أسبوع بريميوم هدية 🎁"
+ },
+ "היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁": {
+  "en": "Hey! I'm using NextRep, an app that remembers every set for me, counts calories from a photo of my plate and builds me a menu. It's free, and through my link you get a free Premium week 🎁",
+  "ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر لي كل مجموعة، يحسب السعرات من صورة الطبق ويبني لي قائمة طعام. إنه مجاني، ومن خلال رابطي تحصل على أسبوع بريميوم هدية 🎁"
+ },
+ "שבוע פרימיום": {
+  "en": "a Premium week",
+  "ar": "أسبوع بريميوم"
+ },
+ "חודש פרימיום": {
+  "en": "a Premium month",
+  "ar": "شهر بريميوم"
+ },
+ "שדרגו": {
+  "en": "Upgraded",
+  "ar": "رقّوا"
+ },
+ "ימי פרימיום שקיבלת": {
+  "en": "Premium days you got",
+  "ar": "أيام بريميوم حصلت عليها"
+ },
+ "הזמן חבר, שניכם מקבלים שבוע פרימיום 🎁": {
+  "en": "Invite a friend, you both get a Premium week 🎁",
+  "ar": "ادعُ صديقًا، تحصلان كلاكما على أسبوع بريميوم 🎁"
+ },
+ "הזמיני חברה, שתיכן מקבלות שבוע פרימיום 🎁": {
+  "en": "Invite a friend, you both get a Premium week 🎁",
+  "ar": "ادعي صديقة، تحصلان كلتاكما على أسبوع بريميوم 🎁"
+ },
+ "הזמנת חבר: שניכם מקבלים שבוע פרימיום 🎁": {
+  "en": "Invite a friend: you both get a Premium week 🎁",
+  "ar": "دعوة صديق: تحصلان كلاكما على أسبوع بريميوم 🎁"
+ },
+ "כשחבר נרשם דרך הקישור שלך, שניכם מקבלים": {
+  "en": "When a friend signs up through your link, you both get",
+  "ar": "عندما يسجل صديق عبر رابطك، تحصلان كلاكما على"
+ },
+ "כשחברה נרשמת דרך הקישור שלך, שתיכן מקבלות": {
+  "en": "When a friend signs up through your link, you both get",
+  "ar": "عندما تسجل صديقة عبر رابطك، تحصلان كلتاكما على"
+ },
+ "כשחבר נרשם דרך הקישור, שניכם מקבלים": {
+  "en": "When a friend signs up through the link, you both get",
+  "ar": "عندما يسجل صديق عبر الرابط، تحصلان كلاكما على"
+ },
+ "וכשהוא משדרג, אתה מקבל": {
+  "en": "And when they upgrade, you get",
+  "ar": "وعندما يرقّي، تحصل على"
+ },
+ "וכשהיא משדרגת, את מקבלת": {
+  "en": "And when she upgrades, you get",
+  "ar": "وعندما ترقّي، تحصلين على"
+ },
+ "וכשהחבר משדרג, מקבלים": {
+  "en": "And when the friend upgrades, you get",
+  "ar": "وعندما يرقّي الصديق، تحصلون على"
+ },
+ "מתנה. בלי הגבלה על כמות החברים.": {
+  "en": "free. No limit on the number of friends.",
+  "ar": "هدية. بلا حد لعدد الأصدقاء."
+ },
+ "🎁 שדרג לפרימיום": {
+  "en": "🎁 Upgraded to Premium",
+  "ar": "🎁 رقّى إلى بريميوم"
+ },
+ "ימי הפרימיום נוספים לסוף הפרימיום שלך, גם אם הוא כבר הסתיים. החבר צריך להירשם דרך הקישור שלך.": {
+  "en": "Premium days are added to the end of your Premium, even if it already ended. Your friend needs to sign up through your link.",
+  "ar": "تُضاف أيام بريميوم إلى نهاية بريميوم الخاص بك حتى لو انتهى. يجب أن يسجل صديقك عبر رابطك."
+ },
+ "ימי הפרימיום נוספים לסוף הפרימיום שלך, גם אם הוא כבר הסתיים. החברה צריכה להירשם דרך הקישור שלך.": {
+  "en": "Premium days are added to the end of your Premium, even if it already ended. Your friend needs to sign up through your link.",
+  "ar": "تُضاف أيام بريميوم إلى نهاية بريميوم الخاص بك حتى لو انتهى. يجب أن تسجل صديقتك عبر رابطك."
+ },
+ "ימי הפרימיום נוספים לסוף הפרימיום, גם אם הוא כבר הסתיים. ההרשמה חייבת להיות דרך הקישור.": {
+  "en": "Premium days are added to the end of your Premium, even if it already ended. Signup must be through the link.",
+  "ar": "تُضاف أيام بريميوم إلى نهاية بريميوم حتى لو انتهى. يجب أن يكون التسجيل عبر الرابط."
+ },
+ "10 אימונים! חבר שמתאמן איתך = שבוע פרימיום לשניכם.": {
+  "en": "10 workouts! A friend who trains with you = a Premium week for both of you.",
+  "ar": "10 تدريبات! صديق يتدرب معك = أسبوع بريميوم لكليكما."
+ },
+ "הזמן אותו, ושניכם מקבלים שבוע פרימיום.": {
+  "en": "Invite them, and you both get a Premium week.",
+  "ar": "ادعه، وتحصلان كلاكما على أسبوع بريميوم."
+ },
+ "הזמיני אותה, ושתיכן מקבלות שבוע פרימיום.": {
+  "en": "Invite her, and you both get a Premium week.",
+  "ar": "ادعيها، وتحصلان كلتاكما على أسبوع بريميوم."
+ },
+ "הזמנת חבר: שניכם מקבלים שבוע פרימיום.": {
+  "en": "Invite a friend: you both get a Premium week.",
+  "ar": "دعوة صديق: تحصلان كلاكما على أسبوع بريميوم."
+ },
+ "🔒 קובי ניתח את השבוע שלך": {
+  "en": "🔒 Kobi analyzed your week",
+  "ar": "🔒 كوبي حلّل أسبوعك"
+ },
+ "הסיכום השבועי והשיחה עם קובי זמינים בפרימיום": {
+  "en": "The weekly summary and chatting with Kobi are available in Premium",
+  "ar": "الملخص الأسبوعي والمحادثة مع كوبي متاحان في بريميوم"
+ },
+ "היי, אני קובי 👋 בפרימיום אני שולח לך כל שבוע סיכום אישי לפי הנתונים שלך, ועונה על כל שאלה על אימונים ותזונה.": {
+  "en": "Hi, I'm Kobi 👋 With Premium I send you a personal weekly summary based on your data, and answer any question about training and nutrition.",
+  "ar": "مرحبًا، أنا كوبي 👋 في بريميوم أرسل لك كل أسبوع ملخصًا شخصيًا حسب بياناتك، وأجيب عن أي سؤال عن التدريب والتغذية."
+ },
+ "⭐ פתיחה עם פרימיום": {
+  "en": "⭐ Unlock with Premium",
+  "ar": "⭐ افتح مع بريميوم"
+ },
+ "🎁 שבוע חינם": {
+  "en": "🎁 Free week",
+  "ar": "🎁 أسبوع مجاني"
+ },
+ "🔒 קובי ניתח את השבוע שלך · זמין בפרימיום": {
+  "en": "🔒 Kobi analyzed your week · available in Premium",
+  "ar": "🔒 كوبي حلّل أسبوعك · متاح في بريميوم"
+ },
+ "🔒 השיחה עם קובי זמינה בפרימיום": {
+  "en": "🔒 Chatting with Kobi is available in Premium",
+  "ar": "🔒 المحادثة مع كوبي متاحة في بريميوم"
+ },
+ "סיכום שבועי לפי הנתונים שלך, תשובות על אימונים ותזונה, וניתוחי AI ללא הגבלה.": {
+  "en": "A weekly summary based on your data, answers about training and nutrition, and unlimited AI analysis.",
+  "ar": "ملخص أسبوعي حسب بياناتك، وإجابات عن التدريب والتغذية، وتحليلات غير محدودة."
+ },
+ "🎁 הזמן חבר: שבוע חינם": {
+  "en": "🎁 Invite a friend: a free week",
+  "ar": "🎁 ادعُ صديقًا: أسبوع مجاني"
+ },
+ "🎁 הזמיני חברה: שבוע חינם": {
+  "en": "🎁 Invite a friend: a free week",
+  "ar": "🎁 ادعي صديقة: أسبوع مجاني"
+ },
+ "🎁 הזמנת חבר: שבוע חינם": {
+  "en": "🎁 Invite a friend: a free week",
+  "ar": "🎁 دعوة صديق: أسبوع مجاني"
+ },
+ "השיחה עם קובי זמינה בפרימיום": {
+  "en": "Chatting with Kobi is available in Premium",
+  "ar": "المحادثة مع كوبي متاحة في بريميوم"
+ },
+ "אפשר לסיים את האימון שהתחלת 💪": {
+  "en": "You can finish the workout you started 💪",
+  "ar": "يمكنك إنهاء التدريب الذي بدأته 💪"
+ },
+ "🎁 הזמנת חבר": {
+  "en": "🎁 Invite a friend",
+  "ar": "🎁 دعوة صديق"
+ },
+ "בחינם": {
+  "en": "On free",
+  "ar": "مجاني"
+ }
+}

@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c7d593ec"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c7d593ec"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c7d593ec"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9bb7f21f"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9bb7f21f"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9bb7f21f"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -210,6 +210,14 @@ body.landing #app{max-width:1120px}
 .ld-badges{display:flex;gap:8px;flex-wrap:wrap}.ld-badges span{width:44px;height:44px;border-radius:50%;background:var(--accent-soft,#e8f6ed);display:grid;place-items:center;font-size:21px;border:1px solid var(--line)}
 .ld-prices{display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
 @media (min-width:900px){ .ld-prices{grid-template-columns:repeat(3,1fr);max-width:none} }
+.ld-tiers{display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
+@media (min-width:900px){ .ld-tiers{grid-template-columns:1fr 1fr;max-width:760px} }
+.ld-tier{border:1px solid var(--line);border-radius:18px;padding:18px;background:var(--surface);display:flex;flex-direction:column;gap:6px;text-align:start}
+.ld-tier>b{font-size:19px}.ld-tier .pp{font-size:28px;font-weight:800}
+.ld-tier ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.ld-tier li::before{content:'✓';color:var(--accent);font-weight:700;margin-inline-end:8px}
+.ld-tier.prem{border:0;color:#fff;background:linear-gradient(135deg,#7C3AED,#DB2777 70%,#F97316)}
+.ld-tier.prem li::before{color:#fff}.ld-tier.prem .small{opacity:.85}
 .ld-scanimg img{width:100%;height:auto;border-radius:22px;display:block;box-shadow:0 20px 50px -24px rgba(0,0,0,.35)}
 .ld-kicker{display:inline-block;align-self:flex-start;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700}
 .ld-photo{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#F6E7C8,#E9D3A8);border-radius:14px;padding:12px 14px;margin-bottom:10px;color:#4a3a1a}
@@ -1078,6 +1086,16 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .greet{font-family:var(--disp);font-weight:800;font-size:26px;line-height:1.12}
 .planpill{margin-top:8px;display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;background:var(--gold-soft);color:var(--gold);font-size:13px;font-weight:600;border:0}
 .planpill.paid{background:var(--accent-soft);color:var(--accent)}
+.planpill.free{background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(236,72,153,.12));color:#9333EA}
+.aiq-free{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+.aiq-free .linkbtn{font-size:13px;font-weight:600;color:var(--accent)}
+.co-lockcard{position:relative;margin-top:4px}
+.co-lockcard .co-blur{filter:blur(5px);opacity:.55;pointer-events:none;user-select:none}
+.co-lockcard .co-lk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;padding:0 10px}
+.pw-prem{background:linear-gradient(135deg,rgba(124,58,237,.10),rgba(236,72,153,.08) 60%,rgba(34,197,94,.08));border-radius:16px;padding:14px}
+.pw-prem .pr{display:flex;gap:10px;align-items:flex-start;padding:5px 0}
+.pw-prem .pr i{font-style:normal;flex-shrink:0;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;font-size:13px;font-weight:700}
+.pw-prem .pr b{display:block;font-size:15px}.pw-prem .pr span{font-size:13px;color:var(--muted)}
 .dots{display:flex;justify-content:space-between;margin-top:10px;padding:0 2px;direction:var(--dir)}
 .day.miss i{background:transparent;border:2px dashed var(--line)}
 .day{text-align:center;font-size:11.5px;color:var(--muted)}
@@ -1327,7 +1345,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.7.2';
+const APP_VERSION='12.8.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1954,8 +1972,8 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
     ['מתאמן כבר חודשים ולא בטוח שמשהו באמת השתנה.','גרף משקל, תמונות שבועיות ושיאים אישיים מראים בדיוק מה זז.'],
   ];
   const faq=[
-    ['כמה זה עולה?','7 ימים ראשונים בחינם, עם כל הפיצ׳רים. אחר כך ממשיכים במסלול בתשלום חד-פעמי: בלי מנוי מתחדש, בלי חיוב אוטומטי ובלי התחייבות. המחירים מופיעים למעלה.'],
-    ['מה קובי הבוט יודע לעשות?','קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומנויים יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.'],
+    ['כמה זה עולה?','האפליקציה חינמית: אימונים, טיימר, שיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. מי שרוצה עוד בוחר בפרימיום: ניתוחי AI ללא הגבלה וקובי המאמן האישי, בתשלום חד-פעמי בלי מנוי מתחדש ובלי התחייבות.'],
+    ['מה קובי הבוט יודע לעשות?','קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומשתמשי פרימיום יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.'],
     ['צריך להוריד משהו מחנות האפליקציות?','לא. נכנסים מהדפדפן ומוסיפים למסך הבית. האפליקציה נפתחת במסך מלא עם אייקון, כמו כל אפליקציה אחרת.'],
     ['זה עובד בחדר כושר בלי קליטה?','כן. האימון נשמר בטלפון ומסתנכרן ברגע שחוזרת קליטה.'],
     ['אני מתחיל, זה מתאים לי?','כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.'],
@@ -1965,7 +1983,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   let inv=null, refd=null; try{inv=localStorage.getItem('nr-join'); refd=localStorage.getItem('nr-ref');}catch(_){}
   return `<div class="ld">
   ${landGenderHTML()}
-  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: 14 ימי ניסיון במתנה במקום 7. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
+  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: האפליקציה חינמית, ודרך ההזמנה מקבלים שבוע פרימיום מתנה. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
   <section class="ld-hero">
     <div class="stack" style="gap:16px">
       <h1>${F?'תפסיקי לנחש.<br>תתחילי<br>להתחזק.':'תפסיק לנחש<br>מה הרמת<br>בפעם שעברה.'}</h1>
@@ -1974,7 +1992,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
         <button class="btn primary" data-act="land-signup">אני רוצה להתחיל</button>
         <button class="btn" data-act="land-login">כבר יש לי חשבון</button>
       </div>
-      <div class="ld-note">${F?'7 ימים חינם. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.':'7 ימים חינם. בלי חנות אפליקציות. אייפון ואנדרואיד.'}</div>
+      <div class="ld-note">${F?'חינם, בלי כרטיס אשראי. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.':'חינם, בלי כרטיס אשראי. בלי חנות אפליקציות. אייפון ואנדרואיד.'}</div>
     </div>
     <div class="ld-phone" aria-hidden="true"><div class="ld-screen">
       <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
@@ -2131,9 +2149,14 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
 
   <section class="ld-sec" id="ld-pricing">
     <div class="stack" style="gap:8px">
-      <h2>מחיר אחד, בלי הפתעות</h2>
-      <p>${LP.trial} ימים ראשונים בחינם עם כל הפיצ׳רים. אחר כך בוחרים מסלול: תשלום חד-פעמי, בלי חידוש אוטומטי ובלי התחייבות.</p>
+      <h2>מתחילים בחינם</h2>
+      <p>בלי כרטיס אשראי ובלי תקופת ניסיון: האפליקציה חינמית, ופרימיום רק אם ${LW('תרצה','תרצי')} עוד.</p>
     </div>
+    <div class="ld-tiers">
+      <div class="ld-tier"><b>חינם</b><span class="pp num">₪0</span><ul><li>אימונים, טיימר ושיאים</li><li>תפריט חכם לפי היעד</li><li>מעקב קלוריות, מאגר וברקוד</li><li>ניתוח AI אחד ביום</li><li>קבוצות ואתגרים</li></ul></div>
+      <div class="ld-tier prem"><b>⭐ פרימיום</b><span class="small">כל מה שבחינם, ועוד:</span><ul><li>ניתוח AI ללא הגבלה: צילום, טקסט ותווית</li><li>קובי המאמן: סיכום שבועי ושיחה</li></ul></div>
+    </div>
+    <div class="ld-note" style="text-align:center;margin-top:14px">מסלולי פרימיום, תשלום אחד:</div>
     <div class="ld-prices">
       ${LP.plans.map(p=>{const pm=p.price/p.months;return `<button class="plan ${p.best?'best':''}" data-act="land-signup">
         ${p.was>p.price?'<span class="tag launch">🚀 מחיר השקה</span>':p.best?'<span class="tag">הכי משתלם</span>':''}
@@ -2141,7 +2164,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
         <span class="pp num">${p.was>p.price?`<s class="was">₪${p.was}</s>`:''}₪${p.price}</span>
         <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span></button>`;}).join('')}
     </div>
-    <div class="ld-note" style="text-align:center">כל המסלולים כוללים הכל: אימונים, תזונה עם AI, קובי הבוט, קבוצות ואתגרים.</div>
+    <div class="ld-note" style="text-align:center">${LW('הזמנת חבר? שניכם מקבלים שבוע פרימיום מתנה.','הזמנת חברה? שתיכן מקבלות שבוע פרימיום מתנה.')}</div>
   </section>
 
   <section class="ld-sec two">
@@ -2177,7 +2200,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   <section class="ld-end">
     <div class="stack" style="gap:10px">
       <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
-      <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. ${LP.trial} ימים ראשונים עלינו.</p>
+      <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. חינם, בלי כרטיס אשראי.</p>
     </div>
     <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">אני רוצה להתחיל</button>
   </section>
@@ -2371,7 +2394,7 @@ function vHome(){
       </div>`:''}
     ${wrapCardHTML()}
     ${coachCardHTML()}
-    <button class="inv-card" data-act="invite-open" data-src="home"><span>🎁</span><span><b>${G('הזמן חבר, קבל חודש מתנה','הזמיני חברה, קבלי חודש מתנה','הזמינו חברים, קבלו חודש מתנה')}</b><small>${G('החבר','החברה','המוזמן')} מקבל${G('','ת','')} 14 ימי ניסיון במתנה</small></span><span class="muted">›</span></button>
+    <button class="inv-card" data-act="invite-open" data-src="home"><span>🎁</span><span><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום','הזמיני חברה, שתיכן מקבלות שבוע פרימיום','הזמנת חבר: שבוע פרימיום לשניכם')}</b><small>ניתוחי AI ללא הגבלה וקובי המאמן</small></span><span class="muted">›</span></button>
     <div class="card">
       <div class="spread">
         <span class="label">השבוע שלי</span>
@@ -3430,14 +3453,33 @@ document.addEventListener('input',ev=>{ if(!TG||ev.target.id!=='tgw-r')return; c
   TG[key]=+ev.target.value; const v=$('#tgw-v'); if(v)v.textContent=TG[key]; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(TG); document.querySelector('.tgw-sug')?.classList.toggle('on',+TG.gw===tgGoalSuggest(TG).kg); });
 /* monthly AI photo allowance (server: 300 photo/label analyses per calendar month + 40/day safety cap; admins unlimited) */
 const AIQ={photo:null,loaded:0,LIM:300};
+/* freemium: free users get plan.free_ai_day AI analyses per day (photo + text + label together) */
+const isPrem=()=>!!(S.plan&&(S.plan.premium||S.plan.admin));
 function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)return; AIQ.loaded=Date.now();
-  const ms=new Date(); ms.setDate(1); ms.setHours(0,0,0,0);
-  sb.from('ai_usage').select('id',{count:'exact',head:true}).in('kind',['photo','label']).gte('created_at',ms.toISOString())
-    .then(({count,error})=>{ if(error)return; AIQ.photo=Math.max(0,AIQ.LIM-(count||0)); if(S.tab==='food'){ const el=$('#aiq'); if(el)el.outerHTML=aiQuotaLine(); } }); }
-function aiQuotaLine(){ if(S.plan?.admin)return ''; aiQuotaLoad(); if(AIQ.photo==null)return '<div id="aiq"></div>';
+  const prem=isPrem(), ms=new Date(); if(prem)ms.setDate(1); ms.setHours(0,0,0,0);
+  sb.from('ai_usage').select('id',{count:'exact',head:true}).in('kind',prem?['photo','label']:['photo','label','text']).gte('created_at',ms.toISOString())
+    .then(({count,error})=>{ if(error)return; if(prem)AIQ.photo=Math.max(0,AIQ.LIM-(count||0)); else { AIQ.free=Math.max(0,(+S.plan?.free_ai_day||1)-(count||0)); AIQ.freeDay=new Date().toDateString(); }
+      if(S.tab==='food'){ const el=$('#aiq'); if(el)el.outerHTML=aiQuotaLine(); } }); }
+function aiFreeLeft(){ if(isPrem())return null; if(AIQ.freeDay!==new Date().toDateString()){ AIQ.free=null; AIQ.loaded=0; } return AIQ.free; }
+function aiQuotaLine(){ if(S.plan?.admin||!S.plan)return ''; aiQuotaLoad();
+  if(!isPrem()){ const f=aiFreeLeft(); if(f==null)return '<div id="aiq"></div>';
+    return f>0?`<div id="aiq" class="aiq-free">✨ ${f>1?`נותרו לך <b class="num">${f}</b> ניתוחי AI חינמיים היום`:'ניתוח AI חינמי אחד מחכה לך היום'}<button class="linkbtn" data-act="plans-open" data-why="ai">⭐ ללא הגבלה</button></div>`
+      :`<div id="aiq" class="aiq-free used">הניתוח החינמי של היום נוצל · מחר יש עוד אחד<button class="linkbtn" data-act="plans-open" data-why="ai">⭐ שדרוג</button></div>`; }
+  if(AIQ.photo==null)return '<div id="aiq"></div>';
   return `<div id="aiq" class="small muted" style="text-align:center;margin-top:6px">${AIQ.photo>0?`📸 נותרו ${AIQ.photo} ניתוחי תמונה החודש`:'📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר'}</div>`; }
+function aiUpsell(){
+  logEv('upsell',{why:'ai'});
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>הניתוח החינמי של היום נוצל ✨</b><span>מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח ללא הגבלה וקובי המאמן האישי.</span></div></div>
+    <button class="btn primary big" data-act="plans-open" data-why="ai">⭐ שדרוג לפרימיום</button>
+    <button class="btn big" style="margin-top:8px" data-act="invite-open" data-src="ai">🎁 ${G('הזמן חבר: שבוע פרימיום לשניכם','הזמיני חברה: שבוע פרימיום לשתיכן','הזמנת חבר: שבוע פרימיום לשניכם')}</button>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">אמשיך עם המאגר</button>`);
+}
+// out of free analyses: show the upsell instead of opening the camera / file picker
+document.addEventListener('click',ev=>{ const l=ev.target.closest?.('label'); if(!l||!l.querySelector('#food-photo,#label-photo'))return;
+  if(aiFreeLeft()===0){ ev.preventDefault(); ev.stopPropagation(); aiUpsell(); } },true);
 async function foodAI(payload){
   if(S.ai.busy)return;
+  if(aiFreeLeft()===0){ aiUpsell(); return; }
   S.ai.busy=true; S.ai.q=payload.text||''; S.ai.img=payload.image?'data:image/jpeg;base64,'+payload.image:null; render(); aiTicker(true);
   try{
     const {data,error}=await Promise.race([sb.functions.invoke('nutrition',{body:{...payload,lang:LANG}}),
@@ -3445,12 +3487,14 @@ async function foodAI(payload){
     if(error)throw error;
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
     if(data._left&&data._left.kind==='photo'){AIQ.photo=data._left.n; AIQ.loaded=Date.now();}
+    if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); AIQ.loaded=Date.now(); }
     S.ai.keep=false; openMealConfirm(data);
   }catch(e){
     console.error(e);
     S.ai.keep=true; const st=e?.context?.status;
     let qd=null; if(st===429){ try{qd=await e.context.json();}catch(_){} if(payload.image&&qd?.period==='month')AIQ.photo=0; }
-    toast(st===429?(qd?.period==='day'?'הגעת לתקרה היומית. נמשיך מחר 💪':payload.image?'ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר':'הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית')
+    if(st===429&&qd?.free){ AIQ.free=0; AIQ.freeDay=new Date().toDateString(); setTimeout(aiUpsell,0); }
+    else toast(st===429?(qd?.period==='day'?'הגעת לתקרה היומית. נמשיך מחר 💪':payload.image?'ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר':'הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית')
       :(e?.slow||st===502||st===503||st===504)?'הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת'
       :e?.message==='empty'?'לא זיהינו אוכל או שתייה. נסה לפרט, למשל "2 פרוסות לחם עם גבינה"'
       :navigator.onLine?'הניתוח נכשל — נסה לנסח אחרת או הוסף ידנית':'אין רשת — ניתוח AI דורש חיבור');
@@ -5010,14 +5054,14 @@ function renderSettings(){
       <span class="muted">›</span>
     </button>
     ${S.plan&&(S.plan.admin||S.plan.billing)?`<button class="card spread" data-act="plans-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:10px">
-      <span><b>⭐ ${S.plan.admin?'מסלולים ותשלום':'המנוי שלי'}</b><span class="small muted" style="display:block">${S.plan.admin?'כפי שהמשתמשים רואים. אפשר לשלם מכאן לבדיקה':`${S.plan.paid?'פעיל':'תקופת ניסיון'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString(LOC):'—'}`}</span></span><span class="muted">${S.plan.admin?'פתיחה':'הארכה'} ›</span></button>`:''}
+      <span><b>⭐ ${S.plan.admin?'מסלולים ותשלום':'פרימיום'}</b><span class="small muted" style="display:block">${S.plan.admin?'כפי שהמשתמשים רואים. אפשר לשלם מכאן לבדיקה':S.plan.premium?`פרימיום ${S.plan.paid&&!S.plan.gift?'פעיל':'מתנה'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString(LOC):'—'}`:'החשבון שלך חינמי. פרימיום: ניתוח AI ללא הגבלה וקובי'}</span></span><span class="muted">${S.plan.admin?'פתיחה':S.plan.premium?'הארכה':'שדרוג'} ›</span></button>`:''}
     <button class="card spread" data-act="lang-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:10px">
       <span><b>🌐 שפה</b><span class="small muted" style="display:block" data-notr>${LANG_NAMES[LANG]}</span></span><span class="muted">›</span></button>
     <div class="row" style="gap:10px;margin-bottom:10px">
       <button class="card spread" data-act="g-open" style="flex:1;text-align:var(--start);padding:12px 14px"><span><b>🗣️ פנייה</b><span class="small muted" style="display:block">${{m:'לשון זכר',f:'לשון נקבה',x:'לא משנה'}[S.settings.g]||'לא נבחר'}</span></span><span class="muted">›</span></button>
       <button class="card spread" data-act="acc-open" style="flex:1;text-align:var(--start);padding:12px 14px"><span><b>🎨 צבע</b><span class="small muted" style="display:block">${(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]}</span></span><span class="muted">›</span></button></div>
     <button class="card spread" data-act="share-app" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:14px">
-      <span><b>🎁 הזמנת חברים</b><span class="small muted" style="display:block">חבר מקבל 14 ימי ניסיון, אתה חודש מתנה</span></span><span class="muted">›</span></button>
+      <span><b>🎁 הזמנת חברים</b><span class="small muted" style="display:block">${G('שניכם מקבלים שבוע פרימיום, ואתה חודש כשהוא משדרג','שתיכן מקבלות שבוע פרימיום, ואת חודש כשהיא משדרגת','שניכם מקבלים שבוע פרימיום, וחודש כשהחבר משדרג')}</span></span><span class="muted">›</span></button>
     <button class="card spread" data-act="tour-restart" style="width:100%;text-align:var(--start);padding:12px 14px;margin:-6px 0 8px">
       <span><b>🧭 סיור במערכת</b><span class="small muted" style="display:block">הצגה קצרה של כל היכולות</span></span><span class="muted">›</span></button>
     <button class="card spread" data-act="contact-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin:0 0 14px">
@@ -5076,7 +5120,7 @@ function renderSettings(){
 /* ===================== לוח ניהול ===================== */
 const USD_ILS=3.7;
 const A={tab:'overview',ov:null,funnel:null,users:{q:'',filter:'all',rows:[],total:0,loading:false},cfg:null,events:null,msgs:null,msgFilter:'open',err:null};
-const ADM_FILTERS=[['all','הכל'],['pending','ממתינים'],['trial','בניסיון'],['paying','משלמים'],['expiring','מסתיימים בשבוע'],['expired','פג תוקף'],['blocked','חסומים']];
+const ADM_FILTERS=[['all','הכל'],['pending','ממתינים'],['trial','פרימיום מתנה'],['paying','משלמים'],['expiring','מסתיימים בשבוע'],['expired','חינמיים'],['blocked','חסומים']];
 const ACC={approved:['פעיל','var(--accent)'],pending:['ממתין','#D97706'],rejected:['חסום','#DC2626'],admin:['אדמין','var(--ink)']};
 function agoHe(d){
   if(!d)return '—';
@@ -5090,8 +5134,8 @@ function userState(u){
   if(u.access==='pending')return ['ממתין לאישור','#D97706'];
   if(u.access==='rejected')return ['חסום','#DC2626'];
   const until=u.until?new Date(u.until):null, paid=u.access_until&&new Date(u.access_until)>new Date();
-  if(!until||until<=new Date())return ['פג תוקף','#DC2626'];
-  return paid?(u.gifted?['🎁 מתנה','#7C3AED']:['משלם','var(--accent)']):['בניסיון','#2F6FD6'];
+  if(!until||until<=new Date())return ['חינמי','var(--muted)'];
+  return paid?(u.gifted?['🎁 מתנה','#7C3AED']:['משלם','var(--accent)']):['🎁 פרימיום מתנה','#2F6FD6'];
 }
 const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
 async function loadAdmin(){
@@ -5145,8 +5189,8 @@ function admOverviewHTML(){
   ].filter(Boolean);
   return `${alerts.length?`<div class="stack" style="gap:8px;margin-bottom:12px">${alerts.map(([t,a])=>`<button class="adm-alert" data-act="adm-go" ${a}><span>${t}</span><span>›</span></button>`).join('')}</div>`:`<div class="adm-ok">✓ אין משימות פתוחות</div>`}
     <div class="adm-sec"><div class="label" style="margin-bottom:6px">משתמשים</div>
-    <div class="tiles">${tile(O.users,'רשומים','data-t="users" data-f="all"')}${tile(O.paying,'משלמים','data-t="users" data-f="paying"')}${tile(O.trial,'בניסיון','data-t="users" data-f="trial"')}</div>
-    <div class="tiles" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'פג תוקף','data-t="users" data-f="expired"')}</div>
+    <div class="tiles">${tile(O.users,'רשומים','data-t="users" data-f="all"')}${tile(O.paying,'משלמים','data-t="users" data-f="paying"')}${tile(O.trial,'פרימיום מתנה','data-t="users" data-f="trial"')}</div>
+    <div class="tiles" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'חינמיים','data-t="users" data-f="expired"')}</div>
     ${O.gifted?`<div class="small muted" style="margin-top:6px">🎁 ${O.gifted} עם גישה במתנה (הזמינו חבר ששילם, בלי תשלום משלהם)</div>`:''}</div>
     <div class="adm-sec"><div class="label" style="margin:14px 0 6px">הכנסות</div>
     <div class="tiles">${tile('₪'+Math.round(O.rev_month),'החודש','data-t="pay"')}${tile(O.pay_month,'תשלומים החודש','data-t="pay"')}${tile('₪'+Math.round(O.rev_total),'סה״כ','data-t="pay"')}</div></div>
@@ -5170,7 +5214,7 @@ function admGrowthHTML(){
       ${step('פעילים אחרי 7 ימים',F.d7,F.d7base,'מתוך מי שנרשם לפני שבוע ומעלה')}
       ${step('פעילים אחרי 30 יום',F.d30,F.d30base,'מתוך מי שנרשם לפני חודש ומעלה')}
       ${step('בחרו מסלול',F.paid_users,F.signups)}
-      <div class="small muted" style="margin-top:8px">המרה אחרי סוף הניסיון: <b class="num">${pct(F.trial_ended_paid,F.trial_ended)}</b> (${F.trial_ended_paid} מתוך ${F.trial_ended})</div>
+      <div class="small muted" style="margin-top:8px">המרה אחרי סוף הפרימיום מתנה: <b class="num">${pct(F.trial_ended_paid,F.trial_ended)}</b> (${F.trial_ended_paid} מתוך ${F.trial_ended})</div>
     </div>
     <div class="card">
       <div class="spread" style="margin-bottom:10px"><b>🎁 הזמנות חברים</b><span class="small muted">מצטבר</span></div>
@@ -5219,7 +5263,7 @@ async function admUserSheet(id){
     openSheet(`<div class="spread"><h3 style="margin:0">${esc(u.full_name||u.email)}</h3>${badgeHTML(st)}</div>
       <div class="small muted" style="margin:4px 0 12px" dir="ltr">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</div>
       <div class="card" style="padding:4px 14px">
-        ${[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],['ניסיון עד',dShort(u.trial_until)],['מנוי בתשלום עד',dShort(u.access_until)],
+        ${[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],['פרימיום מתנה עד',dShort(u.trial_until)],['מנוי בתשלום עד',dShort(u.access_until)],
           ...(u.ref_name?[['הוזמן ע״י',esc(u.ref_name)]]:[]),
           ...(u.referred_paid?[['חברים ששילמו דרכו',`${u.referred_paid} · ${u.referred_paid*30} ימי מתנה`]]:[]),
           ...(d?[['אימונים (30 יום)',`${d.workouts} (${d.workouts30})`],['ארוחות / שקילות',`${d.meals} / ${d.weighins}`],['קבוצות',d.groups],['הזמין חברים',d.referred],['התראות',d.push?'✓ מופעל':'—'],['AI',`${d.ai_calls} ניתוחים · ${money(d.ai_usd)}`],
@@ -5253,8 +5297,9 @@ function admPayHTML(){
     <details class="card adm-det" style="margin-top:14px"><summary><b>הגדרות מנוי ומחירים</b><span class="small muted">${B.enabled?'גבייה פעילה':'גבייה כבויה'}</span></summary>
       <div class="stack" style="gap:10px;margin-top:10px">
       <label class="setrow" style="padding:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
-      <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם מתחיל ניסיון מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
-      <div class="spread"><b>ימי ניסיון</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??7}" style="width:80px;text-align:center"></div>
+      <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם נכנס מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
+      <div class="spread"><b>ימי פרימיום לכל נרשם חדש</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??0}" style="width:80px;text-align:center"></div>
+      <div class="spread"><b>ניתוחי AI חינם ביום</b><input id="adm-freeai" class="adm-in num" type="number" min="0" max="20" value="${B.free_ai_per_day??1}" style="width:80px;text-align:center"></div>
       ${(B.plans||[]).map(p=>`<div class="stack" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">
         <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' ⭐':''}</b><span class="row" style="gap:4px;align-items:center">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
         <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לעמוד התשלום ב-Grow" value="${esc(p.link||'')}">
@@ -5306,7 +5351,7 @@ function admAct(act,b){
     case 'adm-revoke': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? הגישה תיסגר עכשיו';return true;}
       sb.rpc('admin_revoke',{p_uid:b.dataset.id}).then(({error})=>{ if(error){toast('נכשל');return;} toast('המנוי בוטל'); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true;
     case 'adm-billing-save': { const B=JSON.parse(JSON.stringify(A.cfg?.billing||{}));
-      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||7)); delete B.support;
+      B.enabled=$('#adm-en').checked; B.manual_approval=$('#adm-man').checked; B.trial_days=Math.max(0,Math.min(90,+$('#adm-trial').value||0)); B.free_ai_per_day=Math.max(0,Math.min(20,Math.round(+$('#adm-freeai').value||0))); delete B.support;
       B.plans=(B.plans||[]).map(p=>{const q={...p,price:+$('#adm-price-'+p.id).value||p.price,link:($('#adm-link-'+p.id).value||'').trim()}; const w=+$('#adm-was-'+p.id).value||0; if(w>q.price)q.was=w; else delete q.was; return q;});
       sb.rpc('admin_set_billing',{cfg:B}).then(({error})=>{ if(error){toast('השמירה נכשלה');return;} toast('נשמר ✓'); loadAdmin(); }); return true; }
     case 'ev-assign': { const plans=A.cfg?.billing?.plans||[]; const guess=plans.find(p=>+p.price===+b.dataset.amount); S.evMonths=guess?.months||null;
@@ -5728,17 +5773,22 @@ function plansHTML(){
 function recapHTML(){
   const r=S.recap; if(!r||!(r.workouts||r.meals||r.weighins))return '';
   const t=[r.workouts?[r.workouts,'אימונים']:null, r.volume?[r.volume>=1000?(Math.round(r.volume/100)/10)+'K':r.volume,'ק״ג נפח']:null, r.meals?[r.meals,'ארוחות']:null, !r.volume&&r.weighins?[r.weighins,'שקילות']:null].filter(Boolean).slice(0,3);
-  return `<div class="pw-recap"><div class="small muted">מה עשית בתקופת הניסיון</div><div class="pw-rt">${t.map(([v,l])=>`<div><b class="num">${v}</b><span>${tt(l)}</span></div>`).join('')}</div></div>`;
+  return `<div class="pw-recap"><div class="small muted">מה עשית עד עכשיו</div><div class="pw-rt">${t.map(([v,l])=>`<div><b class="num">${v}</b><span>${tt(l)}</span></div>`).join('')}</div></div>`;
 }
 function vPaywall(full){
   const paid=!!S.plan?.access_until;
   const body=`
     ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
-    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':'תקופת הניסיון הסתיימה'):'ממשיכים להתקדם'}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
-    <div class="muted small">${full?'כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
-    ${!full&&S.plan?.days_left>0&&S.plan.access_until?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">➕ יש לך גישה עד <b class="num">${new Date(S.plan.access_until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'})}</b>. חבילה שתרכוש עכשיו מתווספת לסוף התקופה — לא מתחילה מאפס.</div>`:''}
-    <ul class="pw-f"><li>אימונים וטיימר</li><li>תזונה עם AI</li><li>קובי הבוט</li><li>קבוצות ואתגרים</li></ul>
+    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':'הפרימיום הסתיים'):(S.plan?.premium?'⭐ הפרימיום שלך':'⭐ NextRep פרימיום')}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
+    ${full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
+    ${!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${new Date(S.plan.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'})}</b>. חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.</div>`:''}
+    <div class="pw-prem">
+      <div class="pr"><i>AI</i><div><b>ניתוח תזונה ללא הגבלה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית, כמה שרוצים</span></div></div>
+      <div class="pr"><i>K</i><div><b>קובי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם קובי על אימונים ותזונה</span></div></div>
+    </div>
+    <div class="small muted">${full?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
     <div class="stack" style="gap:10px">${plansHTML()}</div>
+    ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: שבוע פרימיום לשניכם','או הזמיני חברה: שבוע פרימיום לשתיכן','או הזמנת חבר: שבוע פרימיום לשניכם')}</button>`:''}
     <div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
     <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
@@ -5746,37 +5796,38 @@ function vPaywall(full){
 }
 const PLAN_LABEL={4:'מנוי 4 חודשים',6:'מנוי 6 חודשים',12:'מנוי שנתי'};
 function planPill(){
-  const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null)return '';
+  const p=S.plan; if(!p||p.admin||!p.billing)return '';
   if(planBanner())return ''; // the urgent banner already says it
-  if(p.paid){ const d=p.access_until?new Date(p.access_until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'';
-    return `<button class="planpill paid" data-act="plans-open">${p.gift?'🎁 חודש מתנה':'⭐ '+(PLAN_LABEL[p.plan_months]||'מנוי פעיל')}${d?` · עד ${d}`:''}</button>`; }
-  return `<button class="planpill" data-act="plans-open">🎁 ניסיון חינם · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
+  if(!p.premium)return `<button class="planpill free" data-act="plans-open" data-why="pill">${G('חינם · שדרג לפרימיום ⭐','חינם · שדרגי לפרימיום ⭐','חינם · שדרוג לפרימיום ⭐')}</button>`;
+  const d=p.until?new Date(p.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'';
+  if(p.paid&&!p.gift)return `<button class="planpill paid" data-act="plans-open">⭐ ${PLAN_LABEL[p.plan_months]||'פרימיום'}${d?` · עד ${d}`:''}</button>`;
+  return `<button class="planpill paid" data-act="plans-open">🎁 פרימיום מתנה · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
 }
 function planBanner(){
-  const p=S.plan; if(!p||p.admin||!p.billing||p.days_left==null||p.days_left>(p.paid?5:3))return '';
-  return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון':`נשארו ${p.days_left} ימים`} ${p.paid?(p.gift?'לחודש המתנה':'למנוי'):'לתקופת הניסיון'}</b><span class="small muted" style="display:block">בחר מסלול כדי להמשיך בלי הפסקה</span></span><span style="color:var(--accent);font-weight:700">מסלולים</span></button>`;
+  const p=S.plan; if(!p||p.admin||!p.billing||!p.premium||p.days_left==null||p.days_left>(p.paid&&!p.gift?5:2))return '';
+  return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון לפרימיום':`נשארו ${p.days_left} ימים לפרימיום`}</b><span class="small muted" style="display:block">אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI ללא הגבלה וקובי?</span></span><span style="color:var(--accent);font-weight:700">הארכה</span></button>`;
 }
 /* --- QR + share --- */
 function loadQR(){ return window.qrcode?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);}); }
 function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q.createSvgTag({cellSize:6,margin:2,scalable:true}); }
-/* הזמנת חברים: המוזמן מקבל ניסיון ארוך יותר, המזמין מקבל חודש כשהמוזמן משלם */
+/* הזמנת חברים: כשחבר מצטרף שניהם מקבלים שבוע פרימיום; כשהחבר משדרג, המזמין מקבל חודש */
 const INV={st:null,p:null};
 function inviteUrl(){ return `${location.origin}/#ref=${S.user?.id||''}`; }
-function inviteText(){ const n=INV.st?.trial_days||14;
-  return tt(G(`היי! אני משתמש ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים ${n} ימי ניסיון במתנה 💪`,`היי! אני משתמשת ב-NextRep, אפליקציה שזוכרת לי כל סט ומנהלת את האימונים והתזונה. דרך הקישור שלי מקבלים ${n} ימי ניסיון במתנה 💪`)); }
+function inviteText(){
+  return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁')); }
 function logEv(k,meta){ try{ if(S.user)sb.rpc('log_event',{p_kind:k,p_meta:meta||null}).then(()=>{},()=>{}); }catch(_){} }
 async function openInviteSheet(src){
   if(!S.user)return;
   logEv('invite_open',{src:src||null});
   if(!INV.p)INV.p=sb.rpc('my_referrals').then(({data})=>{ if(data)INV.st=data; }).catch(()=>{});
-  const draw=()=>{ const st=INV.st||{trial_days:14,reward_days:30,joined:0,paid:0,days:0,people:[]}, url=inviteUrl(), txt=inviteText();
+  const draw=()=>{ const st=INV.st||{trial_days:7,join_days:7,reward_days:30,joined:0,paid:0,days:0,people:[]}, url=inviteUrl(), txt=inviteText();
     const wa=`https://wa.me/?text=${encodeURIComponent(txt+'\n'+url)}`;
-    openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-cheer.svg" alt=""><div><b>${G('הזמן חבר, קבל חודש מתנה 🎁','הזמיני חברה, קבלי חודש מתנה 🎁','הזמינו חברים, קבלו חודש מתנה 🎁')}</b><span>${G('החבר מקבל','החברה מקבלת','המוזמן מקבל')} <b>${st.trial_days} ימי ניסיון</b> במקום 7. ${G('כשהוא בוחר מסלול, אתה מקבל','כשהיא בוחרת מסלול, את מקבלת','כשבוחרים מסלול, מקבלים')} <b>${st.reward_days} יום</b> מתנה. בלי הגבלה על כמות החברים.</span></div></div>
+    openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-cheer.svg" alt=""><div><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום 🎁','הזמיני חברה, שתיכן מקבלות שבוע פרימיום 🎁','הזמנת חבר: שניכם מקבלים שבוע פרימיום 🎁')}</b><span>${G('כשחבר נרשם דרך הקישור שלך, שניכם מקבלים','כשחברה נרשמת דרך הקישור שלך, שתיכן מקבלות','כשחבר נרשם דרך הקישור, שניכם מקבלים')} <b>שבוע פרימיום</b>: ניתוחי AI ללא הגבלה וקובי המאמן. ${G('וכשהוא משדרג, אתה מקבל','וכשהיא משדרגת, את מקבלת','וכשהחבר משדרג, מקבלים')} <b>חודש פרימיום</b> מתנה. בלי הגבלה על כמות החברים.</span></div></div>
       <a class="btn primary big inv-wa" href="${wa}" target="_blank" rel="noopener" data-act="inv-share" data-ch="wa"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 0 1 0 16.4 8.1 8.1 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.3c-.2 0-.5 0-.8.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1a6.7 6.7 0 0 1-3.4-3c-.2-.4 0-.5.2-.7l.6-.8c.1-.2.1-.4 0-.6L10.5 8c-.2-.4-.4-.4-.6-.4z"/></svg> שליחה בוואטסאפ</a>
       <div class="row" style="gap:8px;margin-top:8px"><button class="btn" style="flex:1" data-act="inv-share" data-ch="copy" data-url="${esc(url)}">העתקת קישור</button><button class="btn" style="flex:1" data-act="inv-share" data-ch="native" data-url="${esc(url)}" data-text="${esc(txt)}">שיתוף אחר</button><button class="btn" data-act="inv-qr" data-url="${esc(url)}" aria-label="ברקוד">▦</button></div>
-      <div class="inv-stats"><div><b class="num">${st.joined}</b><span>הצטרפו</span></div><div><b class="num">${st.paid}</b><span>בחרו מסלול</span></div><div><b class="num">${st.days}</b><span>ימי מתנה שקיבלת</span></div></div>
-      ${(st.people||[]).length?`<div class="label" style="margin:12px 0 4px">החברים שהזמנת</div><div class="card" style="padding:2px 14px">${st.people.map(x=>`<div class="spread small" style="padding:7px 0;border-bottom:1px solid var(--line)"><span data-notr>${esc(x.name)}</span><span class="${x.paid?'':'muted'}">${x.paid?'🎁 בחר מסלול':'בניסיון'}</span></div>`).join('')}</div>`:''}
-      <div class="small muted" style="margin-top:10px">${G('החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החבר צריך להירשם דרך הקישור שלך.','החודש נוסף לסוף המנוי שלך, גם אם הוא כבר הסתיים. החברה צריכה להירשם דרך הקישור שלך.','החודש נוסף לסוף המנוי, גם אם הוא כבר הסתיים. ההרשמה חייבת להיות דרך הקישור.')}</div>
+      <div class="inv-stats"><div><b class="num">${st.joined}</b><span>הצטרפו</span></div><div><b class="num">${st.paid}</b><span>שדרגו</span></div><div><b class="num">${(+st.days||0)+(+st.joined||0)*(+st.join_days||7)}</b><span>ימי פרימיום שקיבלת</span></div></div>
+      ${(st.people||[]).length?`<div class="label" style="margin:12px 0 4px">החברים שהזמנת</div><div class="card" style="padding:2px 14px">${st.people.map(x=>`<div class="spread small" style="padding:7px 0;border-bottom:1px solid var(--line)"><span data-notr>${esc(x.name)}</span><span class="${x.paid?'':'muted'}">${x.paid?'🎁 שדרג לפרימיום':'בחינם'}</span></div>`).join('')}</div>`:''}
+      <div class="small muted" style="margin-top:10px">${G('ימי הפרימיום נוספים לסוף הפרימיום שלך, גם אם הוא כבר הסתיים. החבר צריך להירשם דרך הקישור שלך.','ימי הפרימיום נוספים לסוף הפרימיום שלך, גם אם הוא כבר הסתיים. החברה צריכה להירשם דרך הקישור שלך.','ימי הפרימיום נוספים לסוף הפרימיום, גם אם הוא כבר הסתיים. ההרשמה חייבת להיות דרך הקישור.')}</div>
       <button class="btn big" style="margin-top:12px" data-act="sheet-close">סגור</button>`); };
   draw(); if(!INV.st){ await INV.p; if(!$('#sheet').hidden)draw(); }
 }
@@ -5785,8 +5836,8 @@ function maybeInvitePrompt(reason){
   let seen={}; try{seen=JSON.parse(localStorage.getItem('nr-inv-p')||'{}');}catch(_){}
   if(seen[reason])return; seen[reason]=1; try{localStorage.setItem('nr-inv-p',JSON.stringify(seen));}catch(_){}
   setTimeout(()=>{ if(!$('#sheet').hidden||!$('#np').hidden||S.mode!=='app')return;
-    const msg={pr:'שברת שיא 🏅 יש לך חבר שגם יתקדם ככה?',w4:'4 אימונים נשמרו 💪 מתאמנים יותר כשיש עם מי.',w10:'10 אימונים! חבר שמתאמן איתך = חודש מתנה.',w20:'20 אימונים 🔥 הגיע הזמן להביא את החבר׳ה.'}[reason];
-    openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-wink.svg" alt=""><div><b>${msg}</b><span>${G('החבר מקבל','החברה מקבלת','המוזמן מקבל')} ${INV.st?.trial_days||14} ימי ניסיון, ${G('ואתה','ואת','ואתם')} חודש מתנה כשבוחרים מסלול.</span></div></div>
+    const msg={pr:'שברת שיא 🏅 יש לך חבר שגם יתקדם ככה?',w4:'4 אימונים נשמרו 💪 מתאמנים יותר כשיש עם מי.',w10:'10 אימונים! חבר שמתאמן איתך = שבוע פרימיום לשניכם.',w20:'20 אימונים 🔥 הגיע הזמן להביא את החבר׳ה.'}[reason];
+    openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-wink.svg" alt=""><div><b>${msg}</b><span>${G('הזמן אותו, ושניכם מקבלים שבוע פרימיום.','הזמיני אותה, ושתיכן מקבלות שבוע פרימיום.','הזמנת חבר: שניכם מקבלים שבוע פרימיום.')}</span></div></div>
       <button class="btn primary big" data-act="invite-open" data-src="${reason}">🎁 הזמנת חבר</button><button class="btn big" style="margin-top:8px" data-act="sheet-close">אולי אחר כך</button>`); },1600);
 }
 async function openShareSheet(title,sub,url,text){
@@ -5870,15 +5921,18 @@ function openLabelPrompt(code){
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">ביטול</button>`);
 }
 async function readLabel(file){
+  if(aiFreeLeft()===0){ aiUpsell(); return; }
   toast('קורא את הטבלה…');
   try{
     const b64=await shrinkImage(file,1600,0.88);
     const {data,error}=await sb.functions.invoke('nutrition',{body:{image:b64,media:'image/jpeg',label:true,lang:LANG}});
-    if(error)throw error; if(!data||data.error||!(+data.kcal>=0)||!data.name)throw new Error('no_label');
+    if(error)throw error; if(data?._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); }
+    if(!data||data.error||!(+data.kcal>=0)||!data.name)throw new Error('no_label');
     const p={barcode:SCAN.code,name:String(data.name),brand:data.brand||null,kcal:+data.kcal||0,protein:+data.protein||0,fat:+data.fat||0,carbs:+data.carbs||0,serving_g:+data.serving_g||null};
     if(SCAN.code)sb.rpc('add_product',{p_barcode:p.barcode,p_name:p.name,p_brand:p.brand,p_kcal:p.kcal,p_protein:p.protein,p_fat:p.fat,p_carbs:p.carbs,p_serving:p.serving_g||0}).then(()=>{},()=>{});
     toast('המוצר נוסף למאגר ✓'); openProduct(p);
-  }catch(e){ toast(e?.context?.status===429?'הגעת למכסת ה-AI היומית':'לא הצלחתי לקרוא את הטבלה. נסה צילום קרוב וחד יותר'); }
+  }catch(e){ let qd=null; if(e?.context?.status===429){ try{qd=await e.context.json();}catch(_){} if(qd?.free){ AIQ.free=0; AIQ.freeDay=new Date().toDateString(); return aiUpsell(); } }
+    toast(e?.context?.status===429?'הגעת למכסת ה-AI היומית':'לא הצלחתי לקרוא את הטבלה. נסה צילום קרוב וחד יותר'); }
 }
 function fmtPhone(n){ n=String(n||''); return n.length===9?'0'+n.slice(0,2)+'-'+n.slice(2,5)+'-'+n.slice(5):n; }
 function phoneSheet(next,p){
@@ -5899,7 +5953,7 @@ async function phoneThen(next,p){
 }
 function payAct(act,b){
   switch(act){
-    case 'plans-open': closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div>`); return true;
+    case 'plans-open': logEv('plans_open',{why:b.dataset.why||null}); closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div>`); return true;
     case 'plan-buy': { const p=(S.plan?.plans||[]).find(x=>x.id===b.dataset.id); if(!p)return true;
       if(S.plan?.grow){ b.disabled=true; const pn=b.querySelector('.pn'); const t0=pn?.textContent; if(pn)pn.textContent='פותח תשלום מאובטח…';
         sb.functions.invoke('grow-pay',{body:{plan:p.id,origin:location.origin}}).then(({data,error})=>{
@@ -6490,31 +6544,37 @@ function retAct(act,b){
   return false;
 }
 
-/* ---------- המאמן (AI) — סיכום שבועי לכולם, שיחה למנויים בלבד ---------- */
+/* ---------- המאמן (AI) — סיכום שבועי ושיחה: פרימיום בלבד ---------- */
 const CO={sum:undefined,loading:false,empty:false,open:false,msgs:null,busy:false,draft:'',toBottom:false,left:null};
-const coachCanChat=()=>!!(S.plan&&(S.plan.paid||S.plan.admin));
+const coachCanChat=()=>isPrem();
 async function coachLoadSummary(){
   if(CO.loading||!S.user)return; CO.loading=true;
-  try{ const {data,error}=await sb.functions.invoke('coach',{body:{mode:'summary',lang:LANG}}); if(error)throw error;
+  try{ const {data,error}=await sb.functions.invoke('coach',{body:{mode:'summary',lang:LANG}});
+    if(error){ let c=null; try{c=(await error.context?.json?.())?.error;}catch(_){} if(c==='premium'){ if(S.plan)S.plan.premium=false; CO.loading=false; if(S.tab==='home')render(); return; } throw error; }
     CO.sum=data?.summary||null; CO.empty=!!data?.empty; }
   catch(e){ CO.sum=null; CO.err=true; }
   CO.loading=false; if(S.tab==='home')render();
 }
 function coachCardHTML(){
   if(!S.user||S.mode!=='app')return '';
-  if(CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
+  const locked=!coachCanChat();
+  if(!locked&&CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
   const fresh=!S.workouts.length&&!CO.sum; // no workouts yet: Kobi introduces himself instead of hiding
   if(CO.cardOpen===undefined){ try{CO.cardOpen=localStorage.getItem('nr-co-card')==='1';}catch(_){CO.cardOpen=false;} }
   const open=CO.cardOpen;
   const head=`<button class="co-h co-tog" data-act="coach-card-tog" aria-expanded="${open}"><img class="co-av" src="img/kobi-${CO.sum?'wink':'happy'}.svg" alt=""><div style="flex:1;min-width:0;text-align:start"><b>קובי הבוט</b><div class="small muted">${CO.sum?'הסיכום השבועי שלך':'המאמן האישי שלך'}</div></div><span class="co-chev">${open?'▴':'▾'}</span></button>`;
   let body;
-  if(fresh)body=`<div class="small muted" style="line-height:1.55">היי, אני קובי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
+  if(locked&&!fresh)body=`<div class="co-lockcard"><div class="co-blur"><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:80%"></div><div class="co-skel" style="width:66%"></div><div class="co-skel" style="width:74%"></div></div>
+      <div class="co-lk"><b>🔒 קובי ניתח את השבוע שלך</b><span class="small muted">הסיכום השבועי והשיחה עם קובי זמינים בפרימיום</span></div></div>`;
+  else if(fresh&&locked)body=`<div class="small muted" style="line-height:1.55">היי, אני קובי 👋 בפרימיום אני שולח לך כל שבוע סיכום אישי לפי הנתונים שלך, ועונה על כל שאלה על אימונים ותזונה.</div>`;
+  else if(fresh)body=`<div class="small muted" style="line-height:1.55">היי, אני קובי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
   else if(CO.loading||CO.sum===undefined)body=`<div class="small muted">קובי מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
   else if(CO.sum)body=`<div class="co-txt" dir="auto" data-notr>${esc(coachParse(CO.sum.body).text)}</div>`;
   else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים קובי ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
   else body=`<div class="small muted">לא הצלחנו לטעון את הסיכום עכשיו.</div>`;
-  const acts=`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את קובי':'🔒 שאל את קובי'}</button></div>`;
-  return `<div class="card coach-card ${open?'open':'mini'}">${head}${open?body+acts:(CO.sum?`<div class="co-txt co-peek" dir="auto" data-notr data-act="coach-card-tog">${esc(coachParse(CO.sum.body).text)}</div>`:'')}</div>`;
+  const acts=locked?`<div class="co-acts"><button class="btn primary" style="flex:1.4" data-act="plans-open" data-why="coach">⭐ פתיחה עם פרימיום</button><button class="btn" style="flex:1" data-act="invite-open" data-src="coach">🎁 שבוע חינם</button></div>`
+    :`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את קובי':'🔒 שאל את קובי'}</button></div>`;
+  return `<div class="card coach-card ${open?'open':'mini'}">${head}${open?body+acts:(locked&&!fresh?`<div class="co-txt co-peek" data-act="coach-card-tog">🔒 קובי ניתח את השבוע שלך · זמין בפרימיום</div>`:CO.sum?`<div class="co-txt co-peek" dir="auto" data-notr data-act="coach-card-tog">${esc(coachParse(CO.sum.body).text)}</div>`:'')}</div>`;
 }
 async function coachLoadMsgs(){
   const {data}=await sb.from('coach_messages').select('id,role,body,created_at').order('id',{ascending:false}).limit(60);
@@ -6574,7 +6634,7 @@ function vCoach(){
     ?`${M&&!M.some(m=>m.role==='user')?`<div class="co-chips">${CO_CHIPS.map(q=>`<button data-act="coach-chip" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>`:''}
       <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="שאל את קובי…" maxlength="500" enterkeyhint="send" ${CO.busy?'disabled':''}></textarea>
       <button data-act="coach-send" aria-label="שליחה" ${CO.busy?'disabled':''}><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="flipx" style="transform:scaleX(-1)"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button></div>`
-    :`<div class="co-lock"><div style="font-weight:600;margin-bottom:4px">🔒 השיחה עם קובי זמינה למנויים</div><div class="small muted" style="margin-bottom:10px">הסיכום השבועי פתוח לכולם. כדי לשאול את קובי שאלות, בחר מסלול.</div><button class="btn primary" data-act="plans-open">לבחירת מסלול</button></div>`;
+    :`<div class="co-lock"><div style="font-weight:600;margin-bottom:4px">🔒 השיחה עם קובי זמינה בפרימיום</div><div class="small muted" style="margin-bottom:10px">סיכום שבועי לפי הנתונים שלך, תשובות על אימונים ותזונה, וניתוחי AI ללא הגבלה.</div><div class="row" style="gap:8px;justify-content:center"><button class="btn primary" data-act="plans-open" data-why="coach">⭐ שדרוג לפרימיום</button><button class="btn" data-act="invite-open" data-src="coach">${G('🎁 הזמן חבר: שבוע חינם','🎁 הזמיני חברה: שבוע חינם','🎁 הזמנת חבר: שבוע חינם')}</button></div></div>`;
   return `<div id="chatroot">${head}<div id="chatlist">${list}</div>${foot}</div>`;
 }
 async function coachSend(text){
@@ -6587,7 +6647,7 @@ async function coachSend(text){
     const {data,error}=await sb.functions.invoke('coach',{body:{mode:'chat',text,lang:LANG}});
     let code=data?.error; if(error){ try{ code=(await error.context?.json?.())?.error||code; }catch(_){} }
     if(code==='quota'){ toast('הגעת ל-20 שאלות היום. נמשיך מחר 💪'); CO.msgs.pop(); CO.draft=text; }
-    else if(code==='paid_only'){ toast('השיחה עם קובי זמינה למנויים'); CO.msgs.pop(); }
+    else if(code==='premium'||code==='paid_only'){ toast('השיחה עם קובי זמינה בפרימיום'); CO.msgs.pop(); if(S.plan)S.plan.premium=false; }
     else if(error||!data?.reply)throw error||new Error('empty');
     else{ CO.msgs.push({id:'r'+Date.now(),role:'assistant',body:data.reply,created_at:new Date().toISOString()}); CO.left=data.left; }
   }catch(e){ console.error(e); CO.msgs.pop(); CO.draft=text; toast('קובי לא זמין כרגע. נסה שוב בעוד רגע'); }
@@ -7172,7 +7232,7 @@ async function enterApp(user){
   if(PAID_RETURN||enterApp._claim){ enterApp._claim=false; try{ const c=await sb.rpc('claim_payment'); if(c.data?.ok&&!c.data.duplicate)toast('התשלום אומת, הגישה נפתחה 🎉'); }catch(_){} }
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
     if(st==='expired'){
-      if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('הניסיון הסתיים, אבל אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }
+      if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }
       S.mode='paywall'; render();
       if(!S.recap)sb.rpc('trial_recap').then(({data})=>{ if(data){ S.recap=data; if(S.mode==='paywall')render(); } },()=>{});
       if(PAID_RETURN&&!(enterApp._poll>=8)){ enterApp._poll=(enterApp._poll||0)+1; toast('מאשר את התשלום…'); setTimeout(()=>enterApp(user),4000); }

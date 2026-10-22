@@ -1,6 +1,6 @@
 // NextRep — AI coach (Haiku 5.5).
-//  mode "summary": weekly summary (once per week per user) — any user with active access (trial / paid / admin).
-//  mode "chat":    Q&A with the coach — paid users (and admins) only, 20 questions / 24h.
+//  mode "summary": weekly summary (once per week per user) — Premium only (paid / gift / referral days / admin).
+//  mode "chat":    Q&A with the coach — Premium only, 20 questions / 24h.
 //  mode "weekly":  cron (x-cron-key) — generates this week's summary for active users and queues a push.
 // The coach answers from a compact, pre-computed digest of the user's own data (computed here, not by the model).
 import { createClient, SupabaseClient } from "npm:@supabase/supabase-js@2";
@@ -222,11 +222,12 @@ Deno.serve(async (req: Request) => {
 
   try {
     if (body.mode === "summary") {
+      if (!plan.premium && !plan.admin) return J({ error: "premium" }, 402);
       const r = await makeSummary(admin, user.id, lang);
       return J(r);
     }
     if (body.mode === "chat") {
-      if (!plan.paid && !plan.admin) return J({ error: "paid_only" }, 402);
+      if (!plan.premium && !plan.admin) return J({ error: "premium" }, 402);
       const text = String(body.text || "").trim().slice(0, 500);
       if (!text) return J({ error: "bad_request" }, 400);
       const { count } = await admin.from("ai_usage").select("id", { count: "exact", head: true })

@@ -1,8 +1,8 @@
 // Guides: markdown (tools/seo/guides/<lang>/*.md with front matter) → /guide/<slug> pages + index. Used by build.js.
 const fs=require('fs'),path=require('path');
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const L={he:{index:'מדריכים: אימונים, תזונה והתקדמות',indexD:'מדריכים קצרים ומעשיים על אימוני כוח, חלבון, קלוריות וירידה במשקל, בלי מיתוסים. מבוסס על מחקר, כתוב בעברית פשוטה.',crumb:'מדריכים',min:'דק׳ קריאה',more:'עוד מדריכים',cta:'7 ימים חינם',by:'צוות NextRep'},
-         ar:{index:'أدلة: التمارين والتغذية والتقدم',indexD:'أدلة قصيرة وعملية عن تمارين القوة والبروتين والسعرات وخسارة الوزن، بلا خرافات.',crumb:'أدلة',min:'دقائق قراءة',more:'المزيد من الأدلة',cta:'7 أيام مجانًا',by:'فريق NextRep'}};
+const L={he:{index:'מדריכים: אימונים, תזונה והתקדמות',indexD:'מדריכים קצרים ומעשיים על אימוני כוח, חלבון, קלוריות וירידה במשקל, בלי מיתוסים. מבוסס על מחקר, כתוב בעברית פשוטה.',crumb:'מדריכים',min:'דק׳ קריאה',more:'עוד מדריכים',cta:'להתחיל בחינם',by:'צוות NextRep'},
+         ar:{index:'أدلة: التمارين والتغذية والتقدم',indexD:'أدلة قصيرة وعملية عن تمارين القوة والبروتين والسعرات وخسارة الوزن، بلا خرافات.',crumb:'أدلة',min:'دقائق قراءة',more:'المزيد من الأدلة',cta:'ابدأ مجانًا',by:'فريق NextRep'}};
 const base=l=>l==='he'?'/guide/':`/${l}/guide/`;
 function parse(md){ const m=md.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/); const meta={}; for(const line of m[1].split('\n')){ const i=line.indexOf(':'); meta[line.slice(0,i).trim()]=line.slice(i+1).trim(); } return {meta,body:m[2]}; }
 function inline(s){ return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2">$1</a>'); }

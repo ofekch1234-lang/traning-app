@@ -51,7 +51,18 @@ Deno.serve(async (req: Request) => {
     const L = isPhoto ? LIM.photo : LIM.text, kinds = isPhoto ? ["photo", "label"] : ["text"];
     const { data: plan } = await sb.rpc("my_plan");
     const isAdmin = !!(plan as { admin?: boolean } | null)?.admin;
+    const isPremium = isAdmin || !!(plan as { premium?: boolean } | null)?.premium;
     let usedMonth = 0;
+    // חינם: ניתוח AI אחד ביום (צילום, טקסט או תווית יחד), לפי יום קלנדרי בשעון ישראל
+    let freeLeft: number | null = null;
+    if (!isPremium) {
+      const FREE_DAY = Math.max(0, Number((plan as { free_ai_day?: number } | null)?.free_ai_day ?? 1));
+      const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jerusalem", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+      const dayStart = new Date(today + "T00:00:00+03:00").toISOString();
+      const { count } = await sb.from("ai_usage").select("id", { count: "exact", head: true }).eq("user_id", user.id).in("kind", ["photo", "label", "text"]).gte("created_at", dayStart);
+      if ((count ?? 0) >= FREE_DAY) return new Response(JSON.stringify({ error: "quota", free: true, period: "day", limit: FREE_DAY }), { status: 429, headers: cors });
+      freeLeft = FREE_DAY - (count ?? 0) - 1;
+    }
     if (!isAdmin) {
       const ymd = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jerusalem", year: "numeric", month: "2-digit" }).format(new Date());
       const monthStart = new Date(ymd + "-01T00:00:00+03:00").toISOString();
@@ -112,13 +123,18 @@ Deno.serve(async (req: Request) => {
       const it = out.usage?.input_tokens || 0, ot = out.usage?.output_tokens || 0;
       const cost = (it * pi + ot * po) / 1e6;
       console.log(JSON.stringify({ ev: "nutrition", model: out.model || model, in: it, out: ot, usd: cost, kind: isLabel ? "label" : body.image ? "photo" : "text", lang: body.lang || "he", stop: out.stop_reason, ms: Date.now() - t0 }));
-      try { await sb.from("ai_usage").insert({ user_id: user.id, kind: isLabel ? "label" : body.image ? "photo" : "text", model: out.model || model, input_tokens: it, output_tokens: ot, cost_usd: cost }); } catch (_) { /* לא חוסם */ }
       const txt = (out.content || []).filter((c: { type: string }) => c.type === "text").map((c: { text: string }) => c.text).join("");
       const m = txt.match(/\{[\s\S]*\}/);
-      if (!m) { lastErr = "no_json stop=" + out.stop_reason + " text=" + txt.slice(0, 120); break; }
-      const parsed = JSON.parse(m[0]);
-      if (!isLabel && (!Array.isArray(parsed?.items) || !parsed.items.length)) console.log(JSON.stringify({ ev: "nutrition-empty", kind: body.image ? "photo" : "text", q: String(body.text || body.hint || "").slice(0, 60) }));
+      let parsed: any = null;
+      try { parsed = m ? JSON.parse(m[0]) : null; } catch (_) { parsed = null; }
+      const empty = !parsed || (isLabel ? !!parsed.error : (!Array.isArray(parsed.items) || !parsed.items.length));
+      // משתמש חינמי לא "מבזבז" את הניתוח היומי על תשובה ריקה או שגויה
+      if (isPremium || !empty) { try { await sb.from("ai_usage").insert({ user_id: user.id, kind: isLabel ? "label" : body.image ? "photo" : "text", model: out.model || model, input_tokens: it, output_tokens: ot, cost_usd: cost }); } catch (_) { /* לא חוסם */ } }
+      if (!parsed) { lastErr = "no_json stop=" + out.stop_reason + " text=" + txt.slice(0, 120); break; }
+      if (!isLabel && empty) console.log(JSON.stringify({ ev: "nutrition-empty", kind: body.image ? "photo" : "text", q: String(body.text || body.hint || "").slice(0, 60) }));
+      if (empty && freeLeft !== null) freeLeft += 1;
       if (leftAfter !== null && parsed && typeof parsed === "object") parsed._left = { kind: isPhoto ? "photo" : "text", n: Math.max(0, leftAfter) };
+      if (freeLeft !== null && parsed && typeof parsed === "object") parsed._free = { left: Math.max(0, freeLeft) };
       return new Response(JSON.stringify(parsed), { headers: { ...cors, "Content-Type": "application/json" } });
     }
     console.error("anthropic error:", lastErr.slice(0, 500));
