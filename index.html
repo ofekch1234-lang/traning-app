@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.7';
+const APP_VERSION='13.2.8';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7562,6 +7562,8 @@ async function enterApp(user){
   S.user=user; S.mode='boot'; render();
   // first real sign-in: the server starts the invite gift week, rewards the inviter and alerts the admin (once per user)
   try{ const k='nr-entered-'+user.id; if(!localStorage.getItem(k)){ const r=await sb.rpc('mark_entered'); if(!r.error)localStorage.setItem(k,'1'); } }catch(e){}
+  // home-screen install: reported once per device, so setup emails only ask what's still missing
+  try{ if(IS_STANDALONE&&!localStorage.getItem('nr-inst-'+user.id)){ sb.rpc('mark_seen',{p_inst:true}).then(r=>{ if(!r.error)try{localStorage.setItem('nr-inst-'+user.id,'1');}catch(_){} },()=>{}); } }catch(e){}
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
   if(PAID_RETURN||enterApp._claim){ enterApp._claim=false; try{ const c=await sb.rpc('claim_payment'); if(c.data?.ok&&!c.data.duplicate)toast('התשלום אומת, הגישה נפתחה 🎉'); }catch(_){} }
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
