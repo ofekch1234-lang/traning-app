@@ -348,6 +348,18 @@ body.landing #app{max-width:1120px}
 .hp-th{width:62px;display:flex;flex-direction:column;gap:3px;align-items:center}
 .hp-th img,.hp-th:not(:has(img))::before{width:62px;height:82px;border-radius:9px;object-fit:cover;background:var(--surface2);display:block;content:''}
 .hp-th small{font-size:10.5px;color:var(--muted)}
+/* admin: v13 look */
+.adm-body .card{border-radius:20px}
+.adm-body .tiles{border-radius:20px}
+.adm-body .tile .v{color:var(--ink)}
+.stat3>button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 4px;font:inherit;color:inherit}
+.stat3>button+button,.stat3>button+div,.stat3>div+button{border-inline-start:1px solid var(--line)}
+.adm-body .adm-in{padding:12px 14px;border-radius:14px;font-size:15px}
+.adm-body .adm-row{padding:12px 0}
+.adm-body .adm-det{border-radius:20px}
+.adm-body .adm-alert,.adm-body .adm-ok{border-radius:16px}
+.adm-body .chip{padding:8px 13px}
+.adm-body .btn{border-radius:12px}
 /* admin: funnel + desktop layout */
 .fn-step{padding:8px 0;border-top:1px solid var(--line)}.fn-step:first-of-type{border-top:0}
 .fn-bar{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-bottom:6px}.fn-bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
@@ -843,9 +855,12 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .ask .sq{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;color:var(--ink);flex-shrink:0;padding:0}
 .ask .sq.pr{background:var(--accent);color:var(--accent-ink)}
 .ask .sq svg{width:20px;height:20px}
-.ways{display:flex;gap:8px}
-.ways>*{flex:1;height:64px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:600;cursor:pointer}
-.ways svg{width:22px;height:22px}
+.ways{display:flex;gap:8px;align-items:stretch}
+.ways>*{flex:1 1 0;min-width:0;min-height:68px;box-sizing:border-box;margin:0;padding:10px 4px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;line-height:1.2}
+.ways svg{width:22px;height:22px;flex-shrink:0}
+.again{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;margin:0 -16px;padding-inline:16px;scrollbar-width:none}
+.again::-webkit-scrollbar{display:none}
+.again .chip{flex-shrink:0;white-space:nowrap;background:var(--surface);border-radius:14px;padding:9px 12px}
 .seg2{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--surface2)}
 .seg2 button{flex:1;height:40px;border-radius:11px;font-size:15px;color:var(--muted)}
 .seg2 button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(20,26,22,.12)}
@@ -998,7 +1013,8 @@ svg text{font-family:var(--body)}
 #sheet.libmode .libgroups{margin-bottom:4px}
 #sheet.libmode .liblist{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 -16px;padding:0 16px}
 #sheet.libmode .lib-foot{flex-shrink:0;padding-top:10px}
-#sheet.libmode .fa-body{border-bottom:0;padding-bottom:12px}
+#sheet.libmode.fa{height:auto;max-height:84vh}
+#sheet.libmode .fa-body{border-bottom:0;padding:0 16px 12px}
 #sheet.libmode .fa-body .fsugg{position:static;box-shadow:none;border:0;margin:0 -2px}
 .liblist button{display:flex;justify-content:space-between;gap:10px;text-align:var(--start);padding:12px 4px;border-bottom:1px solid var(--line);border-radius:0;font-size:15px}
 .liblist button:last-child{border-bottom:none}
@@ -1444,7 +1460,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.0.1';
+const APP_VERSION='13.0.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2645,10 +2661,10 @@ function openFoodAdd(){
         <button data-act="food-manual">${ICON.pen}ידני</button>
       </div>
       ${aiQuotaLine()}
-      ${recents.length?`<div class="small muted" style="font-weight:600;margin-bottom:-6px">שוב</div><div class="row" style="gap:6px">${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}"><span data-notr>${esc(m.name.slice(0,18))}</span> · ${m.kcal}</button>`).join('')}</div>`:''}
+      ${recents.length?`<div class="small muted" style="font-weight:600;margin-bottom:-6px">שוב</div><div class="again">${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}"><span data-notr>${esc(m.name.length>22?m.name.slice(0,22)+'…':m.name)}</span> · ${m.kcal}</button>`).join('')}</div>`:''}
     </div>
   </div>`);
-  $('#sheet').classList.add('libmode');
+  $('#sheet').classList.add('libmode','fa');
   setTimeout(()=>{ const t=$('#food-text'); if(t&&!IS_IOS)t.focus(); },60);
 }
 /* daily targets calculator: sex, age, height, weight, activity, goal -> calories (Mifflin-St Jeor x activity, adjusted by goal)
@@ -5020,7 +5036,7 @@ document.addEventListener('click',ev=>{
     if(e.cancelable)e.preventDefault();
   },{passive:false});
 })();
-function openSheet(html){$('#sheet').classList.remove('libmode','swsheet');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
+function openSheet(html){$('#sheet').classList.remove('libmode','swsheet','fa');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
 function closeSheet(){try{$('#sheet').classList.remove('swsheet');$('#sheet').style.bottom='';$('#sheet').style.height='';}catch(_){} try{if(SCAN.stream||SCAN.reader)stopScan();}catch(_){} $('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
 
 function openLibrary(target){ // target: 'active' | 'tpl'
@@ -5299,12 +5315,12 @@ function vAdmin(){
   if(!O)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
   const openEv=(A.events||[]).filter(e=>e.open).length;
   const tabs=[['overview','סקירה',0],['growth','צמיחה',0],['users','משתמשים',O.pending],['pay','תשלומים',openEv],['msgs','פניות',O.open_msgs]];
-  const seg=`<div class="sg-seg adm-seg" style="position:sticky;top:0;z-index:5">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?` <span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
+  const seg=`<div class="seg2 adm-seg" style="position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:5;margin-bottom:4px">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?` <span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
   const body=A.tab==='users'?admUsersHTML():A.tab==='pay'?admPayHTML():A.tab==='msgs'?admMsgsHTML():A.tab==='growth'?admGrowthHTML():admOverviewHTML();
   return head+seg+`<div class="adm-body adm-${A.tab}">${body}</div>`;
 }
 function admOverviewHTML(){
-  const O=A.ov, tile=(v,k,act)=>`<button class="tile" ${act?`data-act="adm-go" ${act}`:''} style="background:none;border:0"><div class="v num">${v}</div><div class="k">${k}</div></button>`;
+  const O=A.ov, tile=(v,k,act)=>`<button ${act?`data-act="adm-go" ${act}`:''} style="background:none;border:0;border-radius:0"><b class="num">${v}</b><span>${k}</span></button>`;
   const openEv=(A.events||[]).filter(e=>e.open).length;
   const alerts=[
     O.pending?[`⏳ ${O.pending} ממתינים לאישור`,'data-t="users" data-f="pending"']:null,
@@ -5312,14 +5328,14 @@ function admOverviewHTML(){
     O.open_msgs?[`💬 ${O.open_msgs} פניות פתוחות`,'data-t="msgs"']:null,
     O.expiring7?[`📅 ${O.expiring7} מנויים מסתיימים השבוע`,'data-t="users" data-f="expiring"']:null,
   ].filter(Boolean);
-  return `${alerts.length?`<div class="stack" style="gap:8px;margin-bottom:12px">${alerts.map(([t,a])=>`<button class="adm-alert" data-act="adm-go" ${a}><span>${t}</span><span>›</span></button>`).join('')}</div>`:`<div class="adm-ok">✓ אין משימות פתוחות</div>`}
-    <div class="adm-sec"><div class="label" style="margin-bottom:6px">משתמשים</div>
-    <div class="tiles">${tile(O.users,'רשומים','data-t="users" data-f="all"')}${tile(O.paying,'משלמים','data-t="users" data-f="paying"')}${tile(O.trial,'פרימיום מתנה','data-t="users" data-f="trial"')}</div>
-    <div class="tiles" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'חינמיים','data-t="users" data-f="expired"')}</div>
+  return `${alerts.length?`<div class="card r20 list" style="margin-bottom:12px;border-color:var(--gold)">${alerts.map(([t,a])=>`<button class="li" data-act="adm-go" ${a}><span class="lt"><b>${t}</b></span>${ICON.chev}</button>`).join('')}</div>`:`<div class="card r20" style="padding:12px 14px;margin-bottom:12px;background:var(--accent-soft);border-color:transparent;font-weight:600">✓ אין משימות פתוחות</div>`}
+    <div class="adm-sec"><div class="sect2" style="margin-bottom:6px"><span>משתמשים</span></div>
+    <div class="card r20 stat3 num">${tile(O.users,'רשומים','data-t="users" data-f="all"')}${tile(O.paying,'משלמים','data-t="users" data-f="paying"')}${tile(O.trial,'פרימיום מתנה','data-t="users" data-f="trial"')}</div>
+    <div class="card r20 stat3 num" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'חינמיים','data-t="users" data-f="expired"')}</div>
     ${O.gifted?`<div class="small muted" style="margin-top:6px">🎁 ${O.gifted} עם גישה במתנה (הזמינו חבר ששילם, בלי תשלום משלהם)</div>`:''}</div>
-    <div class="adm-sec"><div class="label" style="margin:14px 0 6px">הכנסות</div>
-    <div class="tiles">${tile('₪'+Math.round(O.rev_month),'החודש','data-t="pay"')}${tile(O.pay_month,'תשלומים החודש','data-t="pay"')}${tile('₪'+Math.round(O.rev_total),'סה״כ','data-t="pay"')}</div></div>
-    <div class="card adm-chart" style="margin-top:14px;padding:14px">
+    <div class="adm-sec"><div class="sect2" style="margin:14px 0 6px"><span>הכנסות</span></div>
+    <div class="card r20 stat3 num">${tile('₪'+Math.round(O.rev_month),'החודש','data-t="pay"')}${tile(O.pay_month,'תשלומים החודש','data-t="pay"')}${tile('₪'+Math.round(O.rev_total),'סה״כ','data-t="pay"')}</div></div>
+    <div class="card r20 adm-chart" style="margin-top:14px;padding:14px">
       <div class="spread" style="margin-bottom:8px"><b>פעילות · 30 יום</b><span class="small muted">● הרשמה &nbsp; ₪ תשלום</span></div>
       ${adminChart(O.daily||[])}
       <div class="small muted" style="margin-top:6px">פעילים היום ${O.active1}, ב-30 יום ${O.active30}. עלות AI החודש ${money(O.ai_usd_month)}.</div>
