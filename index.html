@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=117c0ae4"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=117c0ae4"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=117c0ae4"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9e974c83"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9e974c83"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9e974c83"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.3';
+const APP_VERSION='13.2.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6314,7 +6314,7 @@ function maybeStartTour(){
   startTour(tab);
 }
 function startTour(tab){ TOUR.on=true; TOUR.i=0; TOUR.grp=tab||S.tab||'home'; tourShow(); }
-function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(!st.when||st.when())&&(st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE)))); }
+function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(!st.when||st.when())&&(st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE)&&!notifSnoozed()&&!notifOnbSeen()))); }
 function tourEnd(){
   const seen=toursSeen(); seen[TOUR.grp]=1; try{localStorage.setItem('nr-tours',JSON.stringify(seen));}catch(_){}
   TOUR.on=false; $('#tour')?.remove(); persistSettings(); render(); setTimeout(()=>askName(),900);
@@ -6514,6 +6514,22 @@ async function pbSave(){
   else toast('התוכנית נשמרה 💪 בהצלחה!');
 }
 /* v13.2: "how do we start?" for new users, instead of silently loading A/B/C */
+/* onboarding after name + address: notifications (once per device, where the device can show them), then "how do we start?", then the tour */
+function notifOnbSeen(){ try{ return !!localStorage.getItem('nr-notif-onb'); }catch(_){ return true; } }
+function onboardNext(){
+  if(TOUR.on||$('#instgate'))return;
+  if(notifCan()&&!notifOnbSeen())return openNotifOnboard();
+  if(needStart())return openStartSheet();
+  maybeStartTour();
+}
+function openNotifOnboard(){
+  try{ localStorage.setItem('nr-notif-onb','1'); }catch(_){}
+  logEv('notif_onb_open');
+  openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-happy.svg" alt=""><div><b>דבר אחד חשוב: התראות 🔔</b><span>${G('בלי זה אני לא יכול להזכיר לך כלום. מפעילים פעם אחת, ואני דואג לשאר:','בלי זה אני לא יכול להזכיר לך כלום. מפעילים פעם אחת, ואני דואג לשאר:','בלי זה אי אפשר להזכיר כלום. מפעילים פעם אחת, ואנחנו דואגים לשאר:')}</span></div></div>
+    <ul class="nc-list" style="margin:0 0 14px"><li><i>⏱️</i>סוף המנוחה בין הסטים, גם כשהטלפון בכיס</li><li><i>📅</i>תזכורת בימי האימון שלך</li><li><i>💬</i>הסיכום השבועי מקובי והודעות מהקבוצה</li></ul>
+    <button class="btn primary big" data-act="notif-onb">🔔 ${G('הפעל התראות','הפעילי התראות','הפעלת התראות')}</button>
+    <button class="nc-later" data-act="notif-onb-later">אחר כך</button>`);
+}
 function needStart(){ return !S.settings.start&&!S.templates.length&&!S.workouts.length&&!S.active; }
 function openStartSheet(){
   logEv('start_open');
@@ -7241,6 +7257,8 @@ function handleAct(b,ev){
         if(error){toast('שמירת השם נכשלה');return;}
         if(data?.user)S.user=data.user; toast('השם עודכן 👋'); if(!$('#sheet').hidden&&document.querySelector('#set-name'))closeSheet(); render();
       }); break; }
+    case 'notif-onb': closeSheet(); logEv('notif_ask',{ctx:'onboard'}); ensureNotifPerm().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:'onboard'}); if(ok){ toast('ההתראות הופעלו 🔔'); subscribePush().catch(()=>{}); if(S.settings.notif)S.settings.notif.remind=true; persistSettings(); } render(); setTimeout(onboardNext,400); }); break;
+    case 'notif-onb-later': closeSheet(); notifSnooze(); logEv('notif_onb_later'); setTimeout(onboardNext,300); break;
     case 'notif-on': closeSheet(); logEv('notif_ask',{ctx:b.dataset.ctx||null}); ensureNotifPerm().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:b.dataset.ctx||null}); if(ok){ toast('ההתראות הופעלו 🔔'); subscribePush().catch(()=>{}); if(S.settings.notif)S.settings.notif.remind=true; persistSettings(); } else toast(Notification.permission==='denied'?'ההרשאה נדחתה. אפשר לשנות בהגדרות הטלפון':'ההרשאה לא אושרה'); render(); }); break;
     case 'notif-later': closeSheet(); notifSnooze(); render(); break;
     case 'notif-dis': notifSnooze(); render(); break;
@@ -7295,7 +7313,7 @@ function handleAct(b,ev){
       if(!S.settings.body)S.settings.body={}; if((v==='m'||v==='f')&&!S.settings.body.sex)S.settings.body.sex=v;
       document.querySelectorAll('[data-act="g-set"]').forEach(x=>x.classList.toggle('on',x===b));
       Promise.resolve(persistSettings()).catch(()=>{}).then(()=>{ closeSheet();
-        if(applyLook(v,S.settings.accent))return; render(); if(first)setTimeout(()=>{ if(needStart())openStartSheet(); else maybeStartTour(); },300); else toast('עודכן ✓'); }); break; }
+        if(applyLook(v,S.settings.accent))return; render(); if(first)setTimeout(onboardNext,300); else toast('עודכן ✓'); }); break; }
     case 'acc-set': { const v=b.dataset.v; S.settings.accent=v; applyLook(S.settings.g,v); persistSettings(); openAccentSheet(); break; }
     case 'tg-pick': case 'tg-pace': case 'tg-edit': case 'tg-back': case 'tg-next': case 'tg-step': case 'tg-nogoal': case 'tg-sug': tgAct(act,b); break;
     case 'food-targets': { const r=TG?tgCalc(TG):null, man=!!$('#t-kcal');
@@ -7565,7 +7583,7 @@ async function enterApp(user){
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest(); setTimeout(syncPush,1500);
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
-  setTimeout(()=>{ if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else if(needStart())openStartSheet(); else maybeStartTour(); } },700);
+  setTimeout(()=>{ if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else onboardNext(); } },700);
   socialProfileFix();
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}
