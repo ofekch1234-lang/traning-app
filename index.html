@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ee3ce4aa"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ee3ce4aa"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ee3ce4aa"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c51e5c65"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c51e5c65"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c51e5c65"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -513,6 +513,7 @@ body.landing #app{max-width:1120px}
 .ho-link{display:flex;flex-direction:column;gap:2px;align-items:center;background:var(--accent-soft);border:1px solid transparent;border-radius:14px;padding:12px;color:var(--ink)}
 .ho-link b{font-size:14.5px}.ho-link span{font-size:12.5px;color:var(--muted)}
 .otp-note{background:var(--accent-soft);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.5}
+.ig-hint{font-size:13px;color:var(--muted);line-height:1.6;margin-top:-4px}
 .ig-skip{color:var(--muted);font-size:13px;text-decoration:underline;margin-top:6px}
 .fi-title{display:flex;flex-direction:column;gap:1px}.fi-title b{font-size:17px}
 .fsearch{position:relative}
@@ -1323,7 +1324,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.7.0';
+const APP_VERSION='12.7.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5941,7 +5942,15 @@ function showInstallGate(pre,mode){
   const plus=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-4px"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>`;
   let steps;
   if(IN_APP_BROWSER)steps=`<ol class="ig-steps"><li>לחץ על <b>⋯</b> או <b>⋮</b> בפינת המסך</li><li>בחר <b>"פתח בדפדפן"</b> (Safari או Chrome)</li><li>שם תוכל להוסיף את NextRep למסך הבית</li></ol>`;
-  else if(IS_IOS)steps=`<ol class="ig-steps"><li>לחץ על כפתור השיתוף ${share} בסרגל של הדפדפן</li><li>גלול למטה ובחר <b>"הוסף למסך הבית"</b> ${plus}</li><li>לחץ <b>"הוסף"</b>, ופתח את NextRep מהאייקון החדש</li></ol>`;
+  else if(IS_IOS){
+    const ua=navigator.userAgent, dots=`<svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align:-6px"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="16.5" cy="12" r="1.5" fill="currentColor"/></svg>`;
+    const ver=+((/Version\/(\d+)/.exec(ua)||[])[1]||0), add=`<li>${tt('גלול למטה (או לחץ "עוד") ובחר')} <b>"${tt('הוסף למסך הבית')}"</b> ${plus}</li><li>${tt('לחץ "הוסף", ופתח את NextRep מהאייקון החדש')}</li>`;
+    if(/CriOS/.test(ua))steps=`<ol class="ig-steps"><li>${tt('לחץ על כפתור השיתוף')} ${share} ${tt('בשורת הכתובת למעלה')}</li>${add}</ol>`;
+    else if(/FxiOS|EdgiOS/.test(ua))steps=`<ol class="ig-steps"><li>${tt('לחץ על התפריט')} <b>☰</b> ${tt('או')} ${dots} ${tt('ובחר "שיתוף"')} ${share}</li>${add}</ol>`;
+    else if(ver>=26)steps=`<ol class="ig-steps"><li>${tt('לחץ על שלוש הנקודות')} ${dots} ${tt('בסרגל של ספארי, ואז על "שיתוף"')} ${share}</li>${add}</ol>`;
+    else steps=`<ol class="ig-steps"><li>${tt('לחץ על כפתור השיתוף')} ${share} ${tt('בסרגל של הדפדפן')}</li>${add}</ol>
+      <div class="ig-hint">${tt('לא רואה כפתור שיתוף? לחץ קודם על שלוש הנקודות')} ${dots} ${tt('בסרגל, ואז על "שיתוף"')}</div>`;
+  }
   else steps=`<button id="inst-native" class="btn primary big" data-act="inst-native" ${_bip?'':'hidden'}>התקנת האפליקציה</button>
     <ol class="ig-steps"><li>לחץ על <b>⋮</b> בפינה העליונה של Chrome</li><li>בחר <b>"התקנת אפליקציה"</b> או <b>"הוספה למסך הבית"</b></li><li>פתח את NextRep מהאייקון החדש</li></ol>`;
   const d=document.createElement('div'); d.id='instgate';
@@ -5966,12 +5975,7 @@ async function hoCreate(){
     else $('#ig-code')?.remove();
   }catch(_){ $('#ig-code')?.remove(); }
 }
-/* באייפון בדפדפן: מציעים לשמור למסך הבית לפני ההרשמה, כדי להירשם פעם אחת בתוך האפליקציה */
-function preInstallGate(mode){
-  if(!IS_IOS||IS_STANDALONE||IN_APP_BROWSER)return false;
-  try{ if(localStorage.getItem('nr-ref')||sessionStorage.getItem('nr-pre-skip'))return false; }catch(_){ return false; }
-  showInstallGate(true,mode); return true;
-}
+
 /* ---- הסיור ---- */
 const TOUR={on:false,i:0};
 const TOUR_STEPS=[
@@ -6972,8 +6976,8 @@ function handleAct(b,ev){
       sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ בקשה למחיקת חשבון ומידע.'+(why?' סיבה: '+why:'')}).then(({error})=>{ if(error){toast('השליחה נכשלה, כתוב לנו במייל');return;} closeSheet(); toast('הבקשה התקבלה. נמחק את החשבון תוך 30 יום ונעדכן אותך'); }); break; }
     case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-g': { if(b.dataset.v!==window.NR_G)landSetG(b.dataset.v); return true; }
-    case 'land-signup': if(preInstallGate('signup'))break; if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
-    case 'land-login': if(preInstallGate('login'))break; if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
+    case 'land-signup': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
+    case 'land-login': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': sb.auth.signOut(); break;
