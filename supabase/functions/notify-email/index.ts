@@ -6,6 +6,8 @@ const APP = "https://www.nextrep.co.il";
 const LOGO = "https://www.nextrep.co.il/icon-192.png";
 type Item = { uid: string; lang?: string; w?: number; m?: number; g?: string; until?: string; t?: string; b?: string };
 const CTA: Record<string, string> = { he: "לפתיחת האפליקציה", ar: "فتح التطبيق", en: "Open the app" };
+const CTA_SU: Record<string, string> = { he: "לסיום ההרשמה", ar: "إكمال التسجيل", en: "Finish signing up" };
+const FOOT_SU: Record<string, string> = { he: "קיבלת את המייל כי התחלת להירשם ל-NextRep.", ar: "وصلتك هذه الرسالة لأنك بدأت التسجيل في NextRep.", en: "You're receiving this because you started signing up for NextRep." };
 const FOOT: Record<string, string> = { he: "קיבלת את המייל כי נרשמת ל-NextRep.", ar: "وصلتك هذه الرسالة لأنك سجّلت في NextRep.", en: "You're receiving this because you signed up for NextRep." };
 // feminine overrides (Hebrew / Arabic address the reader by gender)
 const F: Record<string, { none?: string; body?: string }> = {
@@ -37,6 +39,8 @@ function html(l: string, w: number, m: number, g?: string, kind?: string, until?
   const base = { ...(T[l] || T.he), ...(g === "f" ? F[l] || {} : {}) };
   // kind "first_workout": title and body come ready (localized and gendered) from first_workout_nudges()
   if (kind === "first_workout") Object.assign(base, { title: ft || "", none: fb || "", body: "", cta: CTA[l] || CTA.he, foot: FOOT[l] || FOOT.he });
+  // kind "finish_signup": started signing up (email entered) but never entered the code — from finish_signup_nudges()
+  if (kind === "finish_signup") Object.assign(base, { title: ft || "", none: fb || "", body: "", cta: CTA_SU[l] || CTA_SU.he, foot: FOOT_SU[l] || FOOT_SU.he });
   const gift = kind === "gift_end" ? (GIFT[g === "f" ? "f" : "m"][l] || GIFT.m.he) : null;
   const t = gift ? { ...base, title: gift.title, none: gift.none.replace("{until}", until || ""), body: gift.body, cta: gift.cta, did: () => gift.none.replace("{until}", until || "") } : base;
   return `<div dir="${t.dir}" style="background:#f3f5f3;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#141a16">
@@ -70,7 +74,7 @@ Deno.serve(async (req) => {
       const l = ["he", "ar", "en"].includes(String(it.lang)) ? String(it.lang) : "he";
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST", headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ from, to: [to], subject: body.kind === "first_workout" ? String(it.t || "NextRep") : body.kind === "gift_end" ? (GIFT[it.g === "f" ? "f" : "m"][l] || GIFT.m.he).subj : (T[l] || T.he).subj, html: html(l, body.kind === "first_workout" ? 0 : +it.w! || 0, body.kind === "first_workout" ? 0 : +it.m! || 0, it.g, body.kind, it.until, it.t, it.b) }),
+        body: JSON.stringify({ from, to: [to], subject: (body.kind === "first_workout" || body.kind === "finish_signup") ? String(it.t || "NextRep") : body.kind === "gift_end" ? (GIFT[it.g === "f" ? "f" : "m"][l] || GIFT.m.he).subj : (T[l] || T.he).subj, html: html(l, body.kind === "first_workout" || body.kind === "finish_signup" ? 0 : +it.w! || 0, body.kind === "first_workout" || body.kind === "finish_signup" ? 0 : +it.m! || 0, it.g, body.kind, it.until, it.t, it.b) }),
         signal: AbortSignal.timeout(15000),
       });
       if (r.ok) sent++; else errs.push(String(r.status) + " " + (await r.text()).slice(0, 120));
