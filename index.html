@@ -998,6 +998,8 @@ svg text{font-family:var(--body)}
 #sheet.libmode .libgroups{margin-bottom:4px}
 #sheet.libmode .liblist{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 -16px;padding:0 16px}
 #sheet.libmode .lib-foot{flex-shrink:0;padding-top:10px}
+#sheet.libmode .fa-body{border-bottom:0;padding-bottom:12px}
+#sheet.libmode .fa-body .fsugg{position:static;box-shadow:none;border:0;margin:0 -2px}
 .liblist button{display:flex;justify-content:space-between;gap:10px;text-align:var(--start);padding:12px 4px;border-bottom:1px solid var(--line);border-radius:0;font-size:15px}
 .liblist button:last-child{border-bottom:none}
 .liblist .in{color:var(--accent);font-size:13px;font-weight:500}
@@ -1442,7 +1444,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.0.0';
+const APP_VERSION='13.0.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2599,7 +2601,7 @@ function vFood(){
       <span class="btn primary" style="pointer-events:none">הגדרה</span></button>`:''}
     <div class="card r20 ring-row">
       <div class="rg"><svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true"><circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="10"/><circle cx="56" cy="56" r="${R}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 56 56)" style="transition:stroke-dashoffset .5s"/></svg>
-        <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'נותרו':'מעל היעד'}</span>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
+        <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'קק״ל נותרו':'קק״ל מעל היעד'}</span>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
       <div class="stack" style="flex:1;gap:10px;min-width:0">
         ${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,0,'')}${mb('שומן',t.fat,0,'')}
       </div>
@@ -2630,18 +2632,23 @@ function vFood(){
 function openFoodAdd(){
   if(!$('#sheet').hidden&&$('#sheet .fa-sheet'))return;
   const recents=recentMealNames();
-  openSheet(`<div class="fa-sheet stack" style="gap:12px">
+  openSheet(`<div class="lib-head fa-sheet stack" style="gap:10px;padding-bottom:10px">
     <div class="spread"><h3 style="margin:0">הוספת ארוחה</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
     <div class="fsearch"><textarea id="food-text" rows="1" maxlength="600" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״"></textarea><button class="fs-go" data-act="food-ai" aria-label="ניתוח עם AI">✨ חשב</button></div>
+  </div>
+  <div class="liblist fa-body">
     <div id="food-sugg" class="fsugg" hidden></div>
-    <div class="ways">
-      <label aria-label="צילום צלחת">${ICON.cam}צילום צלחת<input id="food-photo" type="file" accept="image/*" hidden></label>
-      <button data-act="scan-open">${ICON.bar}ברקוד</button>
-      <button data-act="food-manual">${ICON.pen}ידני</button>
+    <div class="fa-idle stack" style="gap:12px;padding-top:10px">
+      <div class="ways">
+        <label aria-label="צילום צלחת">${ICON.cam}צילום צלחת<input id="food-photo" type="file" accept="image/*" hidden></label>
+        <button data-act="scan-open">${ICON.bar}ברקוד</button>
+        <button data-act="food-manual">${ICON.pen}ידני</button>
+      </div>
+      ${aiQuotaLine()}
+      ${recents.length?`<div class="small muted" style="font-weight:600;margin-bottom:-6px">שוב</div><div class="row" style="gap:6px">${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}"><span data-notr>${esc(m.name.slice(0,18))}</span> · ${m.kcal}</button>`).join('')}</div>`:''}
     </div>
-    ${aiQuotaLine()}
-    ${recents.length?`<div class="small muted" style="font-weight:600;margin-bottom:-6px">שוב</div><div class="row" style="gap:6px">${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}"><span data-notr>${esc(m.name.slice(0,18))}</span> · ${m.kcal}</button>`).join('')}</div>`:''}
   </div>`);
+  $('#sheet').classList.add('libmode');
   setTimeout(()=>{ const t=$('#food-text'); if(t&&!IS_IOS)t.focus(); },60);
 }
 /* daily targets calculator: sex, age, height, weight, activity, goal -> calories (Mifflin-St Jeor x activity, adjusted by goal)
@@ -3673,7 +3680,7 @@ let _mealDraft=null;
 async function foodSearch(q){
   const box=document.getElementById('food-sugg'); if(!box)return;
   q=(q||'').trim();
-  if(q.length<2){ box.hidden=true; box.innerHTML=''; return; }
+  if(q.length<2){ box.hidden=true; box.innerHTML=''; const idle=$('.fa-idle'); if(idle)idle.hidden=false; return; }
   const my=(foodSearch._seq=(foodSearch._seq||0)+1);
   try{
     const {data,error}=await sb.rpc('search_foods',LANG==='he'?{q,lim:7}:{q,lim:7,lang:LANG});
@@ -3686,7 +3693,7 @@ async function foodSearch(q){
           <span class="fs-name">${esc(f.name)}</span>
           <span class="fs-val num">${Math.round(+f.kcal||0)} <small>קק״ל/100ג׳</small></span></button>`).join(''):'')
       +(!multi&&S.foodSugg.length?ai:'');
-    box.hidden=false;
+    box.hidden=false; const idle=$('.fa-idle'); if(idle)idle.hidden=true;
   }catch(e){ box.hidden=true; }
 }
 let _portion=null;
@@ -5287,9 +5294,7 @@ function adminChart(daily){
 }
 function vAdmin(){
   const O=A.ov;
-  const head=`<div class="spread" style="margin-bottom:10px">
-    <div><div class="label">ניהול</div><h2 style="margin:0">לוח בקרה</h2></div>
-    <div class="row" style="gap:8px"><button class="btn" data-act="adm-refresh" aria-label="רענון">${S.adminLoading?'…':'↻'}</button><button class="btn" data-act="adm-back">חזרה</button></div></div>`;
+  const head=`<div class="row" style="gap:10px;flex-wrap:nowrap;margin-bottom:6px"><button class="hd-btn" data-act="adm-back" aria-label="חזרה">${ICON.back}</button><h2 class="ttl" style="margin:0;flex:1">לוח ניהול</h2><button class="hd-btn" data-act="adm-refresh" aria-label="רענון" style="font-size:20px">${S.adminLoading?'…':'↻'}</button></div>`;
   if(A.err)return head+`<div class="empty"><div class="big">🔒</div>${esc(A.err)}</div>`;
   if(!O)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
   const openEv=(A.events||[]).filter(e=>e.open).length;
@@ -5457,7 +5462,7 @@ document.addEventListener('input',ev=>{ if(ev.target.id==='hist-q'){ HIST.q=ev.t
 function admAct(act,b){
   switch(act){
     case 'admin-open': closeSheet(); S.tab='admin'; render(); loadAdmin(); window.scrollTo(0,0); return true;
-    case 'adm-back': S.tab='home'; location.hash='home'; render(); return true;
+    case 'adm-back': S.tab='me'; location.hash='me'; render(); window.scrollTo(0,0); return true;
     case 'adm-refresh': loadAdmin(); return true;
     case 'adm-tab': A.tab=b.dataset.t; render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); return true;
     case 'adm-go': A.tab=b.dataset.t||A.tab; if(b.dataset.f){A.users.filter=b.dataset.f;A.users.q='';} render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); return true;
