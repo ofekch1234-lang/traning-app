@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=177672ad"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=177672ad"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=177672ad"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=20de468e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=20de468e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=20de468e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1539,9 +1539,43 @@ const SUPABASE_URL='https://dmeougthlruspxwyvrnc.supabase.co';
 const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
+/* ---------- אפליקציה מותקנת (iOS / Android דרך Capacitor) ----------
+   באתר הכל כבוי: IS_NATIVE=false וכל פונקציה כאן חוזרת מיד, כך שהאתר מתנהג בדיוק כמו קודם. */
+const CAP=window.Capacitor, IS_NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform()), NATIVE_OS=IS_NATIVE?CAP.getPlatform():'web';
+const capP=n=>{ if(!IS_NATIVE)return null; try{ return (CAP.Plugins&&CAP.Plugins[n])||CAP.registerPlugin(n); }catch(_){ return null; } };
+const SITE=IS_NATIVE?'https://www.nextrep.co.il':location.origin; // קישורים לשיתוף/חזרה מהדפדפן תמיד לאתר האמיתי
+const NAT={perm:'default',rest:4242};
+const natPermMap=r=>r&&r.display==='granted'?'granted':r&&r.display==='denied'?'denied':'default';
+async function natPermSync(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').checkPermissions()); }catch(_){} return NAT.perm; }
+async function natPermAsk(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').requestPermissions()); }catch(_){} return NAT.perm==='granted'; }
+function natNotify(title,body,at,id){ try{ return capP('LocalNotifications').schedule({notifications:[{id:id||10000+Math.floor(Math.random()*1e8),title,body,
+  ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#22C55E'}]}).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
+function natCancel(id){ try{ capP('LocalNotifications').cancel({notifications:[{id}]}).catch(()=>{}); }catch(_){} }
+/* קישורים החוצה: וואטסאפ/מייל/טלפון נפתחים באפליקציה המתאימה, כל השאר בדפדפן בתוך האפליקציה */
+function natOpen(url){ try{ if(/^(mailto|tel|sms|whatsapp):|^https:\/\/(wa\.me|api\.whatsapp\.com|apps\.apple\.com|play\.google\.com)\//i.test(url)){ location.href=url; return; }
+  capP('Browser').open({url,presentationStyle:'popover'}).catch(()=>{ location.href=url; }); }catch(_){ location.href=url; } }
+let _natBar=null;
+function natStatusBar(){ if(!IS_NATIVE)return; try{ const m=getComputedStyle(document.body).backgroundColor.match(/\d+/g); if(!m)return;
+  const st=(.299*m[0]+.587*m[1]+.114*m[2])<128?'DARK':'LIGHT'; if(st===_natBar)return; _natBar=st; capP('StatusBar')?.setStyle({style:st}).catch(()=>{}); }catch(_){} }
+if(IS_NATIVE){
+  document.documentElement.classList.add('native','native-'+NATIVE_OS);
+  natPermSync();
+  document.addEventListener('click',ev=>{ const a=ev.target.closest&&ev.target.closest('a[href]'); if(!a)return;
+    const h=a.getAttribute('href')||''; if(!h||h[0]==='#'||/^javascript:/i.test(h))return;
+    const ext=a.target==='_blank'||/^(https?:|mailto:|tel:|sms:|whatsapp:)/i.test(h); if(!ext)return;
+    ev.preventDefault(); natOpen(/^[a-z]+:/i.test(h)?h:new URL(h,SITE+'/').href); },true);
+  // אנדרואיד: כפתור חזור סוגר חלון פתוח, אחר כך חוזר למסך הבית, ורק אז ממזער
+  capP('App')?.addListener('backButton',()=>{ try{
+    if(document.getElementById('ipop')){ hideInfo(); return; }
+    if(!$('#sheet').hidden){ closeSheet(); return; }
+    if(S.mode==='app'&&S.tab!=='home'){ S.tab='home'; render(); window.scrollTo(0,0); return; }
+    capP('App').minimizeApp(); }catch(_){} });
+  capP('App')?.addListener('appStateChange',({isActive})=>{ if(isActive)natPermSync(); });
+}
+
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
 const APP_VERSION='13.2.23';
-if('serviceWorker' in navigator){
+if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
      (אימון פעיל וטיימר מנוחה נשמרים ונטענים חזרה) */
@@ -1563,9 +1597,12 @@ async function keepAwake(on){
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&S.active)keepAwake(true); });
 // חזרה לאפליקציה ממסך התשלום/מהתראה: בדיקה מחודשת של הגישה
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&S.mode==='paywall'&&S.user){ enterApp._claim=true; enterApp(S.user); } });
-const vibrate=p=>{ try{ if(navigator.vibrate&&S.settings?.notif?.vib!==false)navigator.vibrate(p); }catch(e){} };
+const vibrate=p=>{ try{ if(S.settings?.notif?.vib===false)return; if(IS_NATIVE){ capP('Haptics')?.impact({style:Array.isArray(p)?'HEAVY':'MEDIUM'}).catch(()=>{}); return; } if(navigator.vibrate)navigator.vibrate(p); }catch(e){} };
 /* התראות מערכת */
+/* מצב ההרשאה להתראות: 'default' | 'granted' | 'denied', או null כשאין תמיכה */
+function notifPerm(){ if(IS_NATIVE)return NAT.perm; try{ return 'Notification' in window?Notification.permission:null; }catch(_){ return null; } }
 async function ensureNotifPerm(){
+  if(IS_NATIVE){ if(NAT.perm==='granted')return true; if(NAT.perm==='denied')return false; return natPermAsk(); }
   try{
     if(!('Notification' in window))return false;
     if(Notification.permission==='granted')return true;
@@ -1574,7 +1611,7 @@ async function ensureNotifPerm(){
   }catch(e){return false;}
 }
 /* בקשת התראות ברגע הנכון: שאלה אחת לכל הקשר, עם הסבר של קובי לפני החלון של המערכת */
-function notifCan(){ try{ return ('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE); }catch(_){ return false; } }
+function notifCan(){ if(IS_NATIVE)return NAT.perm==='default'; try{ return ('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE); }catch(_){ return false; } }
 function notifAsk(ctx,title,text){
   if(!notifCan()||!$('#sheet').hidden||!$('#np').hidden)return false;
   let seen={}; try{seen=JSON.parse(localStorage.getItem('np-ctx')||'{}');}catch(_){}
@@ -1590,12 +1627,13 @@ function notifSnoozed(){ try{ const d=JSON.parse(localStorage.getItem('np-dis')|
 function notifNagN(){ try{ const d=JSON.parse(localStorage.getItem('np-dis')||'null'); return d&&typeof d==='object'?d.n||0:0; }catch(_){ return 0; } }
 function notifSnooze(){ let d={n:0}; try{ const x=JSON.parse(localStorage.getItem('np-dis')||'null'); if(x&&typeof x==='object')d=x; }catch(_){} d.n=(d.n||0)+1;
   const t=new Date(); t.setHours(6,0,0,0); t.setDate(t.getDate()+(d.n<=3?1:3)); d.until=+t; try{localStorage.setItem('np-dis',JSON.stringify(d));}catch(_){} }
-function notifDeniedHelp(){ return IS_IOS?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← התראות ← NextRep ← אפשר התראות.':/Android/i.test(navigator.userAgent)?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← אפליקציות ← NextRep ← התראות.':'ההתראות חסומות בדפדפן. לפתיחה: לוחצים על המנעול בשורת הכתובת ← התראות ← אפשר.'; }
+function notifDeniedHelp(){ return IS_NATIVE?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← NextRep ← התראות ← אפשר התראות.':IS_IOS?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← התראות ← NextRep ← אפשר התראות.':/Android/i.test(navigator.userAgent)?'ההתראות חסומות. לפתיחה: הגדרות הטלפון ← אפליקציות ← NextRep ← התראות.':'ההתראות חסומות בדפדפן. לפתיחה: לוחצים על המנעול בשורת הכתובת ← התראות ← אפשר.'; }
 /* מנוי Push לתזכורות יומיות */
 const PUSH_PUBKEY='BEZW8tXMc6pOHrP87-KW8pfmZvr1ueA7S7BqBzUQu-Hp2DC_Yi2B-K_yO7JxWeRClXUDK6K1AsMETaQpvY-hkXw';
 function b64uToU8(s){const p='='.repeat((4-s.length%4)%4);const r=atob((s+p).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0));}
 async function subscribePush(){
   if(!(await ensureNotifPerm()))return {ok:false,why:'perm'};
+  if(IS_NATIVE)return {ok:true}; // באפליקציה המותקנת: התראות מקומיות, בלי מנוי Push של הדפדפן
   try{
     const reg=await navigator.serviceWorker.ready;
     const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64uToU8(PUSH_PUBKEY)});
@@ -1607,6 +1645,7 @@ async function subscribePush(){
 }
 /* בכל פתיחה: אם יש הרשאה, מוודאים שהמינוי הנוכחי של המכשיר שמור בשרת (מכשירים מחליפים מינוי מדי פעם) */
 async function syncPush(){
+  if(IS_NATIVE)return;
   try{
     if(!S.user||!('Notification' in window)||Notification.permission!=='granted'||!('serviceWorker' in navigator))return;
     const reg=await navigator.serviceWorker.ready; if(!reg.pushManager)return;
@@ -1620,6 +1659,7 @@ async function syncPush(){
   }catch(e){ console.warn('syncPush',e); }
 }
 async function unsubscribePush(){
+  if(IS_NATIVE)return;
   try{
     const reg=await navigator.serviceWorker.ready;
     const sub=await reg.pushManager.getSubscription();
@@ -1628,6 +1668,7 @@ async function unsubscribePush(){
 }
 async function notify(title,body){
   title=tt(title); body=tt(body);
+  if(IS_NATIVE){ if(NAT.perm==='granted')natNotify(title,body); return; }
   try{
     if(!('Notification' in window)||Notification.permission!=='granted')return;
     const reg=await navigator.serviceWorker?.ready;
@@ -1859,15 +1900,16 @@ let _pushOk=false;
 async function ensureRestPush(){
   if(_pushOk||!S.user||S.settings.notif?.rest===false)return;
   try{
-    if(!('Notification' in window)||!('PushManager' in window))return;
-    if(Notification.permission==='default'){
+    const perm=IS_NATIVE?NAT.perm:('Notification' in window)&&('PushManager' in window)?Notification.permission:null;
+    if(!perm)return;
+    if(perm==='default'){
       let asked=false; try{asked=!!localStorage.getItem('np-rest-asked');}catch(e){}
       if(asked)return;
       try{localStorage.setItem('np-rest-asked','1');}catch(e){}
       setTimeout(()=>notifAsk('rest','המנוחה התחילה ⏱️','רוצה שאודיע לך כשהיא נגמרת, גם כשהמסך כבוי או שהטלפון בכיס? זה מה שההתראות בשביל.'),400);
       return;
     }
-    if(Notification.permission==='denied')return;
+    if(perm==='denied'||IS_NATIVE)return;
     const r=await subscribePush(); _pushOk=!!r.ok;
   }catch(e){}
 }
@@ -1882,6 +1924,10 @@ function restoreRest(){
 }
 function armServerRest(label,tries=0){
   if(!S.user||S.settings.notif?.rest===false)return;
+  if(IS_NATIVE){ // האפליקציה המותקנת מתזמנת התראה מקומית במכשיר: מדויקת ועובדת גם בלי קליטה
+    T.armed=true; T.armOk=true; T.fireAt=new Date(T.end).toISOString(); saveRestState(); natCancel(NAT.rest);
+    if(NAT.perm==='granted')natNotify(tt('המנוחה נגמרה 💪'),tt(label?`הבא: ${label}`:'הסט הבא מחכה לך'),new Date(T.end),NAT.rest);
+    return; }
   T.armed=true; T.armOk=false; T.fireAt=new Date(T.end).toISOString(); saveRestState();
   const row={user_id:S.user.id,fire_at:T.fireAt,title:tt('המנוחה נגמרה 💪'),body:tt(label?`הבא: ${label}`:'הסט הבא מחכה לך')}, at=T.fireAt;
   T.row=row;
@@ -1906,7 +1952,8 @@ function flushRestArm(){
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden')flushRestArm(); });
 window.addEventListener('pagehide',flushRestArm);
 function disarmServerRest(){
-  if(!T.armed||!S.user)return; T.armed=false; T.armOk=false; saveRestState();
+  if(!T.armed||!S.user)return;
+  if(IS_NATIVE){ T.armed=false; T.armOk=false; saveRestState(); natCancel(NAT.rest); return; } T.armed=false; T.armOk=false; saveRestState();
   // delete only THIS timer: a late delete must never wipe a newer rest that was armed right after it
   let q=sb.from('rest_timers').delete().eq('user_id',S.user.id);
   if(T.fireAt)q=q.eq('fire_at',T.fireAt);
@@ -1937,6 +1984,7 @@ function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;di
 
 /* ---------- rendering ---------- */
 function render(){
+  if(IS_NATIVE)requestAnimationFrame(natStatusBar);
   try{ document.body.classList.toggle('adm',S.mode==='app'&&S.tab==='admin'); }catch(_){}
   const askFocus=document.activeElement?.id==='ask-q';
   try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); }
@@ -2170,7 +2218,7 @@ function vPending(){
 }
 
 /* ----- דף נחיתה (לא מחוברים, בדפדפן) ----- */
-const IS_STANDALONE=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const IS_STANDALONE=IS_NATIVE||matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
 function landBarbell(){
   // מוט אולימפי עם פלטות צבעוניות שנטענות משני הצדדים
   const P=[[25,'var(--r25)',74],[20,'var(--r20)',66],[15,'var(--r15)',56],[10,'var(--r10)',46]];
@@ -5458,7 +5506,7 @@ function vMe(){
     </div>
     <div class="card r20 list">
       <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
-      <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${'Notification' in window&&Notification.permission!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${notifPerm()&&notifPerm()!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
       ${S.isAdmin?`<button class="li" data-act="admin-open">${ICON.chart}<span class="lt"><b>לוח ניהול</b><small>משתמשים, פעילות ועלויות AI</small></span>${ICON.chev}</button>`:''}
@@ -5474,8 +5522,8 @@ function openNotifSheet(){
   const sw=(k,label,desc)=>`<label class="setrow"><span><b>${label}</b>${desc?`<span class="small muted" style="display:block">${desc}</span>`:''}</span><input type="checkbox" class="sw" data-bind="notif" data-k="${k}" ${n[k]!==false?'checked':''}></label>`;
   openSheet(`${sheetHead('התראות ואימון')}
     ${notifCan()?`<button class="btn primary big" style="margin-bottom:12px" data-act="notif-on" data-ctx="settings">🔔 הפעל התראות במכשיר הזה</button>`:''}
-    ${'Notification' in window&&Notification.permission==='denied'?`<div class="small" style="margin-bottom:12px;padding:10px 12px;border-radius:10px;background:var(--gold-soft)">⚠️ ${notifDeniedHelp()}</div>`:''}
-    ${IS_IOS&&!IS_STANDALONE?`<div class="small muted" style="margin-bottom:10px">באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.</div>`:''}
+    ${notifPerm()==='denied'?`<div class="small" style="margin-bottom:12px;padding:10px 12px;border-radius:10px;background:var(--gold-soft)">⚠️ ${notifDeniedHelp()}</div>`:''}
+    ${IS_IOS&&!IS_STANDALONE&&!IS_NATIVE?`<div class="small muted" style="margin-bottom:10px">באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.</div>`:''}
     <div class="card" style="padding:0 14px">
       <label class="setrow"><span><b>תזכורת אימון יומית</b><span class="small muted" style="display:block">בבוקר של יום מתוזמן בלו״ז, גם כשהאפליקציה סגורה</span></span><input type="checkbox" class="sw" data-bind="notif" data-k="remind" ${n.remind===true?'checked':''}></label>
       ${sw('weigh','תזכורת שקילה בבוקר','כל בוקר עד שנשקלת')}
@@ -6141,14 +6189,14 @@ function socAct(act,b){
       else{ mu.add(u); sb.from('group_mutes').insert({group_id:gid,muted_id:u==='*'?null:u}).then(({error})=>{ if(error&&!/duplicate/.test(error.message)){mu.delete(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'הקבוצה הושתקה 🔕':'לא תקבל התראות מההודעות שלו 🔕'); }
       socInviteSheet(); return true; }
     case 'soc-invite': socMutesLoad(SOC.gid); socInviteSheet(); if(!SOC.info[SOC.gid])socLoadInfo(SOC.gid).then(socInviteSheet); return true;
-    case 'soc-share': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`;
+    case 'soc-share': { const code=b.dataset.code, url=`${SITE}/#join=${code}`;
       const text=`בוא להתאמן איתי ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. קוד הקבוצה: ${code}`;
       if(navigator.share)navigator.share({title:'NextRep',text:tt(text),url}).catch(()=>{});
       else navigator.clipboard?.writeText(tt(text)+'\n'+url).then(()=>toast('הקישור הועתק'),()=>toast(url)); return true; }
     case 'soc-leave': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב ליציאה';return true;}
       sb.rpc('leave_group',{gid:SOC.gid}).then(()=>{closeSheet();SOC.gid=null;toast('יצאת מהקבוצה');socLoad();render();}); return true;
     case 'soc-send': socSend(); return true;
-    case 'soc-qr': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`; openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
+    case 'soc-qr': { const code=b.dataset.code, url=`${SITE}/#join=${code}`; openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
     case 'soc-older': { const gid=SOC.gid, arr=SOC.msgs[gid]||[]; const h0=$('#chatlist')?.scrollHeight||0;
       socLoadMsgs(gid,arr[0]?.id).then(rows=>{SOC.msgs[gid]=rows.concat(arr);render();const l=$('#chatlist');if(l)l.scrollTop=l.scrollHeight-h0;}); return true; }
     case 'soc-react': { const id=+b.dataset.id, e=b.dataset.e, uid=S.user.id; const rs=SOC.reacts[id]||(SOC.reacts[id]=[]);
@@ -6191,6 +6239,74 @@ function planLink(p){
   if(/\{(uid|email|name)\}/.test(l))return l.replace(/\{(uid|email|name)\}/g,(_,k)=>encodeURIComponent(r[k]));
   return l;
 }
+/* ---------- תשלום בחנויות: App Store / Google Play דרך RevenueCat ----------
+   האפליקציה המותקנת קונה רק דרך החנות (חובה של אפל וגוגל). אחרי רכישה הפונקציה `revenuecat` בשרת
+   מעדכנת את store_subs, ו-my_plan סופר אותה, כך שהפרימיום פתוח גם באתר וגם באפליקציה. */
+const RC_KEYS={ios:'',android:''}; // מפתחות SDK ציבוריים מ-RevenueCat (appl_… / goog_…), נכנסים ביום ההשקה
+const STORE_ONLY=false;            // ביום ההשקה: true → באתר אין רכישה, רק הפניה להורדת האפליקציה
+const STORE_URL={ios:'',android:''};
+const RC={ready:false,pkgs:null,err:null,busy:false,uid:null};
+const rcIsAnnual=p=>p.packageType==='ANNUAL'||p.identifier==='$rc_annual';
+const rcIsMonthly=p=>p.packageType==='MONTHLY'||p.identifier==='$rc_monthly';
+async function rcInit(){
+  if(!IS_NATIVE||!S.user||!RC_KEYS[NATIVE_OS]||RC.uid===S.user.id)return;
+  const P=capP('Purchases'); if(!P)return;
+  try{ if(!RC.ready){ await P.configure({apiKey:RC_KEYS[NATIVE_OS],appUserID:S.user.id}); RC.ready=true; }
+    else await P.logIn({appUserID:S.user.id});
+    RC.uid=S.user.id; await rcLoad(); }catch(e){ RC.err=String(e?.message||e); rcPaint(); }
+}
+async function rcLoad(){
+  try{ const o=await capP('Purchases').getOfferings(); RC.pkgs=(o?.current?.availablePackages||[]).filter(p=>rcIsAnnual(p)||rcIsMonthly(p)); RC.err=null; }
+  catch(e){ RC.err=String(e?.message||e); }
+  rcPaint();
+}
+function rcPaint(){ const b=document.getElementById('rc-plans'); if(b)b.innerHTML=storePlansHTML(); }
+const rcMoney=(v,cur)=>{ try{ return new Intl.NumberFormat(LOC,{style:'currency',currency:cur||'ILS',maximumFractionDigits:2}).format(v); }catch(_){ return String(v); } };
+function rcTrial(prod){ const i=prod?.introPrice; if(!i||+i.price!==0)return '';
+  const n=+i.periodNumberOfUnits||0, u=String(i.periodUnit||'').toUpperCase(), d=u==='DAY'?n:u==='WEEK'?n*7:u==='MONTH'?n*30:0;
+  return d?`<span class="tag">${tt('{0} ימים חינם').replace('{0}',d)}</span>`:''; }
+function storePlansHTML(){
+  if(!RC_KEYS[NATIVE_OS])return `<div class="small muted" style="text-align:center">${tt('הרכישה בחנות תיפתח בקרוב.')}</div>`;
+  if(RC.err&&!RC.pkgs)return `<div class="small muted" style="text-align:center">${tt('לא הצלחנו לטעון את המסלולים.')} <button class="linkbtn" data-act="rc-reload">${tt('נסה שוב')}</button></div>`;
+  if(!RC.pkgs)return `<div class="small muted" style="text-align:center">${tt('טוען מסלולים…')}</div>`;
+  const y=RC.pkgs.find(rcIsAnnual), m=RC.pkgs.find(rcIsMonthly);
+  const save=y&&m&&m.product.price>0?Math.round((1-y.product.price/12/m.product.price)*100):0;
+  const row=(p,annual)=>{ const pr=p.product;
+    return `<button class="plan ${annual?'best':''}" data-act="rc-buy" data-id="${esc(p.identifier)}" ${RC.busy?'disabled':''}>
+      ${rcTrial(pr)||(annual&&save>0?`<span class="tag">${tt('חיסכון של {0}%').replace('{0}',save)}</span>`:'')}
+      <span class="pn">${annual?tt('מנוי שנתי'):tt('מנוי חודשי')}</span>
+      <span class="pp num">${esc(pr.priceString||rcMoney(pr.price,pr.currencyCode))}</span>
+      <span class="pm">${annual?`<span class="num">${rcMoney(pr.price/12,pr.currencyCode)}</span> ${tt('לחודש, בחיוב שנתי')}`:tt('בחיוב חודשי')}</span>
+    </button>`; };
+  return [y&&row(y,true),m&&row(m,false)].filter(Boolean).join('')||`<div class="small muted" style="text-align:center">${tt('המסלולים לא זמינים כרגע.')}</div>`;
+}
+function storeLinksHTML(){ // באתר אחרי ההשקה: הורדת האפליקציה במקום תשלום
+  return `<div class="stack" style="gap:10px">
+    ${STORE_URL.ios?`<a class="btn primary big" href="${STORE_URL.ios}" target="_blank" rel="noopener">${tt('להורדה ב-App Store')}</a>`:''}
+    ${STORE_URL.android?`<a class="btn big" href="${STORE_URL.android}" target="_blank" rel="noopener">${tt('להורדה ב-Google Play')}</a>`:''}
+    <div class="small muted" style="text-align:center">${tt('המנוי נרכש באפליקציה, ונפתח אוטומטית גם כאן באתר עם אותו חשבון.')}</div></div>`;
+}
+/* אחרי רכישה/שחזור: מעדכנים את השרת מיד (לא מחכים ל-webhook) ונכנסים מחדש עם הגישה המעודכנת */
+async function rcDone(info,quiet){
+  const on=!!info?.entitlements?.active?.premium;
+  if(!on){ if(!quiet)toast('לא נמצא מנוי פעיל בחשבון החנות'); return false; }
+  try{ await sb.functions.invoke('revenuecat',{body:{action:'sync'}}); }catch(_){}
+  toast('הפרימיום נפתח 🎉'); closeSheet(); if(S.user)enterApp(S.user); return true;
+}
+function rcAct(act,b){
+  const P=capP('Purchases');
+  switch(act){
+    case 'rc-buy': { const pk=RC.pkgs?.find(p=>p.identifier===b.dataset.id); if(!pk||RC.busy||!P)return true;
+      RC.busy=true; rcPaint(); logEv('store_buy',{pkg:pk.identifier});
+      P.purchasePackage({aPackage:pk}).then(r=>rcDone(r?.customerInfo)).catch(e=>{ if(!e?.userCancelled&&!/cancel/i.test(String(e?.message||e)))toast('הרכישה לא הושלמה, נסה שוב'); })
+        .finally(()=>{ RC.busy=false; rcPaint(); }); return true; }
+    case 'rc-restore': if(!P){ toast('הרכישה בחנות תיפתח בקרוב.'); return true; }
+      P.restorePurchases().then(r=>rcDone(r?.customerInfo)).catch(()=>toast('השחזור נכשל, נסה שוב')); return true;
+    case 'rc-manage': natOpen(NATIVE_OS==='ios'?'https://apps.apple.com/account/subscriptions':'https://play.google.com/store/account/subscriptions'); return true;
+    case 'rc-reload': RC.err=null; rcPaint(); rcLoad(); return true;
+  }
+  return false;
+}
 function plansHTML(){
   const plans=(S.plan?.plans||[]);
   const grow=!!S.plan?.grow;
@@ -6218,11 +6334,13 @@ function vPaywall(full){
       <div class="pr"><i>AI</i><div><b>ניתוח תזונה ללא הגבלה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית, כמה שרוצים</span></div></div>
       <div class="pr"><i>K</i><div><b>קובי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם קובי על אימונים ותזונה</span></div></div>
     </div>
-    <div class="small muted">${full?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
-    <div class="stack" style="gap:10px">${plansHTML()}</div>
+    <div class="small muted">${full?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
+    ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px">${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
     ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: שבוע פרימיום לשניכם','או הזמיני חברה: שבוע פרימיום לשתיכן','או הזמנת חבר: שבוע פרימיום לשניכם')}</button>`:''}
-    <div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
-    <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>
+    ${IS_NATIVE?`<div class="small muted" style="text-align:center;font-size:12px;line-height:1.55">${NATIVE_OS==='ios'?'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה. ניהול וביטול בהגדרות החשבון ב-App Store.':'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון Google Play, אלא אם מבטלים לפני סוף התקופה. ניהול וביטול ב-Google Play.'}<br><a href="terms.html" target="_blank">תנאי שימוש</a> · <a href="privacy.html" target="_blank">מדיניות פרטיות</a></div>
+    <div class="pw-links"><button class="linkbtn" data-act="rc-restore">שחזור רכישות</button><span class="muted">·</span>${S.plan?.store_until?'<button class="linkbtn" data-act="rc-manage">ניהול המנוי</button><span class="muted">·</span>':''}<button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>`
+    :`<div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
+    <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>`}
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
   return full?`<div class="pw">${body}</div>`:body;
 }
@@ -6244,7 +6362,7 @@ function loadQR(){ return window.qrcode?Promise.resolve():new Promise((res,rej)=
 function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q.createSvgTag({cellSize:6,margin:2,scalable:true}); }
 /* הזמנת חברים: כשחבר מצטרף שניהם מקבלים שבוע פרימיום; כשהחבר משדרג, המזמין מקבל חודש */
 const INV={st:null,p:null};
-function inviteUrl(){ return `${location.origin}/#ref=${S.user?.id||''}`; }
+function inviteUrl(){ return `${SITE}/#ref=${S.user?.id||''}`; }
 function inviteText(){
   return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁')); }
 function logEv(k,meta){ try{ if(S.user)sb.rpc('log_event',{p_kind:k,p_meta:meta||null}).then(()=>{},()=>{}); }catch(_){} }
@@ -6386,7 +6504,8 @@ async function phoneThen(next,p){
 function payAct(act,b){
   switch(act){
     case 'plans-open': logEv('plans_open',{why:b.dataset.why||null}); closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall(false)}</div>`); return true;
-    case 'plan-buy': { const p=(S.plan?.plans||[]).find(x=>x.id===b.dataset.id); if(!p)return true;
+    case 'plan-buy': { if(IS_NATIVE)return true; // באפליקציה המותקנת קונים רק דרך החנות
+      const p=(S.plan?.plans||[]).find(x=>x.id===b.dataset.id); if(!p)return true;
       if(S.plan?.grow){ b.disabled=true; const pn=b.querySelector('.pn'); const t0=pn?.textContent; if(pn)pn.textContent='פותח תשלום מאובטח…';
         sb.functions.invoke('grow-pay',{body:{plan:p.id,origin:location.origin}}).then(({data,error})=>{
           if(error||!data?.url){ b.disabled=false; if(pn)pn.textContent=t0; toast('פתיחת התשלום נכשלה, נסה שוב'); return; }
@@ -6399,7 +6518,7 @@ function payAct(act,b){
       sb.rpc('set_my_phone',{p_phone:v}).then(({data,error})=>{ b.disabled=false; if(error){toast('שמירת הטלפון נכשלה');return;} S.myPhone=data; const f=phoneThen._next; phoneThen._next=null; closeSheet(); f&&f(); }); return true; }
     case 'phone-edit': phoneSheet(null); return true;
     case 'plan-recheck': closeSheet(); enterApp._claim=true; if(S.user)enterApp(S.user); return true;
-    case 'share-app': { if(S.user){ closeSheet(); openInviteSheet('settings'); return true; } const url=`${location.origin}/#ref=${S.user?.id||''}`; openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',url,'מתאמן? תנסה את NextRep, יומן אימונים שזוכר כל סט, עם טיימר, תזונה וקבוצות 💪'); return true; }
+    case 'share-app': { if(S.user){ closeSheet(); openInviteSheet('settings'); return true; } const url=`${SITE}/#ref=${S.user?.id||''}`; openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',url,'מתאמן? תנסה את NextRep, יומן אימונים שזוכר כל סט, עם טיימר, תזונה וקבוצות 💪'); return true; }
     case 'invite-open': closeSheet(); openInviteSheet(b.dataset.src||'btn'); return true;
     case 'inv-qr': { const u=b.dataset.url; openShareSheet('ברקוד להזמנה','החבר סורק ונרשם דרך הקישור שלך.',u,inviteText()); logEv('invite_share',{ch:'qr'}); return true; }
     case 'inv-share': { const ch=b.dataset.ch; logEv('invite_share',{ch});
@@ -6509,7 +6628,7 @@ function maybeStartTour(){
   startTour(tab);
 }
 function startTour(tab){ TOUR.on=true; TOUR.i=0; TOUR.grp=tab||S.tab||'home'; tourShow(); }
-function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(!st.when||st.when())&&(st.kind!=='notif'||(('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE)&&!notifSnoozed()&&!notifOnbSeen()))); }
+function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(!st.when||st.when())&&(st.kind!=='notif'||(notifPerm()==='default'&&(IS_NATIVE||!IS_IOS||IS_STANDALONE)&&!notifSnoozed()&&!notifOnbSeen()))); }
 function tourEnd(){
   const seen=toursSeen(); seen[TOUR.grp]=1; try{localStorage.setItem('nr-tours',JSON.stringify(seen));}catch(_){}
   TOUR.on=false; $('#tour')?.remove(); persistSettings(); render(); setTimeout(()=>askName(),900);
@@ -7360,6 +7479,7 @@ function handleAct(b,ev){
   const act=b.dataset.act;
   if(act==='info'){ ev.stopPropagation(); showInfo(b); return; }
   if(act.startsWith('soc-')&&socAct(act,b))return;
+  if(act.startsWith('rc-')&&rcAct(act,b))return;
   if(payAct(act,b))return;
   if(act.startsWith('pb-')&&pbAct(act,b))return;
   if(act.startsWith('start-')&&act!=='start-tpl'&&act!=='start-free'&&startAct(act))return;
@@ -7444,7 +7564,7 @@ function handleAct(b,ev){
     case 'me-help': openHelpSheet(); break;
     case 'me-name': openNameSheet(); break;
     case 'rest-test': {
-      if(!('Notification' in window)||!('PushManager' in window)){ toast('המכשיר לא תומך בהתראות — באייפון פתח מהאייקון במסך הבית'); break; }
+      if(!IS_NATIVE&&(!('Notification' in window)||!('PushManager' in window))){ toast('המכשיר לא תומך בהתראות — באייפון פתח מהאייקון במסך הבית'); break; }
       subscribePush().then(r=>{
         if(!r.ok){ toast(r.why==='perm'?'צריך לאשר התראות כדי לבדוק':'ההרשמה להתראות נכשלה'); return; }
         _pushOk=true; closeSheet(); startRest(10,'זו התראת בדיקה ✅'); toast('צא מהאפליקציה עכשיו ⏱️');
@@ -7745,6 +7865,7 @@ async function enterApp(user){
   try{ if(IS_STANDALONE&&!localStorage.getItem('nr-inst-'+user.id)){ sb.rpc('mark_seen',{p_inst:true}).then(r=>{ if(!r.error)try{localStorage.setItem('nr-inst-'+user.id,'1');}catch(_){} },()=>{}); } }catch(e){}
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
   if(PAID_RETURN||enterApp._claim){ enterApp._claim=false; try{ const c=await sb.rpc('claim_payment'); if(c.data?.ok&&!c.data.duplicate)toast('התשלום אומת, הגישה נפתחה 🎉'); }catch(_){} }
+  rcInit();
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
     if(st==='expired'){
       if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }

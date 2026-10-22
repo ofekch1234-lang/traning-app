@@ -1230,5 +1230,101 @@
  "{0} אימונים": {
   "en": "{0} workouts",
   "ar": "{0} تمارين"
+ },
+ "ההתראות חסומות. לפתיחה: הגדרות הטלפון ← NextRep ← התראות ← אפשר התראות.": {
+  "en": "Notifications are blocked. To turn them on: phone Settings → NextRep → Notifications → Allow Notifications.",
+  "ar": "الإشعارات محظورة. لتفعيلها: إعدادات الهاتف ← NextRep ← الإشعارات ← السماح بالإشعارات."
+ },
+ "{0} ימים חינם": {
+  "en": "{0} days free",
+  "ar": "{0} أيام مجاناً"
+ },
+ "הרכישה בחנות תיפתח בקרוב.": {
+  "en": "In-store purchase opens soon.",
+  "ar": "الشراء من المتجر سيُفتح قريباً."
+ },
+ "לא הצלחנו לטעון את המסלולים.": {
+  "en": "We couldn't load the plans.",
+  "ar": "لم نتمكن من تحميل الخطط."
+ },
+ "נסה שוב": {
+  "en": "Try again",
+  "ar": "حاول مجدداً"
+ },
+ "טוען מסלולים…": {
+  "en": "Loading plans…",
+  "ar": "جارٍ تحميل الخطط…"
+ },
+ "חיסכון של {0}%": {
+  "en": "Save {0}%",
+  "ar": "وفّر {0}%"
+ },
+ "מנוי חודשי": {
+  "en": "Monthly",
+  "ar": "اشتراك شهري"
+ },
+ "לחודש, בחיוב שנתי": {
+  "en": "per month, billed yearly",
+  "ar": "شهرياً، يُدفع سنوياً"
+ },
+ "בחיוב חודשי": {
+  "en": "billed monthly",
+  "ar": "يُدفع شهرياً"
+ },
+ "המסלולים לא זמינים כרגע.": {
+  "en": "Plans aren't available right now.",
+  "ar": "الخطط غير متاحة حالياً."
+ },
+ "להורדה ב-App Store": {
+  "en": "Download on the App Store",
+  "ar": "التنزيل من App Store"
+ },
+ "להורדה ב-Google Play": {
+  "en": "Get it on Google Play",
+  "ar": "التنزيل من Google Play"
+ },
+ "המנוי נרכש באפליקציה, ונפתח אוטומטית גם כאן באתר עם אותו חשבון.": {
+  "en": "The subscription is bought in the app, and unlocks here on the website too with the same account.",
+  "ar": "يُشترى الاشتراك في التطبيق، ويُفتح تلقائياً هنا في الموقع بنفس الحساب."
+ },
+ "לא נמצא מנוי פעיל בחשבון החנות": {
+  "en": "No active subscription found in your store account",
+  "ar": "لم يُعثر على اشتراك فعّال في حساب المتجر"
+ },
+ "הפרימיום נפתח 🎉": {
+  "en": "Premium unlocked 🎉",
+  "ar": "تم فتح البريميوم 🎉"
+ },
+ "הרכישה לא הושלמה, נסה שוב": {
+  "en": "The purchase didn't go through, try again",
+  "ar": "لم تكتمل عملية الشراء، حاول مجدداً"
+ },
+ "השחזור נכשל, נסה שוב": {
+  "en": "Restore failed, try again",
+  "ar": "فشلت الاستعادة، حاول مجدداً"
+ },
+ "מנוי חודשי או שנתי, אפשר לבטל בכל רגע.": {
+  "en": "Monthly or yearly, cancel anytime.",
+  "ar": "شهري أو سنوي، يمكن الإلغاء في أي وقت."
+ },
+ "תנאי שימוש": {
+  "en": "Terms of Use",
+  "ar": "شروط الاستخدام"
+ },
+ "שחזור רכישות": {
+  "en": "Restore purchases",
+  "ar": "استعادة المشتريات"
+ },
+ "המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה. ניהול וביטול בהגדרות החשבון ב-App Store.": {
+  "en": "The subscription renews automatically at the end of each period and is charged to your App Store account unless cancelled at least 24 hours before the period ends. Manage or cancel in your App Store account settings.",
+  "ar": "يتجدد الاشتراك تلقائياً في نهاية كل فترة ويُخصم من حساب App Store ما لم يُلغَ قبل 24 ساعة على الأقل من نهاية الفترة. الإدارة والإلغاء من إعدادات حساب App Store."
+ },
+ "המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון Google Play, אלא אם מבטלים לפני סוף התקופה. ניהול וביטול ב-Google Play.": {
+  "en": "The subscription renews automatically at the end of each period and is charged to your Google Play account unless cancelled before the period ends. Manage or cancel in Google Play.",
+  "ar": "يتجدد الاشتراك تلقائياً في نهاية كل فترة ويُخصم من حساب Google Play ما لم يُلغَ قبل نهاية الفترة. الإدارة والإلغاء من Google Play."
+ },
+ "ניהול המנוי": {
+  "en": "Manage subscription",
+  "ar": "إدارة الاشتراك"
  }
 }

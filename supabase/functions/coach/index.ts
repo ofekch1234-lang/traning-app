@@ -196,7 +196,9 @@ Deno.serve(async (req: Request) => {
       try {
         const { data: ua } = await admin.from("user_access").select("status,trial_until,access_until").eq("user_id", uid).maybeSingle();
         const isAdm = !!(await admin.from("admins").select("user_id").eq("user_id", uid).maybeSingle()).data;
-        const until = Math.max(new Date(ua?.trial_until || 0).getTime(), new Date(ua?.access_until || 0).getTime());
+        // store subscription (App Store / Google Play via RevenueCat); table may not exist before launch → ignored
+        const { data: ss } = await admin.from("store_subs").select("expires_at").eq("user_id", uid).maybeSingle();
+        const until = Math.max(new Date(ua?.trial_until || 0).getTime(), new Date(ua?.access_until || 0).getTime(), new Date((ss as any)?.expires_at || 0).getTime());
         if (!isAdm && (!ua || ua.status !== "approved" || until < Date.now())) continue;
         const { data: st } = await admin.from("settings").select("prefs").eq("user_id", uid).maybeSingle();
         const lang = ["he", "ar", "en"].includes((st as any)?.prefs?.lang) ? (st as any).prefs.lang : "he";

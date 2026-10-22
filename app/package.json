@@ -1,0 +1,29 @@
+{
+  "name": "nextrep-native",
+  "private": true,
+  "version": "1.0.0",
+  "description": "NextRep iOS/Android shell (Capacitor). The web app itself lives at the repo root.",
+  "scripts": {
+    "web": "node scripts/copy-web.js",
+    "sync": "npm run web && npx cap sync",
+    "assets": "npx capacitor-assets generate --iconBackgroundColor '#0F1411' --iconBackgroundColorDark '#0F1411' --splashBackgroundColor '#0F1411' --splashBackgroundColorDark '#0F1411'"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/browser": "8.0.5",
+    "@capacitor/core": "8.5.3",
+    "@capacitor/haptics": "8.0.2",
+    "@capacitor/ios": "8.5.3",
+    "@capacitor/keyboard": "8.0.6",
+    "@capacitor/local-notifications": "8.3.1",
+    "@capacitor/splash-screen": "8.0.2",
+    "@capacitor/status-bar": "8.0.4",
+    "@revenuecat/purchases-capacitor": "13.7.6",
+    "@supabase/supabase-js": "2.118.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "8.5.3"
+  }
+}
