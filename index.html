@@ -348,6 +348,46 @@ body.landing #app{max-width:1120px}
 .hp-th{width:62px;display:flex;flex-direction:column;gap:3px;align-items:center}
 .hp-th img,.hp-th:not(:has(img))::before{width:62px;height:82px;border-radius:9px;object-fit:cover;background:var(--surface2);display:block;content:''}
 .hp-th small{font-size:10.5px;color:var(--muted)}
+/* admin: v13.1 */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:start;color:inherit;font:inherit;min-width:0}
+.kpi .kl{font-size:13px;color:var(--muted)}
+.kpi b{font-family:var(--disp);font-size:27px;font-weight:800;line-height:1.15}
+.kpi small{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.kpi small.up{color:var(--accent);font-weight:600}
+.tk{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;font-weight:800;font-size:15px;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c)}
+.tk svg{width:19px;height:19px}
+.mix{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--surface2);gap:2px}
+.mix i{display:block;height:100%;background:var(--c)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin-top:10px}
+.legend span{white-space:nowrap}.legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px;background:var(--c);vertical-align:-1px}
+.legend b{font-weight:700;margin-inline-start:4px}
+.pill2{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);white-space:nowrap;vertical-align:1px}
+.av2{width:40px;height:40px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-weight:700;flex-shrink:0;color:var(--ink)}
+.srch{position:relative}.srch>svg{position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);width:19px;height:19px;color:var(--muted);pointer-events:none}
+.srch input{width:100%;box-sizing:border-box;height:50px;border-radius:16px;border:1px solid var(--line);background:var(--surface);padding-inline:44px 14px;font:inherit;font-size:15.5px;color:var(--ink)}
+.chips{display:flex;gap:6px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px;scrollbar-width:none;margin:0 -16px;padding-inline:16px}.chips::-webkit-scrollbar{display:none}
+.chips .chip{flex-shrink:0;border-radius:12px;padding:8px 12px;background:var(--surface)}
+.chips .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips .chip i{font-style:normal;opacity:.65;margin-inline-start:4px}
+.card.fold{padding:0;overflow:hidden}
+.adm-seg button{position:relative;font-size:14px;padding:0 2px;white-space:nowrap}
+.adm-seg .adm-n{position:absolute;top:-5px;inset-inline-end:0;margin:0;min-width:16px;height:16px;font-size:10px;padding:0 4px;border:2px solid var(--surface2)}
+.acts2 a.btn{color:var(--ink)}.fold>summary{list-style:none;cursor:pointer}.fold>summary::-webkit-details-marker{display:none}
+.fold[open]>summary .chev{transform:rotate(90deg)}
+.fold .fold-b{padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
+.fstep{display:flex;flex-direction:column;gap:5px;padding:10px 0}.fstep+.fstep{border-top:1px solid var(--line)}
+.fstep .bar2{height:8px}
+.fstep .hint{font-size:12.5px;color:var(--muted)}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:14.5px;padding:14px}
+.dl dt{color:var(--muted)}.dl dd{margin:0;text-align:end;font-weight:500}
+.acts2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.acts2 .btn{border-radius:14px;min-height:46px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;font-weight:600}
+.msgc{padding:14px;display:flex;flex-direction:column;gap:10px}
+.msgc .q{white-space:pre-wrap;line-height:1.5;background:var(--surface2);border-radius:14px;padding:10px 12px}
+.msgc textarea{border-radius:14px;padding:10px 12px;min-height:70px}
+.adm-body{display:flex;flex-direction:column;gap:12px}
+.adm-body .sect2{margin:6px 4px -2px}
 /* admin: v13 look */
 .adm-body .card{border-radius:20px}
 .adm-body .tiles{border-radius:20px}
@@ -371,13 +411,9 @@ body.landing #app{max-width:1120px}
 @media (min-width:900px){
   body.adm #app{max-width:1180px}
   .adm-grid{grid-template-columns:1fr 1fr}.adm-grid .adm-span{grid-column:span 2}
-  .adm-overview .tiles .v{font-size:30px}
-  .adm-overview{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-items:start}
-  .adm-overview>.stack,.adm-overview>.adm-ok,.adm-overview>.adm-chart{grid-column:span 2}
-  .adm-overview .adm-sec .label{margin-top:0!important}
-  .adm-chart svg{max-height:200px}
-  .adm-users .card,.adm-msgs .stack{max-width:none}
-  .adm-pay{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-items:start}.adm-pay>.tiles,.adm-pay>.label{grid-column:span 2}
+  .adm-chart svg{max-height:220px}
+  .kpi-grid{grid-template-columns:repeat(4,1fr)}
+  .adm-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
   body.adm #sheet{max-width:640px}
 }
 .adm-n{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:99px;background:var(--danger,#DC2626);color:#fff;font-size:11px;font-weight:700;padding:0 5px;margin-inline-start:3px}
@@ -1460,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.0.5';
+const APP_VERSION='13.1.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5266,7 +5302,7 @@ function openNameSheet(){
 /* ===================== לוח ניהול ===================== */
 const USD_ILS=3.7;
 const A={tab:'overview',ov:null,funnel:null,users:{q:'',filter:'all',rows:[],total:0,loading:false},cfg:null,events:null,msgs:null,msgFilter:'open',err:null};
-const ADM_FILTERS=[['all','הכל'],['pending','ממתינים'],['trial','פרימיום מתנה'],['paying','משלמים'],['expiring','מסתיימים בשבוע'],['expired','חינמיים'],['blocked','חסומים']];
+const ADM_FILTERS=[['all','הכל'],['paying','משלמים'],['trial','פרימיום מתנה'],['expired','חינמיים'],['pending','ממתינים'],['expiring','מסתיימים בשבוע'],['blocked','חסומים']];
 const ACC={approved:['פעיל','var(--accent)'],pending:['ממתין','#D97706'],rejected:['חסום','#DC2626'],admin:['אדמין','var(--ink)']};
 function agoHe(d){
   if(!d)return '—';
@@ -5277,11 +5313,11 @@ const money=u=>{u=+u||0;const ils=u*USD_ILS;return ils<1?`${(ils*100).toFixed(il
 const dShort=d=>d?new Date(d).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'—';
 function userState(u){
   if(u.access==='admin')return ['אדמין','var(--ink)'];
-  if(u.access==='pending')return ['ממתין לאישור','#D97706'];
+  if(u.access==='pending')return ['ממתין','#D97706'];
   if(u.access==='rejected')return ['חסום','#DC2626'];
   const until=u.until?new Date(u.until):null, paid=u.access_until&&new Date(u.access_until)>new Date();
   if(!until||until<=new Date())return ['חינמי','var(--muted)'];
-  return paid?(u.gifted?['🎁 מתנה','#7C3AED']:['משלם','var(--accent)']):['🎁 פרימיום מתנה','#2F6FD6'];
+  return paid?(u.gifted?['מתנה','#7C3AED']:['משלם','var(--accent)']):['פרימיום מתנה','#2563EB'];
 }
 const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
 async function loadAdmin(){
@@ -5304,7 +5340,7 @@ function adminChart(daily){
   const W=340,H=120,pb=18,n=daily.length,bw=W/n;
   const mx=Math.max(1,...daily.map(x=>x.active));
   const bars=daily.map((x,i)=>{const h=(x.active/mx)*(H-pb-14);const xx=W-(i+1)*bw;
-    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="2" fill="var(--accent)" opacity="${i===n-1?1:.75}"><title>${x.d}: ${x.active} פעילים${x.signups?`, ${x.signups} נרשמו`:''}${+x.rev?`, ₪${x.rev}`:''}</title></rect>`+
+    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="3" fill="var(--accent)" opacity="${i===n-1?1:.55}"><title>${x.d}: ${x.active} פעילים${x.signups?`, ${x.signups} נרשמו`:''}${+x.rev?`, ₪${x.rev}`:''}</title></rect>`+
       (x.signups?`<circle cx="${(xx+bw/2).toFixed(1)}" cy="${(H-pb-h-6).toFixed(1)}" r="3" fill="var(--ink)"/>`:'')+
       (+x.rev?`<text x="${(xx+bw/2).toFixed(1)}" y="${(H-pb-h-(x.signups?12:5)).toFixed(1)}" font-size="9" text-anchor="middle" fill="var(--gold)">₪</text>`:'');}).join('');
   const lbl=[[0,W-1,'end'],[Math.floor(n/2),W-(Math.floor(n/2)+.5)*bw,'middle'],[n-1,1,'start']].map(([i,x,an])=>{const d=new Date(daily[i].d);return `<text x="${x.toFixed(1)}" y="${H-4}" font-size="10" fill="var(--muted)" text-anchor="${an}">${i===n-1?'היום':d.getDate()+'.'+(d.getMonth()+1)}</text>`;}).join('');
@@ -5313,167 +5349,192 @@ function adminChart(daily){
 }
 function vAdmin(){
   const O=A.ov;
-  const head=`<div class="row" style="gap:10px;flex-wrap:nowrap;margin-bottom:6px"><button class="hd-btn" data-act="adm-back" aria-label="חזרה">${ICON.back}</button><h2 class="ttl" style="margin:0;flex:1">לוח ניהול</h2><button class="hd-btn" data-act="adm-refresh" aria-label="רענון" style="font-size:20px">${S.adminLoading?'…':'↻'}</button></div>`;
-  if(A.err)return head+`<div class="empty"><div class="big">🔒</div>${esc(A.err)}</div>`;
-  if(!O)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
+  const head=`<div class="row" style="gap:10px;flex-wrap:nowrap;margin-bottom:2px"><button class="hd-btn" data-act="adm-back" aria-label="חזרה">${ICON.back}</button><h2 class="ttl" style="margin:0;flex:1">ניהול</h2><button class="hd-btn" data-act="adm-refresh" aria-label="רענון" style="font-size:19px">${S.adminLoading?'…':'↻'}</button></div>`;
+  if(A.err)return head+`<div class="card r20"><div class="empty" style="margin:0"><div class="big">אין גישה</div>${esc(A.err)}</div></div>`;
+  if(!O)return head+`<div class="card r20"><div class="empty" style="margin:0"><div class="big">טוען…</div></div></div>`;
   const openEv=(A.events||[]).filter(e=>e.open).length;
-  const tabs=[['overview','סקירה',0],['growth','צמיחה',0],['users','משתמשים',O.pending],['pay','תשלומים',openEv],['msgs','פניות',O.open_msgs]];
-  const seg=`<div class="seg2 adm-seg" style="position:sticky;top:calc(60px + env(safe-area-inset-top,0px));z-index:5;margin-bottom:4px">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?` <span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
+  const tabs=[['overview','סקירה',0],['users','משתמשים',O.pending],['growth','צמיחה',0],['pay','כסף',openEv],['msgs','פניות',O.open_msgs]];
+  const seg=`<div class="seg2 adm-seg" style="position:sticky;top:calc(58px + env(safe-area-inset-top,0px));z-index:5">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?`<span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
   const body=A.tab==='users'?admUsersHTML():A.tab==='pay'?admPayHTML():A.tab==='msgs'?admMsgsHTML():A.tab==='growth'?admGrowthHTML():admOverviewHTML();
   return head+seg+`<div class="adm-body adm-${A.tab}">${body}</div>`;
 }
-function admOverviewHTML(){
-  const O=A.ov, tile=(v,k,act)=>`<button ${act?`data-act="adm-go" ${act}`:''} style="background:none;border:0;border-radius:0"><b class="num">${v}</b><span>${k}</span></button>`;
-  const openEv=(A.events||[]).filter(e=>e.open).length;
-  const alerts=[
-    O.pending?[`⏳ ${O.pending} ממתינים לאישור`,'data-t="users" data-f="pending"']:null,
-    openEv?[`💳 ${openEv} תשלומים לא זוהו`,'data-t="pay"']:null,
-    O.open_msgs?[`💬 ${O.open_msgs} פניות פתוחות`,'data-t="msgs"']:null,
-    O.expiring7?[`📅 ${O.expiring7} מנויים מסתיימים השבוע`,'data-t="users" data-f="expiring"']:null,
+const pctS=(a,b)=>b?Math.round(a/b*100)+'%':'—';
+function admTasksHTML(){
+  const O=A.ov, openEv=(A.events||[]).filter(e=>e.open).length;
+  const T=[
+    O.pending?['#D97706','⏳',`${O.pending} ממתינים לאישור`,'אישור או חסימה של נרשמים','data-t="users" data-f="pending"']:null,
+    openEv?['#DC2626','₪',`${openEv} תשלומים לא זוהו`,'צריך לשייך למשתמש','data-t="pay"']:null,
+    O.open_msgs?['#2563EB','?',`${O.open_msgs} פניות פתוחות`,'משתמשים מחכים לתשובה','data-t="msgs"']:null,
+    O.expiring7?['#7C3AED','⏱',`${O.expiring7} פרימיום מסתיימים השבוע`,'אפשר לשלוח תזכורת או הטבה','data-t="users" data-f="expiring"']:null,
   ].filter(Boolean);
-  return `${alerts.length?`<div class="card r20 list" style="margin-bottom:12px;border-color:var(--gold)">${alerts.map(([t,a])=>`<button class="li" data-act="adm-go" ${a}><span class="lt"><b>${t}</b></span>${ICON.chev}</button>`).join('')}</div>`:`<div class="card r20" style="padding:12px 14px;margin-bottom:12px;background:var(--accent-soft);border-color:transparent;font-weight:600">✓ אין משימות פתוחות</div>`}
-    <div class="adm-sec"><div class="sect2" style="margin-bottom:6px"><span>משתמשים</span></div>
-    <div class="card r20 stat3 num">${tile(O.users,'רשומים','data-t="users" data-f="all"')}${tile(O.paying,'משלמים','data-t="users" data-f="paying"')}${tile(O.trial,'פרימיום מתנה','data-t="users" data-f="trial"')}</div>
-    <div class="card r20 stat3 num" style="margin-top:8px">${tile(O.new7,'חדשים השבוע')}${tile(O.active7,'פעילים 7 ימים')}${tile(O.expired,'חינמיים','data-t="users" data-f="expired"')}</div>
-    ${O.gifted?`<div class="small muted" style="margin-top:6px">🎁 ${O.gifted} עם גישה במתנה (הזמינו חבר ששילם, בלי תשלום משלהם)</div>`:''}</div>
-    <div class="adm-sec"><div class="sect2" style="margin:14px 0 6px"><span>הכנסות</span></div>
-    <div class="card r20 stat3 num">${tile('₪'+Math.round(O.rev_month),'החודש','data-t="pay"')}${tile(O.pay_month,'תשלומים החודש','data-t="pay"')}${tile('₪'+Math.round(O.rev_total),'סה״כ','data-t="pay"')}</div></div>
-    <div class="card r20 adm-chart" style="margin-top:14px;padding:14px">
-      <div class="spread" style="margin-bottom:8px"><b>פעילות · 30 יום</b><span class="small muted">● הרשמה &nbsp; ₪ תשלום</span></div>
+  if(!T.length)return `<div class="card r20 list"><div class="li"><span class="tk" style="--c:var(--accent)">${ICON.ok.replace('<svg','<svg style="fill:none;stroke:currentColor;stroke-width:2.6"')}</span><span class="lt"><b>אין משימות פתוחות</b><small>הכל מטופל</small></span></div></div>`;
+  return `<div class="sect2"><span>דורש טיפול</span></div><div class="card r20 list">${T.map(([c,ic,t,sub,a])=>`<button class="li" data-act="adm-go" ${a}><span class="tk" style="--c:${c}">${ic}</span><span class="lt"><b>${t}</b><small>${sub}</small></span>${ICON.chev}</button>`).join('')}</div>`;
+}
+function admOverviewHTML(){
+  const O=A.ov;
+  const kpi=(label,v,sub,up,act)=>`<button class="kpi" ${act?`data-act="adm-go" ${act}`:'disabled style="opacity:1"'}><span class="kl">${label}</span><b class="num">${v}</b>${sub?`<small class="${up?'up':''}">${sub}</small>`:''}</button>`;
+  const free=O.expired||0;
+  const mix=[['#94A3B8','חינמיים',free,'data-t="users" data-f="expired"'],['#2563EB','פרימיום מתנה',(O.trial||0)+(O.gifted||0),'data-t="users" data-f="trial"'],['var(--accent)','משלמים',O.paying||0,'data-t="users" data-f="paying"']].concat(O.pending?[['#D97706','ממתינים',O.pending,'data-t="users" data-f="pending"']]:[]);
+  const tot=Math.max(1,mix.reduce((a,x)=>a+x[2],0));
+  const perUser=O.active30?money((+O.ai_usd_month||0)/O.active30):'—';
+  return `
+    ${admTasksHTML()}
+    <div class="sect2"><span>החודש במספרים</span></div>
+    <div class="kpi-grid">
+      ${kpi('משתמשים',fmtNum(O.users||0),O.new7?`+${O.new7} השבוע`:'אין חדשים השבוע',!!O.new7,'data-t="users" data-f="all"')}
+      ${kpi('פעילים 7 ימים',fmtNum(O.active7||0),`${pctS(O.active7,O.users)} מהמשתמשים · היום ${O.active1||0}`,false,'')}
+      ${kpi('הכנסות החודש','₪'+fmtNum(Math.round(O.rev_month||0)),`${O.pay_month||0} תשלומים · סה״כ ₪${fmtNum(Math.round(O.rev_total||0))}`,false,'data-t="pay"')}
+      ${kpi('עלות AI החודש',money(O.ai_usd_month),`${perUser} למשתמש פעיל`,false,'')}
+    </div>
+    <div class="card r20" style="padding:16px">
+      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">חלוקת המשתמשים</b><span class="small muted num">${fmtNum(O.users||0)}</span></div>
+      <div class="mix">${mix.filter(x=>x[2]).map(([c,,n])=>`<i style="--c:${c};width:${n/tot*100}%"></i>`).join('')}</div>
+      <div class="legend">${mix.map(([c,l,n,a])=>`<button data-act="adm-go" ${a} style="padding:0;font:inherit;color:inherit"><span style="--c:${c}">${l}<b class="num">${n}</b></span></button>`).join('')}</div>
+    </div>
+    <div class="card r20 adm-chart" style="padding:16px">
+      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">פעילות · 30 יום</b><span class="small muted"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-inline-end:4px"></span>הרשמה · <span style="color:var(--gold);font-weight:700">₪</span> תשלום</span></div>
       ${adminChart(O.daily||[])}
-      <div class="small muted" style="margin-top:6px">פעילים היום ${O.active1}, ב-30 יום ${O.active30}. עלות AI החודש ${money(O.ai_usd_month)}.</div>
+      <div class="small muted" style="margin-top:8px">פעילים ב-30 יום: <b class="num" style="color:var(--ink)">${O.active30||0}</b></div>
     </div>`;
 }
 function admGrowthHTML(){
-  const F=A.funnel; if(!F)return '<div class="empty"><div class="big">טוען…</div></div>';
-  const pct=(a,b)=>b?Math.round(a/b*100)+'%':'—';
-  const step=(label,n,base,hint)=>`<div class="fn-step"><div class="fn-bar"><i style="width:${base?Math.max(2,Math.round(n/base*100)):0}%"></i></div><div class="spread"><span>${label}</span><b class="num">${n}${base!=null?` <span class="muted small">(${pct(n,base)})</span>`:''}</b></div>${hint?`<div class="small muted">${hint}</div>`:''}</div>`;
+  const F=A.funnel; if(!F)return '<div class="card r20"><div class="empty" style="margin:0"><div class="big">טוען…</div></div></div>';
+  const step=(label,n,base,hint)=>`<div class="fstep"><div class="spread"><span style="font-weight:500">${label}</span><span class="num"><b>${n}</b>${base!=null?` <span class="muted small">${pctS(n,base)}</span>`:''}</span></div><div class="bar2"><i style="width:${base?Math.max(2,Math.round(n/base*100)):0}%"></i></div>${hint?`<div class="hint">${hint}</div>`:''}</div>`;
   const C=F.cohorts||[];
-  return `<div class="adm-grid">
-    <div class="card">
-      <div class="spread" style="margin-bottom:10px"><b>המשפך</b><span class="small muted">כל המשתמשים</span></div>
+  const s3=(a)=>`<div class="card r20 stat3 num" style="margin-top:10px;background:var(--surface2);border:0">${a.map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('')}</div>`;
+  return `
+    <div class="kpi-grid">
+      <div class="kpi"><span class="kl">אימון ראשון תוך 48 ש׳</span><b class="num">${pctS(F.w48,F.signups)}</b><small>הצעד שהכי מנבא שימור</small></div>
+      <div class="kpi"><span class="kl">פעילים אחרי 30 יום</span><b class="num">${pctS(F.d30,F.d30base)}</b><small>${F.d30} מתוך ${F.d30base}</small></div>
+      <div class="kpi"><span class="kl">שילמו</span><b class="num">${pctS(F.paid_users,F.signups)}</b><small>${F.paid_users} מתוך ${F.signups}</small></div>
+      <div class="kpi"><span class="kl">מקדם ויראלי</span><b class="num">${F.signups?(F.inv_joined/F.signups).toFixed(2):'—'}</b><small>הצטרפות דרך חבר לכל נרשם</small></div>
+    </div>
+    <div class="adm-cols">
+    <div class="card r20" style="padding:6px 16px">
+      <div class="spread" style="padding:10px 0 4px"><b style="font-size:16px">המשפך</b><span class="small muted">כל המשתמשים</span></div>
       ${step('נרשמו',F.signups,F.signups)}
-      ${step('אימון ראשון תוך 48 שעות',F.w48,F.signups,'הצעד הכי חשוב: מי שלא מתאמן ביומיים הראשונים, כמעט תמיד נוטש')}
+      ${step('אימון ראשון תוך 48 שעות',F.w48,F.signups,'מי שלא מתאמן ביומיים הראשונים כמעט תמיד נוטש')}
       ${step('עשו אימון כלשהו',F.any_workout,F.signups)}
       ${step('פעילים אחרי 7 ימים',F.d7,F.d7base,'מתוך מי שנרשם לפני שבוע ומעלה')}
       ${step('פעילים אחרי 30 יום',F.d30,F.d30base,'מתוך מי שנרשם לפני חודש ומעלה')}
-      ${step('בחרו מסלול',F.paid_users,F.signups)}
-      <div class="small muted" style="margin-top:8px">המרה אחרי סוף הפרימיום מתנה: <b class="num">${pct(F.trial_ended_paid,F.trial_ended)}</b> (${F.trial_ended_paid} מתוך ${F.trial_ended})</div>
+      ${step('שילמו',F.paid_users,F.signups)}
+      <div class="small muted" style="padding:6px 0 12px">המרה אחרי סוף פרימיום מתנה: <b class="num" style="color:var(--ink)">${pctS(F.trial_ended_paid,F.trial_ended)}</b> (${F.trial_ended_paid} מתוך ${F.trial_ended})</div>
     </div>
-    <div class="card">
-      <div class="spread" style="margin-bottom:10px"><b>🎁 הזמנות חברים</b><span class="small muted">מצטבר</span></div>
-      <div class="tiles" style="border:0;background:none;gap:6px">
-        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.inv_sharers}</div><div class="k">שיתפו קישור</div></div>
-        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.inv_joined}</div><div class="k">הצטרפו דרך חבר</div></div>
-        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.inv_paid}</div><div class="k">מהם שילמו</div></div></div>
-      <div class="small muted" style="margin-top:8px">${F.inv_opens} פתיחות של מסך ההזמנה, ${F.inv_shares} שיתופים. ${F.inv_days} ימי מתנה חולקו. מקדם ויראלי משוער: <b class="num">${F.signups?(F.inv_joined/F.signups).toFixed(2):'—'}</b> הצטרפות דרך חבר לכל נרשם.</div>
-      ${(F.top_referrers||[]).length?`<div class="label" style="margin:10px 0 4px">המזמינים המובילים</div>${F.top_referrers.map(r=>`<div class="spread small" style="padding:5px 0;border-top:1px solid var(--line)"><span data-notr>${esc(r.name)}</span><span class="num">${r.n} הזמינו · ${r.paid} שילמו</span></div>`).join('')}`:''}
+    <div class="stack" style="gap:12px">
+    <div class="card r20" style="padding:16px">
+      <div class="spread"><b style="font-size:16px">הזמנות חברים</b><span class="small muted">מצטבר</span></div>
+      ${s3([[F.inv_sharers,'שיתפו קישור'],[F.inv_joined,'הצטרפו'],[F.inv_paid,'מהם שילמו']])}
+      <div class="small muted" style="margin-top:10px">${F.inv_opens} פתיחות של מסך ההזמנה · ${F.inv_shares} שיתופים · ${F.inv_days} ימי מתנה</div>
+      ${(F.top_referrers||[]).length?`<div class="small muted" style="font-weight:600;margin:12px 0 2px">המזמינים המובילים</div>${F.top_referrers.map(r=>`<div class="spread small" style="padding:7px 0;border-top:1px solid var(--line)"><span data-notr>${esc(r.name)}</span><span class="num">${r.n} הזמינו · ${r.paid} שילמו</span></div>`).join('')}`:''}
     </div>
-    <div class="card">
-      <div class="spread" style="margin-bottom:10px"><b>🔎 הגיעו מגוגל (דפי מזון ומחשבונים)</b><span class="small muted">מצטבר</span></div>
-      <div class="tiles" style="border:0;background:none;gap:6px">
-        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.seo_signups||0}</div><div class="k">נרשמו</div></div>
-        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.seo_food||0} / ${F.seo_calc||0}</div><div class="k">מזון / מחשבונים</div></div>
-        <div class="tile" style="background:var(--surface2);border-radius:10px"><div class="v num">${F.seo_paid||0}</div><div class="k">מהם שילמו</div></div></div>
-      <div class="small muted" style="margin-top:8px">נספר מי שנרשם אחרי שהגיע מדף מזון או מחשבון. כמות הכניסות והחיפושים עצמם: ב-Google Search Console.${F.src_other&&Object.keys(F.src_other).length?' מקורות נוספים: '+Object.entries(F.src_other).map(([k,v])=>`${esc(k)} ${v}`).join(', ')+'.':''}</div>
+    <div class="card r20" style="padding:16px">
+      <div class="spread"><b style="font-size:16px">הגיעו מגוגל</b><span class="small muted">דפי מזון ומחשבונים</span></div>
+      ${s3([[F.seo_signups||0,'נרשמו'],[`${F.seo_food||0}/${F.seo_calc||0}`,'מזון / מחשבון'],[F.seo_paid||0,'מהם שילמו']])}
+      <div class="small muted" style="margin-top:10px">כניסות וחיפושים: ב-Google Search Console.${F.src_other&&Object.keys(F.src_other).length?' מקורות נוספים: '+Object.entries(F.src_other).map(([k,v])=>`${esc(k)} ${v}`).join(', ')+'.':''}</div>
     </div>
-    <div class="card adm-span">
-      <div class="spread" style="margin-bottom:8px"><b>קבוצות שבועיות</b><span class="small muted">12 השבועות האחרונים · לפי שבוע הרשמה</span></div>
-      <div style="overflow-x:auto"><table class="adm-tbl"><thead><tr><th>שבוע</th><th>נרשמו</th><th>דרך חבר</th><th>אימון ב-48ש׳</th><th>פעילים יום 7</th><th>פעילים יום 30</th><th>שילמו</th></tr></thead><tbody>
-        ${C.length?C.slice().reverse().map(c=>`<tr><td class="num">${new Date(c.wk).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}</td><td class="num">${c.n}</td><td class="num">${c.invited||0}</td><td class="num">${pct(c.w48,c.n)}</td><td class="num">${c.d7base?pct(c.d7,c.d7base):'—'}</td><td class="num">${c.d30base?pct(c.d30,c.d30base):'—'}</td><td class="num">${c.paid}</td></tr>`).join(''):'<tr><td colspan="7" class="muted" style="text-align:center">אין נתונים עדיין</td></tr>'}
+    </div></div>
+    <div class="card r20" style="padding:16px">
+      <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">לפי שבוע הרשמה</b><span class="small muted">12 שבועות</span></div>
+      <div style="overflow-x:auto;margin:0 -4px"><table class="adm-tbl"><thead><tr><th>שבוע</th><th>נרשמו</th><th>דרך חבר</th><th>אימון 48ש׳</th><th>יום 7</th><th>יום 30</th><th>שילמו</th></tr></thead><tbody>
+        ${C.length?C.slice().reverse().map(c=>`<tr><td class="num">${new Date(c.wk).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}</td><td class="num">${c.n}</td><td class="num">${c.invited||0}</td><td class="num">${pctS(c.w48,c.n)}</td><td class="num">${c.d7base?pctS(c.d7,c.d7base):'—'}</td><td class="num">${c.d30base?pctS(c.d30,c.d30base):'—'}</td><td class="num">${c.paid}</td></tr>`).join(''):'<tr><td colspan="7" class="muted" style="text-align:center">אין נתונים עדיין</td></tr>'}
       </tbody></table></div>
-      <div class="small muted" style="margin-top:8px">"—" = עוד לא עבר מספיק זמן כדי למדוד.</div>
-    </div>
-  </div>`;
+      <div class="small muted" style="margin-top:8px">״—״ = עוד לא עבר מספיק זמן למדידה.</div>
+    </div>`;
 }
+const stPill=([t,c])=>`<span class="pill2" style="--c:${c}">${t}</span>`;
 function admUsersHTML(){
   const U=A.users, O=A.ov||{};
   const cnt={all:O.users,pending:O.pending,trial:O.trial,paying:O.paying,expiring:O.expiring7,expired:O.expired,blocked:O.blocked};
-  return `<input id="adm-q" type="search" class="adm-in" placeholder="חיפוש לפי שם, אימייל או טלפון" value="${esc(U.q)}" style="margin-bottom:8px">
-    <div class="row" style="gap:6px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;margin-bottom:8px">${ADM_FILTERS.map(([k,t])=>`<button class="chip ${U.filter===k?'on':''}" data-act="adm-filter" data-f="${k}" style="flex-shrink:0">${t}${cnt[k]!=null?` ${cnt[k]}`:''}</button>`).join('')}</div>
-    <div class="small muted" style="margin-bottom:6px">${U.loading&&!U.rows.length?'טוען…':`${U.total} משתמשים`}</div>
-    <div class="card" style="padding:0 14px">${U.rows.map(u=>{const st=userState(u);
-      return `<button class="adm-row" data-act="adm-user" data-id="${u.id}">
-        <span class="adm-av">${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
-        <span style="flex:1;min-width:0"><b>${esc(u.full_name||u.email.split('@')[0])}</b> ${badgeHTML(st)}
-          <span class="small muted adm-sub">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</span></span>
-        <span class="small muted" style="text-align:var(--end);white-space:nowrap">${u.access==='pending'?agoHe(u.created_at):u.until?'עד '+dShort(u.until):''}<br>${u.last_seen?agoHe(u.last_seen):''}</span>
-      </button>`;}).join('')||`<div class="muted small" style="padding:14px 0;text-align:center">${U.loading?'טוען…':'אין תוצאות'}</div>`}</div>
-    ${U.rows.length<U.total?`<button class="btn" style="width:100%;margin-top:10px" data-act="adm-more">${U.loading?'טוען…':`טען עוד (${U.total-U.rows.length})`}</button>`:''}`;
+  return `<label class="srch">${ICON.search}<input id="adm-q" type="search" placeholder="חיפוש לפי שם, אימייל או טלפון" value="${esc(U.q)}" aria-label="חיפוש משתמש"></label>
+    <div class="chips">${ADM_FILTERS.filter(([k])=>k==='all'||cnt[k]).map(([k,t])=>`<button class="chip ${U.filter===k?'on':''}" data-act="adm-filter" data-f="${k}">${t}${cnt[k]!=null?`<i class="num">${cnt[k]}</i>`:''}</button>`).join('')}</div>
+    <div class="card r20 list">${U.rows.map(u=>{const st=userState(u);
+      return `<button class="li" data-act="adm-user" data-id="${u.id}">
+        <span class="av2" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
+        <span class="lt"><b><span data-notr>${esc(u.full_name||u.email.split('@')[0])}</span> ${stPill(st)}</b><small dir="ltr" style="text-align:var(--start)">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</small></span>
+        <span class="small muted" style="text-align:end;white-space:nowrap;line-height:1.4">${u.last_seen?agoHe(u.last_seen):agoHe(u.created_at)}${u.until&&new Date(u.until)>new Date()?`<br><span class="num">עד ${dShort(u.until)}</span>`:''}</span>
+      </button>`;}).join('')||`<div class="li small muted" style="justify-content:center">${U.loading?'טוען…':'אין תוצאות'}</div>`}</div>
+    <div class="small muted" style="text-align:center">${U.loading&&!U.rows.length?'':`${U.rows.length} מתוך ${U.total}`}</div>
+    ${U.rows.length<U.total?`<button class="btn big" style="background:var(--surface)" data-act="adm-more">${U.loading?'טוען…':`טען עוד ${Math.min(30,U.total-U.rows.length)}`}</button>`:''}`;
 }
 async function admUserSheet(id){
   const u=A.users.rows.find(x=>x.id===id)||(A.pick||[]).find(x=>x.id===id); if(!u)return;
   const draw=d=>{ const st=userState(u);
-    openSheet(`<div class="spread"><h3 style="margin:0">${esc(u.full_name||u.email)}</h3>${badgeHTML(st)}</div>
-      <div class="small muted" style="margin:4px 0 12px" dir="ltr">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</div>
-      <div class="card" style="padding:4px 14px">
-        ${[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],['פרימיום מתנה עד',dShort(u.trial_until)],['מנוי בתשלום עד',dShort(u.access_until)],
-          ...(u.ref_name?[['הוזמן ע״י',esc(u.ref_name)]]:[]),
-          ...(u.referred_paid?[['חברים ששילמו דרכו',`${u.referred_paid} · ${u.referred_paid*30} ימי מתנה`]]:[]),
-          ...(d?[['אימונים (30 יום)',`${d.workouts} (${d.workouts30})`],['ארוחות / שקילות',`${d.meals} / ${d.weighins}`],['קבוצות',d.groups],['הזמין חברים',d.referred],['התראות',d.push?'✓ מופעל':'—'],['AI',`${d.ai_calls} ניתוחים · ${money(d.ai_usd)}`],
-            ['תשלומים',(d.payments||[]).length?d.payments.map(p=>`₪${+p.amount} (${p.months} ח׳) ${dShort(p.created_at)}`).join('<br>'):'—']]:[['','טוען…']])
-        ].map(([k,v])=>`<div class="h-ex" style="padding:7px 0;border-bottom:1px solid var(--line)"><span>${k}</span><span style="text-align:var(--end)">${v}</span></div>`).join('')}
-      </div>
-      ${u.access==='admin'?'':`<div class="label" style="margin:14px 0 6px">פעולות</div>
-      <div class="adm-acts">
-        ${u.access!=='approved'?`<button class="btn primary" data-act="adm-set" data-id="${u.id}" data-st="approved">✓ אשר גישה</button>`:''}
-        <button class="btn" data-act="adm-grant" data-id="${u.id}" data-days="30">+30 יום</button>
-        <button class="btn" data-act="adm-grant" data-id="${u.id}" data-days="365">+שנה</button>
+    const dl=[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],
+      ...(u.trial_until?[['פרימיום מתנה עד',dShort(u.trial_until)]]:[]),...(u.access_until?[['מנוי בתשלום עד',dShort(u.access_until)]]:[]),
+      ...(u.ref_name?[['הוזמן ע״י',`<span data-notr>${esc(u.ref_name)}</span>`]]:[]),
+      ...(u.referred_paid?[['חברים ששילמו דרכו',`${u.referred_paid} · ${u.referred_paid*30} ימי מתנה`]]:[]),
+      ...(d?[['קבוצות',d.groups],['הזמין חברים',d.referred],['התראות',d.push?'מופעלות':'כבויות'],['תשלומים',(d.payments||[]).length?d.payments.map(p=>`₪${+p.amount} · ${p.months} ח׳ · ${dShort(p.created_at)}`).join('<br>'):'—']]:[])];
+    openSheet(`<div class="row" style="gap:12px;flex-wrap:nowrap;margin-bottom:14px"><span class="av2" style="width:52px;height:52px;font-size:20px" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
+        <div style="flex:1;min-width:0"><b style="font-size:19px;display:block" data-notr>${esc(u.full_name||u.email.split('@')[0])}</b><span class="small muted" dir="ltr" style="display:block;overflow:hidden;text-overflow:ellipsis">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</span><div style="margin-top:4px">${stPill(st)}</div></div>
+        <button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px;align-self:flex-start">✕</button></div>
+      <div class="card r20 stat3 num" style="margin-bottom:10px">${d?[[`${d.workouts30}`,'אימונים 30 יום'],[`${d.meals}`,'ארוחות'],[`${d.ai_calls}`,'ניתוחי AI']].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join(''):'<div><b>…</b><span>טוען</span></div><div><b>…</b><span></span></div><div><b>…</b><span></span></div>'}</div>
+      ${d?`<div class="small muted" style="margin:-4px 4px 10px">${d.workouts} אימונים בסה״כ · ${d.weighins} שקילות · עלות AI ${money(d.ai_usd)}</div>`:''}
+      <div class="card r20" style="padding:0"><dl class="dl">${dl.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl></div>
+      ${u.access==='admin'?'':`<div class="small muted" style="font-weight:600;margin:14px 4px 6px">פעולות</div>
+      <div class="acts2">
+        ${u.access!=='approved'?`<button class="btn primary" data-act="adm-set" data-id="${u.id}" data-st="approved">אשר גישה</button>`:''}
+        <button class="btn" data-act="adm-grant" data-id="${u.id}" data-days="7">+ שבוע פרימיום</button>
+        <button class="btn" data-act="adm-grant" data-id="${u.id}" data-days="30">+ חודש פרימיום</button>
+        <button class="btn" data-act="adm-grant" data-id="${u.id}" data-days="365">+ שנה</button>
+        <a class="btn" href="mailto:${esc(u.email)}">שליחת מייל</a>
         ${u.access_until&&new Date(u.access_until)>new Date()?`<button class="btn" data-act="adm-revoke" data-id="${u.id}">ביטול מנוי (החזר)</button>`:''}
         ${u.access!=='rejected'?`<button class="btn danger" data-act="adm-set" data-id="${u.id}" data-st="rejected">חסימה</button>`:''}
-        <a class="btn" href="mailto:${esc(u.email)}">✉️ מייל</a>
-      </div>`}
-      <button class="btn big" style="margin-top:12px" data-act="sheet-close">סגור</button>`);
+      </div>`}`);
   };
   draw(null); const {data}=await sb.rpc('admin_user',{p_uid:id}); if(!$('#sheet').hidden)draw(data);
 }
 function admPayHTML(){
   const C=A.cfg||{}, B=C.billing||{}, O=A.ov||{}, ev=A.events||[], open=ev.filter(e=>e.open), hook=`${SUPABASE_URL}/functions/v1/payment-webhook?key=${C.webhook_key}`;
-  const evRow=e=>`<div class="small" style="padding:9px 0;border-top:1px solid var(--line)">
-      <div class="spread"><span>${new Date(e.created_at).toLocaleString(LOC,{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · ${esc(e.payer||'')} <span dir="ltr" class="muted">${esc(e.phone||'')}</span></span>
-      <b class="num">${e.amount?'₪'+esc(e.amount):''}</b></div>
-      <div style="color:${e.ok==='true'?'var(--accent)':e.dismissed?'var(--muted)':'var(--danger)'}">${e.ok==='true'?`✓ נפתח ל${esc(e.who||'משתמש')}`:e.dismissed?'הוסר מהרשימה':({user_not_found:'המשלם לא זוהה',unknown_plan:'הסכום לא תואם מסלול'}[e.error]||(String(e.error||'').startsWith('status_')?'התשלום לא הושלם':esc(e.error||'שגיאה')))}</div>
-      ${e.open?`<div class="row" style="gap:6px;margin-top:6px"><button class="btn primary" style="flex:2;padding:7px" data-act="ev-assign" data-id="${e.id}" data-amount="${esc(e.amount||'')}">שיוך למשתמש</button><button class="btn" style="flex:1;padding:7px" data-act="ev-dismiss" data-id="${e.id}">התעלם</button></div>`:''}</div>`;
-  return `<div class="tiles"><div class="tile"><div class="v num">₪${Math.round(O.rev_month||0)}</div><div class="k">החודש</div></div><div class="tile"><div class="v num">${O.paying||0}</div><div class="k">מנויים פעילים</div></div><div class="tile"><div class="v num">₪${Math.round(O.rev_total||0)}</div><div class="k">סה״כ</div></div></div>
-    ${open.length?`<div class="label" style="margin:14px 0 6px">דורש טיפול (${open.length})</div><div class="card" style="padding:0 14px;border-color:var(--danger)">${open.map(evRow).join('')}</div>`:''}
-    <div class="label" style="margin:14px 0 6px">תשלומים אחרונים</div>
-    <div class="card" style="padding:0 14px">${(C.payments||[]).slice(0,20).map(p=>`<div class="spread" style="padding:9px 0;border-top:1px solid var(--line)"><span><b>${esc(p.name||p.email||'')}</b><span class="small muted" style="display:block">${dShort(p.created_at)} · ${p.months} חודשים</span></span><b class="num">₪${+p.amount||0}</b></div>`).join('')||'<div class="muted small" style="padding:12px 0">עוד אין תשלומים</div>'}</div>
-    <details class="card adm-det" style="margin-top:14px"><summary><b>הגדרות מנוי ומחירים</b><span class="small muted">${B.enabled?'גבייה פעילה':'גבייה כבויה'}</span></summary>
-      <div class="stack" style="gap:10px;margin-top:10px">
-      <label class="setrow" style="padding:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
-      <label class="setrow" style="padding:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם נכנס מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
+  const evRow=e=>{ const ok=e.ok==='true', st=ok?`נפתח ל${esc(e.who||'משתמש')}`:e.dismissed?'הוסר מהרשימה':({user_not_found:'המשלם לא זוהה',unknown_plan:'הסכום לא תואם מסלול'}[e.error]||(String(e.error||'').startsWith('status_')?'התשלום לא הושלם':esc(e.error||'שגיאה')));
+    return `<div class="li" style="flex-wrap:wrap">
+      <span class="tk" style="--c:${ok?'var(--accent)':e.dismissed?'var(--muted)':'#DC2626'}">₪</span>
+      <span class="lt"><b>${e.amount?'₪'+esc(e.amount):''} · <span data-notr>${esc(e.payer||'')}</span></b><small><span style="color:${ok?'var(--accent)':e.dismissed?'var(--muted)':'#DC2626'}">${st}</span> · ${new Date(e.created_at).toLocaleString(LOC,{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}${e.phone?` · <span dir="ltr">${esc(e.phone)}</span>`:''}</small></span>
+      ${e.open?`<div class="row" style="gap:6px;width:100%;margin-top:4px"><button class="btn primary" style="flex:2;border-radius:12px" data-act="ev-assign" data-id="${e.id}" data-amount="${esc(e.amount||'')}">שיוך למשתמש</button><button class="btn" style="flex:1;border-radius:12px" data-act="ev-dismiss" data-id="${e.id}">התעלם</button></div>`:''}</div>`; };
+  return `
+    <div class="kpi-grid">
+      <div class="kpi"><span class="kl">הכנסות החודש</span><b class="num">₪${fmtNum(Math.round(O.rev_month||0))}</b><small>${O.pay_month||0} תשלומים</small></div>
+      <div class="kpi"><span class="kl">מנויים משלמים</span><b class="num">${O.paying||0}</b><small>${O.expiring7?`${O.expiring7} מסתיימים השבוע`:'אין שמסתיימים השבוע'}</small></div>
+    </div>
+    <div class="card r20 stat3 num"><div><b>₪${fmtNum(Math.round(O.rev_total||0))}</b><span>סה״כ הכנסות</span></div><div><b>${money(O.ai_usd_month)}</b><span>עלות AI החודש</span></div><div><b>${B.enabled?'פעילה':'כבויה'}</b><span>גבייה</span></div></div>
+    ${open.length?`<div class="sect2"><span>דורש טיפול</span><span class="adm-n">${open.length}</span></div><div class="card r20 list" style="border-color:#DC2626">${open.map(evRow).join('')}</div>`:''}
+    <div class="sect2"><span>תשלומים אחרונים</span></div>
+    <div class="card r20 list">${(C.payments||[]).slice(0,20).map(p=>`<div class="li"><span class="tk" style="--c:var(--accent)">₪</span><span class="lt"><b data-notr>${esc(p.name||p.email||'')}</b><small>${dShort(p.created_at)} · ${p.months} חודשים</small></span><b class="num">₪${+p.amount||0}</b></div>`).join('')||'<div class="li small muted">עוד אין תשלומים</div>'}</div>
+    <div class="sect2"><span>הגדרות</span></div>
+    <details class="card r20 fold"><summary class="li"><span class="lt"><b>מנוי, מחירים ומסלול חינמי</b><small>${B.enabled?'גבייה פעילה':'גבייה כבויה'} · ${B.free_ai_per_day??1} ניתוחי AI חינם ביום · ${B.trial_days?B.trial_days+' ימי פרימיום לנרשם':'בלי פרימיום לנרשם'}</small></span>${ICON.chev}</summary>
+      <div class="fold-b">
+      <label class="setrow" style="padding:0;border:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
+      <label class="setrow" style="padding:0;border:0"><span><b>אישור ידני להרשמות</b><span class="small muted" style="display:block">כבוי: כל נרשם נכנס מיד</span></span><input id="adm-man" type="checkbox" class="sw" ${B.manual_approval!==false?'checked':''}></label>
       <div class="spread"><b>ימי פרימיום לכל נרשם חדש</b><input id="adm-trial" class="adm-in num" type="number" min="0" max="90" value="${B.trial_days??0}" style="width:80px;text-align:center"></div>
       <div class="spread"><b>ניתוחי AI חינם ביום</b><input id="adm-freeai" class="adm-in num" type="number" min="0" max="20" value="${B.free_ai_per_day??1}" style="width:80px;text-align:center"></div>
       ${(B.plans||[]).map(p=>`<div class="stack" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">
-        <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' ⭐':''}</b><span class="row" style="gap:4px;align-items:center">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
+        <div class="spread"><b>${esc(PLAN_NAMES[p.id]||p.id)}${p.best?' · הכי משתלם':''}</b><span class="row" style="gap:4px;align-items:center;flex-wrap:nowrap">₪<input id="adm-price-${p.id}" class="adm-in num" type="number" min="1" value="${p.price}" style="width:80px;text-align:center"></span></div>
         <input id="adm-link-${p.id}" class="adm-in" type="url" dir="ltr" placeholder="קישור לעמוד התשלום ב-Grow" value="${esc(p.link||'')}">
-        <div class="spread small muted"><span>מחיר לפני (מחיר השקה, ריק = בלי)</span><span class="row" style="gap:4px;align-items:center">₪<input id="adm-was-${p.id}" class="adm-in num" type="number" min="0" value="${p.was||''}" style="width:80px;text-align:center"></span></div></div>`).join('')}
+        <div class="spread small muted"><span>מחיר לפני (השקה, ריק = בלי)</span><span class="row" style="gap:4px;align-items:center;flex-wrap:nowrap">₪<input id="adm-was-${p.id}" class="adm-in num" type="number" min="0" value="${p.was||''}" style="width:80px;text-align:center"></span></div></div>`).join('')}
       <div class="small muted">המחיר כאן חייב להיות זהה למחיר בעמוד של Grow.</div>
-      <button class="btn primary" data-act="adm-billing-save">שמירה</button>
-      <button class="btn" data-act="plans-open">תצוגת מסך המסלולים</button>
+      <div class="row" style="gap:8px;flex-wrap:nowrap"><button class="btn" style="flex:1;border-radius:14px" data-act="plans-open">תצוגה מקדימה</button><button class="btn primary" style="flex:1.4;border-radius:14px" data-act="adm-billing-save">שמירה</button></div>
       </div></details>
-    <details class="card adm-det" style="margin-top:10px"><summary><b>הגדרה טכנית ב-Grow</b><span class="small muted">פעם אחת לכל עמוד</span></summary>
-      <div class="stack" style="gap:8px;margin-top:10px">
-      <div class="small muted">בכל עמוד תשלום ב-Grow ← עמוד תודה:</div>
+    <details class="card r20 fold"><summary class="li"><span class="lt"><b>חיבור ל-Grow</b><small>עמוד תודה וכתובת עדכון, פעם אחת לכל עמוד תשלום</small></span>${ICON.chev}</summary>
+      <div class="fold-b">
       <div class="small"><b>קישור לעמוד תודה</b></div><div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(location.origin)}/thanks.html</div>
       <div class="small"><b>קישור לעדכון מערכות מידע (שרת)</b></div><div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
-      <button class="btn" data-act="copy-link" data-url="${esc(hook)}">העתקת כתובת העדכון</button>
+      <button class="btn" style="border-radius:14px" data-act="copy-link" data-url="${esc(hook)}">העתקת כתובת העדכון</button>
       </div></details>
-    ${ev.length>open.length?`<details class="card adm-det" style="margin-top:10px"><summary><b>יומן הודעות מהסליקה</b><span class="small muted">${ev.length}</span></summary><div style="margin-top:6px">${ev.filter(e=>!e.open).slice(0,20).map(evRow).join('')}</div></details>`:''}`;
+    ${ev.length>open.length?`<details class="card r20 fold"><summary class="li"><span class="lt"><b>יומן הודעות מהסליקה</b><small>${ev.length-open.length} הודעות אחרונות</small></span>${ICON.chev}</summary><div class="list" style="border-top:1px solid var(--line)">${ev.filter(e=>!e.open).slice(0,20).map(evRow).join('')}</div></details>`:''}`;
 }
 function admMsgsHTML(){
-  const M=A.msgs, T={payment:'💳 תשלום',bug:'🐞 תקלה',idea:'💡 רעיון',general:'💬 כללי'};
-  return `<div class="row" style="gap:6px;margin-bottom:10px">${[['open','פתוחות'],['done','טופלו'],['all','הכל']].map(([k,t])=>`<button class="chip ${A.msgFilter===k?'on':''}" data-act="adm-msgf" data-f="${k}">${t}</button>`).join('')}</div>
-    ${!M?'<div class="empty"><div class="big">טוען…</div></div>':!M.length?`<div class="adm-ok">${A.msgFilter==='open'?'✓ אין פניות פתוחות':'אין פניות'}</div>`:
-    `<div class="stack" style="gap:10px">${M.map(m=>`<div class="card stack" style="padding:14px;gap:8px">
-      <div class="spread"><span><b>${esc(m.name||'')}</b> <span class="small muted">${T[m.topic]||''}</span></span><span class="small muted">${agoHe(m.created_at)}</span></div>
-      <div class="small muted" dir="ltr" style="text-align:var(--start)">${esc(m.email||'')}${m.phone?' · '+fmtPhone(m.phone):''}</div>
-      <div style="white-space:pre-wrap">${esc(m.body)}</div>
-      ${m.reply?`<div class="small" style="background:var(--accent-soft);border-radius:10px;padding:8px 10px"><b>התשובה שלך:</b> ${esc(m.reply)}</div>`:''}
-      ${m.status==='open'?`<textarea id="rep-${m.id}" class="adm-in" rows="2" placeholder="תשובה (תישלח כהתראה למשתמש)"></textarea>
-      <div class="row" style="gap:6px"><button class="btn primary" style="flex:2" data-act="adm-reply" data-id="${m.id}">שליחה וסגירה</button><button class="btn" style="flex:1" data-act="adm-done" data-id="${m.id}">טופל</button>
-        ${m.user_id?`<button class="btn" style="flex:1" data-act="adm-user-ext" data-id="${m.user_id}">משתמש</button>`:''}</div>`:''}
-    </div>`).join('')}</div>`}`;
+  const M=A.msgs, T={payment:['תשלום','#B45309'],bug:['תקלה','#DC2626'],idea:['רעיון','#7C3AED'],general:['כללי','#2563EB']};
+  return `<div class="chips">${[['open','פתוחות'],['done','טופלו'],['all','הכל']].map(([k,t])=>`<button class="chip ${A.msgFilter===k?'on':''}" data-act="adm-msgf" data-f="${k}">${t}</button>`).join('')}</div>
+    ${!M?'<div class="card r20"><div class="empty" style="margin:0"><div class="big">טוען…</div></div></div>':!M.length?`<div class="card r20 list"><div class="li"><span class="tk" style="--c:var(--accent)">✓</span><span class="lt"><b>${A.msgFilter==='open'?'אין פניות פתוחות':'אין פניות'}</b></span></div></div>`:
+    M.map(m=>{ const tp=T[m.topic]||T.general; return `<div class="card r20 msgc">
+      <div class="row" style="gap:10px;flex-wrap:nowrap"><span class="av2" data-notr>${esc((m.name||m.email||'?').trim()[0]||'?')}</span>
+        <div style="flex:1;min-width:0"><b data-notr>${esc(m.name||'')}</b> ${stPill([tp[0],tp[1]])}<span class="small muted" dir="ltr" style="display:block;text-align:var(--start);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(m.email||'')}${m.phone?' · '+fmtPhone(m.phone):''}</span></div>
+        <span class="small muted" style="white-space:nowrap">${agoHe(m.created_at)}</span></div>
+      <div class="q" data-notr>${esc(m.body)}</div>
+      ${m.reply?`<div class="small" style="background:var(--accent-soft);border-radius:14px;padding:10px 12px"><b>התשובה שלך:</b> <span data-notr>${esc(m.reply)}</span></div>`:''}
+      ${m.status==='open'?`<textarea id="rep-${m.id}" class="adm-in" rows="2" placeholder="תשובה (תגיע למשתמש כהתראה)"></textarea>
+      <div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn primary" style="flex:2;border-radius:14px" data-act="adm-reply" data-id="${m.id}">שליחה וסגירה</button><button class="btn" style="flex:1;border-radius:14px" data-act="adm-done" data-id="${m.id}">טופל</button>
+        ${m.user_id?`<button class="btn" style="flex:1;border-radius:14px" data-act="adm-user-ext" data-id="${m.user_id}">משתמש</button>`:''}</div>`:''}
+    </div>`; }).join('')}`;
 }
 let _admQT;
 document.addEventListener('input',ev=>{ if(ev.target.id==='hist-q'){ HIST.q=ev.target.value; clearTimeout(HIST._t); HIST._t=setTimeout(()=>{ render(); const q=$('#hist-q'); if(q){q.focus(); q.setSelectionRange(q.value.length,q.value.length);} },250); return; }
