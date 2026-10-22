@@ -8,7 +8,9 @@ on:
   push:
     branches: [native]
     paths: ['app/**', 'index.html', 'i18n/**', 'img/**', 'menu-foods.js', '.github/workflows/native.yml']
-concurrency: { group: native-${{ github.ref }}, cancel-in-progress: true }
+concurrency:
+  group: native-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   android:
     runs-on: ubuntu-latest
