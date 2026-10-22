@@ -889,6 +889,17 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .ask{display:flex;align-items:center;gap:8px;height:56px;padding:0 8px 0 14px;border-radius:18px;background:var(--surface);border:1.5px solid var(--accent);color:var(--ink);width:100%;text-align:var(--start)}
 .ask svg.ic{width:20px;height:20px;color:var(--muted);flex-shrink:0}
 .ask span.q{flex:1;color:var(--muted);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ask .ask-in{flex:1;display:flex;align-items:center;gap:8px;min-width:0;height:44px;cursor:text}
+.ask .ask-in input{flex:1;min-width:0;border:0;background:none;padding:0;height:44px;font:inherit;font-size:16px;color:var(--ink);outline:none;box-shadow:none;-webkit-appearance:none;appearance:none}
+.ask .ask-in input::placeholder{color:var(--muted)}
+.ask .ask-in input::-webkit-search-cancel-button{display:none}
+.ask:focus-within{box-shadow:0 0 0 3px var(--accent-soft)}
+.ask .sq.clr{background:none;border:0;color:var(--muted);font-size:15px;width:32px}
+.ask-res{margin-top:-6px;padding:4px 12px;display:flex;flex-direction:column}
+.ask-res .fs-row,.ask-res .fs-ai{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 2px;border:0;border-bottom:1px solid var(--line);background:none;text-align:var(--start);font:inherit;color:var(--ink)}
+.ask-res>*:last-child{border-bottom:0}
+.ask-res .fs-head{padding:10px 2px 2px;background:none}
+.ask-res .fs-ai{justify-content:flex-start;background:var(--accent-soft);border-radius:12px;padding:11px 12px;margin:8px 0;border:0}
 .ask .sq{width:40px;height:40px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);flex-shrink:0;padding:0;cursor:pointer}
 .ask .sq.pr{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .ask .sq svg,.ask .sq svg.ic{width:20px;height:20px;color:inherit}
@@ -1515,7 +1526,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.16';
+const APP_VERSION='13.2.17';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1912,7 +1923,10 @@ function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;di
 
 /* ---------- rendering ---------- */
 function render(){
-  try{ document.body.classList.toggle('adm',S.mode==='app'&&S.tab==='admin'); }catch(_){} try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); } }
+  try{ document.body.classList.toggle('adm',S.mode==='app'&&S.tab==='admin'); }catch(_){}
+  const askFocus=document.activeElement?.id==='ask-q';
+  try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); }
+  if(askFocus){ const q=$('#ask-q'); if(q){ try{ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length,q.value.length); }catch(_){} if(q.value.trim().length>=2)foodSearch(q.value,'ask-res'); } } }
 function render_(){
   if(S.tab==='plans'){S.tab='train';S.trainView='plans';}
   for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.tab===S.tab);
@@ -2734,7 +2748,8 @@ function vFood(){
           <div class="small muted" id="ai-step">${AI_STEPS[0]}</div>
           <div class="ai-track"><i id="ai-bar"></i></div></div>
       </div>`
-      :`<div class="ask"><button data-act="food-add-open" style="flex:1;display:flex;align-items:center;gap:8px;min-width:0;height:44px;padding:0;text-align:var(--start)">${ICON.search}<span class="q">מה אכלת?</span></button><button class="sq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button><label class="sq pr" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label></div>
+      :`<div class="ask"><label for="ask-q" class="ask-in">${ICON.search}<input id="ask-q" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200" data-bind="askq" placeholder="${tt('מה אכלת?')}" value="${esc(S.askQ||'')}"></label>${S.askQ?`<button class="sq clr" data-act="ask-clear" aria-label="${tt('ניקוי')}">✕</button>`:''}<button class="sq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button><label class="sq pr" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label></div>
+      <div id="ask-res" class="card r20 ask-res" hidden></div>
       ${S.basket.length?`<div class="card r20 basket" style="margin:0">
         <div class="spread small"><b>הארוחה שבהרכבה</b><span class="num muted">${Math.round(S.basket.reduce((a,i)=>a+i.kcal,0))} קק״ל · ${Math.round(S.basket.reduce((a,i)=>a+i.protein,0))} גר׳ חלבון</span></div>
         ${S.basket.map((it,i)=>`<div class="bitem"><span>${esc(it.name)} <span class="muted small">· ${esc(it.portion)}</span></span><span class="num">${it.kcal}</span><button class="linkbtn small" data-act="basket-rm" data-i="${i}" aria-label="הסר" style="color:var(--danger)">✕</button></div>`).join('')}
@@ -3824,10 +3839,11 @@ document.addEventListener('input',ev=>{
 });
 let _mealDraft=null;
 /* ----- מאגר התזונה הלאומי (משרד הבריאות) — חיפוש חינמי, בלי AI ----- */
-async function foodSearch(q){
-  const box=document.getElementById('food-sugg'); if(!box)return;
+async function foodSearch(q,boxId){
+  const inline=boxId==='ask-res';
+  const box=document.getElementById(boxId||'food-sugg'); if(!box)return;
   q=(q||'').trim();
-  if(q.length<2){ box.hidden=true; box.innerHTML=''; const idle=$('.fa-idle'); if(idle)idle.hidden=false; return; }
+  if(q.length<2){ box.hidden=true; box.innerHTML=''; const idle=$('.fa-idle'); if(idle&&!inline)idle.hidden=false; return; }
   const my=(foodSearch._seq=(foodSearch._seq||0)+1);
   try{
     const {data,error}=await sb.rpc('search_foods',LANG==='he'?{q,lim:7}:{q,lim:7,lang:LANG});
@@ -3840,7 +3856,7 @@ async function foodSearch(q){
           <span class="fs-name">${esc(f.name)}</span>
           <span class="fs-val num">${Math.round(+f.kcal||0)} <small>קק״ל/100ג׳</small></span></button>`).join(''):'')
       +(!multi&&S.foodSugg.length?ai:'');
-    box.hidden=false; const idle=$('.fa-idle'); if(idle)idle.hidden=true;
+    box.hidden=false; const idle=$('.fa-idle'); if(idle&&!inline)idle.hidden=true;
   }catch(e){ box.hidden=true; }
 }
 let _portion=null;
@@ -6100,7 +6116,10 @@ function socAct(act,b){
   return false;
 }
 document.addEventListener('input',ev=>{ if(ev.target.id==='chat-in'&&S.tab==='social'){SOC.draft=ev.target.value; const t=ev.target; t.style.height='auto'; t.style.height=Math.min(120,t.scrollHeight)+'px';} });
+/* the Nutrition search bar: when the keyboard opens, bring the bar to the top so its results show above the keyboard */
+document.addEventListener('focusin',ev=>{ if(ev.target.id!=='ask-q')return; setTimeout(()=>{ const bar=ev.target.closest('.ask'); if(!bar)return; const y=bar.getBoundingClientRect().top+window.scrollY-12; window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); },280); });
 document.addEventListener('keydown',ev=>{ if(ev.target.id==='food-text'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault(); $('[data-act="food-ai"]')?.click(); return;}
+  if(ev.target.id==='ask-q'&&ev.key==='Enter'&&!ev.isComposing){ ev.preventDefault(); ev.target.blur(); const v=ev.target.value.trim(); if(!v)return; const first=$('#ask-res .fs-row'); if(first&&!/\s/.test(v)){ first.click(); return; } S.askQ=''; foodAI({text:v}); return; }
   if(ev.target.id==='chat-in'&&S.tab==='social'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();socSend();}
   if(ev.target.id==='sg-code'&&ev.key==='Enter')$('[data-act="soc-join-go"]')?.click(); if(ev.target.id==='sg-name'&&ev.key==='Enter')$('[data-act="soc-create"]')?.click(); });
 
@@ -7383,7 +7402,9 @@ function handleAct(b,ev){
     case 'food-nav': { const dt=new Date(S.foodDate+'T12:00:00'); dt.setDate(dt.getDate()+(+b.dataset.dir));
       const nd=ymd(dt), today=ymd();
       if(nd<=today){S.foodDate=nd;render();} break; }
-    case 'food-ai': { const txt=($('#food-text')?.value||'').trim();
+    case 'ask-clear': { S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; q.focus(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } b.remove(); break; }
+    case 'food-ai': { const txt=(($('#sheet')?.hidden===false&&$('#food-text')?$('#food-text').value:'')||$('#ask-q')?.value||$('#food-text')?.value||'').trim();
+      if(txt&&$('#ask-q')?.value){ S.askQ=''; }
       if(!txt){toast('כתוב מה אכלת');break;} foodAI({text:txt}); break; }
     case 'food-manual': openSheet(`
       <h3>הוספה ידנית</h3>
@@ -7403,7 +7424,7 @@ function handleAct(b,ev){
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
     case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': mcAct(act,b); break;
-    case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(f)openPortion(f); break; }
+    case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
       _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
@@ -7556,6 +7577,9 @@ document.addEventListener('input',ev=>{
   if(k==='w'||k==='r'){ const s=S.active?.ex[+i.dataset.ei]?.sets[+i.dataset.si]; if(s){s[k]=i.value; persistActive();} }
   else if(k==='cmin'||k==='ckm'||k==='cinc'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc'}[k]]=i.value; persistActive();} }
   else if(k==='libq'){ S.lib.q=i.value; renderLibrary(); }
+  else if(k==='askq'){ S.askQ=i.value; const clr=i.closest('.ask')?.querySelector('.clr');
+    if(!!i.value!==!!clr){ const bar=i.closest('.ask'); if(i.value&&bar&&!clr){ const c=document.createElement('button'); c.className='sq clr'; c.dataset.act='ask-clear'; c.setAttribute('aria-label','ניקוי'); c.textContent='✕'; bar.insertBefore(c,bar.querySelector('[data-act="scan-open"]')); } else if(!i.value&&clr)clr.remove(); }
+    clearTimeout(foodSearch._t); foodSearch._t=setTimeout(()=>foodSearch(i.value,'ask-res'),220); }
   else if(k==='foodq'){ i.style.height='auto'; i.style.height=Math.min(132,i.scrollHeight+2)+'px'; i.closest('.fsearch')?.classList.toggle('has',i.value.trim().length>=2); clearTimeout(foodSearch._t); foodSearch._t=setTimeout(()=>foodSearch(i.value),220); }
   else if(k==='tpln'){ if(_tplDraft)_tplDraft.name=i.value; }
   else if(k==='pqty'&&_portion){ const v=+String(i.value).replace(',','.'); if(v>0){_portion.qty=v; renderPortion();} }
