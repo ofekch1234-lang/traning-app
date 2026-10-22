@@ -889,9 +889,9 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .ask{display:flex;align-items:center;gap:8px;height:56px;padding:0 8px 0 14px;border-radius:18px;background:var(--surface);border:1.5px solid var(--accent);color:var(--ink);width:100%;text-align:var(--start)}
 .ask svg.ic{width:20px;height:20px;color:var(--muted);flex-shrink:0}
 .ask span.q{flex:1;color:var(--muted);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ask .sq{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;color:var(--ink);flex-shrink:0;padding:0}
-.ask .sq.pr{background:var(--accent);color:var(--accent-ink)}
-.ask .sq svg{width:20px;height:20px}
+.ask .sq{width:40px;height:40px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);flex-shrink:0;padding:0;cursor:pointer}
+.ask .sq.pr{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ask .sq svg,.ask .sq svg.ic{width:20px;height:20px;color:inherit}
 .ways{display:flex;gap:8px;align-items:stretch}
 .ways>*,.liblist .ways>*{flex:1 1 0;border-bottom:1px solid var(--line);justify-content:center;text-align:center;min-width:0;min-height:68px;box-sizing:border-box;margin:0;padding:10px 4px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;line-height:1.2}
 .ways svg{width:22px;height:22px;flex-shrink:0}
@@ -1515,7 +1515,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.15';
+const APP_VERSION='13.2.16';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2751,7 +2751,7 @@ function vFood(){
   `;
 }
 /* v13: one sheet for every way to add food — search, photo, barcode, manual, AI, and "again" */
-function openFoodAdd(){
+function openFoodAdd(opts){
   if(!$('#sheet').hidden&&$('#sheet .fa-sheet'))return;
   const recents=recentMealNames();
   openSheet(`<div class="lib-head fa-sheet stack" style="gap:10px;padding-bottom:10px">
@@ -2771,7 +2771,8 @@ function openFoodAdd(){
     </div>
   </div>`);
   $('#sheet').classList.add('libmode','fa'); swFit();
-  setTimeout(()=>{ const t=$('#food-text'); if(t&&!IS_IOS)t.focus(); },60);
+  // tapping "מה אכלת?" = start typing: focus now, inside the tap (iOS only opens the keyboard from a user gesture)
+  if(opts&&opts.type){ const t=$('#food-text'); if(t){ try{ t.focus({preventScroll:true}); }catch(_){ t.focus(); } } }
 }
 /* daily targets calculator: sex, age, height, weight, activity, goal -> calories (Mifflin-St Jeor x activity, adjusted by goal)
    and protein. The user can still override the numbers before saving. */
@@ -7403,7 +7404,7 @@ function handleAct(b,ev){
     case 'meal-save': saveMealDraft(); break;
     case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(f)openPortion(f); break; }
-    case 'food-add-open': openFoodAdd(); break;
+    case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
       _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
     case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:10;
