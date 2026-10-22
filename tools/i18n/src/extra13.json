@@ -1002,5 +1002,33 @@
  "✉️ כניסה עם קוד חדש למייל": {
   "en": "✉️ Sign in with a new email code",
   "ar": "✉️ الدخول برمز جديد عبر البريد"
+ },
+ "רגע לפני שמתחילים": {
+  "en": "One moment before we start",
+  "ar": "لحظة قبل أن نبدأ"
+ },
+ "איך קוראים לך, ואיך לפנות אליך? ככה אדבר איתך בכל האפליקציה.": {
+  "en": "What's your name, and how should I address you? That's how I'll talk to you across the app.",
+  "ar": "ما اسمك، وكيف أخاطبك؟ هكذا سأتحدث معك في كل التطبيق."
+ },
+ "היי, אני קובי 👋 איך קוראים לך?": {
+  "en": "Hi, I'm Kobi 👋 What's your name?",
+  "ar": "مرحبًا، أنا كوبي 👋 ما اسمك؟"
+ },
+ "ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
+  "en": "That's how I'll address you in the app, and how friends will see you in groups.",
+  "ar": "هكذا سأخاطبك في التطبيق، وهكذا سيراك الأصدقاء في الفرق."
+ },
+ "המשך": {
+  "en": "Continue",
+  "ar": "متابعة"
+ },
+ "מה השם שלך?": {
+  "en": "What's your name?",
+  "ar": "ما اسمك؟"
+ },
+ "נעים מאוד, {0}! איך לפנות אליך?": {
+  "en": "Nice to meet you, {0}! How should I address you?",
+  "ar": "تشرفنا يا {0}! كيف أخاطبك؟"
  }
 }

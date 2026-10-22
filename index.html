@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a0d7c99e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a0d7c99e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a0d7c99e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=117c0ae4"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=117c0ae4"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=117c0ae4"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.2';
+const APP_VERSION='13.2.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2063,9 +2063,9 @@ function socialProfileFix(){
   if(Object.keys(patch).length)sb.auth.updateUser({data:patch}).then(({data})=>{ if(data?.user){S.user=data.user; render();} });
 }
 /* מי שנרשם עם מייל בלבד: שואלים איך לפנות אליו. בכל פתיחה עד שעונה, "אחר כך" דוחה ליום, ואחרי 3 דחיות מפסיקים */
-function askName(force){
+function askName(force,tries){
   const md=S.user?.user_metadata||{}; if(!S.user||String(md.full_name||md.name||'').trim())return false;
-  if(TOUR.on||$('#instgate')||!$('#sheet').hidden||!$('#np').hidden)return false;
+  if(TOUR.on||$('#instgate')||!$('#sheet').hidden||!$('#np').hidden||S.active&&S.tab==='train'){ if((tries||0)<40)setTimeout(()=>askName(force,(tries||0)+1),6000); return false; }
   let a={}; try{ a=JSON.parse(localStorage.getItem('nr-name-ask')||'{}')||{}; }catch(_){}
   if(!force&&((a.n||0)>=3||Date.now()<(a.until||0)))return false;
   openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>איך קוראים לך? 👋</b><span>${G('ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.','ככה אפנה אלייך באפליקציה, וככה יראו אותך החברות והחברים בקבוצות.','ככה נפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.')}</span></div></div>
@@ -2760,7 +2760,14 @@ function applyLook(g,acc){
 function openGenderSheet(first){
   const sx=S.settings.body?.sex||PB?.a?.sex||null, cur=S.settings.g||null;
   const opt=(v,e,l,d)=>`<button class="pb-opt ${(cur||sx)===v?'on':''}" data-act="g-set" data-v="${v}" data-first="${first?1:''}"><b>${e} ${l}</b>${d?`<small>${d}</small>`:''}</button>`;
-  openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>${first?'רגע לפני שמתחילים: איך לפנות אליך?':'איך לפנות אליך?'}</b><span>ככה אדבר איתך בכל האפליקציה.</span></div></div>
+  const md=S.user?.user_metadata||{}, noName=first&&!String(md.full_name||md.name||'').trim();
+  // first time without a name: step 1 is the name, then how to address you
+  if(noName){ openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>היי, אני קובי 👋 איך קוראים לך?</b><span>ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.</span></div></div>
+      <input id="g-name" type="text" autocomplete="given-name" enterkeyhint="next" maxlength="40" placeholder="${tt('השם שלך')}">
+      <button class="btn primary big" style="margin-top:12px" data-act="g-name-next">המשך</button>`);
+    setTimeout(()=>$('#g-name')?.focus(),150); return; }
+  const nm=firstName();
+  openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>${first?(nm?`נעים מאוד, <bdi data-notr>${esc(nm)}</bdi>! איך לפנות אליך?`:'רגע לפני שמתחילים: איך לפנות אליך?'):'איך לפנות אליך?'}</b><span>ככה אדבר איתך בכל האפליקציה.</span></div></div>
     <div class="pb-list">${opt('m','🙋‍♂️','בלשון זכר','')}${opt('f','🙋‍♀️','בלשון נקבה','')}${opt('x','🙂','לא משנה לי','')}</div>`);
 }
 function openAccentSheet(){
@@ -6929,6 +6936,7 @@ function coachAct(act,b){
 document.addEventListener('input',e=>{ if(e.target.id==='chat-in'&&CO.open){ CO.draft=e.target.value; e.target.style.height='auto'; e.target.style.height=Math.min(120,e.target.scrollHeight)+'px'; } });
 document.addEventListener('input',e=>{ if(e.target.id==='otp-code'&&e.target.value.replace(/\D/g,'').length===6&&!OTP.busy)otpVerify(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&(e.target.id==='otp-email'||e.target.id==='otp-code')){e.preventDefault(); e.target.id==='otp-email'?otpSend():otpVerify();} });
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='g-name'){ e.preventDefault(); document.querySelector('[data-act="g-name-next"]')?.click(); } });
 document.addEventListener('keydown',e=>{ if(e.target.id==='chat-in'&&CO.open&&e.key==='Enter'&&!e.shiftKey&&!e.isComposing){ e.preventDefault(); coachSend(e.target.value); } });
 
 /* שיתוף סיכום אימון */
@@ -7279,6 +7287,10 @@ function handleAct(b,ev){
     case 'food-targets-open': openTargetsSheet(); break;
     case 'g-open': openGenderSheet(false); break;
     case 'acc-open': openAccentSheet(); break;
+    case 'g-name-next': { const nm=($('#g-name')?.value||'').trim(); if(!nm){ toast('מה השם שלך?'); $('#g-name')?.focus(); break; }
+      S.user=Object.assign({},S.user,{user_metadata:Object.assign({},S.user?.user_metadata,{full_name:nm})}); logEv('name_set',{at:'onboard'});
+      sb.auth.updateUser({data:{full_name:nm}}).then(({data})=>{ if(data?.user){ S.user=data.user; } },()=>{});
+      openGenderSheet(true); break; }
     case 'g-set': { const v=b.dataset.v, first=!!b.dataset.first; S.settings.g=v;
       if(!S.settings.body)S.settings.body={}; if((v==='m'||v==='f')&&!S.settings.body.sex)S.settings.body.sex=v;
       document.querySelectorAll('[data-act="g-set"]').forEach(x=>x.classList.toggle('on',x===b));
