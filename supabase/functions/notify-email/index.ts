@@ -4,7 +4,9 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const APP = "https://www.nextrep.co.il";
 const LOGO = "https://www.nextrep.co.il/icon-192.png";
-type Item = { uid: string; lang?: string; w?: number; m?: number; g?: string; until?: string };
+type Item = { uid: string; lang?: string; w?: number; m?: number; g?: string; until?: string; t?: string; b?: string };
+const CTA: Record<string, string> = { he: "לפתיחת האפליקציה", ar: "فتح التطبيق", en: "Open the app" };
+const FOOT: Record<string, string> = { he: "קיבלת את המייל כי נרשמת ל-NextRep.", ar: "وصلتك هذه الرسالة لأنك سجّلت في NextRep.", en: "You're receiving this because you signed up for NextRep." };
 // feminine overrides (Hebrew / Arabic address the reader by gender)
 const F: Record<string, { none?: string; body?: string }> = {
   he: { none: "עוד יש זמן לנצל את הפרימיום: צלמי כמה ארוחות שרוצים ושאלי את קובי כל שאלה.", body: "אחרי זה ממשיכים בחינם, וכל הנתונים נשמרים. כדי להשאיר את קובי וניתוח AI ללא הגבלה, שדרגי לפרימיום או הזמיני עוד חברה." },
@@ -31,8 +33,10 @@ const GIFT: Record<string, Record<string, { subj: string; title: string; none: s
     en: { subj: "Your NextRep gift Premium month ends in 3 days 🎁", title: "Your gift Premium month ends in 3 days", none: "Your Premium is open until {until}. After that you continue for free and all your data is kept.", body: "To keep Kobi and unlimited AI analysis, upgrade to Premium. Or invite another friend: when they upgrade, you get one more free month.", cta: "Open the app" },
   },
 };
-function html(l: string, w: number, m: number, g?: string, kind?: string, until?: string) {
+function html(l: string, w: number, m: number, g?: string, kind?: string, until?: string, ft?: string, fb?: string) {
   const base = { ...(T[l] || T.he), ...(g === "f" ? F[l] || {} : {}) };
+  // kind "first_workout": title and body come ready (localized and gendered) from first_workout_nudges()
+  if (kind === "first_workout") Object.assign(base, { title: ft || "", none: fb || "", body: "", cta: CTA[l] || CTA.he, foot: FOOT[l] || FOOT.he });
   const gift = kind === "gift_end" ? (GIFT[g === "f" ? "f" : "m"][l] || GIFT.m.he) : null;
   const t = gift ? { ...base, title: gift.title, none: gift.none.replace("{until}", until || ""), body: gift.body, cta: gift.cta, did: () => gift.none.replace("{until}", until || "") } : base;
   return `<div dir="${t.dir}" style="background:#f3f5f3;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#141a16">
@@ -42,7 +46,7 @@ function html(l: string, w: number, m: number, g?: string, kind?: string, until?
     <div style="padding:28px 26px;text-align:center">
       <h1 style="font-size:21px;margin:0 0 12px">${t.title}</h1>
       <p style="font-size:15px;line-height:1.6;margin:0 0 10px;font-weight:600">${w + m > 0 ? t.did(w, m) : t.none}</p>
-      <p style="font-size:15px;line-height:1.6;color:#55605a;margin:0 0 22px">${t.body}</p>
+      ${t.body ? `<p style="font-size:15px;line-height:1.6;color:#55605a;margin:0 0 22px">${t.body}</p>` : `<div style="height:12px"></div>`}
       <a href="${APP}" style="display:inline-block;background:#16a34a;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 28px;border-radius:12px">${t.cta}</a>
       <p style="font-size:12px;color:#8a948d;margin:22px 0 0">${t.foot}</p>
     </div></div></div>`;
@@ -66,7 +70,7 @@ Deno.serve(async (req) => {
       const l = ["he", "ar", "en"].includes(String(it.lang)) ? String(it.lang) : "he";
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST", headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ from, to: [to], subject: body.kind === "gift_end" ? (GIFT[it.g === "f" ? "f" : "m"][l] || GIFT.m.he).subj : (T[l] || T.he).subj, html: html(l, +it.w! || 0, +it.m! || 0, it.g, body.kind, it.until) }),
+        body: JSON.stringify({ from, to: [to], subject: body.kind === "first_workout" ? String(it.t || "NextRep") : body.kind === "gift_end" ? (GIFT[it.g === "f" ? "f" : "m"][l] || GIFT.m.he).subj : (T[l] || T.he).subj, html: html(l, body.kind === "first_workout" ? 0 : +it.w! || 0, body.kind === "first_workout" ? 0 : +it.m! || 0, it.g, body.kind, it.until, it.t, it.b) }),
         signal: AbortSignal.timeout(15000),
       });
       if (r.ok) sent++; else errs.push(String(r.status) + " " + (await r.text()).slice(0, 120));

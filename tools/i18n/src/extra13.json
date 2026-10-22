@@ -878,5 +878,113 @@
  "קק״ל מעל היעד": {
   "en": "kcal over target",
   "ar": "سعرة فوق الهدف"
+ },
+ "אפשרויות נוספות": {
+  "en": "More options",
+  "ar": "خيارات أخرى"
+ },
+ "8 שאלות קצרות, ויש לך תוכנית שמתאימה ליעד": {
+  "en": "8 quick questions and you have a plan that fits your goal",
+  "ar": "8 أسئلة قصيرة ويكون لديك برنامج يناسب هدفك"
+ },
+ "רוצה גם תוכנית אימון?": {
+  "en": "Want a workout plan too?",
+  "ar": "هل تريد برنامج تدريب أيضًا؟"
+ },
+ "גם תוכנית אימון?": {
+  "en": "A workout plan too?",
+  "ar": "برنامج تدريب أيضًا؟"
+ },
+ "עוד אין לך תוכנית": {
+  "en": "You don't have a plan yet",
+  "ar": "ليس لديك برنامج بعد"
+ },
+ "הכי קל להתחיל מתוכנית שבנויה בשבילך. לוקח 2 דקות.": {
+  "en": "The easiest start is a plan built for you. It takes 2 minutes.",
+  "ar": "أسهل بداية هي برنامج مبني لك. يستغرق دقيقتين."
+ },
+ "תוכנית מוכנה": {
+  "en": "Ready-made plan",
+  "ar": "برنامج جاهز"
+ },
+ "התוכנית שלך מוכנה 🎉": {
+  "en": "Your plan is ready 🎉",
+  "ar": "برنامجك جاهز 🎉"
+ },
+ "אפשר לשנות את זה בכל רגע.": {
+  "en": "You can change this anytime.",
+  "ar": "يمكنك تغيير ذلك في أي وقت."
+ },
+ "או תוכנית מוכנה: דחיפה, משיכה ורגליים": {
+  "en": "Or a ready-made plan: push, pull and legs",
+  "ar": "أو برنامج جاهز: دفع وسحب وأرجل"
+ },
+ "איך תרצה להתחיל?": {
+  "en": "How would you like to start?",
+  "ar": "كيف تريد أن تبدأ؟"
+ },
+ "איך תרצי להתחיל?": {
+  "en": "How would you like to start?",
+  "ar": "كيف تريدين أن تبدئي؟"
+ },
+ "איך נתחיל?": {
+  "en": "How should we start?",
+  "ar": "كيف نبدأ؟"
+ },
+ "תבנה לי תוכנית": {
+  "en": "Build me a plan",
+  "ar": "ابنِ لي برنامجًا"
+ },
+ "תבני לי תוכנית": {
+  "en": "Build me a plan",
+  "ar": "ابني لي برنامجًا"
+ },
+ "בניית תוכנית בשבילי": {
+  "en": "Build a plan for me",
+  "ar": "بناء برنامج لي"
+ },
+ "8 שאלות קצרות: מטרה, רמה, ימים וציוד. מקבלים תוכנית שמתאימה בדיוק": {
+  "en": "8 quick questions: goal, level, days and equipment. You get a plan that fits exactly",
+  "ar": "8 أسئلة قصيرة: الهدف والمستوى والأيام والمعدات. تحصل على برنامج يناسبك تمامًا"
+ },
+ "יש לי תוכנית, אכניס אותה": {
+  "en": "I have a plan, I'll enter it",
+  "ar": "لدي برنامج، سأدخله"
+ },
+ "בונים את האימונים שלך עם סרטון הדגמה לכל תרגיל": {
+  "en": "Build your workouts, with a demo video for every exercise",
+  "ar": "ابنِ تدريباتك مع فيديو توضيحي لكل تمرين"
+ },
+ "בינתיים רק תזונה": {
+  "en": "Just nutrition for now",
+  "ar": "التغذية فقط حاليًا"
+ },
+ "מעקב קלוריות, תפריט חכם וניתוח AI. האימונים יחכו": {
+  "en": "Calorie tracking, a smart menu and AI analysis. Workouts can wait",
+  "ar": "تتبع السعرات وقائمة ذكية وتحليل بالذكاء الاصطناعي. التدريبات تنتظر"
+ },
+ "התחל את האימון הראשון": {
+  "en": "Start your first workout",
+  "ar": "ابدأ التدريب الأول"
+ },
+ "{0} התחל את האימון הראשון": {
+  "en": "{0} Start your first workout",
+  "ar": "{0} ابدأ التدريب الأول"
+ },
+ "אחר כך": {
+  "en": "Later",
+  "ar": "لاحقًا"
+ },
+ "3 אימונים מוכנים. אפשר לערוך בכל רגע": {
+  "en": "3 workouts ready. You can edit them anytime",
+  "ar": "3 تدريبات جاهزة. يمكنك تعديلها في أي وقت"
+ },
+ "אימונים, בנויים לפי מה שסיפרת. האימון הראשון לוקח פחות ממה שנדמה.": {
+  "en": "workouts, built from what you told us. The first one takes less than you think.",
+  "ar": "تدريبات مبنية على ما أخبرتنا به. التدريب الأول أسهل مما تظن."
+ },
+ "{0} אימונים, בנויים לפי מה שסיפרת. האימון הראשון לוקח פחות ממה שנדמה.": {
+  "en": "{0} workouts, built from what you told us. The first one takes less than you think.",
+  "ar": "{0} تدريبات مبنية على ما أخبرتنا به. التدريب الأول أسهل مما تظن."
  }
 }

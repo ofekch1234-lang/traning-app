@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1dd3534d"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1dd3534d"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1dd3534d"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=19763070"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=19763070"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=19763070"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.1.0';
+const APP_VERSION='13.2.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1772,7 +1772,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,menu:S.settings.menu||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,menu:S.settings.menu||null,start:S.settings.start||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); return flushActive(); }
@@ -2567,21 +2567,21 @@ function vHome(){
       <div class="nm">בוא נבנה לך תוכנית</div>
       <div class="sub">8 שאלות קצרות, ותקבל תוכנית שמותאמת לרמה, למטרה ולזמן שלך</div>
       <button class="go" data-act="pb-open">בנה לי תוכנית</button>
-      <button class="alt" data-act="start-free">או אימון חופשי</button></div>`;
+      <button class="alt" data-act="start-open">אפשרויות נוספות</button></div>`;
   const foodCard=`<div class="card r20 stack" style="gap:12px">
       <div class="spread"><b style="font-size:17px">התזונה היום</b><button class="btn" style="padding:8px 12px;border-radius:12px;background:var(--accent-soft);color:var(--accent);border:0;font-weight:600;display:flex;align-items:center;gap:4px" data-act="food-add-open">${ICON.plus} ארוחה</button></div>
       ${kT?`<div><div class="spread small" style="margin-bottom:5px"><span>קלוריות</span><span><b class="num" style="font-size:16px">${kcalN(t.kcal)}</b> <span class="muted num">/ ${kcalN(kT)}</span></span></div><div class="bar2"><i style="width:${Math.min(100,t.kcal/kT*100)}%${t.kcal>kT*1.05?';background:var(--gold)':''}"></i></div></div>
       <div><div class="spread small" style="margin-bottom:5px"><span>חלבון</span><span><b class="num" style="font-size:16px">${t.protein}</b> <span class="muted num">/ ${pT||'—'} ג׳</span></span></div><div class="bar2"><i class="p" style="width:${pT?Math.min(100,t.protein/pT*100):0}%"></i></div></div>`
       :`<button class="li" style="padding:4px 0;border-radius:12px" data-act="food-targets-open">${ICON.target}<span class="lt"><b>הגדר יעד יומי</b><small>כמה קלוריות וחלבון לאכול כדי להגיע למטרה</small></span>${ICON.chev}</button>`}
     </div>`;
+  const foodFirst=S.settings.start==='food'&&!nw&&!S.active;
   return `
     ${planBanner()}
     <div class="greet-wrap">
       <div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div>
       <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div>
     </div>
-    ${workCard}
-    ${foodCard}
+    ${foodFirst?foodCard+`<div class="card r20 list"><button class="li" data-act="pb-open">${ICON.list}<span class="lt"><b>${G('רוצה גם תוכנית אימון?','רוצה גם תוכנית אימון?','גם תוכנית אימון?')}</b><small>8 שאלות קצרות, ויש לך תוכנית שמתאימה ליעד</small></span>${ICON.chev}</button></div>`:workCard+foodCard}
     <div class="card r20">
       <div class="spread"><b style="font-size:17px">השבוע</b>${streak>1?`<span class="small" style="color:#B45309;font-weight:600">🔥 ${streak} שבועות ברצף</span>`:`<span class="small muted">${wkSub}</span>`}</div>
       ${weekRowHTML()}
@@ -3903,9 +3903,10 @@ function vTrainStart(){
     ${S.templates.length?`<div class="sect2"><span>התוכנית שלי</span><button class="linkbtn" data-act="train-view" data-v="plans">עריכה</button></div>
     <div class="card r20 list">${list.map(t=>`<div class="li"><span class="lt"><b data-notr>${esc(t.name)}</b><small>${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳</small></span><button class="sbtn" data-act="start-tpl" data-id="${esc(t.id)}" aria-label="התחל ${esc(t.name)}">${ICON.play}</button></div>`).join('')||`<div class="li small muted">כל התוכנית למעלה. אפשר להוסיף עוד אימונים בעריכה.</div>`}</div>`
     :''}
+    ${!S.templates.length?`<div class="card r20 stack" style="gap:12px"><b style="font-family:var(--disp);font-size:22px;line-height:1.15">עוד אין לך תוכנית</b><span class="small muted">הכי קל להתחיל מתוכנית שבנויה בשבילך. לוקח 2 דקות.</span><button class="btn primary big" data-act="pb-open">בנה לי תוכנית</button></div>`:''}
     <div class="two">
       <button class="card r20" data-act="start-free">${ICON.plus}אימון חופשי</button>
-      <button class="card r20" data-act="pb-open">${ICON.list}בנה לי תוכנית</button>
+      ${S.templates.length?`<button class="card r20" data-act="pb-open">${ICON.list}בנה לי תוכנית</button>`:`<button class="card r20" data-act="start-ready">${ICON.list}תוכנית מוכנה</button>`}
     </div>
     ${last?`<div class="card r20 list"><button class="li" data-act="go" data-to="track" data-view="history">${ICON.clock}<span class="lt"><b>היסטוריה</b><small>אחרון: <span data-notr>${esc(last.name)}</span> · ${fmtDate(last.start)}</small></span>${ICON.chev}</button></div>`:''}
   `;
@@ -6474,7 +6475,39 @@ async function pbSave(){
   for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
     await saveTemplate({id,name:se.name,order:base+i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:e)}); }
   if(sch){ S.settings.schedule={}; PB_DAYS[A.days].forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; }); persistSettings(); }
-  closeSheet(); S.tab='train'; S.trainView='plans'; render(); window.scrollTo(0,0); toast('התוכנית נשמרה 💪 בהצלחה!');
+  const first=!S.workouts.length;
+  closeSheet(); S.tab='train'; S.trainView=first?null:'plans'; render(); window.scrollTo(0,0);
+  if(first&&ids[0]){ logEv('start_plan_ready',{n:ids.length}); openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-cheer.svg" alt=""><div><b>התוכנית שלך מוכנה 🎉</b><span>${P.sessions.length} אימונים, בנויים לפי מה שסיפרת. האימון הראשון לוקח פחות ממה שנדמה.</span></div></div>
+    <button class="btn primary big" data-act="start-tpl" data-id="${ids[0]}">${ICON.play} התחל את האימון הראשון</button>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">אחר כך</button>`); }
+  else toast('התוכנית נשמרה 💪 בהצלחה!');
+}
+/* v13.2: "how do we start?" for new users, instead of silently loading A/B/C */
+function needStart(){ return !S.settings.start&&!S.templates.length&&!S.workouts.length&&!S.active; }
+function openStartSheet(){
+  logEv('start_open');
+  const o=(act,ic,t,sub,rec)=>`<button class="li" data-act="${act}" style="${rec?'background:var(--accent-soft);':''}border-radius:16px;border:1px solid ${rec?'var(--accent)':'var(--line)'};margin-bottom:8px"><span class="tk" style="--c:var(--accent)">${ic}</span><span class="lt"><b>${t}</b><small style="white-space:normal">${sub}</small></span>${ICON.chev}</button>`;
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-happy.svg" alt=""><div><b>${G('איך תרצה להתחיל?','איך תרצי להתחיל?','איך נתחיל?')}</b><span>אפשר לשנות את זה בכל רגע.</span></div></div>
+    ${o('start-pb',ICON.list,G('תבנה לי תוכנית','תבני לי תוכנית','בניית תוכנית בשבילי'),'8 שאלות קצרות: מטרה, רמה, ימים וציוד. מקבלים תוכנית שמתאימה בדיוק',true)}
+    ${o('start-own',ICON.pen,'יש לי תוכנית, אכניס אותה','בונים את האימונים שלך עם סרטון הדגמה לכל תרגיל')}
+    ${o('start-food',ICON.food,'בינתיים רק תזונה','מעקב קלוריות, תפריט חכם וניתוח AI. האימונים יחכו')}
+    <button class="linkbtn" data-act="start-ready" style="display:block;margin:6px auto 0;color:var(--muted);text-decoration:none;font-size:14px">או תוכנית מוכנה: דחיפה, משיכה ורגליים</button>`);
+}
+function seedDefaultPlans(){
+  S.templates=clone(DEFAULT_TEMPLATES);
+  sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:S.user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{},()=>{});
+  saveSnapshot();
+}
+function startAct(act){
+  const set=v=>{ S.settings.start=v; persistSettings(); logEv('start_pick',{v}); };
+  switch(act){
+    case 'start-pb': set('pb'); closeSheet(); S.tab='train'; render(); setTimeout(()=>pbAct('pb-open'),60); return true;
+    case 'start-own': set('own'); closeSheet(); S.tab='train'; S.trainView='plans'; render(); window.scrollTo(0,0); setTimeout(()=>document.querySelector('[data-act="tpl-new"]')?.click(),120); return true;
+    case 'start-food': set('food'); closeSheet(); S.tab='food'; render(); window.scrollTo(0,0); if(!S.settings.kcalT)setTimeout(()=>document.querySelector('[data-act="food-targets-open"]')?.click(),150); return true;
+    case 'start-ready': set('ready'); seedDefaultPlans(); closeSheet(); S.tab='train'; S.trainView=null; render(); window.scrollTo(0,0); toast('3 אימונים מוכנים. אפשר לערוך בכל רגע'); return true;
+    case 'start-open': openStartSheet(); return true;
+  }
+  return false;
 }
 function pbAct(act,b){
   switch(act){
@@ -7085,6 +7118,7 @@ function handleAct(b,ev){
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
   if(act.startsWith('pb-')&&pbAct(act,b))return;
+  if(act.startsWith('start-')&&act!=='start-tpl'&&act!=='start-free'&&startAct(act))return;
   if(act.startsWith('coach-')&&coachAct(act,b))return;
   if((act.startsWith('badge-')||act.startsWith('wrap-'))&&retAct(act,b))return;
   if(act.startsWith('st-')&&stAct(act,b))return;
@@ -7225,7 +7259,7 @@ function handleAct(b,ev){
       if(!S.settings.body)S.settings.body={}; if((v==='m'||v==='f')&&!S.settings.body.sex)S.settings.body.sex=v;
       document.querySelectorAll('[data-act="g-set"]').forEach(x=>x.classList.toggle('on',x===b));
       Promise.resolve(persistSettings()).catch(()=>{}).then(()=>{ closeSheet();
-        if(applyLook(v,S.settings.accent))return; render(); if(first)setTimeout(maybeStartTour,300); else toast('עודכן ✓'); }); break; }
+        if(applyLook(v,S.settings.accent))return; render(); if(first)setTimeout(()=>{ if(needStart())openStartSheet(); else maybeStartTour(); },300); else toast('עודכן ✓'); }); break; }
     case 'acc-set': { const v=b.dataset.v; S.settings.accent=v; applyLook(S.settings.g,v); persistSettings(); openAccentSheet(); break; }
     case 'tg-pick': case 'tg-pace': case 'tg-edit': case 'tg-back': case 'tg-next': case 'tg-step': case 'tg-nogoal': case 'tg-sug': tgAct(act,b); break;
     case 'food-targets': { const r=TG?tgCalc(TG):null, man=!!$('#t-kcal');
@@ -7476,7 +7510,7 @@ async function enterApp(user){
       S.settings.schedule=st.data.prefs?.schedule||{};
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.menu=st.data.prefs?.menu||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
-      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null;
+      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.start=st.data.prefs?.start||null;
       try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1'); logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
       if(S.settings.g&&applyLook(S.settings.g,S.settings.accent))return;
@@ -7484,11 +7518,6 @@ async function enterApp(user){
       const pl=st.data.prefs?.lang; let lsl=null; try{lsl=localStorage.getItem('nr_lang');}catch(e){}
       if(pl&&pl!==LANG&&!lsl){ try{localStorage.setItem('nr_lang',pl);}catch(e){} location.reload(); return; }
       if(pl!==LANG)setTimeout(()=>flushActive(),1500); }
-    if(!S.templates.length){ // משתמש חדש — טעינת תוכניות ברירת המחדל
-      S.templates=clone(DEFAULT_TEMPLATES);
-      sb.from('templates').upsert(DEFAULT_TEMPLATES.map(t=>({id:t.id,user_id:user.id,name:t.name,ord:t.order,ex:t.ex}))).then(()=>{});
-      toast('טענו לך 3 תוכניות מוכנות — אפשר לערוך בלשונית ״תוכניות״');
-    }
     saveSnapshot();
   }catch(e){ // אופליין — ממשיכים מתמונת המצב המקומית
     const snap=loadSnapshot();
@@ -7500,7 +7529,7 @@ async function enterApp(user){
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest(); setTimeout(syncPush,1500);
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
-  setTimeout(()=>{ if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else maybeStartTour(); } },700);
+  setTimeout(()=>{ if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else if(needStart())openStartSheet(); else maybeStartTour(); } },700);
   socialProfileFix();
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}
