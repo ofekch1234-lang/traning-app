@@ -885,6 +885,7 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .ring-row .rg>div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ring-row .rg b{font-family:var(--disp);font-weight:800;font-size:25px;line-height:1.1}
 .ring-row .rg span{font-size:12px;color:var(--muted)}
+.ring-row .rg small{font-size:11px;color:var(--muted);margin-top:3px;padding-top:3px;border-top:1px solid var(--line);font-weight:600}
 .ask{display:flex;align-items:center;gap:8px;height:56px;padding:0 8px 0 14px;border-radius:18px;background:var(--surface);border:1.5px solid var(--accent);color:var(--ink);width:100%;text-align:var(--start)}
 .ask svg.ic{width:20px;height:20px;color:var(--muted);flex-shrink:0}
 .ask span.q{flex:1;color:var(--muted);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1508,7 +1509,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.13';
+const APP_VERSION='13.2.14';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2715,7 +2716,7 @@ function vFood(){
       <span class="btn primary" style="pointer-events:none">הגדרה</span></button>`:''}
     <div class="card r20 ring-row">
       <div class="rg"><svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true"><circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="10"/><circle cx="56" cy="56" r="${R}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 56 56)" style="transition:stroke-dashoffset .5s"/></svg>
-        <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'קק״ל נותרו':'קק״ל מעל היעד'}</span>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
+        <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'קק״ל נותרו':'קק״ל מעל היעד'}</span><small class="num">${tt('מתוך')} ${kcalN(kT)}</small>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
       <div class="stack" style="flex:1;gap:10px;min-width:0">
         ${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,0,'')}${mb('שומן',t.fat,0,'')}
       </div>
