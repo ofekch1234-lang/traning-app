@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d6829fe0"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d6829fe0"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d6829fe0"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=177672ad"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=177672ad"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=177672ad"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1533,7 +1533,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.20';
+const APP_VERSION='13.2.21';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4329,10 +4329,13 @@ function vTrack(){
 }
 
 /* ----- progress tab ----- */
+/* תרגילים שיש בהם סטים רשומים, מהנפוץ ביותר (הכי הרבה אימונים) ואז לפי האחרון שבוצע */
 function exerciseOptions(){
-  const names=new Set();
-  for(const w of S.workouts)for(const e of w.ex||[])if(e.t==='s'&&(e.sets||[]).some(s=>+s.r>0))names.add(e.n);
-  return [...names];
+  const m=new Map();
+  for(const w of S.workouts)for(const e of w.ex||[])if(e.t==='s'&&(e.sets||[]).some(s=>+s.r>0)){
+    const o=m.get(e.n)||{c:0,last:0,seen:null}; if(o.seen!==w){ o.c++; o.seen=w; } o.last=Math.max(o.last,+w.start||0); m.set(e.n,o); }
+  exerciseOptions.cnt=m;
+  return [...m.entries()].sort((a,b)=>b[1].c-a[1].c||b[1].last-a[1].last).map(x=>x[0]);
 }
 function vProgress(){
   const wk=S.workouts.filter(w=>w.start>=weekKeyOf(Date.now())).length;
@@ -4347,7 +4350,7 @@ function vProgress(){
   return `
     <div class="card r20 stat3 num"><div><b>${wk}</b><span>השבוע</span></div><div><b>${mo}</b><span>החודש</span></div><div><b>${weekStreak()}</b><span>שבועות ברצף</span></div></div>
     ${names.length?`<div class="card r20 stack" style="gap:10px">
-        <div class="spread"><select id="prog-ex" data-bind="progex" style="flex:1;max-width:60%;padding:8px 10px;border-radius:12px;font-weight:600">${names.map(n=>`<option ${n===S.progressEx?'selected':''}>${esc(n)}</option>`).join('')}</select>
+        <div class="spread"><select id="prog-ex" data-bind="progex" style="flex:1;max-width:60%;padding:8px 10px;border-radius:12px;font-weight:600">${names.map(n=>{ const c=exerciseOptions.cnt?.get(n)?.c||0; return `<option value="${esc(n)}" ${n===S.progressEx?'selected':''}>${esc(n)} · ${c===1?tt('אימון אחד'):tt('{0} אימונים').replace('{0}',c)}</option>`; }).join('')}</select>
           <span class="small" style="color:var(--accent);font-weight:600">${progDelta()}</span></div>
         <div class="row" style="gap:6px"><button class="chip ${S.progressMetric==='top'?'on':''}" data-act="metric" data-m="top">משקל שיא בסט</button><button class="chip ${S.progressMetric==='vol'?'on':''}" data-act="metric" data-m="vol">נפח כולל</button></div>
         <div class="chartwrap" id="chartwrap">${chartSVG()}</div>
