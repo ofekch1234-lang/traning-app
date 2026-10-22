@@ -476,8 +476,8 @@
   "ar": "· {0} في آخر 30 يومًا"
  },
  "נפח לפי שריר": {
-  "en": "Volume by muscle",
-  "ar": "الحجم حسب العضلة"
+  "en": "Volume per muscle",
+  "ar": "الحجم لكل عضلة"
  },
  "7 ימים אחרונים מול יעד של 10–20 סטים": {
   "en": "Last 7 days vs. a 10–20 set target",
@@ -1170,5 +1170,57 @@
  "מעל טווח החזרות, בפעם הבאה אפשר להעלות משקל": {
   "en": "Above the rep range: next time you can go heavier",
   "ar": "فوق نطاق التكرارات، في المرة القادمة يمكنك زيادة الوزن"
+ },
+ "מה זה?": {
+  "en": "What is this?",
+  "ar": "ما هذا؟"
+ },
+ "טווח חזרות": {
+  "en": "Rep range",
+  "ar": "نطاق التكرارات"
+ },
+ "כמה חזרות לעשות בכל סט. כשמגיעים לקצה העליון בכל הסטים, מעלים משקל וחוזרים לקצה התחתון. ככה מתקדמים בהדרגה.": {
+  "en": "How many reps to do in each set. Once you hit the top of the range in every set, add weight and go back to the bottom. That's how you progress step by step.",
+  "ar": "عدد التكرارات في كل مجموعة. عندما تصل إلى الحد الأعلى في كل المجموعات، زِد الوزن وعُد إلى الحد الأدنى. هكذا تتقدم تدريجياً."
+ },
+ "1RM משוער": {
+  "en": "Estimated 1RM",
+  "ar": "1RM تقديري"
+ },
+ "המשקל הכי כבד שאפשר להרים בחזרה אחת. מחושב מהסטים שלך, בלי צורך לנסות את זה באמת.": {
+  "en": "The heaviest weight you could lift for a single rep. Calculated from your sets, so there's no need to actually try it.",
+  "ar": "أثقل وزن يمكن رفعه لتكرار واحد. يُحسب من مجموعاتك دون الحاجة لتجربته فعلاً."
+ },
+ "נפח": {
+  "en": "Volume",
+  "ar": "الحجم"
+ },
+ "כמות העבודה באימון: משקל × חזרות, בכל הסטים יחד. נפח שעולה לאורך זמן מעיד על התקדמות.": {
+  "en": "The total work in a workout: weight × reps across all sets. Volume that rises over time is a sign of progress.",
+  "ar": "كمية العمل في التمرين: الوزن × التكرارات في كل المجموعات. ارتفاع الحجم مع الوقت دليل على التقدم."
+ },
+ "כמה סטים עשית לכל שריר בשבוע האחרון. לבניית שריר, 10 עד 20 סטים בשבוע לכל שריר מתאימים לרוב המתאמנים.": {
+  "en": "How many sets you did for each muscle in the past week. For building muscle, 10 to 20 sets per muscle per week suits most people.",
+  "ar": "عدد المجموعات لكل عضلة في الأسبوع الأخير. لبناء العضلات، 10 إلى 20 مجموعة أسبوعياً لكل عضلة تناسب معظم المتدربين."
+ },
+ "בנק קלוריות": {
+  "en": "Calorie bank",
+  "ar": "بنك السعرات"
+ },
+ "היעד נספר לפי שבוע, מיום ראשון. אכלת פחות מהיעד ביום מסוים? ההפרש נשמר לימים הבאים. עברת? זה יורד מהבנק. נספרים רק ימים שרשמת בהם אוכל.": {
+  "en": "Your target is counted per week, from Sunday. Ate less than the target one day? The difference carries over to the next days. Went over? It comes off the bank. Only days you logged food count.",
+  "ar": "يُحسب الهدف أسبوعياً من يوم الأحد. أكلت أقل من الهدف في يوم ما؟ الفرق يُحفظ للأيام التالية. تجاوزته؟ يُخصم من البنك. تُحسب فقط الأيام التي سجّلت فيها طعاماً."
+ },
+ "פינוק יומי": {
+  "en": "Daily treat",
+  "ar": "مكافأة يومية"
+ },
+ "קלוריות ששמורות כל יום לפינוק מחוץ לתפריט. התפריט נבנה על היעד פחות הפינוק, כך שגם עם הפינוק נשארים ביעד.": {
+  "en": "Calories set aside each day for a treat outside the menu. The menu is built on your target minus the treat, so you stay on target even with it.",
+  "ar": "سعرات محجوزة كل يوم لمكافأة خارج القائمة. تُبنى القائمة على الهدف ناقص المكافأة، فتبقى ضمن الهدف حتى معها."
+ },
+ "ניקוי": {
+  "en": "Clear",
+  "ar": "مسح"
  }
 }

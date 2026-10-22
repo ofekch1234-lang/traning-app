@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b5cdde5b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b5cdde5b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=b5cdde5b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d6829fe0"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d6829fe0"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d6829fe0"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -446,6 +446,13 @@ body.landing #app{max-width:1120px}
 .mn-over{margin:-4px 0 10px;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger);font-weight:600;font-size:14px}
 .mn-over.soft{background:var(--gold-soft);color:var(--gold)}
 .mn-bar.over .bar i{background:var(--danger)}.mn-bar.over .num b{color:var(--danger)}.mn-bar.over.soft .bar i{background:var(--gold)}.mn-bar.over.soft .num b{color:var(--gold)}
+.ii{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;padding:0;margin-inline-start:5px;border-radius:50%;border:1.4px solid currentColor;background:none;color:var(--muted);font:italic 600 11px/1 Georgia,'Times New Roman',serif;vertical-align:middle;cursor:pointer;opacity:.85;flex:none;position:relative}
+.ii::after{content:'';position:absolute;inset:-10px}
+.ii:active{opacity:.5}
+#ipop{position:fixed;z-index:120;max-width:min(300px,calc(100vw - 32px));padding:12px 14px;border-radius:16px;background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:0 10px 34px rgba(10,20,14,.18);font-size:13.5px;line-height:1.5;text-align:start;animation:ipop .16s ease-out}
+#ipop b{display:block;font-size:14px;margin-bottom:3px}
+@keyframes ipop{from{opacity:0;transform:translateY(-4px) scale(.98)}to{opacity:1;transform:none}}
+.setgrid .h .tgt{cursor:pointer}
 .mn-treat{padding:12px 14px}.mn-treat.off{display:flex;align-items:center;gap:12px;width:100%;text-align:var(--start);color:var(--ink)}
 .mn-treat .mc-ic{background:var(--gold-soft)}
 .mn-tr{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.mn-tr span{font-size:12.5px;padding:5px 9px;border-radius:99px;background:var(--surface2)}.mn-tr i{font-style:normal;color:var(--muted);margin-inline-start:3px}
@@ -1526,7 +1533,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.18';
+const APP_VERSION='13.2.19';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3173,6 +3180,28 @@ function menuEmpty(){ const M=menuS(), p=M.p||{meals:3,bf:'salty'};
 let MW=null;
 const MW_STEPS=['style','avoid','meals','bf','dinner','train','likes','cook','free'];
 /* מקום לפינוק: קלוריות "חופשיות" ביום (כלל 80/20). התפריט נבנה על היעד פחות הפינוק */
+/* הסבר קצר למונחים שלא כולם מכירים: כפתור i קטן שפותח בועה */
+const GLOSS={
+  rep:['טווח חזרות','כמה חזרות לעשות בכל סט. כשמגיעים לקצה העליון בכל הסטים, מעלים משקל וחוזרים לקצה התחתון. ככה מתקדמים בהדרגה.'],
+  e1rm:['1RM משוער','המשקל הכי כבד שאפשר להרים בחזרה אחת. מחושב מהסטים שלך, בלי צורך לנסות את זה באמת.'],
+  vol:['נפח','כמות העבודה באימון: משקל × חזרות, בכל הסטים יחד. נפח שעולה לאורך זמן מעיד על התקדמות.'],
+  volm:['נפח לפי שריר','כמה סטים עשית לכל שריר בשבוע האחרון. לבניית שריר, 10 עד 20 סטים בשבוע לכל שריר מתאימים לרוב המתאמנים.'],
+  bank:['בנק קלוריות','היעד נספר לפי שבוע, מיום ראשון. אכלת פחות מהיעד ביום מסוים? ההפרש נשמר לימים הבאים. עברת? זה יורד מהבנק. נספרים רק ימים שרשמת בהם אוכל.'],
+  treat:['פינוק יומי','קלוריות ששמורות כל יום לפינוק מחוץ לתפריט. התפריט נבנה על היעד פחות הפינוק, כך שגם עם הפינוק נשארים ביעד.']};
+const infoI=k=>`<button type="button" class="ii" data-act="info" data-k="${k}" aria-label="${tt('מה זה?')}">i</button>`;
+function showInfo(b){
+  const old=$('#ipop'); const same=old&&old.dataset.k===b.dataset.k; hideInfo(); if(same)return;
+  const d=GLOSS[b.dataset.k]; if(!d)return;
+  const el=document.createElement('div'); el.id='ipop'; el.dataset.k=b.dataset.k; el.setAttribute('role','tooltip');
+  el.innerHTML=`<b>${esc(tt(d[0]))}</b>${esc(tt(d[1]))}`; document.body.appendChild(el);
+  const r=b.getBoundingClientRect(), w=el.offsetWidth, h=el.offsetHeight, vw=innerWidth;
+  let x=r.left+r.width/2-w/2; x=Math.max(16,Math.min(vw-16-w,x));
+  let y=r.bottom+8; if(y+h>innerHeight-90&&r.top-8-h>60)y=r.top-8-h;
+  el.style.left=x+'px'; el.style.top=y+'px';
+}
+function hideInfo(){ $('#ipop')?.remove(); }
+document.addEventListener('pointerdown',ev=>{ if($('#ipop')&&!ev.target.closest?.('#ipop,.ii'))hideInfo(); },true);
+addEventListener('scroll',hideInfo,{passive:true,capture:true});
 function mnFree(){ const f=+(menuS().p?.free)||0; return Math.max(0,Math.min(400,f)); }
 function mnKT(){ return Math.max(1000,(+S.settings.kcalT||2000)-mnFree()); }
 const TREATS=[['🍫','4 קוביות שוקולד מריר',85],['🍦','כדור גלידה',140],['🥜','שקית במבה קטנה',135],['🍿','3 כוסות פופקורן',95],['🍷','כוס יין',125],['🍺','בקבוק בירה',140],['🧁','קרמבו',105],['🍪','2 עוגיות',180]];
@@ -3258,7 +3287,7 @@ function mnTreatHTML(){
   const f=mnFree();
   if(!f)return `<button class="card mn-treat off" data-act="mn-free"><span class="mc-ic">🍫</span><span class="mc-t"><b>מקום לפינוק</b><small>להשאיר כל יום קלוריות לשוקולד, גלידה או יין</small></span><span class="mc-tog">הוסף</span></button>`;
   return `<div class="card mn-treat">
-    <div class="mc-h"><span class="mc-ic">🍫</span><span class="mc-t"><b>פינוק יומי · <span class="num">${f}</span> קק״ל</b><small>שמור מחוץ לתפריט. נכנס בתקציב, למשל:</small></span><button class="mc-tog" data-act="mn-free">שינוי</button></div>
+    <div class="mc-h"><span class="mc-ic">🍫</span><span class="mc-t"><b><span>פינוק יומי · <span class="num">${f}</span> קק״ל</span>${infoI('treat')}</b><small>שמור מחוץ לתפריט. נכנס בתקציב, למשל:</small></span><button class="mc-tog" data-act="mn-free">שינוי</button></div>
     <div class="mn-tr">${treatIdeas(f).map(t=>`<span>${t[0]} ${tt(t[1])} <i class="num">${t[2]}</i></span>`).join('')}</div>
   </div>`;
 }
@@ -4108,7 +4137,7 @@ function vStrength(e,ei,cur){
       </div>
     </div>
     <div class="setgrid">
-      <span class="h">סט</span><span class="h">ק״ג</span><span class="h">חזרות${rr?` <bdi dir="ltr" class="tgt num">${rr.lo===rr.hi?rr.lo:rr.lo+'–'+rr.hi}</bdi>`:''}</span><span class="h"></span>
+      <span class="h">סט</span><span class="h">ק״ג</span><span class="h">חזרות${rr?` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===rr.hi?rr.lo:rr.lo+'–'+rr.hi}</bdi>`:''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num">${si+1}</span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${s.w??''}" placeholder="${s.pw??''}" data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
@@ -4274,7 +4303,7 @@ function openWorkoutSheet(id){
   const tpl=w.tid&&S.templates.find(t=>t.id===w.tid);
   openSheet(`<h3 style="margin-bottom:2px">${esc(w.name)}</h3>
     <div class="small muted" style="margin-bottom:12px">${fmtDateFull(w.start)} · ${new Date(w.start).toLocaleTimeString(LOC,{hour:'2-digit',minute:'2-digit'})}</div>
-    <div class="tiles sm"><div class="tile"><div class="v num">${fmtDur(w.end-w.start)}</div><div class="k">זמן</div></div><div class="tile"><div class="v num">${workoutSets(w)}</div><div class="k">סטים</div></div><div class="tile"><div class="v num">${fmtNum(workoutVol(w))}</div><div class="k">ק״ג נפח</div></div></div>
+    <div class="tiles sm"><div class="tile"><div class="v num">${fmtDur(w.end-w.start)}</div><div class="k">זמן</div></div><div class="tile"><div class="v num">${workoutSets(w)}</div><div class="k">סטים</div></div><div class="tile"><div class="v num">${fmtNum(workoutVol(w))}</div><div class="k"><span>ק״ג נפח</span>${infoI('vol')}</div></div></div>
     <div class="stack" style="gap:8px;margin-top:12px">${(w.ex||[]).map(e=>{
       if(e.t==='c')return `<div class="wx"><b>${esc(e.n)}</b><span class="small muted">${e.c?.min||0} דק׳${e.c?.km?` · ${e.c.km} ק״מ`:''}</span></div>`;
       const sets=(e.sets||[]).filter(x=>+x.r>0), top=Math.max(0,...sets.map(x=>+x.w||0)), pv=prevTop(e.n), diff=pv!=null?Math.round((top-pv)*10)/10:null;
@@ -4350,7 +4379,7 @@ function weeklyVolHTML(){
       const n=(e.sets||[]).filter(s=>+s.r>0).length; if(n)per[e.m||'אחר']=(per[e.m||'אחר']||0)+n; } }
   const rows=Object.entries(per).sort((a,b)=>b[1]-a[1]).filter(([g])=>g!=='אירובי');
   if(!rows.length)return '';
-  return `<div class="sect">נפח 7 ימים אחרונים <span class="muted small" style="font-family:var(--body);font-weight:400">· יעד: 10–20 סטים לשריר</span></div>
+  return `<div class="sect"><span>נפח 7 ימים אחרונים</span>${infoI('volm')} <span class="muted small" style="font-family:var(--body);font-weight:400">· יעד: 10–20 סטים לשריר</span></div>
   <div class="card stack" style="gap:9px">
     ${rows.map(([g,n])=>{
       const pct=Math.min(100,n/20*100);
@@ -4469,9 +4498,9 @@ function foodBankLine(){
 function kcalBankHTML(){
   const b=kcalBank(); if(!b)return '';
   const days=b.n===1?'יום אחד שרשמת':`${b.n} ימים שרשמת`;
-  if(Math.abs(b.bank)<50)return `<div class="card r20 kbank"><span class="kb-ic ok">${ICON.target}</span><span class="lt"><b>בדיוק ביעד השבוע</b><small>לפי ${days}</small></span></div>`;
-  if(b.bank>0)return `<div class="card r20 kbank"><span class="kb-ic">${ICON.food}</span><span class="lt"><b>נשארו לך <span class="num">${kcalN(b.bank)}</span> קק״ל לנצל השבוע</b><small>לפי ${days}${b.todayOver?'':` · היום אפשר עד <span class="num">${kcalN(b.kT+b.past)}</span> קק״ל`}</small></span></div>`;
-  return `<div class="card r20 kbank"><span class="kb-ic over">${ICON.food}</span><span class="lt"><b>עברת את היעד ב-<span class="num">${kcalN(-b.bank)}</span> קק״ל השבוע</b><small>לפי ${days}</small></span></div>`;
+  if(Math.abs(b.bank)<50)return `<div class="card r20 kbank"><span class="kb-ic ok">${ICON.target}</span><span class="lt"><b><span>בדיוק ביעד השבוע</span>${infoI('bank')}</b><small>לפי ${days}</small></span></div>`;
+  if(b.bank>0)return `<div class="card r20 kbank"><span class="kb-ic">${ICON.food}</span><span class="lt"><b><span>נשארו לך <span class="num">${kcalN(b.bank)}</span> קק״ל לנצל השבוע</span>${infoI('bank')}</b><small>לפי ${days}${b.todayOver?'':` · היום אפשר עד <span class="num">${kcalN(b.kT+b.past)}</span> קק״ל`}</small></span></div>`;
+  return `<div class="card r20 kbank"><span class="kb-ic over">${ICON.food}</span><span class="lt"><b><span>עברת את היעד ב-<span class="num">${kcalN(-b.bank)}</span> קק״ל השבוע</span>${infoI('bank')}</b><small>לפי ${days}</small></span></div>`;
 }
 function vBody(){
   const ws=S.weights||[]; const last=ws[ws.length-1];
@@ -7148,7 +7177,7 @@ function openExSheet(name,opt){
     <div class="row" style="margin-bottom:10px">
       ${opt.reps?`<span class="pill">יעד: ${opt.sets||''}×${esc(opt.reps)}</span>`:''}
       ${opt.rest?`<span class="pill">מנוחה ${fmtRest(opt.rest)}</span>`:''}
-      ${bestE1?`<span class="pill pr num">1RM משוער: ~${bestE1} ק״ג</span>`:''}
+      ${bestE1?`<span class="pill pr num"><span>1RM משוער: ~${bestE1} ק״ג</span>${infoI('e1rm')}</span>`:''}
     </div>
     ${demoHTML(name)}
     ${txt?`<p style="margin:0 0 8px;line-height:1.6">${esc(txt)}</p>`:''}
@@ -7231,7 +7260,7 @@ function renderFinish(){
     <div class="summary-grid">
       <div class="tile"><div class="v num">${fmtDur(w.end-a.start)}</div><div class="k">משך</div></div>
       <div class="tile"><div class="v num">${sets}</div><div class="k">סטים</div></div>
-      <div class="tile"><div class="v num">${fmtNum(vol)}</div><div class="k">נפח (ק״ג)</div></div>
+      <div class="tile"><div class="v num">${fmtNum(vol)}</div><div class="k"><span>נפח (ק״ג)</span>${infoI('vol')}</div></div>
     </div>
     ${prs.length?`<div class="row" style="margin-bottom:10px">${prs.map(p=>`<span class="pill pr num">🏅 שיא חדש · ${esc(p.n)} ${p.w} ק״ג</span>`).join('')}</div>`:''}
     <div>${w.ex.map(e=>`<div class="fin-ex"><span>${esc(e.n)}</span><span class="num muted">${
@@ -7305,6 +7334,7 @@ document.addEventListener('click',ev=>{
 });
 function handleAct(b,ev){
   const act=b.dataset.act;
+  if(act==='info'){ ev.stopPropagation(); showInfo(b); return; }
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
   if(act.startsWith('pb-')&&pbAct(act,b))return;
