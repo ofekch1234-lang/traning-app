@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9bb7f21f"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9bb7f21f"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9bb7f21f"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ed1bc3ea"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ed1bc3ea"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ed1bc3ea"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -795,6 +795,104 @@ header.top{
 .pill{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .pill.pr{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:700}
 
+/* ===== v13: simpler shell ===== */
+svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.hd-btn{position:relative;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);color:var(--ink);display:grid;place-items:center;padding:0;flex-shrink:0}
+.hd-btn svg{width:21px;height:21px}
+.hd-btn.me{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700;font-size:16px}
+.hd-dot{position:absolute;top:2px;inset-inline-end:2px;width:10px;height:10px;border-radius:50%;background:#E8590C;border:2px solid var(--bg)}
+.ttl{font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.12;margin:2px 0 0}
+.hcard{background:var(--ink);color:var(--bg);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.hcard .lbl{font-size:13px;color:var(--accent);font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.hcard .lbl span:last-child{color:color-mix(in srgb,var(--bg) 70%,transparent);font-weight:400}
+.hcard .nm{font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.1}
+.hcard .sub{font-size:13.5px;color:color-mix(in srgb,var(--bg) 72%,transparent)}
+.hcard .go{height:54px;border-radius:15px;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.hcard .alt{align-self:center;color:color-mix(in srgb,var(--bg) 72%,transparent);font-size:14px;padding:2px 8px}
+.card.r20{border-radius:20px}
+.bar2{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}.bar2 i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .5s}
+.bar2 i.p{background:#2563EB}
+.li{display:flex;align-items:center;gap:12px;padding:13px 14px;min-height:48px;width:100%;text-align:var(--start);color:inherit;border-radius:0;font-size:15.5px;text-decoration:none}
+.li+.li{border-top:1px solid var(--line)}
+.li>svg.ic{width:22px;height:22px;flex-shrink:0;color:var(--muted)}
+.li .lt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.li .lt b{font-size:15.5px}.li .lt small{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .lv{color:var(--muted);font-size:14px;flex-shrink:0}
+.li .chev{color:var(--muted);font-size:20px;line-height:1;flex-shrink:0}
+.card.list{padding:0;overflow:hidden}
+.sect2{display:flex;justify-content:space-between;align-items:baseline;margin:4px 4px -4px;font-weight:700;font-size:17px}
+.sect2 .linkbtn{text-decoration:none;font-size:14px;font-weight:600;padding:8px 0}
+.kobi-row{display:flex;align-items:center;gap:12px;width:100%;text-align:var(--start);padding:12px 14px;color:inherit}
+.kobi-row img{width:40px;height:40px;flex-shrink:0}
+.kobi-row .lt{flex:1;min-width:0}.kobi-row .lt b{display:block;font-size:15px}.kobi-row .lt span{display:block;color:var(--muted);font-size:13px;line-height:1.4}
+.sbtn{width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex-shrink:0;padding:0}
+.sbtn svg{width:18px;height:18px}
+.ibtn{width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--ink);display:grid;place-items:center;padding:0;flex-shrink:0}
+.ibtn svg{width:20px;height:20px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two .card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:82px;font-weight:600;font-size:15px;text-align:center}
+.two .card svg{width:22px;height:22px}
+.ring-row{display:flex;align-items:center;gap:16px}
+.ring-row .rg{position:relative;width:112px;height:112px;flex-shrink:0}
+.ring-row .rg>div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-row .rg b{font-family:var(--disp);font-weight:800;font-size:25px;line-height:1.1}
+.ring-row .rg span{font-size:12px;color:var(--muted)}
+.ask{display:flex;align-items:center;gap:8px;height:56px;padding:0 8px 0 14px;border-radius:18px;background:var(--surface);border:1.5px solid var(--accent);color:var(--ink);width:100%;text-align:var(--start)}
+.ask svg.ic{width:20px;height:20px;color:var(--muted);flex-shrink:0}
+.ask span.q{flex:1;color:var(--muted);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ask .sq{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;color:var(--ink);flex-shrink:0;padding:0}
+.ask .sq.pr{background:var(--accent);color:var(--accent-ink)}
+.ask .sq svg{width:20px;height:20px}
+.ways{display:flex;gap:8px}
+.ways>*{flex:1;height:64px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:600;cursor:pointer}
+.ways svg{width:22px;height:22px}
+.seg2{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--surface2)}
+.seg2 button{flex:1;height:40px;border-radius:11px;font-size:15px;color:var(--muted)}
+.seg2 button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(20,26,22,.12)}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr)}
+.stat3>div{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 4px}
+.stat3>div+div{border-inline-start:1px solid var(--line)}
+.stat3 b{font-family:var(--disp);font-weight:800;font-size:24px;line-height:1.1}
+.stat3 span{font-size:12px;color:var(--muted)}
+.bigw{font-family:var(--disp);font-weight:800;font-size:40px;line-height:1}
+.bigw small{font-size:18px;font-weight:600}
+.prem-card{display:flex;align-items:center;gap:12px;width:100%;text-align:var(--start);border-radius:20px;padding:16px;background:linear-gradient(135deg,#6D28D9,#BE185D);color:#fff}
+.prem-card .lt{flex:1;display:flex;flex-direction:column;gap:3px}.prem-card b{font-size:17px}.prem-card span{font-size:13px;color:#F5E8FF}
+.prem-card .cta{height:40px;padding:0 14px;border-radius:12px;background:#fff;color:#6D28D9;font-size:15px;font-weight:700;display:flex;align-items:center;flex-shrink:0}
+.prem-card.on{background:linear-gradient(135deg,#065F46,#0F766E)}.prem-card.on .cta{color:#0F766E}
+.me-head{display:flex;align-items:center;gap:14px;padding:0 4px}
+.me-av{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:26px;font-weight:700;flex-shrink:0}
+.wk-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:12px;margin-top:10px}
+.wk-row>div{display:flex;flex-direction:column;gap:6px;align-items:center;color:var(--muted)}
+.wk-row i{width:30px;height:30px;border-radius:50%;background:var(--surface2);display:block;box-sizing:border-box}
+.wk-row .on i{background:var(--accent)}.wk-row .sched i{border:2px dashed var(--accent);background:transparent}.wk-row .miss i{border:2px dashed var(--line);background:transparent}
+.wk-row .today span{color:var(--ink);font-weight:700}
+.wk-row .fut i{background:transparent;border:1px solid var(--line)}
+/* active workout v13 */
+.aw-head{position:sticky;top:calc(58px + env(safe-area-inset-top,0px));z-index:19;background:var(--bg);margin:-6px -16px 0;padding:4px 16px 10px;display:flex;flex-direction:column;gap:8px}
+.aw-top{display:flex;align-items:center;gap:10px}
+.aw-mid{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0}
+.aw-mid span{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.aw-mid b{font-family:var(--disp);font-weight:800;font-size:24px;line-height:1.1}
+.aw-fin{height:44px;padding:0 16px;border-radius:22px;background:var(--ink);color:var(--bg);font-size:15px;font-weight:700}
+.aw-prog{display:flex;align-items:center;gap:10px}
+.aw-prog .bar2{flex:1;height:6px}
+.ex-card.cur{border:1.5px solid var(--accent)}
+.ex-row{display:flex;align-items:center;gap:12px;width:100%;text-align:var(--start);padding:13px 14px;color:inherit;min-height:48px}
+.ex-row+.ex-row{border-top:1px solid var(--line)}
+.ex-row .lt{flex:1;min-width:0}.ex-row .lt b{display:block;font-size:16px}.ex-row .lt small{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ex-row .ok{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex-shrink:0}
+.ex-row .ok svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ex-prev{font-size:13px;color:var(--muted);margin-top:2px}
+body.active-w nav.tabs{display:none}
+body.active-w #restbar{bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+body.active-w #app{padding-bottom:120px}
+#restbar .inner{border-radius:20px;padding:12px 12px 12px 16px}
+#restbar .t{min-width:58px;font-size:26px}
+#restbar .tl{display:flex;flex-direction:column;min-width:60px}
+#restbar .tl small{font-size:12px;color:color-mix(in srgb,var(--bg) 70%,transparent)}
+#restbar button{border:0;background:color-mix(in srgb,var(--bg) 14%,transparent);border-radius:12px;height:40px;padding:0 12px;font-size:14px;font-weight:600}
+#restbar button.go{background:var(--accent);color:var(--accent-ink);font-weight:700}
 /* tab bar */
 nav.tabs{
   position:fixed;inset-inline:0;bottom:0;z-index:30;
@@ -1206,11 +1304,11 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 <div id="app">
   <header class="top">
     <div class="brand" dir="ltr">Next<b>Rep</b></div>
-    <div class="row" style="gap:8px">
+    <div class="row" style="gap:8px;flex-wrap:nowrap">
       <span class="pill num" id="syncbadge" hidden></span>
-      <div class="date-chip num" id="todaychip"></div>
       <button class="pill" data-act="land-login" id="landlogin" hidden style="cursor:pointer">התחברות</button>
-      <button class="pill" data-act="settings" id="logoutbtn" hidden style="cursor:pointer" aria-label="הגדרות">⚙️</button>
+      <button class="hd-btn" data-act="go" data-to="social" id="hdr-groups" hidden aria-label="קבוצות"><svg viewBox="0 0 24 24" class="ic"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3 3-4.8 6-4.8s5.4 1.8 6 4.8"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.5c1.6.6 2.7 2.2 3 4.5"/></svg><i class="hd-dot" hidden></i></button>
+      <button class="hd-btn me" data-act="go" data-to="me" id="hdr-me" hidden aria-label="הפרופיל וההגדרות שלי"><span id="hdr-ini" data-notr></span></button>
     </div>
   </header>
   <main id="view" class="stack"></main>
@@ -1218,10 +1316,11 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 
 <div id="restbar" hidden>
   <div class="inner">
-    <span class="t num" id="rest-t">0:00</span>
+    <span class="tl"><small>מנוחה</small><span class="t num" id="rest-t">0:00</span></span>
     <span class="bar"><i id="rest-fill" style="width:100%"></i></span>
-    <button data-act="rest-add">‎+15</button>
-    <button data-act="rest-skip">דלג</button>
+    <button data-act="rest-sub" aria-label="פחות 15 שניות">‎−15</button>
+    <button data-act="rest-add" aria-label="עוד 15 שניות">‎+15</button>
+    <button class="go" data-act="rest-skip">דלג</button>
   </div>
 </div>
 
@@ -1232,12 +1331,10 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 <div id="toast" hidden><span id="toast-msg"></span></div>
 
 <nav class="tabs" id="tabs">
-  <button data-tab="home"><svg viewBox="0 0 24 24" class="ic"><path d="M4 11.5 12 4l8 7.5M6 10.5V20h4.5v-5h3v5H18v-9.5"/></svg>בית</button>
-  <button data-tab="food"><svg viewBox="0 0 24 24" class="ic"><path d="M7 3v7a2.5 2.5 0 0 0 5 0V3M9.5 3v18M17.5 21V3c-2.2 1-3.5 3.2-3.5 6v4h3.5"/></svg>תזונה</button>
-  <button data-tab="train" class="fab"><span class="fabc"><svg viewBox="0 0 24 24" class="ic"><path d="M3 12h2m14 0h2M7 8v8M17 8v8M9.5 12h5"/><rect x="5" y="9.5" width="2" height="5" rx=".6"/><rect x="17" y="9.5" width="2" height="5" rx=".6"/></svg></span>אימון</button>
-  <button data-tab="plans" hidden><svg viewBox="0 0 24 24" class="ic"><path d="M8 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H8M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2M8 4v16M11 9h5M11 13h5"/></svg>תוכניות</button>
-  <button data-tab="social"><svg viewBox="0 0 24 24" class="ic"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.8" cy="9.5" r="2.5"/><path d="M15.5 14.2c.4-.1.9-.2 1.3-.2 2.2 0 3.9 1.5 4.4 4"/></svg>קבוצות</button>
-  <button data-tab="track"><svg viewBox="0 0 24 24" class="ic"><path d="M4 19h16M5 16l4-5 3.5 3L19 7M19 7h-3.5M19 7v3.5"/></svg>מעקב</button>
+  <button data-tab="home"><svg viewBox="0 0 24 24" class="ic"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/></svg>היום</button>
+  <button data-tab="train"><svg viewBox="0 0 24 24" class="ic"><path d="M6.5 7v10M3.5 9.5v5M17.5 7v10M20.5 9.5v5M6.5 12h11"/></svg>אימון</button>
+  <button data-tab="food"><svg viewBox="0 0 24 24" class="ic"><path d="M7 3v7a2 2 0 0 0 2 2v9M5 3v4.5M9 3v4.5M17 3c-1.8 0-3 2.2-3 5.2 0 2.3 1.2 3.8 3 3.8v9"/></svg>תזונה</button>
+  <button data-tab="track"><svg viewBox="0 0 24 24" class="ic"><path d="M4 20h16M6 15.5l4-4.5 3.5 3L19 7.5"/></svg>התקדמות</button>
 </nav>
 
 <script>
@@ -1345,7 +1442,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.8.0';
+const APP_VERSION='13.0.0';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1515,7 +1612,7 @@ const PAID_RETURN=(location.hash||'')==='#paid'; if(PAID_RETURN){ try{history.re
   try{ const q=new URLSearchParams(location.search); const src=q.get('utm_source'); if(src){ localStorage.setItem('nr-src',JSON.stringify({s:src.slice(0,30),m:(q.get('utm_medium')||'').slice(0,30),c:(q.get('utm_content')||'').slice(0,60),t:Date.now()})); history.replaceState(null,'',location.pathname+location.hash); } }catch(_){}
   const rm=(location.hash||'').match(/ref=([0-9a-f-]{36})/i); if(rm){ try{localStorage.setItem('nr-ref',rm[1]);}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 { const jm=(location.hash||'').match(/join=([A-Za-z0-9]{6})/); if(jm){ try{localStorage.setItem('nr-join',jm[1].toUpperCase());}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
-if(!['home','train','food','plans','track','social'].includes(S.tab)) S.tab='home';
+if(!['home','train','food','plans','track','social','me'].includes(S.tab)) S.tab='home';
 
 /* ---------- utils ---------- */
 const $=s=>document.querySelector(s);
@@ -1722,10 +1819,8 @@ function render(){
 function render_(){
   if(S.tab==='plans'){S.tab='train';S.trainView='plans';}
   for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.tab===S.tab);
-  $('#todaychip').textContent=new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'});
+  { const inApp=S.mode==='app'; $('#hdr-groups').hidden=!inApp; $('#hdr-me').hidden=!inApp; const ini=$('#hdr-ini'); if(ini)ini.textContent=(firstName()||S.user?.email||'?').trim().charAt(0).toUpperCase(); document.body.classList.toggle('active-w',inApp&&S.tab==='train'&&!!S.active); }
   $('#tabs').hidden=S.mode!=='app';
-  $('#logoutbtn').hidden=S.mode!=='app';
-  $('#todaychip').hidden=S.mode==='auth';
   const v=$('#view');
   const vk=S.mode+'|'+S.tab+(S.tab==='food'&&S.menuOpen?'|menu':''), moved=vk!==render_._k; render_._k=vk;
   if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען…</div>מתחבר לנתונים שלך</div>`;return;}
@@ -1742,6 +1837,7 @@ function render_(){
   else if(S.tab==='plans')v.innerHTML=vPlans();
   else if(S.tab==='admin')v.innerHTML=vAdmin();
   else if(S.tab==='social')v.innerHTML=vSocial();
+  else if(S.tab==='me')v.innerHTML=vMe();
   else v.innerHTML=vTrack();
   if(moved){ const pt=render_._t, i0=TAB_ORD.indexOf(pt), i1=TAB_ORD.indexOf(S.tab), rtl=getComputedStyle(document.documentElement).direction==='rtl';
     v.classList.remove('anim','tab-l','tab-r'); void v.offsetWidth;
@@ -2336,92 +2432,110 @@ function weekStreak(){
   }
   return streak;
 }
-function vHome(){
-  const now=Date.now();
-  const monthAgo=new Date(); monthAgo.setDate(1); monthAgo.setHours(0,0,0,0);
-  const mo=S.workouts.filter(w=>w.start>=+monthAgo).length;
-  const wkVol=S.workouts.filter(w=>w.start>=now-7*864e5).reduce((a,w)=>a+workoutVol(w),0);
-  const streak=weekStreak();
-  const todayT=schedOf(new Date().getDay());
-  const doneToday=trainedOn(new Date());
-  let nt=null,ntLabel='האימון הבא שלך';
-  if(todayT&&!doneToday){ nt=todayT; ntLabel='היום בלו״ז 🗓️'; }
-  else{
-    let ns=null;
-    for(let i=1;i<=7&&!ns;i++){ const d=(new Date().getDay()+i)%7; const t=schedOf(d); if(t)ns={t,d,inDays:i}; }
-    if(ns){ nt=ns.t; ntLabel=ns.inDays===1?'מחר בלו״ז 🗓️':`בלו״ז · יום ${DAY_NAMES[ns.d]}`; }
-    else nt=nextTpl();
+/* v13: what's next to train — shared by home and the train tab */
+function nextWorkoutInfo(){
+  const todayT=schedOf(new Date().getDay()), doneToday=trainedOn(new Date());
+  if(todayT&&!doneToday)return {t:todayT,label:'האימון של היום',sub:''};
+  for(let i=1;i<=7;i++){ const d=(new Date().getDay()+i)%7; const t=schedOf(d); if(t)return {t,label:'הבא בתור',sub:i===1?'מחר בלו״ז':`בלו״ז · יום ${DAY_NAMES[d]}`}; }
+  const t=nextTpl(); return t?{t,label:'הבא בתור',sub:''}:null;
+}
+const ICON={play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>',
+  chev:'<span class="chev" aria-hidden="true">›</span>',
+  plus:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+  search:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>',
+  cam:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 8h2.2l1.4-2.2A1.5 1.5 0 0 1 8.9 5h6.2a1.5 1.5 0 0 1 1.3.8L17.8 8H20a1.5 1.5 0 0 1 1.5 1.5V18A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8Z"/><circle cx="12" cy="13.2" r="3.4"/></svg>',
+  bar:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 7V5.5A1.5 1.5 0 0 1 5.5 4H7M17 4h1.5A1.5 1.5 0 0 1 20 5.5V7M20 17v1.5a1.5 1.5 0 0 1-1.5 1.5H17M7 20H5.5A1.5 1.5 0 0 1 4 18.5V17M8 8v8M11 8v8M14 8v8M16.5 8v8"/></svg>',
+  pen:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+  list:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7"/><path d="M17 15l2 2 3-4"/></svg>',
+  menu:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 8.5h8M8 12h8M8 15.5h5"/></svg>',
+  dots:'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="5" cy="12" r="1.8" fill="currentColor"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/><circle cx="19" cy="12" r="1.8" fill="currentColor"/></svg>',
+  down:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>',
+  back:LANG==='en'?'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>':'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  users:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3 3-4.8 6-4.8s5.4 1.8 6 4.8"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.5c1.6.6 2.7 2.2 3 4.5"/></svg>',
+  gift:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="3.5" y="8" width="17" height="12" rx="2"/><path d="M12 8v12M3.5 12h17M12 8c-1.5-3.5-5.5-4-5.5-1.5S10 8 12 8zm0 0c1.5-3.5 5.5-4 5.5-1.5S14 8 12 8z"/></svg>',
+  target:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>',
+  globe:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.6 3.5 5.4 3.5 8.5s-1 5.9-3.5 8.5c-2.5-2.6-3.5-5.4-3.5-8.5s1-5.9 3.5-8.5z"/></svg>',
+  help:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4.5 6.5h15v10h-9l-4 3.5v-3.5h-2z"/></svg>',
+  scale:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8.5 9.5a4 4 0 0 1 7 0M12 12v4"/></svg>',
+  photo:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M20 16l-4.5-4.5L8 19"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 3M16 6h3a3 3 0 0 1-3 3M12 13v4M8.5 20h7"/></svg>',
+  user:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-3.8 3.8-6 7.5-6s6.7 2.2 7.5 6"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 3.5l7 2.5v5.5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 20h16M6 15.5l4-4.5 3.5 3L19 7.5"/></svg>',
+  food:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M7 3v7a2 2 0 0 0 2 2v9M5 3v4.5M9 3v4.5M17 3c-1.8 0-3 2.2-3 5.2 0 2.3 1.2 3.8 3 3.8v9"/></svg>'};
+/* one Kobi line on the home screen: the weekly summary's first sentence, or the lock, or hello */
+function coachRowHTML(){
+  if(!S.user||S.mode!=='app')return '';
+  const locked=!coachCanChat();
+  if(!locked&&CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
+  const fresh=!S.workouts.length&&!CO.sum;
+  let t,sub,act='coach-open',img='happy';
+  if(locked&&!fresh){ t='🔒 קובי ניתח את השבוע שלך'; sub='הסיכום השבועי והשיחה עם קובי זמינים בפרימיום'; act='plans-open'; img='wink'; }
+  else if(fresh){ t='היי, אני קובי 👋'; sub=locked?'בפרימיום אני שולח לך סיכום שבועי ועונה על שאלות':'אחרי האימון הראשון אשלח לך כאן סיכום שבועי'; }
+  else if(CO.loading||CO.sum===undefined){ t='קובי מכין את הסיכום השבועי…'; sub=''; }
+  else if(CO.sum){ const txt=coachParse(CO.sum.body).text.replace(/\s+/g,' ').trim(); t='קובי: הסיכום השבועי שלך'; sub=txt.length>110?txt.slice(0,110)+'…':txt; img='wink'; }
+  else { t='קובי, המאמן האישי שלך'; sub='שאל אותי על אימונים, תזונה והתקדמות'; }
+  return `<button class="card r20 kobi-row coach-card" data-act="${act}" data-why="coach" style="padding:12px 14px"><img src="img/kobi-${img}.svg" alt=""><span class="lt"><b>${t}</b>${sub?`<span ${CO.sum&&!locked&&!fresh?'data-notr':''}>${esc(sub)}</span>`:''}</span>${ICON.chev}</button>`;
+}
+function weekRowHTML(){
+  const trained=new Set(S.workouts.map(w=>new Date(w.start).toDateString()));
+  const today=new Date(); today.setHours(0,0,0,0);
+  const sun=new Date(today); sun.setDate(today.getDate()-today.getDay());
+  let out='';
+  for(let d=0;d<7;d++){
+    const dt=new Date(sun); dt.setDate(sun.getDate()+d);
+    const on=trained.has(dt.toDateString()), isToday=dt.getTime()===today.getTime(), hasSched=!!schedOf(d);
+    const cls=[on?'on':'', !on&&hasSched&&dt>=today?'sched':'', !on&&hasSched&&dt<today?'miss':'', !on&&!hasSched&&dt>today?'fut':'', isToday?'today':''].filter(Boolean).join(' ');
+    out+=`<div class="${cls}"><span>${DAY_LETTERS[d]}</span><i></i></div>`;
   }
-  const best=bestMap();
-  const prs=Object.entries(best).sort((a,b)=>b[1].ts-a[1].ts).slice(0,3);
-  const bw=S.weights||[]; const lastBw=bw[bw.length-1]; const prevBw=bw[bw.length-2];
-  const bwD=lastBw&&prevBw?Math.round((lastBw.kg-prevBw.kg)*10)/10:null;
-  const last=[...S.workouts].sort((a,b)=>b.start-a.start)[0];
+  return `<div class="wk-row">${out}</div>`;
+}
+function vHome(){
+  const streak=weekStreak();
+  const nw=nextWorkoutInfo();
+  const d=ymd(), t=dayTotals(d), kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
+  const ws=weekKeyOf(Date.now()), done=S.workouts.filter(w=>w.start>=ws).length, plan=Object.values(S.settings.schedule||{}).filter(Boolean).length;
+  const wkSub=!S.workouts.length?'האימון הראשון שלך מחכה':plan?(done>=plan?`עמדת ביעד השבועי: ${done} מתוך ${plan} ✅`:`אימון ${done+1} מתוך ${plan} השבוע`):(done?`${done} אימונים השבוע`:'עוד לא התאמנת השבוע');
+  const workCard=S.active?`<div class="hcard">
+      <div class="lbl"><span>אימון פעיל · השעון רץ</span><span class="num">${clockText()}</span></div>
+      <div class="nm" data-notr>${esc(S.active.name)}</div>
+      <button class="go" data-act="go" data-to="train">חזרה לאימון</button></div>`
+    :nw?`<div class="hcard">
+      <div class="lbl"><span>${nw.label}${nw.sub?` · ${nw.sub}`:''}</span><span class="num">כ-${tplMinutes(nw.t)} דק׳ · ${(nw.t.ex||[]).length} תרגילים</span></div>
+      <div class="nm" data-notr>${esc(nw.t.name)}</div>
+      <div class="sub" data-notr>${esc((nw.t.ex||[]).slice(0,3).map(e=>e.n).join(', '))}${(nw.t.ex||[]).length>3?` ועוד ${(nw.t.ex||[]).length-3}`:''}</div>
+      <button class="go" data-act="start-tpl" data-id="${esc(nw.t.id)}">${ICON.play} התחל אימון</button>
+      <button class="alt" data-act="go" data-to="train">אימון אחר</button></div>`
+    :`<div class="hcard">
+      <div class="lbl"><span>האימון הראשון שלך</span></div>
+      <div class="nm">בוא נבנה לך תוכנית</div>
+      <div class="sub">8 שאלות קצרות, ותקבל תוכנית שמותאמת לרמה, למטרה ולזמן שלך</div>
+      <button class="go" data-act="pb-open">בנה לי תוכנית</button>
+      <button class="alt" data-act="start-free">או אימון חופשי</button></div>`;
+  const foodCard=`<div class="card r20 stack" style="gap:12px">
+      <div class="spread"><b style="font-size:17px">התזונה היום</b><button class="btn" style="padding:8px 12px;border-radius:12px;background:var(--accent-soft);color:var(--accent);border:0;font-weight:600;display:flex;align-items:center;gap:4px" data-act="food-add-open">${ICON.plus} ארוחה</button></div>
+      ${kT?`<div><div class="spread small" style="margin-bottom:5px"><span>קלוריות</span><span><b class="num" style="font-size:16px">${kcalN(t.kcal)}</b> <span class="muted num">/ ${kcalN(kT)}</span></span></div><div class="bar2"><i style="width:${Math.min(100,t.kcal/kT*100)}%${t.kcal>kT*1.05?';background:var(--gold)':''}"></i></div></div>
+      <div><div class="spread small" style="margin-bottom:5px"><span>חלבון</span><span><b class="num" style="font-size:16px">${t.protein}</b> <span class="muted num">/ ${pT||'—'} ג׳</span></span></div><div class="bar2"><i class="p" style="width:${pT?Math.min(100,t.protein/pT*100):0}%"></i></div></div>`
+      :`<button class="li" style="padding:4px 0;border-radius:12px" data-act="food-targets-open">${ICON.target}<span class="lt"><b>הגדר יעד יומי</b><small>כמה קלוריות וחלבון לאכול כדי להגיע למטרה</small></span>${ICON.chev}</button>`}
+    </div>`;
   return `
     ${planBanner()}
     <div class="greet-wrap">
-      <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''} 💪</div>
-      <div class="muted small">${(()=>{ if(!S.workouts.length)return 'האימון הראשון שלך מחכה';
-        const ws=weekKeyOf(Date.now()), done=S.workouts.filter(w=>w.start>=ws).length, plan=Object.values(S.settings.schedule||{}).filter(Boolean).length;
-        if(plan)return done>=plan?`עמדת ביעד השבועי: ${done} מתוך ${plan} ✅`:`אימון ${done+1} מתוך ${plan} השבוע`;
-        return done?`אימון ${done+1} השבוע מחכה לך`:'האימון הראשון של השבוע מחכה לך'; })()}</div>
-      ${planPill()}
+      <div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div>
+      <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div>
     </div>
-    ${todayRowHTML()}
-    ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`
-    <div class="card ncard">
-      <div class="nc-top"><img src="img/kobi-${notifNagN()>=2?'think':'happy'}.svg" alt=""><div>
-        <b>${notifNagN()>=2?'ההתראות עדיין כבויות 🔕':'בלי התראות אני לא יכול להזכיר לך כלום'}</b>
-        <span>${notifNagN()>=2?'זה הדבר שהכי משפר את האימונים. לוקח 2 שניות.':'הפעלה אחת, ואני דואג לשאר:'}</span></div></div>
-      <ul class="nc-list"><li><i>⏱️</i>סוף המנוחה בין הסטים, גם כשהטלפון בכיס</li><li><i>📅</i>תזכורת בימי האימון שלך</li><li><i>💬</i>תשובות מקובי והודעות מהקבוצה</li></ul>
-      <button class="btn primary big" data-act="notif-on" data-ctx="home">🔔 הפעל התראות</button>
-      <button class="nc-later" data-act="notif-dis">תזכיר לי מחר</button>
-    </div>`:''}
-    ${S.active?`
-      <button class="card spread" style="width:100%;text-align:var(--start);background:var(--accent-soft);border-color:var(--accent)" data-act="go" data-to="train">
-        <div><div class="label">אימון פעיל ממשיך לרוץ</div><b style="font-size:17px">${esc(S.active.name)}</b></div>
-        <span class="btn primary">חזור לאימון ←</span>
-      </button>`
-    :nt?`
-      <div class="card hot">
-        <div class="label">${ntLabel}</div>
-        <div class="spread" style="margin-top:4px">
-          <b style="font-size:18px">${esc(nt.name)}</b>
-          <span class="muted small num">~${tplMinutes(nt)} דק׳ · ${(nt.ex||[]).length} תרגילים</span>
-        </div>
-        <div class="small muted" style="margin:6px 0 12px">${esc((nt.ex||[]).slice(0,4).map(e=>e.n).join(' · '))}${(nt.ex||[]).length>4?'…':''}</div>
-        <button class="btn primary big" data-act="start-tpl" data-id="${esc(nt.id)}">התחל אימון ←</button>
-      </div>`:''}
+    ${workCard}
+    ${foodCard}
+    <div class="card r20">
+      <div class="spread"><b style="font-size:17px">השבוע</b>${streak>1?`<span class="small" style="color:#B45309;font-weight:600">🔥 ${streak} שבועות ברצף</span>`:`<span class="small muted">${wkSub}</span>`}</div>
+      ${weekRowHTML()}
+    </div>
+    ${coachRowHTML()}
+    ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>הפעל התראות</b><small>סוף המנוחה, ימי אימון והודעות מקובי</small></span><span class="btn primary" style="padding:8px 12px;pointer-events:none">הפעלה</span></button></div>`:''}
     ${wrapCardHTML()}
-    ${coachCardHTML()}
-    <button class="inv-card" data-act="invite-open" data-src="home"><span>🎁</span><span><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום','הזמיני חברה, שתיכן מקבלות שבוע פרימיום','הזמנת חבר: שבוע פרימיום לשניכם')}</b><small>ניתוחי AI ללא הגבלה וקובי המאמן</small></span><span class="muted">›</span></button>
-    <div class="card">
-      <div class="spread">
-        <span class="label">השבוע שלי</span>
-        ${streak>1?`<span class="pill pr num streak">🔥 רצף ${streak} שבועות</span>`:''}
-      </div>
-      <div class="dots">${weekDots()}</div>
-    </div>
-    <div class="tiles num">
-      <div class="tile"><div class="v">${mo}</div><div class="k">אימונים החודש</div></div>
-      <div class="tile"><div class="v">${fmtNum(wkVol)}</div><div class="k">נפח שבועי (ק״ג)</div></div>
-      <div class="tile"><div class="v">${streak}</div><div class="k">רצף שבועות</div></div>
-    </div>
-    ${prs.length?`
-      <div class="card">
-        <div class="spread"><span class="label">שיאים אחרונים 🏅</span><button class="linkbtn small" data-act="go" data-to="track" data-view="progress">לכל השיאים ←</button></div>
-        <div class="prlist">
-          ${prs.map(([n,b])=>`<button class="pr-row" data-act="hist-ex" data-n="${esc(n)}" style="width:100%;text-align:var(--start);border-radius:0"><span>${esc(n)}</span><span class="num"><b>${b.w} ק״ג</b> × ${b.r}</span></button>`).join('')}
-        </div>
-      </div>`:''}
-    ${last&&!S.active?`
-      <div class="card">
-        <div class="spread"><span class="label">האימון האחרון</span><button class="linkbtn small" data-act="go" data-to="track" data-view="history">להיסטוריה ←</button></div>
-        <div class="spread" style="margin-top:6px"><b>${esc(last.name)}</b><span class="muted small num">${fmtDate(last.start)}</span></div>
-        <div class="h-stats num" style="margin-top:6px">
-          <span>⏱ ${fmtDur(last.end-last.start)}</span><span>סטים ${workoutSets(last)}</span><span>נפח ${fmtNum(workoutVol(last))} ק״ג</span>
-        </div>
-      </div>`:''}
   `;
 }
 
@@ -2463,6 +2577,7 @@ function recentMealNames(){
   }
   return out;
 }
+function mealSlot(m){ const h=new Date(m.ts).getHours(); return h<11?'b':h<16?'l':'d'; }
 function vFood(){
   if(S.menuOpen)return vMenu();
   const d=S.foodDate, today=ymd();
@@ -2470,89 +2585,64 @@ function vFood(){
   const t=dayTotals(d);
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
   const meals=mealsOf(d);
-  const left=kT?kT-t.kcal:0;
-  const recents=recentMealNames();
+  const left=kT?kT-t.kcal:0, over=kT&&t.kcal>kT*1.05;
+  const R=48, C=2*Math.PI*R, pct=kT?Math.min(1,t.kcal/kT):0;
+  const M=menuS(), has=M.day&&M.day.meals.some(m=>m.items.length), next=has?M.day.meals.find(m=>m.done!==today&&m.items.length):null;
+  const slots=[['b','בוקר'],['l','צהריים'],['d','ערב']];
+  const mb=(label,v,target,cls)=>`<div><div class="spread small"><span>${label}</span><span class="num"><b>${v}</b><span class="muted">${target?` / ${target}`:' ג׳'}</span></span></div><div class="bar2" style="height:6px;margin-top:4px"><i class="${cls}" style="width:${target?Math.min(100,v/target*100):Math.min(100,v/3)}%"></i></div></div>`;
   return `
+    <div class="spread"><h2 class="ttl">תזונה</h2>
+      <div class="row" style="gap:0;flex-wrap:nowrap"><button class="hd-btn" style="border:0;background:none;font-size:22px" data-act="food-nav" data-dir="-1" aria-label="יום קודם">${ARW_PREV}</button><b style="font-size:15px">${d===today?'היום':fmtDate(+dt)}</b><button class="hd-btn" style="border:0;background:none;font-size:22px;${d>=today?'opacity:.3':''}" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled':''}>${ARW_NEXT}</button></div></div>
     ${!kT?`<button class="goalcta" data-act="food-targets-open">
       <span class="gi">🎯</span>
       <span class="gt"><b>הגדר יעד יומי</b><span>כמה קלוריות וחלבון לאכול כדי להגיע למטרה שלך</span></span>
       <span class="btn primary" style="pointer-events:none">הגדרה</span></button>`:''}
-    <div class="card">
-      <div class="spread">
-        <button class="btn" data-act="food-nav" data-dir="-1" aria-label="יום קודם" style="padding:6px 12px">${ARW_PREV}</button>
-        <b>${d===today?'היום':fmtDateFull(+dt)}</b>
-        <div class="row" style="gap:6px">
-          <button class="btn" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled style="opacity:.3;padding:6px 12px"':'style="padding:6px 12px"'}>${ARW_NEXT}</button>
-        </div>
+    <div class="card r20 ring-row">
+      <div class="rg"><svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true"><circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="10"/><circle cx="56" cy="56" r="${R}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 56 56)" style="transition:stroke-dashoffset .5s"/></svg>
+        <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'נותרו':'מעל היעד'}</span>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
+      <div class="stack" style="flex:1;gap:10px;min-width:0">
+        ${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,0,'')}${mb('שומן',t.fat,0,'')}
       </div>
-      <div class="row" style="justify-content:center;gap:18px;margin-top:10px;flex-wrap:nowrap">
-        ${kcalRing(t.kcal,kT)}
-        <div class="stack" style="flex:1;gap:8px;min-width:0">
-          ${macroBar('חלבון',t.protein,pT,'var(--accent)')}
-          ${macroBar('פחמימה',t.carbs,0,'#8aa6c1')}
-          ${macroBar('שומן',t.fat,0,'var(--gold)')}
-          ${kT?`<div class="small ${left>=0?'muted':''}" style="${left<0?'color:var(--gold)':''}">${left>=0?`נשארו <b class="num">${kcalN(left)}</b> קק״ל להיום`:`חריגה של <b class="num">${kcalN(-left)}</b> קק״ל`}</div>`:''}
-        </div>
-      </div>
-      ${kT?`<button class="goalbar" data-act="food-targets-open"><span class="gi">🎯</span><span class="gt">היעד היומי: <b class="num">${kcalN(kT)}</b> קק״ל${pT?`, <b class="num">${pT}</b> גר׳ חלבון`:''}</span><span class="ge">עריכה</span></button>`:''}
     </div>
-    ${d===today?menuCardHTML():''}
-    ${d===today?`
-    <div class="card hot stack" style="gap:10px">
-      <div class="fi-title"><b>מה אכלת?</b><span class="small muted">מחפשים במאגר, או כותבים חופשי ולוחצים ✨</span></div>
-      ${S.ai.busy?`<div class="aiload">
+    ${d===today?(S.ai.busy?`<div class="card r20 aiload" style="margin:0">
         ${S.ai.img?`<img src="${S.ai.img}" alt="">`:`<span class="ai-spark">✨</span>`}
         <div style="flex:1;min-width:0"><b class="ai-q">${S.ai.q?`״${esc(S.ai.q)}״`:'מנתח את התמונה'}</b>
           <div class="small muted" id="ai-step">${AI_STEPS[0]}</div>
           <div class="ai-track"><i id="ai-bar"></i></div></div>
-      </div>`:''}
-      <div class="fsearch ${S.ai.busy?'busy':''}" ${S.ai.busy?'hidden':''}>
-        <textarea id="food-text" rows="1" maxlength="600" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״" ${S.ai.busy?'disabled':''}></textarea>
-        <button class="fs-go" data-act="food-ai" ${S.ai.busy?'disabled':''} aria-label="ניתוח עם AI">${S.ai.busy?'מחשב…':'✨ חשב'}</button>
-      </div>
-      <div id="food-sugg" class="fsugg" hidden></div>
-      ${S.basket.length?`<div class="basket">
+      </div>`
+      :`<div class="ask"><button data-act="food-add-open" style="flex:1;display:flex;align-items:center;gap:8px;min-width:0;height:44px;padding:0;text-align:var(--start)">${ICON.search}<span class="q">מה אכלת?</span></button><button class="sq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button><label class="sq pr" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label></div>
+      ${S.basket.length?`<div class="card r20 basket" style="margin:0">
         <div class="spread small"><b>הארוחה שבהרכבה</b><span class="num muted">${Math.round(S.basket.reduce((a,i)=>a+i.kcal,0))} קק״ל · ${Math.round(S.basket.reduce((a,i)=>a+i.protein,0))} גר׳ חלבון</span></div>
         ${S.basket.map((it,i)=>`<div class="bitem"><span>${esc(it.name)} <span class="muted small">· ${esc(it.portion)}</span></span><span class="num">${it.kcal}</span><button class="linkbtn small" data-act="basket-rm" data-i="${i}" aria-label="הסר" style="color:var(--danger)">✕</button></div>`).join('')}
-        <div class="row" style="margin-top:6px"><button class="btn" data-act="basket-clear">נקה</button><button class="btn primary" style="flex:1" data-act="basket-save">שמור ארוחה ✓ (${S.basket.length})</button></div>
-      </div>`:''}
-      <div class="fi-or"><span>או</span></div>
-      <div class="acts3">
-        <label class="acttile" aria-label="צילום ארוחה">
-          <svg viewBox="0 0 24 24"><path d="M4 8h2.2l1.4-2.2A1.5 1.5 0 0 1 8.9 5h6.2a1.5 1.5 0 0 1 1.3.8L17.8 8H20a1.5 1.5 0 0 1 1.5 1.5V18A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8Z"/><circle cx="12" cy="13.2" r="3.4"/></svg>
-          <b>תמונת צלחת</b><small>צילום או מהגלריה</small><input id="food-photo" type="file" accept="image/*" hidden>
-        </label>
-        <button class="acttile" data-act="scan-open" aria-label="סריקת ברקוד">
-          <svg viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M7 8v8M10 8v8M13 8v8M16.5 8v8"/></svg>
-          <b>סרוק ברקוד</b><small>מוצר מהסופר</small>
-        </button>
-        <button class="acttile" data-act="food-manual" aria-label="הוספה ידנית">
-          <svg viewBox="0 0 24 24"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"/></svg>
-          <b>הקלדה ידנית</b><small>קלוריות ידועות</small>
-        </button>
-      </div>
-      ${aiQuotaLine()}
-      ${recents.length?`<div class="row" style="gap:6px;min-width:0;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px">
-        <span class="small muted" style="flex-shrink:0">שוב:</span>
-        ${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}" style="flex-shrink:0">↻ ${esc(m.name.slice(0,16))} · ${m.kcal}</button>`).join('')}
-      </div>`:''}
-    </div>`:''}
-    ${meals.length?`<div class="sect">היומן של ${d===today?'היום':fmtDate(+dt)}</div>
-    <div class="card" style="padding:6px 14px">
-      ${meals.map(m=>{const h=new Date(m.ts);const hh=String(h.getHours()).padStart(2,'0')+':'+String(h.getMinutes()).padStart(2,'0');
-      const em=h.getHours()<11?'☕':h.getHours()<16?'☀️':h.getHours()<20?'🌇':'🌙';
-      return `<div class="mrow">
-        <span class="mavatar">${em}</span>
-        <button data-act="meal-open" data-id="${esc(m.id)}" style="flex:1;text-align:var(--start);padding:0;min-width:0">
-          <b style="font-size:15px">${esc(m.name)}</b>
-          <span class="small muted" style="display:block"><span class="num">${hh}</span>${(m.items||[]).length>1?` · ${m.items.length} מרכיבים`:''}${m.protein?` · ${Math.round(m.protein)} גר׳ חלבון`:''}</span>
-        </button>
-        <span class="mkcal num"><b>${m.kcal}</b><span>קק״ל</span></span>
-        <button class="btn danger" data-act="meal-del" data-id="${esc(m.id)}" style="padding:4px 8px">✕</button>
-      </div>`;}).join('')}
-    </div>`
-    :`<div class="empty" style="margin-top:14px"><div class="big">${d===today?'עוד לא רשמת כלום היום':'אין ארוחות ביום הזה'}</div>${d===today?'כתוב מה אכלת למעלה — וה-AI יעשה את השאר.':''}</div>`}
+        <div class="row" style="margin-top:6px"><button class="btn" data-act="basket-clear">נקה</button><button class="btn" data-act="food-add-open" style="flex:1">+ עוד</button><button class="btn primary" style="flex:1" data-act="basket-save">שמור ✓ (${S.basket.length})</button></div>
+      </div>`:''}`):''}
+    <div class="card r20 list">
+      ${slots.map(([k,label])=>{ const ms=meals.filter(m=>mealSlot(m)===k); const kc=ms.reduce((a,m)=>a+(+m.kcal||0),0);
+        return `<div class="li" style="align-items:flex-start;${ms.length?'flex-direction:column;gap:6px':''}">
+          <div style="display:flex;align-items:center;gap:12px;width:100%"><span class="lt"><b>${label}</b>${ms.length?'':'<small>עוד לא נרשם</small>'}</span>${ms.length?`<span class="num" style="font-weight:600">${kcalN(kc)}</span>`:''}${d===today?`<button class="sbtn" data-act="food-add-open" aria-label="הוסף ל${label}">${ICON.plus}</button>`:''}</div>
+          ${ms.map(m=>`<button class="spread" style="width:100%;text-align:var(--start);padding:6px 0 0;border-top:1px dashed var(--line);border-radius:0" data-act="meal-open" data-id="${esc(m.id)}"><span style="min-width:0"><span data-notr style="font-size:14.5px">${esc(m.name)}</span><span class="small muted" style="display:block">${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${Math.round(m.protein||0)} גר׳ חלבון</span></span><span class="num muted small">${m.kcal} ›</span></button>`).join('')}
+        </div>`; }).join('')}
+    </div>
+    ${d===today?`<div class="card r20 list"><button class="li" data-act="${has?'mn-open':'mn-open'}">${ICON.menu.replace('class="ic"','class="ic" style="color:var(--accent)"')}<span class="lt"><b>התפריט שלי</b><small>${next?`הבא בתור: ${tt(MSLOT[next.k]?.[1]||'')}`:has?'כל הארוחות של היום נרשמו ✓':'תפריט יומי שמותאם ליעד ולטעם שלך'}</small></span>${ICON.chev}</button></div>`:''}
   `;
+}
+/* v13: one sheet for every way to add food — search, photo, barcode, manual, AI, and "again" */
+function openFoodAdd(){
+  if(!$('#sheet').hidden&&$('#sheet .fa-sheet'))return;
+  const recents=recentMealNames();
+  openSheet(`<div class="fa-sheet stack" style="gap:12px">
+    <div class="spread"><h3 style="margin:0">הוספת ארוחה</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
+    <div class="fsearch"><textarea id="food-text" rows="1" maxlength="600" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״"></textarea><button class="fs-go" data-act="food-ai" aria-label="ניתוח עם AI">✨ חשב</button></div>
+    <div id="food-sugg" class="fsugg" hidden></div>
+    <div class="ways">
+      <label aria-label="צילום צלחת">${ICON.cam}צילום צלחת<input id="food-photo" type="file" accept="image/*" hidden></label>
+      <button data-act="scan-open">${ICON.bar}ברקוד</button>
+      <button data-act="food-manual">${ICON.pen}ידני</button>
+    </div>
+    ${aiQuotaLine()}
+    ${recents.length?`<div class="small muted" style="font-weight:600;margin-bottom:-6px">שוב</div><div class="row" style="gap:6px">${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}"><span data-notr>${esc(m.name.slice(0,18))}</span> · ${m.kcal}</button>`).join('')}</div>`:''}
+  </div>`);
+  setTimeout(()=>{ const t=$('#food-text'); if(t&&!IS_IOS)t.focus(); },60);
 }
 /* daily targets calculator: sex, age, height, weight, activity, goal -> calories (Mifflin-St Jeor x activity, adjusted by goal)
    and protein. The user can still override the numbers before saving. */
@@ -3480,6 +3570,7 @@ document.addEventListener('click',ev=>{ const l=ev.target.closest?.('label'); if
 async function foodAI(payload){
   if(S.ai.busy)return;
   if(aiFreeLeft()===0){ aiUpsell(); return; }
+  try{ if($('#sheet .fa-sheet'))closeSheet(); }catch(_){}
   S.ai.busy=true; S.ai.q=payload.text||''; S.ai.img=payload.image?'data:image/jpeg;base64,'+payload.image:null; render(); aiTicker(true);
   try{
     const {data,error}=await Promise.race([sb.functions.invoke('nutrition',{body:{...payload,lang:LANG}}),
@@ -3731,39 +3822,33 @@ function shrinkImage(file,MAXPX=1280,Q=0.85){
 /* ----- train tab ----- */
 function vTrain(){
   if(S.active)return vActive();
-  const seg=`<div class="tseg">${[['start','התחלת אימון'],['plans','התוכניות שלי']].map(([k,t])=>`<button class="${(S.trainView||'start')===k?'on':''}" data-act="train-view" data-v="${k}">${t}</button>`).join('')}</div>`;
-  if(S.trainView==='plans')return seg+vPlans();
-  return seg+vTrainStart();
+  if(S.trainView==='plans')return `<div class="row" style="gap:10px;flex-wrap:nowrap"><button class="hd-btn" data-act="train-view" data-v="start" aria-label="חזרה">${ICON.back}</button><h2 class="ttl" style="margin:0">התוכנית שלי</h2></div>`+vPlans();
+  return vTrainStart();
 }
 function vTrainStart(){
   const last=[...S.workouts].sort((a,b)=>b.start-a.start)[0];
-  const tpl=S.templates.length?`
-    <div class="sect">התחלה מהירה מתוכנית</div>
-    <div class="stack">
-      ${[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0)).map(t=>`
-        <div class="card spread">
-          <div>
-            <div style="font-weight:700">${esc(t.name)}</div>
-            <div class="small muted">${(t.ex||[]).length} תרגילים · ${esc((t.ex||[]).slice(0,3).map(e=>e.n).join(', '))}${(t.ex||[]).length>3?'…':''}</div>
-          </div>
-          <button class="btn primary" data-act="start-tpl" data-id="${esc(t.id)}">התחל</button>
-        </div>`).join('')}
-    </div>`
-   : `<div class="empty"><div class="big">אין עדיין תוכניות אימון</div>ב״התוכניות שלי״ למעלה אפשר לבנות תוכנית A/B/C — או פשוט להתחיל אימון חופשי.</div>`;
+  const nw=nextWorkoutInfo();
+  const list=[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0)).filter(t=>!nw||t.id!==nw.t.id);
+  const lastOf=t=>{ const w=[...S.workouts].sort((a,b)=>b.start-a.start).find(w=>w.tid===t.id); return w?`בפעם הקודמת: ${agoShort(w.start)}`:'עוד לא התאמנת'; };
   return `
-    <button class="btn primary big" data-act="start-free">+ התחל אימון חופשי</button>
-    ${tpl}
-    ${last?`<div class="sect">האימון האחרון</div>
-      <div class="card">
-        <div class="spread"><b>${esc(last.name)}</b><span class="muted small num">${fmtDateFull(last.start)}</span></div>
-        <div class="h-stats num" style="margin-top:6px">
-          <span>⏱ ${fmtDur(last.end-last.start)}</span>
-          <span>סטים ${workoutSets(last)}</span>
-          <span>נפח ${fmtNum(workoutVol(last))} ק״ג</span>
-        </div>
-      </div>`:''}
+    <h2 class="ttl">אימון</h2>
+    ${nw?`<div class="card r20 stack" style="gap:12px">
+      <div class="spread"><span class="small" style="color:var(--accent);font-weight:600">${nw.label}${nw.sub?` · ${nw.sub}`:''}</span><span class="small muted">${lastOf(nw.t)}</span></div>
+      <b style="font-family:var(--disp);font-size:23px;line-height:1.1" data-notr>${esc(nw.t.name)}</b>
+      <div class="row" style="gap:6px">${(nw.t.ex||[]).slice(0,3).map(e=>`<span class="chip" style="padding:5px 10px;font-size:13px" data-notr>${esc(e.n)}</span>`).join('')}${(nw.t.ex||[]).length>3?`<span class="chip" style="padding:5px 10px;font-size:13px">+${(nw.t.ex||[]).length-3}</span>`:''}</div>
+      <button class="btn primary big" style="display:flex;align-items:center;justify-content:center;gap:8px" data-act="start-tpl" data-id="${esc(nw.t.id)}">${ICON.play} התחל</button>
+    </div>`:''}
+    ${S.templates.length?`<div class="sect2"><span>התוכנית שלי</span><button class="linkbtn" data-act="train-view" data-v="plans">עריכה</button></div>
+    <div class="card r20 list">${list.map(t=>`<div class="li"><span class="lt"><b data-notr>${esc(t.name)}</b><small>${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳</small></span><button class="sbtn" data-act="start-tpl" data-id="${esc(t.id)}" aria-label="התחל ${esc(t.name)}">${ICON.play}</button></div>`).join('')||`<div class="li small muted">כל התוכנית למעלה. אפשר להוסיף עוד אימונים בעריכה.</div>`}</div>`
+    :''}
+    <div class="two">
+      <button class="card r20" data-act="start-free">${ICON.plus}אימון חופשי</button>
+      <button class="card r20" data-act="pb-open">${ICON.list}בנה לי תוכנית</button>
+    </div>
+    ${last?`<div class="card r20 list"><button class="li" data-act="go" data-to="track" data-view="history">${ICON.clock}<span class="lt"><b>היסטוריה</b><small>אחרון: <span data-notr>${esc(last.name)}</span> · ${fmtDate(last.start)}</small></span>${ICON.chev}</button></div>`:''}
   `;
 }
+function agoShort(ts){ const d=Math.floor((Date.now()-ts)/864e5); return d<=0?'היום':d===1?'אתמול':d<7?`לפני ${d} ימים`:d<30?`לפני ${Math.round(d/7)} שבועות`:`לפני ${Math.round(d/30)} חודשים`; }
 
 function liveStats(){
   let done=0,total=0,vol=0;
@@ -3774,59 +3859,66 @@ function liveStats(){
 }
 function updateLive(){
   const st=liveStats();
-  const a=document.getElementById('live-sets'),b=document.getElementById('live-vol');
-  if(a)a.textContent=`${st.done}/${st.total}`; if(b)b.textContent=fmtNum(st.vol);
+  const a=document.getElementById('live-sets'),b=document.getElementById('live-vol'),p=document.getElementById('live-bar');
+  if(a)a.textContent=`${st.done} מתוך ${st.total} סטים`; if(b)b.textContent=fmtNum(st.vol);
+  if(p)p.style.width=(st.total?Math.round(st.done/st.total*100):0)+'%';
 }
 function clockText(){
   const s=Math.floor((Date.now()-S.active.start)/1000);
   const h=Math.floor(s/3600),m=Math.floor(s%3600/60),ss=s%60;
   return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(ss).padStart(2,'0');
 }
+/* v13: one exercise open at a time. Done exercises fold into a row, the rest wait in "הבאים". */
+function exDone(e){ return e.t==='c'?!!e.c?.done:(e.sets||[]).length>0&&e.sets.every(s=>s.done); }
+function exSummary(e){ if(e.t==='c')return e.c?.min?`${e.c.min} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`:'אירובי';
+  const d=(e.sets||[]).filter(s=>s.done); return d.length?d.map(s=>`${+s.w||0}×${+s.r||0}`).join(' · '):`${(e.sets||[]).length} סטים`; }
 function vActive(){
-  const a=S.active;
+  const a=S.active, st=liveStats();
+  const open=a.open||(a.open={});
+  let cur=a.ex.findIndex(e=>!exDone(e)); if(cur<0)cur=-1;
+  const isOpen=(e,i)=>open[i]===true?true:open[i]===false?false:i===cur;
+  const rows=[], done=[], next=[];
+  a.ex.forEach((e,ei)=>{
+    if(isOpen(e,ei)){ rows.push(e.t==='c'?vCardio(e,ei,ei===cur):vStrength(e,ei,ei===cur)); return; }
+    const row=`<button class="ex-row" data-act="ex-open" data-ei="${ei}"><span class="lt"><b data-notr>${esc(e.n)}</b><small class="num">${exSummary(e)}</small></span>${exDone(e)?`<span class="ok">${ICON.ok}</span>`:`<span class="small muted">${e.t==='c'?'אירובי':(e.sets||[]).length+' סטים'}</span>`}</button>`;
+    (exDone(e)?done:next).push(row);
+  });
   return `
-    <div class="card hot">
-      <div class="spread">
-        <div><div class="label">אימון פעיל · שעון רץ</div><b style="font-size:17px">${esc(a.name)}</b></div>
-        <div class="num" id="wclock" style="font-family:var(--disp);font-weight:800;font-size:24px;line-height:1.12">${clockText()}</div>
+    <div class="aw-head">
+      <div class="aw-top">
+        <button class="hd-btn" data-act="go" data-to="home" aria-label="מזעור האימון">${ICON.down}</button>
+        <div class="aw-mid"><span data-notr>${esc(a.name)}</span><b class="num" id="wclock">${clockText()}</b></div>
+        <button class="aw-fin" data-act="finish-w">סיום</button>
       </div>
-      <div class="h-stats num" style="margin-top:8px">
-        <span>סטים <b id="live-sets">${liveStats().done}/${liveStats().total}</b></span>
-        <span>נפח <b id="live-vol">${fmtNum(liveStats().vol)}</b> ק״ג</span>
-      </div>
-      <div class="row small muted" style="margin-top:8px">
-        מנוחה (ברירת מחדל):
-        ${[60,90,120,180].map(s=>`<button class="chip num ${S.settings.rest===s?'on':''}" data-act="rest-set" data-s="${s}">${s<120?s+' שנ׳':(s/60)+' דק׳'}</button>`).join('')}
-      </div>
+      <div class="aw-prog"><div class="bar2"><i id="live-bar" style="width:${st.total?Math.round(st.done/st.total*100):0}%"></i></div><span class="small muted num" id="live-sets">${st.done} מתוך ${st.total} סטים</span><span id="live-vol" hidden>${fmtNum(st.vol)}</span></div>
     </div>
-    ${a.ex.map((e,ei)=>e.t==='c'?vCardio(e,ei):vStrength(e,ei)).join('')}
-    <button class="btn ghost" data-act="add-ex">+ הוסף תרגיל</button>
-    <div class="row" style="margin-top:4px">
-      <button class="btn" style="flex:1" data-act="cancel-w">בטל אימון</button>
-      <button class="btn primary" style="flex:2" data-act="finish-w">סיים אימון ✓</button>
-    </div>`;
+    ${done.length?`<div class="card r20 list">${done.join('')}</div>`:''}
+    ${rows.join('')}
+    ${next.length?`<div class="small muted" style="font-weight:600;padding:0 4px;margin-bottom:-4px">הבאים</div><div class="card r20 list">${next.join('')}</div>`:''}
+    ${!a.ex.length?`<div class="empty"><div class="big">אימון חופשי</div>הוסף תרגיל ראשון, המשקל מהפעם הקודמת כבר ימולא.</div>`:''}
+    <button class="btn big" style="background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px" data-act="add-ex">${ICON.plus} הוסף תרגיל</button>
+    <button class="linkbtn" style="color:var(--muted);text-decoration:none;align-self:center" data-act="cancel-w">ביטול האימון</button>`;
 }
-function vStrength(e,ei){
+function vStrength(e,ei,cur){
   const prev=lastPerf(e.n);
-  const target=e.reps?`יעד: ${e.sets.length}×${esc(e.reps)}`:'';
+  const target=e.reps?`יעד ${e.sets.length}×${esc(e.reps)}`:'';
   const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
   const tip=coachTip(e.n,e.reps,e.sets.length);
-  return `<div class="ex-card">
-    <div class="ex-head">
-      <div>
-        <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:16px;color:var(--ink);text-decoration:none">${esc(e.n)}</button></div>
-        <button class="demo-btn" data-act="ex-info" data-ei="${ei}"><span class="pl" aria-hidden="true"></span>צפה בהדגמה</button>
-        <div class="prev num">${[target,rest].filter(Boolean).join(' · ')}${prev?`${target||rest?'<br>':''}${esc(prev)}`:''}</div>
+  return `<div class="ex-card ${cur?'cur':''}">
+    <div class="ex-head" style="align-items:flex-start">
+      <div style="flex:1;min-width:0">
+        <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start" data-notr>${esc(e.n)}</button></div>
+        <div class="ex-prev num">${prev?`בפעם הקודמת: <span data-notr>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
+        ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}
         ${tip?`<div style="margin-top:4px"><span class="pill pr num">💡 סגרת את הטווח — נסה ${tip.w} ק״ג</span></div>`:''}
       </div>
-      <div class="row" style="gap:4px">
-        <span class="pill">${esc(e.m)}</span>
-        <button class="pill" data-act="done-all" data-ei="${ei}" aria-label="סמן את כל הסטים" style="cursor:pointer">✓✓</button>
-        <button class="btn danger" data-act="rm-ex" data-ei="${ei}" aria-label="הסר תרגיל" style="padding:6px 9px">✕</button>
+      <div class="row" style="gap:6px;flex-wrap:nowrap">
+        <button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמת התרגיל" style="color:var(--accent)">${ICON.play}</button>
+        <button class="ibtn" data-act="ex-menu" data-ei="${ei}" aria-label="אפשרויות תרגיל">${ICON.dots}</button>
       </div>
     </div>
     <div class="setgrid">
-      <span class="h">#</span><span class="h">משקל (ק״ג)</span><span class="h">חזרות</span><span class="h">✓</span>
+      <span class="h">סט</span><span class="h">ק״ג</span><span class="h">חזרות</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num">${si+1}</span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${s.w??''}" placeholder="${s.pw??''}" data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
@@ -3837,14 +3929,27 @@ function vStrength(e,ei){
     <button class="addset" data-act="add-set" data-ei="${ei}">+ סט</button>
   </div>`;
 }
-function vCardio(e,ei){
+function openExMenu(ei){
+  const e=S.active?.ex[ei]; if(!e)return;
+  openSheet(`<h3 data-notr>${esc(e.n)}</h3>
+    <div class="card list" style="margin-bottom:12px">
+      ${e.t==='s'?`<button class="li" data-act="done-all" data-ei="${ei}">${ICON.ok.replace('<svg','<svg class="ic"')}<span class="lt"><b>סמן את כל הסטים</b><small>לפי המשקל והחזרות מהפעם הקודמת</small></span></button>`:''}
+      <button class="li" data-act="ex-info" data-ei="${ei}">${ICON.play.replace('width="16" height="16"','class="ic"')}<span class="lt"><b>הדגמה וטכניקה</b></span></button>
+      <button class="li" data-act="ex-close" data-ei="${ei}">${ICON.down}<span class="lt"><b>כווץ, אעשה אותו אחר כך</b></span></button>
+      <button class="li" data-act="rm-ex" data-ei="${ei}" style="color:var(--danger)">${ICON.plus.replace('class="ic"','class="ic" style="transform:rotate(45deg)"')}<span class="lt"><b>הסר מהאימון</b></span></button>
+    </div>
+    <div class="label" style="margin:0 0 6px">מנוחה אחרי סט</div>
+    <div class="row">${[60,90,120,180].map(x=>`<button class="chip num ${(e.rest||S.settings.rest)===x?'on':''}" data-act="ex-rest" data-ei="${ei}" data-s="${x}">${x<120?x+' שנ׳':(x/60)+' דק׳'}</button>`).join('')}</div>
+    <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>`);
+}
+function vCardio(e,ei,cur){
   const prev=lastPerf(e.n);
   const c=e.c||(e.c={min:'',km:'',inc:''});
-  return `<div class="ex-card ${c.done?'':''}">
-    <div class="ex-head">
-      <div><div class="ex-name">${esc(e.n)} </div>${INFO[e.n]?`<button class="demo-btn" data-act="ex-info" data-ei="${ei}"><span class="pl" aria-hidden="true"></span>צפה בהדגמה</button>`:''}${prev?`<div class="prev num">${esc(prev)}</div>`:''}</div>
-      <div class="row" style="gap:4px"><span class="pill">אירובי</span>
-        <button class="btn danger" data-act="rm-ex" data-ei="${ei}" aria-label="הסר תרגיל" style="padding:6px 9px">✕</button></div>
+  return `<div class="ex-card ${cur?'cur':''}">
+    <div class="ex-head" style="align-items:flex-start">
+      <div style="flex:1;min-width:0"><div class="ex-name" style="font-weight:700;font-size:18px" data-notr>${esc(e.n)}</div><div class="ex-prev num">${prev?`בפעם הקודמת: <span data-notr>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:'אירובי'}</div></div>
+      <div class="row" style="gap:6px;flex-wrap:nowrap">${INFO[e.n]?`<button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמה" style="color:var(--accent)">${ICON.play}</button>`:''}
+        <button class="ibtn" data-act="ex-menu" data-ei="${ei}" aria-label="אפשרויות תרגיל">${ICON.dots}</button></div>
     </div>
     <div class="setgrid" style="grid-template-columns:1fr 1fr 1fr 44px">
       <span class="h">דקות</span><span class="h">ק״מ</span><span class="h">שיפוע %</span><span class="h">✓</span>
@@ -3995,9 +4100,12 @@ function openWorkoutSheet(id){
 
 /* ----- track tab: התקדמות + היסטוריה במקום אחד ----- */
 function vTrack(){
+  if(S.trackView==='history')return `<div class="row" style="gap:10px;flex-wrap:nowrap"><button class="hd-btn" data-act="track-view" data-v="progress" aria-label="חזרה">${ICON.back}</button><h2 class="ttl" style="margin:0">היסטוריה</h2></div>`+vHistory();
+  if(S.trackView!=='body')S.trackView='progress';
   return `
-    <div class="tseg" style="margin-bottom:6px">${[['body','גוף ויעדים'],['progress','התקדמות'],['history','היסטוריה']].map(([k,t])=>`<button class="${S.trackView===k?'on':''}" data-act="track-view" data-v="${k}">${t}</button>`).join('')}</div>
-    ${S.trackView==='history'?vHistory():S.trackView==='progress'?vProgress():vBody()}
+    <h2 class="ttl">התקדמות</h2>
+    <div class="seg2">${[['progress','אימונים'],['body','גוף ומשקל']].map(([k,t])=>`<button class="${S.trackView===k?'on':''}" data-act="track-view" data-v="${k}">${t}</button>`).join('')}</div>
+    ${S.trackView==='body'?vBody():vProgress()}
   `;
 }
 
@@ -4008,43 +4116,41 @@ function exerciseOptions(){
   return [...names];
 }
 function vProgress(){
-  const now=Date.now();
-  const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-d.getDay()); // Sunday
-  const weekStart=d.getTime();
-  const monthAgo=now-30*864e5;
-  const wk=S.workouts.filter(w=>w.start>=weekStart).length;
-  const mo=S.workouts.filter(w=>w.start>=monthAgo).length;
-  const maxVol=Math.max(0,...S.workouts.map(workoutVol));
+  const wk=S.workouts.filter(w=>w.start>=weekKeyOf(Date.now())).length;
+  const m0=new Date(); m0.setDate(1); m0.setHours(0,0,0,0); const mo=S.workouts.filter(w=>w.start>=+m0).length;
   const names=exerciseOptions();
   if(!S.progressEx||!names.includes(S.progressEx))S.progressEx=names[0]||null;
   const best=bestMap();
-  const prs=Object.entries(best).sort((a,b)=>b[1].w-a[1].w);
+  const prs=Object.entries(best).sort((a,b)=>b[1].ts-a[1].ts);
+  const got=S.workouts.length?earnedBadges(badgeStats()).length:0;
+  const nextB=S.workouts.length?BADGES.find(b=>!earnedBadges(badgeStats()).includes(b[0])):null;
+  const showAll=!!S.prAll, shown=showAll?prs:prs.slice(0,4);
   return `
-    ${badgesCardHTML()}
-    <div class="tiles num">
-      <div class="tile"><div class="v">${wk}</div><div class="k">אימונים השבוע</div></div>
-      <div class="tile"><div class="v">${mo}</div><div class="k">ב־30 הימים</div></div>
-      <div class="tile"><div class="v">${fmtNum(maxVol)}</div><div class="k">שיא נפח (ק״ג)</div></div>
-    </div>
-    ${names.length?`
-      <div class="sect">גרף התקדמות</div>
-      <div class="card stack">
-        <div class="row">
-          <select id="prog-ex" data-bind="progex" style="flex:1">${names.map(n=>`<option ${n===S.progressEx?'selected':''}>${esc(n)}</option>`).join('')}</select>
-        </div>
-        <div class="row">
-          <button class="chip ${S.progressMetric==='top'?'on':''}" data-act="metric" data-m="top">משקל שיא בסט</button>
-          <button class="chip ${S.progressMetric==='vol'?'on':''}" data-act="metric" data-m="vol">נפח כולל</button>
-        </div>
+    <div class="card r20 stat3 num"><div><b>${wk}</b><span>השבוע</span></div><div><b>${mo}</b><span>החודש</span></div><div><b>${weekStreak()}</b><span>שבועות ברצף</span></div></div>
+    ${names.length?`<div class="card r20 stack" style="gap:10px">
+        <div class="spread"><select id="prog-ex" data-bind="progex" style="flex:1;max-width:60%;padding:8px 10px;border-radius:12px;font-weight:600">${names.map(n=>`<option ${n===S.progressEx?'selected':''}>${esc(n)}</option>`).join('')}</select>
+          <span class="small" style="color:var(--accent);font-weight:600">${progDelta()}</span></div>
+        <div class="row" style="gap:6px"><button class="chip ${S.progressMetric==='top'?'on':''}" data-act="metric" data-m="top">משקל שיא בסט</button><button class="chip ${S.progressMetric==='vol'?'on':''}" data-act="metric" data-m="vol">נפח כולל</button></div>
         <div class="chartwrap" id="chartwrap">${chartSVG()}</div>
       </div>`
-    :`<div class="empty"><div class="big">הגרפים מחכים לנתונים</div>אחרי שני אימונים עם אותו תרגיל כבר יהיה כאן קו התקדמות.</div>`}
-    ${weeklyVolHTML()}
-    ${prs.length?`<div class="sect">שיאים אישיים 🏅 <span class="muted small" style="font-family:var(--body);font-weight:400">(לחיצה = היסטוריה)</span></div>
-      <div class="card prlist">
-        ${prs.slice(0,12).map(([n,b])=>`<button class="pr-row" data-act="hist-ex" data-n="${esc(n)}" style="width:100%;text-align:var(--start);border-radius:0"><span>${esc(n)}</span><span class="num"><b>${b.w} ק״ג</b> × ${b.r} <span class="muted small">· ${fmtDate(b.ts)}</span></span></button>`).join('')}
-      </div>`:''}
+    :`<div class="card r20"><div class="empty" style="margin:0"><div class="big">הגרפים מחכים לנתונים</div>אחרי שני אימונים עם אותו תרגיל כבר יהיה כאן קו התקדמות.</div></div>`}
+    ${prs.length?`<div class="sect2"><span>שיאים אחרונים</span>${prs.length>4?`<button class="linkbtn" data-act="pr-all">${showAll?'פחות':'הכל'}</button>`:''}</div>
+      <div class="card r20 list">${shown.map(([n,b])=>`<button class="li" data-act="hist-ex" data-n="${esc(n)}"><span class="lt"><b data-notr>${esc(n)}</b>${showAll?`<small>${fmtDate(b.ts)}</small>`:''}</span><b class="num" dir="ltr">${b.w} × ${b.r}</b></button>`).join('')}</div>`:''}
+    <div class="card r20 list">
+      ${S.workouts.length?`<button class="li" data-act="badges-open">${ICON.trophy}<span class="lt"><b>הישגים</b><small>${got} מתוך ${BADGES.length}${nextB?` · הבא: ${esc(nextB[2])}`:''}</small></span><span class="lv" style="background:var(--gold-soft);color:var(--gold);font-weight:700;border-radius:10px;padding:6px 10px">${got}</span>${ICON.chev}</button>`:''}
+      <button class="li" data-act="track-view" data-v="history">${ICON.clock}<span class="lt"><b>היסטוריית אימונים</b><small>${S.workouts.length} אימונים${S.workouts.length?` · ${S.workouts.filter(w=>w.start>=Date.now()-30*864e5).length} ב-30 הימים האחרונים`:''}</small></span>${ICON.chev}</button>
+      ${weeklyVolHTML()?`<button class="li" data-act="vol-open">${ICON.chart}<span class="lt"><b>נפח לפי שריר</b><small>7 ימים אחרונים מול יעד של 10–20 סטים</small></span>${ICON.chev}</button>`:''}
+      <button class="li" data-act="wrap-open">${ICON.photo}<span class="lt"><b>הסיכום החודשי שלי</b><small>בסגנון Wrapped, מוכן לשיתוף</small></span>${ICON.chev}</button>
+    </div>
   `;
+}
+function progDelta(){
+  const n=S.progressEx; if(!n)return '';
+  const pts=[]; for(const w of [...S.workouts].sort((a,b)=>a.start-b.start)){ const e=(w.ex||[]).find(e=>e.n===n&&e.t==='s'); if(!e)continue;
+    const top=Math.max(0,...(e.sets||[]).filter(x=>+x.r>0).map(x=>+x.w||0)); if(top)pts.push({t:w.start,v:top}); }
+  if(pts.length<2)return '';
+  const first=pts[0], last=pts[pts.length-1], d=Math.round((last.v-first.v)*10)/10, wk=Math.max(1,Math.round((last.t-first.t)/(7*864e5)));
+  return d>0?`+${d} ק״ג ב-${wk} שבועות`:d<0?`${d} ק״ג ב-${wk} שבועות`:`יציב ${wk} שבועות`;
 }
 /* נפח שבועי לקבוצת שריר מול היעד המחקרי (10–20 סטים) */
 function weeklyVolHTML(){
@@ -4133,55 +4239,66 @@ function weeklyBalanceHTML(){
     ${tip?`<div class="wb-tip"><img src="img/kobi-think.svg" alt=""><span>${tip}</span></div>`:''}
   </div>`;
 }
+function balanceLine(){
+  const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0, goal=+S.settings.goalKg||0;
+  const days=[]; for(let i=6;i>=0;i--){ const x=new Date(); x.setDate(x.getDate()-i); const ds=ymd(x); if(mealsOf(ds).length)days.push(dayTotals(ds)); }
+  const avgK=days.length?Math.round(days.reduce((a,x)=>a+x.kcal,0)/days.length):null, avgP=days.length?Math.round(days.reduce((a,x)=>a+x.protein,0)/days.length):null;
+  const ws=S.workouts.filter(w=>w.start>=Date.now()-7*864e5).length, plan=Object.values(S.settings.schedule||{}).filter(Boolean).length;
+  const d7=bwChange(7), d30=bwChange(30), lw=(S.weights||[]).slice(-1)[0];
+  const rate=d30!=null?d30/4.3:d7;
+  let proj='';
+  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=goal-lw.kg; if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${goal} ק״ג בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
+  let tip='';
+  if(avgK!=null&&kT){ const diff=avgK-kT;
+    if(diff>150&&goal&&lw&&goal<lw.kg)tip=`אוכל בממוצע ${kcalN(diff)} קק״ל מעל היעד, וזה מה שעוצר את הירידה.`;
+    else if(diff<-250&&goal&&lw&&goal>lw.kg)tip=`חסרות בממוצע ${kcalN(-diff)} קק״ל ביום כדי לעלות במסה.`;
+    else if(pT&&avgP!=null&&avgP<pT*0.8)tip=`הדבר הראשון לשפר: חלבון. ממוצע ${avgP} ג׳ ביום במקום ${pT}.`;
+    else if(Math.abs(diff)<=150&&ws>=Math.max(2,plan||2))tip='תזונה ואימונים בקו. ככה זה נראה כשזה עובד 👌';
+    else if(plan&&ws<plan)tip=`התזונה בסדר, חסרים ${plan-ws} אימונים השבוע.`; }
+  else if(avgK==null&&kT&&(ws||d7!=null))tip='לא נרשמו ארוחות השבוע. בלי זה אי אפשר לדעת למה המשקל זז או לא.';
+  return {proj,tip};
+}
 function vBody(){
   const ws=S.weights||[]; const last=ws[ws.length-1];
   const today=ymd();
   const goal=+S.settings.goalKg||0;
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
+  const d7=bwChange(7);
   let goalLine='';
   if(goal&&last){
     const start=ws[0].kg, total=start-goal, done=start-last.kg;
     const pct=total?Math.max(0,Math.min(100,done/total*100)):100;
     const left=Math.round((last.kg-goal)*10)/10;
-    goalLine=`<div style="margin-top:12px">
-      <div class="spread small"><button class="linkbtn" data-act="goal-kg" style="padding:0;font-size:inherit">יעד: <b class="num">${goal} ק״ג</b> ✏️</button><span class="num muted">${left===0?'הגעת ליעד 🎉':`נשארו ${Math.abs(left)} ק״ג`}</span></div>
-      <div style="height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:4px">
-        <div style="width:${pct}%;height:100%;border-radius:99px;background:var(--accent)"></div>
-      </div>
-    </div>`;
+    goalLine=`<div><div class="spread small"><span>יעד <b class="num">${goal} ק״ג</b></span><span class="num muted">${left===0?'הגעת ליעד 🎉':`נשארו ${Math.abs(left)} ק״ג`}</span></div>
+      <div class="bar2" style="margin-top:5px"><i style="width:${pct}%"></i></div></div>`;
   }
+  const bl=balanceLine();
+  const o=S.bodyOpen||(S.bodyOpen={});
+  const row=(k,icon,title,sub)=>`<button class="li" data-act="body-tog" data-k="${k}" aria-expanded="${!!o[k]}">${icon}<span class="lt"><b>${title}</b><small>${sub}</small></span><span class="chev" style="transform:rotate(${o[k]?'90deg':'0'})">›</span></button>${o[k]?`<div style="padding:0 14px 14px">${k==='cal'?bwCalendarHTML():k==='ph'?photosHTML():nutritionWeekHTML()}</div>`:''}`;
+  const nPh=(PH.sets||[]).length;
   return `
-    ${weeklyBalanceHTML()}
-    <div class="card hot">
-      <div class="spread" style="align-items:flex-start">
-        <div>
-          <div class="label">משקל נוכחי</div>
-          <div style="font-family:var(--disp);font-weight:800;font-size:39px;line-height:1.12;margin-top:2px" class="num">${last?last.kg:'—'}<span style="font-size:20px;color:var(--muted)"> ק״ג</span></div>
-          <div class="small muted" style="margin-top:4px">${last?(last.d===today?'נשקלת היום ✓':`שקילה אחרונה: ${fmtDate(+new Date(last.d))}`):'עוד לא נשקלת'}</div>
-        </div>
+    <div class="card r20 stack" style="gap:12px">
+      <div class="spread" style="align-items:flex-end">
+        <div><div class="small muted">משקל נוכחי</div><div class="bigw num">${last?last.kg:'—'} <small>ק״ג</small></div></div>
+        ${d7!=null?`<span class="small num" style="font-weight:600;color:${d7<0?'var(--accent)':d7>0?'var(--gold)':'var(--muted)'};padding-bottom:4px">${d7>0?'+':''}${d7} השבוע</span>`:last?`<span class="small muted" style="padding-bottom:4px">${last.d===today?'נשקלת היום ✓':fmtDate(+new Date(last.d))}</span>`:''}
       </div>
-
-      <div class="row" style="gap:6px;margin-top:10px">${deltaChip(bwChange(7),'שבוע')}${deltaChip(bwChange(30),'חודש')}</div>
-      ${goalLine||`<button class="linkbtn small" data-act="goal-kg" style="display:block;margin-top:10px;padding:0">🎯 הגדר משקל יעד</button>`}
-      ${last&&last.d===today?`<button class="weighrow done" data-act="bw-quick"><span>✓ נשקלת היום</span><span class="muted">עריכה</span></button>`
-        :`<button class="weighrow" data-act="bw-quick"><span>⚖️ ${last?'עוד לא נשקלת היום':'הוסף את השקילה הראשונה'}</span><span class="wr-plus">+ שקילה</span></button>`}
+      ${ws.length>=2?bwChartHTML(goal,true):''}
+      ${goalLine||`<button class="linkbtn" data-act="goal-kg" style="padding:0;text-decoration:none;font-weight:600;text-align:start">🎯 הגדר משקל יעד</button>`}
+      ${last&&last.d===today?`<button class="btn big" data-act="bw-quick">✓ נשקלת היום · עריכה</button>`:`<button class="btn primary big" data-act="bw-quick">${last?'שקילה היום':'השקילה הראשונה'}</button>`}
     </div>
-    ${bwCalendarHTML()}
-    ${photosHTML()}
-    ${bwChartHTML(goal)}
-    <div class="sect spread"><span>היעדים שלי</span><button class="linkbtn small" data-act="food-targets-open" style="font-family:var(--body)">עריכה</button></div>
-    <button class="tiles num" data-act="food-targets-open" style="width:100%;padding:0;text-align:center">
-      <div class="tile"><div class="v">${kT?kT.toLocaleString('en-US'):'—'}</div><div class="k">קק״ל ליום</div></div>
-      <div class="tile"><div class="v">${pT||'—'}</div><div class="k">גר׳ חלבון</div></div>
-      <div class="tile"><div class="v">${goal||'—'}</div><div class="k">משקל יעד</div></div>
-    </button>
-    ${nutritionWeekHTML()}
+    ${bl.proj||bl.tip?`<div class="card r20 kobi-row" style="padding:12px 14px;align-items:flex-start"><img src="img/kobi-think.svg" alt=""><span class="lt">${bl.proj?`<b>${bl.proj}</b>`:''}${bl.tip?`<span>${bl.tip}</span>`:''}</span></div>`:''}
+    <div class="card r20 list">
+      ${row('cal',ICON.scale,'לוח שקילות',ws.length?`${ws.filter(x=>x.d.slice(0,7)===today.slice(0,7)).length} שקילות החודש`:'עוד לא נשקלת')}
+      ${row('ph',ICON.photo,'תמונות התקדמות',S.settings.photoDay!=null?`יום צילום: ${DAY_NAMES[S.settings.photoDay]} · מוצפנות, רק אתה רואה`:'בחר יום צילום קבוע · מוצפנות, רק אתה רואה')}
+      <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>היעדים שלי</b><small>${kT?`${kcalN(kT)} קק״ל · ${pT||'—'} ג׳ חלבון${goal?` · ${goal} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
+      ${row('nut',ICON.food,'תזונה · 7 ימים','ממוצע יומי מול היעד')}
+    </div>
   `;
 }
-function bwChartHTML(goal){
+function bwChartHTML(goal,compact){
   const ws=(S.weights||[]).slice(-90);
   if(ws.length<2)return `<div class="empty" style="margin-top:12px"><div class="big">הגרף יופיע אחרי שתי שקילות</div>מומלץ להישקל בבוקר, אחרי שירותים ולפני אוכל — כך הנתון הכי עקבי.</div>`;
-  const W=520,H=170,L=40,R=14,Tp=14,B=24;
+  const W=520,H=compact?120:170,L=40,R=14,Tp=14,B=24;
   const xs=ws.map(p=>+new Date(p.d)), ys=ws.map(p=>p.kg).concat(goal?[goal]:[]);
   const x0=Math.min(...xs),x1=Math.max(...xs);
   const lo=Math.floor(Math.min(...ys)-1), hi=Math.ceil(Math.max(...ys)+1);
@@ -4190,7 +4307,7 @@ function bwChartHTML(goal){
   const path=ws.map((p,i)=>`${i?'L':'M'}${X(+new Date(p.d)).toFixed(1)},${Y(p.kg).toFixed(1)}`).join('');
   const area=`${path} L${X(x1).toFixed(1)},${H-B} L${X(x0).toFixed(1)},${H-B} Z`;
   const mid=Math.round((lo+hi)/2);
-  return `<div class="card" style="margin-top:12px">
+  return `<div class="${compact?'':'card'}" style="${compact?'':'margin-top:12px'}">
     <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="גרף משקל גוף" style="direction:ltr;display:block">
       ${[lo,mid,hi].map(v=>`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-7}" y="${Y(v)+4}" font-size="11" text-anchor="end" fill="var(--muted)">${v}</text>`).join('')}
       ${goal?`<line x1="${L}" x2="${W-R}" y1="${Y(goal)}" y2="${Y(goal)}" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="5 5"/><text x="${W-R}" y="${Y(goal)-5}" font-size="11" text-anchor="end" fill="var(--gold)">יעד ${goal}</text>`:''}
@@ -5040,80 +5157,83 @@ function renderSchedPicker(d){
 }
 
 /* מסך הגדרות */
-function renderSettings(){
+/* v13: "אני" — profile, Premium, groups, invite, and every setting as a short list */
+function vMe(){
   const n=S.settings.notif||{};
-  const sw=(k,label,desc)=>`
-    <label class="setrow">
-      <span><b>${label}</b>${desc?`<span class="small muted" style="display:block">${desc}</span>`:''}</span>
-      <input type="checkbox" class="sw" data-bind="notif" data-k="${k}" ${n[k]!==false?'checked':''}>
-    </label>`;
-  openSheet(`
-    <h3>הגדרות</h3>
-    <button class="card spread" data-act="food-targets-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:14px">
-      <span><b>🎯 היעדים שלי</b><span class="small muted" style="display:block">${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</span></span>
-      <span class="muted">›</span>
-    </button>
-    ${S.plan&&(S.plan.admin||S.plan.billing)?`<button class="card spread" data-act="plans-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:10px">
-      <span><b>⭐ ${S.plan.admin?'מסלולים ותשלום':'פרימיום'}</b><span class="small muted" style="display:block">${S.plan.admin?'כפי שהמשתמשים רואים. אפשר לשלם מכאן לבדיקה':S.plan.premium?`פרימיום ${S.plan.paid&&!S.plan.gift?'פעיל':'מתנה'} עד ${S.plan.until?new Date(S.plan.until).toLocaleDateString(LOC):'—'}`:'החשבון שלך חינמי. פרימיום: ניתוח AI ללא הגבלה וקובי'}</span></span><span class="muted">${S.plan.admin?'פתיחה':S.plan.premium?'הארכה':'שדרוג'} ›</span></button>`:''}
-    <button class="card spread" data-act="lang-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:10px">
-      <span><b>🌐 שפה</b><span class="small muted" style="display:block" data-notr>${LANG_NAMES[LANG]}</span></span><span class="muted">›</span></button>
-    <div class="row" style="gap:10px;margin-bottom:10px">
-      <button class="card spread" data-act="g-open" style="flex:1;text-align:var(--start);padding:12px 14px"><span><b>🗣️ פנייה</b><span class="small muted" style="display:block">${{m:'לשון זכר',f:'לשון נקבה',x:'לא משנה'}[S.settings.g]||'לא נבחר'}</span></span><span class="muted">›</span></button>
-      <button class="card spread" data-act="acc-open" style="flex:1;text-align:var(--start);padding:12px 14px"><span><b>🎨 צבע</b><span class="small muted" style="display:block">${(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]}</span></span><span class="muted">›</span></button></div>
-    <button class="card spread" data-act="share-app" style="width:100%;text-align:var(--start);padding:12px 14px;margin-bottom:14px">
-      <span><b>🎁 הזמנת חברים</b><span class="small muted" style="display:block">${G('שניכם מקבלים שבוע פרימיום, ואתה חודש כשהוא משדרג','שתיכן מקבלות שבוע פרימיום, ואת חודש כשהיא משדרגת','שניכם מקבלים שבוע פרימיום, וחודש כשהחבר משדרג')}</span></span><span class="muted">›</span></button>
-    <button class="card spread" data-act="tour-restart" style="width:100%;text-align:var(--start);padding:12px 14px;margin:-6px 0 8px">
-      <span><b>🧭 סיור במערכת</b><span class="small muted" style="display:block">הצגה קצרה של כל היכולות</span></span><span class="muted">›</span></button>
-    <button class="card spread" data-act="contact-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin:0 0 14px">
-      <span><b>💬 צור קשר</b><span class="small muted" style="display:block">שאלה, תקלה או רעיון. נחזור אליך כאן</span></span><span class="muted">›</span></button>
-    <details class="card adm-det set-det" ${S.settings.notifOpen?'open':''} data-det="notifOpen"><summary><span><b>🔔 התראות${'Notification' in window&&Notification.permission!=='granted'?' <i class="rdot"></i>':''}</b><span class="small muted" style="display:block">${(()=>{const ks=['remind','rest','pr','social','coach','nudge'];const on=ks.filter(k=>k==='remind'?n.remind===true:n[k]!==false).length;return on===ks.length?'הכל פעיל':on?`${on} מתוך ${ks.length} פעילות`:'כבויות';})()}</span></span><span class="muted det-arr">›</span></summary>
-    <div class="stack" style="gap:0;margin-top:6px">
-      <label class="setrow">
-        <span><b>תזכורת אימון יומית 🗓️</b><span class="small muted" style="display:block">בבוקר של יום מתוזמן בלו״ז — גם כשהאפליקציה סגורה</span></span>
-        <input type="checkbox" class="sw" data-bind="notif" data-k="remind" ${n.remind===true?'checked':''}>
-      </label>
-      ${sw('weigh','תזכורת שקילה בבוקר ⚖️','כל בוקר עד שנשקלת. רק אם כבר הזנת משקל')}
-      ${sw('rest','סיום מנוחה','התראה כשהטיימר נגמר, גם כשהמסך כבוי')}
-      ${sw('pr','שיא חדש 🏅','חגיגה כששברת שיא אישי')}
-      ${sw('social','קבוצות 👥','הודעות, אימונים ואתגרים של החברים')}
-      ${sw('coach','סיכום שבועי מקובי הבוט 💬','בכל יום ראשון בבוקר')}
-      ${sw('nudge','תזכורות חכמות 🔔','כשלא התאמנת כמה ימים, או כשהרצף שלך בסכנה')}
+  const ks=['remind','rest','pr','social','coach','nudge'], on=ks.filter(k=>k==='remind'?n.remind===true:n[k]!==false).length;
+  const created=S.user?.created_at?new Date(S.user.created_at):null;
+  const m0=new Date(); m0.setDate(1); m0.setHours(0,0,0,0); const mo=S.workouts.filter(w=>w.start>=+m0).length;
+  const p=S.plan||{};
+  const prem=!!(p.premium||p.admin);
+  return `
+    <div class="row" style="gap:10px;flex-wrap:nowrap"><button class="hd-btn" data-act="go" data-to="home" aria-label="חזרה">${ICON.back}</button><h2 class="ttl" style="margin:0">אני</h2></div>
+    <div class="me-head"><span class="me-av" data-notr>${esc((firstName()||S.user?.email||'?').charAt(0).toUpperCase())}</span>
+      <div style="min-width:0"><b style="font-size:22px;display:block" data-notr>${esc(firstName()||S.user?.email||'')}</b><span class="small muted">${created?`<span>מתאמן מ${created.toLocaleDateString(LOC,{month:'long'})}</span>`:''}${mo?`<span> · ${mo} אימונים החודש</span>`:''}</span></div>
+      <button class="ibtn" data-act="me-name" aria-label="עריכת השם" style="margin-inline-start:auto">${ICON.pen}</button></div>
+    ${p.billing||p.admin?`<button class="prem-card ${prem?'on':''}" data-act="plans-open" data-why="me"><span class="lt"><b>${p.admin?'מסלולים ותשלום':prem?'⭐ פרימיום פעיל':'החשבון שלך חינמי'}</b><span>${p.admin?'כפי שהמשתמשים רואים':prem?`${p.paid&&!p.gift?'מנוי':'מתנה'} עד ${p.until?new Date(p.until).toLocaleDateString(LOC):'—'}`:'פרימיום: ניתוח AI ללא הגבלה וקובי המאמן'}</span></span><span class="cta">${p.admin?'פתיחה':prem?'הארכה':'שדרוג'}</span></button>`:''}
+    <div class="card r20 list">
+      <button class="li" data-act="go" data-to="social">${ICON.users}<span class="lt"><b>הקבוצות שלי</b></span><span class="lv num">${(SOC.groups||[]).length||''}</span>${ICON.chev}</button>
+      <button class="li" data-act="share-app">${ICON.gift}<span class="lt"><b>הזמנת חברים</b><small>${G('שניכם מקבלים שבוע פרימיום, ואתה חודש כשהוא משדרג','שתיכן מקבלות שבוע פרימיום, ואת חודש כשהיא משדרגת','שניכם מקבלים שבוע פרימיום, וחודש כשהחבר משדרג')}</small></span>${ICON.chev}</button>
+    </div>
+    <div class="card r20 list">
+      <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${'Notification' in window&&Notification.permission!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>סיור, פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
+      ${S.isAdmin?`<button class="li" data-act="admin-open">${ICON.chart}<span class="lt"><b>לוח ניהול</b><small>משתמשים, פעילות ועלויות AI</small></span>${ICON.chev}</button>`:''}
+    </div>
+    <button class="linkbtn" data-act="logout" style="color:var(--danger);text-decoration:none;font-weight:600;align-self:center">יציאה מהחשבון</button>
+    <div class="small muted" style="text-align:center" dir="ltr">${esc(S.user?.email||'')} · v${APP_VERSION}</div>
+  `;
+}
+function renderSettings(){ S.tab='me'; render(); }
+function sheetHead(t){ return `<div class="spread" style="margin-bottom:12px"><h3 style="margin:0">${t}</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>`; }
+function openNotifSheet(){
+  const n=S.settings.notif||{};
+  const sw=(k,label,desc)=>`<label class="setrow"><span><b>${label}</b>${desc?`<span class="small muted" style="display:block">${desc}</span>`:''}</span><input type="checkbox" class="sw" data-bind="notif" data-k="${k}" ${n[k]!==false?'checked':''}></label>`;
+  openSheet(`${sheetHead('התראות ואימון')}
+    ${notifCan()?`<button class="btn primary big" style="margin-bottom:12px" data-act="notif-on" data-ctx="settings">🔔 הפעל התראות במכשיר הזה</button>`:''}
+    ${'Notification' in window&&Notification.permission==='denied'?`<div class="small" style="margin-bottom:12px;padding:10px 12px;border-radius:10px;background:var(--gold-soft)">⚠️ ${notifDeniedHelp()}</div>`:''}
+    ${IS_IOS&&!IS_STANDALONE?`<div class="small muted" style="margin-bottom:10px">באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.</div>`:''}
+    <div class="card" style="padding:0 14px">
+      <label class="setrow"><span><b>תזכורת אימון יומית</b><span class="small muted" style="display:block">בבוקר של יום מתוזמן בלו״ז, גם כשהאפליקציה סגורה</span></span><input type="checkbox" class="sw" data-bind="notif" data-k="remind" ${n.remind===true?'checked':''}></label>
+      ${sw('weigh','תזכורת שקילה בבוקר','כל בוקר עד שנשקלת')}
+      ${sw('rest','סיום מנוחה','כשהטיימר נגמר, גם כשהמסך כבוי')}
+      ${sw('pr','שיא חדש','חגיגה כששברת שיא אישי')}
+      ${sw('social','קבוצות','הודעות, אימונים ואתגרים של החברים')}
+      ${sw('coach','סיכום שבועי מקובי','בכל יום ראשון בבוקר')}
+      ${sw('nudge','תזכורות חכמות','כשלא התאמנת כמה ימים, או כשהרצף בסכנה')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
-      ${sw('vib','רטט','משוב מישוש בלחיצות ובטיימר')}
+      ${sw('vib','רטט','משוב בלחיצות ובטיימר')}
     </div>
-    ${'Notification' in window&&Notification.permission==='denied'?`<div class="small" style="margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--gold-soft)">⚠️ ${notifDeniedHelp()}</div>`:''}
-    ${notifCan()?`<button class="btn primary" style="width:100%;margin-top:10px" data-act="notif-on" data-ctx="settings">🔔 הפעל התראות במכשיר הזה</button>`:''}
-    ${IS_IOS&&!IS_STANDALONE?`<div class="small muted" style="margin-top:8px">באייפון ההתראות עובדות רק כשהאפליקציה שמורה במסך הבית.</div>`:''}
-    </details>
     <div class="label" style="margin:16px 0 6px">מנוחה בין סטים (ברירת מחדל)</div>
-    <div class="row">
-      ${[60,90,120,180].map(s=>`<button class="chip num ${S.settings.rest===s?'on':''}" data-act="rest-set" data-s="${s}">${s<120?s+' שנ׳':(s/60)+' דק׳'}</button>`).join('')}
-    </div>
-    <div class="label" style="margin:16px 0 6px">חשבון</div>
-    <div class="card stack" style="padding:12px 14px">
-      <div class="row">
-        <input id="set-name" type="text" placeholder="השם שלך" value="${esc(S.user?.user_metadata?.full_name||'')}" style="flex:1">
-        <button class="btn" data-act="save-name">שמור שם</button>
-      </div>
-      <div class="spread">
-        <span class="small muted" dir="ltr">${esc(S.user?.email||'')}</span>
-        <button class="btn danger" data-act="logout">יציאה מהחשבון</button>
-      </div>
-    </div>
-    ${S.isAdmin?`<button class="card spread" data-act="admin-open" style="width:100%;text-align:var(--start);padding:12px 14px;margin-top:14px">
-      <span><b>📊 לוח ניהול</b><span class="small muted" style="display:block">משתמשים, פעילות ועלויות AI — רק לך</span></span><span class="muted">›</span></button>`:''}
-    <button class="btn" style="width:100%;margin-top:14px" data-act="rest-test">🔔 בדיקת התראת מנוחה (10 שניות)</button>
-    <div class="small muted" style="margin-top:6px">לחץ, צא מהאפליקציה מיד — ובעוד 10 שניות אמורה להגיע התראה.</div>
-    <div class="label" style="margin:16px 0 6px">מידע ומשפטי</div>
-    <div class="card" style="padding:4px 14px">
-      <a class="setrow" href="terms.html" target="_blank" style="color:inherit;text-decoration:none"><span>תקנון ותנאי שימוש</span><span class="muted">›</span></a>
-      <a class="setrow" href="privacy.html" target="_blank" style="color:inherit;text-decoration:none"><span>מדיניות פרטיות</span><span class="muted">›</span></a>
-      <a class="setrow" href="accessibility.html" target="_blank" style="color:inherit;text-decoration:none"><span>הצהרת נגישות</span><span class="muted">›</span></a>
-      <button class="setrow" data-act="acct-delete" style="width:100%;text-align:var(--start);color:var(--danger);border-bottom:0"><span>מחיקת החשבון והמידע</span><span>›</span></button>
-    </div>
-    <div class="muted small" style="text-align:center;margin-top:14px">NextRep · גרסה ${APP_VERSION}</div>
-    <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>
-  `);
+    <div class="row">${[60,90,120,180].map(x=>`<button class="chip num ${S.settings.rest===x?'on':''}" data-act="rest-set" data-s="${x}">${x<120?x+' שנ׳':(x/60)+' דק׳'}</button>`).join('')}</div>
+    <button class="btn" style="width:100%;margin-top:16px" data-act="rest-test">בדיקת התראת מנוחה (10 שניות)</button>
+    <div class="small muted" style="margin-top:6px">לחץ, צא מהאפליקציה מיד, ובעוד 10 שניות אמורה להגיע התראה.</div>`);
+}
+function openLookSheet(){
+  openSheet(`${sheetHead('שפה ומראה')}
+    <div class="card list">
+      <button class="li" data-act="lang-open">${ICON.globe}<span class="lt"><b>שפה</b><small data-notr>${LANG_NAMES[LANG]}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="g-open">${ICON.user}<span class="lt"><b>פנייה</b><small>${{m:'לשון זכר',f:'לשון נקבה',x:'לא משנה'}[S.settings.g]||'לא נבחר'}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="acc-open"><span style="width:22px;height:22px;border-radius:50%;background:var(--accent);flex-shrink:0"></span><span class="lt"><b>צבע</b><small>${(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]}</small></span>${ICON.chev}</button>
+    </div>`);
+}
+function openHelpSheet(){
+  openSheet(`${sheetHead('עזרה ויצירת קשר')}
+    <div class="card list">
+      <button class="li" data-act="contact-open">${ICON.help}<span class="lt"><b>צור קשר</b><small>שאלה, תקלה או רעיון. נחזור אליך כאן</small></span>${ICON.chev}</button>
+      <button class="li" data-act="tour-restart">${ICON.list}<span class="lt"><b>סיור במערכת</b><small>הצגה קצרה של כל היכולות</small></span>${ICON.chev}</button>
+      <a class="li" href="terms.html" target="_blank">${ICON.shield}<span class="lt"><b>תקנון ותנאי שימוש</b></span>${ICON.chev}</a>
+      <a class="li" href="privacy.html" target="_blank">${ICON.shield}<span class="lt"><b>מדיניות פרטיות</b></span>${ICON.chev}</a>
+      <a class="li" href="accessibility.html" target="_blank">${ICON.shield}<span class="lt"><b>הצהרת נגישות</b></span>${ICON.chev}</a>
+      <button class="li" data-act="acct-delete" style="color:var(--danger)">${ICON.user}<span class="lt"><b>מחיקת החשבון והמידע</b></span>${ICON.chev}</button>
+    </div>`);
+}
+function openNameSheet(){
+  openSheet(`${sheetHead('השם שלך')}
+    <div class="row"><input id="set-name" type="text" placeholder="השם שלך" value="${esc(S.user?.user_metadata?.full_name||'')}" style="flex:1"><button class="btn primary" data-act="save-name">שמור</button></div>
+    <div class="small muted" style="margin-top:8px" dir="ltr">${esc(S.user?.email||'')}</div>`);
 }
 
 /* ----- לוח ניהול (אדמין בלבד; ההרשאה נבדקת בשרת ב-admin_dashboard) ----- */
@@ -5397,9 +5517,8 @@ const metricVal=(r,m)=>m==='volume'?fmtVol(r.volume):(r[m]||0);
 function socMarkRead(gid,id){ if(!id||(SOC.lastRead[gid]||0)>=id)return; SOC.lastRead[gid]=id; try{localStorage.setItem('nr-lastread',JSON.stringify(SOC.lastRead));}catch(_){} socBadge(); }
 function socIsUnread(g){ return g.last_id&&g.last_uid!==S.user?.id&&g.last_id>(SOC.lastRead[g.id]||0); }
 function socBadge(){
-  const b=document.querySelector('#tabs [data-tab="social"]'); if(!b)return;
-  const n=(SOC.groups||[]).filter(socIsUnread).length; let d=b.querySelector('.tbadge');
-  if(n){ if(!d){d=document.createElement('span');d.className='tbadge';b.appendChild(d);} d.textContent=n; } else d?.remove();
+  const d=document.querySelector('#hdr-groups .hd-dot'); if(!d)return;
+  d.hidden=!(SOC.groups||[]).some(socIsUnread);
 }
 async function socLoad(){
   try{ const {data,error}=await sb.rpc('my_groups'); if(error)throw error; SOC.groups=data||[]; }
@@ -5528,20 +5647,20 @@ window.addEventListener('resize',fitChat);
 function vSocial(){ return SOC.gid?vSocGroup():vSocList(); }
 function vSocList(){
   const G=SOC.groups;
-  const head=`<div class="spread" style="margin-top:4px"><div><h2 style="margin:0">קבוצות</h2><div class="small muted">מתאמנים יחד, מתקדמים יותר</div></div></div>`;
-  const acts=`<div class="row" style="gap:8px"><button class="btn primary" style="flex:1" data-act="soc-new">+ קבוצה חדשה</button><button class="btn" style="flex:1" data-act="soc-join">הצטרפות עם קוד</button></div>`;
+  const head=`<div class="row" style="gap:10px;flex-wrap:nowrap"><button class="hd-btn" data-act="go" data-to="home" aria-label="חזרה">${ICON.back}</button><div><h2 class="ttl" style="margin:0">קבוצות</h2><div class="small muted">מתאמנים יחד, מתקדמים יותר</div></div></div>`;
+  const acts=`<div class="two"><button class="btn primary big" style="min-height:52px" data-act="soc-new">קבוצה חדשה</button><button class="btn big" style="background:var(--surface);min-height:52px" data-act="soc-join">הצטרפות עם קוד</button></div>`;
   if(!G)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
   if(!G.length)return head+`<div class="card stack" style="text-align:center;padding:22px 16px;gap:10px">
       <div style="font-size:44px;line-height:1">🤝</div><b style="font-size:18px">קשה לוותר על אימון כשמישהו מחכה לך</b>
       <div class="muted">פתח קבוצה עם שותף לאימונים או עם החבר׳ה מהמכון. כל אימון שתסיימו יופיע בקבוצה, תוכלו לפרגן, לדבר, להתחרות בטבלה השבועית ולפתוח אתגרים.</div>
       <div class="small muted">מה רואים החברים: אימונים שסיימת (שם, זמן, סטים ונפח) ושיאים. את המשקל, התזונה והתמונות שלך רק אתה רואה.</div>
     </div>`+acts;
-  return head+acts+`<div class="stack" style="gap:8px">${G.map(g=>`<button class="sg-card" data-act="soc-open" data-id="${g.id}">
+  return head+`<div class="stack" style="gap:8px">${G.map(g=>`<button class="sg-card" data-act="soc-open" data-id="${g.id}">
       <span class="sg-emo">${esc(g.emoji)}</span>
       <span class="sg-mid"><b>${esc(g.name)}</b><span class="sg-last">${esc(socLastText(g))}</span></span>
       <span class="sg-side"><span>${g.last_at?(ymd(new Date(g.last_at))===ymd()?socTime(g.last_at):new Date(g.last_at).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})):''}</span>
         ${socIsUnread(g)?'<span class="sg-dot"></span>':`<span>${g.members} 👤</span>`}</span>
-    </button>`).join('')}</div>`;
+    </button>`).join('')}</div>`+acts;
 }
 function vSocGroup(){
   const gid=SOC.gid, info=SOC.info[gid], g=(SOC.groups||[]).find(x=>x.id===gid)||info||{};
@@ -6042,25 +6161,25 @@ const TOUR_STEPS=[
   // בית
   {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני קובי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.'},
   {tab:'home',sel:'.coach-card',title:'הסיכום השבועי שלי',text:'כל יום ראשון אכתוב לך כאן מה הלך טוב השבוע ועל מה להתמקד, לפי האימונים והתזונה שלך. לחיצה על הכרטיס פותחת אותו.'},
-  {tab:'home',sel:'#tabs [data-tab="train"]',title:'מכאן מתחילים להתאמן',text:'הכפתור הירוק באמצע התפריט הוא מסך האימון: בונים תוכנית ומתחילים אימון.'},
+  {tab:'home',sel:'.hcard',title:'מכאן מתחילים להתאמן',text:'הכרטיס הכהה הוא האימון הבא שלך. לחיצה אחת, והאימון מתחיל עם המשקלים מהפעם הקודמת.'},
   {tab:'home',kind:'notif',title:'לא לפספס את סוף המנוחה 🔔',text:'הפעל התראות ונודיע לך כשהמנוחה בין הסטים נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.'},
-  {tab:'home',sel:'[data-act="settings"]',title:'הגדרות',text:'יעדים, התראות, שפה וצור קשר. משם אפשר גם להפעיל את ההדרכה הזו מחדש.'},
+  {tab:'home',sel:'#hdr-me',title:'הפרופיל שלך',text:'יעדים, התראות, שפה, הזמנת חברים וצור קשר. משם אפשר גם להפעיל את ההדרכה הזו מחדש.'},
   // אימון
-  {tab:'train',pre:()=>{S.trainView='plans';},sel:'.pb-cta',title:'שלב 1: תוכנית אימון',text:'עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית שבנויה בשבילך. אפשר לערוך אותה בכל רגע.'},
+  {tab:'train',pre:()=>{S.trainView='start';},sel:'[data-act="pb-open"]',title:'שלב 1: תוכנית אימון',text:'עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית שבנויה בשבילך. אפשר לערוך אותה בכל רגע.'},
   {tab:'train',pre:()=>{S.trainView='start';},sel:'[data-act="start-free"]',title:'שלב 2: מתחילים אימון',text:'בוחרים אימון מהתוכנית, או מתחילים אימון חופשי ומוסיפים תרגילים תוך כדי.'},
   {tab:'train',img:'img/kobi-cheer.svg',title:'בזמן האימון',text:'נגיעה בסט מסמנת שסיימת אותו. המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. לא בטוח איך עושים תרגיל? לוחצים ״צפה בהדגמה״.'},
   // תזונה
   {tab:'food',sel:'[data-act="food-targets-open"]',title:'קודם כל: יעד יומי',text:'מגדירים כמה קלוריות וחלבון לאכול ביום. נחשב לך את זה לפי המטרה, המשקל והגובה שלך.'},
-  {tab:'food',sel:'#food-text',title:'רושמים מה אכלת',text:'כותבים מאכל ובוחרים מהמאגר הישראלי, או ארוחה שלמה כמו ״שניצל עם אורז״ ולוחצים ✨ חשב.'},
-  {tab:'food',sel:'.acts3',title:'או בלי להקליד',text:'מצלמים את הצלחת וה-AI מזהה כל רכיב ומעריך כמה גרם יש. אפשר לתקן את הגרמים לפני שמוסיפים. או סורקים ברקוד של מוצר מהסופר.'},
+  {tab:'food',sel:'.ask',title:'רושמים מה אכלת',text:'כותבים מאכל ובוחרים מהמאגר הישראלי, או ארוחה שלמה כמו ״שניצל עם אורז״ ולוחצים ✨ חשב.'},
+  {tab:'food',sel:'.ask',title:'או בלי להקליד',text:'מצלמים את הצלחת וה-AI מזהה כל רכיב ומעריך כמה גרם יש. אפשר לתקן את הגרמים לפני שמוסיפים. או סורקים ברקוד של מוצר מהסופר.'},
   // קבוצות
   {tab:'social',pre:()=>{SOC.gid=null; if(!SOC.groups)SOC.groups=[];},sel:'[data-act="soc-new"]',title:'מתאמנים עם חברים',text:'פותחים קבוצה ושולחים קישור לשותף או לחבר׳ה מהמכון. כל אימון שמישהו מסיים מופיע אוטומטית בצ׳אט.'},
   {tab:'social',sel:'[data-act="soc-join"]',title:'קיבלת קוד?',text:'אם חבר שלח לך קוד הזמנה, מצטרפים לקבוצה שלו מכאן.'},
   {tab:'social',img:'img/kobi-cheer.svg',title:'אתגרים 🏆',text:'בתוך קבוצה אפשר להשיק אתגר: מי מתאמן הכי הרבה החודש, מרוץ ראשון ליעד, או כולם יחד מול יעד משותף.'},
   // מעקב
-  {tab:'track',pre:()=>{S.trackView='body';},sel:'.tseg',title:'שלושה חלקים',text:'גוף ויעדים: משקל ותמונות. התקדמות: גרפים, שיאים והישגים. היסטוריה: כל האימונים שעשית.'},
+  {tab:'track',pre:()=>{S.trackView='body';},sel:'.seg2',title:'שני חלקים',text:'אימונים: גרפים, שיאים, הישגים והיסטוריה. גוף ומשקל: שקילות, תמונות ויעדים.'},
   {tab:'track',pre:()=>{S.trackView='body';},sel:'[data-act="bw-quick"]',title:'שקילה',text:'שוקלים בבוקר ולוחצים כאן. כל שקילה נכנסת ללוח ולגרף, ככה רואים את המגמה ולא רק מספר של יום אחד.'},
-  {tab:'track',pre:()=>{S.trackView='body';},when:()=>S.settings.photoDay==null,sel:'.phset',title:'תמונות התקדמות',text:'בוחרים יום קבוע בשבוע ומקבלים תזכורת להצטלם. אחרי חודש משווים תמונה מול תמונה.'},
+  {tab:'track',pre:()=>{S.trackView='body'; (S.bodyOpen||(S.bodyOpen={})).ph=true;},when:()=>S.settings.photoDay==null,sel:'.phset',title:'תמונות התקדמות',text:'בוחרים יום קבוע בשבוע ומקבלים תזכורת להצטלם. אחרי חודש משווים תמונה מול תמונה.'},
   {tab:'track',pre:()=>{S.trackView='progress';},img:'img/kobi-cheer.svg',title:'הישגים וסיכום חודשי',text:'20 הישגים לפתוח, כל אחד עם חגיגה ותמונה לשיתוף. ובתחילת כל חודש מחכה לך סיכום של החודש שעבר.'},
 ];
 /* per-screen tours: the first time a new user opens a screen, a short tour of just that screen */
@@ -6736,7 +6855,7 @@ function openExSheet(name,opt){
 /* finish sheet */
 /* ---------- חיות: מספרים שסופרים, פסים שמתמלאים, פיצוץ, קונפטי, באנר ניצחון ---------- */
 const RM=()=>{ try{ return matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(_){ return false; } };
-const TAB_ORD=['home','food','train','social','track','admin','plans'];
+const TAB_ORD=['home','train','food','track','social','me','admin','plans'];
 function liven(root){
   if(!root||RM())return;
   let n=0;
@@ -6895,7 +7014,11 @@ function handleAct(b,ev){
     case 'start-free': startWorkout('אימון חופשי'); break;
     case 'start-tpl': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t){closeSheet();startWorkout(t.name,t.id);} break; }
     case 'add-ex': openLibrary('active'); break;
-    case 'rm-ex': { S.active.ex.splice(+b.dataset.ei,1); persistActive(); render(); break; }
+    case 'rm-ex': { if(!b.dataset.sure&&b.closest('#sheet')){ b.dataset.sure='1'; b.querySelector('b').textContent='בטוח? לחץ שוב להסרה'; break; } closeSheet(); S.active.ex.splice(+b.dataset.ei,1); if(S.active.open)S.active.open={}; persistActive(); render(); break; }
+    case 'ex-menu': openExMenu(+b.dataset.ei); break;
+    case 'ex-open': { const o=S.active.open||(S.active.open={}); const ei=+b.dataset.ei; S.active.ex.forEach((_,i)=>{ if(o[i]===true)delete o[i]; }); o[ei]=true; persistActive(); render(); setTimeout(()=>document.querySelectorAll('.ex-card.cur,.ex-card')[0]?.scrollIntoView({block:'start',behavior:'smooth'}),30); break; }
+    case 'ex-close': { const o=S.active.open||(S.active.open={}); o[+b.dataset.ei]=false; closeSheet(); persistActive(); render(); break; }
+    case 'ex-rest': { const e=S.active?.ex[+b.dataset.ei]; if(!e)break; e.rest=+b.dataset.s; persistActive(); openExMenu(+b.dataset.ei); break; }
     case 'add-set': { const e=S.active.ex[+b.dataset.ei]; const last=e.sets[e.sets.length-1];
       e.sets.push({w:'',r:'',pw:last?(last.w||last.pw||''):'',pr:last?(last.r||last.pr||''):'',done:false});
       persistActive(); render(); break; }
@@ -6919,10 +7042,12 @@ function handleAct(b,ev){
         if(prev>0&&sw>prev&&+s.r>0){ const pr=(S.active._pr=S.active._pr||{}); if((pr[e.n]||0)<sw){ pr[e.n]=sw; persistActive();
           setTimeout(()=>{ cheer('🏆','שיא אישי חדש!',`${e.n} · ${sw} ${tt('ק״ג')}`,true); confetti(90); vibrate([20,40,20]); },120); } } }
       if(s.done){ const nx=e.sets[si2+1]&&!e.sets[si2+1].done?`${e.n} · סט ${si2+2}`:(S.active.ex[ei2+1]?S.active.ex[ei2+1].n:'');
-        startRest(e.rest||S.settings.rest,nx); } break; }
+        startRest(e.rest||S.settings.rest,nx);
+        if(e.sets.every(x=>x.done)&&$('#np').hidden){ if(S.active.open)delete S.active.open[ei2]; setTimeout(()=>{ if(S.active&&S.tab==='train')render(); },420); } } break; }
     case 'done-all': { const e=S.active?.ex[+b.dataset.ei]; if(!e||e.t!=='s')break;
-      if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='בטוח?';
-        setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)b.textContent='✓✓';},2200); break; }
+      if(!b.dataset.sure){ b.dataset.sure='1'; const t=b.querySelector('b')||b; t.textContent='בטוח? לחץ שוב';
+        setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)t.textContent=b.querySelector('b')?'סמן את כל הסטים':'✓✓';},2200); break; }
+      closeSheet();
       for(const s of e.sets){ if(s.done)continue;
         if(!s.w&&s.pw)s.w=s.pw; if(!s.r&&s.pr)s.r=s.pr;
         if(+s.r>0)s.done=true; }
@@ -6947,8 +7072,12 @@ function handleAct(b,ev){
       const ex=_tplDraft.ex; [ex[i],ex[j]]=[ex[j],ex[i]]; vibrate(10); renderTplReorder(); break; }
     case 'cardio-done': { const e=S.active.ex[+b.dataset.ei]; e.c.done=!e.c.done; persistActive(); render(); break; }
     case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings();
-      if(!$('#sheet').hidden)renderSettings(); else render(); break;
-    case 'settings': renderSettings(); break;
+      if(!$('#sheet').hidden)openNotifSheet(); else render(); break;
+    case 'settings': S.tab='me'; location.hash='me'; render(); window.scrollTo(0,0); break;
+    case 'me-notif': openNotifSheet(); break;
+    case 'me-look': openLookSheet(); break;
+    case 'me-help': openHelpSheet(); break;
+    case 'me-name': openNameSheet(); break;
     case 'rest-test': {
       if(!('Notification' in window)||!('PushManager' in window)){ toast('המכשיר לא תומך בהתראות — באייפון פתח מהאייקון במסך הבית'); break; }
       subscribePush().then(r=>{
@@ -6959,7 +7088,7 @@ function handleAct(b,ev){
     case 'save-name': { const nm=($('#set-name')?.value||'').trim(); if(!nm){toast('השם ריק');break;}
       sb.auth.updateUser({data:{full_name:nm}}).then(({data,error})=>{
         if(error){toast('שמירת השם נכשלה');return;}
-        if(data?.user)S.user=data.user; toast('השם עודכן 👋'); if(!$('#sheet').hidden&&!$('#logoutbtn').hidden&&!document.querySelector('[data-act="rest-test"]'))closeSheet(); render();
+        if(data?.user)S.user=data.user; toast('השם עודכן 👋'); if(!$('#sheet').hidden&&document.querySelector('#set-name'))closeSheet(); render();
       }); break; }
     case 'notif-on': closeSheet(); logEv('notif_ask',{ctx:b.dataset.ctx||null}); ensureNotifPerm().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:b.dataset.ctx||null}); if(ok){ toast('ההתראות הופעלו 🔔'); subscribePush().catch(()=>{}); if(S.settings.notif)S.settings.notif.remind=true; persistSettings(); } else toast(Notification.permission==='denied'?'ההרשאה נדחתה. אפשר לשנות בהגדרות הטלפון':'ההרשאה לא אושרה'); render(); }); break;
     case 'notif-later': closeSheet(); notifSnooze(); render(); break;
@@ -6988,6 +7117,7 @@ function handleAct(b,ev){
     case 'meal-save': saveMealDraft(); break;
     case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(f)openPortion(f); break; }
+    case 'food-add-open': openFoodAdd(); break;
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
       _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
     case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:10;
@@ -7029,6 +7159,7 @@ function handleAct(b,ev){
       if(id)S.settings.schedule[d]=id; else delete S.settings.schedule[d];
       persistSettings(); closeSheet(); render(); break; }
     case 'rest-add': T.end+=15000; T.total+=15; tickRest(); if(T.int)armServerRest(T.label); break;
+    case 'rest-sub': T.end-=15000; T.total=Math.max(5,T.total-15); tickRest(); if(T.int)armServerRest(T.label); break;
     case 'rest-skip': stopRest(); break;
     case 'cancel-w':
       if(b.dataset.sure){S.active=null; saveLocalActive(); clearTimeout(_aT); flushActive(); stopRest(); keepAwake(false); render();}
@@ -7065,7 +7196,11 @@ function handleAct(b,ev){
     case 'hist-del1': S.confirmDel=b.dataset.id; render(); break;
     case 'hist-del2': deleteWorkout(b.dataset.id); S.confirmDel=null; break;
     case 'metric': S.progressMetric=b.dataset.m; render(); break;
-    case 'track-view': S.trackView=b.dataset.v; render(); break;
+    case 'track-view': S.trackView=b.dataset.v; render(); window.scrollTo(0,0); break;
+    case 'body-tog': { const o=S.bodyOpen||(S.bodyOpen={}); o[b.dataset.k]=!o[b.dataset.k]; render(); break; }
+    case 'pr-all': S.prAll=!S.prAll; render(); break;
+    case 'badges-open': openSheet(`<div class="spread" style="margin-bottom:10px"><h3 style="margin:0">הישגים</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>${badgesCardHTML()}`); break;
+    case 'vol-open': openSheet(`<div class="spread" style="margin-bottom:10px"><h3 style="margin:0">נפח לפי שריר</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>${weeklyVolHTML()}`); break;
     case 'hist-open': openWorkoutSheet(b.dataset.id); break;
     case 'hist-tpl': HIST.tpl=b.dataset.t; render(); break;
     case 'hist-month': { const k=b.dataset.k; HIST.open[k]=b.getAttribute('aria-expanded')!=='true'; render(); break; }
@@ -7191,7 +7326,7 @@ document.addEventListener('keydown',ev=>{
 });
 window.addEventListener('hashchange',()=>{
   const h=(location.hash||'').replace('#','');
-  if(['home','train','food','plans','track','social'].includes(h)&&h!==S.tab){S.tab=h;render();}
+  if(['home','train','food','plans','track','social','me'].includes(h)&&h!==S.tab){S.tab=h;render();}
 });
 
 /* ---------- default plans for every new user ---------- */
