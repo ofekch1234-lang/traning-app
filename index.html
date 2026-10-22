@@ -856,11 +856,11 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .ask .sq.pr{background:var(--accent);color:var(--accent-ink)}
 .ask .sq svg{width:20px;height:20px}
 .ways{display:flex;gap:8px;align-items:stretch}
-.ways>*{flex:1 1 0;min-width:0;min-height:68px;box-sizing:border-box;margin:0;padding:10px 4px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;line-height:1.2}
+.ways>*,.liblist .ways>*{flex:1 1 0;border-bottom:1px solid var(--line);justify-content:center;text-align:center;min-width:0;min-height:68px;box-sizing:border-box;margin:0;padding:10px 4px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;line-height:1.2}
 .ways svg{width:22px;height:22px;flex-shrink:0}
 .again{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;margin:0 -16px;padding-inline:16px;scrollbar-width:none}
 .again::-webkit-scrollbar{display:none}
-.again .chip{flex-shrink:0;white-space:nowrap;background:var(--surface);border-radius:14px;padding:9px 12px}
+.again .chip,.liblist .again .chip{flex-shrink:0;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface);border-radius:14px;padding:9px 12px}
 .seg2{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--surface2)}
 .seg2 button{flex:1;height:40px;border-radius:11px;font-size:15px;color:var(--muted)}
 .seg2 button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(20,26,22,.12)}
@@ -1460,7 +1460,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.0.2';
+const APP_VERSION='13.0.3';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2664,7 +2664,7 @@ function openFoodAdd(){
       ${recents.length?`<div class="small muted" style="font-weight:600;margin-bottom:-6px">שוב</div><div class="again">${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}"><span data-notr>${esc(m.name.length>22?m.name.slice(0,22)+'…':m.name)}</span> · ${m.kcal}</button>`).join('')}</div>`:''}
     </div>
   </div>`);
-  $('#sheet').classList.add('libmode','fa');
+  $('#sheet').classList.add('libmode','fa'); swFit();
   setTimeout(()=>{ const t=$('#food-text'); if(t&&!IS_IOS)t.focus(); },60);
 }
 /* daily targets calculator: sex, age, height, weight, activity, goal -> calories (Mifflin-St Jeor x activity, adjusted by goal)
@@ -3401,9 +3401,12 @@ async function mnAddSearch(q){
 /* גובה החלון לפי המקלדת: הכותרת והחיפוש נשארים גלויים, והרשימה גוללת */
 function swFit(){
   const sh=$('#sheet'), vv=window.visualViewport; if(!sh)return;
-  if(!sh.classList.contains('swsheet')||!vv){ sh.style.bottom=''; sh.style.height=''; return; }
+  const sw=sh.classList.contains('swsheet'), fa=sh.classList.contains('fa');
+  if((!sw&&!fa)||!vv){ sh.style.bottom=''; sh.style.height=''; return; }
   const kb=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);
-  sh.style.bottom=kb+'px'; sh.style.height=Math.round(Math.min(vv.height-12,window.innerHeight*.86))+'px';
+  // add-meal sheet: natural height while the keyboard is closed; above the keyboard, filling the visible area, while it is open
+  if(fa&&kb<40){ sh.style.bottom=''; sh.style.height=''; return; }
+  sh.style.bottom=kb+'px'; sh.style.height=Math.round(Math.min(vv.height-(fa?8:12),window.innerHeight*(fa?.92:.86)))+'px';
 }
 try{ window.visualViewport?.addEventListener('resize',swFit); window.visualViewport?.addEventListener('scroll',swFit); }catch(_){}
 /* --- רישום ביומן --- */
