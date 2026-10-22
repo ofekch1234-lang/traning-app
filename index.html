@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9e974c83"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9e974c83"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9e974c83"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=67793eec"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=67793eec"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=67793eec"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.4';
+const APP_VERSION='13.2.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5004,7 +5004,7 @@ function renderNumpad(){
 }
 function centerRack(smooth){
   const rack=$('#rack'); if(!rack)return;
-  NP._lock=Date.now()+600; // גלילה תכנותית — לא בחירה של המשתמש
+  NP._lock=Date.now()+1100; // programmatic scroll, not the user's pick
   const items=[...rack.querySelectorAll('.dbitem')];
   let best=items[0],bd=1e9;
   for(const it of items){ const d=Math.abs(+it.dataset.rackv-(NP.val||10)); if(d<bd){bd=d;best=it;} }
@@ -5026,8 +5026,8 @@ function rackPick(){
 }
 function npUpdate(){ const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
   if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs')renderNumpad();
-  else if(NP.cfg.mode==='weight'&&NP.sub==='db'){ // כוונון ידני: עדכון הדגשה בלי לגעת בגלילה
-    document.querySelectorAll('.dbitem').forEach(it=>it.classList.toggle('sel',+it.dataset.rackv===NP.val)); }
+  else if(NP.cfg.mode==='weight'&&NP.sub==='db'){ // +/- and "same as last time": the rack follows, so the pick stays in the middle
+    centerRack(true); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='stack'){ const k=$('#npstk'); if(k)k.innerHTML=npStackHTML(); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='bar'){ const b=$('#npbar'), t=$('#nptot'); if(b)b.innerHTML=npBarSVG(NP.val); if(t)t.innerHTML=npBarTot(NP.val); } }
 document.addEventListener('click',ev=>{
@@ -5275,7 +5275,7 @@ function vMe(){
       <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${'Notification' in window&&Notification.permission!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
-      <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>סיור, פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
+      <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
       ${S.isAdmin?`<button class="li" data-act="admin-open">${ICON.chart}<span class="lt"><b>לוח ניהול</b><small>משתמשים, פעילות ועלויות AI</small></span>${ICON.chev}</button>`:''}
     </div>
     <button class="linkbtn" data-act="logout" style="color:var(--danger);text-decoration:none;font-weight:600;align-self:center">יציאה מהחשבון</button>
@@ -5319,7 +5319,6 @@ function openHelpSheet(){
   openSheet(`${sheetHead('עזרה ויצירת קשר')}
     <div class="card list">
       <button class="li" data-act="contact-open">${ICON.help}<span class="lt"><b>צור קשר</b><small>שאלה, תקלה או רעיון. נחזור אליך כאן</small></span>${ICON.chev}</button>
-      <button class="li" data-act="tour-restart">${ICON.list}<span class="lt"><b>סיור במערכת</b><small>הצגה קצרה של כל היכולות</small></span>${ICON.chev}</button>
       <a class="li" href="terms.html" target="_blank">${ICON.shield}<span class="lt"><b>תקנון ותנאי שימוש</b></span>${ICON.chev}</a>
       <a class="li" href="privacy.html" target="_blank">${ICON.shield}<span class="lt"><b>מדיניות פרטיות</b></span>${ICON.chev}</a>
       <a class="li" href="accessibility.html" target="_blank">${ICON.shield}<span class="lt"><b>הצהרת נגישות</b></span>${ICON.chev}</a>
@@ -6304,6 +6303,7 @@ function toursSeen(){ if(!S.settings.toursSeen||typeof S.settings.toursSeen!=='o
 // back on the sign-in screen after a language switch (the page reloads)
 try{ const a=JSON.parse(sessionStorage.getItem('nr-auth-open')||'null'); if(a){ sessionStorage.removeItem('nr-auth-open'); S.showAuth=true; S.authMode=a.m||'login'; if(a.e){S.authEmail=a.e; OTP.email=a.e;} } }catch(_){}
 function maybeStartTour(){
+  return; // v13.2.5: the guided tour is off (onboarding covers the essentials)
   if(TOUR.on||S.active||S.mode!=='app'||$('#instgate'))return;
   if(S.settings.tourDone)return; // finished the old all-in-one tour
   try{ if(localStorage.getItem('nr-tour'))return; }catch(_){}
