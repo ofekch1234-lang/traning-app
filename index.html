@@ -1460,7 +1460,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.0.4';
+const APP_VERSION='13.0.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1911,7 +1911,6 @@ function vOtp(){
       ${code?`<button class="linkbtn" data-act="otp-send" ${Date.now()<OTP.until?'disabled':''}>${Date.now()<OTP.until?(OTP.until-Date.now()<60000?tt('אפשר לשלוח קוד חדש בעוד')+' '+Math.ceil((OTP.until-Date.now())/1000)+' '+tt('שניות'):'אפשר לשלוח שוב בעוד דקה'):'לא הגיע? שלח שוב'}</button>
 `
         :`<div class="small muted gconsent" style="text-align:center">בהמשך אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>`}
-      ${code?'':`<button class="linkbtn" data-act="auth-email-open" style="font-size:13.5px;color:var(--muted)">התחברות עם סיסמה</button>`}
       ${code?'':hoBtn}
       ${code?'':`<button class="linkbtn" data-act="auth-g-reset" style="font-size:12.5px;color:var(--muted)">${{m:'פנייה בלשון זכר',f:'פנייה בלשון נקבה',x:'פנייה: לא משנה'}[window.NR_G]||''} · שינוי</button>`}
       ${code?'<button class="linkbtn" data-act="otp-back" style="color:var(--muted)">חזרה</button>':IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
@@ -2346,7 +2345,7 @@ function vAuth(){ if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOG
     <div class="card stack">
       ${GOOGLE_ON&&SHOW_GOOGLE?`${GSI.ready?'<div id="gsi-btn" class="gsi-wrap"></div>':`<button class="gbtn" data-act="auth-google"><svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg><span>המשך עם Google</span></button>`}
       <div class="small muted gconsent" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
-      ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':OTP_ON?'<button class="btn" data-act="otp-open">✉️ קבל קוד למייל</button><button class="linkbtn" data-act="auth-email-open" style="font-size:13.5px">התחברות עם סיסמה</button>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
+      ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':OTP_ON?'<button class="btn" data-act="otp-open">✉️ קבל קוד למייל</button>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
       ${showForm?`${su?`<div class="label">שם מלא</div>
       <input id="au-name" type="text" autocomplete="name" placeholder="איך קוראים לך?" value="${esc(S.authName||'')}">`:''}
       <div class="label">אימייל</div>
