@@ -1007,6 +1007,10 @@
   "pattern": true
  },
  {
+  "he": "חזרות{0}",
+  "pattern": true
+ },
+ {
   "he": "{0} {1} השבוע",
   "pattern": true
  },

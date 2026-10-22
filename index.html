@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=df3f5f95"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=df3f5f95"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=df3f5f95"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b5cdde5b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b5cdde5b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=b5cdde5b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1009,6 +1009,12 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .done-btn{width:42px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface2);display:flex;align-items:center;justify-content:center}
 .done-btn svg{width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .set-done input{background:var(--accent-soft);border-color:var(--accent)}
+.set-done.r-over input{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:700}
+.set-done.r-under input{background:var(--surface2);border-color:var(--line)}
+.setgrid .h .tgt{display:inline-block;margin-inline-start:3px;padding:1px 6px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:11px}
+.rtip{margin-top:8px;padding:9px 12px;border-radius:12px;background:var(--accent-soft);display:flex;flex-direction:column;gap:1px;font-size:13.5px}
+.rtip b{font-weight:700}.rtip span{color:var(--muted);font-size:12.5px}
+.rtip.up{background:var(--gold-soft)}.rtip.up>b{color:var(--gold)}.rtip.up span b{color:var(--ink)}
 .set-done .done-btn{background:var(--accent);border-color:var(--accent)}
 .set-done .done-btn svg{stroke:var(--accent-ink)}
 .addset{margin-top:8px;width:100%;padding:9px;border:1px dashed var(--line);color:var(--muted);font-size:14px}
@@ -1509,7 +1515,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.14';
+const APP_VERSION='13.2.15';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4047,18 +4053,30 @@ function vActive(){
     <button class="btn big" style="background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px" data-act="add-ex">${ICON.plus} הוסף תרגיל</button>
     <button class="linkbtn" style="color:var(--muted);text-decoration:none;align-self:center" data-act="cancel-w">ביטול האימון</button>`;
 }
+/* target reps "8-12" / "10" → {lo,hi}; null for timed ranges (plank seconds) or none */
+function repRange(r){ const n=String(r||'').match(/\d+/g); if(!n)return null; const lo=+n[0], hi=+n[n.length-1]; if(!hi||hi>30)return null; return {lo:Math.min(lo,hi),hi:Math.max(lo,hi)}; }
+function repCls(e,s){ const rr=repRange(e.reps), r=+s.r||0; if(!rr||!r)return ''; return r>rr.hi?'r-over':r<rr.lo?'r-under':'r-in'; }
+/* double progression: top of the range on every set last time → add weight; otherwise one more rep than the weakest set */
+function repTip(e){
+  const up=coachTip(e.n,e.reps,e.sets.length); if(up)return {kind:'up',w:up.w,from:up.from};
+  const rr=repRange(e.reps), last=lastSetsOf(e.n); if(!rr||!last||!last.length)return null;
+  const rs=last.map(x=>+x.r||0).filter(Boolean), w=Math.max(...last.map(x=>+x.w||0)); if(!rs.length||w<=0)return null;
+  const low=Math.min(...rs); if(low<rr.lo-2)return null; // last time was far off: no nudge
+  return {kind:'reps',r:Math.min(rr.hi,Math.max(rr.lo,low+1)),w};
+}
 function vStrength(e,ei,cur){
   const prev=lastPerf(e.n);
-  const target=e.reps?`יעד ${e.sets.length}×${esc(e.reps)}`:'';
+  const rr=repRange(e.reps);
+  const target=e.reps?`יעד <bdi dir="ltr">${e.sets.length}×${esc(String(e.reps).replace(/\s*[-–—]\s*/,'–'))}</bdi>`:'';
   const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
-  const tip=coachTip(e.n,e.reps,e.sets.length);
+  const tip=e.sets.some(x=>x.done)?null:repTip(e);
   return `<div class="ex-card ${cur?'cur':''}">
     <div class="ex-head" style="align-items:flex-start">
       <div style="flex:1;min-width:0">
         <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
         <div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}
-        ${tip?`<div style="margin-top:4px"><span class="pill pr num">💡 סגרת את הטווח — נסה ${tip.w} ק״ג</span></div>`:''}
+        ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${tip.w}</b> ק״ג</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${tip.w}</span> ק״ג, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">
         <button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמת התרגיל" style="color:var(--accent)">${ICON.play}</button>
@@ -4066,11 +4084,11 @@ function vStrength(e,ei,cur){
       </div>
     </div>
     <div class="setgrid">
-      <span class="h">סט</span><span class="h">ק״ג</span><span class="h">חזרות</span><span class="h"></span>
+      <span class="h">סט</span><span class="h">ק״ג</span><span class="h">חזרות${rr?` <bdi dir="ltr" class="tgt num">${rr.lo===rr.hi?rr.lo:rr.lo+'–'+rr.hi}</bdi>`:''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num">${si+1}</span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${s.w??''}" placeholder="${s.pw??''}" data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
-        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
+        <span class="${s.done?'set-done '+repCls(e,s):''}" data-cell="${ei}-${si}" data-rcell="1"><input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><button class="done-btn" data-act="set-done" data-ei="${ei}" data-si="${si}" aria-label="סיום סט"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
       `).join('')}
     </div>
@@ -7298,9 +7316,11 @@ function handleAct(b,ev){
       persistActive();
       // עדכון נקודתי של השורה — בלי רינדור מלא, כדי שסימון סט יעבוד גם כשהמקלדת פתוחה
       document.querySelectorAll(`[data-cell="${ei2}-${si2}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
+      { const rc=document.querySelector(`[data-cell="${ei2}-${si2}"][data-rcell]`), k=s.done?repCls(e,s):''; if(rc){ rc.classList.remove('r-in','r-over','r-under'); if(k)rc.classList.add(k); } }
       const wi=document.getElementById(`w-${ei2}-${si2}`), ri=document.getElementById(`r-${ei2}-${si2}`);
       if(wi)wi.value=s.w??''; if(ri)ri.value=s.r??'';
       updateLive();
+      if(s.done&&repCls(e,s)==='r-over'){ const o=(S.active._over=S.active._over||{}); if(!o[e.n]){ o[e.n]=1; setTimeout(()=>toast('מעל טווח החזרות, בפעם הבאה אפשר להעלות משקל'),700); } }
       if(s.done){ burst(b); vibrate(15);
         const prev=bestMap()[e.n]?.w||0, sw=+s.w||0;
         if(prev>0&&sw>prev&&+s.r>0){ const pr=(S.active._pr=S.active._pr||{}); if((pr[e.n]||0)<sw){ pr[e.n]=sw; persistActive();
