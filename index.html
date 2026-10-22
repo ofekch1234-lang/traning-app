@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9b1dcf84"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9b1dcf84"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9b1dcf84"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a0d7c99e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a0d7c99e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a0d7c99e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1496,7 +1496,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.1';
+const APP_VERSION='13.2.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1922,7 +1922,7 @@ function vOtp(){
       ${navigator.clipboard?.readText?`<button class="btn" data-act="ho-paste">📋 ${tt('הדבק את הקוד שהעתקת')}</button>`:''}
       <div class="autherr">${esc(OTP.err||'')}</div>
       <button class="btn primary big" data-act="ho-redeem" ${OTP.busy?'disabled':''}>${OTP.busy?'רגע…':'כניסה'}</button>
-      <button class="linkbtn" data-act="otp-back" style="color:var(--muted)">אין לי קוד, כניסה עם המייל</button>
+      ${OTP.hoFail?`<button class="btn big" data-act="otp-back">✉️ כניסה עם קוד חדש למייל</button>`:`<button class="linkbtn" data-act="otp-back" style="color:var(--muted)">אין לי קוד, כניסה עם המייל</button>`}
     </div></div>`;
   const hoBtn=IS_STANDALONE?`<button class="ho-link" data-act="ho-open"><b>נרשמת קודם בדפדפן?</b><span>כניסה עם קוד העברה, בלי לחכות למייל</span></button>`:'';
   if(!code&&!window.NR_G)return `<div id="authwrap">
@@ -1973,7 +1973,8 @@ async function hoRedeem(){
   OTP.busy=true; OTP.err=''; render();
   try{
     const {data,error}=await sb.functions.invoke('handoff',{body:{action:'redeem',code:c}});
-    if(error||!data?.token_hash){ const st=error?.context?.status; OTP.busy=false; OTP.err=st===429?'יותר מדי ניסיונות. נסה שוב בעוד כמה דקות.':'הקוד שגוי או שפג תוקפו (הוא תקף 15 דקות).'; render(); return; }
+    if(error||!data?.token_hash){ const st=error?.context?.status; OTP.busy=false; OTP.hoFail=(OTP.hoFail||0)+1; logEv('handoff_fail',{n:OTP.hoFail});
+      OTP.err=st===429?'יותר מדי ניסיונות. אפשר להיכנס עם קוד חדש למייל, למטה.':'הקוד לא מתאים. שים לב: זה לא הקוד מהמייל, אלא הקוד שהופיע בדפדפן בחלון "שמירה למסך הבית" (תקף 15 דקות).'; render(); return; }
     let r=await sb.auth.verifyOtp({token_hash:data.token_hash,type:'magiclink'});
     if(r.error)r=await sb.auth.verifyOtp({token_hash:data.token_hash,type:'email'});
     OTP.busy=false;
@@ -1981,13 +1982,38 @@ async function hoRedeem(){
     OTP.step=''; logEv('handoff_ok');
   }catch(e){ OTP.busy=false; OTP.err='אין חיבור. נסה שוב.'; render(); }
 }
+/* iPhone browser sign-in: the home-screen app can't see this session, so it needs the handoff code.
+   We arm the clipboard inside the user's tap (Safari allows a ClipboardItem whose content arrives later),
+   then fill it with the handoff code as soon as the sign-in succeeds. Pasting in the app then just works. */
+const HO={clip:null,ok:false,p:null};
+function hoArmClip(){
+  if(!IS_IOS||IS_STANDALONE||!window.ClipboardItem||!navigator.clipboard?.write||HO.clip)return;
+  let res,rej; const pr=new Promise((a,b)=>{res=a;rej=b;}); HO.clip={res,rej};
+  setTimeout(()=>{ if(HO.clip){ HO.clip.rej(new Error('timeout')); HO.clip=null; } },30000);
+  try{ navigator.clipboard.write([new ClipboardItem({'text/plain':pr.then(c=>new Blob([c],{type:'text/plain'}))})])
+    .then(()=>{ HO.ok=true; logEv('ho_clip',{ok:1}); const el=$('#ig-code'); if(el)hoMarkCopied(el); },()=>{ logEv('ho_clip',{ok:0}); }); }catch(_){}
+}
+function hoFetch(){
+  if(HO.p)return HO.p;
+  HO.p=(async()=>{
+    try{ const o=JSON.parse(sessionStorage.getItem('nr-ho')||'null'); if(o&&Date.now()-o.t<12*60000)return o.c; }catch(_){}
+    const {data}=await sb.functions.invoke('handoff',{body:{action:'create'}});
+    if(!data?.code)throw new Error('no_code');
+    try{ sessionStorage.setItem('nr-ho',JSON.stringify({c:data.code,t:Date.now()})); }catch(_){}
+    return data.code;
+  })();
+  HO.p.then(c=>{ if(HO.clip){ HO.clip.res(c); HO.clip=null; } },e=>{ HO.p=null; if(HO.clip){ HO.clip.rej(e); HO.clip=null; } });
+  return HO.p;
+}
 async function otpVerify(){
   const t=($('#otp-code')?.value||'').replace(/\D/g,'');
   if(t.length<6){OTP.err='הקוד צריך להיות 6 ספרות';render();return;}
+  hoArmClip();
   OTP.busy=true; OTP.err=''; render();
   const {error}=await sb.auth.verifyOtp({email:OTP.email,token:t,type:'email'});
   OTP.busy=false;
-  if(error){ OTP.err='הקוד שגוי או שפג תוקפו'; render(); return; }
+  if(error){ if(HO.clip){ HO.clip.rej(new Error('otp')); HO.clip=null; } OTP.err='הקוד שגוי או שפג תוקפו'; render(); return; }
+  if(IS_IOS&&!IS_STANDALONE&&IS_MOBILE)hoFetch().catch(()=>{});
   OTP.step=''; // onAuthStateChange takes it from here
 }
 /* Google Identity Services: in the browser, Google's own button (shows NextRep / our domain instead of the supabase.co address).
@@ -6231,14 +6257,12 @@ function showInstallGate(pre,mode){
 }
 /* באייפון האפליקציה שבמסך הבית לא רואה את ההתחברות של ספארי: מציגים קוד העברה חד-פעמי */
 function copyFallback(t){ try{ const a=document.createElement('textarea'); a.value=t; a.setAttribute('readonly',''); a.style.cssText='position:fixed;opacity:0;top:0'; document.body.appendChild(a); a.select(); a.setSelectionRange(0,99); document.execCommand('copy'); a.remove(); }catch(_){} }
+function hoMarkCopied(el){ const e=el.querySelector('.ig-copy'); if(e){ e.textContent=tt('הקוד כבר הועתק ✓ באפליקציה לוחצים "הדבק"'); el.classList.add('copied'); } }
 async function hoCreate(){
   const show=c=>{ const el=$('#ig-code'); if(!el)return; el.dataset.act='inst-copy'; el.dataset.c=c; el.setAttribute('role','button');
-    el.innerHTML=`<span>${tt('כשתפתח את האפליקציה מהמסך הבית, בחר "נרשמת קודם בדפדפן?" והקלד:')}</span><b class="num" dir="ltr">${c.slice(0,3)} ${c.slice(3)}</b><em class="ig-copy">${tt('נגיעה להעתקה')}</em><small>${tt('תקף ל-15 דקות')}</small>`; };
-  try{ const o=JSON.parse(sessionStorage.getItem('nr-ho')||'null'); if(o&&Date.now()-o.t<12*60000){ show(o.c); return; } }catch(_){}
-  try{ const {data}=await sb.functions.invoke('handoff',{body:{action:'create'}});
-    if(data?.code){ try{ sessionStorage.setItem('nr-ho',JSON.stringify({c:data.code,t:Date.now()})); }catch(_){} show(data.code); }
-    else $('#ig-code')?.remove();
-  }catch(_){ $('#ig-code')?.remove(); }
+    el.innerHTML=`<span>${tt('כשתפתח את האפליקציה מהמסך הבית, בחר "נרשמת קודם בדפדפן?" והקלד:')}</span><b class="num" dir="ltr">${c.slice(0,3)} ${c.slice(3)}</b><em class="ig-copy">${tt('נגיעה להעתקה')}</em><small>${tt('תקף ל-15 דקות')}</small>`;
+    if(HO.ok)hoMarkCopied(el); };
+  try{ show(await hoFetch()); }catch(_){ $('#ig-code')?.remove(); }
 }
 
 /* ---- הסיור ---- */

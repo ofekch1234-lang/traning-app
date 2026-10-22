@@ -986,5 +986,21 @@
  "{0} אימונים, בנויים לפי מה שסיפרת. האימון הראשון לוקח פחות ממה שנדמה.": {
   "en": "{0} workouts, built from what you told us. The first one takes less than you think.",
   "ar": "{0} تدريبات مبنية على ما أخبرتنا به. التدريب الأول أسهل مما تظن."
+ },
+ "הקוד כבר הועתק ✓ באפליקציה לוחצים \"הדבק\"": {
+  "en": "Code already copied ✓ In the app, tap \"Paste\"",
+  "ar": "تم نسخ الرمز ✓ في التطبيق اضغط \"لصق\""
+ },
+ "הקוד לא מתאים. שים לב: זה לא הקוד מהמייל, אלא הקוד שהופיע בדפדפן בחלון \"שמירה למסך הבית\" (תקף 15 דקות).": {
+  "en": "That code doesn't match. Note: it's not the code from the email, it's the code shown in the browser in the \"Add to home screen\" window (valid 15 minutes).",
+  "ar": "الرمز غير مطابق. انتبه: ليس الرمز من البريد، بل الرمز الذي ظهر في المتصفح في نافذة \"إضافة إلى الشاشة الرئيسية\" (صالح 15 دقيقة)."
+ },
+ "יותר מדי ניסיונות. אפשר להיכנס עם קוד חדש למייל, למטה.": {
+  "en": "Too many attempts. You can sign in with a new email code below.",
+  "ar": "محاولات كثيرة. يمكنك الدخول برمز جديد عبر البريد في الأسفل."
+ },
+ "✉️ כניסה עם קוד חדש למייל": {
+  "en": "✉️ Sign in with a new email code",
+  "ar": "✉️ الدخول برمز جديد عبر البريد"
  }
 }
