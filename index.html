@@ -1460,7 +1460,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.0.3';
+const APP_VERSION='13.0.4';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2552,6 +2552,7 @@ function vHome(){
       ${weekRowHTML()}
     </div>
     ${coachRowHTML()}
+    <div class="card r20 list"><button class="li" data-act="invite-open" data-src="home"><span class="sbtn" style="background:linear-gradient(135deg,#6D28D9,#BE185D);color:#fff">${ICON.gift}</span><span class="lt"><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום','הזמיני חברה, שתיכן מקבלות שבוע פרימיום','הזמנת חבר: שבוע פרימיום לשניכם')}</b><small>ניתוחי AI ללא הגבלה וקובי המאמן</small></span>${ICON.chev}</button></div>
     ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>הפעל התראות</b><small>סוף המנוחה, ימי אימון והודעות מקובי</small></span><span class="btn primary" style="padding:8px 12px;pointer-events:none">הפעלה</span></button></div>`:''}
     ${wrapCardHTML()}
   `;
