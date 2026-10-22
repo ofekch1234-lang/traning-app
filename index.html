@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c51e5c65"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c51e5c65"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c51e5c65"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c7d593ec"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c7d593ec"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c7d593ec"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -508,6 +508,9 @@ body.landing #app{max-width:1120px}
 .ig-steps{text-align:var(--start);margin:0;padding:0;list-style:none;counter-reset:ig;display:grid;gap:10px}
 .ig-steps li{counter-increment:ig;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 14px;display:flex;gap:12px;align-items:center;line-height:1.45}
 .ig-steps li::before{content:counter(ig);flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
+.ig-code{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s,background .2s}
+.ig-code:active{transform:scale(.98)}.ig-code.copied{background:var(--accent-soft)}
+.ig-copy{font-style:normal;font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:99px;padding:4px 12px}
 .ig-code{background:var(--surface);border:1.5px dashed var(--accent);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;align-items:center}
 .ig-code span{font-size:13.5px;color:var(--muted);line-height:1.5}.ig-code b{font-size:34px;font-weight:800;letter-spacing:4px;color:var(--ink)}.ig-code small{font-size:12px;color:var(--muted)}
 .ho-link{display:flex;flex-direction:column;gap:2px;align-items:center;background:var(--accent-soft);border:1px solid transparent;border-radius:14px;padding:12px;color:var(--ink)}
@@ -1324,7 +1327,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='12.7.1';
+const APP_VERSION='12.7.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1748,6 +1751,7 @@ function vOtp(){
       <h3 style="margin:0">🔑 קוד העברה מהדפדפן</h3>
       <div class="muted small" style="line-height:1.55">אחרי ההרשמה בדפדפן הופיע קוד בן 6 ספרות. הקלד אותו כאן ותיכנס ישר, בלי מייל.</div>
       <input id="ho-code" class="otp-in num" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="7" dir="ltr" placeholder="••••••">
+      ${navigator.clipboard?.readText?`<button class="btn" data-act="ho-paste">📋 ${tt('הדבק את הקוד שהעתקת')}</button>`:''}
       <div class="autherr">${esc(OTP.err||'')}</div>
       <button class="btn primary big" data-act="ho-redeem" ${OTP.busy?'disabled':''}>${OTP.busy?'רגע…':'כניסה'}</button>
       <button class="linkbtn" data-act="otp-back" style="color:var(--muted)">אין לי קוד, כניסה עם המייל</button>
@@ -5967,8 +5971,10 @@ function showInstallGate(pre,mode){
   if(IS_IOS&&!IN_APP_BROWSER&&S.user)hoCreate();
 }
 /* באייפון האפליקציה שבמסך הבית לא רואה את ההתחברות של ספארי: מציגים קוד העברה חד-פעמי */
+function copyFallback(t){ try{ const a=document.createElement('textarea'); a.value=t; a.setAttribute('readonly',''); a.style.cssText='position:fixed;opacity:0;top:0'; document.body.appendChild(a); a.select(); a.setSelectionRange(0,99); document.execCommand('copy'); a.remove(); }catch(_){} }
 async function hoCreate(){
-  const show=c=>{ const el=$('#ig-code'); if(el)el.innerHTML=`<span>${tt('כשתפתח את האפליקציה מהמסך הבית, בחר "נרשמת קודם בדפדפן?" והקלד:')}</span><b class="num" dir="ltr">${c.slice(0,3)} ${c.slice(3)}</b><small>${tt('תקף ל-15 דקות')}</small>`; };
+  const show=c=>{ const el=$('#ig-code'); if(!el)return; el.dataset.act='inst-copy'; el.dataset.c=c; el.setAttribute('role','button');
+    el.innerHTML=`<span>${tt('כשתפתח את האפליקציה מהמסך הבית, בחר "נרשמת קודם בדפדפן?" והקלד:')}</span><b class="num" dir="ltr">${c.slice(0,3)} ${c.slice(3)}</b><em class="ig-copy">${tt('נגיעה להעתקה')}</em><small>${tt('תקף ל-15 דקות')}</small>`; };
   try{ const o=JSON.parse(sessionStorage.getItem('nr-ho')||'null'); if(o&&Date.now()-o.t<12*60000){ show(o.c); return; } }catch(_){}
   try{ const {data}=await sb.functions.invoke('handoff',{body:{action:'create'}});
     if(data?.code){ try{ sessionStorage.setItem('nr-ho',JSON.stringify({c:data.code,t:Date.now()})); }catch(_){} show(data.code); }
@@ -6061,6 +6067,8 @@ function tourAct(act,b){
     case 'lang-open': openSheet(`<h3>🌐 שפה</h3><div class="langlist" data-notr>${Object.entries(LANG_NAMES).map(([k,v])=>`<button data-act="lang-set" data-l="${k}" lang="${k}" class="${k===LANG?'on':''}"><span>${v}</span>${k===LANG?'<span>✓</span>':''}</button>`).join('')}</div>`); return true;
     case 'lang-set': { const l=b.dataset.l; if(l&&l!==LANG){ b.innerHTML+=' …'; setLang(l); } else closeSheet(); return true; }
     case 'inst-native': if(_bip){ _bip.prompt(); _bip.userChoice.finally(()=>{_bip=null;}); } return true;
+    case 'inst-copy': { const c=b.dataset.c||''; const done=()=>{ const e=b.querySelector('.ig-copy'); if(e){ e.textContent=tt('הועתק ✓'); b.classList.add('copied'); setTimeout(()=>{ e.textContent=tt('נגיעה להעתקה'); b.classList.remove('copied'); },2200); } vibrate(10); };
+      try{ navigator.clipboard.writeText(c).then(done,()=>{ copyFallback(c); done(); }); }catch(_){ copyFallback(c); done(); } return true; }
     case 'inst-pre-skip': { try{ sessionStorage.setItem('nr-pre-skip','1'); }catch(_){} $('#instgate')?.remove(); const m=b.dataset.m==='login'?'land-login':'land-signup'; setTimeout(()=>document.querySelector('[data-act="'+m+'"]')?.click(),0); return true; }
     case 'inst-skip': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בלי שמירה ההתראות לא יעבדו. להמשיך בכל זאת?';return true;}
       try{localStorage.setItem('nr-inst-skip',String(Date.now()));}catch(_){} $('#instgate')?.remove(); maybeStartTour(); return true;
@@ -7038,6 +7046,7 @@ function handleAct(b,ev){
       b.disabled=true; sb.auth.updateUser({password:a}).then(({error})=>{ b.disabled=false; if(error){toast('העדכון נכשל: '+error.message);return;} closeSheet(); toast('הסיסמה עודכנה ✓'); }); break; }
     case 'ho-open': OTP.step='ho'; OTP.err=''; render(); setTimeout(()=>$('#ho-code')?.focus(),60); break;
     case 'ho-redeem': hoRedeem(); break;
+    case 'ho-paste': navigator.clipboard.readText().then(t=>{ const c=String(t||'').replace(/\D/g,''); if(c.length===6){ const i=$('#ho-code'); if(i)i.value=c; hoRedeem(); } else { OTP.err='בלוח אין קוד בן 6 ספרות. הקלד אותו ידנית.'; render(); } },()=>{}); break;
     case 'otp-open': OTP.step='email'; OTP.err=''; render(); setTimeout(()=>$('#otp-email')?.focus(),60); break;
     case 'otp-send': otpSend(); break;
     case 'otp-verify': otpVerify(); break;
