@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=67793eec"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=67793eec"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=67793eec"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d8a2d158"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d8a2d158"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d8a2d158"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1095,6 +1095,11 @@ svg text{font-family:var(--body)}
 .npdigits button{padding:14px 0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:600}
 .npdigits button:active{background:var(--accent-soft)}
 .npchips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0}
+.nprange{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 2px}
+.nprange>div{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:8px 6px 2px}
+.nprange>div>span{font-size:13px;color:var(--muted);font-weight:600}
+.nprange .npstep{gap:8px;margin:4px 0 6px}.nprange .npstep button{width:44px;height:40px;background:var(--surface)}
+.nprange .npstep b{min-width:34px;text-align:center;font-size:22px;font-weight:800}
 /* מתלה משקולות נגלל */
 .rack{display:flex;align-items:flex-end;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
   padding:12px calc(50% - 26px) 6px;scrollbar-width:none;direction:ltr}
@@ -1496,7 +1501,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.10';
+const APP_VERSION='13.2.11';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4971,6 +4976,8 @@ function npStackHTML(){ const v=NP.val, up=STACK.filter(x=>x<=v), dn=STACK.filte
 const STACK=[...Array(20)].map((_,i)=>(i+1)*5); // 5–100
 function openNumpad(cfg){
   NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
+  if(cfg.mode==='range'){ const m=String(cfg.value||'').match(/(\d+)\D+(\d+)/), one=parseInt(cfg.value,10);
+    let a=m?+m[1]:(one||8), b=m?+m[2]:(one||12); if(a>b)[a,b]=[b,a]; NP.lo=a; NP.hi=b; }
   if(cfg.mode==='weight'){ NP.sub=guessSub(cfg.exName||''); NP.bar=barGuess(cfg.exName||''); }
   renderNumpad(); $('#np').hidden=false; $('#np-bg').hidden=false; vibrate(8);
 }
@@ -5010,6 +5017,15 @@ function renderNumpad(){
       ${Array.from({length:20},(_,i)=>i+1).map(n=>`<button data-npset="${n}" class="num ${NP.val===n?'sel':''}">${n}</button>`).join('')}
     </div>
     <div class="npstep"><button data-npadd="-1">−</button><button data-npc="clear" style="font-size:15px">נקה</button><button data-npadd="1">+</button></div>`;
+  }else if(c.mode==='range'){ // target reps: a single number or a range, without the phone keyboard
+    const cur=npRange();
+    body=`<div class="npgrid" style="grid-template-columns:repeat(4,1fr)">
+      ${['5','6-8','8-10','8-12','10-12','12-15','15-20','20'].map(r=>`<button data-nprange="${r}" class="num ${cur===r?'sel':''}">${r.replace('-','–')}</button>`).join('')}
+    </div>
+    <div class="nprange">
+      <div><span>${tt('מ-')}</span><div class="npstep"><button data-nplo="-1" aria-label="${tt('פחות')}">−</button><b class="num">${NP.lo}</b><button data-nplo="1" aria-label="${tt('יותר')}">+</button></div></div>
+      <div><span>${tt('עד')}</span><div class="npstep"><button data-nphi="-1" aria-label="${tt('פחות')}">−</button><b class="num">${NP.hi}</b><button data-nphi="1" aria-label="${tt('יותר')}">+</button></div></div>
+    </div>`;
   }else if(c.mode==='count'){
     body=`<div class="npgrid" style="grid-template-columns:repeat(4,1fr)">
       ${Array.from({length:8},(_,i)=>i+1).map(n=>`<button data-npset="${n}" class="num ${NP.val===n?'sel':''}">${n}</button>`).join('')}
@@ -5027,7 +5043,7 @@ function renderNumpad(){
   }
   $('#np').innerHTML=`${c.mode==='weight'?npDefs():''}
     <div class="nptitle">${esc(c.title||'')}</div>
-    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):npFmt(NP.val)}</span><span class="npunit">${esc(c.unit||'')}</span></div>
+    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):npFmt(NP.val)}</span><span class="npunit">${esc(c.unit||'')}</span></div>
     ${body}
     <div class="npact">
       ${c.next?`<button class="btn primary big" style="flex:2" data-npc="next">בחרתי — לחזרות ←</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
@@ -5062,15 +5078,20 @@ function rackPick(){
   if(v!==NP.val){ NP.val=v; vibrate(8); const el=$('#npval'); if(el)el.textContent=npFmt(v); }
   items.forEach(it=>it.classList.toggle('sel',it===best));
 }
-function npUpdate(){ const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
+function npRange(){ return NP.lo===NP.hi?String(NP.lo):`${NP.lo}-${NP.hi}`; }
+function npUpdate(){ if(NP.cfg.mode==='range'){ renderNumpad(); return; } const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
   if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs')renderNumpad();
   else if(NP.cfg.mode==='weight'&&NP.sub==='db'){ // +/- and "same as last time": the rack follows, so the pick stays in the middle
     centerRack(true); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='stack'){ const k=$('#npstk'); if(k)k.innerHTML=npStackHTML(); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='bar'){ const b=$('#npbar'), t=$('#nptot'); if(b)b.innerHTML=npBarSVG(NP.val); if(t)t.innerHTML=npBarTot(NP.val); } }
 document.addEventListener('click',ev=>{
-  const t=ev.target.closest('[data-npbar],[data-npadd],[data-nppair],[data-npset],[data-npd],[data-npc],[data-npsub],[data-rackv],[data-stackv]'); if(!t||!NP.cfg)return;
+  const t=ev.target.closest('[data-npbar],[data-npadd],[data-nppair],[data-npset],[data-npd],[data-npc],[data-npsub],[data-rackv],[data-stackv],[data-nprange],[data-nplo],[data-nphi]'); if(!t||!NP.cfg)return;
   vibrate(10);
+  if(t.dataset.nprange!==undefined){ const [a,b]=t.dataset.nprange.split('-').map(Number); NP.lo=a; NP.hi=b||a; npUpdate(); return; }
+  if(t.dataset.nplo!==undefined){ NP.lo=Math.max(1,Math.min(50,NP.lo+ +t.dataset.nplo)); if(NP.hi<NP.lo)NP.hi=NP.lo; npUpdate(); return; }
+  if(t.dataset.nphi!==undefined){ NP.hi=Math.max(1,Math.min(50,NP.hi+ +t.dataset.nphi)); if(NP.lo>NP.hi)NP.lo=NP.hi; npUpdate(); return; }
+  if(NP.cfg.mode==='range'&&t.dataset.npc==='save'){ const c=NP.cfg, v=npRange(); closeNumpad(); c.apply(v); return; }
   if(t.dataset.npsub!==undefined){ NP.sub=t.dataset.npsub;
     if(NP.cfg.exName){ try{const m=padModes();m[NP.cfg.exName]=NP.sub;localStorage.setItem(PAD_KEY,JSON.stringify(m));}catch(e){} }
     renderNumpad(); return; }
@@ -5123,6 +5144,9 @@ document.addEventListener('click',ev=>{
   }else if(kind==='num'){
     openNumpad({ title:i.getAttribute('aria-label')||'', unit:i.dataset.unit||'', mode:'num', value:+i.value||0,
       apply(v){ i.value=v||''; i.dispatchEvent(new Event('input',{bubbles:true})); } });
+  }else if(kind==='range'){
+    openNumpad({ title:tt('חזרות (יעד)'), unit:'', mode:'range', value:i.value,
+      apply(v){ i.value=v; i.dispatchEvent(new Event('input',{bubbles:true})); } });
   }else if(kind==='count'||kind==='secs'){
     openNumpad({ title:i.getAttribute('aria-label')||'', unit:kind==='secs'?'שניות':'', mode:kind, value:+i.value||0,
       apply(v){ i.value=v||''; i.dispatchEvent(new Event('input',{bubbles:true})); } });
@@ -5230,7 +5254,7 @@ function renderTplEditor(){
         ${e.t==='c'?'':`<div class="setgrid" style="grid-template-columns:1fr 1.4fr 1fr;margin-top:8px">
           <span class="h">סטים</span><span class="h">חזרות (יעד)</span><span class="h">מנוחה (שנ׳)</span>
           <input class="num" type="text" readonly data-np="count" value="${esc(e.s??3)}" data-bind="tplf" data-i="${i}" data-f="s" aria-label="סטים">
-          <input type="text" value="${esc(e.reps??'')}" data-bind="tplf" data-i="${i}" data-f="reps" aria-label="חזרות">
+          <input class="num" type="text" readonly dir="ltr" data-np="range" value="${esc(String(e.reps??'').replace(/\s*[–—-]\s*/,'-'))}" data-bind="tplf" data-i="${i}" data-f="reps" aria-label="חזרות">
           <input class="num" type="text" readonly data-np="secs" value="${esc(e.rest??90)}" data-bind="tplf" data-i="${i}" data-f="rest" aria-label="מנוחה">
         </div>`}
       </div>`).join('')||'<div class="muted small" style="padding:10px 2px">עדיין ריק — הוסף תרגילים מהמאגר.</div>'}
