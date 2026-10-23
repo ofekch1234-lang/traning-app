@@ -10,6 +10,10 @@ on:
         description: 'Build a signed iOS app and upload it to TestFlight'
         type: boolean
         default: false
+      playstore:
+        description: 'Build a signed Android App Bundle (.aab) for Google Play'
+        type: boolean
+        default: false
   push:
     branches: [native]
     paths: ['app/**', 'index.html', 'i18n/**', 'img/**', 'menu-foods.js', '.github/workflows/native.yml']
@@ -110,3 +114,36 @@ jobs:
             || { grep -iE "error|fail|denied|invalid" "$RUNNER_TEMP/export.log" | sort -u | head -15 | sed 's/^/::error::/'; tail -40 "$RUNNER_TEMP/export.log"; exit 1; }
           tail -5 "$RUNNER_TEMP/export.log"
           echo "### Uploaded build $BUILD to App Store Connect. It shows up in TestFlight after Apple finishes processing (~10–30 min)." >> "$GITHUB_STEP_SUMMARY"
+  # Signed Android App Bundle for Google Play. Manual only (tick "playstore"). Download it from the run's
+  # Artifacts and upload it in Play Console (Testing → release). Secrets: ANDROID_KEYSTORE_B64, ANDROID_KEYSTORE_PASS.
+  android-release:
+    if: github.event_name == 'workflow_dispatch' && inputs.playstore
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: app } }
+    env:
+      ANDROID_VERSION_CODE: ${{ github.run_number }}
+      ANDROID_KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: app/package-lock.json }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - name: Upload key
+        env: { KS: '${{ secrets.ANDROID_KEYSTORE_B64 }}' }
+        run: |
+          test -n "$KS" -a -n "$ANDROID_KEYSTORE_PASS" || { echo "::error::Missing ANDROID_KEYSTORE_B64 / ANDROID_KEYSTORE_PASS secrets"; exit 1; }
+          printf '%s' "$KS" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          echo "ANDROID_KEYSTORE_FILE=$RUNNER_TEMP/upload.jks" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm run sync -- android
+      - name: Build signed App Bundle
+        working-directory: app/android
+        run: ./gradlew bundleRelease --no-daemon
+      - name: Check signature
+        run: |
+          AAB=android/app/build/outputs/bundle/release/app-release.aab
+          jarsigner -verify "$AAB" | tail -1 | grep -q "jar verified" || { echo "::error::App bundle is not signed"; exit 1; }
+          echo "### Signed app-release.aab (version code $ANDROID_VERSION_CODE) is in this run's Artifacts" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with: { name: nextrep-play-aab-${{ github.run_number }}, path: app/android/app/build/outputs/bundle/release/app-release.aab, retention-days: 30 }

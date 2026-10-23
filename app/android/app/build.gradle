@@ -7,7 +7,8 @@ android {
         applicationId "il.co.nextrep.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        // CI sets ANDROID_VERSION_CODE (the workflow run number) so every Play upload gets a higher code
+        versionCode (System.getenv("ANDROID_VERSION_CODE") ?: "1").toInteger()
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
@@ -16,8 +17,21 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    // Upload key for Google Play (Play App Signing holds the real app key). Only present in CI:
+    // the workflow decodes ANDROID_KEYSTORE_B64 to a file and passes its path + password as env vars.
+    signingConfigs {
+        if (System.getenv("ANDROID_KEYSTORE_FILE")) {
+            upload {
+                storeFile file(System.getenv("ANDROID_KEYSTORE_FILE"))
+                storePassword System.getenv("ANDROID_KEYSTORE_PASS")
+                keyAlias "upload"
+                keyPassword System.getenv("ANDROID_KEYSTORE_PASS")
+            }
+        }
+    }
     buildTypes {
         release {
+            if (System.getenv("ANDROID_KEYSTORE_FILE")) signingConfig signingConfigs.upload
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
