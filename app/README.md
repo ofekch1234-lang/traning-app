@@ -39,6 +39,7 @@ The web app at the repo root is the single source of truth. This folder only wra
   - RevenueCat offerings: `default` (regular two) and `lock_offer` (the two *_offer products).
 - **Later option, card up front:** add a 7-day free-trial intro offer to the products, turn the server trial off.
   Config + a small code change, no rebuild of the model.
+- Approved paywall design: `design/lock-paywall.png` (mockup source `design/lock-paywall.html`).
 - To build at launch: server-side lock (RLS: writes only when premium), read-only UI, offer windows
   (`offer_until` per user, set at lock and at day 14), offering switch.
 

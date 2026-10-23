@@ -1,0 +1,39 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Rubik;src:local('Rubik')}
+:root{--bg:#F3F5F2;--s:#fff;--s2:#EAEEE9;--ink:#1A201C;--mu:#5D675F;--line:#DFE4DE;--ac:#16A34A;--acs:#DCFCE7;--gold:#B45309;--golds:#FEF3C7}
+.dark{--bg:#111513;--s:#1A1F1C;--s2:#232925;--ink:#EEF2EE;--mu:#9AA59D;--line:#2B322D;--ac:#22C55E;--acs:rgba(34,197,94,.14);--gold:#F59E0B;--golds:rgba(245,158,11,.14)}
+*{box-sizing:border-box}body{margin:0;display:flex;gap:24px;background:#888;padding:24px;font-family:Rubik,system-ui,sans-serif}
+.ph{width:390px;background:var(--bg);color:var(--ink);border-radius:36px;padding:54px 18px 28px;overflow:hidden}
+.k{display:flex;gap:10px;align-items:flex-end}.k img{width:62px}.bub{background:var(--s);border:1px solid var(--line);border-radius:18px 18px 4px 18px;padding:10px 12px;font-size:14px;line-height:1.45}
+h2{font-size:25px;margin:18px 0 4px;letter-spacing:-.01em}.sub{color:var(--mu);font-size:14px;line-height:1.5;margin:0 0 14px}
+.rec{display:flex;justify-content:space-around;background:var(--s);border:1px solid var(--line);border-radius:18px;padding:12px 6px;margin-bottom:14px}
+.rec div{text-align:center}.rec b{display:block;font-size:22px}.rec span{font-size:12px;color:var(--mu)}
+.timer{display:flex;align-items:center;justify-content:space-between;background:var(--golds);color:var(--gold);border-radius:16px;padding:10px 14px;margin-bottom:12px}
+.timer .l{font-weight:700;font-size:14px}.timer .t{display:flex;gap:4px;direction:ltr}
+.timer .t span{background:var(--s);color:var(--ink);border-radius:9px;min-width:38px;padding:6px 0;text-align:center;font:700 19px/1 Rubik,system-ui;font-variant-numeric:tabular-nums}
+.timer .t i{font-style:normal;font-weight:700;align-self:center}
+.plan{position:relative;display:block;color:inherit;font-family:inherit;width:100%;text-align:start;background:var(--s);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:10px}
+.plan.best{border:2px solid var(--ac)}
+.tag{position:absolute;top:-11px;inset-inline-start:14px;background:var(--ac);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px}
+.row{display:flex;justify-content:space-between;align-items:baseline}.pn{font-weight:700;font-size:16px}
+.pp{font-weight:800;font-size:22px}.pp{display:inline-flex;align-items:baseline;gap:8px;direction:ltr}.was{color:var(--mu);font-weight:500;font-size:14px;text-decoration:line-through}
+.pm{color:var(--mu);font-size:12.5px;margin-top:3px}
+.cta{display:block;width:100%;border:0;border-radius:16px;background:var(--ac);color:#fff;font:700 17px Rubik,system-ui;padding:15px;margin:4px 0 10px}
+.fine{color:var(--mu);font-size:11.5px;text-align:center;line-height:1.5}.links{display:flex;justify-content:center;gap:14px;margin-top:8px;font-size:13px;color:var(--ac);font-weight:600}
+.hist{text-align:center;margin-top:10px;font-size:13.5px;color:var(--mu)}
+</style></head><body>
+<script>
+const card=cls=>`<div class="ph ${cls}">
+<div class="k"><img src="kobi-cheer.svg"><div class="bub">שבוע מטורף! 4 אימונים ושיא חדש בסקוואט. בוא נמשיך מאיפה שעצרנו 💪</div></div>
+<h2>שבוע הניסיון הסתיים</h2><p class="sub">כל הנתונים שלך שמורים. כדי להמשיך לרשום אימונים וארוחות, בוחרים מסלול.</p>
+<div class="rec"><div><b>4</b><span>אימונים</span></div><div><b>18</b><span>ארוחות</span></div><div><b>2</b><span>שיאים</span></div></div>
+<div class="timer"><span class="l">⏱ ההצעה נגמרת בעוד</span><span class="t"><span>23</span><i>:</i><span>41</span><i>:</i><span>07</span></span></div>
+<button class="plan best"><span class="tag">חיסכון של 58%</span><div class="row"><span class="pn">מנוי שנתי</span><span class="pp"><span class="was">₪179.90</span><span>₪149.90</span></span></div><div class="pm">₪12.49 לחודש בשנה הראשונה, אחר כך ₪179.90 לשנה</div></button>
+<button class="plan"><div class="row"><span class="pn">מנוי חודשי</span><span class="pp"><span class="was">₪29.90</span><span>₪9.90</span></span></div><div class="pm">לחודש הראשון, אחר כך ₪29.90 לחודש</div></button>
+<button class="cta">המשך עם המנוי השנתי</button>
+<div class="fine">המנוי מתחדש אוטומטית ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה.</div>
+<div class="links"><span>שחזור רכישות</span><span>תנאי שימוש</span><span>פרטיות</span></div>
+<div class="hist">או <u>לצפות בהיסטוריה שלי</u></div></div>`;
+document.body.innerHTML=card('')+card('dark');
+</script></body></html>
