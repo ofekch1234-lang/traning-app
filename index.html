@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a09bce73"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a09bce73"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a09bce73"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c96eef3a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c96eef3a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c96eef3a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -6350,19 +6350,23 @@ function recapHTML(){
   const t=[r.workouts?[r.workouts,'אימונים']:null, r.volume?[r.volume>=1000?(Math.round(r.volume/100)/10)+'K':r.volume,'ק״ג נפח']:null, r.meals?[r.meals,'ארוחות']:null, !r.volume&&r.weighins?[r.weighins,'שקילות']:null].filter(Boolean).slice(0,3);
   return `<div class="pw-recap"><div class="small muted">מה עשית עד עכשיו</div><div class="pw-rt">${t.map(([v,l])=>`<div><b class="num">${v}</b><span>${tt(l)}</span></div>`).join('')}</div></div>`;
 }
+const pwDate=d=>new Date(d).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'});
 function vPaywall(full){
   const paid=!!S.plan?.access_until;
+  // active App Store / Google Play subscription: show its renewal date instead of the plans (changes go through the store)
+  const storeOn=IS_NATIVE&&!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
   const body=`
     ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
     <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':'הפרימיום הסתיים'):(S.plan?.premium?'⭐ הפרימיום שלך':'⭐ NextRep פרימיום')}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
     ${full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
-    ${!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${new Date(S.plan.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'})}</b>. חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.</div>`:''}
+    ${!full&&storeOn?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ ${S.plan.store_renews?'המנוי שלך פעיל ומתחדש ב-':'המנוי שלך פעיל עד '}<b class="num">${pwDate(S.plan.store_until)}</b>.${S.plan.store_renews?'':' החידוש האוטומטי כבוי.'} שינוי מסלול וביטול דרך "ניהול המנוי" למטה.</div>`
+      :!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${pwDate(S.plan.until)}</b>. ${IS_NATIVE?'מנוי מהחנות מתחיל מיום הרכישה ומתחדש אוטומטית.':'חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.'}</div>`:''}
     <div class="pw-prem">
       <div class="pr"><i>AI</i><div><b>ניתוח תזונה AI בכל ארוחה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית</span></div></div>
       <div class="pr"><i>K</i><div><b>קובי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם קובי על אימונים ותזונה</span></div></div>
     </div>
     <div class="small muted">${full?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
-    ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px">${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
+    ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px" ${storeOn?'hidden':''}>${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
     ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: שבוע פרימיום לשניכם','או הזמיני חברה: שבוע פרימיום לשתיכן','או הזמנת חבר: שבוע פרימיום לשניכם')}</button>`:''}
     ${IS_NATIVE?`<div class="small muted" style="text-align:center;font-size:12px;line-height:1.55">${NATIVE_OS==='ios'?'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה. ניהול וביטול בהגדרות החשבון ב-App Store.':'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון Google Play, אלא אם מבטלים לפני סוף התקופה. ניהול וביטול ב-Google Play.'}<br><a href="terms.html" target="_blank">תנאי שימוש</a> · <a href="privacy.html" target="_blank">מדיניות פרטיות</a></div>
     <div class="pw-links"><button class="linkbtn" data-act="rc-restore">שחזור רכישות</button><span class="muted">·</span>${S.plan?.store_until?'<button class="linkbtn" data-act="rc-manage">ניהול המנוי</button><span class="muted">·</span>':''}<button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>`

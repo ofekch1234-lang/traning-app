@@ -1366,5 +1366,33 @@
  "קצב מהיר: קשה יותר להתמיד ולשמור על השריר.": {
   "en": "Fast pace: harder to stick with and to keep your muscle.",
   "ar": "وتيرة سريعة: أصعب في الالتزام والحفاظ على العضلات."
+ },
+ "שינוי מסלול וביטול דרך \"ניהול המנוי\" למטה.": {
+  "en": "To change plan or cancel, use \"Manage subscription\" below.",
+  "ar": "لتغيير الخطة أو الإلغاء استخدم \"إدارة الاشتراك\" بالأسفل."
+ },
+ ".{0} שינוי מסלול וביטול דרך \"ניהול המנוי\" למטה.": {
+  "en": ".{0} To change plan or cancel, use \"Manage subscription\" below.",
+  "ar": ".{0} لتغيير الخطة أو الإلغاء استخدم \"إدارة الاشتراك\" بالأسفل."
+ },
+ "המנוי שלך פעיל ומתחדש ב-": {
+  "en": "Your subscription is active and renews on",
+  "ar": "اشتراكك فعّال ويتجدد في"
+ },
+ "המנוי שלך פעיל עד": {
+  "en": "Your subscription is active until",
+  "ar": "اشتراكك فعّال حتى"
+ },
+ "החידוש האוטומטי כבוי.": {
+  "en": "Auto-renew is off.",
+  "ar": "التجديد التلقائي متوقف."
+ },
+ "מנוי מהחנות מתחיל מיום הרכישה ומתחדש אוטומטית.": {
+  "en": "A store subscription starts on the day you buy it and renews automatically.",
+  "ar": "يبدأ اشتراك المتجر من يوم الشراء ويتجدد تلقائيًا."
+ },
+ "חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.": {
+  "en": "A package you buy now is added to the end of this period, not started from zero.",
+  "ar": "الباقة التي تشتريها الآن تُضاف إلى نهاية هذه الفترة ولا تبدأ من الصفر."
  }
 }
