@@ -22,10 +22,22 @@ The web app at the repo root is the single source of truth. This folder only wra
 - **Android back button**: closes a sheet → back to Home → minimizes.
 - **Status bar** follows light/dark theme. No service worker (the app ships its own files).
 
+## Business model (decided 2026-10-23)
+- **Days 1–7:** full premium, no card (server trial, as today).
+- **Day 7 → locked:** the app becomes read-only: the user can view their existing history (workouts, meals, weight)
+  but cannot log anything new or use AI, menu, coach. Paywall shows on every open.
+- **Lock-time offer, 24 h real countdown:** monthly with the store intro offer, first month ₪9.90, then ₪29.90/month.
+  After 24 h the offer disappears for good; regular prices only.
+- **Regular prices:** ₪29.90/month, ₪179.90/year.
+- Store setup: `premium_monthly` ₪29.90 + Introductory Offer "Pay up front, 1 month, ₪9.90";
+  `premium_yearly` ₪179.90 (no intro offer).
+- To build at launch: server-side lock (RLS: writes only when premium), read-only UI, 24 h offer timer
+  (server timestamp of lock, so it can't be reset), offering switch in RevenueCat (`lock_offer` vs `default`).
+
 ## Launch checklist
 1. Apple: Bundle ID `il.co.nextrep.app` (Push Notifications + Sign In with Apple), app in App Store Connect.
 2. App Store Connect → Subscriptions: group "NextRep Premium", products `premium_monthly` (₪29.90) and
-   `premium_yearly` (₪149.90). Google Play Console: same two product IDs.
+   `premium_yearly` (₪179.90). Google Play Console: same two product IDs.
 3. RevenueCat: project, iOS + Android apps, entitlement **`premium`**, offering `default` with
    `$rc_monthly` + `$rc_annual`. Webhook URL → `https://dmeougthlruspxwyvrnc.supabase.co/functions/v1/revenuecat`
    with an Authorization value.
