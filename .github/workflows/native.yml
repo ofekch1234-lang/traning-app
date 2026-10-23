@@ -147,7 +147,8 @@ jobs:
       - name: Check signature
         run: |
           AAB=android/app/build/outputs/bundle/release/app-release.aab
-          jarsigner -verify "$AAB" | tail -1 | grep -q "jar verified" || { echo "::error::App bundle is not signed"; exit 1; }
+          OUT=$(jarsigner -verify "$AAB" 2>&1); echo "$OUT" | head -5
+          echo "$OUT" | grep -q "jar verified" || { echo "::error::App bundle is not signed: $(echo "$OUT" | head -2 | tr '\n' ' ')"; exit 1; }
           echo "### Signed app-release.aab (version code $ANDROID_VERSION_CODE) is in this run's Artifacts" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
