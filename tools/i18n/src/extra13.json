@@ -1250,5 +1250,25 @@
  "כוס": {
   "en": "cup",
   "ar": "كوب"
+ },
+ "מהיר": {
+  "en": "Fast",
+  "ar": "سريع"
+ },
+ "מהיר מאוד": {
+  "en": "Very fast",
+  "ar": "سريع جدًا"
+ },
+ "לא מומלץ: קשה להתמיד ומאבדים שריר": {
+  "en": "Not recommended: hard to stick with, and you lose muscle",
+  "ar": "غير موصى به: صعب الالتزام به وتخسر عضلات"
+ },
+ "לא מומלץ: הרבה יותר שומן": {
+  "en": "Not recommended: a lot more fat gain",
+  "ar": "غير موصى به: دهون أكثر بكثير"
+ },
+ "קצב מהיר: קשה יותר להתמיד ולשמור על השריר.": {
+  "en": "Fast pace: harder to stick with and to keep your muscle.",
+  "ar": "وتيرة سريعة: أصعب في الالتزام والحفاظ على العضلات."
  }
 }
