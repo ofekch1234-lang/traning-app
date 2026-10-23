@@ -18,7 +18,8 @@ on:
     branches: [native]
     paths: ['app/**', 'index.html', 'i18n/**', 'img/**', 'menu-foods.js', '.github/workflows/native.yml']
 concurrency:
-  group: native-${{ github.ref }}
+  # pushes cancel older push builds; manual store builds (TestFlight / Play) are never cancelled
+  group: ${{ github.event_name == 'push' && format('native-push-{0}', github.ref) || format('native-manual-{0}', github.run_id) }}
   cancel-in-progress: true
 jobs:
   android:
