@@ -24,20 +24,28 @@ The web app at the repo root is the single source of truth. This folder only wra
 
 ## Business model (decided 2026-10-23)
 - **Days 1–7:** full premium, no card (server trial, as today).
-- **Day 7 → locked:** the app becomes read-only: the user can view their existing history (workouts, meals, weight)
-  but cannot log anything new or use AI, menu, coach. Paywall shows on every open.
-- **Lock-time offer, 24 h real countdown:** monthly with the store intro offer, first month ₪9.90, then ₪29.90/month.
-  After 24 h the offer disappears for good; regular prices only.
+- **Day 7 → locked:** read-only. The user can view existing history (workouts, meals, weight) but cannot log
+  anything new or use AI, menu, coach. Paywall on every open. A workout in progress may be finished (grace).
+- **Lock-time offer, 24 h real countdown (server timestamp, can't be reset):**
+  monthly first month ₪9.90 then ₪29.90, **or** yearly first year ₪149.90 then ₪179.90 (highlighted, "save 58%").
+- **Second chance, once:** 7 days after the lock, push + email: the same offer again for 24 h. Never again after that.
 - **Regular prices:** ₪29.90/month, ₪179.90/year.
-- Store setup: `premium_monthly` ₪29.90 + Introductory Offer "Pay up front, 1 month, ₪9.90";
-  `premium_yearly` ₪179.90 (no intro offer).
-- To build at launch: server-side lock (RLS: writes only when premium), read-only UI, 24 h offer timer
-  (server timestamp of lock, so it can't be reset), offering switch in RevenueCat (`lock_offer` vs `default`).
+- **Store products (one subscription group "NextRep Premium"):**
+  - `premium_monthly` ₪29.90, `premium_yearly` ₪179.90: regular, no intro offer.
+  - `premium_monthly_offer` ₪29.90 + Introductory Offer "Pay up front, 1 month, ₪9.90".
+  - `premium_yearly_offer` ₪179.90 + Introductory Offer "Pay up front, 1 year, ₪149.90".
+  - Why separate offer products: the store applies an intro offer automatically to every eligible buyer, so the
+    discount can only "expire" if the discounted products are shown only inside the 24 h windows.
+  - RevenueCat offerings: `default` (regular two) and `lock_offer` (the two *_offer products).
+- **Later option, card up front:** add a 7-day free-trial intro offer to the products, turn the server trial off.
+  Config + a small code change, no rebuild of the model.
+- To build at launch: server-side lock (RLS: writes only when premium), read-only UI, offer windows
+  (`offer_until` per user, set at lock and at day 14), offering switch.
 
 ## Launch checklist
 1. Apple: Bundle ID `il.co.nextrep.app` (Push Notifications + Sign In with Apple), app in App Store Connect.
-2. App Store Connect → Subscriptions: group "NextRep Premium", products `premium_monthly` (₪29.90) and
-   `premium_yearly` (₪179.90). Google Play Console: same two product IDs.
+2. App Store Connect → Subscriptions: group "NextRep Premium" with the 4 products above.
+   Google Play Console: same product IDs (base plans + offers).
 3. RevenueCat: project, iOS + Android apps, entitlement **`premium`**, offering `default` with
    `$rc_monthly` + `$rc_annual`. Webhook URL → `https://dmeougthlruspxwyvrnc.supabase.co/functions/v1/revenuecat`
    with an Authorization value.
