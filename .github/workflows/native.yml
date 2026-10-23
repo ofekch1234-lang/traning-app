@@ -140,7 +140,10 @@ jobs:
       - run: npm run sync -- android
       - name: Build signed App Bundle
         working-directory: app/android
-        run: ./gradlew bundleRelease --no-daemon
+        run: |
+          ./gradlew bundleRelease --no-daemon > "$RUNNER_TEMP/gradle.log" 2>&1 \
+            || { sed -n '/What went wrong/,/Try:/p' "$RUNNER_TEMP/gradle.log" | grep -v '^\s*$' | head -12 | sed 's/^/::error::/'; tail -60 "$RUNNER_TEMP/gradle.log"; exit 1; }
+          tail -3 "$RUNNER_TEMP/gradle.log"
       - name: Check signature
         run: |
           AAB=android/app/build/outputs/bundle/release/app-release.aab
