@@ -50,7 +50,8 @@ jobs:
             CODE_SIGNING_ALLOWED=NO build | tail -40
           test ${PIPESTATUS[0]} -eq 0
   # Signed App Store build → TestFlight. Manual only (Actions → native → Run workflow → tick "testflight").
-  # Signing is fully automatic through an App Store Connect API key (Admin role): Xcode creates/uses a
+  # The archive is built unsigned (a development profile would need a registered device); the export step signs it
+  # for the App Store automatically through an App Store Connect API key (Admin role): Xcode creates/uses a
   # cloud-managed distribution certificate and the App Store profile, so no certificates live in the repo.
   # Secrets: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (contents of the .p8 file), APPLE_TEAM_ID.
   ios-testflight:
@@ -79,9 +80,8 @@ jobs:
         run: |
           xcodebuild -project App.xcodeproj -scheme App -configuration Release \
             -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" archive \
-            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic CURRENT_PROJECT_VERSION="$BUILD" \
-            -allowProvisioningUpdates -authenticationKeyPath "$KEY" \
-            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" > "$RUNNER_TEMP/archive.log" 2>&1 \
+            DEVELOPMENT_TEAM="$TEAM" CURRENT_PROJECT_VERSION="$BUILD" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" > "$RUNNER_TEMP/archive.log" 2>&1 \
             || { grep -E "error:|error -|No profiles|No signing|requires a provisioning|Provisioning|certificate" "$RUNNER_TEMP/archive.log" | sort -u | head -15 | sed 's/^/::error::/'; tail -40 "$RUNNER_TEMP/archive.log"; exit 1; }
           tail -5 "$RUNNER_TEMP/archive.log"
       - name: Sign for the App Store and upload to TestFlight
