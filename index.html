@@ -6242,7 +6242,7 @@ function planLink(p){
 /* ---------- תשלום בחנויות: App Store / Google Play דרך RevenueCat ----------
    האפליקציה המותקנת קונה רק דרך החנות (חובה של אפל וגוגל). אחרי רכישה הפונקציה `revenuecat` בשרת
    מעדכנת את store_subs, ו-my_plan סופר אותה, כך שהפרימיום פתוח גם באתר וגם באפליקציה. */
-const RC_KEYS={ios:'',android:''}; // מפתחות SDK ציבוריים מ-RevenueCat (appl_… / goog_…), נכנסים ביום ההשקה
+const RC_KEYS={ios:'appl_RBaKXhhHoExvFEMispkHjWwEwyu',android:''}; // מפתחות SDK ציבוריים מ-RevenueCat (מיועדים לקוד האפליקציה, לא סודיים)
 const STORE_ONLY=false;            // ביום ההשקה: true → באתר אין רכישה, רק הפניה להורדת האפליקציה
 const STORE_URL={ios:'',android:''};
 const RC={ready:false,pkgs:null,err:null,busy:false,uid:null};

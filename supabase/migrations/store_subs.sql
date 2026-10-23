@@ -1,4 +1,4 @@
--- NextRep — App Store / Google Play subscriptions (RevenueCat). NOT APPLIED YET: run at store launch.
+-- NextRep — App Store / Google Play subscriptions (RevenueCat). Not applied yet: run in the Supabase SQL editor before TestFlight purchase testing.
 -- Written by the `revenuecat` edge function only (service role). Users can read their own row.
 
 create table if not exists public.store_subs (
@@ -12,6 +12,7 @@ create table if not exists public.store_subs (
   updated_at   timestamptz not null default now()
 );
 alter table public.store_subs enable row level security;
+drop policy if exists "own store sub" on public.store_subs;
 create policy "own store sub" on public.store_subs for select using (user_id = auth.uid());
 
 -- my_plan: premium also counts an active store subscription.
