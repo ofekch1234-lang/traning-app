@@ -126,6 +126,9 @@ body{
 }
 [hidden]{display:none!important}
 img{max-width:100%}
+/* installed app (iOS/Android): the page runs under the status bar, so cover that strip with the page background
+   (the website has an opaque status bar, so this never shows there) */
+html.native body::before{content:'';position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:21;pointer-events:none}
 
 /* ===== landing (לא מחוברים) ===== */
 body.landing #app{max-width:1120px}
@@ -1575,7 +1578,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.26';
+const APP_VERSION='13.2.27';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1989,6 +1992,8 @@ function render(){
   try{ document.body.classList.toggle('adm',S.mode==='app'&&S.tab==='admin'); }catch(_){}
   const askFocus=document.activeElement?.id==='ask-q';
   try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); }
+  // a focused field removed by the re-render (e.g. the login code box) never fires focusout → don't leave the tab bar hidden
+  try{ if(!isTextEl(document.activeElement))document.body.classList.remove('typing'); }catch(_){}
   if(askFocus){ const q=$('#ask-q'); if(q){ try{ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length,q.value.length); }catch(_){} if(q.value.trim().length>=2)foodSearch(q.value,'ask-res'); } } }
 function render_(){
   if(S.tab==='plans'){S.tab='train';S.trainView='plans';}
