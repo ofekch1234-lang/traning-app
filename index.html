@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=24ffce85"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=24ffce85"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=24ffce85"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8e8046df"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8e8046df"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8e8046df"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1574,7 +1574,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.24';
+const APP_VERSION='13.2.25';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3958,11 +3958,17 @@ async function foodSearch(q,boxId){
   }catch(e){ box.hidden=true; }
 }
 let _portion=null;
+/* משקאות: כמות במ״ל ובכוסות (בקירוב 1 מ״ל = 1 גרם) */
+const LIQ_RX=/(^|[\s,(])(חלב|משקה|מיץ|נקטר|שוקו|קפיר|לבן|רוויון|אייס|קפה|תה|סודה|מים|קולה|בירה|יין|שייק|סמוטי|לימונדה|אשכוליות|milk|drink|juice|shake|smoothie|soda|water|cola|beer|wine|coffee|tea|kefir)/i;
+const LIQ_NOT=/שוקולד|אבק|גבינ|חמאה|גלידה|מעדן|ממרח|עוגי|עוגה|ופל|פודינג|chocolate|powder|cheese|butter|ice cream/i;
+const isLiquid=f=>!!f&&(f.liq===true||LIQ_RX.test(String(f.name||''))&&!LIQ_NOT.test(String(f.name||'')));
 function openPortion(f){
+  const liq=isLiquid(f);
   const units=(f.units||[]).map(u=>({u:u.u,g:+u.g,d:!!u.d})).filter(u=>u.g>0);
+  if(liq&&!units.some(u=>/כוס/.test(u.u)))units.push({u:'כוס',g:200,d:true});
   const pref=['יחידה בינונית','מנה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
   const def=units.find(u=>u.d)||pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
-  _portion={f,units,unit:def,qty:def?1:100};
+  _portion={f,units,unit:def,qty:def?1:100,liq};
   renderPortion();
 }
 function portionCalc(){
@@ -3976,16 +3982,16 @@ function renderPortion(){
   const p=_portion, c=portionCalc();
   openSheet(`
     <h3 style="font-size:20px">${esc(p.f.name)}</h3>
-    <div class="small muted" style="margin:-6px 0 12px">ל-100 גר׳: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}</div>
+    <div class="small muted" style="margin:-6px 0 12px">${p.liq?`ל-100 מ״ל: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`:`ל-100 גר׳: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`}</div>
     <div class="label" style="margin-bottom:6px">יחידת מידה</div>
     <div class="row" style="gap:6px;margin-bottom:12px">
-      ${p.units.map((u,i)=>`<button class="chip ${p.unit&&p.unit.u===u.u?'on':''}" data-act="portion-unit" data-i="${i}">${esc(u.u)} <span class="muted num">(${u.g}ג׳)</span></button>`).join('')}
-      <button class="chip ${!p.unit?'on':''}" data-act="portion-unit" data-i="-1">גרמים</button>
+      ${p.units.map((u,i)=>`<button class="chip ${p.unit&&p.unit.u===u.u?'on':''}" data-act="portion-unit" data-i="${i}">${esc(u.u)} <span class="muted num">(${u.g}${p.liq?' מ״ל':'ג׳'})</span></button>`).join('')}
+      <button class="chip ${!p.unit?'on':''}" data-act="portion-unit" data-i="-1">${p.liq?'מ״ל':'גרמים'}</button>
     </div>
     <div class="label" style="margin-bottom:6px">כמות</div>
     <div class="row" style="flex-wrap:nowrap;align-items:center;gap:10px">
       <button class="rarrow" data-act="portion-step" data-d="-1" aria-label="פחות" style="width:48px;height:48px;font-size:22px">−</button>
-      <input id="portion-qty" class="num" type="text" readonly data-np="num" data-bind="pqty" data-unit="${p.unit?esc(p.unit.u):'גרם'}" aria-label="כמות"
+      <input id="portion-qty" class="num" type="text" readonly data-np="num" data-bind="pqty" data-unit="${p.unit?esc(p.unit.u):p.liq?'מ״ל':'גרם'}" aria-label="כמות"
         value="${p.qty}" style="flex:1;text-align:center;font-family:var(--disp);font-weight:800;font-size:22px;padding:6px">
       <button class="rarrow" data-act="portion-step" data-d="1" aria-label="יותר" style="width:48px;height:48px;font-size:22px">+</button>
     </div>
@@ -3995,14 +4001,14 @@ function renderPortion(){
       <div class="tile"><div class="v num" style="font-size:24px">${c.show.carbs}<small style="font-size:13px">ג׳</small></div><div class="k">פחמימה</div></div>
       <div class="tile"><div class="v num" style="font-size:24px">${c.show.fat}<small style="font-size:13px">ג׳</small></div><div class="k">שומן</div></div>
     </div>
-    <div class="small muted" style="text-align:center;margin-bottom:12px">סה״כ ${c.grams} גרם</div>
+    <div class="small muted" style="text-align:center;margin-bottom:12px">${p.liq?`סה״כ ${c.grams} מ״ל`:`סה״כ ${c.grams} גרם`}</div>
     <div class="row"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button>
       <button class="btn primary" style="flex:2" data-act="portion-add">הוסף לארוחה ✓</button></div>
   `);
 }
 function addPortionToBasket(){
   const p=_portion; if(!p)return; const c=portionCalc(); if(!c.grams)return;
-  const portion=p.unit?`${p.qty} ${p.unit.u}`:`${c.grams} גר׳`;
+  const portion=p.unit?`${p.qty} ${p.unit.u}`:`${c.grams} ${p.liq?'מ״ל':'גר׳'}`;
   S.basket.push({name:p.f.name.split(',')[0].trim()||p.f.name,full:p.f.name,code:p.f.code,portion,grams:c.grams,kcal:c.kcal,protein:c.protein,carbs:c.carbs,fat:c.fat});
   _portion=null; closeSheet(); render(); toast('נוסף לארוחה ✓');
 }
@@ -6740,6 +6746,20 @@ const PB_FOCUS={chest:['fly','incline'],back:['row','rear'],legs:['lpress','lext
 const PB_SPLIT=(days,level)=>days<=2?['fullA','fullB']:days===3?(level==='beg'?['fullA','fullB','fullC']:['push','pull','legs']):days===4?['upA','loA','upB','loB']:days===5?['push','pull','legs','upA','loB']:['push','pull','legs','push2','pull2','legs2'];
 const PB_DAYS={2:[0,3],3:[0,2,4],4:[0,1,3,4],5:[0,1,2,3,4],6:[0,1,2,3,4,5]};
 const PB_SPLIT_NAME=(days,level)=>days<=2?'גוף מלא, פעמיים בשבוע':days===3?(level==='beg'?'גוף מלא, 3 פעמים בשבוע':'דחיפה, משיכה, רגליים'):days===4?'פלג עליון ותחתון':days===5?'דחיפה, משיכה, רגליים + עליון ותחתון':'דחיפה, משיכה, רגליים פעמיים';
+/* קבוצות השריר שהאימון מבטיח לפי השם שלו (ולפי הדגש שנבחר) */
+function pbReq(title,focus){
+  const r=new Set(), t=String(title);
+  if(/דחיפה/.test(t))['חזה','כתפיים','יד אחורית'].forEach(g=>r.add(g));
+  if(/משיכה/.test(t))['גב','יד קדמית'].forEach(g=>r.add(g));
+  if(/פלג עליון/.test(t))['חזה','גב'].forEach(g=>r.add(g));
+  if(/פלג תחתון|רגליים/.test(t))r.add('רגליים');
+  if(/גוף מלא/.test(t))['חזה','גב','רגליים'].forEach(g=>r.add(g));
+  for(const [w,g] of [['חזה','חזה'],['כתפיים','כתפיים'],['יד אחורית','יד אחורית'],['יד קדמית','יד קדמית'],['גב','גב'],['בטן','בטן וליבה']])if(t.includes(w))r.add(g);
+  if(/ידיים/.test(t)){ r.add('יד קדמית'); r.add('יד אחורית'); }
+  const F={chest:['חזה'],back:['גב'],legs:['רגליים'],glutes:['רגליים'],shoulders:['כתפיים'],arms:['יד קדמית','יד אחורית'],core:['בטן וליבה']};
+  for(const f of focus||[])for(const g of F[f]||[])r.add(g);
+  return r;
+}
 function pbMuscle(n){ for(const [g,arr] of Object.entries(LIB))if(arr.includes(n))return g; return ''; }
 function pbBuild(){
   const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[]));
@@ -6781,12 +6801,21 @@ function pbBuild(){
       ex.splice(ex.findIndex(e=>e.t==='c')<0?ex.length:ex.findIndex(e=>e.t==='c'),0,{n,m:pbMuscle(n),t:'s',s:A.level==='beg'?2:3,reps:n==='פלאנק'?'30–60 שנ׳':'10–15',rest:60}); }
     // התאמה לזמן: 45 שניות עבודה לסט + מנוחה + 8 דקות חימום
     const mins=e=>e.reduce((a,x)=>a+(x.t==='c'?x.min:x.s*(45+x.rest)/60),8);
-    while(ex.length>4&&mins(ex)>A.time+3){ const i=ex.map(x=>x.t).lastIndexOf('s'); const cardio=ex.find(x=>x.t==='c'); if(cardio&&cardio.min>10){cardio.min-=5;continue;} ex.splice(i,1); }
+    // שרירים שמופיעים בשם האימון (ובדגש שנבחר) חייבים להישאר עם תרגיל אחד לפחות
+    const req=pbReq(title,A.focus);
+    const cnt=g=>ex.filter(x=>x.t==='s'&&x.m===g).length;
+    const pickRemove=()=>{ for(let i=ex.length-1;i>=0;i--)if(ex[i].t==='s'&&!req.has(ex[i].m))return i;
+      for(let i=ex.length-1;i>=0;i--)if(ex[i].t==='s'&&cnt(ex[i].m)>1)return i; return -1; };
+    while(ex.length>4&&mins(ex)>A.time+3){ const cardio=ex.find(x=>x.t==='c'); if(cardio&&cardio.min>10){cardio.min-=5;continue;} const i=pickRemove(); if(i<0)break; ex.splice(i,1); }
     // עדיין ארוך? מורידים סטים (לא פחות מ-2) ומקצרים מעט את המנוחה בתרגילי הבידוד
     for(let g=0;g<40&&mins(ex)>A.time+3;g++){ const cand=ex.filter(x=>x.t==='s'&&x.s>2).sort((p,q)=>q.s-p.s)[0];
-      if(cand)cand.s--; else { const iso=ex.find(x=>x.t==='s'&&x.rest>60); if(iso)iso.rest-=15; else { const c=ex.find(x=>x.t==='c'); if(c&&c.min>5)c.min-=5; else if(ex.length>3)ex.pop(); else break; } } }
+      if(cand)cand.s--; else { const iso=ex.find(x=>x.t==='s'&&x.rest>60); if(iso)iso.rest-=15; else { const c=ex.find(x=>x.t==='c'); if(c&&c.min>5)c.min-=5; else { const i=ex.length>3?pickRemove():-1; if(i<0)break; ex.splice(i,1); } } } }
     const letter='ABCDEF'[si];
-    return {name:`${letter} — ${title.replace(/ ?[AB]$/,'')}`,ex,min:Math.round(mins(ex))};
+    // אם לשריר שבשם האימון לא נשאר תרגיל (למשל בלי ציוד אין תרגיל ליד קדמית), השם מתעדכן לפי מה שבאמת יש
+    let ttl=title.replace(/ ?[AB]$/,''); const mt=ttl.match(/^(דחיפה|משיכה): /);
+    if(mt){ const L=mt[1]==='דחיפה'?['חזה','כתפיים','יד אחורית']:['גב','יד קדמית'], have=L.filter(g=>ex.some(e=>e.m===g));
+      if(have.length&&have.length<L.length)ttl=`${mt[1]}: ${have.length>1?have.slice(0,-1).join(', ')+' ו'+have[have.length-1]:have[0]}`; }
+    return {name:`${letter} — ${ttl}`,ex,min:Math.round(mins(ex))};
   });
   PB.plan={prog,split:PB_SPLIT_NAME(A.days,A.level),sessions};
 }
@@ -7609,7 +7638,7 @@ function handleAct(b,ev){
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
       _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
-    case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:10;
+    case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:_portion.liq?50:10;
       _portion.qty=Math.max(st,Math.round((_portion.qty+st*(+b.dataset.d))*10)/10); renderPortion(); break; }
     case 'portion-add': addPortionToBasket(); break;
     case 'basket-rm': S.basket.splice(+b.dataset.i,1); render(); break;
