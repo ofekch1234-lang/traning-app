@@ -47,12 +47,12 @@ begin
     'plans', cfg->'plans');
 end $function$;
 
--- 3) existing users who aren't premium right now: a full week from today, with a heads-up
+-- 3) existing users: everyone gets at least a full week from today before the lock, with a heads-up
 with t as (
   update public.user_access ua set trial_until = now() + interval '7 days'
   where ua.status = 'approved' and ua.entered_at is not null
     and not exists(select 1 from public.admins a where a.user_id = ua.user_id)
-    and greatest(coalesce(ua.trial_until,'-infinity'), coalesce(ua.access_until,'-infinity')) <= now()
+    and greatest(coalesce(ua.trial_until,'-infinity'), coalesce(ua.access_until,'-infinity')) < now() + interval '7 days'
   returning ua.user_id)
 insert into public.push_queue(user_id,title,body,kind)
   select user_id,
