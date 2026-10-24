@@ -2424,8 +2424,8 @@
   "ar": "أضف أطعمة وشاهد كم تبقّى"
  },
  "הערכים מהמאגר הישראלי. הערכה כללית, לא ייעוץ תזונתי.": {
-  "en": "Values from the Israeli food database. A general estimate, not dietary advice.",
-  "ar": "القيم من قاعدة البيانات الإسرائيلية. تقدير عام، وليس استشارة غذائية."
+  "en": "Values from the food database. A general estimate, not nutrition advice.",
+  "ar": "القيم من قاعدة بيانات الأطعمة. تقدير عام، وليس استشارة غذائية."
  },
  "תפריט אחר": {
   "en": "Another plan",
