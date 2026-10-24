@@ -1394,5 +1394,73 @@
  "חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.": {
   "en": "A package you buy now is added to the end of this period, not started from zero.",
   "ar": "الباقة التي تشتريها الآن تُضاف إلى نهاية هذه الفترة ولا تبدأ من الصفر."
+ },
+ "📷 צילום הטבלה": {
+  "en": "📷 Photo of the label",
+  "ar": "📷 صورة الجدول"
+ },
+ "✏️ הקלדת ערכים": {
+  "en": "✏️ Type the values",
+  "ar": "✏️ إدخال القيم"
+ },
+ "הערכים במאגר לא תאמו זה לזה, אז תיקנו אותם לפי הרכיבים. כדאי לוודא מול האריזה.": {
+  "en": "The database values didn't add up, so we corrected them from the macros. Worth checking against the package.",
+  "ar": "قيم قاعدة البيانات لم تكن متطابقة، فصحّحناها حسب المكونات. يُفضّل التحقق من العبوة."
+ },
+ "לא תואם לאריזה?": {
+  "en": "Doesn't match the package?",
+  "ar": "لا يطابق العبوة؟"
+ },
+ "100 מ״ל": {
+  "en": "100 ml",
+  "ar": "100 مل"
+ },
+ "100 גר׳": {
+  "en": "100 g",
+  "ar": "100 غ"
+ },
+ "עדכון לפי האריזה": {
+  "en": "Update from the package",
+  "ar": "تحديث حسب العبوة"
+ },
+ "הקלד את הערכים ל-{0} מהטבלה התזונתית. התיקון נשמר במאגר לכל המשתמשים.": {
+  "en": "Type the values per {0} from the nutrition label. The fix is saved in the database for everyone.",
+  "ar": "أدخل القيم لكل {0} من جدول القيم الغذائية. يُحفظ التصحيح في قاعدة البيانات للجميع."
+ },
+ "הקלד את הערכים ל": {
+  "en": "Type the values per",
+  "ar": "أدخل القيم لكل"
+ },
+ "מהטבלה התזונתית. התיקון נשמר במאגר לכל המשתמשים.": {
+  "en": "from the nutrition label. The fix is saved in the database for everyone.",
+  "ar": "من جدول القيم الغذائية. يُحفظ التصحيح في قاعدة البيانات للجميع."
+ },
+ "עודכן לפי האריזה ✓": {
+  "en": "Updated from the package ✓",
+  "ar": "تم التحديث حسب العبوة ✓"
+ },
+ "חסרות קלוריות": {
+  "en": "Calories are missing",
+  "ar": "السعرات ناقصة"
+ },
+ "עודכן לפי האריזה, תודה! ✓": {
+  "en": "Updated from the package, thanks! ✓",
+  "ar": "تم التحديث حسب العبوة، شكرًا! ✓"
+ },
+ "הקלוריות לא מסתדרות עם הרכיבים (בערך {0}). בדוק שוב את הטבלה": {
+  "en": "The calories don't match the macros (about {0}). Check the label again",
+  "ar": "السعرات لا تتطابق مع المكونات (حوالي {0}). تحقّق من الجدول مرة أخرى"
+ },
+ "הקלוריות לא מסתדרות עם הרכיבים (בערך": {
+  "en": "The calories don't match the macros (about",
+  "ar": "السعرات لا تتطابق مع المكونات (حوالي"
+ },
+ ". בדוק שוב את הטבלה": {
+  "en": ". Check the label again",
+  "ar": ". تحقّق من الجدول مرة أخرى"
+ },
+ "השמירה נכשלה, נסה שוב": {
+  "en": "Saving failed, try again",
+  "ar": "فشل الحفظ، حاول مرة أخرى"
  }
 }
