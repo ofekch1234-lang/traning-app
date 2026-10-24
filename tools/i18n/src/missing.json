@@ -987,14 +987,6 @@
   "pattern": true
  },
  {
-  "he": "{0} התחל",
-  "pattern": true
- },
- {
-  "he": "התחל {0}",
-  "pattern": true
- },
- {
   "he": "{0}בנה לי תוכנית",
   "pattern": true
  },
