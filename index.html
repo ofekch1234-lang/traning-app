@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f863ad69"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f863ad69"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f863ad69"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5ff1a1fe"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5ff1a1fe"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5ff1a1fe"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1699,7 +1699,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.32';
+const APP_VERSION='13.2.33';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7588,7 +7588,7 @@ function openTplView(id){
   const rows=(t.ex||[]).map((e,i)=>{ const lt=e.t==='c'?'':top(e.n);
     const meta=e.t==='c'?'אירובי':[`${+e.s||3} סטים`,e.reps?`${esc(e.reps)} חזרות`:'',e.rest?`מנוחה ${fmtRest(e.rest)}`:''].filter(Boolean).join(' · ');
     return `<button class="li tv-ex" data-act="tv-ex" data-tid="${esc(t.id)}" data-i="${i}"><span class="tv-n num">${i+1}</span>${EXDB[e.n]?`<img class="libthumb" ${exImg(EXDB[e.n],0)} alt="" loading="lazy">`:''}<span class="lt"><b>${esc(e.n)}</b><small class="num">${meta}</small>${lt?`<small class="tv-last num">בפעם הקודמת: <span dir="ltr">${lt}</span></small>`:''}</span>${ICON.chev}</button>`; }).join('');
-  openSheet(`<h3 style="margin-bottom:4px">${esc(t.name)}</h3>
+  openSheet(`<div class="spread" style="align-items:flex-start;gap:10px"><h3 style="margin:0 0 4px">${esc(t.name)}</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px;flex-shrink:0">✕</button></div>
     <div class="small muted num" style="margin-bottom:12px">${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳${last?` · בפעם הקודמת: ${agoShort(last.start)}`:''}</div>
     <div class="card r20 list tv-list">${rows||'<div class="li small muted">אין תרגילים באימון הזה</div>'}</div>
     ${S.active?'':`<button class="btn primary big" data-act="start-tpl" data-id="${esc(t.id)}" style="width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px">${ICON.play} התחל אימון</button>`}
