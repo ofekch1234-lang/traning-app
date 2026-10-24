@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ea2dd0a1"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ea2dd0a1"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ea2dd0a1"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=eed3e94a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=eed3e94a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=eed3e94a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -635,6 +635,8 @@ body.landing #app{max-width:1120px}
 .pb-opt{display:flex;flex-direction:column;gap:2px;text-align:var(--start);padding:13px 14px;border-radius:14px;background:var(--surface2);border:2px solid transparent;color:var(--ink)}
 .pb-opt b{font-size:16px}.pb-opt small{color:var(--muted);font-size:13px}
 .pb-opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.adm-src{display:block;color:var(--accent);font-weight:600;font-size:12px}
+.adm-srcs .as-row{display:grid;grid-template-columns:110px 1fr 28px;align-items:center;gap:10px;font-size:14px;padding:3px 0}.adm-srcs i{height:8px;border-radius:5px;background:var(--surface2);overflow:hidden}.adm-srcs i b{display:block;height:100%;background:var(--accent);border-radius:5px}.adm-srcs .num{text-align:end;font-weight:700}
 .bc-warn{margin:-4px 0 6px;color:var(--gold);font-weight:600}.bc-fix{margin:0 0 12px}.bc-fix .linkbtn{font-size:13px}
 .pb-grid .pb-fast{grid-column:1/-1}.pb-fast small{color:var(--gold)}.tgw-warn{display:block;margin-top:2px;color:var(--gold);font-weight:600}
 .pb-sess{background:var(--surface2);border-radius:14px;padding:12px 14px}
@@ -1579,7 +1581,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.28';
+const APP_VERSION='13.2.29';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1753,8 +1755,12 @@ const S={
 if(['history','progress'].includes(S.tab)){S.trackView=S.tab;S.tab='track';}
 const PAID_RETURN=(location.hash||'')==='#paid'; if(PAID_RETURN){ try{history.replaceState(null,'',location.pathname);}catch(_){} }
 { /* מקור הגעה (utm) לדפי המזון והמחשבונים: נשמר במכשיר ונרשם פעם אחת אחרי ההרשמה */
-  try{ const q=new URLSearchParams(location.search); const src=q.get('utm_source'); if(src){ localStorage.setItem('nr-src',JSON.stringify({s:src.slice(0,30),m:(q.get('utm_medium')||'').slice(0,30),c:(q.get('utm_content')||'').slice(0,60),t:Date.now()})); history.replaceState(null,'',location.pathname+location.hash); } }catch(_){}
-  const rm=(location.hash||'').match(/ref=([0-9a-f-]{36})/i); if(rm){ try{localStorage.setItem('nr-ref',rm[1]);}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
+  const rm=(location.hash||'').match(/ref=([0-9a-f-]{36})/i); if(rm){ try{localStorage.setItem('nr-ref',rm[1]);}catch(_){} }
+  try{ const q=new URLSearchParams(location.search), us=q.get('utm_source'); let cur=null; try{cur=JSON.parse(localStorage.getItem('nr-src')||'null');}catch(_){}
+    // first touch wins; a later tagged link (utm) only replaces an untagged "direct" visit
+    if(!cur||(us&&cur.s==='direct')){ const v=srcDetect(q,!!rm); if(v)localStorage.setItem('nr-src',JSON.stringify(v)); }
+    if(us||q.get('gclid')||q.get('fbclid')||q.get('ttclid'))history.replaceState(null,'',location.pathname+(rm?'':location.hash)); }catch(_){}
+  if(rm){ try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 { const jm=(location.hash||'').match(/join=([A-Za-z0-9]{6})/); if(jm){ try{localStorage.setItem('nr-join',jm[1].toUpperCase());}catch(_){} try{history.replaceState(null,'',location.pathname);}catch(_){} } }
 if(!['home','train','food','plans','track','social','me'].includes(S.tab)) S.tab='home';
 
@@ -2892,6 +2898,27 @@ function tgLive(){ const r=TG&&tgCalc(TG); if(!r)return; const kc=Math.round(+($
   [[pr,4],[carbs,4],[fat,9]].forEach(([g,k],i)=>{ const c=document.querySelectorAll('.tgw-macros>div')[i]; if(!c)return; c.querySelector('b').innerHTML=`${g}<small> ${tt('גר׳')}</small>`; c.querySelector('i').style.width=Math.min(100,Math.round(g*k/kc*100))+'%'; });
   const dv=(kc-r.tdee)/r.tdee, w=$('#tgw-wk'); if(w)w.innerHTML=tgWkText(TG.goal==='keep'&&Math.abs(kc-r.kcal)<50?0:tgWk(kc,r.tdee),dv<-0.24||dv>0.15?'fast':''); }
 document.addEventListener('input',ev=>{ if(ev.target.id==='t-kcal'||ev.target.id==='t-prot')tgLive(); });
+/* מקור הגעה: utm → מזהה מודעה (gclid/fbclid/ttclid) → האתר המפנה → דפדפן בתוך אפליקציה (אינסטגרם/פייסבוק/טיקטוק) → חבר הזמין → ישיר */
+function srcDetect(q,invited){
+  const cut=(v,n)=>String(v||'').slice(0,n), cap=window.Capacitor, nat=!!(cap&&cap.isNativePlatform&&cap.isNativePlatform());
+  let host=''; try{ host=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,''):''; }catch(_){}
+  if(host&&host===location.hostname.replace(/^www\./,''))host='';
+  const ua=navigator.userAgent||'';
+  const byHost=[[/(^|\.)google\./,'google'],[/bing\.com$/,'bing'],[/duckduckgo/,'duckduckgo'],[/yahoo\./,'yahoo'],[/chatgpt\.com|openai\.com/,'chatgpt'],[/perplexity/,'perplexity'],[/claude\.ai/,'claude'],[/gemini\.google/,'gemini'],
+    [/instagram\.com/,'instagram'],[/facebook\.com|^fb\.|\.fb\.com/,'facebook'],[/tiktok/,'tiktok'],[/youtube|youtu\.be/,'youtube'],[/^t\.co$|twitter|^x\.com/,'x'],[/whatsapp|wa\.me/,'whatsapp'],[/linkedin|lnkd\.in/,'linkedin'],[/reddit/,'reddit'],[/telegram|t\.me/,'telegram']];
+  let s=cut(q.get('utm_source'),30), m=cut(q.get('utm_medium'),30);
+  if(!s&&q.get('gclid')){ s='google'; m='cpc'; }
+  if(!s&&q.get('fbclid')){ s=/instagram/i.test(ua+host)?'instagram':'facebook'; m=m||'social'; }
+  if(!s&&q.get('ttclid')){ s='tiktok'; m='cpc'; }
+  if(!s&&host){ const h=byHost.find(([r])=>r.test(host)); s=h?h[1]:cut(host,30); m=m||(h&&/google|bing|duckduckgo|yahoo/.test(h[1])?'organic':'referral'); }
+  if(!s){ s=/Instagram/.test(ua)?'instagram':/FBAN|FBAV|FB_IAB/.test(ua)?'facebook':/TikTok|musical_ly|BytedanceWebview/.test(ua)?'tiktok':''; if(s)m='inapp'; }
+  if(!s&&invited){ s='invite'; m='friend'; }
+  if(!s&&nat){ s=cap.getPlatform()==='ios'?'app_store':'google_play'; m='store'; }
+  return {s:s||'direct',m,c:cut(q.get('utm_campaign')||q.get('utm_content'),60),r:cut(host,40),l:cut(location.pathname,60),t:Date.now()};
+}
+const SRC_NAMES={google:'גוגל',bing:'Bing',chatgpt:'ChatGPT',perplexity:'Perplexity',claude:'Claude',gemini:'Gemini',instagram:'אינסטגרם',facebook:'פייסבוק',tiktok:'טיקטוק',youtube:'יוטיוב',x:'X',whatsapp:'וואטסאפ',linkedin:'לינקדאין',reddit:'Reddit',telegram:'טלגרם',invite:'הזמנת חבר',app_store:'App Store',google_play:'Google Play',direct:'ישיר'};
+function srcName(v){ if(!v||!v.s)return ''; const k=String(v.s).toLowerCase().replace(/^www\./,'').replace(/\.com$/,''), n=SRC_NAMES[k]||v.s;
+  return n+(v.m==='cpc'||v.m==='paid'||v.m==='ads'?' · ממומן':v.m==='organic'?' · חיפוש':''); }
 /* פנייה לפי מגדר + צבע ראשי. נקבה בעברית = מילון i18n/he-f.js (נטען בראש הדף) */
 const G=(m,f,x)=>S.settings.g==='f'?f:S.settings.g==='m'?m:(x??m);
 const ACCENTS=[['green','#16A34A','ירוק'],['rose','#DB2777','ורוד'],['violet','#7C3AED','סגול'],['blue','#2563EB','כחול'],['teal','#0D9488','טורקיז']];
@@ -5626,7 +5653,8 @@ async function loadAdmin(){
 }
 async function admLoadUsers(reset){
   const U=A.users; if(reset){U.rows=[];U.total=0;} U.loading=true; if(S.tab==='admin')render();
-  const {data}=await sb.rpc('admin_users',{p_q:U.q,p_filter:U.filter,p_limit:30,p_offset:reset?0:U.rows.length});
+  const [{data},sr]=await Promise.all([sb.rpc('admin_users',{p_q:U.q,p_filter:U.filter,p_limit:30,p_offset:reset?0:U.rows.length}),A.src&&!reset?{data:A.src}:sb.rpc('admin_sources')]);
+  if(sr&&sr.data)A.src=sr.data; // missing function (SQL not run yet) → no sources, list still works
   U.loading=false; if(data){U.rows=reset?data.rows:U.rows.concat(data.rows); U.total=data.total;}
   if(S.tab==='admin'){ const keep=document.activeElement?.id==='adm-q'; render(); if(keep){const q=$('#adm-q'); if(q){q.focus(); q.setSelectionRange(q.value.length,q.value.length);}} }
 }
@@ -5737,15 +5765,21 @@ function admGrowthHTML(){
     </div>`;
 }
 const stPill=([t,c])=>`<span class="pill2" style="--c:${c}">${t}</span>`;
+function admSrc(u){ const v=(A.src||{})[u.id]; return v?srcName(v):u.ref_name?'הזמנת חבר':''; }
+function admSrcSummary(){ const m=A.src||{}, all=Object.values(m); if(!all.length)return '';
+  const c={}; all.forEach(v=>{ const n=srcName({...v,m:''}); c[n]=(c[n]||0)+1; }); const tot=(A.ov||{}).users||all.length, rows=Object.entries(c).sort((a,b)=>b[1]-a[1]), mx=rows[0][1];
+  return `<div class="card r20 adm-srcs"><div class="small muted" style="font-weight:600;margin-bottom:8px">מאיפה הגיעו המשתמשים</div>${rows.map(([n,k])=>`<div class="as-row"><span>${esc(n)}</span><i><b style="width:${Math.round(k/mx*100)}%"></b></i><span class="num">${k}</span></div>`).join('')}
+    ${tot>all.length?`<div class="small muted" style="margin-top:6px">${tot-all.length} משתמשים נרשמו לפני שהתחלנו למדוד</div>`:''}</div>`; }
 function admUsersHTML(){
   const U=A.users, O=A.ov||{};
   const cnt={all:O.users,pending:O.pending,trial:O.trial,paying:O.paying,expiring:O.expiring7,expired:O.expired,blocked:O.blocked};
   return `<label class="srch">${ICON.search}<input id="adm-q" type="search" placeholder="חיפוש לפי שם, אימייל או טלפון" value="${esc(U.q)}" aria-label="חיפוש משתמש"></label>
     <div class="chips">${ADM_FILTERS.filter(([k])=>k==='all'||cnt[k]).map(([k,t])=>`<button class="chip ${U.filter===k?'on':''}" data-act="adm-filter" data-f="${k}">${t}${cnt[k]!=null?`<i class="num">${cnt[k]}</i>`:''}</button>`).join('')}</div>
+    ${U.filter==='all'&&!U.q?admSrcSummary():''}
     <div class="card r20 list">${U.rows.map(u=>{const st=userState(u);
       return `<button class="li" data-act="adm-user" data-id="${u.id}">
         <span class="av2" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
-        <span class="lt"><b><span data-notr>${esc(u.full_name||u.email.split('@')[0])}</span> ${stPill(st)}</b><small dir="ltr" style="text-align:var(--start)">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</small></span>
+        <span class="lt"><b><span data-notr>${esc(u.full_name||u.email.split('@')[0])}</span> ${stPill(st)}</b><small dir="ltr" style="text-align:var(--start)">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</small>${admSrc(u)?`<small class="adm-src">${esc(admSrc(u))}</small>`:''}</span>
         <span class="small muted" style="text-align:end;white-space:nowrap;line-height:1.4">${u.last_seen?agoHe(u.last_seen):agoHe(u.created_at)}${u.until&&new Date(u.until)>new Date()?`<br><span class="num">עד ${dShort(u.until)}</span>`:''}</span>
       </button>`;}).join('')||`<div class="li small muted" style="justify-content:center">${U.loading?'טוען…':'אין תוצאות'}</div>`}</div>
     <div class="small muted" style="text-align:center">${U.loading&&!U.rows.length?'':`${U.rows.length} מתוך ${U.total}`}</div>
@@ -5757,6 +5791,7 @@ async function admUserSheet(id){
     const dl=[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],
       ...(u.trial_until?[['פרימיום מתנה עד',dShort(u.trial_until)]]:[]),...(u.access_until?[['מנוי בתשלום עד',dShort(u.access_until)]]:[]),
       ...(u.ref_name?[['הוזמן ע״י',`<span data-notr>${esc(u.ref_name)}</span>`]]:[]),
+      ...(admSrc(u)?[['הגיע מ',esc(admSrc(u))+((A.src||{})[u.id]?.c?`<br><span class="small muted">קמפיין: ${esc(A.src[u.id].c)}</span>`:'')+((A.src||{})[u.id]?.l&&A.src[u.id].l!=='/'?`<br><span class="small muted" dir="ltr">${esc(A.src[u.id].l)}</span>`:'')]]:[]),
       ...(u.referred_paid?[['חברים ששילמו דרכו',`${u.referred_paid} · ${u.referred_paid*30} ימי מתנה`]]:[]),
       ...(d?[['קבוצות',d.groups],['הזמין חברים',d.referred],['התראות',d.push?'מופעלות':'כבויות'],['תשלומים',(d.payments||[]).length?d.payments.map(p=>`₪${+p.amount} · ${p.months} ח׳ · ${dShort(p.created_at)}`).join('<br>'):'—']]:[])];
     openSheet(`<div class="row" style="gap:12px;flex-wrap:nowrap;margin-bottom:14px"><span class="av2" style="width:52px;height:52px;font-size:20px" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
@@ -7972,7 +8007,8 @@ async function enterApp(user){
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.menu=st.data.prefs?.menu||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
       S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.start=st.data.prefs?.start||null;
-      try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1'); logEv('src',src); } }catch(_){}
+      try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1');
+        if(!(src.t>new Date(S.user.created_at).getTime()+36e5))logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
       if(S.settings.g&&applyLook(S.settings.g,S.settings.accent))return;
       // שפה שנבחרה במכשיר אחר — מסנכרנים; משתמש ותיק בלי שפה שמורה — שומרים את הנוכחית
