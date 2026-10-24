@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=eed3e94a"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=eed3e94a"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=eed3e94a"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b323553e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b323553e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=b323553e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -635,6 +635,11 @@ body.landing #app{max-width:1120px}
 .pb-opt{display:flex;flex-direction:column;gap:2px;text-align:var(--start);padding:13px 14px;border-radius:14px;background:var(--surface2);border:2px solid transparent;color:var(--ink)}
 .pb-opt b{font-size:16px}.pb-opt small{color:var(--muted);font-size:13px}
 .pb-opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.lockbar{display:flex;align-items:center;gap:12px;margin-bottom:12px;border:1.5px solid var(--accent)}.lockbar>span:first-child{font-size:24px}.lockbar b{display:block}.lockbar small{color:var(--muted);font-size:12.5px;line-height:1.4;display:block}.lockbar{flex-wrap:wrap}.lockbar .btn{flex:1 0 100%;padding:11px 14px}
+body.locked #hdr-groups,body.locked #hdr-me{display:none!important}
+.tv-open{background:none;border:0;padding:0;margin:0;text-align:var(--start);color:inherit;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;width:100%}
+.tv-more{color:var(--accent);font-weight:600}.hc-tap{gap:6px}.hc-tap .nm,.hc-tap .sub{display:block}.hc-more{font-size:13.5px;font-weight:600;color:var(--accent)}
+.tv-list .li{gap:10px}.tv-n{width:20px;text-align:center;color:var(--muted);font-weight:700;font-size:13px;flex-shrink:0}.tv-last{color:var(--accent)!important}
 .adm-src{display:block;color:var(--accent);font-weight:600;font-size:12px}
 .adm-srcs .as-row{display:grid;grid-template-columns:110px 1fr 28px;align-items:center;gap:10px;font-size:14px;padding:3px 0}.adm-srcs i{height:8px;border-radius:5px;background:var(--surface2);overflow:hidden}.adm-srcs i b{display:block;height:100%;background:var(--accent);border-radius:5px}.adm-srcs .num{text-align:end;font-weight:700}
 .bc-warn{margin:-4px 0 6px;color:var(--gold);font-weight:600}.bc-fix{margin:0 0 12px}.bc-fix .linkbtn{font-size:13px}
@@ -873,7 +878,7 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .hcard .alt{align-self:center;color:color-mix(in srgb,var(--bg) 72%,transparent);font-size:14px;padding:2px 8px}
 .card.r20{border-radius:20px}
 .bar2{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}.bar2 i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .5s}
-.bar2 i.p{background:#2563EB}
+.bar2 i.p{background:#2563EB}.bar2 i.cb{background:#D99A00}.bar2 i.ft{background:#E8590C}
 .li{display:flex;align-items:center;gap:12px;padding:13px 14px;min-height:48px;width:100%;text-align:var(--start);color:inherit;border-radius:0;font-size:15.5px;text-decoration:none}
 .li+.li{border-top:1px solid var(--line)}
 .li>svg.ic{width:22px;height:22px;flex-shrink:0;color:var(--muted)}
@@ -1581,7 +1586,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.29';
+const APP_VERSION='13.2.30';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2007,7 +2012,9 @@ function render_(){
   for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.tab===S.tab);
   requestAnimationFrame(tbPill);
   { const inApp=S.mode==='app'; $('#hdr-groups').hidden=!inApp; $('#hdr-me').hidden=!inApp; const ini=$('#hdr-ini'); if(ini)ini.textContent=(firstName()||S.user?.email||'?').trim().charAt(0).toUpperCase(); document.body.classList.toggle('active-w',inApp&&S.tab==='train'&&!!S.active); }
-  $('#tabs').hidden=S.mode!=='app';
+  if(S.locked&&S.mode==='app'&&S.tab!=='track'){ S.tab='track'; S.trackView='history'; }
+  $('#tabs').hidden=S.mode!=='app'||!!S.locked;
+  document.body.classList.toggle('locked',!!S.locked&&S.mode==='app');
   const v=$('#view');
   const vk=S.mode+'|'+S.tab+(S.tab==='food'&&S.menuOpen?'|menu':''), moved=vk!==render_._k; render_._k=vk;
   if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען…</div>מתחבר לנתונים שלך</div>`;return;}
@@ -2025,7 +2032,7 @@ function render_(){
   else if(S.tab==='admin')v.innerHTML=vAdmin();
   else if(S.tab==='social')v.innerHTML=vSocial();
   else if(S.tab==='me')v.innerHTML=vMe();
-  else v.innerHTML=vTrack();
+  else v.innerHTML=(S.locked?lockBar():'')+vTrack();
   if(moved){ const pt=render_._t, i0=TAB_ORD.indexOf(pt), i1=TAB_ORD.indexOf(S.tab), rtl=getComputedStyle(document.documentElement).direction==='rtl';
     v.classList.remove('anim','tab-l','tab-r'); void v.offsetWidth;
     if(pt&&pt!==S.tab&&i0>=0&&i1>=0)v.classList.add((i1>i0)===rtl?'tab-l':'tab-r');
@@ -2248,7 +2255,7 @@ function landBarbell(){
     <text x="260" y="88" text-anchor="middle" font-size="13" fill="var(--muted)" style="font-family:var(--body)">20 + 2×(25+20+15+10) = 160 ק״ג</text></svg>`;
 }
 /* landing prices: live from public_plans(), with a fallback */
-const LP={trial:7,plans:[{id:'4m',months:4,price:79},{id:'6m',months:6,price:99},{id:'12m',months:12,price:119,was:149,best:true}],loaded:false};
+const LP={trial:7,plans:[{id:'4m',months:4,price:99},{id:'6m',months:6,price:119},{id:'12m',months:12,price:149,best:true}],loaded:false};
 function loadLandPrices(){ if(LP.loaded)return; LP.loaded=true;
   try{ sb.rpc('public_plans').then(({data})=>{ if(!data||!Array.isArray(data.plans)||!data.plans.length)return;
     LP.trial=+data.trial_days||7; LP.plans=data.plans;
@@ -2300,7 +2307,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
         <button class="btn primary" data-act="land-signup">אני רוצה להתחיל</button>
         <button class="btn" data-act="land-login">כבר יש לי חשבון</button>
       </div>
-      <div class="ld-note">${F?'חינם, בלי כרטיס אשראי. בלי חנות אפליקציות. בלשון נקבה בכל האפליקציה.':'חינם, בלי כרטיס אשראי. בלי חנות אפליקציות. אייפון ואנדרואיד.'}</div>
+      <div class="ld-note">${F?'שבוע ראשון חינם, בלי כרטיס אשראי. בלשון נקבה בכל האפליקציה.':'שבוע ראשון חינם, בלי כרטיס אשראי. אייפון ואנדרואיד.'}</div>
     </div>
     <div class="ld-phone" aria-hidden="true"><div class="ld-screen">
       <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
@@ -2457,14 +2464,14 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
 
   <section class="ld-sec" id="ld-pricing">
     <div class="stack" style="gap:8px">
-      <h2>מתחילים בחינם</h2>
-      <p>בלי כרטיס אשראי ובלי תקופת ניסיון: האפליקציה חינמית, ופרימיום רק אם ${LW('תרצה','תרצי')} עוד.</p>
+      <h2>שבוע ראשון חינם</h2>
+      <p>בלי כרטיס אשראי. ${LP.trial} ימים עם הכל פתוח, ואחר כך ${LW('בוחר','בוחרת')} מסלול. האימונים והנתונים שלך נשמרים תמיד.</p>
     </div>
     <div class="ld-tiers">
-      <div class="ld-tier"><b>חינם</b><span class="pp num">₪0</span><ul><li>אימונים, טיימר ושיאים</li><li>תפריט חכם לפי היעד</li><li>מעקב קלוריות, מאגר וברקוד</li><li>ניתוח AI אחד ביום</li><li>קבוצות ואתגרים</li></ul></div>
-      <div class="ld-tier prem"><b>⭐ פרימיום</b><span class="small">כל מה שבחינם, ועוד:</span><ul><li>ניתוח AI בכל ארוחה: צילום, טקסט ותווית</li><li>קובי המאמן: סיכום שבועי ושיחה</li></ul></div>
+      <div class="ld-tier"><b>שבוע ניסיון</b><span class="pp num">₪0</span><ul><li>הכל פתוח מהרגע הראשון</li><li>בלי כרטיס אשראי</li><li>בלי התחייבות</li></ul></div>
+      <div class="ld-tier prem"><b>⭐ מה כלול</b><ul><li>אימונים, טיימר ושיאים</li><li>תפריט חכם לפי היעד</li><li>מעקב קלוריות, מאגר וברקוד</li><li>ניתוח AI בכל ארוחה: צילום, טקסט ותווית</li><li>קובי המאמן: סיכום שבועי ושיחה</li><li>קבוצות ואתגרים</li></ul></div>
     </div>
-    <div class="ld-note" style="text-align:center;margin-top:14px">מסלולי פרימיום, תשלום אחד:</div>
+    <div class="ld-note" style="text-align:center;margin-top:14px">אחרי השבוע, תשלום אחד בלי חידוש אוטומטי:</div>
     <div class="ld-prices">
       ${LP.plans.map(p=>{const pm=p.price/p.months;return `<button class="plan ${p.best?'best':''}" data-act="land-signup">
         ${p.was>p.price?'<span class="tag launch">🚀 מחיר השקה</span>':p.best?'<span class="tag">הכי משתלם</span>':''}
@@ -2508,7 +2515,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   <section class="ld-end">
     <div class="stack" style="gap:10px">
       <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
-      <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. חינם, בלי כרטיס אשראי.</p>
+      <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. שבוע ראשון חינם, בלי כרטיס אשראי.</p>
     </div>
     <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">אני רוצה להתחיל</button>
   </section>
@@ -2552,7 +2559,7 @@ function vAuth(){ if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOG
       <button class="btn primary big" data-act="auth-go" id="authgo">${su?'הרשמה':'התחברות'}</button>
       ${su?'':`<button class="linkbtn" data-act="auth-forgot" style="font-size:13.5px">שכחתי סיסמה</button>`}
       <div class="small muted" style="text-align:center"><a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="terms.html" target="_blank">תקנון</a> · <a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="privacy.html" target="_blank">פרטיות</a></div>
-      <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם בחינם'}</button>
+      <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם, שבוע ראשון חינם'}</button>
       ${OTP_ON?'<button class="linkbtn" data-act="otp-back">✉️ כניסה עם קוד למייל, בלי סיסמה</button>':''}`:''}
       ${IS_STANDALONE?'':`<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>`}
     </div>
@@ -2717,8 +2724,9 @@ function vHome(){
       <button class="go" data-act="go" data-to="train">חזרה לאימון</button></div>`
     :nw?`<div class="hcard">
       <div class="lbl"><span>${nw.label}${nw.sub?` · ${nw.sub}`:''}</span><span class="num">כ-${tplMinutes(nw.t)} דק׳ · ${(nw.t.ex||[]).length} תרגילים</span></div>
-      <div class="nm">${esc(nw.t.name)}</div>
-      <div class="sub">${esc((nw.t.ex||[]).slice(0,3).map(e=>e.n).join(', '))}${(nw.t.ex||[]).length>3?` <span>ועוד ${(nw.t.ex||[]).length-3}</span>`:''}</div>
+      <button class="tv-open hc-tap" data-act="tpl-view" data-id="${esc(nw.t.id)}"><span class="nm">${esc(nw.t.name)}</span>
+      <span class="sub">${esc((nw.t.ex||[]).slice(0,3).map(e=>e.n).join(', '))}${(nw.t.ex||[]).length>3?` <span>ועוד ${(nw.t.ex||[]).length-3}</span>`:''}</span>
+      <span class="hc-more">${tt('לכל התרגילים')} ›</span></button>
       <button class="go" data-act="start-tpl" data-id="${esc(nw.t.id)}">${ICON.play} התחל אימון</button>
       <button class="alt" data-act="go" data-to="train">אימון אחר</button></div>`
     :`<div class="hcard">
@@ -2814,7 +2822,7 @@ function vFood(){
       <div class="rg"><svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true"><circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="10"/><circle cx="56" cy="56" r="${R}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 56 56)" style="transition:stroke-dashoffset .5s"/></svg>
         <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'קק״ל נותרו':'קק״ל מעל היעד'}</span><small class="num">${tt('מתוך')} ${kcalN(kT)}</small>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
       <div class="stack" style="flex:1;gap:10px;min-width:0">
-        ${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,mT.c,'')}${mb('שומן',t.fat,mT.f,'')}
+        ${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,mT.c,'cb')}${mb('שומן',t.fat,mT.f,'ft')}
       </div>
     </div>
     ${d===today?foodBankLine():''}
@@ -2834,7 +2842,7 @@ function vFood(){
     <div class="card r20 list">
       ${slots.map(([k,label])=>{ const ms=meals.filter(m=>mealSlot(m)===k); const kc=ms.reduce((a,m)=>a+(+m.kcal||0),0);
         return `<div class="li" style="align-items:flex-start;${ms.length?'flex-direction:column;gap:6px':''}">
-          <div style="display:flex;align-items:center;gap:12px;width:100%"><span class="lt"><b>${label}</b>${ms.length?'':'<small>עוד לא נרשם</small>'}</span>${ms.length?`<span class="num" style="font-weight:600">${kcalN(kc)}</span>`:''}${d===today?`<button class="sbtn" data-act="food-add-open" aria-label="הוסף ל${label}">${ICON.plus}</button>`:''}</div>
+          <div style="display:flex;align-items:center;gap:12px;width:100%"><span class="lt"><b>${label}</b>${ms.length?'':'<small>עוד לא נרשם</small>'}</span>${ms.length?`<span class="num" style="font-weight:600">${kcalN(kc)} <small class="muted" style="font-weight:400">${tt('קק״ל')}</small></span>`:''}${d===today?`<button class="sbtn" data-act="food-add-open" aria-label="הוסף ל${label}">${ICON.plus}</button>`:''}</div>
           ${ms.map(m=>`<button class="spread" style="width:100%;text-align:var(--start);padding:6px 0 0;border-top:1px dashed var(--line);border-radius:0" data-act="meal-open" data-id="${esc(m.id)}"><span style="min-width:0"><span data-notr style="font-size:14.5px">${esc(m.name)}</span><span class="small muted" style="display:block">${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${Math.round(m.protein||0)} גר׳ חלבון</span></span><span class="num muted small">${m.kcal} ›</span></button>`).join('')}
         </div>`; }).join('')}
     </div>
@@ -4158,12 +4166,13 @@ function vTrainStart(){
     <h2 class="ttl">אימון</h2>
     ${nw?`<div class="card r20 stack" style="gap:12px">
       <div class="spread"><span class="small" style="color:var(--accent);font-weight:600">${nw.label}${nw.sub?` · ${nw.sub}`:''}</span><span class="small muted">${lastOf(nw.t)}</span></div>
-      <b style="font-family:var(--disp);font-size:23px;line-height:1.1">${esc(nw.t.name)}</b>
-      <div class="row" style="gap:6px">${(nw.t.ex||[]).slice(0,3).map(e=>`<span class="chip" style="padding:5px 10px;font-size:13px">${esc(e.n)}</span>`).join('')}${(nw.t.ex||[]).length>3?`<span class="chip" style="padding:5px 10px;font-size:13px">+${(nw.t.ex||[]).length-3}</span>`:''}</div>
-      <button class="btn primary big" style="display:flex;align-items:center;justify-content:center;gap:8px" data-act="start-tpl" data-id="${esc(nw.t.id)}">${ICON.play} התחל</button>
+      <button class="tv-open" style="gap:10px" data-act="tpl-view" data-id="${esc(nw.t.id)}"><b style="font-family:var(--disp);font-size:23px;line-height:1.1">${esc(nw.t.name)}</b>
+      <span class="row" style="gap:6px">${(nw.t.ex||[]).slice(0,3).map(e=>`<span class="chip" style="padding:5px 10px;font-size:13px">${esc(e.n)}</span>`).join('')}${(nw.t.ex||[]).length>3?`<span class="chip" style="padding:5px 10px;font-size:13px">+${(nw.t.ex||[]).length-3}</span>`:''}</span>
+      <span class="tv-more">${tt('כל התרגילים')} ›</span></button>
+      <button class="btn primary big" style="display:flex;align-items:center;justify-content:center;gap:8px" data-act="start-tpl" data-id="${esc(nw.t.id)}">${ICON.play} התחל אימון</button>
     </div>`:''}
     ${S.templates.length?`<div class="sect2"><span>התוכנית שלי</span><button class="linkbtn" data-act="train-view" data-v="plans">עריכה</button></div>
-    <div class="card r20 list">${list.map(t=>`<div class="li"><span class="lt"><b>${esc(t.name)}</b><small>${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳</small></span><button class="sbtn" data-act="start-tpl" data-id="${esc(t.id)}" aria-label="התחל ${esc(t.name)}">${ICON.play}</button></div>`).join('')||`<div class="li small muted">כל התוכנית למעלה. אפשר להוסיף עוד אימונים בעריכה.</div>`}</div>`
+    <div class="card r20 list">${list.map(t=>`<div class="li"><button class="lt tv-open" data-act="tpl-view" data-id="${esc(t.id)}"><b>${esc(t.name)}</b><small>${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳ · <span class="tv-more">${tt('פרטים')} ›</span></small></button><button class="sbtn" data-act="start-tpl" data-id="${esc(t.id)}" aria-label="התחל ${esc(t.name)}">${ICON.play}</button></div>`).join('')||`<div class="li small muted">כל התוכנית למעלה. אפשר להוסיף עוד אימונים בעריכה.</div>`}</div>`
     :''}
     ${!S.templates.length?`<div class="card r20 stack" style="gap:12px"><b style="font-family:var(--disp);font-size:22px;line-height:1.15">עוד אין לך תוכנית</b><span class="small muted">הכי קל להתחיל מתוכנית שבנויה בשבילך. לוקח 2 דקות.</span><button class="btn primary big" data-act="pb-open">בנה לי תוכנית</button></div>`:''}
     <div class="two">
@@ -4205,13 +4214,15 @@ function vActive(){
   const rows=[], done=[], next=[];
   a.ex.forEach((e,ei)=>{
     if(isOpen(e,ei)){ rows.push(e.t==='c'?vCardio(e,ei,ei===cur):vStrength(e,ei,ei===cur)); return; }
-    const row=`<button class="ex-row" data-act="ex-open" data-ei="${ei}"><span class="lt"><b>${esc(e.n)}</b><small class="num">${exSummary(e)}</small></span>${exDone(e)?`<span class="ok">${ICON.ok}</span>`:`<span class="small muted">${e.t==='c'?'אירובי':(e.sets||[]).length+' סטים'}</span>`}</button>`;
+    const tgt=e.t==='c'?'אירובי':`${(e.sets||[]).length} סטים${e.reps?` · ${esc(e.reps)} חזרות`:''}`;
+    const row=`<button class="ex-row" data-act="ex-open" data-ei="${ei}"><span class="lt"><b>${esc(e.n)}</b><small class="num">${exDone(e)?exSummary(e):tgt}</small></span>${exDone(e)?`<span class="ok">${ICON.ok}</span>`:ICON.chev}</button>`;
     (exDone(e)?done:next).push(row);
   });
   return `
     <div class="aw-head">
       <div class="aw-top">
         <button class="hd-btn" data-act="go" data-to="home" aria-label="מזעור האימון">${ICON.down}</button>
+        <button class="hd-btn" data-act="aw-menu" aria-label="אפשרויות האימון">${ICON.dots}</button>
         <div class="aw-mid"><span>${esc(a.name)}</span><b class="num" id="wclock">${clockText()}</b></div>
         <button class="aw-fin" data-act="finish-w">סיום</button>
       </div>
@@ -4222,7 +4233,7 @@ function vActive(){
     ${next.length?`<div class="small muted" style="font-weight:600;padding:0 4px;margin-bottom:-4px">הבאים</div><div class="card r20 list">${next.join('')}</div>`:''}
     ${!a.ex.length?`<div class="empty"><div class="big">אימון חופשי</div>הוסף תרגיל ראשון, המשקל מהפעם הקודמת כבר ימולא.</div>`:''}
     <button class="btn big" style="background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px" data-act="add-ex">${ICON.plus} הוסף תרגיל</button>
-    <button class="linkbtn" style="color:var(--muted);text-decoration:none;align-self:center" data-act="cancel-w">ביטול האימון</button>`;
+    <button class="linkbtn" style="color:var(--muted);text-decoration:none;align-self:center" data-act="aw-del">מחיקת האימון</button>`;
 }
 /* target reps "8-12" / "10" → {lo,hi}; null for timed ranges (plank seconds) or none */
 function repRange(r){ const n=String(r||'').match(/\d+/g); if(!n)return null; const lo=+n[0], hi=+n[n.length-1]; if(!hi||hi>30)return null; return {lo:Math.min(lo,hi),hi:Math.max(lo,hi)}; }
@@ -6388,27 +6399,32 @@ function recapHTML(){
   return `<div class="pw-recap"><div class="small muted">מה עשית עד עכשיו</div><div class="pw-rt">${t.map(([v,l])=>`<div><b class="num">${v}</b><span>${tt(l)}</span></div>`).join('')}</div></div>`;
 }
 const pwDate=d=>new Date(d).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'});
+/* after the trial (lock model): the app is closed, but history and progress stay viewable */
+function lockBar(){ return `<div class="card r20 lockbar"><span>🔒</span><span style="flex:1"><b>${tt('מצב צפייה בלבד')}</b><small>${tt('האימונים והנתונים שלך שמורים. בוחרים מסלול, והכל נפתח מיד.')}</small></span><button class="btn primary" data-act="lock-pay">${tt('לבחירת מסלול')}</button></div>`; }
+const LOCK_OK=/^(track-view|metric|wrap-|vol-open|sheet-close|pr-all|photo-view|hist-(open|ex|month)|body-tog|badges-open|badge-|lock-|plan|access-logout|contact-|share-w|info|ex-demo|demo)/;
 function vPaywall(full){
   const paid=!!S.plan?.access_until;
   // active App Store / Google Play subscription: show its renewal date instead of the plans (changes go through the store)
   const storeOn=IS_NATIVE&&!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
   const body=`
     ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
-    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':'הפרימיום הסתיים'):(S.plan?.premium?'⭐ הפרימיום שלך':'⭐ NextRep פרימיום')}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
+    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':S.plan?.lock?'שבוע הניסיון הסתיים':'הפרימיום הסתיים'):(S.plan?.premium?'⭐ הפרימיום שלך':'⭐ NextRep פרימיום')}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
     ${full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
     ${!full&&storeOn?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ ${S.plan.store_renews?'המנוי שלך פעיל ומתחדש ב-':'המנוי שלך פעיל עד '}<b class="num">${pwDate(S.plan.store_until)}</b>.${S.plan.store_renews?'':' החידוש האוטומטי כבוי.'} שינוי מסלול וביטול דרך "ניהול המנוי" למטה.</div>`
       :!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${pwDate(S.plan.until)}</b>. ${IS_NATIVE?'מנוי מהחנות מתחיל מיום הרכישה ומתחדש אוטומטית.':'חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.'}</div>`:''}
     <div class="pw-prem">
+      ${S.plan?.lock?`<div class="pr"><i>✓</i><div><b>${tt('כל האפליקציה פתוחה')}</b><span>${tt('אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים')}</span></div></div>`:''}
       <div class="pr"><i>AI</i><div><b>ניתוח תזונה AI בכל ארוחה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית</span></div></div>
       <div class="pr"><i>K</i><div><b>קובי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם קובי על אימונים ותזונה</span></div></div>
     </div>
-    <div class="small muted">${full?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
+    <div class="small muted">${full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
     ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px" ${storeOn?'hidden':''}>${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
     ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: שבוע פרימיום לשניכם','או הזמיני חברה: שבוע פרימיום לשתיכן','או הזמנת חבר: שבוע פרימיום לשניכם')}</button>`:''}
     ${IS_NATIVE?`<div class="small muted" style="text-align:center;font-size:12px;line-height:1.55">${NATIVE_OS==='ios'?'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה. ניהול וביטול בהגדרות החשבון ב-App Store.':'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון Google Play, אלא אם מבטלים לפני סוף התקופה. ניהול וביטול ב-Google Play.'}<br><a href="terms.html" target="_blank">תנאי שימוש</a> · <a href="privacy.html" target="_blank">מדיניות פרטיות</a></div>
     <div class="pw-links"><button class="linkbtn" data-act="rc-restore">שחזור רכישות</button><span class="muted">·</span>${S.plan?.store_until?'<button class="linkbtn" data-act="rc-manage">ניהול המנוי</button><span class="muted">·</span>':''}<button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>`
     :`<div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
     <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>`}
+    ${full&&S.plan?.lock?`<button class="btn big" data-act="lock-view" style="background:var(--surface)">📖 ${tt('צפייה בהיסטוריה שלי')}</button>`:''}
     ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
   return full?`<div class="pw">${body}</div>`:body;
 }
@@ -6419,6 +6435,7 @@ function planPill(){
   if(!p.premium)return `<button class="planpill free" data-act="plans-open" data-why="pill">${G('חינם · שדרג לפרימיום ⭐','חינם · שדרגי לפרימיום ⭐','חינם · שדרוג לפרימיום ⭐')}</button>`;
   const d=p.until?new Date(p.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'';
   if(p.paid&&!p.gift)return `<button class="planpill paid" data-act="plans-open">⭐ ${PLAN_LABEL[p.plan_months]||'פרימיום'}${d?` · עד ${d}`:''}</button>`;
+  if(p.lock&&!p.access_until)return `<button class="planpill paid" data-act="plans-open">🎁 ${tt('שבוע ניסיון')} · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
   return `<button class="planpill paid" data-act="plans-open">🎁 פרימיום מתנה · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
 }
 function planBanner(){
@@ -7437,7 +7454,22 @@ function openExSheet(name,opt){
       <div class="prlist" style="margin-bottom:14px">
         ${hist.slice(0,10).map(h=>`<div class="pr-row"><span class="muted small num">${fmtDate(h.ts)}</span><span class="num" style="direction:ltr">${esc(h.txt)}</span></div>`).join('')}
       </div>`:''}
-    <button class="btn big" data-act="sheet-close">סגור</button>`);
+    ${opt.back?`<button class="btn big" data-act="tpl-view" data-id="${esc(opt.back)}">חזרה לאימון</button>`:`<button class="btn big" data-act="sheet-close">סגור</button>`}`);
+}
+/* a planned workout's details: exercises with targets, last time's top set, and start / edit */
+function openTplView(id){
+  const t=S.templates.find(x=>x.id===id); if(!t)return;
+  const last=[...S.workouts].filter(w=>w.tid===t.id).sort((a,b)=>b.start-a.start)[0];
+  const top=n=>{ const e=last&&(last.ex||[]).find(x=>x.n===n); const d=e?(e.sets||[]).filter(s=>+s.r>0):[]; if(!d.length)return '';
+    const s=d.reduce((a,x)=>(+x.w||0)>(+a.w||0)?x:a,d[0]); return `${+s.w||0}×${+s.r||0}`; };
+  const rows=(t.ex||[]).map((e,i)=>{ const lt=e.t==='c'?'':top(e.n);
+    const meta=e.t==='c'?'אירובי':[`${+e.s||3} סטים`,e.reps?`${esc(e.reps)} חזרות`:'',e.rest?`מנוחה ${fmtRest(e.rest)}`:''].filter(Boolean).join(' · ');
+    return `<button class="li tv-ex" data-act="tv-ex" data-tid="${esc(t.id)}" data-i="${i}"><span class="tv-n num">${i+1}</span>${EXDB[e.n]?`<img class="libthumb" ${exImg(EXDB[e.n],0)} alt="" loading="lazy">`:''}<span class="lt"><b>${esc(e.n)}</b><small class="num">${meta}</small>${lt?`<small class="tv-last num">בפעם הקודמת: <span dir="ltr">${lt}</span></small>`:''}</span>${ICON.chev}</button>`; }).join('');
+  openSheet(`<h3 style="margin-bottom:4px">${esc(t.name)}</h3>
+    <div class="small muted num" style="margin-bottom:12px">${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳${last?` · בפעם הקודמת: ${agoShort(last.start)}`:''}</div>
+    <div class="card r20 list tv-list">${rows||'<div class="li small muted">אין תרגילים באימון הזה</div>'}</div>
+    ${S.active?'':`<button class="btn primary big" data-act="start-tpl" data-id="${esc(t.id)}" style="width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px">${ICON.play} התחל אימון</button>`}
+    <button class="btn big" data-act="tpl-edit" data-id="${esc(t.id)}" style="width:100%;margin-top:8px">עריכת האימון</button>`);
 }
 
 /* finish sheet */
@@ -7585,6 +7617,9 @@ document.addEventListener('click',ev=>{
 });
 function handleAct(b,ev){
   const act=b.dataset.act;
+  if(act==='lock-view'){ enterApp._ro=true; S.trackView='history'; S.tab='track'; enterApp(S.user); return; }
+  if(act==='lock-pay'){ S.mode='paywall'; render(); window.scrollTo(0,0); return; }
+  if(S.locked&&S.mode==='app'&&!LOCK_OK.test(act)){ toast(tt('מצב צפייה בלבד. בוחרים מסלול, והכל נפתח מיד.')); return; }
   if(act==='info'){ ev.stopPropagation(); showInfo(b); return; }
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(act.startsWith('rc-')&&rcAct(act,b))return;
@@ -7648,6 +7683,8 @@ function handleAct(b,ev){
     case 'ex-info': { const e=S.active?.ex[+b.dataset.ei]; if(!e)break;
       openExSheet(e.n,{reps:e.reps,sets:e.sets?.length,rest:e.rest,how:e.how}); break; }
     case 'hist-ex': openExSheet(b.dataset.n,{}); break;
+    case 'tpl-view': openTplView(b.dataset.id); break;
+    case 'tv-ex': { const t=S.templates.find(x=>x.id===b.dataset.tid), e=t&&t.ex[+b.dataset.i]; if(e)openExSheet(e.n,{reps:e.reps,sets:+e.s||3,rest:e.rest,how:e.how,back:t.id}); break; }
     case 'lib-info': { const n=b.dataset.n;
       openSheet(`<h3>${esc(n)}</h3>${demoHTML(n)}<p style="margin:0 0 8px;line-height:1.6">${esc(INFO[n]||'')}</p>
         <div style="margin-bottom:14px">${ytLink(n)}</div>
@@ -7768,6 +7805,18 @@ function handleAct(b,ev){
     case 'rest-add': T.end+=15000; T.total+=15; tickRest(); if(T.int)armServerRest(T.label); break;
     case 'rest-sub': T.end-=15000; T.total=Math.max(5,T.total-15); tickRest(); if(T.int)armServerRest(T.label); break;
     case 'rest-skip': stopRest(); break;
+    case 'aw-menu': openSheet(`<h3>${esc(S.active?.name||'אימון')}</h3>
+      <div class="card r20 list" style="margin-bottom:10px">
+        <button class="li" data-act="aw-add">${ICON.plus}<span class="lt"><b>הוספת תרגיל</b></span></button>
+        <button class="li" data-act="aw-min">${ICON.down}<span class="lt"><b>מזעור לאימון ברקע</b><small>הטיימר ממשיך, וחוזרים מהמסך הראשי</small></span></button>
+      </div>
+      <div class="card r20 list"><button class="li" data-act="aw-del" style="color:var(--danger)"><span class="lt"><b>מחיקת האימון</b><small>האימון לא יישמר בהיסטוריה</small></span></button></div>`); break;
+    case 'aw-add': closeSheet(); setTimeout(()=>document.querySelector('[data-act="add-ex"]')?.click(),60); break;
+    case 'aw-min': closeSheet(); S.tab='home'; render(); window.scrollTo(0,0); break;
+    case 'aw-del': { const st=liveStats(); openSheet(`<h3>למחוק את האימון?</h3><div class="muted" style="margin:-4px 0 14px">${st.done?`${st.done} סטים שסימנת לא יישמרו. `:''}אי אפשר לשחזר אותו אחר כך.</div>
+      <button class="btn danger big" data-act="aw-del-yes" style="width:100%">מחיקת האימון</button>
+      <button class="btn big" data-act="sheet-close" style="width:100%;margin-top:8px">ממשיכים להתאמן</button>`); break; }
+    case 'aw-del-yes': closeSheet(); S.active=null; saveLocalActive(); clearTimeout(_aT); flushActive(); stopRest(); keepAwake(false); S.tab='train'; render(); toast('האימון נמחק'); break;
     case 'cancel-w':
       if(b.dataset.sure){S.active=null; saveLocalActive(); clearTimeout(_aT); flushActive(); stopRest(); keepAwake(false); render();}
       else {b.dataset.sure='1'; b.textContent='בטוח? האימון יימחק'; setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)b.textContent='בטל אימון';},2500);}
@@ -7983,11 +8032,13 @@ async function enterApp(user){
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
     if(st==='expired'){
       if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }
+      if(enterApp._ro){ S.locked=true; } else {
       S.mode='paywall'; render();
       if(!S.recap)sb.rpc('trial_recap').then(({data})=>{ if(data){ S.recap=data; if(S.mode==='paywall')render(); } },()=>{});
       if(PAID_RETURN&&!(enterApp._poll>=8)){ enterApp._poll=(enterApp._poll||0)+1; toast('מאשר את התשלום…'); setTimeout(()=>enterApp(user),4000); }
-      return; }
-    if(st!=='approved'){ S.access=st; S.mode='pending'; render(); return; } } }catch(_){}
+      return; } }
+    else S.locked=false;
+    if(st!=='approved'&&st!=='expired'){ S.access=st; S.mode='pending'; render(); return; } } }catch(_){}
   try{
     const [tpl,wo,st,bw,ml]=await Promise.all([
       sb.from('templates').select('id,name,ord,ex').order('ord'),
