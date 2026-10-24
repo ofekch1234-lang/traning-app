@@ -1598,5 +1598,189 @@
  "{0} סטים שסימנת לא יישמרו.": {
   "en": "{0} sets you checked won't be saved.",
   "ar": "{0} مجموعات أشرت إليها لن تُحفظ."
+ },
+ "שבוע ראשון חינם, עם הכל פתוח ובלי כרטיס אשראי. אחר כך בוחרים מסלול של 4 חודשים, חצי שנה או שנה, החל מ-{0} לחודש. תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות. האימונים והנתונים שלך נשמרים תמיד.": {
+  "en": "The first week is free, with everything unlocked and no credit card. After that you pick a 4-month, 6-month or 1-year plan, from {0} a month. One payment, no auto-renewal, no commitment. Your workouts and data are always kept.",
+  "ar": "الأسبوع الأول مجاني، مع كل شيء مفتوح وبدون بطاقة ائتمان. بعد ذلك تختار خطة 4 أشهر أو نصف سنة أو سنة، ابتداءً من {0} شهريًا. دفعة واحدة، بدون تجديد تلقائي وبدون التزام. تدريباتك وبياناتك محفوظة دائمًا."
+ },
+ "שבוע ראשון חינם, עם הכל פתוח ובלי כרטיס אשראי. אחר כך בוחרים מסלול של 4 חודשים, חצי שנה או שנה, החל מ": {
+  "en": "The first week is free, with everything unlocked and no credit card. After that you pick a 4-month, 6-month or 1-year plan, from",
+  "ar": "الأسبوع الأول مجاني، مع كل شيء مفتوح وبدون بطاقة ائتمان. بعد ذلك تختار خطة 4 أشهر أو نصف سنة أو سنة، ابتداءً من"
+ },
+ "לחודש. תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות. האימונים והנתונים שלך נשמרים תמיד.": {
+  "en": "a month. One payment, no auto-renewal, no commitment. Your workouts and data are always kept.",
+  "ar": "شهريًا. دفعة واحدة، بدون تجديد تلقائي وبدون التزام. تدريباتك وبياناتك محفوظة دائمًا."
+ },
+ "תרגילים עם הדגמה, לכל שריר": {
+  "en": "exercises with demos, for every muscle",
+  "ar": "تمرينًا مع عرض توضيحي، لكل عضلة"
+ },
+ "נגיעות כדי לרשום סט": {
+  "en": "taps to log a set",
+  "ar": "نقرات لتسجيل مجموعة"
+ },
+ "שפות: עברית, ערבית ואנגלית": {
+  "en": "languages: Hebrew, Arabic and English",
+  "ar": "لغات: العبرية والعربية والإنجليزية"
+ },
+ "ימים חינם, בלי כרטיס אשראי": {
+  "en": "days free, no credit card",
+  "ar": "أيام مجانًا، بدون بطاقة ائتمان"
+ },
+ "נרשמים במייל": {
+  "en": "Sign up with email",
+  "ar": "سجّل بالبريد الإلكتروني"
+ },
+ "בלי סיסמה ובלי כרטיס אשראי. 30 שניות.": {
+  "en": "No password, no credit card. 30 seconds.",
+  "ar": "بدون كلمة مرور وبدون بطاقة ائتمان. 30 ثانية."
+ },
+ "מקבלת תוכנית": {
+  "en": "Get your plan",
+  "ar": "احصلي على خطتك"
+ },
+ "מקבל תוכנית": {
+  "en": "Get your plan",
+  "ar": "احصل على خطتك"
+ },
+ "עונה על כמה שאלות, והתוכנית והיעד התזונתי מוכנים.": {
+  "en": "Answer a few questions, and your plan and nutrition target are ready.",
+  "ar": "أجب عن بعض الأسئلة، وتصبح خطتك وهدفك الغذائي جاهزين."
+ },
+ "מתאמנים": {
+  "en": "Train",
+  "ar": "تدرّب"
+ },
+ "כל סט נשמר, והמשקל מהפעם הקודמת כבר מחכה לך.": {
+  "en": "Every set is saved, and last time's weight is already waiting for you.",
+  "ar": "كل مجموعة تُحفظ، ووزن المرة السابقة بانتظارك."
+ },
+ "מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא \"cottage cheese\" אמריקאי.": {
+  "en": "The Israeli Ministry of Health food database: local foods like cottage cheese, pita and schnitzel, as they're actually sold here.",
+  "ar": "قاعدة بيانات وزارة الصحة الإسرائيلية: الأطعمة المحلية مثل الجبنة البيضاء والخبز والشنيتسل كما تُباع هنا."
+ },
+ "🎁 חבר הזמין אותך ל-NextRep: דרך ההזמנה מקבלים שבוע פרימיום מתנה. ההטבה נשמרת כשנרשמים מהמכשיר הזה.": {
+  "en": "🎁 A friend invited you to NextRep: through the invite you get a free Premium week. The perk is kept when you sign up from this device.",
+  "ar": "🎁 دعاك صديق إلى NextRep: من خلال الدعوة تحصل على أسبوع بريميوم هدية. تُحفظ الميزة عند التسجيل من هذا الجهاز."
+ },
+ "שבוע ראשון חינם · בלי כרטיס אשראי": {
+  "en": "First week free · No credit card",
+  "ar": "الأسبوع الأول مجانًا · بدون بطاقة ائتمان"
+ },
+ "אייפון ואנדרואיד": {
+  "en": "iPhone and Android",
+  "ar": "آيفون وأندرويد"
+ },
+ "עובד גם בלי קליטה": {
+  "en": "Works without signal",
+  "ar": "يعمل حتى بدون إشارة"
+ },
+ "בלשון נקבה בכל האפליקציה": {
+  "en": "Feminine forms across the app",
+  "ar": "بصيغة المؤنث في كل التطبيق"
+ },
+ "עברית, ערבית ואנגלית": {
+  "en": "Hebrew, Arabic and English",
+  "ar": "العبرية والعربية والإنجليزية"
+ },
+ "+5 ק״ג בהיפ תראסט": {
+  "en": "+5 kg on hip thrust",
+  "ar": "+5 كغ في الهيب ثراست"
+ },
+ "+2.5 ק״ג בלחיצת חזה": {
+  "en": "+2.5 kg on bench press",
+  "ar": "+2.5 كغ في ضغط الصدر"
+ },
+ "הבא: סט 3 של 4": {
+  "en": "Next: set 3 of 4",
+  "ar": "التالي: المجموعة 3 من 4"
+ },
+ "42 גר׳ חלבון · מצילום אחד": {
+  "en": "42 g protein · from one photo",
+  "ar": "42 غ بروتين · من صورة واحدة"
+ },
+ "לפני ואחרי": {
+  "en": "Before and after",
+  "ar": "قبل وبعد"
+ },
+ "כל מה שצריך כדי להתחזק. באפליקציה אחת.": {
+  "en": "Everything you need to get stronger. In one app.",
+  "ar": "كل ما تحتاجه لتصبح أقوى. في تطبيق واحد."
+ },
+ "אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של תמונות במראה? כאן הכל מחובר.": {
+  "en": "One app for workouts, another for calories, notes for your weight and a folder of mirror photos? Here it's all connected.",
+  "ar": "تطبيق للتدريب وآخر للسعرات وملاحظات للوزن ومجلد لصور المرآة؟ هنا كل شيء متصل."
+ },
+ "אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של סלפי במראה? כאן הכל מחובר.": {
+  "en": "One app for workouts, another for calories, notes for your weight and a folder of mirror selfies? Here it's all connected.",
+  "ar": "تطبيق للتدريب وآخر للسعرات وملاحظات للوزن ومجلد لصور السيلفي في المرآة؟ هنا كل شيء متصل."
+ },
+ "מעקב קלוריות בלי לספור": {
+  "en": "Calorie tracking without counting",
+  "ar": "تتبع السعرات بدون عدّ"
+ },
+ "NextRep שמה את המספר הקודם מול העיניים שלך בכל סט, ושומרת את כל השאר לגרף.": {
+  "en": "NextRep puts last time's number in front of you on every set, and saves the rest for the chart.",
+  "ar": "يضع NextRep الرقم السابق أمام عينيك في كل مجموعة، ويحفظ الباقي للرسم البياني."
+ },
+ "סט בשתי נגיעות": {
+  "en": "Two-tap sets",
+  "ar": "مجموعة بنقرتين"
+ },
+ "בלי להקליד באמצע סט. בוחרים משקולת מהמתלה, פין במכונה או פלטות על המוט, וממשיכים.": {
+  "en": "No typing mid-set. Pick a dumbbell from the rack, a pin on the machine or plates on the bar, and keep going.",
+  "ar": "بدون كتابة أثناء المجموعة. اختر دمبل من الرف أو دبوس الجهاز أو أقراص البار، وتابع."
+ },
+ "טיימר מנוחה": {
+  "en": "Rest timer",
+  "ar": "مؤقت الراحة"
+ },
+ "מאמן AI": {
+  "en": "AI coach",
+  "ar": "مدرب ذكاء اصطناعي"
+ },
+ "תוכנית אישית": {
+  "en": "Personal plan",
+  "ar": "خطة شخصية"
+ },
+ "עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת, עם סרטון הדגמה לכל תרגיל.": {
+  "en": "Answer a few questions: goal, days per week, equipment and time, and get a tailored plan with a demo for every exercise.",
+  "ar": "أجب عن بعض الأسئلة: الهدف والأيام في الأسبوع والمعدات والوقت، واحصل على خطة مخصصة مع عرض توضيحي لكل تمرين."
+ },
+ "תמונה שבועית באותה תנוחה מראה את מה שהמשקל מפספס. התמונות מוצפנות בטלפון, ורק את רואה אותן.": {
+  "en": "A weekly photo in the same pose shows what the scale misses. Photos are encrypted on your phone, and only you can see them.",
+  "ar": "صورة أسبوعية بنفس الوضعية تُظهر ما يفوته الميزان. الصور مشفرة على هاتفك ولا يراها غيرك."
+ },
+ "פותחות קבוצה עם החברות ומשיקות אתגר. קשה לפספס אימון כשמחכים לך.": {
+  "en": "Start a group with your friends and launch a challenge. It's hard to skip a workout when people are waiting for you.",
+  "ar": "أنشئي مجموعة مع صديقاتك وأطلقي تحديًا. من الصعب تفويت تدريب عندما ينتظرك أحد."
+ },
+ "פותחים קבוצה עם החברים מהחדר ומשיקים אתגר: מי מתאמן הכי הרבה החודש, או כולם יחד מול יעד משותף.": {
+  "en": "Start a group with your gym friends and launch a challenge: who trains the most this month, or everyone together toward a shared goal.",
+  "ar": "أنشئ مجموعة مع أصدقاء النادي وأطلق تحديًا: من يتدرب أكثر هذا الشهر، أو الجميع معًا نحو هدف مشترك."
+ },
+ "איך מתחילים": {
+  "en": "How to start",
+  "ar": "كيف تبدأ"
+ },
+ "שלושה צעדים. שלוש דקות.": {
+  "en": "Three steps. Three minutes.",
+  "ar": "ثلاث خطوات. ثلاث دقائق."
+ },
+ "מחירים": {
+  "en": "Pricing",
+  "ar": "الأسعار"
+ },
+ "להתחלה": {
+  "en": "Get started",
+  "ar": "ابدأ الآن"
+ },
+ "עוד 5 ק״ג בהיפ תראסט": {
+  "en": "+5 kg on hip thrust",
+  "ar": "+5 كغ في الهيب ثراست"
+ },
+ "עוד 2.5 ק״ג בלחיצת חזה": {
+  "en": "+2.5 kg on bench press",
+  "ar": "+2.5 كغ في ضغط الصدر"
  }
 }

@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5b695362"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5b695362"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5b695362"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=96c59a43"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=96c59a43"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=96c59a43"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -250,6 +250,118 @@ body.landing #app{max-width:1120px}
 .ld-fit.no li{color:var(--muted)}
 .ld-fit.no li::before{content:'–';color:var(--muted);font-weight:700}
 .ld-faq{display:grid;gap:8px}
+/* ===== landing v2 (lx): dark hero panel, floating proof chips, stats strip, bento features, reveal-on-scroll ===== */
+.lx{--lx-dark:#0C110E;--lx-dark2:#141B17;--lx-r:28px}
+.lx h2{letter-spacing:-.3px}
+.lx-hero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 85% 0%,color-mix(in srgb,var(--accent) 38%,transparent) 0,transparent 55%),radial-gradient(90% 70% at 0% 100%,color-mix(in srgb,var(--accent) 22%,transparent) 0,transparent 60%),linear-gradient(170deg,#121A15,var(--lx-dark) 60%);color:#F3F6F4;border-radius:var(--lx-r);padding:34px 22px 0;margin-top:6px;isolation:isolate}
+.lx-hero::after{content:'';position:absolute;inset:0;z-index:-1;opacity:.35;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:18px 18px;mask-image:linear-gradient(to bottom,#000,transparent 75%)}
+.lx-hero-in{display:grid;gap:30px;align-items:center}
+.lx-copy{display:flex;flex-direction:column;gap:18px}
+.lx-eyebrow{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#DDE7E0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:6px 12px 6px 14px;backdrop-filter:blur(8px)}
+.lx-eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 30%,transparent)}
+.lx-hero h1{color:#fff;font-size:clamp(42px,12vw,86px);line-height:1.02;letter-spacing:-1px}
+.lx-hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lx-hero .lead{color:#C9D3CD;opacity:1;font-size:17.5px;max-width:32em}
+.lx .ld-cta{gap:10px}
+.lx-go{display:inline-flex;align-items:center;gap:10px;box-shadow:0 12px 30px -10px color-mix(in srgb,var(--accent) 80%,transparent),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .2s,box-shadow .2s}
+.lx-go:hover{transform:translateY(-1px)}.lx-go:active{transform:scale(.98)}
+.lx-arr{display:inline-block;transition:transform .2s}.lx-go:hover .lx-arr{transform:translateX(-3px)}
+[dir=ltr] .lx-arr{transform:scaleX(-1)}[dir=ltr] .lx-go:hover .lx-arr{transform:scaleX(-1) translateX(-3px)}
+.lx-ghost{background:rgba(255,255,255,.08)!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important}
+.lx-trust{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:#A9B6AE}
+.lx-stage{position:relative;justify-self:center;width:min(340px,100%);margin-bottom:-26px}
+.lx-ct{display:flex;flex-direction:column;gap:12px}
+.lx-stage .ld-phone{width:100%;box-shadow:0 40px 80px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08);background:#050806;transform:perspective(1200px) rotateX(4deg);transform-origin:bottom}
+.lx-chip{position:absolute;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.92);color:#101512;border-radius:16px;padding:9px 13px 9px 11px;box-shadow:0 18px 40px -14px rgba(0,0,0,.55);backdrop-filter:blur(12px);font-size:12.5px;line-height:1.3;max-width:220px;z-index:2}
+.lx-chip b{display:block;font-size:13.5px}.lx-chip small{color:#5d6a62}
+.lx-chip .ic{width:32px;height:32px;border-radius:10px;background:#FFF4D6;display:grid;place-items:center;font-size:17px;flex-shrink:0}
+.lx-chip img{width:32px;height:32px;border-radius:9px;flex-shrink:0}
+.lx-chip.c1{top:16%;inset-inline-end:-14px}
+.lx-chip.c2{top:44%;inset-inline-start:-18px}
+.lx-chip.c3{top:70%;inset-inline-end:-10px}
+.lx-chip.c3 .ic{background:#E5F6EA}
+@media (prefers-reduced-motion:no-preference){
+  .lx-chip{animation:lxfloat 6s ease-in-out infinite}.lx-chip.c2{animation-delay:-2s}.lx-chip.c3{animation-delay:-4s}
+  .lx-stage .ld-phone{animation:lxrise .9s cubic-bezier(.2,.8,.2,1) both}
+  .lx-copy>*{animation:lxin .7s cubic-bezier(.2,.8,.2,1) both}.lx-copy>*:nth-child(2){animation-delay:.06s}.lx-copy>*:nth-child(3){animation-delay:.12s}.lx-copy>*:nth-child(4){animation-delay:.18s}.lx-copy>*:nth-child(5){animation-delay:.24s}
+  .lx .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+  .lx .rv.in{opacity:1;transform:none}
+  .lx-line{stroke-dasharray:600;stroke-dashoffset:600}.rv.in .lx-line,.lx-card.in .lx-line{animation:lxdraw 1.6s .2s cubic-bezier(.4,0,.2,1) forwards}
+}
+@keyframes lxfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes lxrise{from{opacity:0;transform:perspective(1200px) rotateX(14deg) translateY(40px)}to{opacity:1;transform:perspective(1200px) rotateX(4deg)}}
+@keyframes lxin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes lxdraw{to{stroke-dashoffset:0}}
+.lx-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-top:96px}
+.lx-stats>div{background:var(--surface);padding:18px 16px;display:flex;flex-direction:column;gap:4px}
+.lx-stats b{font-family:var(--disp);font-weight:800;font-size:40px;line-height:1;color:var(--accent);letter-spacing:-1px}
+.lx-stats span{font-size:13.5px;color:var(--muted);line-height:1.4}
+.lx-sec{display:grid;gap:22px;padding-top:72px}
+.lx-head{display:flex;flex-direction:column;gap:12px;max-width:640px}
+.lx-kicker{align-self:flex-start;font-size:12.5px;font-weight:700;letter-spacing:.4px;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:5px 12px}
+.lx-head h2{font-size:clamp(30px,8vw,52px);line-height:1.08}
+.lx-pains{display:grid;gap:10px}
+.lx-pain{display:grid;gap:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.lx-pain .was{display:flex;gap:10px;padding:13px 16px;color:var(--muted);font-size:15px;line-height:1.5;text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 55%,transparent);background:var(--surface2)}
+.lx-pain .x{text-decoration:none;flex-shrink:0;width:22px;height:22px;border-radius:50%;background:color-mix(in srgb,var(--muted) 18%,transparent);display:grid;place-items:center;font-size:11px;margin-top:2px}
+.lx-pain .now{display:flex;gap:10px;padding:13px 16px;font-weight:600;line-height:1.5}
+.lx-pain .ok{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:12px;margin-top:2px}
+.lx-bento{display:grid;gap:14px}
+.lx-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:12px;overflow:hidden;transition:transform .25s,box-shadow .25s}
+@media (hover:hover){.lx-card:hover{transform:translateY(-3px);box-shadow:0 24px 50px -28px rgba(10,30,18,.35)}}
+.lx-card h3{margin:0;font-family:var(--disp);font-weight:800;font-size:23px;line-height:1.15}
+.lx-card p{font-size:15.5px}
+.lx-card .ui{margin-top:auto}
+.lx-tag{align-self:flex-start;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--surface2);border-radius:999px;padding:4px 11px}
+.lx-card.dark{background:radial-gradient(90% 80% at 100% 0%,color-mix(in srgb,var(--accent) 26%,transparent),transparent 60%),linear-gradient(160deg,#161E19,var(--lx-dark));color:#EEF3F0;border-color:transparent}
+.lx-card.dark p,.lx-card.dark .ld-list li{color:#B9C5BE}
+.lx-card.dark .lx-tag{background:rgba(255,255,255,.1);color:#DDE6E0}
+.lx-ai .lx-shot img{width:100%;height:auto;border-radius:18px;display:block;box-shadow:0 24px 50px -24px rgba(0,0,0,.6)}
+.lx-chat{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.lx-day{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;padding:8px 12px;background:var(--bg)}
+.lx-day b{font-family:var(--disp);font-weight:800;font-size:26px;line-height:1;color:var(--accent);width:24px;text-align:center}
+.lx-day span{font-size:14px}
+.lx-steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.lx-steps li{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 18px}
+.lx-steps li>span{width:46px;height:46px;border-radius:14px;flex-shrink:0;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#000))}
+.lx-steps b{display:block;font-size:17px}.lx-steps small{color:var(--muted);font-size:14.5px;line-height:1.45}
+.lx-incl{border-radius:22px;padding:20px;color:#fff;background:linear-gradient(135deg,#7C3AED,#DB2777 70%,#F97316);max-width:640px;width:100%;justify-self:center}
+.lx-incl>b{font-size:19px}
+.lx-incl ul{margin:10px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr;gap:7px;font-size:15px}
+.lx-incl li::before{content:'✓';font-weight:700;margin-inline-end:8px}
+.lx-prices .plan{transition:transform .2s,box-shadow .2s}
+.lx-prices .plan.best{box-shadow:0 0 0 2px var(--accent),0 20px 50px -24px color-mix(in srgb,var(--accent) 70%,transparent)}
+.lx-fits{grid-template-columns:1fr;gap:12px}
+.lx-faq details{border-radius:16px}
+.lx-end{position:relative;overflow:hidden;isolation:isolate;margin-top:72px;border-radius:var(--lx-r);padding:42px 24px;display:grid;gap:16px;justify-items:start;color:#fff;background:linear-gradient(160deg,#141C17,var(--lx-dark))}
+.lx-end h2{color:#fff;font-size:clamp(30px,8vw,52px);line-height:1.08}
+.lx-end p{color:#B9C5BE}
+.lx-glow{position:absolute;z-index:-1;width:120%;height:120%;inset:auto -10% -60% auto;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 45%,transparent),transparent);filter:blur(10px)}
+.lx-hero .lx-glow{inset:-40% auto auto -30%;width:90%;height:90%;opacity:.5}
+.lx-sticky{position:fixed;inset-inline:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;justify-content:center;pointer-events:none;opacity:0;transform:translateY(20px);transition:opacity .3s,transform .3s}
+.lx-sticky.on{opacity:1;transform:none}
+body:not(.landing)>#lx-sticky{display:none}
+.lx-sticky .btn{pointer-events:auto;width:100%;max-width:420px;padding:15px 20px;font-size:16.5px;font-weight:700;border-radius:16px;box-shadow:0 16px 36px -12px rgba(0,0,0,.45)}
+.lx-sticky.on .btn{pointer-events:auto}.lx-sticky:not(.on) .btn{pointer-events:none}
+@media (min-width:760px){ .lx-sticky{display:none} }
+@media (min-width:760px){
+  .lx-hero{padding:56px 48px 0}
+  .lx-hero-in{grid-template-columns:1.1fr .9fr;gap:40px}
+  .lx-stage{margin-bottom:-40px;align-self:end}
+  .lx-copy{padding-bottom:56px}
+  .lx-ai .lx-shot img{max-height:440px;object-fit:cover;object-position:top}
+  .lx-stats{grid-template-columns:repeat(4,1fr);margin-top:80px}
+  .lx-bento{grid-template-columns:repeat(2,1fr)}
+  .lx-card.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:28px}
+  .lx-card.wide>*{flex:1}
+  .lx-steps{grid-template-columns:repeat(3,1fr)}
+  .lx-steps li{flex-direction:column;align-items:flex-start}
+  .lx-incl ul{grid-template-columns:1fr 1fr}
+  .lx-fits{grid-template-columns:1fr 1fr}
+  .lx-end{padding:64px 56px}
+}
+@media (min-width:1000px){ .lx-bento{grid-template-columns:repeat(3,1fr)} }
+
 .ld-faq details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px 16px}
 .ld-faq summary{cursor:pointer;font-weight:600;padding:12px 0;list-style:none;display:flex;justify-content:space-between;gap:10px}
 .ld-faq summary::-webkit-details-marker{display:none}
@@ -1552,7 +1664,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.30';
+const APP_VERSION='13.2.31';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2247,194 +2359,178 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
     ['באיזו שפה האפליקציה?','עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.'],
     ...(F?[['אימוני כוח לא יעשו אותי "גדולה"?','לא. בלי תוספים ועם תזונה רגילה, אימוני משקולות בונים שריר לאט ובצורה שמחטבת ומחזקת. זה הדבר הכי יעיל לשינוי הרכב גוף, הרבה יותר מאירובי לבד.']]:[]),
   ];
+  const minPm=Math.min(...LP.plans.map(p=>p.price/p.months)), pmTxt=`₪${minPm.toFixed(1).replace(/\.0$/,'')}`;
+  faq[0]=['כמה זה עולה?',`שבוע ראשון חינם, עם הכל פתוח ובלי כרטיס אשראי. אחר כך בוחרים מסלול של 4 חודשים, חצי שנה או שנה, החל מ-${pmTxt} לחודש. תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות. האימונים והנתונים שלך נשמרים תמיד.`];
+  const stats=[[98,'',F?'תרגילים עם הדגמה, לכל שריר':'תרגילים עם הדגמה, לכל שריר'],[2,'','נגיעות כדי לרשום סט'],[3,'','שפות: עברית, ערבית ואנגלית'],[LP.trial,'','ימים חינם, בלי כרטיס אשראי']];
+  const steps=[['נרשמים במייל','בלי סיסמה ובלי כרטיס אשראי. 30 שניות.'],[F?'מקבלת תוכנית':'מקבל תוכנית',F?'עונה על כמה שאלות, והתוכנית והיעד התזונתי מוכנים.':'עונה על כמה שאלות, והתוכנית והיעד התזונתי מוכנים.'],['מתאמנים',F?'כל סט נשמר, והמשקל מהפעם הקודמת כבר מחכה לך.':'כל סט נשמר, והמשקל מהפעם הקודמת כבר מחכה לך.']];
   let inv=null, refd=null; try{inv=localStorage.getItem('nr-join'); refd=localStorage.getItem('nr-ref');}catch(_){}
-  return `<div class="ld">
+  return `<div class="ld lx">
   ${landGenderHTML()}
-  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: האפליקציה חינמית, ודרך ההזמנה מקבלים שבוע פרימיום מתנה. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
-  <section class="ld-hero">
-    <div class="stack" style="gap:16px">
-      <h1>${F?'תפסיקי לנחש.<br>תתחילי<br>להתחזק.':'תפסיק לנחש<br>מה הרמת<br>בפעם שעברה.'}</h1>
-      <p class="lead">${F?'לא עוד אימון "בערך". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ומצלמים את הצלחת במקום לספור קלוריות. בלי אובססיה, בלי אקסלים.':'כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת, ומחשב קלוריות מצילום של הצלחת במקום שתספור.'}</p>
-      <div class="ld-cta">
-        <button class="btn primary" data-act="land-signup">אני רוצה להתחיל</button>
-        <button class="btn" data-act="land-login">כבר יש לי חשבון</button>
+  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: דרך ההזמנה מקבלים שבוע פרימיום מתנה. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
+  <section class="lx-hero" id="lx-hero">
+    <div class="lx-glow" aria-hidden="true"></div>
+    <div class="lx-hero-in">
+      <div class="lx-copy">
+        <span class="lx-eyebrow"><i></i>${tt('שבוע ראשון חינם · בלי כרטיס אשראי')}</span>
+        <h1>${F?'תפסיקי לנחש.<br>תתחילי<br><em>להתחזק.</em>':'תפסיק לנחש<br>מה הרמת<br><em>בפעם שעברה.</em>'}</h1>
+        <p class="lead">${F?'לא עוד אימון "בערך". NextRep זוכרת כל סט ומשקל במקומך, מראה לך שאת מתחזקת משבוע לשבוע, ומצלמים את הצלחת במקום לספור קלוריות. בלי אובססיה, בלי אקסלים.':'כדי להתחזק צריך להוסיף קצת בכל אימון, ואי אפשר להוסיף על מה שלא זוכרים. NextRep זוכר כל סט במקומך, מודיע כשהמנוחה נגמרת, ומחשב קלוריות מצילום של הצלחת במקום שתספור.'}</p>
+        <div class="ld-cta"><button class="btn primary lx-go" data-act="land-signup">${tt('אני רוצה להתחיל')} <span class="lx-arr" aria-hidden="true">←</span></button><button class="btn lx-ghost" data-act="land-login">כבר יש לי חשבון</button></div>
+        <div class="lx-trust"><span>✓ ${tt('אייפון ואנדרואיד')}</span><span>✓ ${tt('עובד גם בלי קליטה')}</span><span>✓ ${F?tt('בלשון נקבה בכל האפליקציה'):tt('עברית, ערבית ואנגלית')}</span></div>
       </div>
-      <div class="ld-note">${F?'שבוע ראשון חינם, בלי כרטיס אשראי. בלשון נקבה בכל האפליקציה.':'שבוע ראשון חינם, בלי כרטיס אשראי. אייפון ואנדרואיד.'}</div>
-    </div>
-    <div class="ld-phone" aria-hidden="true"><div class="ld-screen">
-      <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
-      <div class="ld-card">
-        <div class="spread" style="margin-bottom:6px"><b>${F?'היפ תראסט':'לחיצת חזה במוט'}</b><span class="ld-pr" style="font-size:11.5px;padding:2px 8px">🏅 שיא</span></div>
-        <div class="ld-set done"><span class="n">1</span><span class="v">${F?'60':'80'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
-        <div class="ld-set done"><span class="n">2</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
-        <div class="ld-set now"><span class="n">3</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck"></span></div>
-        <div class="ld-prev">${F?'בפעם שעברה: 60 × 10, היום כבר 65':'בפעם שעברה: 80 × 8, היום כבר 82.5'}</div>
-        <div class="ld-set"><span class="n">4</span><span class="v muted">—</span><span class="v muted">—</span><span class="ck"></span></div>
+      <div class="lx-stage" aria-hidden="true">
+        <div class="ld-phone"><div class="ld-screen">
+          <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
+          <div class="ld-card">
+            <div class="spread" style="margin-bottom:6px"><b>${F?'היפ תראסט':'לחיצת חזה במוט'}</b><span class="ld-pr" style="font-size:11.5px;padding:2px 8px">🏅 שיא</span></div>
+            <div class="ld-set done"><span class="n">1</span><span class="v">${F?'60':'80'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
+            <div class="ld-set done"><span class="n">2</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
+            <div class="ld-set now"><span class="n">3</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck"></span></div>
+            <div class="ld-prev">${F?'בפעם שעברה: 60 × 10, היום כבר 65':'בפעם שעברה: 80 × 8, היום כבר 82.5'}</div>
+            <div class="ld-set"><span class="n">4</span><span class="v muted">—</span><span class="v muted">—</span><span class="ck"></span></div>
+          </div>
+          <div class="ld-card" style="display:flex;justify-content:space-between;align-items:center">
+            <span><b style="display:block">${F?'סקוואט בולגרי':'לחיצת כתפיים במשקולות'}</b><span class="small muted">הבא בתור, 3 סטים</span></span><span class="muted">›</span>
+          </div>
+          <div class="ld-rest">${ring(.7)}<div><div class="t" id="ld-t">1:03</div><div class="k">מנוחה, הבא: סט 3 של 4</div></div></div>
+        </div></div>
+        <div class="lx-chip c1"><span class="ic">🏅</span><span><b>${tt('שיא חדש')}</b><small>${F?tt('עוד 5 ק״ג בהיפ תראסט'):tt('עוד 2.5 ק״ג בלחיצת חזה')}</small></span></div>
+        <div class="lx-chip c2"><img src="${F?'icon-f-192.png':'icon-192.png'}" alt=""><span><b>המנוחה נגמרה 💪</b><small>${tt('הבא: סט 3 של 4')}</small></span></div>
+        <div class="lx-chip c3"><span class="ic">📸</span><span><b class="num">612 ${tt('קק״ל')}</b><small>${tt('42 גר׳ חלבון · מצילום אחד')}</small></span></div>
       </div>
-      <div class="ld-card" style="display:flex;justify-content:space-between;align-items:center">
-        <span><b style="display:block">${F?'סקוואט בולגרי':'לחיצת כתפיים במשקולות'}</b><span class="small muted">הבא בתור, 3 סטים</span></span><span class="muted">›</span>
-      </div>
-      <div class="ld-rest">${ring(.7)}<div><div class="t" id="ld-t">1:03</div><div class="k">מנוחה, הבא: סט 3 של 4</div></div></div>
-    </div></div>
-    ${landBarbell()}
-  </section>
-
-  <section class="ld-sec">
-    <h2>${F?'מכירה את זה?':'נשמע מוכר?'}</h2>
-    <div class="ld-pains">
-      ${pains.map(([a,b])=>`<div class="ld-pain"><div class="was">${a}</div><div class="now"><span class="ok">✓</span>${b}</div></div>`).join('')}
     </div>
   </section>
 
-  <section class="ld-sec two ld-scan">
-    <div class="stack" style="gap:12px">
-      <span class="ld-kicker">📸 מעקב קלוריות בלי לספור</span>
-      <h2>${F?'מצלמים את הצלחת. זהו.':'מצלמים את הצלחת. זהו.'}</h2>
-      <p>${F?'לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.':'לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.'}</p>
-      <ul class="ld-list">
-        <li>${F?'מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז':'מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז'}</li>
-        <li>קורא טבלאות תזונתיות על אריזות וסורק ברקודים</li>
-        <li>${F?'בסוף היום את רואה בדיוק איפה את עומדת מול היעד':'בסוף היום אתה רואה בדיוק איפה אתה עומד מול היעד'}</li>
-      </ul>
-    </div>
-    <picture class="ld-scanimg"><source srcset="img/scan-${F?'f':'m'}.webp" type="image/webp"><img src="img/scan-${F?'f':'m'}.jpg" width="900" height="1125" loading="lazy" alt="${F?'מתאמנת מצלמת צלחת, והאפליקציה מזהה את המרכיבים':'מתאמן מצלם צלחת, והאפליקציה מזהה את המרכיבים'}"></picture>
+  <section class="lx-stats rv">${stats.map(([n,s,l])=>`<div><b class="num" data-cnt="${n}">${n}${s}</b><span>${l}</span></div>`).join('')}</section>
+
+  <section class="lx-sec rv">
+    <div class="lx-head"><span class="lx-kicker">${tt('לפני ואחרי')}</span><h2>${F?'מכירה את זה?':'נשמע מוכר?'}</h2></div>
+    <div class="lx-pains">
+      ${pains.map(([a,b])=>`<div class="lx-pain rv"><div class="was"><span class="x">✕</span>${a}</div><div class="now"><span class="ok">✓</span>${b}</div></div>`).join('')}
     </div>
   </section>
 
-  <section class="ld-sec two">
-    <div class="stack" style="gap:12px">
-      <h2>${F?'התחזקות שרואים, לא רק מרגישים':'התקדמות היא עניין של מספרים'}</h2>
-      ${F?`<p>עוד 2.5 קילו בהיפ תראסט או עוד חזרה אחת בסקוואט לא נשמעים כמו הרבה. אחרי שלושה חודשים זה ההבדל שרואים בכל ג׳ינס, ומרגישים בכל מדרגה. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.</p>
-      <p>NextRep שמה את המספר הקודם מול העיניים שלך בכל סט, ושומרת את כל השאר לגרף. ככה את יודעת שהתחזקת, גם ביום שהמשקל לא זז.</p>`:`<p>עוד 2.5 קילו או עוד חזרה אחת בכל שבוע לא מרגישים כמו הרבה. אחרי שלושה חודשים זה ההבדל בין מי שתקוע במקום לבין מי שמתחזק. אבל זה עובד רק כשיודעים בדיוק מאיפה ממשיכים.</p>
-      <p>NextRep שם את המספר הקודם מול העיניים שלך בכל סט, ושומר את כל השאר לגרף.</p>`}
-    </div>
-    <div class="ld-feat">
-      <div class="spread"><b>${F?'היפ תראסט, 12 שבועות':'לחיצת חזה, 12 שבועות'}</b><span class="small muted">דוגמה</span></div>
-      <svg class="ld-chart" viewBox="0 0 320 150" aria-label="גרף התקדמות לדוגמה" style="direction:ltr">
-        ${[0,1,2].map(k=>`<line x1="30" x2="316" y1="${20+k*50}" y2="${20+k*50}" stroke="var(--line)"/><text x="24" y="${24+k*50}" font-size="11" text-anchor="end" fill="var(--muted)">${(F?75:95)-k*(F?10:7.5)}</text>`).join('')}
-        <polyline fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
-          points="${(F?[55,55,57.5,60,60,62.5,65,65,67.5,70,72.5,75]:[80,80,82.5,82.5,85,85,85,87.5,90,90,92.5,95]).map((v,k)=>`${36+k*25},${120-(v-(F?55:80))/(F?20:15)*100}`).join(' ')}"/>
-        <circle cx="${36+11*25}" cy="20" r="6" fill="var(--accent)"/>
-        <text x="${36+11*25-8}" y="40" font-size="12" text-anchor="end" fill="var(--ink)" font-weight="700">‎+${F?20:15} ק״ג</text>
-        <text x="36" y="145" font-size="11" fill="var(--muted)">שבוע 1</text><text x="311" y="145" font-size="11" text-anchor="end" fill="var(--muted)">שבוע 12</text>
-      </svg>
-    </div>
-  </section>
-
-  <section class="ld-sec">
-    <h2>${F?'בנוי לאזור המשקולות':'בנוי לרצפת חדר הכושר'}</h2>
-    <div class="ld-feats">
-      <div class="ld-feat">
+  <section class="lx-sec">
+    <div class="lx-head rv"><span class="lx-kicker">${tt('הכל במקום אחד')}</span><h2>${F?'כל מה שצריך כדי להתחזק. באפליקציה אחת.':'כל מה שצריך כדי להתחזק. באפליקציה אחת.'}</h2>
+      <p>${F?'אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של תמונות במראה? כאן הכל מחובר.':'אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של סלפי במראה? כאן הכל מחובר.'}</p></div>
+    <div class="lx-bento">
+      <article class="lx-card wide dark rv lx-ai">
+        <div class="lx-ct">
+          <span class="lx-tag">📸 ${tt('מעקב קלוריות בלי לספור')}</span>
+          <h3>מצלמים את הצלחת. זהו.</h3>
+          <p>לא צריך לשקול, לחפש בטבלאות או לנחש. מצלמים את הארוחה, ה-AI מזהה כל רכיב, מעריך כמה גרם יש בצלחת ומחשב קלוריות וחלבון מול היעד היומי שלך. אפשר לתקן בנגיעה אם הוא טעה, ולשמור.</p>
+          <ul class="ld-list"><li>מזהה אוכל ישראלי: שקשוקה, פיתה עם חומוס, שניצל עם אורז</li><li>קורא טבלאות תזונתיות על אריזות וסורק ברקודים</li></ul>
+        </div>
+        <picture class="lx-shot"><source srcset="img/scan-${F?'f':'m'}.webp" type="image/webp"><img src="img/scan-${F?'f':'m'}.jpg" width="900" height="1125" loading="lazy" alt="${F?'מתאמנת מצלמת צלחת, והאפליקציה מזהה את המרכיבים':'מתאמן מצלם צלחת, והאפליקציה מזהה את המרכיבים'}"></picture>
+      </article>
+      <article class="lx-card rv">
+        <span class="lx-tag">📈 ${tt('התקדמות')}</span>
+        <h3>${F?'התחזקות שרואים, לא רק מרגישים':'התקדמות היא עניין של מספרים'}</h3>
+        <p>${F?'NextRep שמה את המספר הקודם מול העיניים שלך בכל סט, ושומרת את כל השאר לגרף.':'NextRep שם את המספר הקודם מול העיניים שלך בכל סט, ושומר את כל השאר לגרף.'}</p>
+        <div class="ui"><div class="spread small" style="margin-bottom:4px"><b>${F?'היפ תראסט, 12 שבועות':'לחיצת חזה, 12 שבועות'}</b><span class="muted">דוגמה</span></div>
+        <svg class="ld-chart" viewBox="0 0 320 150" aria-label="גרף התקדמות לדוגמה" style="direction:ltr">
+          <defs><linearGradient id="lxg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
+          ${[0,1,2].map(k=>`<line x1="30" x2="316" y1="${20+k*50}" y2="${20+k*50}" stroke="var(--line)"/><text x="24" y="${24+k*50}" font-size="11" text-anchor="end" fill="var(--muted)">${(F?75:95)-k*(F?10:7.5)}</text>`).join('')}
+          ${(()=>{ const pts=(F?[55,55,57.5,60,60,62.5,65,65,67.5,70,72.5,75]:[80,80,82.5,82.5,85,85,85,87.5,90,90,92.5,95]).map((v,k)=>[36+k*25,120-(v-(F?55:80))/(F?20:15)*100]); const d=pts.map(p=>p.join(',')).join(' ');
+            return `<polygon fill="url(#lxg)" points="36,120 ${d} 311,120"/><polyline class="lx-line" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" points="${d}"/>`; })()}
+          <circle cx="${36+11*25}" cy="20" r="6" fill="var(--accent)"/>
+          <text x="${36+11*25-8}" y="40" font-size="12" text-anchor="end" fill="var(--ink)" font-weight="700">‎+${F?20:15} ק״ג</text>
+          <text x="36" y="145" font-size="11" fill="var(--muted)">שבוע 1</text><text x="311" y="145" font-size="11" text-anchor="end" fill="var(--muted)">שבוע 12</text>
+        </svg></div>
+      </article>
+      <article class="lx-card rv">
+        <span class="lx-tag">⚡ ${tt('סט בשתי נגיעות')}</span>
         <h3>סט נרשם בשתי נגיעות</h3>
-        <p>${F?'בלי להקליד באמצע סט. בוחרים משקולת מהמתלה, פין במכונה או פלטות על המוט, וממשיכים. הטלפון לא גונב לך את האימון.':'בלי להקליד עם ידיים מיוזעות. בוחרים פלטות על המוט, משקולת מהמתלה או פין במכונה, וממשיכים.'}</p>
+        <p>${F?'בלי להקליד באמצע סט. בוחרים משקולת מהמתלה, פין במכונה או פלטות על המוט, וממשיכים.':'בלי להקליד עם ידיים מיוזעות. בוחרים פלטות על המוט, משקולת מהמתלה או פין במכונה, וממשיכים.'}</p>
         <div class="ui stack" style="gap:8px">
           <div class="ld-read"><b class="num">102.5</b><span class="muted small">ק״ג על המוט</span></div>
           <div class="ld-plates"><span style="background:var(--r25)">25</span><span style="background:var(--r20)">20</span><span style="background:var(--r15);color:#3a2c00">15</span><span style="background:var(--r10)">10</span><span style="background:#8a948d">5</span><span style="background:#b6bdb8;color:#222">2.5</span></div>
         </div>
-      </div>
-      <div class="ld-feat">
+      </article>
+      <article class="lx-card dark rv">
+        <span class="lx-tag">⏱️ ${tt('טיימר מנוחה')}</span>
         <h3>המנוחה לא נמרחת</h3>
         <p>הטלפון בכיס, האפליקציה סגורה, וההתראה מגיעה בזמן. אימון של שעה נשאר שעה.</p>
         <div class="ui ld-lock">
           <div class="clk num">18:42</div>
           <div class="ld-notif"><img src="icon-192.png" alt=""><span><b>המנוחה נגמרה 💪</b>הבא: סקוואט, סט 3 של 4</span></div>
         </div>
-      </div>
-      <div class="ld-feat">
-        <h3>תוכנית שבנויה בשבילך</h3>
-        <p>${F?'עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה לכל אחד, כדי שלא תצטרכי לנחש איך עושים את זה או לשאול מישהו באולם.':'עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.'}</p>
-        <div class="ui stack" style="gap:6px">
-          ${(F?[['A','ישבן ורגליים'],['B','גב, כתפיים וידיים'],['C','גוף מלא ובטן']]:[['A','דחיפה: חזה, כתפיים, יד אחורית'],['B','משיכה: גב ויד קדמית'],['C','רגליים ובטן']]).map(([k,t])=>`<div class="ld-read" style="padding:6px 12px;justify-content:flex-start;gap:10px"><b style="font-size:30px;color:var(--accent)">${k}</b><span style="font-size:14px">${t}</span></div>`).join('')}
+      </article>
+      <article class="lx-card wide rv lx-kobi">
+        <div class="lx-ct">
+          <span class="lx-tag">🤖 ${tt('מאמן AI')}</span>
+          <h3>${F?'מאמן שמכיר אותך ולא שופט':'קובי הבוט, המאמן שלך בכיס'}</h3>
+          <p>${F?'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי "פשוט תאכלי פחות". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.':'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.'}</p>
+          <ul class="ld-list"><li>סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע</li><li>שואלים אותו כל שאלה על אימון, תזונה והתאוששות</li><li>כשהוא ממליץ על תרגיל, סרטון ההדגמה מופיע מתחת לתשובה</li></ul>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="ld-sec two">
-    <div class="stack" style="gap:12px">
-      <h2>הכל במקום אחד</h2>
-      <p>${F?'אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של תמונות במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן הגוף הולך, בלי לספור כל עלה חסה.':'אפליקציה לאימונים, אחרת לקלוריות, פתקים למשקל ותיקייה של סלפי במראה? כאן הכל מחובר. רואים באותו מסך כמה התאמנת, כמה אכלת ולאן המשקל הולך.'}</p>
-    </div>
-    <div class="ld-feats" style="grid-template-columns:1fr">
-      <div class="ld-feat">
+        <div class="ld-kobi lx-chat" aria-hidden="true">
+          <div class="ld-kh"><img src="img/kobi-happy.svg" alt=""><b>קובי הבוט</b></div>
+          <div class="ld-bub me">${F?'ההיפ תראסט שלי תקוע על 60 כבר שבועיים, מה לעשות?':'לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?'}</div>
+          <div class="ld-bub">${F?'ראיתי: 60×10 בשלושת האימונים האחרונים 💪 השבוע נסי 65 לסט ראשון, גם אם יוצאות רק 8 חזרות. ותוסיפי סקוואט בולגרי כתרגיל שני.':'ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.'}</div>
+          <div class="ld-demo"><span>▶</span>${F?'סקוואט בולגרי':'לחיצת חזה בשיפוע'}<small>צפה בהדגמה</small></div>
+        </div>
+      </article>
+      <article class="lx-card rv">
+        <span class="lx-tag">🗓️ ${tt('תוכנית אישית')}</span>
+        <h3>תוכנית שבנויה בשבילך</h3>
+        <p>${F?'עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת, עם סרטון הדגמה לכל תרגיל.':'עונים על כמה שאלות: מטרה, ימים בשבוע, ציוד וזמן, ומקבלים תוכנית מותאמת. 98 תרגילים עם סרטון הדגמה, ותזכורת בבוקר של יום אימון.'}</p>
+        <div class="ui stack" style="gap:6px">
+          ${(F?[['A','ישבן ורגליים'],['B','גב, כתפיים וידיים'],['C','גוף מלא ובטן']]:[['A','דחיפה: חזה, כתפיים, יד אחורית'],['B','משיכה: גב ויד קדמית'],['C','רגליים ובטן']]).map(([k,t])=>`<div class="lx-day"><b>${k}</b><span>${t}</span></div>`).join('')}
+        </div>
+      </article>
+      <article class="lx-card rv">
+        <span class="lx-tag">🥗 ${tt('תזונה')}</span>
         <h3>${F?'תזונה בלי אובססיה':'תזונה שמבינה עברית'}</h3>
-        <p>מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא "cottage cheese" אמריקאי. ואם אין כוח לחפש, מצלמים את הצלחת: ה-AI מזהה כל רכיב, מעריך כמה גרם יש ומחשב קלוריות וחלבון. סורקים גם טבלה תזונתית מהאריזה.</p>
+        <p>מאגר התזונה של משרד הבריאות: קוטג׳, פיתה ושניצל, לא "cottage cheese" אמריקאי.</p>
         <div class="ui ld-sugg">
           <div class="q"><span>קוטג</span><span>🔍</span></div>
           <div><span>קוטג׳ 5% שומן</span><span>95 קק״ל</span></div>
           <div><span>קוטג׳ 3% שומן</span><span>80 קק״ל</span></div>
         </div>
-      </div>
-      <div class="ld-feat">
+      </article>
+      <article class="lx-card rv">
+        <span class="lx-tag">⚖️ ${tt('גוף ומשקל')}</span>
         <h3>${F?'המשקל משקר, התמונה לא':'משקל ותמונות לפני ואחרי'}</h3>
-        <p>${F?'בחיטוב המשקל יכול לעמוד שבועות בזמן שהגוף משתנה. תמונה שבועית באותה תנוחה מראה את מה שהמשקל מפספס. התמונות מוצפנות בטלפון, ורק את רואה אותן.':'שוקלים בבוקר, מצלמים פעם בשבוע, ומשווים חודש מול חודש. המראה משקרת, הגרף לא.'}</p>
+        <p>${F?'תמונה שבועית באותה תנוחה מראה את מה שהמשקל מפספס. התמונות מוצפנות בטלפון, ורק את רואה אותן.':'שוקלים בבוקר, מצלמים פעם בשבוע, ומשווים חודש מול חודש. המראה משקרת, הגרף לא.'}</p>
         <div class="ui ld-cal" aria-hidden="true">${Array.from({length:14},(_,i)=>`<i class="${[0,2,4,7,9,11].includes(i)?'w':''}">${i+1}</i>`).join('')}</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="ld-sec two">
-    <div class="stack" style="gap:12px">
-      <h2>${F?'מאמן שמכיר אותך ולא שופט':'קובי הבוט, המאמן שלך בכיס'}</h2>
-      <p>${F?'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי "פשוט תאכלי פחות". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.':'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.'}</p>
-      <ul class="ld-list">
-        <li>סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע</li>
-        <li>שואלים אותו כל שאלה על אימון, תזונה והתאוששות</li>
-        <li>כשהוא ממליץ על תרגיל, סרטון ההדגמה מופיע מתחת לתשובה</li>
-      </ul>
-    </div>
-    <div class="ld-feat ld-kobi" aria-hidden="true">
-      <div class="ld-kh"><img src="img/kobi-happy.svg" alt=""><b>קובי הבוט</b></div>
-      <div class="ld-bub me">${F?'ההיפ תראסט שלי תקוע על 60 כבר שבועיים, מה לעשות?':'לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?'}</div>
-      <div class="ld-bub">${F?'ראיתי: 60×10 בשלושת האימונים האחרונים 💪 השבוע נסי 65 לסט ראשון, גם אם יוצאות רק 8 חזרות. ותוסיפי סקוואט בולגרי כתרגיל שני.':'ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.'}</div>
-      <div class="ld-demo"><span>▶</span>${F?'סקוואט בולגרי':'לחיצת חזה בשיפוע'}<small>צפה בהדגמה</small></div>
-    </div>
-  </section>
-
-  <section class="ld-sec">
-    <h2>${F?'מתאמנות ביחד':'מתאמנים ביחד'}</h2>
-    <div class="ld-feats">
-      <div class="ld-feat">
+      </article>
+      <article class="lx-card rv">
+        <span class="lx-tag">🏆 ${F?tt('מתאמנות ביחד'):tt('מתאמנים ביחד')}</span>
         <h3>קבוצות ואתגרים</h3>
-        <p>${F?'פותחות קבוצה עם החברות, ומשיקות אתגר: מי מתאמנת הכי הרבה החודש, או כולן יחד מול יעד משותף. קשה לפספס אימון כשמחכים לך.':'פותחים קבוצה עם החברים מהחדר, ומשיקים אתגר: מי מתאמן הכי הרבה החודש, מי מגיע ראשון ל-100 אלף ק״ג נפח, או כולם יחד מול יעד משותף.'}</p>
+        <p>${F?'פותחות קבוצה עם החברות ומשיקות אתגר. קשה לפספס אימון כשמחכים לך.':'פותחים קבוצה עם החברים מהחדר ומשיקים אתגר: מי מתאמן הכי הרבה החודש, או כולם יחד מול יעד משותף.'}</p>
         <div class="ui ld-board">
           ${(F?[['🥇','דנה','14 אימונים'],['🥈','את','12 אימונים'],['🥉','נועה','9 אימונים']]:[['🥇','דניאל','14 אימונים'],['🥈','אתה','12 אימונים'],['🥉','נועם','9 אימונים']]).map(([m,n,v])=>`<div><span>${m} ${n}</span><b class="num">${v}</b></div>`).join('')}
         </div>
-      </div>
-      <div class="ld-feat">
-        <h3>הישגים ששווה לשתף</h3>
-        <p>20 הישגים לפתוח בדרך, ושיתוף בעיצוב מוכן לסטורי. אפשר גם לצלם מהמצלמה ולהדביק את ההישג כמו מדבקה.</p>
-        <div class="ui ld-badges">${['🔥','🏋️','💯','🥇','📸','🍽️'].map(e=>`<span>${e}</span>`).join('')}</div>
-      </div>
-      <div class="ld-feat">
+      </article>
+      <article class="lx-card rv">
+        <span class="lx-tag">✨ ${tt('הישגים')}</span>
         <h3>סיכום חודשי</h3>
         <p>בתחילת כל חודש מחכה לך סיכום בסגנון "Wrapped": כמה אימונים, כמה ק״ג הרמת, השיאים שלך והתרגיל האהוב.</p>
         <div class="ui ld-read"><b class="num">48,250</b><span class="muted small">ק״ג הורמו החודש</span></div>
-      </div>
+      </article>
     </div>
   </section>
 
-  <section class="ld-sec" id="ld-pricing">
-    <div class="stack" style="gap:8px">
-      <h2>שבוע ראשון חינם</h2>
-      <p>בלי כרטיס אשראי. ${LP.trial} ימים עם הכל פתוח, ואחר כך ${LW('בוחר','בוחרת')} מסלול. האימונים והנתונים שלך נשמרים תמיד.</p>
-    </div>
-    <div class="ld-tiers">
-      <div class="ld-tier"><b>שבוע ניסיון</b><span class="pp num">₪0</span><ul><li>הכל פתוח מהרגע הראשון</li><li>בלי כרטיס אשראי</li><li>בלי התחייבות</li></ul></div>
-      <div class="ld-tier prem"><b>⭐ מה כלול</b><ul><li>אימונים, טיימר ושיאים</li><li>תפריט חכם לפי היעד</li><li>מעקב קלוריות, מאגר וברקוד</li><li>ניתוח AI בכל ארוחה: צילום, טקסט ותווית</li><li>קובי המאמן: סיכום שבועי ושיחה</li><li>קבוצות ואתגרים</li></ul></div>
-    </div>
-    <div class="ld-note" style="text-align:center;margin-top:14px">אחרי השבוע, תשלום אחד בלי חידוש אוטומטי:</div>
-    <div class="ld-prices">
+  <section class="lx-sec rv">
+    <div class="lx-head"><span class="lx-kicker">${tt('איך מתחילים')}</span><h2>${tt('שלושה צעדים. שלוש דקות.')}</h2></div>
+    <ol class="lx-steps">${steps.map(([a,b],i)=>`<li class="rv"><span class="num">${i+1}</span><div><b>${a}</b><small>${b}</small></div></li>`).join('')}</ol>
+  </section>
+
+  <section class="lx-sec" id="ld-pricing">
+    <div class="lx-head rv"><span class="lx-kicker">${tt('מחירים')}</span><h2>שבוע ראשון חינם</h2>
+      <p>בלי כרטיס אשראי. ${LP.trial} ימים עם הכל פתוח, ואחר כך ${LW('בוחר','בוחרת')} מסלול. האימונים והנתונים שלך נשמרים תמיד.</p></div>
+    <div class="lx-incl rv"><b>⭐ מה כלול</b><ul><li>אימונים, טיימר ושיאים</li><li>תפריט חכם לפי היעד</li><li>מעקב קלוריות, מאגר וברקוד</li><li>ניתוח AI בכל ארוחה: צילום, טקסט ותווית</li><li>קובי המאמן: סיכום שבועי ושיחה</li><li>קבוצות ואתגרים</li></ul></div>
+    <div class="ld-note" style="text-align:center">אחרי השבוע, תשלום אחד בלי חידוש אוטומטי:</div>
+    <div class="ld-prices lx-prices rv">
       ${LP.plans.map(p=>{const pm=p.price/p.months;return `<button class="plan ${p.best?'best':''}" data-act="land-signup">
-        ${p.was>p.price?'<span class="tag launch">🚀 מחיר השקה</span>':p.best?'<span class="tag">הכי משתלם</span>':''}
+        ${p.best?'<span class="tag">הכי משתלם</span>':''}
         <span class="pn">${esc(({'4m':'4 חודשים','6m':'6 חודשים','12m':'שנה'})[p.id]||p.months+' חודשים')}</span>
-        <span class="pp num">${p.was>p.price?`<s class="was">₪${p.was}</s>`:''}₪${p.price}</span>
+        <span class="pp num">₪${p.price}</span>
         <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span></button>`;}).join('')}
     </div>
     <div class="ld-note" style="text-align:center">${LW('הזמנת חבר? שניכם מקבלים שבוע פרימיום מתנה.','הזמנת חברה? שתיכן מקבלות שבוע פרימיום מתנה.')}</div>
   </section>
 
-  <section class="ld-sec two">
+  <section class="lx-sec lx-fits rv">
     <div class="ld-fit yes">
       <h3>NextRep בשבילך אם</h3>
       <ul>
@@ -2457,24 +2553,38 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
     </div>
   </section>
 
-  <section class="ld-sec two">
-    <h2>שאלות לפני שמתחילים</h2>
-    <div class="ld-faq">
+  <section class="lx-sec rv">
+    <div class="lx-head"><span class="lx-kicker">FAQ</span><h2>שאלות לפני שמתחילים</h2></div>
+    <div class="ld-faq lx-faq">
       ${faq.map(([q,a],k)=>`<details${k===0?' open':''}><summary>${q}</summary><p>${a}</p></details>`).join('')}
     </div>
   </section>
 
-  <section class="ld-end">
-    <div class="stack" style="gap:10px">
-      <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
-      <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. שבוע ראשון חינם, בלי כרטיס אשראי.</p>
-    </div>
-    <button class="btn primary" data-act="land-signup" style="padding:15px 26px;font-size:17px;font-weight:700;border-radius:14px">אני רוצה להתחיל</button>
+  <section class="lx-end rv">
+    <div class="lx-glow" aria-hidden="true"></div>
+    <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
+    <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. שבוע ראשון חינם, בלי כרטיס אשראי.</p>
+    <button class="btn primary lx-go" data-act="land-signup">${tt('אני רוצה להתחיל')} <span class="lx-arr" aria-hidden="true">←</span></button>
   </section>
   <div class="ld-foot">${langPillsHTML()}<div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:ofek4business@gmail.com">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
+  <div class="lx-sticky" id="lx-sticky"><button class="btn primary" data-act="land-signup">${tt('שבוע ראשון חינם')} · ${tt('להתחלה')} <span class="lx-arr">←</span></button></div>
   </div>`;
 }
+function landFx(){
+  try{ startLandTimer._io?.disconnect(); startLandTimer._hs?.disconnect(); }catch(_){}
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches, els=[...document.querySelectorAll('.lx .rv')];
+  if(rm||!('IntersectionObserver' in window)){ els.forEach(e=>e.classList.add('in')); }
+  else { const io=new IntersectionObserver(es=>es.forEach(en=>{ if(!en.isIntersecting)return; const el=en.target; el.classList.add('in'); io.unobserve(el);
+      el.querySelectorAll('[data-cnt]').forEach(b=>{ const to=+b.dataset.cnt, t0=performance.now(); const f=now=>{ const k=Math.min(1,(now-t0)/1100); b.textContent=Math.round(to*(1-Math.pow(1-k,3))); if(k<1)requestAnimationFrame(f); }; requestAnimationFrame(f); }); }),{rootMargin:'0px 0px -8% 0px',threshold:.12});
+    els.forEach(e=>io.observe(e)); startLandTimer._io=io; }
+  // the sticky CTA lives on <body>: an ancestor with a transform (page transition) would pin it to the page instead of the screen
+  document.querySelectorAll('body>#lx-sticky').forEach(o=>o.remove());
+  const hero=$('#lx-hero'), st=$('#lx-sticky'); if(st)document.body.appendChild(st);
+  if(hero&&st&&'IntersectionObserver' in window){ const hs=new IntersectionObserver(([en])=>{ const end=document.querySelector('.lx-end'); const endIn=end&&end.getBoundingClientRect().top<innerHeight; st.classList.toggle('on',!en.isIntersecting&&!endIn); },{threshold:0}); hs.observe(hero); startLandTimer._hs=hs;
+    if(!landFx._sc){ landFx._sc=1; addEventListener('scroll',()=>{ const s2=$('#lx-sticky'), e2=document.querySelector('.lx-end'), h2=$('#lx-hero'); if(!s2||!e2||!h2)return; const r=h2.getBoundingClientRect(); s2.classList.toggle('on',r.bottom<0&&e2.getBoundingClientRect().top>innerHeight*.9); },{passive:true}); } }
+}
 function startLandTimer(){
+  requestAnimationFrame(landFx);
   clearInterval(startLandTimer._i); let left=63; const total=90, c=2*Math.PI*20;
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   startLandTimer._i=setInterval(()=>{
