@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b234b825"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b234b825"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=b234b825"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=056130a1"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=056130a1"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=056130a1"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -635,6 +635,7 @@ body.landing #app{max-width:1120px}
 .pb-opt{display:flex;flex-direction:column;gap:2px;text-align:var(--start);padding:13px 14px;border-radius:14px;background:var(--surface2);border:2px solid transparent;color:var(--ink)}
 .pb-opt b{font-size:16px}.pb-opt small{color:var(--muted);font-size:13px}
 .pb-opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.bc-warn{margin:-4px 0 6px;color:var(--gold);font-weight:600}.bc-fix{margin:0 0 12px}.bc-fix .linkbtn{font-size:13px}
 .pb-grid .pb-fast{grid-column:1/-1}.pb-fast small{color:var(--gold)}.tgw-warn{display:block;margin-top:2px;color:var(--gold);font-weight:600}
 .pb-sess{background:var(--surface2);border-radius:14px;padding:12px 14px}
 .pb-ex{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;padding:5px 0;border-top:1px solid var(--line)}
@@ -1544,7 +1545,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.27';
+const APP_VERSION='13.2.28';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3956,6 +3957,7 @@ function renderPortion(){
   openSheet(`
     <h3 style="font-size:20px">${esc(p.f.name)}</h3>
     <div class="small muted" style="margin:-6px 0 12px">${p.liq?`ל-100 מ״ל: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`:`ל-100 גר׳: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`}</div>
+    ${p.f.bc?`${p.f.check?`<div class="small bc-warn">הערכים במאגר לא תאמו זה לזה, אז תיקנו אותם לפי הרכיבים. כדאי לוודא מול האריזה.</div>`:''}<div class="small muted bc-fix">${p.f.check?'':'לא תואם לאריזה? '}<label class="linkbtn">📷 צילום הטבלה<input id="label-photo" type="file" accept="image/*" hidden></label> · <button class="linkbtn" data-act="bc-fix">✏️ הקלדת ערכים</button></div>`:''}
     <div class="label" style="margin-bottom:6px">יחידת מידה</div>
     <div class="row" style="gap:6px;margin-bottom:12px">
       ${p.units.map((u,i)=>`<button class="chip ${p.unit&&p.unit.u===u.u?'on':''}" data-act="portion-unit" data-i="${i}">${esc(u.u)} <span class="muted num">(${u.g}${p.liq?' מ״ל':'ג׳'})</span></button>`).join('')}
@@ -6356,7 +6358,7 @@ async function openScanner(){
 }
 async function onBarcode(code){
   code=String(code||'').replace(/\D/g,''); if(code.length<6||SCAN.busy)return;
-  SCAN.busy=true; try{navigator.vibrate?.(40);}catch(_){}
+  SCAN.busy=true; SCAN.prod=null; try{navigator.vibrate?.(40);}catch(_){}
   const m=$('#scanmsg'); if(m)m.textContent=`מחפש ${code}…`;
   stopScan();
   try{
@@ -6370,7 +6372,23 @@ async function onBarcode(code){
 function openProduct(p){
   const units=[]; if(+p.serving_g>0)units.push({u:'מנה (לפי האריזה)',g:+p.serving_g});
   closeSheet();
-  openPortion({code:'b'+p.barcode,name:(p.brand&&!String(p.name).includes(p.brand)?p.name+', '+p.brand:p.name),kcal:+p.kcal||0,protein:+p.protein||0,fat:+p.fat||0,carbs:+p.carbs||0,units});
+  SCAN.code=p.barcode; SCAN.prod=p;
+  openPortion({code:'b'+p.barcode,name:(p.brand&&!String(p.name).includes(p.brand)?p.name+', '+p.brand:p.name),kcal:+p.kcal||0,protein:+p.protein||0,fat:+p.fat||0,carbs:+p.carbs||0,units,check:!!p.check,bc:p.barcode});
+}
+/* scanned products: save values from the package label for everyone (typed in, or read from a label photo) */
+async function bcSave(v){
+  const {data:{session}}=await sb.auth.getSession();
+  const r=await fetch(`${SUPABASE_URL}/functions/v1/food-barcode`,{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify(v)});
+  const j=await r.json().catch(()=>({})); if(!r.ok)throw Object.assign(new Error(j.error||'save'),{calc:j.calc}); return j.product;
+}
+function openBcFix(){
+  const p=SCAN.prod||{}, liq=_portion?.liq, u=liq?'100 מ״ל':'100 גר׳';
+  const f=(k,l,v)=>`<div style="flex:1"><div class="label">${l}</div><input class="num" type="text" readonly data-np="num" data-unit="${l}" aria-label="${l}" id="bf-${k}" value="${v??''}"></div>`;
+  openSheet(`<h3>עדכון לפי האריזה</h3><div class="muted small" style="margin:-4px 0 12px">הקלד את הערכים ל-${u} מהטבלה התזונתית. התיקון נשמר במאגר לכל המשתמשים.</div>
+    <div class="row" style="gap:8px">${f('kcal','קלוריות',p.kcal)}${f('protein','חלבון',p.protein)}</div>
+    <div class="row" style="gap:8px;margin-top:8px">${f('carbs','פחמימה',p.carbs)}${f('fat','שומן',p.fat)}</div>
+    <button class="btn primary big" data-act="bc-fix-save" style="margin-top:14px;width:100%">שמור ✓</button>
+    <button class="btn big" data-act="bc-fix-back" style="margin-top:8px;width:100%">ביטול</button>`);
 }
 function openLabelPrompt(code){
   SCAN.code=code;
@@ -6388,8 +6406,9 @@ async function readLabel(file){
     if(error)throw error; if(data?._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); }
     if(!data||data.error||!(+data.kcal>=0)||!data.name)throw new Error('no_label');
     const p={barcode:SCAN.code,name:String(data.name),brand:data.brand||null,kcal:+data.kcal||0,protein:+data.protein||0,fat:+data.fat||0,carbs:+data.carbs||0,serving_g:+data.serving_g||null};
-    if(SCAN.code)sb.rpc('add_product',{p_barcode:p.barcode,p_name:p.name,p_brand:p.brand,p_kcal:p.kcal,p_protein:p.protein,p_fat:p.fat,p_carbs:p.carbs,p_serving:p.serving_g||0}).then(()=>{},()=>{});
-    toast('המוצר נוסף למאגר ✓'); openProduct(p);
+    const fix=!!SCAN.prod&&SCAN.prod.barcode===SCAN.code;
+    if(SCAN.code)bcSave({code:SCAN.code,name:fix?undefined:p.name,brand:fix?undefined:p.brand,kcal:p.kcal,protein:p.protein,carbs:p.carbs,fat:p.fat,serving_g:p.serving_g||undefined}).catch(()=>{});
+    toast(fix?'עודכן לפי האריזה ✓':'המוצר נוסף למאגר ✓'); openProduct(fix?{...SCAN.prod,...p,name:SCAN.prod.name,brand:SCAN.prod.brand,check:false}:p);
   }catch(e){ let qd=null; if(e?.context?.status===429){ try{qd=await e.context.json();}catch(_){} if(qd?.free){ AIQ.free=0; AIQ.freeDay=new Date().toDateString(); return aiUpsell(); } }
     toast(e?.context?.status===429?'הגעת למכסת ה-AI היומית':'לא הצלחתי לקרוא את הטבלה. נסה צילום קרוב וחד יותר'); }
 }
@@ -7537,6 +7556,12 @@ function handleAct(b,ev){
     case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
+    case 'bc-fix': openBcFix(); break;
+    case 'bc-fix-back': if(SCAN.prod)openProduct(SCAN.prod); else closeSheet(); break;
+    case 'bc-fix-save': { const g=k=>{ const v=$('#bf-'+k)?.value; return v===''||v==null?null:+v; }, v={kcal:g('kcal'),protein:g('protein')||0,carbs:g('carbs')||0,fat:g('fat')||0};
+      if(v.kcal==null){ toast('חסרות קלוריות'); break; }
+      b.disabled=true; bcSave({code:SCAN.code,...v}).then(pr=>{ toast('עודכן לפי האריזה, תודה! ✓'); openProduct({...SCAN.prod,...pr,check:false}); })
+        .catch(e=>{ b.disabled=false; toast(e.message==='mismatch'?`הקלוריות לא מסתדרות עם הרכיבים (בערך ${e.calc}). בדוק שוב את הטבלה`:'השמירה נכשלה, נסה שוב'); }); break; }
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
       _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
     case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:_portion.liq?50:10;
