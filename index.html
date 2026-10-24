@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f8558b59"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f8558b59"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f8558b59"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f863ad69"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f863ad69"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f863ad69"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -754,6 +754,7 @@ body.locked #hdr-groups,body.locked #hdr-me{display:none!important}
 .tv-list .li{gap:10px}.tv-n{width:20px;text-align:center;color:var(--muted);font-weight:700;font-size:13px;flex-shrink:0}.tv-last{color:var(--accent)!important}
 .adm-src{display:block;color:var(--accent);font-weight:600;font-size:12px}
 .adm-srcs .as-row{display:grid;grid-template-columns:110px 1fr 28px;align-items:center;gap:10px;font-size:14px;padding:3px 0}.adm-srcs i{height:8px;border-radius:5px;background:var(--surface2);overflow:hidden}.adm-srcs i b{display:block;height:100%;background:var(--accent);border-radius:5px}.adm-srcs .num{text-align:end;font-weight:700}
+.bc-unit{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin:-4px 0 12px;padding:11px 14px;border-radius:14px;background:var(--accent-soft);color:var(--ink);font:inherit;font-size:14px;text-align:var(--start)}.bc-unit b{color:var(--accent);white-space:nowrap}
 .bc-warn{margin:-4px 0 6px;color:var(--gold);font-weight:600}.bc-fix{margin:0 0 12px}.bc-fix .linkbtn{font-size:13px}
 .pb-grid .pb-fast{grid-column:1/-1}.pb-fast small{color:var(--gold)}.tgw-warn{display:block;margin-top:2px;color:var(--gold);font-weight:600}
 .pb-sess{background:var(--surface2);border-radius:14px;padding:12px 14px}
@@ -1698,7 +1699,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.31';
+const APP_VERSION='13.2.32';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4150,7 +4151,7 @@ function renderPortion(){
   openSheet(`
     <h3 style="font-size:20px">${esc(p.f.name)}</h3>
     <div class="small muted" style="margin:-6px 0 12px">${p.liq?`ל-100 מ״ל: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`:`ל-100 גר׳: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`}</div>
-    ${p.f.bc?`${p.f.check?`<div class="small bc-warn">הערכים במאגר לא תאמו זה לזה, אז תיקנו אותם לפי הרכיבים. כדאי לוודא מול האריזה.</div>`:''}<div class="small muted bc-fix">${p.f.check?'':'לא תואם לאריזה? '}<label class="linkbtn">📷 צילום הטבלה<input id="label-photo" type="file" accept="image/*" hidden></label> · <button class="linkbtn" data-act="bc-fix">✏️ הקלדת ערכים</button></div>`:''}
+    ${p.f.bc?`${p.f.check?`<div class="small bc-warn">הערכים במאגר לא תאמו זה לזה, אז תיקנו אותם לפי הרכיבים. כדאי לוודא מול האריזה.</div>`:''}<div class="small muted bc-fix">${p.f.check?'':'לא תואם לאריזה? '}<label class="linkbtn">📷 צילום הטבלה<input id="label-photo" type="file" accept="image/*" hidden></label> · <button class="linkbtn" data-act="bc-fix">✏️ הקלדת ערכים</button></div>${(p.f.units||[]).some(u=>u.bc)?'':`<button class="bc-unit" data-act="bc-unit"><span>${p.liq?'כמה מ״ל ביחידה אחת?':'כמה שוקלת יחידה אחת?'}</span><b>הגדרת יחידה ›</b></button>`}`:''}
     <div class="label" style="margin-bottom:6px">יחידת מידה</div>
     <div class="row" style="gap:6px;margin-bottom:12px">
       ${p.units.map((u,i)=>`<button class="chip ${p.unit&&p.unit.u===u.u?'on':''}" data-act="portion-unit" data-i="${i}">${esc(u.u)} <span class="muted num">(${u.g}${p.liq?' מ״ל':'ג׳'})</span></button>`).join('')}
@@ -5791,15 +5792,25 @@ function adminChart(daily){
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;direction:ltr"><line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
     <text x="${W-2}" y="10" font-size="10" fill="var(--muted)" text-anchor="end">מקס׳ ${mx}</text></svg>`;
 }
+/* products users added or corrected from a label (shared with everyone): review and remove junk */
+async function admLoadProds(){ A.prods=null; render(); try{ const j=await bcSave({admin:'list',code:'0'}); A.prods=j.rows||[]; }catch(_){ A.prods=[]; } if(S.tab==='admin'&&A.tab==='prods')render(); }
+function admProdsHTML(){ const P=A.prods;
+  if(!P)return '<div class="empty">טוען…</div>';
+  return `<div class="small muted" style="margin:0 4px 10px;line-height:1.5">מוצרים שמשתמשים הוסיפו או תיקנו לפי האריזה. הם משמשים את כל המשתמשים, אז כדאי לעבור עליהם. מחיקה מחזירה את המוצר למאגר הפתוח בסריקה הבאה.</div>
+    <div class="card r20 list">${P.map(r=>{ const calc=Math.round(4*(+r.protein||0)+4*(+r.carbs||0)+9*(+r.fat||0)), off=calc>0&&Math.abs(calc-(+r.kcal||0))>Math.max(30,.3*calc);
+      return `<div class="li" style="align-items:flex-start"><span class="lt"><b data-notr>${esc(r.name)}${r.brand?` <span class="muted small">· ${esc(r.brand)}</span>`:''}</b>
+        <small class="num">${Math.round(+r.kcal||0)} קק״ל · ח ${+r.protein||0} · פ ${+r.carbs||0} · ש ${+r.fat||0} ל-100${r.serving_g?` · יחידה ${+r.serving_g} ג׳`:''}${off?' · <b style="color:var(--danger)">לא מסתדר</b>':''}</small>
+        <small class="muted"><span data-notr>${esc(r.by||'?')}</span> · ${agoHe(r.created_at)} · ${r.picks||0} סריקות · <span dir="ltr">${esc(r.barcode)}</span></small></span>
+        <button class="btn danger" style="padding:6px 10px;font-size:13px" data-act="adm-prod-del" data-code="${esc(r.barcode)}">מחיקה</button></div>`; }).join('')||'<div class="li small muted">עוד אין מוצרים שמשתמשים הוסיפו</div>'}</div>`; }
 function vAdmin(){
   const O=A.ov;
   const head=`<div class="row" style="gap:10px;flex-wrap:nowrap;margin-bottom:2px"><button class="hd-btn" data-act="adm-back" aria-label="חזרה">${ICON.back}</button><h2 class="ttl" style="margin:0;flex:1">ניהול</h2><button class="hd-btn" data-act="adm-refresh" aria-label="רענון" style="font-size:19px">${S.adminLoading?'…':'↻'}</button></div>`;
   if(A.err)return head+`<div class="card r20"><div class="empty" style="margin:0"><div class="big">אין גישה</div>${esc(A.err)}</div></div>`;
   if(!O)return head+`<div class="card r20"><div class="empty" style="margin:0"><div class="big">טוען…</div></div></div>`;
   const openEv=(A.events||[]).filter(e=>e.open).length;
-  const tabs=[['overview','סקירה',0],['users','משתמשים',O.pending],['growth','צמיחה',0],['pay','כסף',openEv],['msgs','פניות',O.open_msgs]];
+  const tabs=[['overview','סקירה',0],['users','משתמשים',O.pending],['growth','צמיחה',0],['pay','כסף',openEv],['msgs','פניות',O.open_msgs],['prods','מוצרים',0]];
   const seg=`<div class="seg2 adm-seg" style="position:sticky;top:calc(58px + env(safe-area-inset-top,0px));z-index:5">${tabs.map(([k,t,n])=>`<button class="${A.tab===k?'on':''}" data-act="adm-tab" data-t="${k}">${t}${n?`<span class="adm-n">${n}</span>`:''}</button>`).join('')}</div>`;
-  const body=A.tab==='users'?admUsersHTML():A.tab==='pay'?admPayHTML():A.tab==='msgs'?admMsgsHTML():A.tab==='growth'?admGrowthHTML():admOverviewHTML();
+  const body=A.tab==='prods'?admProdsHTML():A.tab==='users'?admUsersHTML():A.tab==='pay'?admPayHTML():A.tab==='msgs'?admMsgsHTML():A.tab==='growth'?admGrowthHTML():admOverviewHTML();
   return head+seg+`<div class="adm-body adm-${A.tab}">${body}</div>`;
 }
 const pctS=(a,b)=>b?Math.round(a/b*100)+'%':'—';
@@ -5995,7 +6006,9 @@ function admAct(act,b){
     case 'admin-open': closeSheet(); S.tab='admin'; render(); loadAdmin(); window.scrollTo(0,0); return true;
     case 'adm-back': S.tab='me'; location.hash='me'; render(); window.scrollTo(0,0); return true;
     case 'adm-refresh': loadAdmin(); return true;
-    case 'adm-tab': A.tab=b.dataset.t; render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); return true;
+    case 'adm-tab': A.tab=b.dataset.t; render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); if(A.tab==='prods')admLoadProds(); return true;
+    case 'adm-prod-del': { const c=b.dataset.code; if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='בטוח?'; return true; }
+      bcSave({admin:'del',code:c}).then(()=>{ toast('המוצר נמחק, הסריקה הבאה תביא אותו מחדש'); admLoadProds(); },()=>toast('נכשל')); return true; }
     case 'adm-go': A.tab=b.dataset.t||A.tab; if(b.dataset.f){A.users.filter=b.dataset.f;A.users.q='';} render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); return true;
     case 'adm-filter': A.users.filter=b.dataset.f; admLoadUsers(true); return true;
     case 'adm-more': admLoadUsers(false); return true;
@@ -6654,7 +6667,7 @@ async function onBarcode(code){
   }catch(e){ toast('החיפוש נכשל, נסה שוב'); closeSheet(); }
 }
 function openProduct(p){
-  const units=[]; if(+p.serving_g>0)units.push({u:'מנה (לפי האריזה)',g:+p.serving_g});
+  const units=[]; if(+p.serving_g>0)units.push({u:'יחידה (לפי האריזה)',g:+p.serving_g,d:true,bc:1});
   closeSheet();
   SCAN.code=p.barcode; SCAN.prod=p;
   openPortion({code:'b'+p.barcode,name:(p.brand&&!String(p.name).includes(p.brand)?p.name+', '+p.brand:p.name),kcal:+p.kcal||0,protein:+p.protein||0,fat:+p.fat||0,carbs:+p.carbs||0,units,check:!!p.check,bc:p.barcode});
@@ -6663,7 +6676,7 @@ function openProduct(p){
 async function bcSave(v){
   const {data:{session}}=await sb.auth.getSession();
   const r=await fetch(`${SUPABASE_URL}/functions/v1/food-barcode`,{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify(v)});
-  const j=await r.json().catch(()=>({})); if(!r.ok)throw Object.assign(new Error(j.error||'save'),{calc:j.calc}); return j.product;
+  const j=await r.json().catch(()=>({})); if(!r.ok)throw Object.assign(new Error(j.error||'save'),{calc:j.calc}); return j.product||j;
 }
 function openBcFix(){
   const p=SCAN.prod||{}, liq=_portion?.liq, u=liq?'100 מ״ל':'100 גר׳';
@@ -7863,11 +7876,18 @@ function handleAct(b,ev){
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'bc-fix': openBcFix(); break;
+    case 'bc-unit': openSheet(`<h3>כמה שוקלת יחידה אחת?</h3><div class="muted small" style="margin:-4px 0 12px">חטיף, פרוסה, בקבוק או גביע. בדרך כלל כתוב על האריזה ("משקל נטו" או "מנה"). נשמר לכל המשתמשים.</div>
+      <input id="bu-g" class="num" type="text" readonly data-np="num" data-unit="${_portion?.liq?'מ״ל':'גרם'}" aria-label="משקל יחידה" placeholder="${_portion?.liq?'מ״ל':'גרם'}" style="font-size:22px;text-align:center">
+      <button class="btn primary big" data-act="bc-unit-save" style="width:100%;margin-top:12px">שמור</button>
+      <button class="btn big" data-act="bc-fix-back" style="width:100%;margin-top:8px">ביטול</button>`); break;
+    case 'bc-unit-save': { const g=+($('#bu-g')?.value)||0; if(!(g>0&&g<=1000)){ toast('הקלד משקל בין 1 ל-1000'); break; }
+      b.disabled=true; bcSave({code:SCAN.code,serving_only:true,serving_g:g}).then(()=>{ toast('נשמר ✓'); openProduct({...SCAN.prod,serving_g:g}); })
+        .catch(()=>{ b.disabled=false; toast('השמירה נכשלה, נסה שוב'); }); break; }
     case 'bc-fix-back': if(SCAN.prod)openProduct(SCAN.prod); else closeSheet(); break;
     case 'bc-fix-save': { const g=k=>{ const v=$('#bf-'+k)?.value; return v===''||v==null?null:+v; }, v={kcal:g('kcal'),protein:g('protein')||0,carbs:g('carbs')||0,fat:g('fat')||0};
       if(v.kcal==null){ toast('חסרות קלוריות'); break; }
       b.disabled=true; bcSave({code:SCAN.code,...v}).then(pr=>{ toast('עודכן לפי האריזה, תודה! ✓'); openProduct({...SCAN.prod,...pr,check:false}); })
-        .catch(e=>{ b.disabled=false; toast(e.message==='mismatch'?`הקלוריות לא מסתדרות עם הרכיבים (בערך ${e.calc}). בדוק שוב את הטבלה`:'השמירה נכשלה, נסה שוב'); }); break; }
+        .catch(e=>{ b.disabled=false; toast(e.message==='mismatch'?`הקלוריות לא מסתדרות עם הרכיבים (בערך ${e.calc}). בדוק שוב את הטבלה`:e.message==='limit'?'הגעת למכסת העדכונים להיום':'השמירה נכשלה, נסה שוב'); }); break; }
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
       _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
     case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:_portion.liq?50:10;

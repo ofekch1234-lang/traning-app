@@ -37,8 +37,16 @@ function sanity<T extends P>(p: T, kj?: number | null): T {
   return p;
 }
 
+// grams of one unit: the stated serving, else "1 bar (20 g)", else a multipack "6 x 20 g", else a small single pack
+function servingOf(p: any): number | null {
+  const g = (v: unknown) => { const n = num(v); return n && n > 0 && n <= 1000 ? n : null; };
+  const grams = (t: unknown) => { const m = String(t || "").replace(",", ".").match(/(\d+(?:\.\d+)?)\s*(g|gr|ml|גר|ג|מ"ל|מ״ל)\b/i); return m ? g(m[1]) : null; };
+  const multi = String(p.quantity || "").replace(",", ".").match(/(\d+)\s*[x×*]\s*(\d+(?:\.\d+)?)\s*(g|ml)/i);
+  const pack = g(p.product_quantity) ?? grams(p.quantity);
+  return g(p.serving_quantity) ?? grams(p.serving_size) ?? (multi ? g(multi[2]) : null) ?? (pack && pack <= 150 ? pack : null);
+}
 async function fromOFF(code: string) {
-  const r = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}?fields=product_name,product_name_he,generic_name,brands,nutriments,serving_quantity`, {
+  const r = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}?fields=product_name,product_name_he,generic_name,brands,nutriments,serving_quantity,serving_size,quantity,product_quantity`, {
     headers: { "User-Agent": "NextRep/1.0 (ofek4business@gmail.com)" }, signal: AbortSignal.timeout(8000),
   });
   if (!r.ok) return null;
@@ -52,7 +60,7 @@ async function fromOFF(code: string) {
   // stored as Open Food Facts has it; sanity() runs on every read, so the "verify" flag stays until a user corrects it
   const row = { barcode: code, name: name.slice(0, 80), brand: (p.brands || "").split(",")[0].trim().slice(0, 60) || null, kcal,
     protein: num(n.proteins_100g) ?? 0, fat: num(n.fat_100g) ?? 0, carbs: num(n.carbohydrates_100g) ?? 0,
-    serving_g: num(p.serving_quantity), source: "off", picks: 1 };
+    serving_g: servingOf(p), source: "off", picks: 1 };
   return { row, kj };
 }
 
@@ -66,14 +74,38 @@ Deno.serve(async (req: Request) => {
   // ----- a user's correction from the label -----
   if (req.method === "POST") {
     const b = await req.json().catch(() => ({}));
+    const { data: { user: u } } = await user.auth.getUser();
+    // admin: review what users added / remove a bad product (next scan refetches it from Open Food Facts)
+    if (b.admin) {
+      const { data: plan } = await user.rpc("my_plan");
+      if (!plan?.admin) return J({ error: "forbidden" }, 403);
+      if (b.admin === "del") { await sb.from("products").delete().eq("barcode", String(b.code || "").replace(/\D/g, "")); return J({ ok: true }); }
+      const { data: rows } = await sb.from("products").select("barcode,name,brand,kcal,protein,carbs,fat,serving_g,picks,created_at,added_by").eq("source", "user").order("created_at", { ascending: false }).limit(60);
+      const ids = [...new Set((rows || []).map((r: any) => r.added_by).filter(Boolean))];
+      const names: Record<string, string> = {};
+      for (const id of ids) { const { data } = await sb.auth.admin.getUserById(id as string); names[id as string] = data?.user?.user_metadata?.full_name || data?.user?.email || ""; }
+      return J({ rows: (rows || []).map((r: any) => ({ ...r, by: names[r.added_by] || "" })) });
+    }
     const code = String(b.code || "").replace(/\D/g, "");
     if (!/^[0-9]{6,14}$/.test(code)) return J({ error: "bad_code" }, 400);
+    // "how much does one unit weigh?": only the serving size, for everyone
+    if (b.serving_only) {
+      const sg = num(b.serving_g); if (!sg || sg <= 0 || sg > 1000) return J({ error: "bad_values" }, 422);
+      const { error } = await sb.from("products").update({ serving_g: sg }).eq("barcode", code);
+      if (error) return J({ error: "save_failed" }, 500);
+      console.log(JSON.stringify({ ev: "product-serving", code, sg, by: u?.id?.slice(0, 8) }));
+      return J({ ok: true, serving_g: sg });
+    }
+    // abuse guard: a person adds / corrects at most 20 products a day
+    if (u?.id) {
+      const { count } = await sb.from("products").select("barcode", { count: "exact", head: true }).eq("added_by", u.id).gte("created_at", new Date(Date.now() - 864e5).toISOString());
+      if ((count ?? 0) >= 20) return J({ error: "limit" }, 429);
+    }
     const v = { kcal: num(b.kcal), protein: num(b.protein) ?? 0, carbs: num(b.carbs) ?? 0, fat: num(b.fat) ?? 0 };
     if (v.kcal === null || v.kcal < 0 || v.kcal > 900 || [v.protein, v.carbs, v.fat].some((x) => x < 0 || x > 100) || v.protein + v.carbs + v.fat > 101)
       return J({ error: "bad_values" }, 422);
     const calc = 4 * v.protein + 4 * v.carbs + 9 * v.fat;
     if (calc > 0 && Math.abs(v.kcal - calc) > Math.max(40, 0.5 * Math.max(v.kcal, calc))) return J({ error: "mismatch", calc: Math.round(calc) }, 422);
-    const { data: { user: u } } = await user.auth.getUser();
     const { data: old } = await sb.from("products").select("name,brand,serving_g,picks").eq("barcode", code).maybeSingle();
     const name = String(b.name || old?.name || "").trim().slice(0, 80);
     if (!name) return J({ error: "bad_name" }, 422);
@@ -89,7 +121,8 @@ Deno.serve(async (req: Request) => {
   const code = (new URL(req.url).searchParams.get("code") || "").replace(/\D/g, "");
   if (!/^[0-9]{6,14}$/.test(code)) return J({ error: "bad_code" }, 400);
   const { data: hit } = await sb.from("products").select("*").eq("barcode", code).maybeSingle();
-  const stale = hit && hit.source === "off" && (!hit.created_at || Date.now() - new Date(hit.created_at).getTime() > STALE_DAYS * 864e5);
+  const age = hit?.created_at ? Date.now() - new Date(hit.created_at).getTime() : Infinity;
+  const stale = hit && hit.source === "off" && (age > STALE_DAYS * 864e5 || (!hit.serving_g && age > 6 * 3600e3));
   if (hit && !stale) {
     await sb.from("products").update({ picks: (hit.picks || 0) + 1 }).eq("barcode", code);
     const p = hit.source === "user" ? { ...hit } : sanity({ ...hit, kcal: +hit.kcal, protein: +hit.protein, carbs: +hit.carbs, fat: +hit.fat });
@@ -98,6 +131,7 @@ Deno.serve(async (req: Request) => {
   try {
     const got = await fromOFF(code);
     if (got) {
+      if (!got.row.serving_g && hit?.serving_g) got.row.serving_g = hit.serving_g; // keep a unit size a user already gave
       await sb.from("products").upsert({ ...got.row, picks: (hit?.picks || 0) + 1, created_at: new Date().toISOString() });
       return J({ product: sanity({ ...got.row }, got.kj), cached: false });
     }
