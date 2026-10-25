@@ -2081,7 +2081,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.17';
+const APP_VERSION='13.3.18';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6397,10 +6397,10 @@ function nutritionWeekHTML(){
 }
 function openWeighIn(date,after){
   const d=date||ymd();
-  const ws=S.weights||[]; const cur=ws.find(x=>x.d===d); const last=ws[ws.length-1];
+  const ws=S.weights||[]; const cur=ws.find(x=>x.d===d); const last=[...ws].filter(x=>x.d<=d).sort((a,b)=>a.d<b.d?1:-1)[0]||ws[ws.length-1];
   const label=d===ymd()?'שקילה היום':`שקילה · ${fmtDate(+new Date(d+'T12:00:00'))}`;
   openNumpad({ title:`${label}${cur?` · רשום: ${cur.kg} ק״ג`:last?` · אחרונה: ${last.kg} ק״ג`:''}`,
-    unit:'ק״ג', mode:'num', value:0,
+    unit:'ק״ג', mode:'num', value:cur?+cur.kg:last?+last.kg:0, steps:[-0.5,-0.1,0.1,0.5],
     apply(v){ if(!v){ if(cur)toast('לא נשמר — הקלד משקל'); return; } saveBodyweight(v,d); after&&after(); },
     extra:cur?{label:'מחק',fn(){ deleteBodyweight(d); after&&after(); }}:null });
 }
@@ -6674,7 +6674,7 @@ function renderNumpad(){
     body=`<div class="npdigits">
       ${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-npd="${n}" class="num">${n}</button>`).join('')}
       <button data-npd="." aria-label="נקודה עשרונית">.</button><button data-npd="0" class="num">0</button><button data-npc="back" aria-label="מחק ספרה">⌫</button>
-    </div>`;
+    </div>${c.steps?`<div class="npstep">${c.steps.map(v=>`<button data-npadd="${v}" class="num" style="font-size:15px">${v>0?'+':'−'}${Math.abs(v)}</button>`).join('')}</div>`:''}`;
   }
   $('#np').innerHTML=`${c.mode==='weight'?npDefs():''}
     <div class="nptitle">${esc(c.title||'')}</div>
@@ -6738,15 +6738,16 @@ document.addEventListener('click',ev=>{
   if(t.dataset.nppair!==undefined){ NP.val=Math.round((Math.max(NP.val,NP.bar??20)+2*(+t.dataset.nppair))*100)/100; npUpdate(); return; }
   if(t.dataset.npc==='undo'){ const {L,rest}=barSplit(NP.val);
     NP.val=rest?Math.round((NP.val-rest)*100)/100:L.length?Math.round((NP.val-2*L[L.length-1])*100)/100:0; npUpdate(); return; }
-  if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); }
+  if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); if(NP.cfg.mode==='num'){ NP.str=NP.val?(NP.cfg.steps?NP.val.toFixed(1):String(NP.val)):''; NP.typing=false; } }
   else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset;
     if(NP.cfg.mode==='reps'&&NP.cfg.chain){ // בזרימה: בחירת חזרות = שמירת הסט
       const c=NP.cfg,v=NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; } }
   else if(t.dataset.npd!==undefined){ const d=t.dataset.npd;
+    if(NP.cfg.mode==='num'&&!NP.typing){ NP.typing=true; NP.str=d==='.'?'0':''; } // a prefilled value is replaced by the first digit typed
     if(d==='.'&&NP.str.includes('.'))return;
     if(NP.str.replace('.','').length>=5)return;
     NP.str=(NP.str==='0'&&d!=='.'?'':NP.str)+d; NP.val=parseFloat(NP.str)||0; }
-  else if(t.dataset.npc==='back'){ NP.str=NP.str.slice(0,-1); NP.val=parseFloat(NP.str)||0; }
+  else if(t.dataset.npc==='back'){ NP.typing=true; NP.str=NP.str.slice(0,-1); NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
   else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); return; }
   else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
