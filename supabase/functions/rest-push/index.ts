@@ -3,6 +3,8 @@
 // VAPID private key: Edge Function secret VAPID_PRIVATE_KEY (never in code).
 // Installed iPhone app: Apple Push Notification service with the token key (.p8) in the Edge Function secret
 // APNS_KEY_P8 (never in code); key id and team id below are not secret. Device tokens: table native_push.
+// Installed Android app: Firebase Cloud Messaging (HTTP v1, project nextrep-512209) with a service account whose
+// JSON key is the Edge Function secret FCM_SA_JSON (never in code).
 import webpush from "npm:web-push@3.6.7";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -32,6 +34,28 @@ async function apnsToken(): Promise<string | null> {
   const sig = await crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, apnsKey, new TextEncoder().encode(head + "." + body));
   apnsJwt = head + "." + body + "." + b64u(sig); apnsAt = Date.now();
   return apnsJwt;
+}
+
+// Android: sound and vibration come from a notification channel the app creates (ids carry a version, see NAT_CH in the app)
+const FCM_CHANNEL: Record<string, string> = { admin: "nr_success_v1", social: "nr_coach_v1", billing: "nr_daily_v1", pr: "nr_success_v1",
+  coach: "nr_coach_v1", remind: "nr_train_v1", nudge: "nr_train_v1", meal: "nr_daily_v1", weigh: "nr_daily_v1", trial: "nr_daily_v1" };
+let fcmTok = ""; let fcmAt = 0; let fcmProj = "";
+async function fcmToken(): Promise<string | null> {
+  if (fcmTok && Date.now() - fcmAt < 50 * 60000) return fcmTok; // Google access tokens live 60 minutes
+  const raw = Deno.env.get("FCM_SA_JSON"); if (!raw) return null;
+  const sa = JSON.parse(raw); fcmProj = sa.project_id;
+  const der = Uint8Array.from(atob(String(sa.private_key).replace(/-----[^-]+-----/g, "").replace(/\s+/g, "")), (c) => c.charCodeAt(0));
+  const key = await crypto.subtle.importKey("pkcs8", der, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
+  const now = Math.floor(Date.now() / 1000);
+  const head = b64u(JSON.stringify({ alg: "RS256", typ: "JWT" }));
+  const body = b64u(JSON.stringify({ iss: sa.client_email, scope: "https://www.googleapis.com/auth/firebase.messaging",
+    aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 }));
+  const sig = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", key, new TextEncoder().encode(head + "." + body));
+  const r = await fetch("https://oauth2.googleapis.com/token", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=" + head + "." + body + "." + b64u(sig) });
+  const j = await r.json().catch(() => ({}));
+  if (!j.access_token) throw new Error("fcm oauth " + r.status + " " + JSON.stringify(j).slice(0, 120));
+  fcmTok = j.access_token; fcmAt = Date.now(); return fcmTok;
 }
 
 type Msg = { user_id: string; title: string; body: string; kind: string; ttl: number; ref?: string };
@@ -91,6 +115,27 @@ Deno.serve(async (req: Request) => {
         console.log(JSON.stringify({ ev: r.status === 200 ? "apns" : "apns-fail", kind: m.kind, user: String(m.user_id).slice(0, 8), status: r.status, body: txt.slice(0, 160) }));
         if (r.status === 410 || /BadDeviceToken|Unregistered|DeviceTokenNotForTopic/.test(txt)) await sb.from("native_push").delete().eq("token", (d as any).token);
       } catch (e) { console.log(JSON.stringify({ ev: "apns-fail", kind: m.kind, err: String(e).slice(0, 160) })); }
+    }
+  }
+  // installed app (Android): the same server notifications through FCM
+  const andr = (devs || []).filter((x: any) => x.platform === "android");
+  const ftok = andr.length ? await fcmToken().catch((e) => { console.log(JSON.stringify({ ev: "fcm-config", err: String(e).slice(0, 160) })); return null; }) : null;
+  if (andr.length && !ftok) console.log(JSON.stringify({ ev: "fcm-config", err: "no FCM_SA_JSON" }));
+  for (const m of msgs) {
+    if (m.kind === "rest" || !ftok) continue;
+    for (const d of andr.filter((x: any) => x.user_id === m.user_id)) {
+      try {
+        const r = await fetch(`https://fcm.googleapis.com/v1/projects/${fcmProj}/messages:send`, {
+          method: "POST", headers: { authorization: `Bearer ${ftok}`, "content-type": "application/json" },
+          body: JSON.stringify({ message: { token: (d as any).token, notification: { title: m.title, body: m.body }, data: { kind: m.kind },
+            android: { priority: m.kind === "admin" || m.kind === "billing" ? "high" : "normal", ttl: m.ttl + "s",
+              notification: { channel_id: FCM_CHANNEL[m.kind] || "nr_daily_v1", icon: "ic_stat_nextrep", color: "#5E8C00" } } } }),
+        });
+        const txt = r.status === 200 ? "" : await r.text().catch(() => "");
+        if (r.status === 200) { nsent++; gotNative.add(m); }
+        console.log(JSON.stringify({ ev: r.status === 200 ? "fcm" : "fcm-fail", kind: m.kind, user: String(m.user_id).slice(0, 8), status: r.status, body: txt.slice(0, 160) }));
+        if (r.status === 404 || /UNREGISTERED|registration-token-not-registered/.test(txt)) await sb.from("native_push").delete().eq("token", (d as any).token);
+      } catch (e) { console.log(JSON.stringify({ ev: "fcm-fail", kind: m.kind, err: String(e).slice(0, 160) })); }
     }
   }
   for (const m of msgs) {
