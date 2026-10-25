@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e5c3c490"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e5c3c490"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e5c3c490"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=fdb95497"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=fdb95497"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=fdb95497"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -946,6 +946,7 @@ header.top{
 .demo-btn .pl{width:18px;height:18px;border-radius:50%;background:var(--accent);position:relative;flex-shrink:0}
 .demo-btn .pl::after{content:'';position:absolute;top:50%;left:54%;transform:translate(-50%,-50%);border-style:solid;border-width:4.5px 0 4.5px 7px;border-color:transparent transparent transparent #fff}
 .demo-btn:active{transform:scale(.97)}
+.tgtbox{display:flex;gap:8px;margin-bottom:10px}.tgtbox>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:14px;background:var(--surface2);border:1px solid var(--line)}.tgtbox b{font-size:20px;font-weight:800;line-height:1.1}.tgtbox span{font-size:12px;color:var(--muted);text-align:center}
 .pill{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .pill.pr{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:700}
 
@@ -1685,7 +1686,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.4';
+const APP_VERSION='13.3.5';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4786,7 +4787,7 @@ function ncDone(apply){
 function vStrength(e,ei,cur){
   const prev=lastPerf(e.n);
   const rr=repRange(e.reps);
-  const target=e.reps?`יעד <bdi dir="ltr">${e.sets.length}×${esc(String(e.reps).replace(/\s*[-–—]\s*/,'–'))}</bdi>`:'';
+  const target=e.reps?`${e.sets.length===1?tt('סט אחד'):`${e.sets.length} ${tt('סטים')}`} · <bdi dir="ltr">${esc(String(e.reps).replace(/\s*[-–—]\s*/,'–'))}</bdi> ${tt('חזרות')}`:''; // "3 סטים · 6–8 חזרות" instead of "יעד 3×6–8"
   const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
   const tip=e.sets.some(x=>x.done)||e.co?null:repTip(e), co=e.sets.some(x=>x.done)?null:e.co;
   return `<div class="ex-card ${cur?'cur':''}">
@@ -5923,6 +5924,7 @@ function openSetPad(ei,si,kind,chain){
 document.addEventListener('click',ev=>{
   const i=ev.target.closest('input[data-np]'); if(!i)return;
   i.blur(); ev.preventDefault();
+  try{ const ae=document.activeElement; if(ae&&ae!==i&&isTextEl(ae))ae.blur(); }catch(_){} // the system keyboard closes before the number pad opens
   const kind=i.dataset.np, ei=+i.dataset.ei, si=+i.dataset.si;
   if(kind==='w'||kind==='r'){
     openSetPad(ei,si,kind);
@@ -5956,7 +5958,7 @@ document.addEventListener('click',ev=>{
     if(e.cancelable)e.preventDefault();
   },{passive:false});
 })();
-function openSheet(html){$('#sheet').classList.remove('libmode','swsheet','fa');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
+function openSheet(html){ try{ const ae=document.activeElement; if(ae&&ae!==document.body&&$('#sheet').contains(ae))ae.blur(); }catch(_){} $('#sheet').classList.remove('libmode','swsheet','fa');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
 function closeSheet(){try{$('#sheet').classList.remove('swsheet');$('#sheet').style.bottom='';$('#sheet').style.height='';}catch(_){} try{if(SCAN.stream||SCAN.reader)stopScan();}catch(_){} $('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
 
 function openLibrary(target){ // target: 'active' | 'tpl'
@@ -7955,9 +7957,8 @@ function openExSheet(name,opt){
   const hist=historyOf(name);
   const bestE1=Math.max(0,...hist.map(h=>h.e1||0));
   openSheet(`<h3>${esc(name)}</h3>
+    ${opt.reps||opt.rest?`<div class="tgtbox">${opt.sets?`<div><b class="num">${+opt.sets}</b><span>${+opt.sets===1?tt('סט'):tt('סטים')}</span></div>`:''}${opt.reps?`<div><b class="num"><bdi dir="ltr">${esc(String(opt.reps).replace(/\s*[-–]\s*/,'–'))}</bdi></b><span>${tt('חזרות בכל סט')}</span></div>`:''}${opt.rest?`<div><b class="num">${fmtRest(opt.rest)}</b><span>${tt('מנוחה בין סטים')}</span></div>`:''}</div>`:''}
     <div class="row" style="margin-bottom:10px">
-      ${opt.reps?`<span class="pill">יעד: ${opt.sets||''}×${esc(opt.reps)}</span>`:''}
-      ${opt.rest?`<span class="pill">מנוחה ${fmtRest(opt.rest)}</span>`:''}
       ${bestE1?`<span class="pill pr num"><span>1RM משוער: ~${bestE1} ק״ג</span>${infoI('e1rm')}</span>`:''}
     </div>
     ${demoHTML(name)}
@@ -8265,19 +8266,22 @@ function handleAct(b,ev){
     case 'food-ai': { const txt=(($('#sheet')?.hidden===false&&$('#food-text')?$('#food-text').value:'')||$('#ask-q')?.value||$('#food-text')?.value||'').trim();
       if(txt&&$('#ask-q')?.value){ S.askQ=''; }
       if(!txt){toast('כתוב מה אכלת');break;} foodAI({text:txt}); break; }
-    case 'food-manual': openSheet(`
+    case 'food-manual': { const appNp=!!window.Capacitor?.isNativePlatform?.(); // the installed app keeps our number pad; a browser uses the phone's keyboard
+      const numIn=(id,unit,lab)=>appNp?`<input id="${id}" class="num" type="text" readonly data-np="num" data-unit="${unit}" aria-label="${lab}">`
+        :`<input id="${id}" class="num" type="text" inputmode="decimal" enterkeyhint="next" autocomplete="off" aria-label="${lab}" placeholder="0">`;
+      openSheet(`<div class="fa-sheet">
       <h3>הוספה ידנית</h3>
-      <div class="label">שם הארוחה</div><input id="mm-name" placeholder="למשל: כריך טונה">
+      <div class="label">שם הארוחה</div><input id="mm-name" placeholder="למשל: כריך טונה" enterkeyhint="next" autocomplete="off">
       <div class="row" style="margin-top:10px">
-        <div style="flex:1"><div class="label">קק״ל</div><input id="mm-kcal" class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="קלוריות"></div>
-        <div style="flex:1"><div class="label">חלבון</div><input id="mm-prot" class="num" type="text" readonly data-np="num" data-unit="גר׳" aria-label="חלבון"></div>
+        <div style="flex:1"><div class="label">קק״ל</div>${numIn('mm-kcal','קק״ל','קלוריות')}</div>
+        <div style="flex:1"><div class="label">חלבון</div>${numIn('mm-prot','גר׳','חלבון')}</div>
       </div>
       <div class="row" style="margin-top:14px">
         <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
         <button class="btn primary" style="flex:2" data-act="meal-manual-save">הוסף ✓</button>
-      </div>`); break;
+      </div></div>`); if(!appNp){ $('#sheet').classList.add('fa'); swFit(); } break; }
     case 'meal-manual-save': { const nm=($('#mm-name')?.value||'').trim()||'ארוחה';
-      const kc=Math.round(+($('#mm-kcal')?.value)||0), pr=Math.round(+($('#mm-prot')?.value)||0);
+      const numV=id=>+String($(id)?.value||'').replace(',','.')||0, kc=Math.round(numV('#mm-kcal')), pr=Math.round(numV('#mm-prot'));
       if(!kc){toast('הזן קלוריות');break;}
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
