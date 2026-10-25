@@ -38,5 +38,73 @@
  "בפעם שעברה": {
   "en": "Last time",
   "ar": "المرة السابقة"
+ },
+ "המאמן שלך.": {
+  "en": "Your coach.",
+  "ar": "مدربك."
+ },
+ "זוכר כל סט.": {
+  "en": "Remembers every set.",
+  "ar": "يتذكر كل مجموعة."
+ },
+ "תוכנית אישית, הדגמה לכל תרגיל ומעקב תזונה מצילום.": {
+  "en": "A personal plan, a demo for every exercise, and nutrition tracking from a photo.",
+  "ar": "خطة شخصية، وعرض لكل تمرين، وتتبّع التغذية من صورة."
+ },
+ "איך זה עובד": {
+  "en": "How it works",
+  "ar": "كيف يعمل"
+ },
+ "כדי להתחזק צריך להוסיף קצת בכל אימון.": {
+  "en": "To get stronger, you add a little every workout.",
+  "ar": "لتصبح أقوى، تضيف قليلًا في كل تمرين."
+ },
+ "ואי אפשר להוסיף על מה שלא זוכרים.": {
+  "en": "And you can't add to what you don't remember.",
+  "ar": "ولا يمكنك الإضافة إلى ما لا تتذكره."
+ },
+ "NextRep זוכר בשבילך.": {
+  "en": "NextRep remembers for you.",
+  "ar": "NextRep يتذكر عنك."
+ },
+ "סגרת את הטווח בפעם שעברה. היום 62.5.": {
+  "en": "You hit the top of the range last time. Today: 62.5.",
+  "ar": "وصلت إلى أعلى النطاق في المرة السابقة. اليوم: 62.5."
+ },
+ "סגרת את הטווח בפעם שעברה. היום 102.5.": {
+  "en": "You hit the top of the range last time. Today: 102.5.",
+  "ar": "وصلت إلى أعلى النطاق في المرة السابقة. اليوم: 102.5."
+ },
+ "באימון": {
+  "en": "In your workout",
+  "ar": "في التمرين"
+ },
+ "בתזונה": {
+  "en": "In your nutrition",
+  "ar": "في التغذية"
+ },
+ "במנוחה": {
+  "en": "Between sets",
+  "ar": "بين المجموعات"
+ },
+ "בהתקדמות": {
+  "en": "In your progress",
+  "ar": "في تقدّمك"
+ },
+ "הבא: היפ תראסט, סט 3 של 4": {
+  "en": "Next: hip thrust, set 3 of 4",
+  "ar": "التالي: هيب ثرست، المجموعة 3 من 4"
+ },
+ "הבא: לחיצת חזה, סט 3 של 4": {
+  "en": "Next: bench press, set 3 of 4",
+  "ar": "التالي: ضغط الصدر، المجموعة 3 من 4"
+ },
+ "חזה עוף": {
+  "en": "Chicken breast",
+  "ar": "صدر دجاج"
+ },
+ "לחיצת חזה": {
+  "en": "Bench press",
+  "ar": "ضغط الصدر"
  }
 }
