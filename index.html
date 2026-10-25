@@ -1491,7 +1491,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 #splash.out{opacity:0;visibility:hidden}
 #splash{--s-tile:118px}
 :root.s-native #splash{--s-tile:inherit}
-#splash .s-tile{width:var(--s-tile);height:var(--s-tile);border-radius:calc(var(--s-tile)*.232);background:#BFFF2F;display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(191,255,47,.18)}
+#splash{--s-acc:#BFFF2F}:root[data-g="f"] #splash{--s-acc:#FF4FA3}
+#splash .s-tile{width:var(--s-tile);height:var(--s-tile);border-radius:calc(var(--s-tile)*.232);background:var(--s-acc);display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px color-mix(in srgb,var(--s-acc) 18%,transparent)}
 #splash .s-tile svg{width:100%;height:100%;fill:#0B0C0B}
 #splash .s-tile svg *{transform-box:fill-box;transform-origin:center}
 :root.s-native #splash{justify-content:center}:root.s-native #splash .s-tile{box-shadow:none}
@@ -1501,7 +1502,6 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 #splash .sb b{font-weight:inherit;color:#BFFF2F}
 #splash .st{color:rgba(255,255,255,.75);font-size:13.5px}
 :root[data-g="f"] #splash .sb b{color:#FF4FA3}
-:root[data-g="f"] #splash .sb b{color:#500724}
 .auth-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .auth-g button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;border-radius:16px;background:var(--surface2);border:2px solid transparent;color:inherit;font:inherit}
 .auth-g button span{font-size:30px}.auth-g button b{font-size:15px}
@@ -1536,7 +1536,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   /* ספלאש */
   /* splash: the bar is loaded (bar, plates one by one, the N drops in and lands) */
   #splash .s-tile{animation:sTile .35s cubic-bezier(.2,.9,.3,1.2) both}
-  :root.s-native #splash .s-tile{animation:none}
+  :root.s-native #splash .s-tile{animation:sFill .3s .02s ease-out both}
+  @keyframes sFill{from{background:#1A1D1B}to{background:var(--s-acc)}}
   #splash .s-bar{animation:sBar .3s .1s cubic-bezier(.2,.8,.2,1) both}
   #splash .s-p1l{animation:sPl .28s .38s cubic-bezier(.3,1.5,.5,1) both}#splash .s-p1r{animation:sPr .28s .38s cubic-bezier(.3,1.5,.5,1) both}
   #splash .s-p2l{animation:sPl .28s .58s cubic-bezier(.3,1.5,.5,1) both}#splash .s-p2r{animation:sPr .28s .58s cubic-bezier(.3,1.5,.5,1) both}
@@ -1733,7 +1734,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.10';
+const APP_VERSION='13.3.11';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3246,6 +3247,7 @@ function applyLook(g,acc){
   const a=acc||(g==='f'?'rose':'green');
   try{ if(g)localStorage.setItem('nr-g',g); if(acc)localStorage.setItem('nr-acc',acc); else localStorage.removeItem('nr-acc'); }catch(_){}
   if(a==='green')document.documentElement.removeAttribute('data-accent'); else document.documentElement.setAttribute('data-accent',a);
+  if(g==='f')document.documentElement.setAttribute('data-g','f'); else if(g)document.documentElement.removeAttribute('data-g');
   if(LANG!=='en'&&(g==='f')!==(window.NR_G==='f')){ location.reload(); return true; }
   window.NR_G=g; return false;
 }
@@ -8458,7 +8460,8 @@ function handleAct(b,ev){
       S.user=Object.assign({},S.user,{user_metadata:Object.assign({},S.user?.user_metadata,{full_name:nm})}); logEv('name_set',{at:'onboard'});
       sb.auth.updateUser({data:{full_name:nm}}).then(({data})=>{ if(data?.user){ S.user=data.user; } },()=>{});
       openGenderSheet(true); break; }
-    case 'g-set': { const v=b.dataset.v, first=!!b.dataset.first; S.settings.g=v;
+    case 'g-set': { const v=b.dataset.v, first=!!b.dataset.first, was=S.settings.g; S.settings.g=v;
+      if(was!==v&&(!S.settings.accent||S.settings.accent===(was==='f'?'rose':'green')))S.settings.accent=null;
       if(!S.settings.body)S.settings.body={}; if((v==='m'||v==='f')&&!S.settings.body.sex)S.settings.body.sex=v;
       document.querySelectorAll('[data-act="g-set"]').forEach(x=>x.classList.toggle('on',x===b));
       Promise.resolve(persistSettings()).catch(()=>{}).then(()=>{ closeSheet();
