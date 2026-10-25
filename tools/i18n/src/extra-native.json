@@ -110,5 +110,21 @@
  "היום: {0} 💪": {
   "en": "Today: {0} 💪",
   "ar": "اليوم: {0} 💪"
+ },
+ "תזכורות NextRep": {
+  "en": "NextRep reminders",
+  "ar": "تذكيرات NextRep"
+ },
+ "אימונים, ארוחות, מנוחה ותזכורות מראפי": {
+  "en": "Workouts, meals, rest and reminders from Repi",
+  "ar": "تمارين، وجبات، راحة وتذكيرات من ريبي"
+ },
+ "מנוחה ברטט בלבד": {
+  "en": "Rest timer, vibration only",
+  "ar": "مؤقت الراحة، اهتزاز فقط"
+ },
+ "מנוחה שקטה": {
+  "en": "Rest timer, silent",
+  "ar": "مؤقت الراحة، صامت"
  }
 }

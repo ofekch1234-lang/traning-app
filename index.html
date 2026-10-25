@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ce225e43"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ce225e43"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ce225e43"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=44e6393a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=44e6393a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=44e6393a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1695,8 +1695,29 @@ const NAT={perm:'default',rest:4242};
 const natPermMap=r=>r&&r.display==='granted'?'granted':r&&r.display==='denied'?'denied':'default';
 async function natPermSync(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').checkPermissions()); }catch(_){} return NAT.perm; }
 async function natPermAsk(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').requestPermissions()); }catch(_){} return NAT.perm==='granted'; }
-function natNotify(title,body,at,id){ try{ return capP('LocalNotifications').schedule({notifications:[{id:id||10000+Math.floor(Math.random()*1e8),title,body,
-  ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00'}]}).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
+/* sound + vibration: iOS plays a notification silently unless it names a sound, so every one carries our chime
+   (bundled at the web root; iOS also vibrates with it unless the phone's haptics are off). Android takes sound and
+   vibration from the channel, and a channel can't be changed once created, so the ids carry a version.
+   The rest timer follows the "צליל" / "רטט" switches in settings; every other notification always rings. */
+const NAT_SND='nextrep_chime.wav';
+const NAT_CH={ring:'nr_alerts_v1',vib:'nr_vibrate_v1',quiet:'nr_quiet_v1'};
+let _natChP=null;
+function natChannels(){
+  if(NATIVE_OS!=='android')return Promise.resolve();
+  return _natChP||(_natChP=(async()=>{ const LN=capP('LocalNotifications'); if(!LN)return;
+    const mk=o=>LN.createChannel({importance:4,visibility:1,lights:true,lightColor:'#BFFF2F',...o}).catch(()=>{});
+    await mk({id:NAT_CH.ring,name:tt('תזכורות NextRep'),description:tt('אימונים, ארוחות, מנוחה ותזכורות מראפי'),sound:NAT_SND,vibration:true});
+    await mk({id:NAT_CH.vib,name:tt('מנוחה ברטט בלבד'),sound:'nr_silence.wav',vibration:true}); // a channel with no sound would get the system ding; this one is 0.1 s of silence
+    await mk({id:NAT_CH.quiet,name:tt('מנוחה שקטה'),importance:3,sound:'nr_silence.wav',vibration:false});
+  })());
+}
+function natAlert(rest){
+  const snd=!rest||S.settings?.notif?.sound!==false, vib=!rest||S.settings?.notif?.vib!==false;
+  return {...(snd?{sound:NAT_SND}:{}),channelId:snd?NAT_CH.ring:vib?NAT_CH.vib:NAT_CH.quiet};
+}
+function natNotify(title,body,at,id){ try{ const rest=id===NAT.rest;
+  return natChannels().then(()=>capP('LocalNotifications').schedule({notifications:[{id:id||10000+Math.floor(Math.random()*1e8),title,body,
+  ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(rest)}]})).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
 function natCancel(id){ try{ capP('LocalNotifications').cancel({notifications:[{id}]}).catch(()=>{}); }catch(_){} }
 /* ---------- תזכורות באפליקציה המותקנת: מתוזמנות על הטלפון עצמו (בלי שרת התראות) ----------
    מחושבות מחדש אחרי כל שינוי (לו״ז, אימון, שקילה, ארוחה, הגדרות) ובכל חזרה לאפליקציה, לשלושה שבועות קדימה.
@@ -1737,9 +1758,13 @@ async function natSchedule(){
     const pend=await LN.getPending().catch(()=>({notifications:[]}));
     const old=(pend?.notifications||[]).filter(x=>x.id>=1000&&x.id<2000).map(x=>({id:x.id}));
     if(old.length)await LN.cancel({notifications:old});
-    if(plan.length)await LN.schedule({notifications:plan.map((x,i)=>({id:1000+i,title:x.title,body:x.body,schedule:{at:new Date(x.at),allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',extra:{kind:x.kind}}))});
+    await natChannels();
+    if(plan.length)await LN.schedule({notifications:plan.map((x,i)=>({id:1000+i,title:x.title,body:x.body,schedule:{at:new Date(x.at),allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(false),extra:{kind:x.kind}}))});
   }catch(e){ console.warn('natSchedule',e); _natSchedSig=''; }
 }
+// a notification that arrives while the app is open: the system banner rings, and we add a haptic tap
+if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationReceived',n=>{ try{
+  if(n&&n.id===NAT.rest)return; capP('Haptics')?.notification?.({type:'SUCCESS'})?.catch?.(()=>{}); }catch(_){} });
 if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationActionPerformed',({notification})=>{
   const k=notification?.extra?.kind, to={remind:'train',nudge3:'train',nudge7:'train',weigh:'track',meal:'food'}[k];
   if(to&&S.user&&S.mode==='app'){ S.tab=to; if(to==='food')S.foodDate=ymd(); render(); window.scrollTo(0,0); }
@@ -1768,7 +1793,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.4';
+const APP_VERSION='13.3.5';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף

@@ -5,6 +5,8 @@ const ROOT = path.resolve(__dirname, '../..'), OUT = path.resolve(__dirname, '..
 fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(OUT, { recursive: true });
 const keep = f => /^(index\.html|menu-foods\.js|manifest(-f)?\.json|badge-96\.png|icon(-f)?-\d+\.png|(privacy|terms|accessibility)(-en|-ar)?\.html)$/.test(f);
 for (const f of fs.readdirSync(ROOT)) if (keep(f)) fs.copyFileSync(path.join(ROOT, f), path.join(OUT, f));
+// notification sound: iOS and Android look it up at the web root (public/)
+fs.copyFileSync(path.resolve(__dirname, '../sounds/nextrep_chime.wav'), path.join(OUT, 'nextrep_chime.wav'));
 for (const d of ['i18n', 'img']) fs.cpSync(path.join(ROOT, d), path.join(OUT, d), { recursive: true });
 fs.mkdirSync(path.join(OUT, 'vendor'));
 fs.copyFileSync(require.resolve('@supabase/supabase-js/dist/umd/supabase.js'), path.join(OUT, 'vendor/supabase.js'));
