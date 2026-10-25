@@ -2797,7 +2797,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
     <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. שבוע ראשון חינם, בלי כרטיס אשראי.</p>
     <button class="btn primary lx-go" data-act="land-signup">${tt('אני רוצה להתחיל')} <span class="lx-arr" aria-hidden="true">←</span></button>
   </section>
-  <div class="ld-foot">${langPillsHTML()}<div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:ofek4business@gmail.com">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
+  <div class="ld-foot">${langPillsHTML()}<div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:support@nextrep.co.il">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
   <div class="lx-sticky" id="lx-sticky"><button class="btn primary" data-act="land-signup">${tt('שבוע ראשון חינם')} · ${tt('להתחלה')} <span class="lx-arr">←</span></button></div>
   </div>`;
 }
@@ -6579,7 +6579,7 @@ function admAct(act,b){
   return false;
 }
 /* ----- פנייה לתמיכה (משתמש) ----- */
-const SUPPORT_EMAIL='ofek4business@gmail.com';
+const SUPPORT_EMAIL='support@nextrep.co.il';
 async function openContact(topic){
   S.ctTopic=topic||S.ctTopic||'general';
   const T=[['payment','💳 תשלום'],['bug','🐞 תקלה'],['idea','💡 רעיון'],['general','💬 אחר']];
