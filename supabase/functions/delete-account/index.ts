@@ -16,8 +16,16 @@ Deno.serve(async (req: Request) => {
   if (!user) return J({ error: "unauthorized" }, 401);
   const body = await req.json().catch(() => ({}));
   if (body.confirm !== "DELETE") return J({ error: "confirm" }, 400);
-  const uid = user.id;
   const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  // an admin may delete another user's account (never another admin, never themself through this path)
+  let uid = user.id;
+  if (body.uid && body.uid !== user.id) {
+    const { data: me } = await admin.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
+    if (!me) return J({ error: "forbidden" }, 403);
+    const { data: other } = await admin.from("admins").select("user_id").eq("user_id", body.uid).maybeSingle();
+    if (other) return J({ error: "target_admin" }, 400);
+    uid = String(body.uid);
+  }
   const steps: Record<string, string> = {};
   const run = async (name: string, f: () => Promise<{ error: unknown } | unknown>) => {
     try { const r: any = await f(); steps[name] = r?.error ? "err:" + String(r.error.message || r.error).slice(0, 80) : "ok"; }
@@ -45,7 +53,7 @@ Deno.serve(async (req: Request) => {
   });
   // the account itself; every other table cascades from here
   const { error } = await admin.auth.admin.deleteUser(uid);
-  console.log(JSON.stringify({ ev: "account-deleted", user: uid.slice(0, 8), ok: !error, steps }));
+  console.log(JSON.stringify({ ev: "account-deleted", user: uid.slice(0, 8), by: uid === user.id ? "self" : "admin", ok: !error, steps }));
   if (error) return J({ error: "delete_failed", detail: String(error.message || error).slice(0, 200), steps }, 500);
   return J({ ok: true });
 });
