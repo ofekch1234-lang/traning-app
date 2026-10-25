@@ -10,7 +10,10 @@ const VAPID_PUBLIC = "BEZW8tXMc6pOHrP87-KW8pfmZvr1ueA7S7BqBzUQu-Hp2DC_Yi2B-K_yO7
 
 const APNS_KEY_ID = "N4H9UH778U", APNS_TEAM_ID = "9KC26568TD", APNS_TOPIC = "il.co.nextrep.app";
 // each kind has its own sound in the app (files bundled under public/)
-const APNS_SOUND: Record<string, string> = { admin: "public/nr_success.wav", social: "public/nr_pop.wav", billing: "public/nr_marimba.wav" };
+const APNS_SOUND: Record<string, string> = { admin: "public/nr_success.wav", social: "public/nr_pop.wav", billing: "public/nr_marimba.wav",
+  // the same sounds the app uses for its own notifications, so a server message of any kind sounds like it
+  rest_alert: "public/nr_bell.wav", remind: "public/nr_watch.wav", nudge: "public/nr_watch.wav", meal: "public/nr_marimba.wav",
+  weigh: "public/nr_marimba.wav", trial: "public/nr_marimba.wav", coach: "public/nr_pop.wav", pr: "public/nr_success.wav" };
 let apnsJwt = ""; let apnsAt = 0; let apnsKey: CryptoKey | null = null;
 const b64u = (b: ArrayBuffer | Uint8Array | string) => {
   const u = typeof b === "string" ? new TextEncoder().encode(b) : new Uint8Array(b as ArrayBuffer);
