@@ -190,5 +190,21 @@
  "המחיקה נכשלה. נסה שוב או כתוב לנו": {
   "en": "Deletion failed. Try again or write to us",
   "ar": "فشل الحذف. حاول مرة أخرى أو راسلنا"
+ },
+ "מקור: מאגר צמרת, משרד הבריאות": {
+  "en": "Source: Tzameret database, Israel Ministry of Health",
+  "ar": "المصدر: قاعدة بيانات تسميرت، وزارة الصحة"
+ },
+ "מקור: USDA FoodData Central": {
+  "en": "Source: USDA FoodData Central",
+  "ar": "المصدر: USDA FoodData Central"
+ },
+ "ערך משוער: אין לפריט הזה מקור תזונתי מתועד": {
+  "en": "Estimated values: this item has no documented nutrition source",
+  "ar": "قيم تقديرية: لا يوجد مصدر غذائي موثّق لهذا الصنف"
+ },
+ "מקור": {
+  "en": "Source",
+  "ar": "المصدر"
  }
 }

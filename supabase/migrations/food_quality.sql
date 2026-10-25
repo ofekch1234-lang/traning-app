@@ -11,9 +11,9 @@
 --               1 kcal, protein 0.12 g, fat 0.02 g, carbs 0 g
 --   Americano : 2 espresso shots (60 ml, FDC 171891) + 180 ml water (0 kcal) = 240 ml
 --               = espresso x 0.25: 2.25 kcal, protein 0.03 g, fat 0.05 g, carbs 0.42 g
---   Black/Turkish, unsweetened: USDA has no unsweetened Turkish coffee (FNDDS 92101600 "Coffee, Turkish"
---               contains sugar). Values follow the Israeli Ministry of Health table (Tzameret 4803), which gives
---               unsweetened Turkish/black coffee the espresso composition.
+--   Black/Turkish, unsweetened (900105): first given the espresso composition (Tzameret 4803 merges espresso with
+--               unsweetened Turkish/black). That was wrong; it is hidden by food_provenance.sql and replaced by
+--               900109 brewed black coffee (USDA 171890). No verified record exists for unsweetened Turkish coffee.
 
 -- 1. columns used by future imports (the guard below) and provenance
 alter table public.foods add column if not exists hidden boolean not null default false;

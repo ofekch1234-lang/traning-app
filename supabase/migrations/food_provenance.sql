@@ -1,0 +1,28 @@
+-- Food provenance + integrity (applied 2026-10-25). Additive: no existing food row is edited or deleted; saved meals
+-- keep the values they were saved with.
+--
+-- Root cause fixed here: 900105 "קפה שחור / טורקי, ללא סוכר" carried the espresso composition (USDA FDC 171891:
+-- 9 kcal, 0.12 P, 1.67 C, 0.18 F per 100 g), copied from Tzameret 4803, a single row covering espresso AND
+-- unsweetened Turkish/black coffee. Two different drinks shared one record.
+--
+-- Sources (per 100 g, SR Legacy, USDA FoodData Central)
+--   171890 Beverages, coffee, brewed, prepared with tap water: 1 kcal, protein 0.12, carbs 0, fat 0.02
+--   171891 Beverages, coffee, brewed, espresso, restaurant-prepared: 9 kcal, protein 0.12, carbs 1.67, fat 0.18
+--   Unsweetened Turkish coffee: no verified record (USDA FNDDS 92101600 "Coffee, Turkish" is sweetened; the Turkish
+--   national table TürKomp could not be checked). Not offered until a verified record exists.
+--
+-- 1. food_src(code, kind source|derived|estimate, src, same_as): provenance of curated items (900000+).
+--    Older curated items 900001-900102: an exact value match to a USDA row is recorded as 'derived';
+--    the rest are 'estimate' and the app labels them "ערך משוער".
+-- 2. 900105 hidden (food_flags); 900109 "קפה שחור חלוט, ללא סוכר" added from USDA 171890 (cup 240 ml, mug 300 ml).
+-- 3. foods_curated_guard (BEFORE INSERT): a curated row needs src, and may not carry exactly the values of a
+--    different visible curated item unless both cite the same record id.
+-- 4. food_integrity_check(): returns every violation (empty = healthy). Called by tools/tests/food-integrity.mjs
+--    in CI (.github/workflows/food-integrity.yml) on every push and daily:
+--      - two curated foods, same values, different source and no explicit same_as
+--      - curated food without provenance
+--      - a source that says the values are borrowed from another product
+--      - one row covering two or more coffee preparation methods
+--      - an espresso drink with a serving above 120 ml
+-- The exact SQL is in the database (migrations food_provenance_and_coffee_split, food_integrity_refine,
+-- food_integrity_brewed_word).
