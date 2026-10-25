@@ -75,12 +75,18 @@ Deno.serve(async (req: Request) => {
   if (req.method === "POST") {
     const b = await req.json().catch(() => ({}));
     const { data: { user: u } } = await user.auth.getUser();
-    // admin: review what users added / remove a bad product (next scan refetches it from Open Food Facts)
+    // admin: review what users added, approve it (moves to "approved"; any later correction sends it back for review),
+    // or remove a bad product (next scan refetches it from Open Food Facts)
     if (b.admin) {
       const { data: plan } = await user.rpc("my_plan");
       if (!plan?.admin) return J({ error: "forbidden" }, 403);
-      if (b.admin === "del") { await sb.from("products").delete().eq("barcode", String(b.code || "").replace(/\D/g, "")); return J({ ok: true }); }
-      const { data: rows } = await sb.from("products").select("barcode,name,brand,kcal,protein,carbs,fat,serving_g,picks,created_at,added_by").eq("source", "user").order("created_at", { ascending: false }).limit(60);
+      const ac = String(b.code || "").replace(/\D/g, "");
+      if (b.admin === "del") { await sb.from("products").delete().eq("barcode", ac); return J({ ok: true }); }
+      if (b.admin === "ok" || b.admin === "unok") {
+        const { error } = await sb.from("products").update(b.admin === "ok" ? { approved_at: new Date().toISOString(), approved_by: u?.id || null } : { approved_at: null, approved_by: null }).eq("barcode", ac);
+        return error ? J({ error: "save_failed" }, 500) : J({ ok: true });
+      }
+      const { data: rows } = await sb.from("products").select("barcode,name,brand,kcal,protein,carbs,fat,serving_g,picks,created_at,added_by,approved_at").eq("source", "user").order("created_at", { ascending: false }).limit(200);
       const ids = [...new Set((rows || []).map((r: any) => r.added_by).filter(Boolean))];
       const names: Record<string, string> = {};
       for (const id of ids) { const { data } = await sb.auth.admin.getUserById(id as string); names[id as string] = data?.user?.user_metadata?.full_name || data?.user?.email || ""; }
@@ -91,7 +97,7 @@ Deno.serve(async (req: Request) => {
     // "how much does one unit weigh?": only the serving size, for everyone
     if (b.serving_only) {
       const sg = num(b.serving_g); if (!sg || sg <= 0 || sg > 1000) return J({ error: "bad_values" }, 422);
-      const { error } = await sb.from("products").update({ serving_g: sg }).eq("barcode", code);
+      const { error } = await sb.from("products").update({ serving_g: sg, approved_at: null, approved_by: null }).eq("barcode", code); // changed → back to review
       if (error) return J({ error: "save_failed" }, 500);
       console.log(JSON.stringify({ ev: "product-serving", code, sg, by: u?.id?.slice(0, 8) }));
       return J({ ok: true, serving_g: sg });
@@ -110,7 +116,7 @@ Deno.serve(async (req: Request) => {
     const name = String(b.name || old?.name || "").trim().slice(0, 80);
     if (!name) return J({ error: "bad_name" }, 422);
     const row = { barcode: code, name, brand: (b.brand ?? old?.brand ?? null) ? String(b.brand ?? old?.brand).slice(0, 60) : null, ...v,
-      serving_g: num(b.serving_g) || old?.serving_g || null, source: "user", added_by: u?.id || null, picks: old?.picks || 1, created_at: new Date().toISOString() };
+      serving_g: num(b.serving_g) || old?.serving_g || null, source: "user", added_by: u?.id || null, picks: old?.picks || 1, created_at: new Date().toISOString(), approved_at: null, approved_by: null }; // a correction needs a new review
     const { error } = await sb.from("products").upsert(row);
     if (error) return J({ error: "save_failed" }, 500);
     console.log(JSON.stringify({ ev: "product-fix", code, by: u?.id?.slice(0, 8), had: !!old }));
