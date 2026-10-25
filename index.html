@@ -1686,7 +1686,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.5';
+const APP_VERSION='13.3.6';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8668,7 +8668,10 @@ function hideSplash(){
     window._tok=sess?.access_token||null; // for keepalive requests (rest timer) when the app goes to the background
     if(ev==='PASSWORD_RECOVERY'){ setTimeout(openNewPassword,600); }
     if(sess&&!S.user)enterApp(sess.user);
-    if(ev==='SIGNED_OUT'){try{closeSheet();}catch(_){} try{CO.open=false;}catch(_){} document.getElementById('wrap')?.setAttribute('hidden',''); try{S.showAuth=false;window.scrollTo(0,0);}catch(_){} PH.sets=[];PH.urls={};PH.loaded=false;S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';render();}
+    if(ev==='SIGNED_OUT'){try{closeSheet();}catch(_){} try{CO.open=false;}catch(_){} document.getElementById('wrap')?.setAttribute('hidden',''); try{S.showAuth=false;window.scrollTo(0,0);}catch(_){} PH.sets=[];PH.urls={};PH.loaded=false;S.user=null;S.workouts=[];S.templates=[];S.active=null;stopRest();S.mode='auth';
+      // another account may sign in next on this device: nothing from this one may stay in memory (Rafi's weekly summary, chat, groups, admin data…). A fresh start is the only complete reset.
+      try{ Object.assign(CO,{sum:undefined,msgs:null,empty:false,err:false,left:null,loading:false,open:false}); S.meals=[]; S.weights=[]; S.plan=null; S.isAdmin=false; }catch(_){}
+      render(); setTimeout(()=>{ try{ location.reload(); }catch(_){} },80);}
   });
 })();
 </script>
