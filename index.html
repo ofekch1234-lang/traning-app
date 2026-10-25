@@ -36,7 +36,7 @@
   if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=b68c2045"><\/script>');
 })();
 </script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="menu-foods.js?v=16"></script>
 <style>
@@ -56,7 +56,7 @@
   --danger:#B3362B;
   --shadow:none;
   --overlay-shadow:0 -8px 30px rgba(10,20,14,.18);
-  --disp:'Rubik',system-ui,-apple-system,sans-serif;--brand:'Karantina',system-ui,sans-serif;
+  --disp:'Rubik',system-ui,-apple-system,sans-serif;--brand:'Inter Tight',system-ui,-apple-system,sans-serif;
   --body:'Rubik',system-ui,-apple-system,sans-serif;
   --dir:rtl; --start:right; --end:left;
 }
@@ -731,7 +731,7 @@ body:not(.landing)>#lx-sticky{display:none}
 #authwrap.code{padding-top:max(14px,env(safe-area-inset-top));min-height:calc(100dvh - 20px)}
 #authwrap.code .logo{flex-direction:row;justify-content:center;gap:8px;margin-bottom:2px}
 #authwrap.code .logo img{width:34px;height:34px;border-radius:9px}
-#authwrap.code .logo .brand{font-size:24px}
+#authwrap.code .logo .brand{font-size:21px}
 #authwrap.code h3{font-size:24px}
 #authwrap.code .card{padding:20px 18px;gap:14px}
 #authwrap.code .btn.primary.big{height:56px;font-size:18px}
@@ -846,8 +846,8 @@ body.chatting{overflow:hidden}
 #authwrap .otp-in{height:68px;font-size:34px}
 #authwrap .logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
 #authwrap .logo img{width:72px;height:72px;border-radius:18px;box-shadow:var(--shadow)}
-@media (max-height:760px){#authwrap .logo img{width:56px;height:56px;border-radius:14px}#authwrap .logo{gap:6px;margin-bottom:4px}#authwrap .logo .brand{font-size:26px}}
-#authwrap .logo .brand{font-size:30px}
+@media (max-height:760px){#authwrap .logo img{width:56px;height:56px;border-radius:14px}#authwrap .logo{gap:6px;margin-bottom:4px}#authwrap .logo .brand{font-size:23px}}
+#authwrap .logo .brand{font-size:28px}
 .autherr{color:var(--danger);font-size:14px;min-height:20px;text-align:center}
 .authnote{color:var(--muted);font-size:13px;text-align:center}
 .linkbtn{color:var(--accent);font-weight:500;text-decoration:underline;padding:4px}
@@ -864,8 +864,8 @@ header.top{
   background:var(--bg); padding:14px 0 10px; margin:0;
   display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 }
-.brand{font-family:var(--brand);font-size:32px;letter-spacing:.4px;line-height:1}
-.brand b{color:var(--accent);font-weight:400}
+.brand{font-family:var(--brand);font-weight:800;font-size:25px;letter-spacing:-.045em;line-height:1}
+.brand b{color:var(--accent);font-weight:inherit}
 .date-chip{color:var(--muted);font-size:13px}
 
 /* cards & general */
@@ -1449,7 +1449,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   transition:opacity .45s ease,visibility .45s}
 #splash.out{opacity:0;visibility:hidden}
 #splash img{width:98px;height:98px;border-radius:26px;box-shadow:0 18px 44px rgba(5,42,16,.45)}
-#splash .sb{font-family:var(--brand);font-size:32px;color:#fff;letter-spacing:.5px}
+#splash .sb{font-family:var(--brand);font-weight:800;font-size:28px;color:#fff;letter-spacing:-.045em}
 #splash .sb b{font-weight:400;color:#073018}
 #splash .st{color:rgba(255,255,255,.75);font-size:13.5px}
 :root[data-g="f"] #splash{background:linear-gradient(135deg,#F472B6,#DB2777 55%,#831843)}
@@ -1665,7 +1665,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.33';
+const APP_VERSION='13.2.34';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7075,7 +7075,7 @@ function checkNewBadges(){
 const STD={opts:null,bg:null,style:0,pos:2,face:'environment',stream:null,url:null,busy:false};
 const stF=(w,s,fam='Rubik')=>`${w} ${s}px ${fam}, "IBM Plex Sans Arabic", system-ui, sans-serif`;
 let _stFonts=null;
-function stFonts(){ return _stFonts||(_stFonts=Promise.all(['700 80px Rubik','500 40px Rubik','400 120px Karantina','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f).catch(()=>{})))); }
+function stFonts(){ return _stFonts||(_stFonts=Promise.all(['700 80px Rubik','500 40px Rubik','400 120px Karantina','800 80px "Inter Tight"','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f).catch(()=>{})))); }
 function stDir(x){ x.direction=LANG==='en'?'ltr':'rtl'; }
 function stLtr(x,fn){ const d=x.direction; x.direction='ltr'; fn(); x.direction=d; }
 /* המדבקה עצמה — טקסט לבן עם צל, בלי רקע */
@@ -7085,7 +7085,7 @@ function drawSticker(x,W,H,o,style,pos){
   x.shadowColor='rgba(0,0,0,.45)'; x.shadowBlur=24; x.shadowOffsetY=4;
   if(style===0){ // מלאה
     const top=cy-330;
-    stLtr(x,()=>{ x.font=stF(400,84,'Karantina'); x.fillText('NextRep',W/2,top); });
+    stLtr(x,()=>{ x.font=stF(800,70,'"Inter Tight"'); x.fillText('NextRep',W/2,top); });
     if(o.top){ x.font=stF(500,38); x.fillText(tt(o.top),W/2,top+60); }
     x.font=`200px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`; x.fillText(o.emoji,W/2,top+290);
     x.font=stF(700,82); x.fillText(tt(o.title),W/2,top+400,W-100);
@@ -7098,7 +7098,7 @@ function drawSticker(x,W,H,o,style,pos){
     x.font=`150px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`; x.fillText(o.emoji,W/2,cy-40);
     x.font=stF(700,74); x.fillText(tt(o.title),W/2,cy+70,W-100);
     if(o.stats?.length){ x.font=stF(500,40); x.fillText(o.stats.map(([v,k])=>`${v} ${tt(k)}`).join('  ·  '),W/2,cy+135,W-100); }
-    stLtr(x,()=>{ x.font=stF(400,64,'Karantina'); x.fillText('NextRep',W/2,cy+225); });
+    stLtr(x,()=>{ x.font=stF(800,54,'"Inter Tight"'); x.fillText('NextRep',W/2,cy+225); });
   }
   x.restore();
 }
@@ -7107,7 +7107,7 @@ function drawGreen(x,W,H,o){
   const g=x.createLinearGradient(0,0,W,H); g.addColorStop(0,'#14532d'); g.addColorStop(.55,'#16A34A'); g.addColorStop(1,'#0f766e'); x.fillStyle=g; x.fillRect(0,0,W,H);
   x.globalAlpha=.08; x.fillStyle='#fff'; x.beginPath(); x.arc(W*.85,H*.12,300,0,7); x.fill(); x.beginPath(); x.arc(W*.1,H*.92,260,0,7); x.fill(); x.globalAlpha=1;
   x.textAlign='center'; x.fillStyle='#fff'; stDir(x);
-  stLtr(x,()=>{ x.font=stF(400,96,'Karantina'); x.fillText('NextRep',W/2,140); });
+  stLtr(x,()=>{ x.font=stF(800,80,'"Inter Tight"'); x.fillText('NextRep',W/2,140); });
   if(o.top){ x.font=stF(500,40); x.globalAlpha=.85; x.fillText(tt(o.top),W/2,215); x.globalAlpha=1; }
   x.font=`260px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`; x.fillText(o.emoji,W/2,560);
   x.font=stF(700,84); x.fillText(tt(o.title),W/2,720,W-120);
@@ -7249,7 +7249,7 @@ function renderWrap(){
   const sl=wrapSlides(WR.st); WR.i=Math.max(0,Math.min(WR.i,sl.length-1));
   if(!el){ el=document.createElement('div'); el.id='wrap'; document.body.appendChild(el); }
   el.innerHTML=`<div class="wbars">${sl.map((_,i)=>`<i class="${i<=WR.i?'on':''}"></i>`).join('')}</div>
-    <div class="wtop"><button data-act="wrap-close" aria-label="סגירה">✕</button><span class="brand" dir="ltr" style="font-size:26px">Next<b style="color:#bbf7d0">Rep</b></span><span style="width:36px"></span></div>
+    <div class="wtop"><button data-act="wrap-close" aria-label="סגירה">✕</button><span class="brand" dir="ltr" style="font-size:22px">Next<b style="color:#bbf7d0">Rep</b></span><span style="width:36px"></span></div>
     <div class="wbody" data-act="wrap-next">${sl[WR.i]}</div>
     ${WR.i<sl.length-1?`<div class="whint">הקש כדי להמשיך</div>`:''}`;
 }
