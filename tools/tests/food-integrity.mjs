@@ -28,7 +28,7 @@ const cases = [
   ['אספרסו', 900103, REF.espresso], ['קפה אספרסו', 900103, REF.espresso], ['אספרסו כפול', 900104, REF.espresso],
 ];
 for (const [q, code, ref] of cases) {
-  const res = await rpc('search_foods', { q, lim: 7 });
+  const res = await rpc('food_search_probe', { q });
   const top = res[0] || {};
   ok(top.code === code, `"${q}" -> first result ${top.code} ${top.name || ''} (expected ${code})`);
   ok(['kcal', 'protein', 'carbs', 'fat'].every(k => eq(top[k], ref[k])), `"${q}" values match ${ref.rec}`);
@@ -36,7 +36,7 @@ for (const [q, code, ref] of cases) {
   for (const f of res) if (/(שחור|טורקי)/.test(f.name) && !/ממותק/.test(f.name) && !/אבק/.test(f.name))
     ok(!(eq(f.kcal, 9) && eq(f.carbs, 1.67)), `"${q}" result ${f.code} ${f.name} does not carry espresso values`);
 }
-const tur = await rpc('search_foods', { q: 'קפה טורקי', lim: 10 });
+const tur = await rpc('food_search_probe', { q: 'קפה טורקי' });
 ok(!tur.some(f => /ללא סוכר|לא ממותק/.test(f.name)), 'no unsweetened Turkish item is offered without a verified record');
 
 }

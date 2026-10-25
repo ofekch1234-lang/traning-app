@@ -26,3 +26,6 @@
 --      - an espresso drink with a serving above 120 ml
 -- The exact SQL is in the database (migrations food_provenance_and_coffee_split, food_integrity_refine,
 -- food_integrity_brewed_word).
+-- food_integrity_check() and food_search_probe(q) (search_foods with 7 results) run as owner so the CI test can call
+-- them with the publishable key; the check also fails when it sees fewer than 1000 foods, so a permissions problem
+-- cannot pass silently (migration food_integrity_definer).
