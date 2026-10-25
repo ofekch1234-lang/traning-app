@@ -90,5 +90,73 @@
  "הסרה": {
   "en": "Remove",
   "ar": "إزالة"
+ },
+ "ימי אימון וימי מנוחה": {
+  "en": "Training and rest days",
+  "ar": "أيام التمرين وأيام الراحة"
+ },
+ "ראפי מעביר קלוריות מימי המנוחה לימי האימון, בעיקר כפחמימה, כדי שיהיה לך יותר כוח באימון. הממוצע השבועי נשאר {0} קק״ל, אז הקצב לא משתנה.": {
+  "en": "Repi moves calories from rest days to training days, mostly as carbs, so you have more energy to train. Your weekly average stays {0} kcal, so your pace doesn't change.",
+  "ar": "ينقل ريبي سعرات من أيام الراحة إلى أيام التمرين، معظمها كربوهيدرات، لتحصل على طاقة أكبر في التمرين. يبقى المعدل الأسبوعي {0} سعرة، فلا تتغير الوتيرة."
+ },
+ "קודם צריך יעד קלוריות יומי.": {
+  "en": "You need a daily calorie target first.",
+  "ar": "تحتاج أولًا إلى هدف سعرات يومي."
+ },
+ "חסר לוח אימונים": {
+  "en": "No training schedule",
+  "ar": "لا يوجد جدول تمارين"
+ },
+ "כשמתאמנים כמעט כל יום אין הבדל של ממש בין הימים.": {
+  "en": "When you train almost every day, there's no real difference between days.",
+  "ar": "عندما تتمرن كل يوم تقريبًا لا يوجد فرق حقيقي بين الأيام."
+ },
+ "כדי לדעת מתי יום אימון, הגדר באילו ימים אתה מתאמן במסך האימונים.": {
+  "en": "To know which days are training days, set the days you train on the Workout screen.",
+  "ar": "لمعرفة أيام التمرين، حدّد الأيام التي تتمرن فيها في شاشة التمارين."
+ },
+ "כדי לדעת מתי יום אימון, הגדירי באילו ימים את מתאמנת במסך האימונים.": {
+  "en": "To know which days are training days, set the days you train on the Workout screen.",
+  "ar": "لمعرفة أيام التمرين، حدّدي الأيام التي تتمرنين فيها في شاشة التمارين."
+ },
+ "להפעיל": {
+  "en": "Turn on",
+  "ar": "تفعيل"
+ },
+ "יום שבו רשמת אימון נחשב יום אימון, גם אם הוא לא בלוח. חלבון ושומן לא משתנים, ההפרש כולו בפחמימה.": {
+  "en": "A day you logged a workout counts as a training day, even if it's not on the schedule. Protein and fat stay the same; the whole difference is carbs.",
+  "ar": "اليوم الذي سجّلت فيه تمرينًا يُحسب يوم تمرين حتى لو لم يكن في الجدول. البروتين والدهون لا يتغيران، والفرق كله كربوهيدرات."
+ },
+ "לפי לוח האימונים: {0} ימים בשבוע": {
+  "en": "From your schedule: {0} days a week",
+  "ar": "حسب جدول التمارين: {0} أيام في الأسبوع"
+ },
+ "לפי האימונים האחרונים: {0} ימים בשבוע": {
+  "en": "From your recent workouts: {0} days a week",
+  "ar": "حسب التمارين الأخيرة: {0} أيام في الأسبوع"
+ },
+ "{0} ביום אימון · {1} ביום מנוחה": {
+  "en": "{0} on training days · {1} on rest days",
+  "ar": "{0} في يوم التمرين · {1} في يوم الراحة"
+ },
+ "כבוי · יותר קלוריות בימי אימון": {
+  "en": "Off · more calories on training days",
+  "ar": "متوقف · سعرات أكثر في أيام التمرين"
+ },
+ "ראפי יתאים את היעד לימי האימון": {
+  "en": "Repi will match your target to training days",
+  "ar": "سيضبط ريبي هدفك حسب أيام التمرين"
+ },
+ "יעד אחיד לכל הימים": {
+  "en": "Same target every day",
+  "ar": "هدف واحد لكل الأيام"
+ },
+ "יום אימון": {
+  "en": "Training day",
+  "ar": "يوم تمرين"
+ },
+ "יום מנוחה": {
+  "en": "Rest day",
+  "ar": "يوم راحة"
  }
 }

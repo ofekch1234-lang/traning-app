@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d328ff4b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d328ff4b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d328ff4b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a99fa518"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a99fa518"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a99fa518"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1173,6 +1173,11 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .me-slot{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
 .me-slot button{border:0;background:none;padding:9px 12px;border-radius:9px;font:inherit;font-size:14px;color:var(--muted)}
 .me-slot button.on{background:var(--surface);color:var(--text);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.daytag{align-self:flex-start;border:0;border-radius:999px;padding:4px 10px;font:inherit;font-size:12px;font-weight:700;background:var(--surface2);color:var(--muted);margin-bottom:-2px}
+.daytag.tr{background:var(--accent-soft);color:var(--accent)}
+.cyc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.cyc-grid>div{display:flex;flex-direction:column;gap:2px;padding:14px;border-radius:16px;background:var(--surface2)}
+.cyc-grid>div.tr{background:var(--accent-soft)}.cyc-grid span{font-size:13px;color:var(--muted);font-weight:600}.cyc-grid b{font-size:24px}.cyc-grid small{font-size:12px;color:var(--muted)}
 .me-fix{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font:inherit;text-align:start;color:var(--text)}
 .me-fix .ic{width:22px;height:22px;flex:none;color:var(--muted)}.me-fix .lt{display:flex;flex-direction:column;gap:2px}.me-fix small{color:var(--muted);font-size:12.5px}
 .me-fix.on{border-color:var(--accent);background:var(--accent-soft)}.me-fix.on .ic{color:var(--accent);fill:var(--accent)}
@@ -1705,7 +1710,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.40';
+const APP_VERSION='13.2.41';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2979,7 +2984,7 @@ function weekRowHTML(){
 function vHome(){
   const streak=weekStreak();
   const nw=nextWorkoutInfo();
-  const d=ymd(), t=dayTotals(d), kT=+S.settings.kcalT||0, pT=+S.settings.protT||0;
+  const d=ymd(), t=dayTotals(d), kT=kcalFor(d), pT=+S.settings.protT||0;
   const ws=weekKeyOf(Date.now()), done=S.workouts.filter(w=>w.start>=ws).length, plan=Object.values(S.settings.schedule||{}).filter(Boolean).length;
   const wkSub=!S.workouts.length?'האימון הראשון שלך מחכה':plan?(done>=plan?`עמדת ביעד השבועי: ${done} מתוך ${plan} ✅`:`אימון ${done+1} מתוך ${plan} השבוע`):(done?`${done} אימונים השבוע`:'עוד לא התאמנת השבוע');
   const workCard=S.active?`<div class="hcard">
@@ -3084,7 +3089,7 @@ function vFood(){
   const d=S.foodDate, today=ymd();
   const dt=new Date(d+'T12:00:00');
   const t=dayTotals(d);
-  const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0, mT=macroT();
+  const kT=kcalFor(d), pT=+S.settings.protT||0, mT=macroT(d);
   const meals=mealsOf(d);
   const left=kT?kT-t.kcal:0, over=kT&&t.kcal>kT*1.05;
   const R=48, C=2*Math.PI*R, pct=kT?Math.min(1,t.kcal/kT):0;
@@ -3103,7 +3108,7 @@ function vFood(){
       <div class="rg"><svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true"><circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="10"/><circle cx="56" cy="56" r="${R}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 56 56)" style="transition:stroke-dashoffset .5s"/></svg>
         <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'קק״ל נותרו':'קק״ל מעל היעד'}</span><small class="num">${tt('מתוך')} ${kcalN(kT)}</small>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
       <div class="stack" style="flex:1;gap:10px;min-width:0">
-        ${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,mT.c,'cb')}${mb('שומן',t.fat,mT.f,'ft')}
+        ${cycTag(d)}${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,mT.c,'cb')}${mb('שומן',t.fat,mT.f,'ft')}
       </div>
     </div>
     ${d===today?foodBankLine():''}
@@ -3180,8 +3185,8 @@ const tgWk=(kcal,tdee)=>Math.round(((kcal-tdee)*7/7700)*10)/10;
 /* fat: at least 0.8 g per kg of (healthy-size) weight or 25% of calories; carbs fill the rest */
 function macroSplit(kcal,prot,leanW){ const fat=Math.round(Math.max(leanW?0.8*leanW:0,kcal*0.25/9)); return {fat,carbs:Math.max(0,Math.round((kcal-prot*4-fat*9)/4))}; }
 /* daily carb/fat targets, derived from the saved calorie + protein targets (so a manual protein change keeps them consistent) */
-function macroT(){ const kT=+S.settings.kcalT||0; if(!kT)return {c:0,f:0}; const pT=+S.settings.protT||Math.round(kT*0.25/4), b=S.settings.body||{};
-  const m=macroSplit(kT,pT,b.w&&b.h?tgLean(+b.w,+b.h):0); return {c:m.carbs,f:m.fat}; }
+function macroT(ds){ const kT=+S.settings.kcalT||0; if(!kT)return {c:0,f:0}; const pT=+S.settings.protT||Math.round(kT*0.25/4), b=S.settings.body||{};
+  const m=macroSplit(kT,pT,b.w&&b.h?tgLean(+b.w,+b.h):0), dk=ds?kcalFor(ds)-kT:0; return {c:Math.max(0,Math.round(m.carbs+dk/4)),f:m.fat}; }
 function tgWkText(wk,pace){ const x=wk<0?`בקצב הזה: ירידה של ~${Math.abs(wk)} ק״ג בשבוע.`:wk>0?`בקצב הזה: עלייה של ~${wk} ק״ג בשבוע.`:'שמירה על המשקל, עם התקדמות בכוח.';
   return x+(pace==='fast'&&wk?` <span class="tgw-warn">קצב מהיר: קשה יותר להתמיד ולשמור על השריר.</span>`:''); }
 /* result screen: editing calories/protein recomputes the rest live */
@@ -3606,7 +3611,7 @@ function hideInfo(){ $('#ipop')?.remove(); }
 document.addEventListener('pointerdown',ev=>{ if($('#ipop')&&!ev.target.closest?.('#ipop,.ii'))hideInfo(); },true);
 addEventListener('scroll',hideInfo,{passive:true,capture:true});
 function mnFree(){ const f=+(menuS().p?.free)||0; return Math.max(0,Math.min(400,f)); }
-function mnKT(){ return Math.max(1000,(+S.settings.kcalT||2000)-mnFree()); }
+function mnKT(){ return Math.max(1000,(kcalFor(ymd())||2000)-mnFree()); }
 const TREATS=[['🍫','4 קוביות שוקולד מריר',85],['🍦','כדור גלידה',140],['🥜','שקית במבה קטנה',135],['🍿','3 כוסות פופקורן',95],['🍷','כוס יין',125],['🍺','בקבוק בירה',140],['🧁','קרמבו',105],['🍪','2 עוגיות',180]];
 function treatIdeas(b){ return TREATS.filter(t=>t[2]<=b+15).sort((x,y)=>y[2]-x[2]).slice(0,4); }
 const MW_LIKE_GROUPS=[['חלבון','P'],['פחמימות','C'],['פירות','X'],['תוספות','F']];
@@ -4716,6 +4721,30 @@ function rirSet(ei,si,v){
 /* ===== המאמן החכם · תזונה =====
    Real expenditure from what you ate vs. how your weight trended (not a formula), then a small weekly step toward the goal pace. */
 function ncCfg(){ return S.settings.nc||(S.settings.nc={}); }
+/* ימי אימון וימי מנוחה: יותר קלוריות (בעיקר פחמימה) בימי אימון, פחות בימי מנוחה, אותו ממוצע שבועי */
+function cycInfo(){ const kT=+S.settings.kcalT||0; if(!kT)return null;
+  let n=Object.keys(S.settings.schedule||{}).filter(d=>schedOf(+d)).length, src='sched';
+  if(!n){ const since=Date.now()-28*DAY, days=new Set(S.workouts.filter(w=>w.start>=since).map(w=>new Date(w.start).toDateString())); n=Math.round(days.size/4); src='hist'; }
+  if(n<1||n>6)return {n,src,ok:false};
+  const b=S.settings.body||{}, floor=b.sex==='f'?1300:1500, D=Math.max(200,Math.min(400,Math.round(kT*0.15/10)*10));
+  let up=Math.round(D*(7-n)/7/10)*10, down=Math.round(D*n/7/10)*10;
+  if(kT-down<floor){ const k=Math.max(0,kT-floor)/(down||1); down=Math.round(down*k/10)*10; up=Math.round(up*k/10)*10; }
+  return {n,src,ok:up>0&&down>0,up,down,train:kT+up,rest:kT-down}; }
+function cycOn(){ return isPrem()&&!!ncCfg().cyc&&!!cycInfo()?.ok; }
+function isTrainDay(ds){ const dt=new Date(ds+'T12:00:00'); if(trainedOn(dt))return true; if(ds<ymd())return false; return !!schedOf(dt.getDay()); }
+function kcalFor(ds){ const kT=+S.settings.kcalT||0; if(!kT||!cycOn())return kT; const c=cycInfo(); return isTrainDay(ds||ymd())?c.train:c.rest; }
+function cycTag(ds){ if(!cycOn())return ''; const t=isTrainDay(ds); return `<button class="daytag ${t?'tr':''}" data-act="cyc-open">${t?'יום אימון':'יום מנוחה'}</button>`; }
+function openCycSheet(){ const c=cycInfo(), on=!!ncCfg().cyc, kT=+S.settings.kcalT||0;
+  openSheet(`<div class="spread"><h3 style="margin:0">ימי אימון וימי מנוחה</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
+    <div class="tc-h" style="margin:12px 0"><img class="tc-av" src="img/kobi-happy.svg" alt=""><span class="small" style="line-height:1.5">ראפי מעביר קלוריות מימי המנוחה לימי האימון, בעיקר כפחמימה, כדי שיהיה לך יותר כוח באימון. הממוצע השבועי נשאר ${kcalN(kT)} קק״ל, אז הקצב לא משתנה.</span></div>
+    ${!kT?`<div class="small muted">קודם צריך יעד קלוריות יומי.</div>`
+     :!c||!c.ok?`<div class="rtip" style="margin:0"><b>חסר לוח אימונים</b><span>${c&&c.n>6?'כשמתאמנים כמעט כל יום אין הבדל של ממש בין הימים.':G('כדי לדעת מתי יום אימון, הגדר באילו ימים אתה מתאמן במסך האימונים.','כדי לדעת מתי יום אימון, הגדירי באילו ימים את מתאמנת במסך האימונים.')}</span></div>`
+     :`<label class="setrow"><span><b>להפעיל</b><span class="small muted" style="display:block">${c.src==='sched'?`לפי לוח האימונים: ${c.n} ימים בשבוע`:`לפי האימונים האחרונים: ${c.n} ימים בשבוע`}</span></span><input type="checkbox" class="sw" id="cyc-on" ${on?'checked':''}></label>
+      <div class="cyc-grid">
+        <div class="tr"><span>יום אימון</span><b class="num">${kcalN(c.train)}</b><small class="num" dir="ltr">+${c.up}</small></div>
+        <div><span>יום מנוחה</span><b class="num">${kcalN(c.rest)}</b><small class="num" dir="ltr">−${c.down}</small></div>
+      </div>
+      <div class="small muted" style="margin-top:10px;line-height:1.5">יום שבו רשמת אימון נחשב יום אימון, גם אם הוא לא בלוח. חלבון ושומן לא משתנים, ההפרש כולו בפחמימה.</div>`}`); }
 function ncData(days=14){
   const by={}; for(const m of S.meals||[])by[m.d]=(by[m.d]||0)+(+m.kcal||0);
   const kT=+S.settings.kcalT||0, logged=[];
@@ -5061,7 +5090,7 @@ function deltaChip(v,label){
 /* שורת "היום" במסך הבית: קלוריות, משקל, אימון. לחיצה פותחת את המקום הנכון */
 const kcalN=n=>Math.round(+n||0).toLocaleString('en-US');
 function todayRowHTML(){
-  const d=ymd(), t=dayTotals(d), kT=+S.settings.kcalT||0, pT=+S.settings.protT||0, logged=mealsOf(d).length>0;
+  const d=ymd(), t=dayTotals(d), kT=kcalFor(d), pT=+S.settings.protT||0, logged=mealsOf(d).length>0;
   const pct=kT?Math.min(1,t.kcal/kT):0, r=20, c=2*Math.PI*r, over=kT&&t.kcal>kT*1.05;
   const ring=`<svg viewBox="0 0 48 48" class="tr-ring"><circle cx="24" cy="24" r="${r}" fill="none" stroke="var(--surface2)" stroke-width="5"/><circle cx="24" cy="24" r="${r}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${(pct*c).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 24 24)"/><text x="24" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)">${kT?Math.round(pct*100)+'%':'🍽️'}</text></svg>`;
   const food=kT?(logged?(over?`<b class="num">${kcalN(t.kcal-kT)}+<small class="tr-u">קק״ל</small></b><span>מעל היעד</span>`:`<b class="num">${kcalN(kT-t.kcal)}<small class="tr-u">קק״ל</small></b><span>נותרו מ-${kcalN(kT)}</span>`):`<b>לא נרשם</b><span>${kcalN(kT)} קק״ל ביום</span>`)
@@ -5133,8 +5162,8 @@ function balanceLine(){
 function kcalBank(){
   const kT=+S.settings.kcalT||0; if(!kT)return null;
   const now=new Date(), dow=now.getDay(); let past=0, n=0;
-  for(let i=dow;i>=1;i--){ const x=new Date(now); x.setDate(now.getDate()-i); const ds=ymd(x); if(!mealsOf(ds).length)continue; past+=kT-dayTotals(ds).kcal; n++; }
-  const tk=mealsOf(ymd()).length?dayTotals(ymd()).kcal:0, todayOver=Math.max(0,tk-kT);
+  for(let i=dow;i>=1;i--){ const x=new Date(now); x.setDate(now.getDate()-i); const ds=ymd(x); if(!mealsOf(ds).length)continue; past+=kcalFor(ds)-dayTotals(ds).kcal; n++; }
+  const tk=mealsOf(ymd()).length?dayTotals(ymd()).kcal:0, todayOver=Math.max(0,tk-kcalFor(ymd()));
   if(!n&&!todayOver)return null;
   return {bank:Math.round(past-todayOver),past:Math.round(past),n:n+(todayOver?1:0),kT,tk:Math.round(tk),todayOver:Math.round(todayOver)};
 }
@@ -6097,6 +6126,7 @@ function vMe(){
     </div>
     <div class="card r20 list">
       <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
+      ${isPrem()&&S.settings.kcalT?`<button class="li" data-act="cyc-open">${ICON.cal}<span class="lt"><b>ימי אימון וימי מנוחה</b><small>${cycOn()?`${kcalN(cycInfo().train)} ביום אימון · ${kcalN(cycInfo().rest)} ביום מנוחה`:'כבוי · יותר קלוריות בימי אימון'}</small></span>${ICON.chev}</button>`:''}
       <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${'Notification' in window&&Notification.permission!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
@@ -8262,6 +8292,7 @@ function handleAct(b,ev){
     case 'meal-del': { const id=b.dataset.id||_mealEdit?.id; if(!id)break; deleteMeal(id); break; }
     case 'meal-slot': { if(_mealEdit){ const x=new Date(_mealEdit.ts||Date.now()); x.setHours({b:8,l:13,d:19}[b.dataset.v]||13,0,0,0); _mealEdit.ts=+x; renderMealEdit(); } break; }
     case 'food-today': S.foodDate=ymd(); render(); break;
+    case 'cyc-open': openCycSheet(); break;
     case 'meal-fix': { if(!_mealEdit)break; const m=_mealEdit; const n=$('#me-name'); if(n)m.name=n.value;
       if(isSavedMeal(m)){ unsaveFixed(m.name); toast('הוסרה מהארוחות הקבועות'); }
       else { const its=m.items.filter(i=>(i.name||'').trim()||+i.kcal>0), t=its.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0),carbs:a.carbs+(+i.carbs||0),fat:a.fat+(+i.fat||0)}),{kcal:0,protein:0,carbs:0,fat:0});
@@ -8437,6 +8468,7 @@ document.addEventListener('input',ev=>{
 });
 document.addEventListener('toggle',ev=>{ const d=ev.target; if(d?.dataset?.det)S.settings[d.dataset.det]=d.open; },true);
 document.addEventListener('change',ev=>{
+  if(ev.target.id==='cyc-on'){ ncCfg().cyc=ev.target.checked; persistSettings(); logEv('cyc',{on:ev.target.checked}); render(); toast(ev.target.checked?'ראפי יתאים את היעד לימי האימון':'יעד אחיד לכל הימים'); return; }
   if(ev.target.id==='food-date'){ const v=ev.target.value; if(/^\d{4}-\d{2}-\d{2}$/.test(v)&&v<=ymd()){ S.foodDate=v; render(); } return; }
   if(ev.target.dataset&&ev.target.dataset.cmp&&PH.cmp){ const c=PH.cmp; c[ev.target.dataset.cmp]=ev.target.value; openPhotoCompare(c.angle,c.a,c.b); return; }
   if(ev.target.dataset&&ev.target.dataset.photoAngle&&ev.target.files&&ev.target.files[0]){
