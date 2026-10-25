@@ -25,3 +25,7 @@
 --   ref_clicks.grp: the group code from /i/CODE?g=GROUP; ref_click(code, group) stores it and returns the group name;
 --   ref_peek returns grp + group so the app joins the group after sign-up;
 --   join_group: a first-week member nobody invited counts as invited by the group's creator (ref_apply).
+
+-- chat_report_block (applied 2026-10-25): App Store guideline 1.2 for group chat
+--   user_blocks(blocker, blocked): RLS own rows; a blocked person's messages are hidden in the app and don't notify the blocker (on_group_message)
+--   group_reports + report_message(msg, reason): members only; every admin gets a push

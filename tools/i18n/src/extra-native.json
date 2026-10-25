@@ -1002,5 +1002,69 @@
  "עדכן גם את יעד התזונה": {
   "en": "Also update my nutrition target",
   "ar": "حدّث هدف التغذية أيضًا"
+ },
+ "ההודעה של": {
+  "en": "Message from",
+  "ar": "رسالة من"
+ },
+ "הודעה פוגענית? דווחו לנו ונבדוק תוך 24 שעות. אפשר גם לחסום, ואז לא תראו יותר הודעות מהמשתמש הזה.": {
+  "en": "Offensive message? Report it and we'll review it within 24 hours. You can also block this user and stop seeing their messages.",
+  "ar": "رسالة مسيئة؟ أبلغنا وسنراجعها خلال 24 ساعة. يمكنك أيضًا حظر هذا المستخدم فلا ترى رسائله بعد الآن."
+ },
+ "דיווח על ההודעה": {
+  "en": "Report this message",
+  "ar": "الإبلاغ عن الرسالة"
+ },
+ "פוגענית או מטרידה": {
+  "en": "Offensive or harassing",
+  "ar": "مسيئة أو مزعجة"
+ },
+ "ספאם או פרסום": {
+  "en": "Spam or advertising",
+  "ar": "رسائل مزعجة أو إعلانات"
+ },
+ "תוכן מיני או לא הולם": {
+  "en": "Sexual or inappropriate",
+  "ar": "محتوى جنسي أو غير لائق"
+ },
+ "משהו אחר": {
+  "en": "Something else",
+  "ar": "شيء آخر"
+ },
+ "ביטול החסימה": {
+  "en": "Unblock",
+  "ar": "إلغاء الحظر"
+ },
+ "חסימת המשתמש": {
+  "en": "Block this user",
+  "ar": "حظر المستخدم"
+ },
+ "תודה, הדיווח התקבל. נבדוק אותו תוך 24 שעות.": {
+  "en": "Thanks, your report was received. We'll review it within 24 hours.",
+  "ar": "شكرًا، تم استلام البلاغ. سنراجعه خلال 24 ساعة."
+ },
+ "הדיווח לא נשלח, נסו שוב": {
+  "en": "The report wasn't sent, please try again",
+  "ar": "لم يُرسل البلاغ، حاول مرة أخرى"
+ },
+ "החסימה לא נשמרה, נסו שוב": {
+  "en": "Block wasn't saved, please try again",
+  "ar": "لم يُحفظ الحظر، حاول مرة أخرى"
+ },
+ "המשתמש נחסם. ההודעות שלו לא יוצגו לך.": {
+  "en": "User blocked. You won't see their messages.",
+  "ar": "تم حظر المستخدم. لن ترى رسائله."
+ },
+ "החסימה בוטלה": {
+  "en": "Unblocked",
+  "ar": "تم إلغاء الحظر"
+ },
+ "חסימה": {
+  "en": "Block",
+  "ar": "حظر"
+ },
+ "חסום · ביטול": {
+  "en": "Blocked · undo",
+  "ar": "محظور · إلغاء"
  }
 }

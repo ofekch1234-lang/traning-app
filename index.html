@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=396b3354"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=396b3354"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=396b3354"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d7f00b37"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d7f00b37"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d7f00b37"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2097,7 +2097,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.20';
+const APP_VERSION='13.3.21';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7449,6 +7449,7 @@ function socBadge(){
   d.hidden=!(SOC.groups||[]).some(socIsUnread);
 }
 async function socLoad(){
+  if(!SOC.blocked){ SOC.blocked=new Set(); sb.from('user_blocks').select('blocked').then(({data})=>{ (data||[]).forEach(r=>SOC.blocked.add(r.blocked)); if(S.tab==='social'&&SOC.gid&&SOC.blocked.size)render(); },()=>{}); }
   try{ const {data,error}=await sb.rpc('my_groups'); if(error)throw error; SOC.groups=data||[]; }
   catch(e){ if(!SOC.groups)SOC.groups=[]; }
   socBadge(); if(S.tab==='social'&&!SOC.gid)render();
@@ -7534,8 +7535,9 @@ function socReactsHTML(id){
 function socMsgHTML(m,prev){
   const gid=m.group_id, me=m.user_id===S.user?.id, who=esc(socName(gid,m.user_id)), wf=(SOC.info[gid]?.members||[]).find(x=>x.user_id===m.user_id)?.g==='f', V=(x,y)=>wf?y:x;
   let h=''; if(!prev||ymd(new Date(prev.created_at))!==ymd(new Date(m.created_at)))h+=`<div class="c-day">${socDay(m.created_at)}</div>`;
+  if(!me&&m.user_id&&SOC.blocked?.has(m.user_id))return h; // blocked: their posts are hidden for me
   const sameRun=prev&&prev.kind==='text'&&prev.user_id===m.user_id&&(new Date(m.created_at)-new Date(prev.created_at))<5*60e3&&!h;
-  if(m.kind==='text')return h+`<div class="cm ${me?'me':''}">${!me&&!sameRun?`<div class="who" data-notr>${who}</div>`:''}<div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
+  if(m.kind==='text')return h+`<div class="cm ${me?'me':''}">${!me&&!sameRun?`<div class="who" data-notr>${who}</div>`:''}<div class="bub" dir="auto" data-notr${me?'':` data-act="soc-msg" data-id="${m.id}" data-u="${esc(m.user_id||'')}" role="button"`}>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`;
   if(m.kind==='join')return h+`<div class="c-sys">👋 ${me?'הצטרפת לקבוצה':who+V(' הצטרף לקבוצה',' הצטרפה לקבוצה')}</div>`;
   if(m.kind==='ch_done'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🎯 ${mt.team?'הקבוצה השלימה את האתגר':(me?'השלמת את האתגר':who+V(' השלים את האתגר',' השלימה את האתגר'))}: <b data-notr>${esc(m.body)}</b> <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגרים</button></div>`;}
   if(m.kind==='ch_end'){const mt=m.meta||{}; const top=(mt.top||[]).filter(r=>+r.value>0);
@@ -7710,7 +7712,7 @@ function socInviteSheet(){
       return `<button class="card spread" data-act="soc-mute" data-u="*" style="width:100%;text-align:var(--start);padding:11px 14px;margin-bottom:8px"><span><b>${all?'🔕 הקבוצה מושתקת':'🔔 התראות מהקבוצה'}</b><span class="small muted" style="display:block">${all?'לא תקבל התראות מהקבוצה. לחץ כדי להפעיל':'לחץ כדי להשתיק את כל הקבוצה'}</span></span><span class="muted">›</span></button>
       <div class="card" style="padding:4px 14px">${(info.members||[]).map(m=>{ const me=m.user_id===S.user?.id, off=mu?.has(m.user_id);
         return `<div class="spread" style="padding:7px 0;border-top:1px solid var(--line)"><span><span data-notr>${esc(me?tt('אתה'):m.name)}</span> <span class="small muted">${m.role==='owner'?'מנהל':''}</span></span>
-          ${me?'':`<button class="mutebtn ${off?'off':''}" data-act="soc-mute" data-u="${m.user_id}" aria-label="${off?'בטל השתקה':'השתק התראות'}">${off?'🔕 מושתק':'🔔'}</button>`}</div>`;}).join('')}</div>
+          ${me?'':`<button class="mutebtn ${off?'off':''}" data-act="soc-mute" data-u="${m.user_id}" aria-label="${off?'בטל השתקה':'השתק התראות'}">${off?'🔕 מושתק':'🔔'}</button><button class="mutebtn ${SOC.blocked?.has(m.user_id)?'off':''}" data-act="${SOC.blocked?.has(m.user_id)?'soc-unblock':'soc-block'}" data-u="${m.user_id}" aria-label="${tt('חסימה')}">${SOC.blocked?.has(m.user_id)?tt('חסום · ביטול'):'⛔'}</button>`}</div>`;}).join('')}</div>
       <div class="small muted" style="margin-top:6px">🔕 השתקה עוצרת רק את ההתראות. ההודעות עדיין יופיעו בצ׳אט.</div>`; })()}
     <button class="btn danger" style="width:100%;margin-top:14px" data-act="soc-leave">יציאה מהקבוצה</button>
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
@@ -7762,6 +7764,17 @@ function socAct(act,b){
       sb.rpc('join_group',{p_code:code}).then(async({data,error})=>{ b.disabled=false;
         if(error){toast(/not_found/.test(error.message)?'לא נמצאה קבוצה עם הקוד הזה':/group_full/.test(error.message)?'הקבוצה מלאה (30 חברים)':'ההצטרפות נכשלה');return;}
         closeSheet(); toast('הצטרפת לקבוצה 🎉'); await socLoad(); socOpen(data); setTimeout(()=>notifAsk('group','ברוך הבא לקבוצה 👥','כדי לראות מתי החברים מסיימים אימון, שוברים שיא או כותבים בצ׳אט, צריך להפעיל התראות.'),1200); }); return true; }
+    case 'soc-msg': { const id=b.dataset.id, u=b.dataset.u, gid=SOC.gid, nm=esc(socName(gid,u)), blk=SOC.blocked?.has(u);
+      openSheet(`<h3 style="margin-bottom:4px">${tt('ההודעה של')} <span data-notr>${nm}</span></h3><div class="small muted" style="margin-bottom:12px">${tt('הודעה פוגענית? דווחו לנו ונבדוק תוך 24 שעות. אפשר גם לחסום, ואז לא תראו יותר הודעות מהמשתמש הזה.')}</div>
+        <div class="label" style="margin-bottom:6px">${tt('דיווח על ההודעה')}</div>
+        <div class="stack" style="gap:8px">${[['abuse','פוגענית או מטרידה'],['spam','ספאם או פרסום'],['sexual','תוכן מיני או לא הולם'],['other','משהו אחר']].map(([k,l])=>`<button class="btn" style="text-align:start" data-act="soc-report" data-id="${id}" data-r="${k}">🚩 ${tt(l)}</button>`).join('')}</div>
+        <button class="btn big" style="margin-top:14px;color:var(--danger)" data-act="${blk?'soc-unblock':'soc-block'}" data-u="${esc(u)}">${blk?tt('ביטול החסימה'):tt('חסימת המשתמש')}</button>
+        <button class="btn big" style="margin-top:8px" data-act="sheet-close">${tt('ביטול')}</button>`); return true; }
+    case 'soc-report': { b.disabled=true; sb.rpc('report_message',{p_msg:+b.dataset.id,p_reason:b.dataset.r}).then(({data,error})=>{ closeSheet(); toast(!error&&data?.ok?tt('תודה, הדיווח התקבל. נבדוק אותו תוך 24 שעות.'):tt('הדיווח לא נשלח, נסו שוב')); }); return true; }
+    case 'soc-block': { const u=b.dataset.u; if(!u)return true; (SOC.blocked||(SOC.blocked=new Set())).add(u); closeSheet(); render();
+      sb.from('user_blocks').insert({blocker:S.user.id,blocked:u}).then(({error})=>{ if(error&&!/duplicate/.test(error.message)){ SOC.blocked.delete(u); render(); toast(tt('החסימה לא נשמרה, נסו שוב')); } else toast(tt('המשתמש נחסם. ההודעות שלו לא יוצגו לך.')); }); return true; }
+    case 'soc-unblock': { const u=b.dataset.u; SOC.blocked?.delete(u); closeSheet(); if(SOC.view==='chat'||!document.getElementById('sheet')?.hidden)render();
+      sb.from('user_blocks').delete().eq('blocker',S.user.id).eq('blocked',u).then(()=>toast(tt('החסימה בוטלה'))); return true; }
     case 'soc-mute': { const gid=SOC.gid, u=b.dataset.u; const mu=SOC.mutes[gid]||(SOC.mutes[gid]=new Set()); const on=mu.has(u);
       if(on){ mu.delete(u); let q=sb.from('group_mutes').delete().eq('group_id',gid); q=u==='*'?q.is('muted_id',null):q.eq('muted_id',u); q.then(({error})=>{ if(error){mu.add(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'ההתראות מהקבוצה הופעלו 🔔':'ההשתקה בוטלה 🔔'); }
       else{ mu.add(u); sb.from('group_mutes').insert({group_id:gid,muted_id:u==='*'?null:u}).then(({error})=>{ if(error&&!/duplicate/.test(error.message)){mu.delete(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'הקבוצה הושתקה 🔕':'לא תקבל התראות מההודעות שלו 🔕'); }
