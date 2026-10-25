@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ca5b2a28"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ca5b2a28"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ca5b2a28"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ce225e43"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ce225e43"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ce225e43"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1768,7 +1768,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.3';
+const APP_VERSION='13.3.4';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4391,7 +4391,7 @@ function aiTicker(on){
    replaces the nutrition values), grams, ½ / ×2, remove. Values scale from each item's base. */
 const MC={base:[],sugg:{},t:null};
 function openMealConfirm(data){
-  const items=data.items.map(it=>({name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:Math.round(+it.kcal||0),protein:Math.round(+it.protein||0),carbs:Math.round(+it.carbs||0),fat:Math.round(+it.fat||0)}));
+  const items=data.items.map(it=>({name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0}));
   MC.base=items.map(i=>({g:i.g||100,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat,noG:!i.g}));
   items.forEach((i,n)=>{ if(!i.g)i.g=100; i._f=1; });
   MC.sugg={};
@@ -4411,9 +4411,9 @@ function openMealConfirm(data){
 }
 function mcCalc(n){ const it=_mealDraft.items[n], b=MC.base[n]; if(!it||!b)return;
   const f=b.noG?it._f:(it.g/b.g);
-  Object.assign(it,{kcal:Math.round(b.kcal*f),protein:Math.round(b.protein*f),carbs:Math.round(b.carbs*f),fat:Math.round(b.fat*f)}); }
+  const m=v=>Math.round(v*f*10)/10; Object.assign(it,{kcal:Math.round(b.kcal*f),protein:m(b.protein),carbs:m(b.carbs),fat:m(b.fat)}); }
 function mcTotals(){
-  ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=_mealDraft.items.reduce((a,x)=>a+x[k],0));
+  ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=Math.round(_mealDraft.items.reduce((a,x)=>a+x[k],0)*(k==='kcal'?1:10))/(k==='kcal'?1:10));
   const el=$('#mc-tot'); if(el)el.innerHTML=[['kcal','קק״ל'],['protein','חלבון'],['carbs','פחמימה'],['fat','שומן']].map(([k,l])=>`<div class="tile"><div class="v num" style="font-size:24px">${_mealDraft[k]}</div><div class="k">${tt(l)}</div></div>`).join('');
   const sv=$('#mc-save'); if(sv)sv.disabled=!_mealDraft.items.length;
 }
@@ -4482,6 +4482,20 @@ let _portion=null;
 const LIQ_RX=/(^|[\s,(])(חלב|משקה|מיץ|נקטר|שוקו|קפיר|לבן|רוויון|אייס|קפה|תה|סודה|מים|קולה|בירה|יין|שייק|סמוטי|לימונדה|אשכוליות|milk|drink|juice|shake|smoothie|soda|water|cola|beer|wine|coffee|tea|kefir)/i;
 const LIQ_NOT=/שוקולד|אבק|גבינ|חמאה|גלידה|מעדן|ממרח|עוגי|עוגה|ופל|פודינג|chocolate|powder|cheese|butter|ice cream/i;
 const isLiquid=f=>!!f&&(f.liq===true||LIQ_RX.test(String(f.name||''))&&!LIQ_NOT.test(String(f.name||'')));
+/* where an item's values come from: Tzameret (<10000), USDA (600000+), curated items (900000+) from food_src */
+const FSRC={};
+function foodSrcText(f){
+  if(!f||f.bc||!Number.isInteger(f.code))return '';
+  if(f.code<10000)return tt('מקור: מאגר צמרת, משרד הבריאות');
+  if(f.code>=600000&&f.code<900000)return tt('מקור: USDA FoodData Central');
+  const r=FSRC[f.code]; if(!r)return '';
+  return r.kind==='estimate'?tt('ערך משוער: אין לפריט הזה מקור תזונתי מתועד'):tt('מקור')+': '+r.src.replace(/^same values as /,'');
+}
+async function loadFoodSrc(f){
+  if(!f||!(f.code>=900000)||FSRC[f.code])return;
+  try{ const {data}=await sb.from('food_src').select('kind,src').eq('code',f.code).maybeSingle();
+    FSRC[f.code]=data||{kind:'estimate',src:''}; const el=$('#portion-src'); if(el&&_portion&&_portion.f===f)el.textContent=foodSrcText(f); }catch(_){}
+}
 function openPortion(f){
   const liq=isLiquid(f);
   const units=(f.units||[]).map(u=>({u:u.u,g:+u.g,d:!!u.d})).filter(u=>u.g>0);
@@ -4489,7 +4503,7 @@ function openPortion(f){
   const pref=['יחידה בינונית','מנה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
   const def=units.find(u=>u.d)||pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
   _portion={f,units,unit:def,qty:def?1:100,liq};
-  renderPortion();
+  renderPortion(); loadFoodSrc(f);
 }
 function portionCalc(){
   const p=_portion; const grams=p.unit?p.qty*p.unit.g:p.qty;
@@ -4504,6 +4518,7 @@ function renderPortion(){
   openSheet(`
     <h3 style="font-size:20px">${esc(p.f.name)}</h3>
     <div class="small muted" style="margin:-6px 0 12px">${p.liq?`ל-100 מ״ל: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`:`ל-100 גר׳: ${Math.round(+p.f.kcal||0)} קק״ל · חלבון ${+p.f.protein||0} · פחמימה ${+p.f.carbs||0} · שומן ${+p.f.fat||0}`}</div>
+    <div class="small muted" id="portion-src" style="margin:-8px 0 12px;font-size:11.5px;opacity:.8">${esc(foodSrcText(p.f))}</div>
     ${p.f.bc?`${p.f.check?`<div class="small bc-warn">הערכים במאגר לא תאמו זה לזה, אז תיקנו אותם לפי הרכיבים. כדאי לוודא מול האריזה.</div>`:''}<div class="small muted bc-fix">${p.f.check?'':'לא תואם לאריזה? '}<label class="linkbtn">📷 צילום הטבלה<input id="label-photo" type="file" accept="image/*" hidden></label> · <button class="linkbtn" data-act="bc-fix">✏️ הקלדת ערכים</button></div>${(p.f.units||[]).some(u=>u.bc)?'':`<button class="bc-unit" data-act="bc-unit"><span>${p.liq?'כמה מ״ל ביחידה אחת?':'כמה שוקלת יחידה אחת?'}</span><b>הגדרת יחידה ›</b></button>`}`:''}
     <div class="label" style="margin-bottom:6px">יחידת מידה</div>
     <div class="row" style="gap:6px;margin-bottom:12px">
