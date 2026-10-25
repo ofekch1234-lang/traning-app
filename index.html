@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=7f90d81e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7f90d81e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=7f90d81e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=76bdeb31"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=76bdeb31"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=76bdeb31"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1684,7 +1684,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.0';
+const APP_VERSION='13.3.1';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8333,11 +8333,22 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
-    case 'acct-delete': openSheet(`<h3>מחיקת החשבון</h3><div class="muted" style="margin:-4px 0 12px">כל האימונים, הארוחות, השקילות, התמונות וההודעות שלך יימחקו לצמיתות תוך עד 30 יום, ולא יהיה אפשר לשחזר אותם. רשומות תשלום נשמרות לפי חוק.</div>
-      <textarea id="del-why" class="adm-in" rows="2" placeholder="למה אתה עוזב? (לא חובה, יעזור לנו להשתפר)"></textarea>
-      <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn danger" style="flex:1.4" data-act="acct-delete-go">שליחת בקשת מחיקה</button></div>`); break;
-    case 'acct-delete-go': { if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב לאישור';break;} const why=($('#del-why')?.value||'').trim();
-      sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ בקשה למחיקת חשבון ומידע.'+(why?' סיבה: '+why:'')}).then(({error})=>{ if(error){toast('השליחה נכשלה, כתוב לנו במייל');return;} closeSheet(); toast('הבקשה התקבלה. נמחק את החשבון תוך 30 יום ונעדכן אותך'); }); break; }
+    case 'acct-delete': openSheet(`<h3>מחיקת החשבון</h3><div class="muted" style="margin:-4px 0 12px;line-height:1.55">החשבון שלך יימחק עכשיו, יחד עם כל האימונים, הארוחות, השקילות, התמונות וההודעות בקבוצות. אי אפשר לשחזר אותם אחר כך. רשומות תשלום נשמרות בלי פרטים מזהים, כפי שהחוק מחייב.</div>
+      <div class="rtip" style="margin:0 0 12px"><b>יש לך מנוי בחנות?</b><span>מחיקת החשבון לא מבטלת מנוי שנקנה ב-App Store או ב-Google Play. את המנוי מבטלים בהגדרות המנויים של הטלפון.</span></div>
+      <textarea id="del-why" class="adm-in" rows="2" placeholder="${tt('סיבת העזיבה (לא חובה, יעזור לנו להשתפר)')}"></textarea>
+      <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn danger" style="flex:1.4" data-act="acct-delete-go">מחיקת החשבון</button></div>`); break;
+    case 'acct-delete-go': { if(!b.dataset.sure){b.dataset.sure='1';b.textContent=tt('בטוח? לחיצה נוספת מוחקת');break;} if(b.disabled)break;
+      const why=($('#del-why')?.value||'').trim(); b.disabled=true; b.textContent=tt('מוחק…');
+      (async()=>{ try{
+          if(why)await sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ מחיקת חשבון. סיבה: '+why}).catch(()=>{});
+          logEv('account_delete',{});
+          const {data:{session}}=await sb.auth.getSession();
+          const r=await fetch(SUPABASE_URL+'/functions/v1/delete-account',{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:'Bearer '+(session?.access_token||'')},body:JSON.stringify({confirm:'DELETE'})});
+          if(!r.ok)throw new Error('http '+r.status);
+          try{ Object.keys(localStorage).filter(k=>/^nr[-_]/.test(k)&&!/^nr-(lang|g)$/.test(k)).forEach(k=>localStorage.removeItem(k)); }catch(_){}
+          closeSheet(); await sb.auth.signOut().catch(()=>{}); toast('החשבון נמחק. תודה שהתאמנת איתנו');
+        }catch(e){ console.warn('delete',e); b.disabled=false; b.textContent=tt('מחיקת החשבון'); delete b.dataset.sure; toast('המחיקה נכשלה. נסה שוב או כתוב לנו'); } })();
+      break; }
     case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-g': { if(b.dataset.v!==window.NR_G)landSetG(b.dataset.v); return true; }
     case 'land-signup': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
