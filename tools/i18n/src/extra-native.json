@@ -154,5 +154,589 @@
  "סוף מנוחה, שקט": {
   "en": "Rest over, silent",
   "ar": "انتهاء الراحة، صامت"
+ },
+ "חדש ב-NextRep? מתחילים עם ראפי": {
+  "en": "New to NextRep? Start with Repi",
+  "ar": "جديد في NextRep؟ ابدأ مع ريبي"
+ },
+ "ראפי, המאמן של NextRep": {
+  "en": "Repi, the NextRep coach",
+  "ar": "ريبي، مدرب NextRep"
+ },
+ "המאמן שזוכר": {
+  "en": "The coach who remembers",
+  "ar": "المدرب الذي يتذكر"
+ },
+ "כל סט שלך.": {
+  "en": "every set you do.",
+  "ar": "كل مجموعة تقوم بها."
+ },
+ "תוכנית אישית, משקל מדויק לכל סט ויעד תזונתי שמתעדכן. ראפי לצידך מהאימון הראשון.": {
+  "en": "A personal plan, the right weight for every set and a nutrition target that adapts. Repi is with you from the first workout.",
+  "ar": "خطة شخصية، وزن دقيق لكل مجموعة وهدف غذائي يتحدّث. ريبي معك من التمرين الأول."
+ },
+ "בואי נתחיל": {
+  "en": "Let's start",
+  "ar": "هيا نبدأ"
+ },
+ "נעים להכיר, אני": {
+  "en": "Nice to meet you, I'm",
+  "ar": "تشرفت بمعرفتك، أنا"
+ },
+ "המאמן האישי שלך. אני אבנה לך תוכנית, אזכור כל סט, ואגיד לך כמה להרים בפעם הבאה.": {
+  "en": "Your personal coach. I'll build your plan, remember every set, and tell you how much to lift next time.",
+  "ar": "مدربك الشخصي. سأبني لك خطة، وأتذكر كل مجموعة، وأخبرك كم ترفع في المرة القادمة."
+ },
+ "לפי המטרה, הניסיון והימים שלך": {
+  "en": "Based on your goal, experience and days",
+  "ar": "حسب هدفك وخبرتك وأيامك"
+ },
+ "משקל וחזרות לכל סט": {
+  "en": "Weight and reps for every set",
+  "ar": "الوزن والتكرارات لكل مجموعة"
+ },
+ "ואני יודע מתי הגיע הזמן להעלות": {
+  "en": "and I know when it's time to go up",
+  "ar": "وأعرف متى حان وقت الزيادة"
+ },
+ "יעד תזונתי שמתעדכן": {
+  "en": "A nutrition target that adapts",
+  "ar": "هدف غذائي يتحدّث"
+ },
+ "לפי מה שאכלת ולפי המגמה במשקל": {
+  "en": "based on what you ate and your weight trend",
+  "ar": "حسب ما أكلت واتجاه وزنك"
+ },
+ "8 שאלות קצרות · פחות מדקה וחצי": {
+  "en": "8 quick questions · under 90 seconds",
+  "ar": "8 أسئلة قصيرة · أقل من دقيقة ونصف"
+ },
+ "נעים להכיר, ראפי": {
+  "en": "Nice to meet you, Repi",
+  "ar": "تشرفت بمعرفتك يا ريبي"
+ },
+ "קודם כל, איך קוראים לך?": {
+  "en": "First things first, what's your name?",
+  "ar": "أولًا، ما اسمك؟"
+ },
+ "השם הפרטי שלך": {
+  "en": "Your first name",
+  "ar": "اسمك الأول"
+ },
+ "ככה אפנה אליך באימונים ובסיכום השבועי.": {
+  "en": "That's how I'll call you in workouts and in the weekly summary.",
+  "ar": "هكذا سأناديك في التمارين وفي الملخص الأسبوعي."
+ },
+ "נעים מאוד": {
+  "en": "Great to meet you",
+  "ar": "تشرفنا"
+ },
+ "״בוא נשבור שיא היום״": {
+  "en": "“Let's beat a record today”",
+  "ar": "«هيا نحطم رقمًا اليوم»"
+ },
+ "״בואי נשבור שיא היום״": {
+  "en": "“Let's beat a record today”",
+  "ar": "«هيا نحطم رقمًا اليوم»"
+ },
+ "כל האפליקציה תדבר אליך ככה. בחירה ב״את״ מחליפה גם את הצבע לוורוד. אפשר לשנות בהגדרות.": {
+  "en": "The whole app will speak to you this way. Choosing the feminine form also switches the color to pink. You can change it in settings.",
+  "ar": "سيخاطبك التطبيق كله بهذه الطريقة. اختيار صيغة المؤنث يغيّر اللون أيضًا إلى الوردي. يمكن التغيير في الإعدادات."
+ },
+ "מה הכי חשוב לך עכשיו?": {
+  "en": "what matters most to you right now?",
+  "ar": "ما الأهم بالنسبة لك الآن؟"
+ },
+ "לרדת במשקל": {
+  "en": "Lose weight",
+  "ar": "خسارة الوزن"
+ },
+ "ולשמור על השריר בדרך": {
+  "en": "and keep the muscle on the way",
+  "ar": "مع الحفاظ على العضل"
+ },
+ "לבנות שריר": {
+  "en": "Build muscle",
+  "ar": "بناء العضل"
+ },
+ "לגדול ולהיראות חזק יותר": {
+  "en": "get bigger and look stronger",
+  "ar": "أن تكبر وتبدو أقوى"
+ },
+ "להיות חזק יותר": {
+  "en": "Get stronger",
+  "ar": "أن تصبح أقوى"
+ },
+ "להעלות משקלים בתרגילים הגדולים": {
+  "en": "lift more in the big lifts",
+  "ar": "رفع أوزان أكبر في التمارين الأساسية"
+ },
+ "כושר ובריאות": {
+  "en": "Fitness and health",
+  "ar": "لياقة وصحة"
+ },
+ "להרגיש טוב ולהתמיד": {
+  "en": "feel good and stay consistent",
+  "ar": "الشعور الجيد والاستمرار"
+ },
+ "לרדת במשקל, מעולה.": {
+  "en": "Losing weight, great.",
+  "ar": "خسارة الوزن، ممتاز."
+ },
+ "יורדים בשומן ושומרים על השריר: אימוני כוח וחלבון.": {
+  "en": "Lose fat, keep the muscle: strength training and protein.",
+  "ar": "نخسر الدهون ونحافظ على العضل: تمارين قوة وبروتين."
+ },
+ "לבנות שריר, מעולה.": {
+  "en": "Building muscle, great.",
+  "ar": "بناء العضل، ممتاز."
+ },
+ "שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.": {
+  "en": "Muscle is built from small progress, week after week.",
+  "ar": "العضل يُبنى من تقدّم صغير، أسبوعًا بعد أسبوع."
+ },
+ "להתחזק, מעולה.": {
+  "en": "Getting stronger, great.",
+  "ar": "زيادة القوة، ممتاز."
+ },
+ "כוח נבנה מהעלאות קטנות וקבועות במשקל.": {
+  "en": "Strength comes from small, steady jumps in weight.",
+  "ar": "القوة تأتي من زيادات صغيرة ومنتظمة في الوزن."
+ },
+ "כושר ובריאות, מעולה.": {
+  "en": "Fitness and health, great.",
+  "ar": "لياقة وصحة، ممتاز."
+ },
+ "הסוד הוא להתמיד, ולהתקדם קצת בכל פעם.": {
+  "en": "The secret is consistency, and a little progress each time.",
+  "ar": "السر هو الاستمرار، والتقدّم قليلًا كل مرة."
+ },
+ "מעולה.": {
+  "en": "Great.",
+  "ar": "ممتاز."
+ },
+ "אימון A · סט 2 מתוך 4": {
+  "en": "Workout A · set 2 of 4",
+  "ar": "تمرين A · المجموعة 2 من 4"
+ },
+ "בפעם שעברה": {
+  "en": "Last time",
+  "ar": "المرة السابقة"
+ },
+ "ראפי ממליץ היום": {
+  "en": "Repi suggests today",
+  "ar": "ريبي يقترح اليوم"
+ },
+ "עשית 8 חזרות נקיות, אז מעלים": {
+  "en": "You did 8 clean reps, so we go up",
+  "ar": "أنجزت 8 تكرارات نظيفة، فنزيد"
+ },
+ "קשה מדי? תגיד לי כמה חזרות נשארו לך בטנק, ואני מכוונן.": {
+  "en": "Too hard? Tell me how many reps you had left in the tank, and I'll adjust.",
+  "ar": "صعب جدًا؟ أخبرني كم تكرارًا بقي لديك، وسأعدّل."
+ },
+ "קשה מדי? תגידי לי כמה חזרות נשארו לך בטנק, ואני מכוונן.": {
+  "en": "Too hard? Tell me how many reps you had left in the tank, and I'll adjust.",
+  "ar": "صعب جدًا؟ أخبريني كم تكرارًا بقي لديك، وسأعدّل."
+ },
+ "אני זוכר כל סט שעשית, ויודע מתי להעלות משקל ומתי לחכות.": {
+  "en": "I remember every set you did, and know when to add weight and when to wait.",
+  "ar": "أتذكر كل مجموعة قمت بها، وأعرف متى نزيد الوزن ومتى ننتظر."
+ },
+ "אתה רק מרים.": {
+  "en": "You just lift.",
+  "ar": "أنت فقط ترفع."
+ },
+ "את רק מרימה.": {
+  "en": "You just lift.",
+  "ar": "أنتِ فقط ترفعين."
+ },
+ "מגניב, ממשיכים": {
+  "en": "Cool, let's go on",
+  "ar": "رائع، نكمل"
+ },
+ "כמה זמן את מתאמנת עם משקולות?": {
+  "en": "How long have you been lifting weights?",
+  "ar": "منذ متى تتدربين بالأوزان؟"
+ },
+ "רק מתחיל": {
+  "en": "Just starting",
+  "ar": "مبتدئ"
+ },
+ "רק מתחילה": {
+  "en": "Just starting",
+  "ar": "مبتدئة"
+ },
+ "אסביר כל תרגיל ונתחיל קל": {
+  "en": "I'll explain every exercise and start light",
+  "ar": "سأشرح كل تمرين ونبدأ بخفة"
+ },
+ "פחות משנתיים": {
+  "en": "Less than 2 years",
+  "ar": "أقل من سنتين"
+ },
+ "מכיר את התרגילים, רוצה להתקדם": {
+  "en": "Know the exercises, want to progress",
+  "ar": "أعرف التمارين وأريد التقدّم"
+ },
+ "מכירה את התרגילים, רוצה להתקדם": {
+  "en": "Know the exercises, want to progress",
+  "ar": "أعرف التمارين وأريد التقدّم"
+ },
+ "יותר משנתיים": {
+  "en": "More than 2 years",
+  "ar": "أكثر من سنتين"
+ },
+ "צריך תוכנית חכמה כדי לא להיתקע": {
+  "en": "Need a smart plan to avoid plateaus",
+  "ar": "أحتاج خطة ذكية كي لا أتوقف"
+ },
+ "בשבוע הראשון אציע משקלים שמרניים ואלמד אותך תוך כדי. אחרי 2–3 אימונים הם כבר יהיו מדויקים.": {
+  "en": "In the first week I'll suggest conservative weights and learn as we go. After 2–3 workouts they'll be spot on.",
+  "ar": "في الأسبوع الأول سأقترح أوزانًا محافظة وأتعلّم معك. بعد 2–3 تمارين ستصبح دقيقة."
+ },
+ "2 ימים: גוף מלא, פעמיים בשבוע": {
+  "en": "2 days: full body, twice a week",
+  "ar": "يومان: الجسم كامل مرتين أسبوعيًا"
+ },
+ "3 ימים: תוכנית מלאה לכל הגוף": {
+  "en": "3 days: a complete full-body plan",
+  "ar": "3 أيام: خطة كاملة لكل الجسم"
+ },
+ "4 ימים: חלוקה של פלג גוף עליון ותחתון": {
+  "en": "4 days: upper / lower split",
+  "ar": "4 أيام: تقسيم علوي / سفلي"
+ },
+ "5 ימים: דחיפה, משיכה, רגליים, עליון ותחתון": {
+  "en": "5 days: push, pull, legs, upper and lower",
+  "ar": "5 أيام: دفع، سحب، أرجل، علوي وسفلي"
+ },
+ "6 ימים: דחיפה, משיכה, רגליים, פעמיים": {
+  "en": "6 days: push, pull, legs, twice",
+  "ar": "6 أيام: دفع، سحب، أرجل، مرتين"
+ },
+ "כמה ימים בשבוע, ואיפה?": {
+  "en": "How many days a week, and where?",
+  "ar": "كم يومًا في الأسبوع، وأين؟"
+ },
+ "ימי אימון בשבוע": {
+  "en": "Training days per week",
+  "ar": "أيام التمرين في الأسبوع"
+ },
+ "איפה מתאמנים": {
+  "en": "Where you train",
+  "ar": "أين تتدرب"
+ },
+ "חדר כושר מאובזר": {
+  "en": "A full gym",
+  "ar": "صالة رياضية مجهّزة"
+ },
+ "בבית, עם משקולות": {
+  "en": "At home, with weights",
+  "ar": "في البيت مع أوزان"
+ },
+ "בבית, בלי ציוד": {
+  "en": "At home, no equipment",
+  "ar": "في البيت بلا معدات"
+ },
+ "כמה זמן לאימון": {
+  "en": "Time per workout",
+  "ar": "مدة كل تمرين"
+ },
+ "כמה מספרים, ואני מחשב לך יעד קלוריות וחלבון.": {
+  "en": "A few numbers, and I'll work out your calorie and protein target.",
+  "ar": "بعض الأرقام، وسأحسب لك هدف السعرات والبروتين."
+ },
+ "מין (לחישוב)": {
+  "en": "Sex (for the calculation)",
+  "ar": "الجنس (للحساب)"
+ },
+ "זכר": {
+  "en": "Male",
+  "ar": "ذكر"
+ },
+ "נקבה": {
+  "en": "Female",
+  "ar": "أنثى"
+ },
+ "יעד משקל (לא חובה)": {
+  "en": "Target weight (optional)",
+  "ar": "الوزن المستهدف (اختياري)"
+ },
+ "הנתונים נשמרים רק בחשבון שלך, ומשמשים רק לחישוב היעד.": {
+  "en": "Stored only in your account, and used only to calculate your target.",
+  "ar": "تُحفظ في حسابك فقط، وتُستخدم لحساب الهدف فقط."
+ },
+ "מומלץ": {
+  "en": "Recommended",
+  "ar": "موصى به"
+ },
+ "ואיך אתה רוצה שאאמן אותך?": {
+  "en": "And how do you want me to coach you?",
+  "ar": "وكيف تريدني أن أدرّبك؟"
+ },
+ "ואיך את רוצה שאאמן אותך?": {
+  "en": "And how do you want me to coach you?",
+  "ar": "وكيف تريدين أن أدرّبك؟"
+ },
+ "משקל וחזרות בכל סט, ובסוף כל בלוק של 6 שבועות אני מרענן את התוכנית בעצמי.": {
+  "en": "Weight and reps for every set, and at the end of each 6-week block I refresh the plan myself.",
+  "ar": "الوزن والتكرارات لكل مجموعة، وفي نهاية كل دورة من 6 أسابيع أجدّد الخطة بنفسي."
+ },
+ "אני ממליץ על משקל וחזרות ומציע שינויים, אבל שום תרגיל לא מתחלף בלי אישור שלך.": {
+  "en": "I suggest weight and reps and propose changes, but no exercise changes without your OK.",
+  "ar": "أقترح الوزن والتكرارات والتغييرات، لكن لا يتغيّر أي تمرين دون موافقتك."
+ },
+ "רק תיעוד": {
+  "en": "Logging only",
+  "ar": "تسجيل فقط"
+ },
+ "יומן אימונים נקי, בלי המלצות. אפשר להפעיל אותי בכל רגע.": {
+  "en": "A clean workout log, no suggestions. You can turn me on anytime.",
+  "ar": "سجل تمارين نظيف بلا اقتراحات. يمكنك تشغيلي في أي وقت."
+ },
+ "אימונים באורך שבחרת, ותזכורת רק בימים שלך.": {
+  "en": "Workouts as long as you chose, and reminders only on your days.",
+  "ar": "تمارين بالمدة التي اخترتها، وتذكير في أيامك فقط."
+ },
+ "לכל תרגיל יש הדגמה והסבר קצר, ואני אומר בדיוק כמה להרים.": {
+  "en": "Every exercise has a demo and a short explanation, and I tell you exactly how much to lift.",
+  "ar": "لكل تمرين عرض وشرح قصير، وأخبرك بالضبط كم ترفع."
+ },
+ "בלוקים של 6 שבועות עם שבוע קל, כדי לשבור את התקיעות.": {
+  "en": "6-week blocks with a light week, to break plateaus.",
+  "ar": "دورات من 6 أسابيع مع أسبوع خفيف، لكسر الثبات."
+ },
+ "סיכום שבועי ממני, שיאים ורצפים שרואים בעיניים.": {
+  "en": "A weekly summary from me, records and streaks you can see.",
+  "ar": "ملخص أسبوعي مني، وأرقام قياسية وسلاسل تراها بعينك."
+ },
+ "יעד יומי פשוט, וצילום צלחת במקום לחפש בטבלאות.": {
+  "en": "A simple daily target, and a photo of your plate instead of searching tables.",
+  "ar": "هدف يومي بسيط، وتصوير الطبق بدل البحث في الجداول."
+ },
+ "אוותר על תרגילים שמעמיסים על האזור.": {
+  "en": "I'll skip exercises that load that area.",
+  "ar": "سأتجنب التمارين التي تُجهد هذه المنطقة."
+ },
+ "שאלה אחרונה: מה הכי מפריע לך להתמיד?": {
+  "en": "Last question: what gets in the way of sticking with it?",
+  "ar": "سؤال أخير: ما الذي يمنعك من الاستمرار؟"
+ },
+ "אפשר לבחור כמה": {
+  "en": "Pick as many as you like",
+  "ar": "يمكن اختيار أكثر من واحد"
+ },
+ "אין לי זמן": {
+  "en": "No time",
+  "ar": "ليس لدي وقت"
+ },
+ "לא בטוח מה לעשות בחדר כושר": {
+  "en": "Not sure what to do at the gym",
+  "ar": "لست متأكدًا ماذا أفعل في الصالة"
+ },
+ "לא בטוחה מה לעשות בחדר כושר": {
+  "en": "Not sure what to do at the gym",
+  "ar": "لست متأكدة ماذا أفعل في الصالة"
+ },
+ "תקוע באותם משקלים": {
+  "en": "Stuck at the same weights",
+  "ar": "عالق في نفس الأوزان"
+ },
+ "תקועה באותם משקלים": {
+  "en": "Stuck at the same weights",
+  "ar": "عالقة في نفس الأوزان"
+ },
+ "מאבד מוטיבציה": {
+  "en": "Losing motivation",
+  "ar": "أفقد الحافز"
+ },
+ "מאבדת מוטיבציה": {
+  "en": "Losing motivation",
+  "ar": "أفقد الحافز"
+ },
+ "התזונה": {
+  "en": "Nutrition",
+  "ar": "التغذية"
+ },
+ "כאב או פציעה": {
+  "en": "Pain or injury",
+  "ar": "ألم أو إصابة"
+ },
+ "איפה?": {
+  "en": "Where?",
+  "ar": "أين؟"
+ },
+ "מה אני עושה עם זה": {
+  "en": "What I do about it",
+  "ar": "ماذا أفعل حيال ذلك"
+ },
+ "בוחר תרגילים מתוך המאגר": {
+  "en": "Choosing exercises from the library",
+  "ar": "أختار التمارين من المكتبة"
+ },
+ "משקלי פתיחה לפי הניסיון שלך": {
+  "en": "Starting weights for your experience",
+  "ar": "أوزان البداية حسب خبرتك"
+ },
+ "יעד קלוריות וחלבון יומי": {
+  "en": "Daily calorie and protein target",
+  "ar": "هدف يومي للسعرات والبروتين"
+ },
+ "רגע, אני בונה לך תוכנית…": {
+  "en": "One moment, building your plan…",
+  "ar": "لحظة، أبني لك خطة…"
+ },
+ "בכל 6 שבועות אני מרענן את התוכנית, עם שבוע קל באמצע כדי שהגוף יתאושש.": {
+  "en": "Every 6 weeks I refresh the plan, with a light week so your body recovers.",
+  "ar": "كل 6 أسابيع أجدّد الخطة، مع أسبوع خفيف ليتعافى جسمك."
+ },
+ "התוכנית שלך מוכנה": {
+  "en": "Your plan is ready",
+  "ar": "خطتك جاهزة"
+ },
+ "ככה נראה השבוע שלך": {
+  "en": "here's what your week looks like",
+  "ar": "هكذا يبدو أسبوعك"
+ },
+ "כ-": {
+  "en": "~",
+  "ar": "~"
+ },
+ "היעד היומי שלך": {
+  "en": "Your daily target",
+  "ar": "هدفك اليومي"
+ },
+ "מתעדכן כל שבוע": {
+  "en": "Updated every week",
+  "ar": "يتحدّث كل أسبوع"
+ },
+ "שמור את התוכנית": {
+  "en": "Save my plan",
+  "ar": "احفظ الخطة"
+ },
+ "אפשר לשנות כל תרגיל אחר כך": {
+  "en": "You can change any exercise later",
+  "ar": "يمكن تغيير أي تمرين لاحقًا"
+ },
+ "בוא נשמור את התוכנית שלך": {
+  "en": "Let's save your plan",
+  "ar": "لنحفظ خطتك"
+ },
+ "בואי נשמור את התוכנית שלך": {
+  "en": "Let's save your plan",
+  "ar": "لنحفظ خطتك"
+ },
+ "התחברות אחת, וזה שמור לתמיד ובכל מכשיר.": {
+  "en": "Sign in once, and it's saved for good, on every device.",
+  "ar": "تسجيل دخول واحد، ويُحفظ دائمًا وعلى كل جهاز."
+ },
+ "התוכנית ומשקלי הפתיחה": {
+  "en": "Your plan and starting weights",
+  "ar": "الخطة وأوزان البداية"
+ },
+ "כל סט שתעשה, וכל שיא": {
+  "en": "Every set you do, and every record",
+  "ar": "كل مجموعة تقوم بها، وكل رقم قياسي"
+ },
+ "כל סט שתעשי, וכל שיא": {
+  "en": "Every set you do, and every record",
+  "ar": "كل مجموعة تقومين بها، وكل رقم قياسي"
+ },
+ "יעד הקלוריות והחלבון": {
+  "en": "Your calorie and protein target",
+  "ar": "هدف السعرات والبروتين"
+ },
+ "אייקון ורוד לאפליקציה?": {
+  "en": "A pink app icon?",
+  "ar": "أيقونة وردية للتطبيق؟"
+ },
+ "מחליפים עכשיו, ואפשר לחזור בהגדרות.": {
+  "en": "Switch now, and switch back anytime in settings.",
+  "ar": "نغيّرها الآن، ويمكن الرجوع من الإعدادات."
+ },
+ "כן, להחליף": {
+  "en": "Yes, switch",
+  "ar": "نعم، غيّرها"
+ },
+ "לא תודה": {
+  "en": "No thanks",
+  "ar": "لا شكرًا"
+ },
+ "לא הצלחנו לשמור את התוכנית, נסה שוב": {
+  "en": "Couldn't save the plan, please try again",
+  "ar": "تعذّر حفظ الخطة، حاول مرة أخرى"
+ },
+ "האייקון הוחלף ✓": {
+  "en": "Icon changed ✓",
+  "ar": "تم تغيير الأيقونة ✓"
+ },
+ "עוד אין לך חשבון, אז נתחיל מההתחלה. לוקח דקה.": {
+  "en": "You don't have an account yet, so let's start from the top. It takes a minute.",
+  "ar": "ليس لديك حساب بعد، فلنبدأ من البداية. يستغرق دقيقة."
+ },
+ "לא הצלחנו לשמור את התוכנית, נסה שוב מההגדרות": {
+  "en": "Couldn't save the plan, try again from settings",
+  "ar": "تعذّر حفظ الخطة، حاول مجددًا من الإعدادات"
+ },
+ "שאזכיר לך? מבטיח לא לחפור.": {
+  "en": "Want reminders? I promise not to nag.",
+  "ar": "أذكّرك؟ أعدك ألّا أزعجك."
+ },
+ "המנוחה נגמרה": {
+  "en": "Rest is over",
+  "ar": "انتهت الراحة"
+ },
+ "סט 3 בלחיצת חזה מחכה לך": {
+  "en": "Set 3 of bench press is waiting",
+  "ar": "المجموعة 3 من ضغط الصدر بانتظارك"
+ },
+ "היום: אימון B": {
+  "en": "Today: workout B",
+  "ar": "اليوم: تمرين B"
+ },
+ "האימון מחכה לך": {
+  "en": "Your workout is waiting",
+  "ar": "تمرينك بانتظارك"
+ },
+ "ראפי: הסיכום השבועי מוכן": {
+  "en": "Repi: your weekly summary is ready",
+  "ar": "ريبي: ملخصك الأسبوعي جاهز"
+ },
+ "מה הלך טוב, ועל מה להתמקד": {
+  "en": "What went well, and what to focus on",
+  "ar": "ما الذي سار جيدًا، وعلامَ نركّز"
+ },
+ "רק מה שחשוב: סוף המנוחה, תזכורת בימי האימון שלך והסיכום השבועי ממני. אפשר לכבות כל אחת מהן בהגדרות.": {
+  "en": "Only what matters: the end of rest, a reminder on your training days, and my weekly summary. You can turn any of them off in settings.",
+  "ar": "فقط ما يهم: نهاية الراحة، تذكير في أيام تمرينك، وملخصي الأسبوعي. يمكن إيقاف أي منها في الإعدادات."
+ },
+ "יאללה": {
+  "en": "Let's go,",
+  "ar": "يلا"
+ },
+ "מתחילים.": {
+  "en": "let's start.",
+  "ar": "نبدأ."
+ },
+ "התוכנית שמורה, ואני איתך מהסט הראשון.": {
+  "en": "Your plan is saved, and I'm with you from the first set.",
+  "ar": "خطتك محفوظة، وأنا معك من المجموعة الأولى."
+ },
+ "שבוע ראשון בפרימיום, עלינו": {
+  "en": "Your first week of Premium is on us",
+  "ar": "أسبوعك الأول في بريميوم علينا"
+ },
+ "לאימון הראשון": {
+  "en": "Start my first workout",
+  "ar": "إلى التمرين الأول"
+ },
+ "קודם אסתכל מסביב": {
+  "en": "Look around first",
+  "ar": "سألقي نظرة أولًا"
+ },
+ "ראשון בתור": {
+  "en": "First up",
+  "ar": "الأول"
  }
 }

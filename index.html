@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=92f7548c"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=92f7548c"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=92f7548c"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5abf1b32"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5abf1b32"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5abf1b32"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -816,6 +816,138 @@ body.chatting{overflow:hidden}
 .emo-pick button.on{border-color:var(--accent)}
 .inv-code{font-family:var(--disp);font-weight:800;font-size:40px;letter-spacing:6px;text-align:center;direction:ltr;line-height:1.12;padding:10px;background:var(--surface2);border-radius:14px}
 /* auth screen */
+/* ---------- פתיחה עם ראפי (אפליקציה) ---------- */
+#onb{position:fixed;inset:0;z-index:96;background:#0A0B0A;color:#F2F5F2;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#onbpost{position:fixed;inset:0;z-index:97}
+/* number pad, sheets and toasts open above the full-screen start */
+body:has(#onb) #np-bg{z-index:108}body:has(#onb) #np{z-index:109}body:has(#onb) #sheet-bg{z-index:110}body:has(#onb) #sheet{z-index:111}body:has(#onb) #toast{z-index:112}
+#onb .acc,#onb em{color:var(--accent);font-style:normal}
+.ob-glow{position:absolute;top:120px;left:50%;width:520px;height:520px;margin-left:-260px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 22%,transparent) 0%,color-mix(in srgb,var(--accent) 6%,transparent) 38%,transparent 68%);pointer-events:none}
+.ob-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(14px + env(safe-area-inset-top)) 20px 0;position:relative}
+.ob-hd .langpills{margin:0}
+.ob-brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+.ob-brand img{width:30px;height:30px;border-radius:8px}.ob-brand b{color:var(--accent)}
+.ob-top{display:flex;align-items:center;gap:14px;padding:calc(14px + env(safe-area-inset-top)) 20px 0;position:relative}
+.ob-back{width:44px;height:44px;border-radius:14px;background:#141715;border:1px solid #232825;display:flex;align-items:center;justify-content:center;color:#F2F5F2;flex:none}
+html[dir=ltr] .ob-back svg{transform:scaleX(-1)}
+.ob-prog{flex:1;display:flex;gap:5px}.ob-prog i{flex:1;height:5px;border-radius:3px;background:#232825;transition:background .3s}.ob-prog i.on{background:var(--accent)}
+.ob-step{font-size:13px;color:#A3ADA6;flex:none}
+.ob-mid{flex:1;display:flex;flex-direction:column;padding:24px 20px 0;position:relative}
+.ob-mid.center{align-items:center;justify-content:center;text-align:center}
+.ob-list{gap:10px}.ob-list.tight{display:flex;flex-direction:column;gap:8px}
+.ob-pad{padding:28px 24px 0}
+.ob-foot{padding:14px 20px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px;position:relative}
+.ob-cta{display:flex;align-items:center;justify-content:center;gap:10px;height:58px;border-radius:18px;background:var(--accent);color:#0A0B0A;font-weight:800;font-size:18px;border:0;width:100%;transition:opacity .2s,transform .1s}
+.ob-cta:active{transform:scale(.98)}.ob-cta:disabled{opacity:.35}
+.ob-ghost{height:48px;background:none;border:0;color:#A3ADA6;font-size:16px;font-weight:500}
+.ob-note{text-align:center;font-size:13px;color:#A3ADA6;margin:2px 0 6px}
+.ob-hero{width:220px;height:220px}
+.ob-badge{margin-top:6px;display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);font-size:13px;font-weight:700}
+.ob-badge i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.ob-h1{margin:20px 0 0;font-size:42px;line-height:1.04;font-weight:900;letter-spacing:-.02em}
+.ob-h2{margin:6px 0 0;font-size:29px;line-height:1.15;font-weight:900}
+.ob-h3{margin:2px 0 0;font-size:24px;line-height:1.15;font-weight:900}
+.ob-sub{margin:12px 0 0;font-size:16.5px;line-height:1.5;color:#A3ADA6;max-width:330px}
+.ob-kick{font-size:14px;font-weight:700;color:#A3ADA6}
+.ob-name{font-size:72px;line-height:1.05;font-weight:900;color:var(--accent)}
+.ob-lead{margin:10px 0 0;font-size:18px;line-height:1.45;font-weight:700;max-width:330px}
+.ob-rows{width:100%;margin-top:18px;text-align:start}
+.ob-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid #1C201D}.ob-row:last-child{border-bottom:1px solid #1C201D}
+.ob-row b{font-size:16px;display:block}.ob-row small{font-size:14px;color:#A3ADA6}
+.ob-ic{width:44px;height:44px;border-radius:14px;background:#1E2220;color:var(--accent);display:flex;align-items:center;justify-content:center;flex:none}
+.ob-rows .ob-ic{background:color-mix(in srgb,var(--accent) 9%,#141715);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent)}
+.ob-rafi{display:flex;align-items:flex-end;gap:10px;padding:26px 20px 0}
+.ob-rafi img{width:66px;height:66px;flex:none}
+.ob-bub{background:#141715;border:1px solid #262B28;border-radius:22px 22px 6px 22px;padding:14px 18px;font-size:21px;font-weight:800;line-height:1.3}
+html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
+.ob-rafi.sm{padding:16px 0 0}.ob-rafi.sm img{width:48px;height:48px}.ob-rafi.sm .ob-bub{font-size:14.5px;font-weight:600;padding:10px 14px;background:#1E2220;line-height:1.45}
+.ob-lbl{font-size:14px;font-weight:700;color:#A3ADA6;margin:0 2px 8px}
+.ob-in{height:68px;border-radius:18px;background:#141715;border:2px solid var(--accent);padding:0 18px;color:#F2F5F2;font-size:26px;font-weight:800;box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 10%,transparent)}
+.ob-hint{margin:12px 2px 0;font-size:14px;color:#A3ADA6;line-height:1.5}.ob-hint.center{text-align:center}.ob-hint.acc{font-weight:700}
+.ob-opt{display:flex;align-items:center;gap:14px;min-height:68px;padding:12px 16px;border-radius:20px;background:#141715;border:2px solid #232825;color:#F2F5F2;text-align:start;width:100%;transition:border-color .15s,background .15s}
+.ob-opt.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,#141715)}
+.ob-opt.on .ob-ic{background:var(--accent);color:#0A0B0A}
+.ob-ot b{font-size:17.5px;font-weight:800;display:block}.ob-ot small{font-size:14px;color:#A3ADA6;display:block;margin-top:2px}
+.ob-bars{width:44px;height:44px;border-radius:14px;background:#1E2220;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding-bottom:11px;box-sizing:border-box}
+.ob-bars i{width:5px;border-radius:2px;background:#3A413C}.ob-bars i.on{background:var(--accent)}
+.ob-opt.on .ob-bars{background:var(--accent)}.ob-opt.on .ob-bars i{background:rgba(10,11,10,.25)}.ob-opt.on .ob-bars i.on{background:#0A0B0A}
+.ob-opt.on .ob-ic .ob-bars{background:transparent}
+.ob-tip{margin-top:14px;display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:18px;background:#0F1210;border:1px dashed #2A302C;font-size:14px;line-height:1.5;color:#C9D0CB}
+.ob-tip .ok{display:flex;align-items:center;gap:10px;color:#C9D0CB;font-size:15px}.ob-tip .ok svg{color:var(--accent)}
+.ob-g2{display:flex;gap:12px}
+.ob-gcard{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 10px 18px;border-radius:22px;background:#141715;border:2px solid #232825;color:#F2F5F2}
+.ob-gcard.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,#141715)}
+.ob-gcard img{width:96px;height:96px}.ob-gcard .w{font-size:38px;font-weight:900;line-height:1}.ob-gcard .q{font-size:13px;color:#A3ADA6}
+.ob-days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.ob-days button{height:58px;border-radius:16px;background:#141715;border:2px solid #232825;color:#F2F5F2;font-size:22px;font-weight:900}
+.ob-days button.on{background:var(--accent);border-color:var(--accent);color:#0A0B0A}
+.ob-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:16px;background:#141715;border:1px solid #232825}
+.ob-seg button{height:44px;border:0;border-radius:12px;background:none;color:#A3ADA6;font-size:15px;font-weight:700}.ob-seg button.on{background:#F2F5F2;color:#0A0B0A}
+.ob-list.tight .ob-opt{min-height:58px}
+.ob-g2b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:10px}
+.ob-f{display:flex;flex-direction:column;gap:6px;padding:12px 16px;border-radius:20px;background:#141715;border:2px solid #232825}
+.ob-f.has{border-color:color-mix(in srgb,var(--accent) 45%,#232825)}
+.ob-f>span:first-child{font-size:13px;font-weight:700;color:#A3ADA6}
+.ob-f .v{display:flex;align-items:baseline;gap:6px}.ob-f input{width:100%;min-width:0;border:0;background:none;color:#F2F5F2;font-size:30px;font-weight:900;padding:0;height:auto}
+.ob-f em{font-style:normal;font-size:14px;color:#A3ADA6;font-weight:700}
+.ob-sx{display:flex;gap:6px}.ob-sx button{flex:1;height:40px;border-radius:12px;background:#1E2220;border:0;color:#A3ADA6;font-weight:700;font-size:15px}.ob-sx button.on{background:#F2F5F2;color:#0A0B0A}
+.ob-priv{display:flex;align-items:center;gap:10px;color:#A3ADA6;font-size:13px;line-height:1.4;margin-top:14px}
+.ob-mode{position:relative;display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:20px;background:#141715;border:2px solid #232825;color:#F2F5F2;text-align:start;width:100%}
+.ob-mode.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,#141715)}
+.ob-mode b{font-size:18px;font-weight:800}.ob-mode small{font-size:14px;color:#A3ADA6;line-height:1.45}
+.ob-rec{position:absolute;top:-11px;inset-inline-end:16px;height:22px;padding:0 10px;border-radius:999px;background:var(--accent);color:#0A0B0A;font-size:12px;font-weight:800;display:flex;align-items:center}
+.ob-chips{display:flex;flex-wrap:wrap;gap:10px}
+.ob-chip{display:flex;align-items:center;gap:8px;height:48px;padding:0 16px;border-radius:999px;background:#141715;border:2px solid #232825;color:#F2F5F2;font-size:15.5px;font-weight:700}
+.ob-chip.sm{height:40px;font-size:14.5px}
+.ob-chip.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,#141715)}
+.ob-chip i{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#0A0B0A;display:flex;align-items:center;justify-content:center}
+.ob-demo{margin:20px 20px 0;padding:16px;border-radius:24px;background:#141715;border:1px solid #232825}
+.ob-demo b{font-size:17px}.ob-demo small{display:block;font-size:13px;color:#A3ADA6}
+.ob-tag{height:26px;padding:0 10px;border-radius:999px;background:#1E2220;color:#A3ADA6;font-size:12px;font-weight:700;display:flex;align-items:center}
+.ob-tag.acc{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.ob-set{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:16px;background:#0F1210;border:1px solid #1E2320;margin-top:8px}
+.ob-set .n{width:28px;height:28px;border-radius:9px;background:#1E2220;color:#A3ADA6;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.ob-set .l{flex:1;font-size:15px;color:#A3ADA6}.ob-set .l b{color:#F2F5F2;font-size:15px}
+.ob-set.on{border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 7%,#141715)}.ob-set.on .n{background:var(--accent);color:#0A0B0A}
+.ob-set .r{text-align:end}.ob-set .r b{font-size:19px;display:block}.ob-set .r small{color:var(--accent);font-weight:800}
+.ob-p{margin:0;font-size:16.5px;line-height:1.55;color:#C9D0CB}.ob-p.center{text-align:center}.ob-p b{color:#F2F5F2}
+.ob-orbit{position:relative;width:220px;height:220px;display:flex;align-items:center;justify-content:center}
+.ob-orbit::before{content:'';position:absolute;inset:0;border-radius:50%;border:2px dashed color-mix(in srgb,var(--accent) 40%,transparent);animation:obspin 9s linear infinite}
+.ob-orbit i{position:absolute;inset:16px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 18%,transparent),transparent 70%)}
+.ob-orbit img{width:160px;height:160px;position:relative;animation:obbob 2.4s ease-in-out infinite}
+@keyframes obspin{to{transform:rotate(360deg)}}@keyframes obbob{50%{transform:translateY(-6px)}}
+.ob-bar{width:100%;height:8px;border-radius:4px;background:#1E2220;margin-top:20px;overflow:hidden}.ob-bar i{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width .6s ease}
+.ob-checks{width:100%;margin-top:18px;display:flex;flex-direction:column;gap:14px;text-align:start}
+.ob-checks div{display:flex;align-items:center;gap:12px;font-size:16px;color:#A3ADA6}
+.ob-checks span{width:26px;height:26px;border-radius:50%;border:2px solid #2A302C;box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex:none}
+.ob-checks .done{color:#F2F5F2}.ob-checks .done span{background:var(--accent);border-color:var(--accent);color:#0A0B0A}
+.ob-checks .now{color:#F2F5F2;font-weight:700}.ob-checks .now span{border:3px solid #232825;border-top-color:var(--accent);animation:obspin 1s linear infinite}
+.ob-phd{display:flex;align-items:center;gap:12px;padding:calc(18px + env(safe-area-inset-top)) 20px 0}.ob-phd img{width:62px;height:62px;flex:none}
+.ob-wk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:16px 20px 0}
+.ob-wk div{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;border-radius:14px;background:#141715;font-size:13px;color:#A3ADA6;font-weight:700}
+.ob-wk b{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#1E2220;color:#5E665F;font-size:13px}
+.ob-wk .t{color:#F2F5F2}.ob-wk .t b{background:var(--accent);color:#0A0B0A}
+.ob-card{margin:12px 20px 0;padding:14px 16px;border-radius:22px;background:#141715;border:1px solid #232825}
+.ob-card b{font-size:17px}.ob-card small{display:block;font-size:13px;color:#A3ADA6}
+.ob-ex{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid #1E2320;margin-top:8px}
+.ob-ex .n{width:30px;height:30px;border-radius:10px;background:#1E2220;color:var(--accent);font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex:none}
+.ob-ex .t{flex:1;font-size:15px;font-weight:700}.ob-ex .r{font-size:14px;color:#A3ADA6}.ob-ex.mut .t,.ob-ex.mut .n{color:#A3ADA6;font-weight:500}
+.ob-kc{display:flex;align-items:baseline;gap:8px;margin-top:6px}.ob-kc b{font-size:34px;font-weight:900;line-height:1}.ob-kc span{font-size:14px;color:#A3ADA6;font-weight:700}.ob-kc i{width:1px;height:24px;background:#2A302C;margin:0 6px}
+.ob-lockav{position:relative;width:150px;height:150px;border-radius:40px;background:#141715;border:1px solid #232825;display:flex;align-items:center;justify-content:center;margin-top:10px}
+.ob-lockav img{width:128px;height:128px}.ob-lockav span{position:absolute;bottom:-10px;inset-inline-start:-10px;width:46px;height:46px;border-radius:15px;background:var(--accent);color:#0A0B0A;display:flex;align-items:center;justify-content:center;border:4px solid #0A0B0A}
+.ob-sso{display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:18px;background:#141715;border:1px solid #2A302C;color:#F2F5F2;font-size:17px;font-weight:700;width:100%}
+.ob-sso.apple{background:#F2F5F2;color:#0A0B0A;border-color:#F2F5F2}.ob-sso:disabled{opacity:.6}
+.ob-legal{font-size:12px;color:#A3ADA6;text-align:center;line-height:1.5;margin-top:4px}.ob-legal a{color:var(--accent)}
+.ob-lock{margin:24px 16px 0;padding:20px 12px;border-radius:30px;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 12%,#0F1410) 0%,#0F1410 100%);border:1px solid #232825;display:flex;flex-direction:column;gap:10px}
+.ob-lock .tm{text-align:center;font-size:44px;font-weight:300;line-height:1;margin-bottom:6px}
+.ob-lock .nt{display:flex;gap:10px;padding:12px 14px;border-radius:20px;background:rgba(40,46,42,.86);text-align:start}.ob-lock img{width:34px;height:34px;border-radius:9px;flex:none}
+.ob-lock small{font-size:12px;color:#A3ADA6;font-weight:700;display:block}.ob-lock b{font-size:15px;display:block}.ob-lock em{font-style:normal;font-size:14px;color:#C9D0CB}
+.obs-ready .ob-card.row1{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;margin:22px 0 0;text-align:start}
+.ob-a{width:50px;height:50px;border-radius:16px;background:var(--accent);color:#0A0B0A;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;flex:none}
+.ob-icon{margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px;border-radius:20px;background:#141715;border:1px solid color-mix(in srgb,var(--accent) 40%,#232825);text-align:start}
+.ob-icon img{width:52px;height:52px;border-radius:13px}.ob-icon b{display:block;font-size:16px}.ob-icon small{font-size:13px;color:#A3ADA6}
+.ob-icon-b{display:flex;gap:8px;width:100%}.ob-icon-b button{flex:1;height:44px;border-radius:14px;border:0;background:var(--accent);color:#0A0B0A;font-weight:800;font-size:15px}.ob-icon-b .no{background:#1E2220;color:#F2F5F2;font-weight:600}
+.ob-gift{margin-top:12px;font-size:14px;font-weight:700;color:var(--accent)}
 #authwrap{max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 0 24px;display:flex;flex-direction:column;gap:12px}
 #authwrap .card{padding:20px 18px}
 #authwrap input:not([type=checkbox]){height:52px;font-size:17px}
@@ -2481,9 +2613,289 @@ function vNatAuth(){
       <button class="gbtn" data-act="nat-google" ${b?'disabled':''}>${G_SVG}<span>${b==='google'?tt('רגע…'):tt('המשך עם Google')}</span></button>
       ${NAUTH.err?`<div class="autherr" style="display:block">${esc(NAUTH.err)}</div>`:''}
       <div class="small muted gconsent" style="text-align:center;line-height:1.55">${Gx('בהמשך אתה מסכים ל','בהמשך את מסכימה ל','בהמשך את/ה מסכים/ה ל')}<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a>. המידע באפליקציה אינו ייעוץ רפואי.</div>
+      <button class="linkbtn" data-act="onb-new" style="font-size:14px">${tt('חדש ב-NextRep? מתחילים עם ראפי')}</button>
       <button class="linkbtn" data-act="auth-g-reset" style="color:var(--muted);font-size:13px">${window.NR_G==='f'?'פנייה בלשון נקבה · שינוי':window.NR_G==='m'?'פנייה בלשון זכר · שינוי':'שינוי אופן הפנייה'}</button>
     </div></div>`;
 }
+/* ---------- פתיחה עם ראפי (האפליקציה המותקנת): ראפי מציג את עצמו, 8 שאלות, תוכנית ויעד תזונתי נבנים במכשיר,
+   ורק אז התחברות (Apple / Google) כדי לשמור. אחרי ההתחברות התשובות נכנסות לחשבון (רק בחשבון חדש), ואז התראות ומתחילים.
+   התשובות נשמרות במכשיר (nr-onb), כך שבחירת שפה או פנייה בלשון נקבה (טעינה מחדש) ממשיכות מאותו מסך. ---------- */
+const ONB_KEY='nr-onb';
+let ONB=(()=>{ try{ const o=JSON.parse(localStorage.getItem(ONB_KEY)||'null'); if(o&&o.a)return o; }catch(_){} return null; })()||{s:0,a:{blk:[],lim:[]}};
+const onbSave=()=>{ try{ localStorage.setItem(ONB_KEY,JSON.stringify(ONB)); }catch(_){} };
+const ONB_STEPS=['welcome','meet','name','addr','goal','memory','exp','sched','body','mode','block','build','plan','save'];
+const ONB_QN={name:1,addr:2,goal:3,memory:3,exp:4,sched:5,body:6,mode:7,block:8};
+const onbF=()=>(ONB.a.g||window.NR_G)==='f';
+const OG=(m,f)=>onbF()?f:m;
+const onbRafi=k=>`img/kobi-${k}${onbF()?'-f':''}.svg`;
+const ONB_CHK='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
+const ONB_BACK='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+/* the answers as the plan builder and the nutrition calculator take them */
+function onbPB(){ const a=ONB.a;
+  return {sex:a.sex||(onbF()?'f':'m'),goal:a.goal||'mass',level:a.exp||'mid',days:+a.days||3,time:+a.time||60,equip:a.equip||'gym',
+    focus:(a.sex||(onbF()?'f':'m'))==='f'?['glutes']:[],limits:[...(a.lim||[])]}; }
+function onbTG(){ const a=ONB.a, d=+a.days||3;
+  return {sex:a.sex||(onbF()?'f':'m'),age:+a.age,h:+a.h,w:+a.w,act:d<=2?1.375:d<=4?1.55:1.725,goal:a.goal==='cut'?'cut':a.goal==='mass'?'bulk':'keep',pace:'normal'}; }
+function onbPlan(){ PB.a=onbPB(); pbBuild(); return PB.plan; }
+function onbTop(back){ const st=ONB_STEPS[ONB.s], n=ONB_QN[st]||0;
+  return `<div class="ob-top"><button class="ob-back" data-act="onb-back" aria-label="${tt('חזרה')}">${ONB_BACK}</button>${n?`<div class="ob-prog" aria-hidden="true">${Array.from({length:8},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</div><span class="ob-step">${n} ${tt('מתוך')} 8</span>`:''}</div>`; }
+function onbSay(img,html){ return `<div class="ob-rafi"><img src="${onbRafi(img)}" alt=""><div class="ob-bub">${html}</div></div>`; }
+function onbOpt(k,v,title,sub,ic,multi){ const a=ONB.a, on=multi?(a[k]||[]).includes(v):a[k]===v;
+  return `<button class="ob-opt ${on?'on':''}" data-act="onb-pick" data-k="${k}" data-v="${v}"${multi?' data-multi="1"':''} aria-pressed="${on}">${ic?`<span class="ob-ic">${ic}</span>`:''}<span class="ob-ot"><b>${title}</b>${sub?`<small>${sub}</small>`:''}</span></button>`; }
+function onbCta(label,act,dis){ return `<div class="ob-foot"><button class="ob-cta" data-act="${act||'onb-next'}" ${dis?'disabled':''}>${label}</button></div>`; }
+const OBI={
+  fire:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c4.4 0 8-3.1 8-7.5 0-3.7-2.5-6.2-4.6-8.5-.6 2.4-1.9 3.6-3.4 3.6 0-2.1-.6-4.2-2-5.6C8.2 6.6 4 9.4 4 13.5 4 17.9 7.6 21 12 21z"/></svg>',
+  db:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>',
+  heart:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>',
+  home:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>',
+  body:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v6M8 21l4-8 4 8M7 10h10"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v4M16 3v4M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>',
+  up:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  spark:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.6L18 9.5l-4.2 1.9L12 16l-1.8-4.6L6 9.5l4.2-1.9z"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+};
+function onbReady(st){ const a=ONB.a;
+  if(st==='name')return String(a.name||'').trim().length>=2;
+  if(st==='addr')return !!a.g; if(st==='goal')return !!a.goal; if(st==='exp')return !!a.exp;
+  if(st==='sched')return !!a.days&&!!a.equip&&!!a.time;
+  if(st==='body')return +a.h>=120&&+a.h<=230&&+a.w>=30&&+a.w<=300&&+a.age>=13&&+a.age<100&&!!a.sex;
+  if(st==='mode')return !!a.mode; return true; }
+function vOnb(){
+  const st=ONB_STEPS[ONB.s]||'welcome', a=ONB.a, nm=esc(String(a.name||'').trim());
+  let h='';
+  if(st==='welcome'){
+    h=`<div class="ob-glow" aria-hidden="true"></div>
+      <div class="ob-hd"><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div>${langPillsHTML()}</div>
+      <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('happy')}" alt="${tt('ראפי, המאמן של NextRep')}">
+        <div class="ob-badge"><i></i>${tt('שבוע ראשון חינם · בלי כרטיס אשראי')}</div>
+        <h1 class="ob-h1">${tt('המאמן שזוכר')}<br><em>${tt('כל סט שלך.')}</em></h1>
+        <p class="ob-sub">${tt('תוכנית אישית, משקל מדויק לכל סט ויעד תזונתי שמתעדכן. ראפי לצידך מהאימון הראשון.')}</p></div>
+      <div class="ob-foot"><button class="ob-cta" data-act="onb-next">${OG('בוא נתחיל','בואי נתחיל')}</button><button class="ob-ghost" data-act="onb-login">${tt('כבר יש לי חשבון')}</button></div>`;
+  }else if(st==='meet'){
+    h=`<div class="ob-glow" aria-hidden="true" style="top:20px"></div>${onbTop()}
+      <div class="ob-mid center" style="justify-content:flex-start;padding-top:0"><img class="ob-hero" style="width:170px;height:170px" src="${onbRafi('wink')}" alt="">
+        <div class="ob-kick">${tt('נעים להכיר, אני')}</div><div class="ob-name" data-notr>${LANG==='he'?'רֶאפִּי':LANG==='ar'?'رِيبي':'Repi'}</div>
+        <p class="ob-lead">${OG('המאמן האישי שלך. אני אבנה לך תוכנית, אזכור כל סט, ואגיד לך כמה להרים בפעם הבאה.','המאמן האישי שלך. אני אבנה לך תוכנית, אזכור כל סט, ואגיד לך כמה להרים בפעם הבאה.')}</p>
+        <div class="ob-rows">
+          <div class="ob-row"><span class="ob-ic">${OBI.cal}</span><span><b>${tt('תוכנית שבנויה בשבילך')}</b><small>${tt('לפי המטרה, הניסיון והימים שלך')}</small></span></div>
+          <div class="ob-row"><span class="ob-ic">${OBI.up}</span><span><b>${tt('משקל וחזרות לכל סט')}</b><small>${tt('ואני יודע מתי הגיע הזמן להעלות')}</small></span></div>
+          <div class="ob-row"><span class="ob-ic">${OBI.fire}</span><span><b>${tt('יעד תזונתי שמתעדכן')}</b><small>${tt('לפי מה שאכלת ולפי המגמה במשקל')}</small></span></div></div></div>
+      <div class="ob-foot"><div class="ob-note">${tt('8 שאלות קצרות · פחות מדקה וחצי')}</div><button class="ob-cta" data-act="onb-next">${tt('נעים להכיר, ראפי')}</button></div>`;
+  }else if(st==='name'){
+    h=`${onbTop()}${onbSay('happy',tt('קודם כל, איך קוראים לך?'))}
+      <div class="ob-mid"><label class="ob-lbl" for="onb-name">${tt('השם הפרטי שלך')}</label>
+        <input id="onb-name" class="ob-in" type="text" autocomplete="given-name" enterkeyhint="next" maxlength="30" value="${nm}" placeholder="${tt('השם שלך')}">
+        <p class="ob-hint">${tt('ככה אפנה אליך באימונים ובסיכום השבועי.')}</p></div>
+      ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='addr'){
+    const card=(v,img,w,q)=>`<button class="ob-gcard ${a.g===v?'on':''}" data-act="onb-g" data-v="${v}" aria-pressed="${a.g===v}"><img src="img/kobi-happy${v==='f'?'-f':''}.svg" alt=""><span class="w">${w}</span><span class="q">${q}</span></button>`;
+    h=`${onbTop()}${onbSay('happy',`${tt('נעים מאוד')}, <span data-notr>${nm}</span>! ${tt('איך לפנות אליך?')}`)}
+      <div class="ob-mid"><div class="ob-g2">${card('m','',tt('אתה'),tt('״בוא נשבור שיא היום״'))}${card('f','',tt('את'),tt('״בואי נשבור שיא היום״'))}</div>
+        ${a.g==='f'&&iconCan()&&!iconIsF()&&!ONB.iconNo?iconOfferHTML():''}
+        <p class="ob-hint center">${tt('כל האפליקציה תדבר אליך ככה. בחירה ב״את״ מחליפה גם את הצבע לוורוד. אפשר לשנות בהגדרות.')}</p></div>
+      ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='goal'){
+    h=`${onbTop()}${onbSay('think',`<span data-notr>${nm}</span>, ${OG('מה הכי חשוב לך עכשיו?','מה הכי חשוב לך עכשיו?')}`)}
+      <div class="ob-mid ob-list">${onbOpt('goal','cut',tt('לרדת במשקל'),tt('ולשמור על השריר בדרך'),OBI.fire)}${onbOpt('goal','mass',tt('לבנות שריר'),tt('לגדול ולהיראות חזק יותר'),OBI.db)}${onbOpt('goal','strength',tt('להיות חזק יותר'),tt('להעלות משקלים בתרגילים הגדולים'),OBI.bolt)}${onbOpt('goal','fit',tt('כושר ובריאות'),tt('להרגיש טוב ולהתמיד'),OBI.heart)}</div>
+      ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='memory'){
+    const T={cut:[tt('לרדת במשקל, מעולה.'),tt('יורדים בשומן ושומרים על השריר: אימוני כוח וחלבון.')],mass:[tt('לבנות שריר, מעולה.'),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')],strength:[tt('להתחזק, מעולה.'),tt('כוח נבנה מהעלאות קטנות וקבועות במשקל.')],fit:[tt('כושר ובריאות, מעולה.'),tt('הסוד הוא להתמיד, ולהתקדם קצת בכל פעם.')]}[a.goal]||[tt('מעולה.'),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')];
+    h=`${onbTop()}<div class="ob-pad"><div class="ob-kick acc">${T[0]}</div><h1 class="ob-h2">${T[1]}</h1></div>
+      <div class="ob-demo"><div class="spread"><span><b>${tt('לחיצת חזה במוט')}</b><small>${tt('אימון A · סט 2 מתוך 4')}</small></span><span class="ob-tag">${tt('דוגמה')}</span></div>
+        <div class="ob-set"><span class="n">1</span><span class="l">${tt('בפעם שעברה')}</span><b dir="ltr">60 kg × 8</b></div>
+        <div class="ob-set on"><span class="n">2</span><span class="l"><b>${tt('ראפי ממליץ היום')}</b><small>${tt('עשית 8 חזרות נקיות, אז מעלים')}</small></span><span class="r"><b dir="ltr">62.5 kg × 8</b><small>+2.5 ${tt('ק״ג')}</small></span></div>
+        <div class="ob-rafi sm"><img src="${onbRafi('cheer')}" alt=""><div class="ob-bub">${OG('קשה מדי? תגיד לי כמה חזרות נשארו לך בטנק, ואני מכוונן.','קשה מדי? תגידי לי כמה חזרות נשארו לך בטנק, ואני מכוונן.')}</div></div></div>
+      <div class="ob-mid"><p class="ob-p">${tt('אני זוכר כל סט שעשית, ויודע מתי להעלות משקל ומתי לחכות.')} <b>${OG('אתה רק מרים.','את רק מרימה.')}</b></p></div>
+      ${onbCta(tt('מגניב, ממשיכים'))}`;
+  }else if(st==='exp'){
+    const bars=n=>`<span class="ob-bars" aria-hidden="true">${[8,14,20].map((hh,i)=>`<i class="${i<n?'on':''}" style="height:${hh}px"></i>`).join('')}</span>`;
+    h=`${onbTop()}${onbSay('happy',OG('כמה זמן אתה מתאמן עם משקולות?','כמה זמן את מתאמנת עם משקולות?'))}
+      <div class="ob-mid ob-list">${onbOpt('exp','beg',OG('רק מתחיל','רק מתחילה'),tt('אסביר כל תרגיל ונתחיל קל'),bars(1))}${onbOpt('exp','mid',tt('פחות משנתיים'),OG('מכיר את התרגילים, רוצה להתקדם','מכירה את התרגילים, רוצה להתקדם'),bars(2))}${onbOpt('exp','adv',tt('יותר משנתיים'),tt('צריך תוכנית חכמה כדי לא להיתקע'),bars(3))}
+        <div class="ob-tip">${tt('בשבוע הראשון אציע משקלים שמרניים ואלמד אותך תוך כדי. אחרי 2–3 אימונים הם כבר יהיו מדויקים.')}</div></div>
+      ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='sched'){
+    const P={2:tt('2 ימים: גוף מלא, פעמיים בשבוע'),3:tt('3 ימים: תוכנית מלאה לכל הגוף'),4:tt('4 ימים: חלוקה של פלג גוף עליון ותחתון'),5:tt('5 ימים: דחיפה, משיכה, רגליים, עליון ותחתון'),6:tt('6 ימים: דחיפה, משיכה, רגליים, פעמיים')};
+    h=`${onbTop()}${onbSay('happy',tt('כמה ימים בשבוע, ואיפה?'))}
+      <div class="ob-mid">
+        <div class="ob-lbl">${tt('ימי אימון בשבוע')}</div>
+        <div class="ob-days">${[2,3,4,5,6].map(d=>`<button class="${+a.days===d?'on':''}" data-act="onb-pick" data-k="days" data-v="${d}" aria-pressed="${+a.days===d}">${d}</button>`).join('')}</div>
+        ${a.days?`<div class="ob-hint acc">${P[a.days]}</div>`:''}
+        <div class="ob-lbl" style="margin-top:18px">${tt('איפה מתאמנים')}</div>
+        <div class="ob-list tight">${onbOpt('equip','gym',tt('חדר כושר מאובזר'),'',OBI.db)}${onbOpt('equip','home',tt('בבית, עם משקולות'),'',OBI.home)}${onbOpt('equip','bw',tt('בבית, בלי ציוד'),'',OBI.body)}</div>
+        <div class="ob-lbl" style="margin-top:18px">${tt('כמה זמן לאימון')}</div>
+        <div class="ob-seg">${[45,60,75].map(m=>`<button class="${+a.time===m?'on':''}" data-act="onb-pick" data-k="time" data-v="${m}">${m} ${tt('דק׳')}</button>`).join('')}</div></div>
+      ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='body'){
+    const f=(k,l,u)=>`<label class="ob-f ${+a[k]?'has':''}"><span>${l}</span><span class="v"><input id="onb-${k}" class="num" type="text" readonly data-np="num" data-unit="${u}" aria-label="${l}" value="${a[k]||''}" placeholder="–"><em>${u}</em></span></label>`;
+    h=`${onbTop()}${onbSay('think',tt('כמה מספרים, ואני מחשב לך יעד קלוריות וחלבון.'))}
+      <div class="ob-mid"><div class="ob-g2b">${f('h',tt('גובה'),tt('ס״מ'))}${f('w',tt('משקל'),tt('ק״ג'))}${f('age',tt('גיל'),tt('שנים'))}
+        <div class="ob-f"><span>${tt('מין (לחישוב)')}</span><span class="ob-sx"><button class="${a.sex==='m'?'on':''}" data-act="onb-pick" data-k="sex" data-v="m">${tt('זכר')}</button><button class="${a.sex==='f'?'on':''}" data-act="onb-pick" data-k="sex" data-v="f">${tt('נקבה')}</button></span></div></div>
+        ${a.goal==='cut'||a.goal==='mass'?f('goalKg',tt('יעד משקל (לא חובה)'),tt('ק״ג')):''}
+        <div class="ob-priv">${OBI.lock}<span>${tt('הנתונים נשמרים רק בחשבון שלך, ומשמשים רק לחישוב היעד.')}</span></div></div>
+      ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='mode'){
+    const m=(v,t,d,rec)=>`<button class="ob-mode ${a.mode===v?'on':''}" data-act="onb-pick" data-k="mode" data-v="${v}" aria-pressed="${a.mode===v}">${rec?`<span class="ob-rec">${tt('מומלץ')}</span>`:''}<b>${t}</b><small>${d}</small></button>`;
+    h=`${onbTop()}${onbSay('wink',OG('ואיך אתה רוצה שאאמן אותך?','ואיך את רוצה שאאמן אותך?'))}
+      <div class="ob-mid ob-list" style="gap:14px">${m('full',tt('ראפי מנהל הכל'),tt('משקל וחזרות בכל סט, ובסוף כל בלוק של 6 שבועות אני מרענן את התוכנית בעצמי.'),1)}${m('assist',tt('התוכנית שלי, ראפי מלווה'),tt('אני ממליץ על משקל וחזרות ומציע שינויים, אבל שום תרגיל לא מתחלף בלי אישור שלך.'))}${m('off',tt('רק תיעוד'),tt('יומן אימונים נקי, בלי המלצות. אפשר להפעיל אותי בכל רגע.'))}</div>
+      ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='block'){
+    const c=(v,l)=>{ const on=(a.blk||[]).includes(v); return `<button class="ob-chip ${on?'on':''}" data-act="onb-pick" data-k="blk" data-v="${v}" data-multi="1" aria-pressed="${on}">${on?`<i>${ONB_CHK}</i>`:''}${l}</button>`; };
+    const L=(v,l)=>{ const on=(a.lim||[]).includes(v); return `<button class="ob-chip sm ${on?'on':''}" data-act="onb-pick" data-k="lim" data-v="${v}" data-multi="1" aria-pressed="${on}">${on?`<i>${ONB_CHK}</i>`:''}${l}</button>`; };
+    const why={time:tt('אימונים באורך שבחרת, ותזכורת רק בימים שלך.'),unsure:tt('לכל תרגיל יש הדגמה והסבר קצר, ואני אומר בדיוק כמה להרים.'),stuck:tt('בלוקים של 6 שבועות עם שבוע קל, כדי לשבור את התקיעות.'),motiv:tt('סיכום שבועי ממני, שיאים ורצפים שרואים בעיניים.'),food:tt('יעד יומי פשוט, וצילום צלחת במקום לחפש בטבלאות.'),pain:tt('אוותר על תרגילים שמעמיסים על האזור.')};
+    const sel=(a.blk||[]).filter(x=>why[x]).slice(0,3);
+    h=`${onbTop()}${onbSay('think',tt('שאלה אחרונה: מה הכי מפריע לך להתמיד?'))}
+      <div class="ob-mid"><div class="ob-hint" style="margin:0 2px 10px">${tt('אפשר לבחור כמה')}</div>
+        <div class="ob-chips">${c('time',tt('אין לי זמן'))}${c('unsure',OG('לא בטוח מה לעשות בחדר כושר','לא בטוחה מה לעשות בחדר כושר'))}${c('stuck',OG('תקוע באותם משקלים','תקועה באותם משקלים'))}${c('motiv',OG('מאבד מוטיבציה','מאבדת מוטיבציה'))}${c('food',tt('התזונה'))}${c('pain',tt('כאב או פציעה'))}</div>
+        ${(a.blk||[]).includes('pain')?`<div class="ob-lbl" style="margin-top:14px">${tt('איפה?')}</div><div class="ob-chips">${L('knees',tt('ברכיים'))}${L('lowback',tt('גב תחתון'))}${L('shoulders',tt('כתפיים'))}</div>`:''}
+        ${sel.length?`<div class="ob-tip"><b class="acc">${tt('מה אני עושה עם זה')}</b>${sel.map(x=>`<span>${why[x]}</span>`).join('')}</div>`:''}</div>
+      <div class="ob-foot"><button class="ob-cta" data-act="onb-next">${OBI.spark}${tt('תבנה לי תוכנית')}</button></div>`;
+  }else if(st==='build'){
+    const P=onbPlan(), r=tgCalc(onbTG()), k=ONB.bi||0, items=[
+      `${a.days} ${tt('ימים')} · ${tt(P.split)}`, tt('בוחר תרגילים מתוך המאגר'), tt('משקלי פתיחה לפי הניסיון שלך'), tt('יעד קלוריות וחלבון יומי')];
+    h=`<div class="ob-mid center" style="justify-content:flex-start;padding-top:calc(70px + env(safe-area-inset-top))">
+        <div class="ob-orbit"><i></i><img src="${onbRafi('think')}" alt=""></div>
+        <h1 class="ob-h2 center" style="margin-top:22px">${tt('רגע, אני בונה לך תוכנית…')}</h1>
+        <div class="ob-bar"><i style="width:${Math.min(100,(k+1)*25)}%"></i></div>
+        <div class="ob-checks">${items.map((t,i)=>`<div class="${i<k?'done':i===k?'now':''}"><span>${i<k?ONB_CHK:''}</span>${t}</div>`).join('')}</div></div>
+      <div class="ob-rafi sm" style="margin:0 20px calc(28px + env(safe-area-inset-bottom))"><img src="${onbRafi('happy')}" alt=""><div class="ob-bub">${tt('בכל 6 שבועות אני מרענן את התוכנית, עם שבוע קל באמצע כדי שהגוף יתאושש.')}</div></div>`;
+    if(!r)console.warn('onb: no nutrition target');
+  }else if(st==='plan'){
+    const P=onbPlan(), r=tgCalc(onbTG()), days=PB_DAYS[+a.days||3]||[], s0=P.sessions[0]||{ex:[]}, ex=s0.ex||[];
+    let si=0; const wk=[0,1,2,3,4,5,6].map(d=>{ const on=days.includes(d); const L=on?'ABCDEF'[si++%P.sessions.length]:'–'; return `<div class="${on?'t':''}"><span>${DAY_LETTERS[d]}</span><b>${L}</b></div>`; }).join('');
+    h=`<div class="ob-phd"><img src="${onbRafi('cheer')}" alt=""><div><div class="ob-kick acc">${tt('התוכנית שלך מוכנה')}</div><h1 class="ob-h3"><span data-notr>${nm}</span>, ${tt('ככה נראה השבוע שלך')}</h1></div></div>
+      <div class="ob-wk">${wk}</div>
+      <div class="ob-card"><div class="spread"><span><b>${esc(String(s0.name||'').replace(/^[A-F] — /,'A · '))}</b><small>${ex.length} ${tt('תרגילים')} · ${tt('כ-')}${s0.min||60} ${tt('דקות')}</small></span><span class="ob-tag acc">${tt('ראשון בתור')}</span></div>
+        ${ex.slice(0,3).map((e,i)=>`<div class="ob-ex"><span class="n">${i+1}</span><span class="t">${esc(e.n)}</span><span class="r" dir="ltr">${e.t==='c'?e.min+' min':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}
+        ${ex.length>3?`<div class="ob-ex mut"><span class="n">+${ex.length-3}</span><span class="t">${ex.slice(3,6).map(e=>esc(e.n)).join(', ')}</span></div>`:''}</div>
+      ${r?`<div class="ob-card"><div class="spread"><b>${tt('היעד היומי שלך')}</b><small>${tt('מתעדכן כל שבוע')}</small></div>
+        <div class="ob-kc"><b class="acc">${Math.round(r.kcal).toLocaleString('en-US')}</b><span>${tt('קק״ל')}</span><i></i><b>${r.prot}</b><span>${tt('גר׳ חלבון')}</span></div></div>`:''}
+      <div style="flex:1"></div>
+      <div class="ob-foot"><button class="ob-cta" data-act="onb-next">${tt('שמור את התוכנית')}</button><div class="ob-note">${tt('אפשר לשנות כל תרגיל אחר כך')}</div></div>`;
+  }else if(st==='save'){
+    const b=NAUTH.busy;
+    h=`${onbTop()}<div class="ob-mid center" style="justify-content:flex-start">
+        <div class="ob-lockav"><img src="${onbRafi('happy')}" alt=""><span>${OBI.lock}</span></div>
+        <h1 class="ob-h2 center" style="margin-top:26px">${OG('בוא נשמור את התוכנית שלך','בואי נשמור את התוכנית שלך')}</h1>
+        <p class="ob-sub">${tt('התחברות אחת, וזה שמור לתמיד ובכל מכשיר.')}</p>
+        <div class="ob-tip" style="width:100%;margin-top:20px"><span class="ok">${ONB_CHK}${tt('התוכנית ומשקלי הפתיחה')}</span><span class="ok">${ONB_CHK}${OG('כל סט שתעשה, וכל שיא','כל סט שתעשי, וכל שיא')}</span><span class="ok">${ONB_CHK}${tt('יעד הקלוריות והחלבון')}</span></div></div>
+      <div class="ob-foot">
+        ${NATIVE_OS==='ios'?`<button class="ob-sso apple" data-act="nat-apple" ${b?'disabled':''}>${APPLE_SVG}<span>${b==='apple'?tt('רגע…'):tt('המשך עם Apple')}</span></button>`:''}
+        <button class="ob-sso" data-act="nat-google" ${b?'disabled':''}>${G_SVG}<span>${b==='google'?tt('רגע…'):tt('המשך עם Google')}</span></button>
+        ${NAUTH.err?`<div class="autherr" style="display:block">${esc(NAUTH.err)}</div>`:''}
+        <div class="ob-legal">${OG('בהמשך אתה מסכים ל','בהמשך את מסכימה ל')}<a href="terms.html" target="_blank">${tt('תקנון')}</a> ${tt('ול')}<a href="privacy.html" target="_blank">${tt('מדיניות הפרטיות')}</a>.</div></div>`;
+  }
+  return `<div id="onb" class="obs-${st}">${h}</div>`;
+}
+/* iPhone: a pink app icon for women (alternate icon "AppIcon-F" in the app bundle). iOS shows its own short notice when it changes. */
+const iconCan=()=>IS_NATIVE&&NATIVE_OS==='ios'&&!!capP('AppIcon');
+async function iconSet(f){ if(!iconCan())return false; try{ if(f)await capP('AppIcon').change({name:'AppIcon-F',suppressNotification:true}); else await capP('AppIcon').reset({suppressNotification:true});
+  try{ localStorage.setItem('nr-icon',f?'f':'m'); }catch(_){} logEv('app_icon',{f:!!f}); return true; }catch(e){ console.warn('icon',e); return false; } }
+const iconIsF=()=>{ try{ return localStorage.getItem('nr-icon')==='f'; }catch(_){ return false; } };
+function iconOfferHTML(){ return `<div class="ob-icon"><img src="icon-f-192.png" alt=""><div><b>${tt('אייקון ורוד לאפליקציה?')}</b><small>${tt('מחליפים עכשיו, ואפשר לחזור בהגדרות.')}</small></div>
+  <div class="ob-icon-b"><button data-act="onb-icon" data-v="f">${tt('כן, להחליף')}</button><button data-act="onb-icon" data-v="no" class="no">${tt('לא תודה')}</button></div></div>`; }
+function onbPaint(){ if(ONB.authed){ let el=$('#onbpost'); if(!el){ el=document.createElement('div'); el.id='onbpost'; document.body.appendChild(el); } el.innerHTML=vOnb(); } else render(); }
+function onbGo(s){ ONB.s=Math.max(ONB.authed?1:0,Math.min(ONB_STEPS.length-1,s)); onbSave(); onbPaint(); try{ $('#onb')?.scrollTo(0,0); }catch(_){}
+  const st=ONB_STEPS[ONB.s];
+  if(st==='name')setTimeout(()=>{ const i=$('#onb-name'); if(i&&!i.value){ try{ i.focus({preventScroll:true}); }catch(_){ i.focus(); } } },250);
+  if(st==='build'){ ONB.bi=0; clearInterval(onbGo._t); onbGo._t=setInterval(()=>{ if(ONB_STEPS[ONB.s]!=='build'){ clearInterval(onbGo._t); return; }
+      ONB.bi=(ONB.bi||0)+1; vibrate(8); if(ONB.bi>=4){ clearInterval(onbGo._t); setTimeout(()=>{ if(ONB_STEPS[ONB.s]==='build')onbGo(ONB.s+1); },650); } onbPaint(); },850); }
+  try{ logEv('onb_step',{s:st}); }catch(_){} }
+function onbAct(act,b){
+  const a=ONB.a, st=ONB_STEPS[ONB.s];
+  switch(act){
+    case 'onb-next': if(!onbReady(st))return true;
+      if(st==='name'){ a.name=String($('#onb-name')?.value||a.name||'').trim().slice(0,30); try{ document.activeElement?.blur(); }catch(_){} }
+      if(st==='plan'){ ONB.applied=false; // a new run through the questions: apply it after this sign-in
+        if(ONB.authed){ ONB.applied=true; ONB.authed=false; onbSave(); b.disabled=true; onbApply().catch(e=>{ console.warn('onbApply',e); b.disabled=false; toast(tt('לא הצלחנו לשמור את התוכנית, נסה שוב')); }); return true; } }
+      onbGo(ONB.s+1); return true;
+    case 'onb-back': if(st==='save'||st==='plan'){ onbGo(ONB_STEPS.indexOf('block')); return true; } onbGo(ONB.s-1); return true;
+    case 'onb-login': ONB.login=true; onbSave(); render(); return true;
+    case 'onb-new': ONB.login=false; onbSave(); render(); return true;
+    case 'onb-g': { const v=b.dataset.v, was=window.NR_G; a.g=v; if(!a.sex)a.sex=v; onbSave();
+      try{ localStorage.setItem('nr-g',v); localStorage.removeItem('nr-acc'); }catch(_){}
+      if(LANG!=='en'&&(v==='f')!==(was==='f')){ location.reload(); return true; } // feminine Hebrew/Arabic dictionary loads on start
+      window.NR_G=v; applyLook(v,null); if(v==='m'&&iconIsF())iconSet(false); onbPaint(); return true; }
+    case 'onb-icon': if(b.dataset.v==='f'){ b.disabled=true; iconSet(true).then(ok=>{ if(ok)toast(tt('האייקון הוחלף ✓')); onbPaint(); }); } else { ONB.iconNo=true; onbSave(); onbPaint(); } return true;
+    case 'onb-pick': { const k=b.dataset.k; let v=b.dataset.v; if(/^\d+$/.test(v))v=+v;
+      if(b.dataset.multi){ const arr=a[k]||(a[k]=[]); const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); if(k==='blk'&&v==='pain'&&i>=0)a.lim=[]; }
+      else a[k]=v; vibrate(6); onbSave(); onbPaint(); return true; }
+  }
+  return false;
+}
+document.addEventListener('click',ev=>{ const b=ev.target.closest('[data-act^="onb-"]'); if(!b||b.disabled)return; onbAct(b.dataset.act,b)||onbPostAct(b.dataset.act,b); });
+document.addEventListener('input',ev=>{ const t=ev.target; if(!t.id||!t.id.startsWith('onb-'))return; const k=t.id.slice(4);
+  if(k==='name'){ ONB.a.name=t.value; onbSave(); const c=$('#onb .ob-cta'); if(c)c.disabled=!onbReady('name'); return; }
+  if(['h','w','age','goalKg'].includes(k)){ ONB.a[k]=+String(t.value).replace(',','.')||null; onbSave(); onbPaint(); } });
+document.addEventListener('keydown',ev=>{ if(ev.key==='Enter'&&ev.target.id==='onb-name'){ ev.preventDefault(); $('#onb .ob-cta')?.click(); } });
+/* the user signed in: the answers go into a NEW account (an existing one keeps everything it has), then notifications and go */
+function iconAskPending(){ let ask=false; try{ ask=localStorage.getItem('nr-icon-ask')==='1'; localStorage.removeItem('nr-icon-ask'); }catch(_){}
+  if(!ask||!iconCan()||iconIsF()||S.settings.g!=='f')return false;
+  openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-happy-f.svg" alt=""><div><b>${tt('אייקון ורוד לאפליקציה?')}</b><span>${tt('מחליפים עכשיו, ואפשר לחזור בהגדרות.')}</span></div></div>
+    <div style="display:flex;justify-content:center;gap:18px;margin:6px 0 16px"><img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:15px;opacity:.55"><span style="align-self:center;font-size:22px">→</span><img src="icon-f-192.png" alt="" style="width:64px;height:64px;border-radius:15px"></div>
+    <button class="btn primary big" data-act="icon-yes">${tt('כן, להחליף')}</button><button class="btn big" style="margin-top:8px" data-act="sheet-close">${tt('לא תודה')}</button>`);
+  return true; }
+const onbFresh=()=>!S.templates.length&&!S.workouts.length&&!S.settings.kcalT&&!S.settings.start;
+function onbApplyPending(){
+  if(!IS_NATIVE||!ONB)return false;
+  // signed in through "כבר יש לי חשבון" but there is no account yet (Apple / Google just created it): the questionnaire comes first
+  if(ONB_STEPS[ONB.s]!=='save'||ONB.applied){ if(!onbFresh())return false;
+    if(!ONB.authed){ ONB.authed=true; ONB.login=false; ONB.applied=false; ONB.s=ONB_STEPS.indexOf('meet'); onbSave(); try{ logEv('onb_forced'); }catch(_){}
+      toast(tt('עוד אין לך חשבון, אז נתחיל מההתחלה. לוקח דקה.')); }
+    else if(ONB.s>=ONB_STEPS.indexOf('build'))ONB.s=ONB_STEPS.indexOf('block'); // the app was closed mid-way: back to where the answers end
+    onbPaint(); return true; }
+  ONB.applied=true; onbSave();
+  const fresh=!S.templates.length&&!S.workouts.length&&!S.settings.kcalT;
+  if(!fresh){ try{ logEv('onb_existing'); }catch(_){} return false; }
+  onbApply().catch(e=>{ console.warn('onbApply',e); toast(tt('לא הצלחנו לשמור את התוכנית, נסה שוב מההגדרות')); });
+  return true;
+}
+async function onbApply(){
+  const a=ONB.a, g=a.g||window.NR_G||'m';
+  try{ localStorage.setItem('nr-notif-onb','1'); }catch(_){}
+  if(a.name){ S.user=Object.assign({},S.user,{user_metadata:Object.assign({},S.user?.user_metadata,{full_name:a.name})}); try{ sb.auth.updateUser({data:{full_name:a.name}}).then(({data})=>{ if(data?.user)S.user=data.user; },()=>{}); }catch(_){} }
+  S.settings.g=g; const t=onbTG(), r=tgCalc(t);
+  S.settings.body={sex:t.sex,age:t.age,h:t.h,w:t.w,act:t.act,goal:t.goal,pace:t.pace};
+  if(r){ S.settings.kcalT=r.kcal; S.settings.protT=r.prot; } if(+a.goalKg)S.settings.goalKg=+a.goalKg;
+  const c=coachCfg(); c.mode=a.mode||'full';
+  S.settings.start='pb'; S.settings.onb={blk:a.blk||[],at:Date.now()};
+  const P=onbPlan(), now=Date.now(), ids=[];
+  for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
+    await saveTemplate({id,name:se.name,order:i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:e)}); }
+  S.settings.schedule={}; (PB_DAYS[+a.days||3]||[]).forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; });
+  await persistSettings(); ONB.first=ids[0]||null; ONB.s=0; onbSave(); logEv('onb_done',{goal:a.goal,days:a.days,mode:a.mode});
+  render(); natSchedSoon();
+  await natPermSync(); onbPost(NAT.perm==='granted'?'ready':'notify');
+}
+function onbPost(step){
+  let el=$('#onbpost'); if(!el){ el=document.createElement('div'); el.id='onbpost'; document.body.appendChild(el); }
+  const nm=esc(firstName()||ONB.a.name||'');
+  if(step==='notify')el.innerHTML=`<div id="onb" class="obs-notify">${onbSay('wink',tt('שאזכיר לך? מבטיח לא לחפור.'))}
+      <div class="ob-lock"><div class="tm" dir="ltr">${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="nt"><img src="icon-192.png" alt=""><span><small>NextRep · ${tt('עכשיו')}</small><b>${tt('המנוחה נגמרה')}</b><em>${tt('סט 3 בלחיצת חזה מחכה לך')}</em></span></div>
+        <div class="nt" style="opacity:.92"><img src="icon-192.png" alt=""><span><small>NextRep · 08:00</small><b>${tt('היום: אימון B')}</b><em>${tt('האימון מחכה לך')}</em></span></div>
+        <div class="nt" style="opacity:.8"><img src="icon-192.png" alt=""><span><small>NextRep</small><b>${tt('ראפי: הסיכום השבועי מוכן')}</b><em>${tt('מה הלך טוב, ועל מה להתמקד')}</em></span></div></div>
+      <div class="ob-mid"><p class="ob-p center">${tt('רק מה שחשוב: סוף המנוחה, תזכורת בימי האימון שלך והסיכום השבועי ממני. אפשר לכבות כל אחת מהן בהגדרות.')}</p></div>
+      <div class="ob-foot"><button class="ob-cta" data-act="onb-notif">${OBI.bell}${OG('הפעל התראות','הפעילי התראות')}</button><button class="ob-ghost" data-act="onb-ready">${tt('אחר כך')}</button></div></div>`;
+  else el.innerHTML=`<div id="onb" class="obs-ready"><div class="ob-glow" aria-hidden="true"></div>
+      <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('cheer')}" alt="">
+        <h1 class="ob-h1">${tt('יאללה')} <span data-notr>${nm}</span>,<br><em>${tt('מתחילים.')}</em></h1>
+        <p class="ob-sub">${tt('התוכנית שמורה, ואני איתך מהסט הראשון.')}</p>
+        ${ONB.first?`<div class="ob-card row1"><span class="ob-a">A</span><span><b>${tt('האימון הראשון שלך')}</b><small>${esc(S.templates.find(t=>t.id===ONB.first)?.name||'')}</small></span></div>`:''}
+        ${isPrem()?`<div class="ob-gift">${tt('שבוע ראשון בפרימיום, עלינו')}</div>`:''}</div>
+      <div class="ob-foot">${ONB.first?`<button class="ob-cta" data-act="onb-go">${tt('לאימון הראשון')}</button>`:''}<button class="ob-ghost" data-act="onb-close">${tt('קודם אסתכל מסביב')}</button></div></div>`;
+}
+function onbPostAct(act){
+  switch(act){
+    case 'onb-notif': natPermAsk().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:'onb'}); if(ok)natSchedSoon(); onbPost('ready'); }); return true;
+    case 'onb-ready': onbPost('ready'); return true;
+    case 'onb-go': { const id=ONB.first; $('#onbpost')?.remove(); const t=S.templates.find(x=>x.id===id); if(t)startWorkout(t.name,t.id); else { S.tab='train'; render(); } return true; }
+    case 'onb-close': $('#onbpost')?.remove(); S.tab='home'; render(); return true;
+  }
+  return false;
+}
+
 const hex=buf=>Array.from(new Uint8Array(buf),x=>x.toString(16).padStart(2,'0')).join('');
 async function sha256hex(str){
   if(window.crypto?.subtle)return hex(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)));
@@ -3035,7 +3447,7 @@ function startLandTimer(){
 }
 
 /* ----- auth screen ----- */
-function vAuth(){ if(IS_NATIVE)return vNatAuth(); if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOGLE)))return vOtp(); if(SHOW_GOOGLE&&(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH)){gsiLoad(); setTimeout(gsiMount,0);}
+function vAuth(){ if(IS_NATIVE)return ONB.login?vNatAuth():vOnb(); if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOGLE)))return vOtp(); if(SHOW_GOOGLE&&(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH)){gsiLoad(); setTimeout(gsiMount,0);}
   const su=S.authMode==='signup';
   const showForm=!(GOOGLE_ON&&SHOW_GOOGLE)||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
@@ -8666,11 +9078,13 @@ function handleAct(b,ev){
     case 'food-targets-open': openTargetsSheet(); break;
     case 'g-open': openGenderSheet(false); break;
     case 'acc-open': openAccentSheet(); break;
+    case 'icon-yes': closeSheet(); iconSet(true).then(ok=>{ if(ok)toast(tt('האייקון הוחלף ✓')); }); break;
     case 'g-name-next': { const nm=($('#g-name')?.value||'').trim(); if(!nm){ toast('מה השם שלך?'); $('#g-name')?.focus(); break; }
       S.user=Object.assign({},S.user,{user_metadata:Object.assign({},S.user?.user_metadata,{full_name:nm})}); logEv('name_set',{at:'onboard'});
       sb.auth.updateUser({data:{full_name:nm}}).then(({data})=>{ if(data?.user){ S.user=data.user; } },()=>{});
       openGenderSheet(true); break; }
     case 'g-set': { const v=b.dataset.v, first=!!b.dataset.first; S.settings.g=v;
+      if(iconCan()){ if(v==='f'&&!iconIsF()){ try{ localStorage.setItem('nr-icon-ask','1'); }catch(_){} } else if(v!=='f'&&iconIsF())iconSet(false); }
       if(!S.settings.body)S.settings.body={}; if((v==='m'||v==='f')&&!S.settings.body.sex)S.settings.body.sex=v;
       document.querySelectorAll('[data-act="g-set"]').forEach(x=>x.classList.toggle('on',x===b));
       Promise.resolve(persistSettings()).catch(()=>{}).then(()=>{ closeSheet();
@@ -8983,7 +9397,7 @@ async function enterApp(user){
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest(); setTimeout(syncPush,1500);
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
-  setTimeout(()=>{ if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else onboardNext(); } },700);
+  setTimeout(()=>{ if(onbApplyPending())return; if(iconAskPending())return; if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else onboardNext(); } },700);
   socialProfileFix();
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}
