@@ -6,7 +6,7 @@
   "scripts": {
     "web": "node scripts/copy-web.js",
     "sync": "npm run web && npx cap sync",
-    "assets": "npx capacitor-assets generate --iconBackgroundColor '#0F1411' --iconBackgroundColorDark '#0F1411' --splashBackgroundColor '#0F1411' --splashBackgroundColorDark '#0F1411'"
+    "assets": "npx capacitor-assets generate --iconBackgroundColor '#BFFF2F' --iconBackgroundColorDark '#BFFF2F' --splashBackgroundColor '#0A0B0A' --splashBackgroundColorDark '#0A0B0A'"
   },
   "dependencies": {
     "@capacitor-community/apple-sign-in": "7.1.0",
