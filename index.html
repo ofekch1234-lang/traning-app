@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=964be5a7"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=964be5a7"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=964be5a7"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=2f88fecb"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=2f88fecb"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=2f88fecb"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1742,7 +1742,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.20';
+const APP_VERSION='13.3.21';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2092,6 +2092,15 @@ const fmtDur=ms=>{const m=Math.max(1,Math.round(ms/60000));return m>=60?`${Math.
 const clone=o=>JSON.parse(JSON.stringify(o));
 function toast(msg){const t=$('#toast');$('#toast-msg').textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2200);}
 
+/* יחידות משקל: הכול נשמר בק״ג; ההצגה וההקלדה לפי ההגדרה, בנפרד למשקל גוף (uB) ולמשקלי אימון (uL) */
+const LB=2.2046226;
+const uL=()=>S.settings?.uL==='lb'?'lb':'kg', uB=()=>S.settings?.uB==='lb'?'lb':'kg';
+const uTxt=u=>u==='lb'?'lb':tt('ק״ג');
+function toU(kg,u){ if(kg===''||kg==null)return ''; const x=+kg; if(!isFinite(x))return kg; return u==='lb'?Math.round(x*LB*10)/10:Math.round(x*100)/100; }
+function fromU(v,u){ if(v===''||v==null)return ''; const x=+v; if(!x)return x; return u==='lb'?Math.round(x/LB*10000)/10000:x; }
+const wL=kg=>toU(kg,uL()), wLk=v=>fromU(v,uL()), LU=()=>uTxt(uL());
+const wB=kg=>toU(kg,uB()), wBk=v=>fromU(v,uB()), BU=()=>uTxt(uB());
+const wLs=s=>`${wL(+s.w||0)}×${+s.r||0}`; // "60×10" בסט, ביחידת האימון
 function workoutVol(w){let v=0;for(const e of w.ex||[])if(e.t==='s')for(const s of e.sets||[])v+=(+s.w||0)*(+s.r||0);return v;}
 function workoutSets(w){let n=0;for(const e of w.ex||[])if(e.t==='s')n+=(e.sets||[]).filter(s=>+s.r>0).length;return n;}
 
@@ -2108,7 +2117,7 @@ function lastPerf(name){
   for(const w of ws){const e=(w.ex||[]).find(e=>e.n===name);
     if(e){ if(e.t==='c') return e.c?`קודם: ${e.c.min||0} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`:null;
       const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)continue;
-      return 'קודם: '+ss.map(s=>`${+s.w||0}×${+s.r||0}`).join(' · ');}}
+      return 'קודם: '+ss.map(wLs).join(' · ');}}
   return null;
 }
 function lastSetsOf(name){
@@ -2127,6 +2136,7 @@ function coachTip(name,repsRange,nSets){
   const enough=last.length>=Math.min(nSets||last.length,last.length);
   const allTop=last.every(s=>(+s.r||0)>=top);
   if(allTop&&enough){
+    if(uL()==='lb'){ const lb=wL(maxW); return {w:fromU(Math.round((lb+(lb>=30?5:2.5))/2.5)*2.5,'lb'), from:maxW}; }
     const inc=maxW>=40?2.5:(maxW>=15?2:1); // קפיצה קטנה יותר במשקלים קלים
     return {w:Math.round((maxW+inc)*10)/10, from:maxW};
   }
@@ -2140,7 +2150,7 @@ function historyOf(name){
     if(e.t==='c'){ if(e.c&&(e.c.min||e.c.km))out.push({ts:w.start,txt:`${e.c.min||0} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`}); continue; }
     const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)continue;
     const best=Math.max(...ss.map(s=>e1rm(+s.w||0,+s.r||0)));
-    out.push({ts:w.start,txt:ss.map(s=>`${+s.w||0}×${+s.r||0}`).join(' · '),e1:Math.round(best)});
+    out.push({ts:w.start,txt:ss.map(wLs).join(' · '),e1:Math.round(wL(best))});
   }
   return out;
 }
@@ -2186,7 +2196,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null,saved:S.settings.saved||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,uL:S.settings.uL||null,uB:S.settings.uB||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null,saved:S.settings.saved||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); return flushActive(); }
@@ -3213,7 +3223,7 @@ function macroSplit(kcal,prot,leanW){ const fat=Math.round(Math.max(leanW?0.8*le
 /* daily carb/fat targets, derived from the saved calorie + protein targets (so a manual protein change keeps them consistent) */
 function macroT(ds){ const kT=+S.settings.kcalT||0; if(!kT)return {c:0,f:0}; const pT=+S.settings.protT||Math.round(kT*0.25/4), b=S.settings.body||{};
   const m=macroSplit(kT,pT,b.w&&b.h?tgLean(+b.w,+b.h):0), dk=ds?kcalFor(ds)-kT:0; return {c:Math.max(0,Math.round(m.carbs+dk/4)),f:m.fat}; }
-function tgWkText(wk,pace){ const x=wk<0?`בקצב הזה: ירידה של ~${Math.abs(wk)} ק״ג בשבוע.`:wk>0?`בקצב הזה: עלייה של ~${wk} ק״ג בשבוע.`:'שמירה על המשקל, עם התקדמות בכוח.';
+function tgWkText(wk,pace){ const x=wk<0?`בקצב הזה: ירידה של ~${Math.abs(wB(wk))} ${BU()} בשבוע.`:wk>0?`בקצב הזה: עלייה של ~${wB(wk)} ${BU()} בשבוע.`:'שמירה על המשקל, עם התקדמות בכוח.';
   return x+(pace==='fast'&&wk?` <span class="tgw-warn">קצב מהיר: קשה יותר להתמיד ולשמור על השריר.</span>`:''); }
 /* result screen: editing calories/protein recomputes the rest live */
 function tgLive(){ const r=TG&&tgCalc(TG); if(!r)return; const kc=Math.round(+($('#t-kcal')?.value)||0), pr=Math.round(+($('#t-prot')?.value)||0); if(kc<500)return;
@@ -3253,6 +3263,15 @@ function applyLook(g,acc){
   if(LANG!=='en'&&(g==='f')!==(window.NR_G==='f')){ location.reload(); return true; }
   window.NR_G=g; return false;
 }
+/* יחידות משקל: גוף ואימונים בנפרד. הנתונים נשמרים בק״ג, אז אפשר לעבור הלוך ושוב בלי לאבד כלום */
+function openUnitsSheet(){
+  const row=(k,label,hint)=>{ const cur=(k==='uL'?uL():uB()); return `<div class="label" style="margin:14px 0 6px">${label}</div>
+    <div class="row" style="gap:8px">${[['kg',tt('ק״ג')],['lb','lb']].map(([v,l])=>`<button class="chip ${cur===v?'on':''}" style="flex:1;justify-content:center" data-act="units-set" data-k="${k}" data-v="${v}" aria-pressed="${cur===v}">${l}</button>`).join('')}</div>
+    <div class="small muted" style="margin-top:6px">${hint}</div>`; };
+  openSheet(`${sheetHead('יחידות משקל')}
+    ${row('uB','משקל גוף','שקילות, משקל יעד והגרף')}
+    ${row('uL','משקלי אימון','סטים, פלטות, משקולות, שיאים ונפח')}
+    <div class="small muted" style="margin-top:16px">אפשר להחליף מתי שרוצים. כל מה שכבר רשום יוצג ביחידה החדשה.</div>`); }
 function openGenderSheet(first){
   const sx=S.settings.body?.sex||PB?.a?.sex||null, cur=S.settings.g||null;
   const opt=(v,e,l,d)=>`<button class="pb-opt ${(cur||sx)===v?'on':''}" data-act="g-set" data-v="${v}" data-first="${first?1:''}"><b>${e} ${l}</b>${d?`<small>${d}</small>`:''}</button>`;
@@ -4130,6 +4149,9 @@ const TG_NUM={age:{min:14,max:90,step:1,unit:'שנים',def:()=>30,q:()=>G('בן
   h:{min:140,max:210,step:1,unit:'ס״מ',def:()=>TG.sex==='f'?163:176,q:()=>'מה הגובה שלך?',k:'גובה ומשקל יחד קובעים כמה הגוף צריך.'},
   w:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>TG.sex==='f'?65:78,q:()=>G('כמה אתה שוקל?','כמה את שוקלת?','כמה את/ה שוקל/ת?'),k:'לקחתי את השקילה האחרונה שלך. אפשר לעדכן.'},
   gw:{min:40,max:200,step:0.5,unit:'ק״ג',def:()=>tgGoalSuggest(TG).kg,q:()=>G('לאיזה משקל אתה רוצה להגיע?','לאיזה משקל את רוצה להגיע?','לאיזה משקל להגיע?'),k:'חישבתי הצעה לפי הגובה, המשקל והמטרה שלך. אפשר לקחת אותה או לבחור אחרת.'}};
+/* the number steps of the wizard in the body unit (kg inside) */
+function tgC(key){ const c=TG_NUM[key]; if(!c||(key!=='w'&&key!=='gw')||uB()!=='lb')return Object.assign({D:x=>x,K:x=>x},c);
+  return Object.assign({},c,{min:90,max:440,step:1,unit:'lb',D:x=>Math.round(+wB(x)),K:x=>+wBk(x)}); }
 function tgRender(){
   const t=TG, key=TG_STEPS[t.step], n=TG_STEPS.length-1;
   const top=`<div class="tgw-top"><button class="tgw-back" data-act="tg-back" aria-label="חזרה" ${t.step?'':'style="visibility:hidden"'}>→</button>
@@ -4137,9 +4159,9 @@ function tgRender(){
   const kobi=(q,k,img='happy')=>`<div class="tgw-q"><img src="img/kobi-${img}.svg" alt=""><div><b>${q}</b>${k?`<span>${k}</span>`:''}</div></div>`;
   let body='';
   if(key==='sex')body=kobi(G('נתחיל: אתה…','נתחיל: את…','נתחיל: את/ה…'),'')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
-  else if(TG_NUM[key]){ const c=TG_NUM[key]; if(t[key]==null)t[key]=c.def(); const v=t[key];
+  else if(TG_NUM[key]){ const c=tgC(key); if(t[key]==null)t[key]=c.def(); const v=c.D(t[key]);
     const sg=key==='gw'?tgGoalSuggest(t):null;
-    body=kobi(c.q(),c.k,key==='w'?'wink':'happy')+(sg?`<button class="tgw-sug ${+t.gw===sg.kg?'on':''}" data-act="tg-sug" data-v="${sg.kg}"><span class="tgw-sug-k">💚 ההצעה הבריאה</span><b class="num">${sg.kg} <small>ק״ג</small></b><span>${sg.why}</span><span class="small muted">הטווח הבריא לגובה שלך: ${sg.lo} עד ${sg.hi} ק״ג · עכשיו BMI ${sg.bmi}</span></button>`:'')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
+    body=kobi(c.q(),c.k,key==='w'?'wink':'happy')+(sg?`<button class="tgw-sug ${Math.abs(+t.gw-sg.kg)<0.3?'on':''}" data-act="tg-sug" data-v="${sg.kg}"><span class="tgw-sug-k">💚 ההצעה הבריאה</span><b class="num">${c.D(sg.kg)} <small>${c.unit}</small></b><span>${sg.why}</span><span class="small muted">הטווח הבריא לגובה שלך: ${c.D(sg.lo)} עד ${c.D(sg.hi)} ${c.unit} · עכשיו BMI ${sg.bmi}</span></button>`:'')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
       <div class="tgw-val"><b class="num" id="tgw-v">${v}</b><span>${c.unit}</span></div>
       <button class="tgw-pm" data-act="tg-step" data-d="1" aria-label="יותר">+</button></div>
       <input type="range" class="tgw-range" id="tgw-r" min="${c.min}" max="${c.max}" step="${c.step}" value="${v}" aria-label="${c.q()}">${key==='gw'?`<div class="small tgw-note" id="gw-note" style="text-align:center;margin-top:6px">${tgGoalNote(t)}</div>`:''}
@@ -4153,12 +4175,12 @@ function tgRender(){
       <div class="tgw-res">
         <div class="tgw-kcal"><b class="num" id="tgw-kc" data-count="${r.kcal}">0</b><span>קלוריות ביום</span></div>
         <div class="tgw-macros">${[['חלבון',r.prot,4,'#BFFF2F'],['פחמימה',r.carbs,4,'#2F6FD6'],['שומן',r.fat,9,'#E8590C']].map(([l,g,k,c])=>`<div><div class="tgw-bar"><i style="width:${Math.round(g*k/r.kcal*100)}%;background:${c}"></i></div><b class="num">${g}<small> גר׳</small></b><span>${l}</span></div>`).join('')}</div>
-        <div class="small muted" style="text-align:center;margin-top:8px">הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום${t.goalKg?` · משקל יעד ${t.goalKg} ק״ג`:''}</div>
+        <div class="small muted" style="text-align:center;margin-top:8px">הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום${t.goalKg?` · משקל יעד ${wB(t.goalKg)} ${BU()}`:''}</div>
       </div>
       ${t.edit?`<div class="row" style="gap:8px;margin-top:12px">
         <div style="flex:1"><div class="label">קלוריות</div><input class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="יעד קלוריות" id="t-kcal" value="${r.kcal}"></div>
         <div style="flex:1"><div class="label">חלבון (גר׳)</div><input class="num" type="text" readonly data-np="num" data-unit="גר׳ חלבון" aria-label="יעד חלבון" id="t-prot" value="${r.prot}"></div>
-        <div style="flex:1"><div class="label">משקל יעד</div><input class="num" type="text" readonly data-np="num" data-unit="ק״ג" aria-label="משקל יעד" id="t-goal" value="${t.goalKg||''}" placeholder="—"></div></div>`
+        <div style="flex:1"><div class="label">משקל יעד</div><input class="num" type="text" readonly data-np="num" data-unit="${BU()}" aria-label="משקל יעד" id="t-goal" value="${wB(t.goalKg||'')}" placeholder="—"></div></div>`
         :`<button class="linkbtn small" data-act="tg-edit" style="display:block;margin:10px auto 0">✏️ לשנות את המספרים</button>`}
       ${t.then==='menu'?`<button class="btn primary big" data-act="food-targets" style="margin-top:14px;width:100%">שמור והמשך לתפריט ←</button>`
         :`<button class="btn primary big" data-act="food-targets" style="margin-top:14px;width:100%">שמור יעד ✓</button>
@@ -4177,16 +4199,16 @@ function tgAct(act,b){
   if(act==='tg-nogoal'){ t.gw=null; t.goalKg=''; t.step=TG_STEPS.indexOf('res'); return tgRender(); }
   if(act==='tg-edit'){ t.edit=true; return tgRender(); }
   if(act==='tg-pace'){ t.pace=b.dataset.v; return tgRender(); }
-  if(act==='tg-step'){ const c=TG_NUM[key]; if(!c)return; t[key]=Math.max(c.min,Math.min(c.max,Math.round(((+t[key]||c.def())+(+b.dataset.d)*c.step)*10)/10));
-    const v=$('#tgw-v'), r=$('#tgw-r'); if(v)v.textContent=t[key]; if(r)r.value=t[key]; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(t); document.querySelector('.tgw-sug')?.classList.toggle('on',+t.gw===tgGoalSuggest(t).kg); return; }
-  if(act==='tg-sug'){ t.gw=+b.dataset.v; const v=$('#tgw-v'), r=$('#tgw-r'); if(v)v.textContent=t.gw; if(r)r.value=t.gw; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(t); b.classList.add('on'); return; }
+  if(act==='tg-step'){ if(!TG_NUM[key])return; const c=tgC(key); const dv=Math.max(c.min,Math.min(c.max,Math.round(((+c.D(t[key])||c.D(c.def()))+(+b.dataset.d)*c.step)*10)/10)); t[key]=c.K(dv);
+    const v=$('#tgw-v'), r=$('#tgw-r'); if(v)v.textContent=dv; if(r)r.value=dv; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(t); document.querySelector('.tgw-sug')?.classList.toggle('on',Math.abs(+t.gw-tgGoalSuggest(t).kg)<0.3); return; }
+  if(act==='tg-sug'){ t.gw=+b.dataset.v; const v=$('#tgw-v'), r=$('#tgw-r'), dv=tgC('gw').D(t.gw); if(v)v.textContent=dv; if(r)r.value=dv; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(t); b.classList.add('on'); return; }
   if(act==='tg-pick'){ const k=b.dataset.k; t[k]=k==='act'?+b.dataset.v:b.dataset.v;
     document.querySelectorAll('[data-act="tg-pick"]').forEach(x=>x.classList.toggle('on',x===b));
     if(k==='goal'){ if(t.goal==='keep'){ t.pace='norm'; t.goalKg=''; setTimeout(()=>{ t.step+=2; tgRender(); },220); } else { t.pace=t.pace||'norm'; tgRender(); } return; }
     setTimeout(()=>{ t.step++; tgRender(); },220); }
 }
 document.addEventListener('input',ev=>{ if(!TG||ev.target.id!=='tgw-r')return; const key=TG_STEPS[TG.step];
-  TG[key]=+ev.target.value; const v=$('#tgw-v'); if(v)v.textContent=TG[key]; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(TG); document.querySelector('.tgw-sug')?.classList.toggle('on',+TG.gw===tgGoalSuggest(TG).kg); });
+  const c=tgC(key); TG[key]=c.K(+ev.target.value); const v=$('#tgw-v'); if(v)v.textContent=ev.target.value; const n=$('#gw-note'); if(n)n.innerHTML=tgGoalNote(TG); document.querySelector('.tgw-sug')?.classList.toggle('on',Math.abs(+TG.gw-tgGoalSuggest(TG).kg)<0.3); });
 /* monthly AI photo allowance (server: 300 photo/label analyses per calendar month + 40/day safety cap; admins unlimited) */
 const AIQ={photo:null,loaded:0,LIM:300};
 /* freemium: free users get plan.free_ai_day AI analyses per day (photo + text + label together) */
@@ -4563,7 +4585,7 @@ function clockText(){
 /* v13: one exercise open at a time. Done exercises fold into a row, the rest wait in "הבאים". */
 function exDone(e){ return e.t==='c'?!!e.c?.done:(e.sets||[]).length>0&&e.sets.every(s=>s.done); }
 function exSummary(e){ if(e.t==='c')return e.c?.min?`${e.c.min} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`:'אירובי';
-  const d=(e.sets||[]).filter(s=>s.done); return d.length?d.map(s=>`${+s.w||0}×${+s.r||0}`).join(' · '):`${(e.sets||[]).length} סטים`; }
+  const d=(e.sets||[]).filter(s=>s.done); return d.length?d.map(wLs).join(' · '):`${(e.sets||[]).length} סטים`; }
 function vActive(){
   const a=S.active, st=liveStats();
   const open=a.open||(a.open={});
@@ -4614,7 +4636,7 @@ const coachOn=()=>isPrem()&&coachCfg().mode!=='off';
 function exGroup(n){ for(const g in LIB)if(LIB[g].includes(n))return g; return null; }
 const COMPOUND=/לחיצ|סקוואט|דדליפט|חתירה|מתח|מקבילים|לאנג|ת׳ראסט|גובלט|פולי עליון|רומני|פרס|פוש|דיפ|היפ/;
 const isCompound=n=>COMPOUND.test(n);
-function wStep(n){ const c=coachCfg(); return /משקולות|משקולת|קטלבל|גובלט/.test(n)?(+c.incDb||2):(+c.incBb||2.5); }
+function wStep(n){ const c=coachCfg(), db=/משקולות|משקולת|קטלבל|גובלט/.test(n); if(uL()==='lb')return (db?(+c.incDbLb||5):(+c.incBbLb||5))/LB; return db?(+c.incDb||2):(+c.incBb||2.5); }
 const roundTo=(v,st)=>Math.max(st,Math.round(v/st)*st);
 const DAY=864e5;
 function blockInfo(){ const c=coachCfg(); if(!c.start)return null;
@@ -4645,20 +4667,20 @@ function coachRec(e,ctx){
   if(topW<=0){ // bodyweight: progress by reps
     if(ctx.deload)return {k:'deload',sets:half,r:rr.lo,why:'שבוע קל: חצי סטים ובתחתית הטווח. הגוף מתאושש ומתחזק.'};
     return {k:'reps',sets:n,r:Math.min(rr.hi+4,low+1),ps:i=>Math.min(rr.hi+4,(+ls[i]?.r||low)+1),why:`משקל גוף: נסה חזרה אחת יותר מהפעם הקודמת בכל סט.`}; }
-  if(ctx.back)return {k:'back',w:roundTo(topW*0.9,st),r:rr.lo,sets:n,why:`חוזרים אחרי הפסקה: קצת פחות מהפעם הקודמת (${topW}), כדי לחזור חזק ובלי פציעה.`};
+  if(ctx.back)return {k:'back',w:roundTo(topW*0.9,st),r:rr.lo,sets:n,why:`חוזרים אחרי הפסקה: קצת פחות מהפעם הקודמת (${wL(topW)}), כדי לחזור חזק ובלי פציעה.`};
   if(ctx.deload)return {k:'deload',w:topW,r:rr.lo,sets:half,why:'שבוע קל: אותו משקל, חצי סטים ובתחתית הטווח. הגוף מתאושש ומתחזק.'};
   const rirs=ls.map(s=>s.rir).filter(x=>x!=null), easy=rirs.length>0&&rirs.every(x=>x>=3);
   if(ls.length>=Math.min(n,2)&&rs.every(r=>r>=rr.hi)){ const nw=roundTo(topW+(easy?2:1)*st,st);
-    return {k:'up',w:nw,r:rr.lo,sets:n,why:`בפעם הקודמת סגרת ${rr.hi} חזרות בכל הסטים עם ${topW}. היום עולים ל-${nw}, ומתחילים מ-${rr.lo} חזרות.`}; }
+    return {k:'up',w:nw,r:rr.lo,sets:n,why:`בפעם הקודמת סגרת ${rr.hi} חזרות בכל הסטים עם ${wL(topW)}. היום עולים ל-${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.`}; }
   const prev=hist[1], prevLow=prev?Math.min(...prev.sets.map(s=>+s.r||0)):99, prevW=prev?Math.max(...prev.sets.map(s=>+s.w||0)):0;
   if(low<rr.lo&&prevLow<rr.lo&&prevW>=topW){ const nw=roundTo(topW*0.95,st);
-    return {k:'down',w:nw,r:rr.lo,sets:n,why:`פעמיים ברצף מתחת ל-${rr.lo} חזרות עם ${topW}. מורידים ל-${nw} כדי לחזור לטווח, ומשם ממשיכים לעלות.`}; }
+    return {k:'down',w:nw,r:rr.lo,sets:n,why:`פעמיים ברצף מתחת ל-${rr.lo} חזרות עם ${wL(topW)}. מורידים ל-${wL(nw)} כדי לחזור לטווח, ומשם ממשיכים לעלות.`}; }
   const e1=h=>Math.max(...h.sets.map(s=>e1rm(+s.w||0,+s.r||0)));
   const stuck=hist.length>=4&&!hist.slice(0,3).some(h=>h.dl)&&Math.max(e1(hist[0]),e1(hist[1]),e1(hist[2]))<=e1(hist[3])*1.01;
   const tr=perSet(0);
   return {k:stuck?'stuck':'reps',w:topW,r:tr,sets:n,ps:perSet,why:stuck
     ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-${tr} חזרות; אם עדיין תקוע, בסוף הבלוק נחליף לווריאציה.`
-    :`אותו משקל (${topW}), והפעם חזרה אחת יותר. כשכל הסטים מגיעים ל-${rr.hi}, עולים במשקל.`};
+    :`אותו משקל (${wL(topW)}), והפעם חזרה אחת יותר. כשכל הסטים מגיעים ל-${rr.hi}, עולים במשקל.`};
 }
 const RIR_WK={1:'משאירים 3 חזרות בטנק',2:'משאירים 2–3 חזרות בטנק',3:'משאירים 2 חזרות בטנק',4:'משאירים 1–2 חזרות בטנק',5:'משאירים חזרה אחת בטנק'};
 function coachWeekLine(bi){ if(bi.ended)return 'הבלוק הסתיים. בוא נראה מה התחזק ומה משתנה.';
@@ -4691,9 +4713,9 @@ function openCoachSettings(){
       <button class="li" data-act="coach-rir"><span class="lt"><b>שאלה אחרי סט</b><small>"כמה חזרות עוד היו לך?" עוזר לראפי לדייק. אפשר לדלג תמיד.</small></span><span class="tc-tog ${c.rir?'on':''}"></span></button>
     </div>
     <div class="label" style="margin:0 0 6px">קפיצת משקל במוט ובמכונות</div>
-    <div class="row" style="margin-bottom:10px">${[1.25,2.5,5].map(x=>`<button class="chip num ${+c.incBb===x?'on':''}" data-act="coach-inc" data-k="incBb" data-v="${x}">${x} ק״ג</button>`).join('')}</div>
+    <div class="row" style="margin-bottom:10px">${uL()==='lb'?[2.5,5,10].map(x=>`<button class="chip num ${(+c.incBbLb||5)===x?'on':''}" data-act="coach-inc" data-k="incBbLb" data-v="${x}">${x} lb</button>`).join(''):[1.25,2.5,5].map(x=>`<button class="chip num ${+c.incBb===x?'on':''}" data-act="coach-inc" data-k="incBb" data-v="${x}">${x} ק״ג</button>`).join('')}</div>
     <div class="label" style="margin:0 0 6px">קפיצת משקל במשקולות יד</div>
-    <div class="row" style="margin-bottom:14px">${[1,2,2.5].map(x=>`<button class="chip num ${+c.incDb===x?'on':''}" data-act="coach-inc" data-k="incDb" data-v="${x}">${x} ק״ג</button>`).join('')}</div>
+    <div class="row" style="margin-bottom:14px">${uL()==='lb'?[2.5,5,10].map(x=>`<button class="chip num ${(+c.incDbLb||5)===x?'on':''}" data-act="coach-inc" data-k="incDbLb" data-v="${x}">${x} lb</button>`).join(''):[1,2,2.5].map(x=>`<button class="chip num ${+c.incDb===x?'on':''}" data-act="coach-inc" data-k="incDb" data-v="${x}">${x} ק״ג</button>`).join('')}</div>
     ${c.start?`<button class="linkbtn small" style="color:var(--muted)" data-act="coach-reset">להתחיל בלוק חדש מהיום</button>`:''}
     <button class="btn big" style="margin-top:10px" data-act="sheet-close">סגור</button>`);
 }
@@ -4758,9 +4780,9 @@ function rirSet(ei,si,v){
   const rr=repRange(e.reps), nx=e.sets[si+1], r=+s.r||0, w=+s.w||0; let msg='בדיוק בטווח. ממשיכים ככה.';
   if(nx&&!nx.done){
     if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=r+2; msg='נשאר הרבה בטנק: בסט הבא נסה עוד 2 חזרות.'; }
-    else if(v===0&&rr&&r<rr.lo&&w>0){ nx.pw=roundTo(w*0.95,wStep(e.n)); msg=`קשה מדי: בסט הבא ${nx.pw} ק״ג.`; }
+    else if(v===0&&rr&&r<rr.lo&&w>0){ nx.pw=roundTo(w*0.95,wStep(e.n)); msg=`קשה מדי: בסט הבא ${wL(nx.pw)} ${LU()}.`; }
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
-    if(nw&&!nw.value)nw.placeholder=nx.pw||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
+    if(nw&&!nw.value)nw.placeholder=wL(nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
   else if(v===0&&rr&&r<rr.lo)msg='קרוב לכישלון ומתחת לטווח. אתחשב בזה בפעם הבאה.';
   const el=document.getElementById('rirq-'+ei); if(el){ el.innerHTML=`<span>${msg}</span>`; setTimeout(()=>{ if(el.textContent.includes(msg))el.hidden=true; },2600); } }
 
@@ -4820,10 +4842,10 @@ function ncCardHTML(){
   if(c.brk&&Date.now()>c.brk.until)return `<div class="card r20 tc-card"><span class="tc-t"><b>ההפסקה הסתיימה</b><small>שבועיים של שימור מאחוריך. חוזרים ליעד של החיטוב?</small></span><button class="btn primary big" data-act="nc-brk-end">חוזרים לחיטוב</button></div>`;
   if(!r.enough)return c.wait===ymd()?'':`<div class="card r20 tc-card"><div class="tc-h"><img class="tc-av" src="img/kobi-happy.svg" alt=""><span class="tc-t"><b>ראפי · תזונה</b><small>${r.days&&r.wi?`כדי לכוון לך יעד לפי הגוף שלך, חסרים לי עוד ${r.days} ימי תיעוד ו-${r.wi} שקילות בשבועיים האחרונים.`:r.days?`כדי לכוון לך יעד לפי הגוף שלך, חסרים לי עוד ${r.days} ימי תיעוד בשבועיים האחרונים.`:`כדי לכוון לך יעד לפי הגוף שלך, חסרות לי עוד ${r.wi} שקילות בשבועיים האחרונים.`}</small></span><button class="ibtn" data-act="nc-wait" aria-label="סגור">✕</button></div></div>`;
   const diff=r.next-r.cur, ok=Math.abs(diff)<30;
-  const pace=v=>`${v>0?'+':''}${v}`;
+  const pace=v=>`${v>0?'+':''}${wB(v)}`;
   return `<div class="card r20 tc-card">
     <div class="tc-h"><img class="tc-av" src="img/kobi-happy.svg" alt=""><span class="tc-t"><b>ראפי · הסיכום השבועי שלך${infoI('tdee')}</b>
-    <small>${r.wantWk?`מגמה: ${pace(r.actWk)} ק״ג בשבוע (היעד ${pace(r.wantWk)}). לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`:`מגמה: ${pace(r.actWk)} ק״ג בשבוע. לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`}</small></span></div>
+    <small>${r.wantWk?`מגמה: ${pace(r.actWk)} ${BU()} בשבוע (היעד ${pace(r.wantWk)}). לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`:`מגמה: ${pace(r.actWk)} ${BU()} בשבוע. לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`}</small></span></div>
     <div class="tc-nc"><span>${ok?'בדיוק בקצב. היעד נשאר':'היעד החדש'}</span><b class="num">${Math.round(ok?r.cur:r.next).toLocaleString()}</b>${ok?'':`<small class="num" dir="ltr">${diff>0?'+':''}${diff}</small>`}</div>
     ${r.brk?`<div class="rtip" style="margin:0"><b>3 חודשים של חיטוב${infoI('dbreak')}</b><span>שבועיים של אכילה בשימור עוזרים לגוף ולראש, ואז ממשיכים חזק יותר.</span><button class="linkbtn small" style="align-self:flex-start" data-act="nc-brk">לקחת הפסקה של שבועיים</button></div>`:''}
     <div class="row" style="gap:8px">${ok?`<button class="btn primary" style="flex:1" data-act="nc-keep">מעולה</button>`:`<button class="btn primary" style="flex:1.3" data-act="nc-apply">לעדכן יעד</button><button class="btn" style="flex:1" data-act="nc-keep">להשאיר</button>`}</div>
@@ -4848,7 +4870,7 @@ function vStrength(e,ei,cur){
         <div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}
         ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':'ראפי'}${infoI('sug')}</b><span>${esc(co.why)}</span></div>`:''}
-        ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${tip.w}</b> ק״ג</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${tip.w}</span> ק״ג, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
+        ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wL(tip.w)}</b> ${LU()}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wL(tip.w)}</span> ${LU()}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">
         <button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמת התרגיל" style="color:var(--accent)">${ICON.play}</button>
@@ -4856,10 +4878,10 @@ function vStrength(e,ei,cur){
       </div>
     </div>
     <div class="setgrid">
-      <span class="h">סט</span><span class="h">ק״ג</span><span class="h">חזרות${rr?` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===rr.hi?rr.lo:rr.lo+'–'+rr.hi}</bdi>`:''}</span><span class="h"></span>
+      <span class="h">סט</span><span class="h">${LU()}</span><span class="h">חזרות${rr?` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===rr.hi?rr.lo:rr.lo+'–'+rr.hi}</bdi>`:''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num">${si+1}</span>
-        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${s.w??''}" placeholder="${s.pw??''}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
+        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${wL(s.w??'')}" placeholder="${wL(s.pw??'')}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
         <span class="${s.done?'set-done '+repCls(e,s):''}" data-cell="${ei}-${si}" data-rcell="1"><input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" ${s.sug?'data-sug="1"':''} data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><button class="done-btn" data-act="set-done" data-ei="${ei}" data-si="${si}" aria-label="סיום סט"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
       `).join('')}
@@ -5006,7 +5028,7 @@ function vHistory(){
     ${!ws.length?`<div class="empty" style="margin-top:12px">לא נמצאו אימונים${q?` עם ״${esc(q)}״`:''}</div>`:''}
     ${groups.map((g,gi)=>{ const open=filtering||HIST.open[g.k]!=null?(filtering||HIST.open[g.k]):gi<2;
       return `<button class="hmonth" data-act="hist-month" data-k="${g.k}" aria-expanded="${open}">
-        <span><b>${g.label}</b><span class="small muted" style="display:block">${g.items.length} אימונים · ${fmtNum(g.vol)} ק״ג · ${Math.round(g.ms/36e5)} שעות</span></span>
+        <span><b>${g.label}</b><span class="small muted" style="display:block">${g.items.length} אימונים · ${fmtNum(wL(g.vol))} ${LU()} · ${Math.round(g.ms/36e5)} שעות</span></span>
         <span class="muted">${open?'▾':'◂'}</span></button>
       ${open?`<div class="card" style="padding:0 12px">${g.items.map(w=>hRow(w,pr[w.id])).join('')}</div>`:''}`;}).join('')}`;
 }
@@ -5015,7 +5037,7 @@ function hRow(w,prs){
   return `<button class="hrow" data-act="hist-open" data-id="${esc(w.id)}">
     <span class="hdate"><b class="num">${d.getDate()}</b><small>${d.toLocaleDateString(LOC,{weekday:'short'})}</small></span>
     <span style="flex:1;min-width:0"><b class="hname">${esc(w.name)}</b>
-      <span class="small muted num">${fmtDur(w.end-w.start)} · ${workoutSets(w)} סטים · ${fmtNum(workoutVol(w))} ק״ג</span></span>
+      <span class="small muted num">${fmtDur(w.end-w.start)} · ${workoutSets(w)} סטים · ${fmtNum(wL(workoutVol(w)))} ${LU()}</span></span>
     ${prs?`<span class="hpr">🏅 ${prs}</span>`:''}<span class="muted">›</span></button>`;
 }
 function openWorkoutSheet(id){
@@ -5025,13 +5047,13 @@ function openWorkoutSheet(id){
   const tpl=w.tid&&S.templates.find(t=>t.id===w.tid);
   openSheet(`<h3 style="margin-bottom:2px">${esc(w.name)}</h3>
     <div class="small muted" style="margin-bottom:12px">${fmtDateFull(w.start)} · ${new Date(w.start).toLocaleTimeString(LOC,{hour:'2-digit',minute:'2-digit'})}</div>
-    <div class="tiles sm"><div class="tile"><div class="v num">${fmtDur(w.end-w.start)}</div><div class="k">זמן</div></div><div class="tile"><div class="v num">${workoutSets(w)}</div><div class="k">סטים</div></div><div class="tile"><div class="v num">${fmtNum(workoutVol(w))}</div><div class="k"><span>ק״ג נפח</span>${infoI('vol')}</div></div></div>
+    <div class="tiles sm"><div class="tile"><div class="v num">${fmtDur(w.end-w.start)}</div><div class="k">זמן</div></div><div class="tile"><div class="v num">${workoutSets(w)}</div><div class="k">סטים</div></div><div class="tile"><div class="v num">${fmtNum(wL(workoutVol(w)))}</div><div class="k"><span>${uL()==='lb'?'lb נפח':'ק״ג נפח'}</span>${infoI('vol')}</div></div></div>
     <div class="stack" style="gap:8px;margin-top:12px">${(w.ex||[]).map(e=>{
       if(e.t==='c')return `<div class="wx"><b>${esc(e.n)}</b><span class="small muted">${e.c?.min||0} דק׳${e.c?.km?` · ${e.c.km} ק״מ`:''}</span></div>`;
-      const sets=(e.sets||[]).filter(x=>+x.r>0), top=Math.max(0,...sets.map(x=>+x.w||0)), pv=prevTop(e.n), diff=pv!=null?Math.round((top-pv)*10)/10:null;
+      const sets=(e.sets||[]).filter(x=>+x.r>0), top=Math.max(0,...sets.map(x=>+x.w||0)), pv=prevTop(e.n), diff=pv!=null?Math.round((wL(top)-wL(pv))*10)/10:null;
       return `<button class="wx" data-act="hist-ex" data-n="${esc(e.n)}">
-        <div class="spread"><b>${esc(e.n)}</b>${diff?`<span class="small" style="color:${diff>0?'var(--accent)':'var(--gold)'};font-weight:700">${diff>0?'▲':'▼'} ${Math.abs(diff)} ק״ג</span>`:diff===0?'<span class="small muted">כמו בפעם הקודמת</span>':''}</div>
-        <div class="wsets">${sets.map(x=>`<span class="num">${+x.w||0}×${+x.r||0}</span>`).join('')}</div></button>`;}).join('')}</div>
+        <div class="spread"><b>${esc(e.n)}</b>${diff?`<span class="small" style="color:${diff>0?'var(--accent)':'var(--gold)'};font-weight:700">${diff>0?'▲':'▼'} ${Math.abs(diff)} ${LU()}</span>`:diff===0?'<span class="small muted">כמו בפעם הקודמת</span>':''}</div>
+        <div class="wsets">${sets.map(x=>`<span class="num">${wLs(x)}</span>`).join('')}</div></button>`;}).join('')}</div>
     <div class="row" style="gap:8px;margin-top:14px">
       ${tpl?`<button class="btn primary" style="flex:1.4" data-act="start-tpl" data-id="${esc(tpl.id)}">חזרה על האימון</button>`:''}
       <button class="btn" style="flex:1" data-act="share-w" data-id="${esc(w.id)}">שיתוף</button>
@@ -5079,7 +5101,7 @@ function vProgress(){
       </div>`
     :`<div class="card r20"><div class="empty" style="margin:0"><div class="big">הגרפים מחכים לנתונים</div>אחרי שני אימונים עם אותו תרגיל כבר יהיה כאן קו התקדמות.</div></div>`}
     ${prs.length?`<div class="sect2"><span>שיאים אחרונים</span>${prs.length>4?`<button class="linkbtn" data-act="pr-all">${showAll?'פחות':'הכל'}</button>`:''}</div>
-      <div class="card r20 list">${shown.map(([n,b])=>`<button class="li" data-act="hist-ex" data-n="${esc(n)}"><span class="lt"><b>${esc(n)}</b>${showAll?`<small>${fmtDate(b.ts)}</small>`:''}</span><b class="num" dir="ltr">${b.w} × ${b.r}</b></button>`).join('')}</div>`:''}
+      <div class="card r20 list">${shown.map(([n,b])=>`<button class="li" data-act="hist-ex" data-n="${esc(n)}"><span class="lt"><b>${esc(n)}</b>${showAll?`<small>${fmtDate(b.ts)}</small>`:''}</span><b class="num" dir="ltr">${wL(b.w)} × ${b.r}</b></button>`).join('')}</div>`:''}
     <div class="card r20 list">
       ${S.workouts.length?`<button class="li" data-act="badges-open">${ICON.trophy}<span class="lt"><b>הישגים</b><small>${got} מתוך ${BADGES.length}${nextB?` · הבא: ${esc(nextB[2])}`:''}</small></span><span class="lv" style="background:var(--gold-soft);color:var(--gold);font-weight:700;border-radius:10px;padding:6px 10px">${got}</span>${ICON.chev}</button>`:''}
       <button class="li" data-act="track-view" data-v="history">${ICON.clock}<span class="lt"><b>היסטוריית אימונים</b><small>${S.workouts.length} אימונים${S.workouts.length?` · ${S.workouts.filter(w=>w.start>=Date.now()-30*864e5).length} ב-30 הימים האחרונים`:''}</small></span>${ICON.chev}</button>
@@ -5093,8 +5115,8 @@ function progDelta(){
   const pts=[]; for(const w of [...S.workouts].sort((a,b)=>a.start-b.start)){ const e=(w.ex||[]).find(e=>e.n===n&&e.t==='s'); if(!e)continue;
     const top=Math.max(0,...(e.sets||[]).filter(x=>+x.r>0).map(x=>+x.w||0)); if(top)pts.push({t:w.start,v:top}); }
   if(pts.length<2)return '';
-  const first=pts[0], last=pts[pts.length-1], d=Math.round((last.v-first.v)*10)/10, wk=Math.max(1,Math.round((last.t-first.t)/(7*864e5)));
-  return d>0?`+${d} ק״ג ב-${wk} שבועות`:d<0?`${d} ק״ג ב-${wk} שבועות`:`יציב ${wk} שבועות`;
+  const first=pts[0], last=pts[pts.length-1], d=Math.round((wL(last.v)-wL(first.v))*10)/10, wk=Math.max(1,Math.round((last.t-first.t)/(7*864e5)));
+  return d>0?`+${d} ${LU()} ב-${wk} שבועות`:d<0?`${d} ${LU()} ב-${wk} שבועות`:`יציב ${wk} שבועות`;
 }
 /* נפח שבועי לקבוצת שריר מול היעד המחקרי (10–20 סטים) */
 function weeklyVolHTML(){
@@ -5126,12 +5148,12 @@ function bwChange(days){
   const cs=ymd(cutoff);
   let base=null; for(const p of ws){ if(p.d<=cs)base=p; }
   if(!base)base=ws[0]; if(base===last)return null;
-  return Math.round((last.kg-base.kg)*10)/10;
+  return Math.round((wB(last.kg)-wB(base.kg))*10)/10;
 }
 function deltaChip(v,label){
   if(v===null)return '';
   const col=v===0?'var(--muted)':v<0?'var(--accent)':'var(--gold)';
-  return `<span class="pill num" style="color:${col};border-color:currentColor">${v>0?'▲':v<0?'▼':'·'} ${Math.abs(v)} ק״ג · ${label}</span>`;
+  return `<span class="pill num" style="color:${col};border-color:currentColor">${v>0?'▲':v<0?'▼':'·'} ${Math.abs(v)} ${BU()} · ${label}</span>`;
 }
 /* שורת "היום" במסך הבית: קלוריות, משקל, אימון. לחיצה פותחת את המקום הנכון */
 const kcalN=n=>Math.round(+n||0).toLocaleString('en-US');
@@ -5142,7 +5164,7 @@ function todayRowHTML(){
   const food=kT?(logged?(over?`<b class="num">${kcalN(t.kcal-kT)}+<small class="tr-u">קק״ל</small></b><span>מעל היעד</span>`:`<b class="num">${kcalN(kT-t.kcal)}<small class="tr-u">קק״ל</small></b><span>נותרו מ-${kcalN(kT)}</span>`):`<b>לא נרשם</b><span>${kcalN(kT)} קק״ל ביום</span>`)
     :(logged?`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל היום</span>`:`<b>יעד יומי</b><span>לחץ להגדרה</span>`);
   const ws=S.weights||[], lw=ws[ws.length-1], wToday=lw&&lw.d===d, bwD=bwChange(7);
-  const weight=lw?`<b class="num">${lw.kg}<small> ק״ג</small></b><span>${wToday?'נשקלת היום ✓':bwD!=null?`${bwD>0?'▲':bwD<0?'▼':'·'} ${Math.abs(bwD)} השבוע`:'+ שקילה'}</span>`:`<b>+ שקילה</b><span>ראשונה</span>`;
+  const weight=lw?`<b class="num">${wB(lw.kg)}<small> ${BU()}</small></b><span>${wToday?'נשקלת היום ✓':bwD!=null?`${bwD>0?'▲':bwD<0?'▼':'·'} ${Math.abs(bwD)} השבוע`:'+ שקילה'}</span>`:`<b>+ שקילה</b><span>ראשונה</span>`;
   const tr=trainedOn(new Date()), sch=schedOf(new Date().getDay());
   const work=S.active?`<b>פעיל ⏱️</b><span>חזור לאימון</span>`:tr?`<b>התאמנת ✓</b><span>כל הכבוד</span>`:sch?`<b>${esc(sch.name.split(' · ')[0].slice(0,10))}</b><span>היום בלו״ז</span>`:`<b>מנוחה</b><span>או אימון חופשי</span>`;
   return `<div class="todayrow">
@@ -5161,7 +5183,7 @@ function weeklyBalanceHTML(){
   if(avgK==null&&d7==null&&!ws)return '';
   const rate=d30!=null?d30/4.3:d7; // ק״ג לשבוע
   let proj='';
-  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=goal-lw.kg; if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${goal} ק״ג בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד השבועות האחרונים'; }
+  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד השבועות האחרונים'; }
   // משפט אחד של ראפי לפי המספרים (בלי AI)
   let tip='';
   if(avgK!=null&&kT){ const diff=avgK-kT;
@@ -5177,7 +5199,7 @@ function weeklyBalanceHTML(){
     <div class="wb-row">
       ${chip(avgK!=null?kcalN(avgK):'—',kT?`קק״ל / יעד ${kcalN(kT)}`:'קק״ל ביום')}
       ${chip(`${ws}${plan?'/'+plan:''}`,'אימונים')}
-      ${chip(d7!=null?`${d7>0?'+':''}${d7}`:'—','ק״ג השבוע')}
+      ${chip(d7!=null?`${d7>0?'+':''}${d7}`:'—',uB()==='lb'?'lb השבוע':'ק״ג השבוע')}
     </div>
     ${proj?`<div class="small" style="margin-top:8px">📈 <span>${proj}</span></div>`:''}
     ${tip?`<div class="wb-tip"><img src="img/kobi-think.svg" alt=""><span>${tip}</span></div>`:''}
@@ -5191,7 +5213,7 @@ function balanceLine(){
   const d7=bwChange(7), d30=bwChange(30), lw=(S.weights||[]).slice(-1)[0];
   const rate=d30!=null?d30/4.3:d7;
   let proj='';
-  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=goal-lw.kg; if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${goal} ק״ג בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
+  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
   let tip='';
   if(avgK!=null&&kT){ const diff=avgK-kT;
     if(diff>150&&goal&&lw&&goal<lw.kg)tip=`אוכל בממוצע ${kcalN(diff)} קק״ל מעל היעד, וזה מה שעוצר את הירידה.`;
@@ -5237,8 +5259,8 @@ function vBody(){
   if(goal&&last){
     const start=ws[0].kg, total=start-goal, done=start-last.kg;
     const pct=total?Math.max(0,Math.min(100,done/total*100)):100;
-    const left=Math.round((last.kg-goal)*10)/10;
-    goalLine=`<div><div class="spread small"><span>יעד <b class="num">${goal} ק״ג</b></span><span class="num muted">${left===0?'הגעת ליעד 🎉':`נשארו ${Math.abs(left)} ק״ג`}</span></div>
+    const left=Math.round((wB(last.kg)-wB(goal))*10)/10;
+    goalLine=`<div><div class="spread small"><span>יעד <b class="num">${wB(goal)} ${BU()}</b></span><span class="num muted">${left===0?'הגעת ליעד 🎉':`נשארו ${Math.abs(left)} ${BU()}`}</span></div>
       <div class="bar2" style="margin-top:5px"><i style="width:${pct}%"></i></div></div>`;
   }
   const bl=balanceLine();
@@ -5248,7 +5270,7 @@ function vBody(){
   return `
     <div class="card r20 stack" style="gap:12px">
       <div class="spread" style="align-items:flex-end">
-        <div><div class="small muted">משקל נוכחי</div><div class="bigw num">${last?last.kg:'—'} <small>ק״ג</small></div></div>
+        <div><div class="small muted">משקל נוכחי</div><div class="bigw num">${last?wB(last.kg):'—'} <small>${BU()}</small></div></div>
         ${d7!=null?`<span class="small num" style="font-weight:600;color:${d7<0?'var(--accent)':d7>0?'var(--gold)':'var(--muted)'};padding-bottom:4px">${d7>0?'+':''}${d7} השבוע</span>`:last?`<span class="small muted" style="padding-bottom:4px">${last.d===today?'נשקלת היום ✓':fmtDate(+new Date(last.d))}</span>`:''}
       </div>
       ${ws.length>=2?bwChartHTML(goal,true):''}
@@ -5260,13 +5282,13 @@ function vBody(){
     <div class="card r20 list">
       ${row('cal',ICON.scale,'לוח שקילות',ws.length?`${ws.filter(x=>x.d.slice(0,7)===today.slice(0,7)).length} שקילות החודש`:'עוד לא נשקלת')}
       ${row('ph',ICON.photo,'תמונות התקדמות',S.settings.photoDay!=null?`יום צילום: ${DAY_NAMES[S.settings.photoDay]} · מוצפנות, רק אתה רואה`:'בחר יום צילום קבוע · מוצפנות, רק אתה רואה')}
-      <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>היעדים שלי</b><small>${kT?`${kcalN(kT)} קק״ל · ${pT||'—'} ג׳ חלבון${goal?` · ${goal} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>היעדים שלי</b><small>${kT?`${kcalN(kT)} קק״ל · ${pT||'—'} ג׳ חלבון${goal?` · ${wB(goal)} ${BU()}`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
       ${row('nut',ICON.food,'תזונה · 7 ימים','ממוצע יומי מול היעד')}
     </div>
   `;
 }
 function bwChartHTML(goal,compact){
-  const ws=(S.weights||[]).slice(-90);
+  const ws=(S.weights||[]).slice(-90).map(p=>({d:p.d,kg:+wB(p.kg)})); goal=goal?+wB(goal):goal;
   if(ws.length<2)return `<div class="empty" style="margin-top:12px"><div class="big">הגרף יופיע אחרי שתי שקילות</div>מומלץ להישקל בבוקר, אחרי שירותים ולפני אוכל — כך הנתון הכי עקבי.</div>`;
   const W=520,H=compact?120:170,L=40,R=14,Tp=14,B=24;
   const xs=ws.map(p=>+new Date(p.d)), ys=ws.map(p=>p.kg).concat(goal?[goal]:[]);
@@ -5397,7 +5419,7 @@ function openPhotoSet(date,withWeight){
   const banner=isPd?`<div class="ph-pd ${date===today?'now':''}"><span>📸</span><div><b>${date===today?'היום יום הצילום השבועי שלך':'יום הצילום השבועי'}</b>
       <span>${date===today?(hasAny?'כל הכבוד, צילמת היום ✓':'חזית, גב וצד, באותה תאורה ובאותו מקום כמו בשבוע שעבר.'):'חזית, גב וצד, כמו בכל שבוע.'}</span></div></div>`:'';
   const weigh=withWeight?`<button class="card spread ph-wt" data-act="day-weigh" data-d="${date}">
-      <span><span class="small muted" style="display:block">⚖️ משקל</span>${bw?`<b class="num" style="font-size:24px">${bw.kg}</b> <span class="muted">ק״ג</span>`:'<b>עוד לא נשקלת ביום הזה</b>'}</span>
+      <span><span class="small muted" style="display:block">⚖️ משקל</span>${bw?`<b class="num" style="font-size:24px">${wB(bw.kg)}</b> <span class="muted">${BU()}</span>`:'<b>עוד לא נשקלת ביום הזה</b>'}</span>
       <span class="btn ${bw?'':'primary'}" style="pointer-events:none">${bw?'עריכה':'+ שקילה'}</span></button>`:'';
   openSheet(`
     <h3>${withWeight?nice:`תמונות התקדמות · ${nice}`}</h3>
@@ -5445,10 +5467,10 @@ function openPhotoCompare(angle,a,b){
   const need=[first?.[angle],last?.[angle]].filter(Boolean);
   if(need.some(p=>!PH.urls[p]))ensurePhotos(need).then(ch=>{ if(ch&&PH.cmp?.angle===angle&&!$('#sheet').hidden&&$('#cmp-a'))openPhotoCompare(angle,first.d,last.d); });
   const lbl=ANGLES.find(a=>a[0]===angle)[1];
-  const wOf=d=>{ const w=(S.weights||[]).filter(x=>x.d<=d).pop(); return w?` · ${w.kg} ק״ג`:''; };
+  const wOf=d=>{ const w=(S.weights||[]).filter(x=>x.d<=d).pop(); return w?` · ${wB(w.kg)} ${BU()}`:''; };
   const opts=sel=>withA.map(s=>`<option value="${s.d}" ${s.d===sel?'selected':''}>${fmtDate(+new Date(s.d+'T12:00:00'))}${wOf(s.d)}</option>`).join('');
   const fig=(set,cap)=>`<figure>${PH.urls[set[angle]]?`<img src="${esc(PH.urls[set[angle]])}" alt="${lbl} ${cap}">`:'<div class="cmpph"><span>טוען…</span></div>'}<figcaption>${fmtDate(+new Date(set.d+'T12:00:00'))}${wOf(set.d)}</figcaption></figure>`;
-  const dw=first&&last?Math.round(((((S.weights||[]).filter(x=>x.d<=last.d).pop()||{}).kg||0)-(((S.weights||[]).filter(x=>x.d<=first.d).pop()||{}).kg||0))*10)/10:0;
+  const wAt=d=>+wB(((S.weights||[]).filter(x=>x.d<=d).pop()||{}).kg||0), dw=first&&last?Math.round((wAt(last.d)-wAt(first.d))*10)/10:0;
   const days=first&&last?Math.round((new Date(last.d)-new Date(first.d))/864e5):0;
   openSheet(`
     <h3>השוואה · לפני ואחרי</h3>
@@ -5460,7 +5482,7 @@ function openPhotoCompare(angle,a,b){
       <label class="small muted">אחרי<select id="cmp-b" data-cmp="b">${opts(last.d)}</select></label>
       ${fig(first,'לפני')}${fig(last,'אחרי')}
     </div>
-    ${days>0?`<div class="small muted" style="text-align:center;margin-top:8px">${days} ימים${dw?` · ${dw>0?'+':''}${dw} ק״ג`:''}</div>`:''}`
+    ${days>0?`<div class="small muted" style="text-align:center;margin-top:8px">${days} ימים${dw?` · ${dw>0?'+':''}${dw} ${BU()}`:''}</div>`:''}`
     :`<div class="empty">צריך לפחות שתי תמונות ${lbl} מתאריכים שונים כדי להשוות.</div>`}
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>
   `);
@@ -5521,7 +5543,7 @@ function bwCalendarHTML(){
   const [yy,mm]=(S.calMonth||`${now.getFullYear()}-${now.getMonth()+1}`).split('-').map(Number);
   const first=new Date(yy,mm-1,1), daysIn=new Date(yy,mm,0).getDate();
   const today=ymd();
-  const byDay={}; for(const p of S.weights||[])byDay[p.d]=p.kg;
+  const byDay={}; for(const p of S.weights||[])byDay[p.d]=+wB(p.kg);
   const phDays=new Set((PH.sets||[]).map(x=>x.d)); const pdw=S.settings.photoDay!=null?+S.settings.photoDay:null;
   const sorted=(S.weights||[]).map(p=>p.d).sort();
   const prevOf=d=>{ let pv=null; for(const x of sorted){ if(x>=d)break; pv=x; } return pv?byDay[pv]:null; };
@@ -5535,7 +5557,7 @@ function bwCalendarHTML(){
     let col='';
     if(v!=null){ const pv=prevOf(k); if(pv!=null)col=v<pv?'var(--accent)':v>pv?'var(--gold)':''; }
     cells+=fut?`<span class="${cls}" style="opacity:.35"><i>${i}</i></span>`
-      :`<button class="${cls}" data-act="cal-day" data-d="${k}" aria-label="${i} ${v!=null?v+' ק״ג':'ללא שקילה'}"><i>${i}</i>${v!=null?`<b class="num" style="${col?`color:${col}`:''}">${v}</b>`:''}${phDays.has(k)?'<em>📸</em>':''}</button>`;
+      :`<button class="${cls}" data-act="cal-day" data-d="${k}" aria-label="${i} ${v!=null?v+' '+BU():'ללא שקילה'}"><i>${i}</i>${v!=null?`<b class="num" style="${col?`color:${col}`:''}">${v}</b>`:''}${phDays.has(k)?'<em>📸</em>':''}</button>`;
   }
   const monthName=first.toLocaleDateString(LOC,{month:'long',year:'numeric'});
   const chg=monthVals.length>1?Math.round((monthVals[monthVals.length-1]-monthVals[0])*10)/10:null;
@@ -5553,7 +5575,7 @@ function bwCalendarHTML(){
     </div>
     <div class="spread small muted" style="margin-top:10px">
       <span>${monthVals.length?`${monthVals.length} שקילות · ממוצע <b class="num">${avg}</b>`:'אין שקילות בחודש הזה'}</span>
-      <span>${chg!==null?`<b class="num" style="color:${chg<0?'var(--accent)':chg>0?'var(--gold)':'inherit'}">${chg>0?'+':''}${chg} ק״ג</b> בחודש`:'נגיעה ביום = הוספה'}</span>
+      <span>${chg!==null?`<b class="num" style="color:${chg<0?'var(--accent)':chg>0?'var(--gold)':'inherit'}">${chg>0?'+':''}${chg} ${BU()}</b> בחודש`:'נגיעה ביום = הוספה'}</span>
     </div>
   </div>`;
 }
@@ -5563,9 +5585,9 @@ function bwLogHTML(){
   <div class="card prlist" style="padding:4px 14px">
     ${[...ws].reverse().slice(0,10).map((p,i,arr)=>{
       const prev=arr[i+1];
-      const d=prev?Math.round((p.kg-prev.kg)*10)/10:null;
+      const d=prev?Math.round((wB(p.kg)-wB(prev.kg))*10)/10:null;
       const arrow=d===null||d===0?'<span class="muted">·</span>':d>0?`<span style="color:var(--gold)">▲ ${d}</span>`:`<span style="color:var(--accent)">▼ ${Math.abs(d)}</span>`;
-      return `<div class="pr-row"><span class="muted small num">${fmtDateFull(+new Date(p.d+'T12:00:00'))}</span><span class="num"><b>${p.kg} ק״ג</b> &nbsp;${arrow}</span></div>`;
+      return `<div class="pr-row"><span class="muted small num">${fmtDateFull(+new Date(p.d+'T12:00:00'))}</span><span class="num"><b>${wB(p.kg)} ${BU()}</b> &nbsp;${arrow}</span></div>`;
     }).join('')}
   </div>`;
 }
@@ -5601,9 +5623,9 @@ function openWeighIn(date,after){
   const d=date||ymd();
   const ws=S.weights||[]; const cur=ws.find(x=>x.d===d); const last=ws[ws.length-1];
   const label=d===ymd()?'שקילה היום':`שקילה · ${fmtDate(+new Date(d+'T12:00:00'))}`;
-  openNumpad({ title:`${label}${cur?` · רשום: ${cur.kg} ק״ג`:last?` · אחרונה: ${last.kg} ק״ג`:''}`,
-    unit:'ק״ג', mode:'num', value:0,
-    apply(v){ if(!v){ if(cur)toast('לא נשמר — הקלד משקל'); return; } saveBodyweight(v,d); after&&after(); },
+  openNumpad({ title:`${label}${cur?` · רשום: ${wB(cur.kg)} ${BU()}`:last?` · אחרונה: ${wB(last.kg)} ${BU()}`:''}`,
+    unit:BU(), mode:'num', value:0,
+    apply(v){ if(!v){ if(cur)toast('לא נשמר — הקלד משקל'); return; } saveBodyweight(wBk(v),d); after&&after(); },
     extra:cur?{label:'מחק',fn(){ deleteBodyweight(d); after&&after(); }}:null });
 }
 /* משקל גוף — הגרסה הקודמת, נשמרת לתאימות */
@@ -5612,7 +5634,7 @@ function bodyweightHTML(){
   const last=ws[ws.length-1];
   const today=ymd();
   let chart='';
-  if(ws.length>=2){
+  if(ws.length>=2){ const ws=(S.weights||[]).map(p=>({d:p.d,kg:+wB(p.kg)}));
     const W=520,H=150,L=44,R=14,Tp=14,B=24;
     const xs=ws.map(p=>+new Date(p.d)), ys=ws.map(p=>p.kg);
     const x0=Math.min(...xs),x1=Math.max(...xs);
@@ -5631,17 +5653,17 @@ function bodyweightHTML(){
   return `<div class="sect">משקל גוף</div>
   <div class="card stack">
     <div class="row">
-      <input id="bw-input" class="num" type="text" readonly data-np="num" data-unit="ק״ג" aria-label="משקל גוף" placeholder="${last?last.kg+' ק״ג לאחרונה':'משקל בק״ג'}" style="flex:1">
+      <input id="bw-input" class="num" type="text" readonly data-np="num" data-unit="${BU()}" aria-label="משקל גוף" placeholder="${last?wB(last.kg)+' '+BU()+' לאחרונה':'משקל'}" style="flex:1">
       <button class="btn primary" data-act="bw-save">שמור להיום</button>
     </div>
-    ${last&&last.d===today?`<div class="small muted">נשמר להיום: <b class="num">${last.kg} ק״ג</b></div>`:''}
+    ${last&&last.d===today?`<div class="small muted">נשמר להיום: <b class="num">${wB(last.kg)} ${BU()}</b></div>`:''}
     ${chart}
     ${ws.length?`<div class="prlist">
       ${[...ws].reverse().slice(0,6).map((p,i,arr)=>{
         const prev=arr[i+1];
-        const d=prev?Math.round((p.kg-prev.kg)*10)/10:null;
+        const d=prev?Math.round((wB(p.kg)-wB(prev.kg))*10)/10:null;
         const arrow=d===null||d===0?'<span class="muted">·</span>':d>0?`<span style="color:var(--gold)">▲ ${d}</span>`:`<span style="color:var(--accent)">▼ ${Math.abs(d)}</span>`;
-        return `<div class="pr-row"><span class="muted small num">${fmtDate(+new Date(p.d))}</span><span class="num"><b>${p.kg} ק״ג</b> &nbsp;${arrow}</span></div>`;
+        return `<div class="pr-row"><span class="muted small num">${fmtDate(+new Date(p.d))}</span><span class="num"><b>${wB(p.kg)} ${BU()}</b> &nbsp;${arrow}</span></div>`;
       }).join('')}
     </div>`:''}
   </div>`;
@@ -5652,13 +5674,13 @@ async function deleteBodyweight(d){
   catch(e){ toast('המחיקה נכשלה — בדוק חיבור'); }
 }
 async function saveBodyweight(val,date){
-  const v=val!=null?+val:parseFloat(($('#bw-input')?.value||'').replace(',','.'));
-  if(!v||v<25||v>400){toast('הקלד משקל תקין בק״ג');return;}
+  const v=val!=null?+val:+wBk(parseFloat(($('#bw-input')?.value||'').replace(',','.')));
+  if(!v||v<25||v>400){toast('הקלד משקל תקין');return;}
   const d=date||ymd();
   const prevW=(S.weights||[]).filter(x=>x.d<d).slice(-1)[0], gk=+S.settings.goalKg||0;
   S.weights=(S.weights||[]).filter(x=>x.d!==d); S.weights.push({d,kg:v}); S.weights.sort((a,b)=>a.d<b.d?-1:1);
   saveSnapshot(); render();
-  if(prevW&&gk&&d===ymd()){ const df=Math.round((v-prevW.kg)*10)/10; if(df&&((gk<prevW.kg&&df<0)||(gk>prevW.kg&&df>0))){ setTimeout(()=>{ cheer('💚','בכיוון הנכון!',`${df<0?'▼':'▲'} ${Math.abs(df)} ${tt('ק״ג')}`); vibrate(15); },350); } }
+  if(prevW&&gk&&d===ymd()){ const df=Math.round((wB(v)-wB(prevW.kg))*10)/10; if(df&&((gk<prevW.kg&&df<0)||(gk>prevW.kg&&df>0))){ setTimeout(()=>{ cheer('💚','בכיוון הנכון!',`${df<0?'▼':'▲'} ${Math.abs(df)} ${BU()}`); vibrate(15); },350); } }
   const row={user_id:S.user.id,d,kg:v};
   try{ const {error}=await sb.from('bodyweight').upsert(row); if(error)throw error; toast('נשמר 💪'); }
   catch(e){ qPush('bodyweight',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
@@ -5670,7 +5692,7 @@ function chartData(){
     const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)continue;
     const top=Math.max(...ss.map(s=>+s.w||0));
     const vol=ss.reduce((a,s)=>a+(+s.w||0)*(+s.r||0),0);
-    pts.push({ts:w.start, v:S.progressMetric==='top'?top:vol});
+    pts.push({ts:w.start, v:wL(S.progressMetric==='top'?top:vol)});
   }
   return pts;
 }
@@ -5684,7 +5706,7 @@ function niceTicks(max){
 }
 function chartSVG(){
   const pts=chartData();
-  if(pts.length<2)return `<div class="muted small" style="padding:18px 4px;text-align:center">צריך לפחות שני אימונים עם ״${esc(S.progressEx||'')}״ בשביל קו — בינתיים: ${pts.length?`<b class="num">${fmtNum(pts[0].v)}</b> ${S.progressMetric==='top'?'ק״ג':'ק״ג נפח'}`:'אין נתונים'}</div>`;
+  if(pts.length<2)return `<div class="muted small" style="padding:18px 4px;text-align:center">צריך לפחות שני אימונים עם ״${esc(S.progressEx||'')}״ בשביל קו — בינתיים: ${pts.length?`<b class="num">${fmtNum(pts[0].v)}</b> ${S.progressMetric==='top'?LU():(uL()==='lb'?'lb נפח':'ק״ג נפח')}`:'אין נתונים'}</div>`;
   const W=520,H=230,L=44,R=14,Tp=16,B=30;
   const xs=pts.map(p=>p.ts), ys=pts.map(p=>p.v);
   const x0=Math.min(...xs),x1=Math.max(...xs);
@@ -5715,7 +5737,7 @@ function wireChart(){
     if(!c)return;
     const i=+c.dataset.pt, pts=chartData(), p=pts[i]; if(!p)return;
     tip=document.createElement('div');tip.id='tip';
-    tip.textContent=`${fmtDate(p.ts)} · ${fmtNum(p.v)} ק״ג`;
+    tip.textContent=`${fmtDate(p.ts)} · ${fmtNum(p.v)} ${LU()}`;
     wrap.appendChild(tip);
     const cr=c.getBoundingClientRect(), wr=wrap.getBoundingClientRect();
     tip.style.left=(cr.left-wr.left+cr.width/2)+'px';
@@ -5742,15 +5764,23 @@ function guessSub(name){
   if(/מכונ|פולי|כבל|חבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|פייס|האק/.test(name))return 'stack';
   return 'bar';
 }
-const DB_RACK=[1,2,3,4,5,6,7,8,9,10,11,12,12.5,14,15,16,17.5,18,20,22,22.5,24,25,26,27.5,28,30,32.5,35,37.5,40,42.5,45,47.5,50];
+const DB_RACK_KG=[1,2,3,4,5,6,7,8,9,10,11,12,12.5,14,15,16,17.5,18,20,22,22.5,24,25,26,27.5,28,30,32.5,35,37.5,40,42.5,45,47.5,50];
+const DB_RACK_LB=[2,3,5,8,10,12,15,17.5,20,22.5,25,27.5,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,120];
+const dbRack=()=>uL()==='lb'?DB_RACK_LB:DB_RACK_KG;
 /* ציור: פלטות אולימפיות מכוילות, מוט חי, משקולות עגולות. גרדיאנטים משותפים פעם אחת בכל פתיחה */
-const PL_SET=[20,10,5,2.5,1.25];
+const PL_KG=[20,10,5,2.5,1.25], PL_LB=[45,35,25,10,5,2.5];
+const plSet=()=>uL()==='lb'?PL_LB:PL_KG;
+/* in pounds the plates borrow the size and color of their kg neighbour */
+const plKey=w=>uL()==='lb'?({45:20,35:15,25:10,10:5,5:2.5,2.5:1.25}[w]??w):w;
 /* סוג המוט: נזכר לכל תרגיל, ניחוש לפי השם */
-const BARS=[[20,'אולימפי'],[15,'נשים'],[10,'זיגזג'],[0,'בלי מוט']], BAR_KEY='nr-barkg';
-function barGuess(name){ const gb=gearOf(name)?.bar; if(gb!=null)return +gb; try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); if(m[name]!=null)return +m[name]; }catch(_){}
-  if(/זיגזג|EZ|סקול|צרפתי/i.test(name||''))return 10;
+const BARS_KG=[[20,'אולימפי'],[15,'נשים'],[10,'זיגזג'],[0,'בלי מוט']], BARS_LB=[[45,'אולימפי'],[35,'נשים'],[25,'זיגזג'],[0,'בלי מוט']], BAR_KEY='nr-barkg';
+const bars=()=>uL()==='lb'?BARS_LB:BARS_KG, barDef=()=>uL()==='lb'?45:20;
+/* a bar remembered in the other unit: 20↔45, 15↔35, 10↔25 */
+const barU=b=>{ b=+b; const k2l={20:45,15:35,10:25}, l2k={45:20,35:15,25:10}; return uL()==='lb'?(k2l[b]??b):(l2k[b]??b); };
+function barGuess(name){ const gb=gearOf(name)?.bar; if(gb!=null)return barU(gb); try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); if(m[name]!=null)return barU(m[name]); }catch(_){}
+  if(/זיגזג|EZ|סקול|צרפתי/i.test(name||''))return barU(10);
   if(/לחיצת רגליים|האק|לנדמיין|T-?בר|חתירת T|מכונת סמית/i.test(name||''))return 0;
-  return 20; }
+  return barDef(); }
 const PLC={25:['#c8202b','#7d0f16'],20:['#2453d6','#11287a'],15:['#e2b01c','#8a6606'],10:['#169155','#0a4d2c'],5:['#f1efe9','#b9b5aa'],2.5:['#d0303a','#7d1219'],1.25:['#c9ced4','#7c838b']};
 const plk=w=>String(w).replace('.','_');
 function npDefs(){ return `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -5764,29 +5794,29 @@ function npDefs(){ return `<svg width="0" height="0" style="position:absolute" a
   <radialGradient id="np-fl" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".7"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
   <path id="np-arc" d="M50 50 m-37 0 a37 37 0 1 1 74 0 a37 37 0 1 1 -74 0"/>
 </defs></svg>`; }
-function npPlate(w,size){ const light=w===5||w===1.25, tc=light?'#2a2a2a':'#fff';
+function npPlate(w0,size){ const w=plKey(w0), light=w===5||w===1.25, tc=light?'#2a2a2a':'#fff';
   return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true">
   <circle cx="50" cy="50" r="49" fill="url(#npf${plk(w)})"/>
   <circle cx="50" cy="50" r="48.2" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.2"/>
   <circle cx="50" cy="50" r="45.5" fill="none" stroke="#fff" stroke-opacity=".22"/>
   <circle cx="50" cy="50" r="43" fill="none" stroke="#000" stroke-opacity=".22" stroke-width="2"/>
   <circle cx="50" cy="50" r="27" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1.5"/>
-  ${size>=56?`<text font-family="var(--disp),sans-serif" font-weight="800" font-size="10" letter-spacing="1.2" fill="${tc}" fill-opacity=".92"><textPath href="#np-arc" startOffset="25%" text-anchor="middle">${w} KG</textPath></text>`:''}
+  ${size>=56?`<text font-family="var(--disp),sans-serif" font-weight="800" font-size="10" letter-spacing="1.2" fill="${tc}" fill-opacity=".92"><textPath href="#np-arc" startOffset="25%" text-anchor="middle">${w0} ${uL()==='lb'?'LB':'KG'}</textPath></text>`:''}
   <circle cx="50" cy="50" r="17.5" fill="url(#np-hub)" stroke="#000" stroke-opacity=".35" stroke-width=".8"/>
   <circle cx="50" cy="50" r="12.4" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width=".5"/>
   <circle cx="50" cy="50" r="7.2" fill="#0b0c0e"/>
   <ellipse cx="38" cy="28" rx="30" ry="18" fill="url(#np-hl)" transform="rotate(-25 38 28)"/></svg>`; }
 /* פירוק המשקל לפלטות בכל צד (לפי הפלטות שבכפתורים) */
-function barSplit(v){ const bk=NP.bar??20; let side=Math.max(0,(v-bk)/2); const L=[];
-  for(const p of PL_SET){ while(side>=p-1e-9&&L.length<12){ L.push(p); side=Math.round((side-p)*1000)/1000; } }
+function barSplit(v){ const bk=NP.bar??barDef(); let side=Math.max(0,(v-bk)/2); const L=[];
+  for(const p of plSet()){ while(side>=p-1e-9&&L.length<12){ L.push(p); side=Math.round((side-p)*1000)/1000; } }
   return {L,rest:Math.round(side*2*100)/100}; }
 function npBarSVG(v){ const {L}=barSplit(v), H={20:112,10:88,5:66,2.5:52,1.25:44}, W0={20:20,10:14,5:10,2.5:8,1.25:7}, cy=64;
-  const need=L.reduce((a,w)=>a+W0[w]+1.5,0), k=need>92?92/need:1, W=w=>W0[w]*k;
-  const pl=(x,w)=>{ const h=H[w], wd=W(w); return `<rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="${PLC[w][0]}"/><rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="url(#np-sh)"/><rect x="${x+1.3}" y="${cy-h/2+3}" width="1.2" height="${h-6}" rx=".6" fill="#fff" opacity=".35"/><rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="none" stroke="#000" stroke-opacity=".35"/>`; };
+  const need=L.reduce((a,w)=>a+W0[plKey(w)]+1.5,0), k=need>92?92/need:1, W=w=>W0[plKey(w)]*k;
+  const pl=(x,w0)=>{ const w=plKey(w0), h=H[w], wd=W(w0); return `<rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="${PLC[w][0]}"/><rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="url(#np-sh)"/><rect x="${x+1.3}" y="${cy-h/2+3}" width="1.2" height="${h-6}" rx=".6" fill="#fff" opacity=".35"/><rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="none" stroke="#000" stroke-opacity=".35"/>`; };
   let x=270, R='', xl=110, Lf='';
   for(const w of L){ R+=pl(x,w); x+=W(w)+1.5; xl-=W(w); Lf+=pl(xl,w); xl-=1.5; }
   const col=(cx)=>L.length?`<rect x="${cx}" y="${cy-12}" width="11" height="24" rx="3" fill="url(#np-ch)"/><rect x="${cx+2.5}" y="${cy-16}" width="6" height="5" rx="1.5" fill="#1a1d20"/>`:'';
-  const bk=NP.bar??20, shaft=bk===0?'':bk===10
+  const bk=uL()==='lb'?({45:20,35:15,25:10}[NP.bar??barDef()]??0):(NP.bar??barDef()), shaft=bk===0?'':bk===10
     ?`<path d="M4 ${cy} H140 L156 ${cy-6} L174 ${cy+6} L190 ${cy-4} L206 ${cy+6} L224 ${cy-6} L240 ${cy} H376" fill="none" stroke="url(#np-ch)" stroke-width="${7}" stroke-linejoin="round"/>`
     :`<rect x="4" y="${cy-(bk===15?3.5:4)}" width="372" height="${bk===15?7:8}" rx="4" fill="url(#np-ch)"/><rect x="135" y="${cy-4}" width="40" height="8" fill="url(#np-k)"/><rect x="205" y="${cy-4}" width="40" height="8" fill="url(#np-k)"/>`;
   return `<svg viewBox="0 0 380 134" aria-hidden="true">
@@ -5795,9 +5825,9 @@ function npBarSVG(v){ const {L}=barSplit(v), H={20:112,10:88,5:66,2.5:52,1.25:44
   <rect x="14" y="${cy-7.5}" width="98" height="15" rx="3" fill="url(#np-ch)"/><rect x="268" y="${cy-7.5}" width="98" height="15" rx="3" fill="url(#np-ch)"/>
   <rect x="110" y="${cy-12}" width="10" height="24" rx="2.5" fill="url(#np-ch)"/><rect x="260" y="${cy-12}" width="10" height="24" rx="2.5" fill="url(#np-ch)"/>
   ${Lf}${R}${col(xl-11)}${col(x)}</svg>`; }
-function npBarTot(v){ const {L,rest}=barSplit(v), side=L.reduce((a,b)=>a+b,0), bk=NP.bar??20;
+function npBarTot(v){ const {L,rest}=barSplit(v), side=L.reduce((a,b)=>a+b,0), bk=NP.bar??barDef();
   return v<bk?`<span>${tt('סה״כ')} <b>${npFmt(v)}</b></span>`:`${bk?`<span>${tt('מוט')} <b>${bk}</b></span>`:''}<span>${tt('בכל צד')} <b>${npFmt(side)}</b></span>${rest?`<span>+<b>${npFmt(rest)}</b></span>`:''}`; }
-function npDB(v){ const hh=Math.round(40+Math.min(v,50)*1.05), hw=Math.round(13+Math.min(v,50)*.3), gw=hw*2+44;
+function npDB(v){ const vk=uL()==='lb'?v/LB:v, hh=Math.round(40+Math.min(vk,50)*1.05), hw=Math.round(13+Math.min(vk,50)*.3), gw=hw*2+44;
   return `<svg width="${gw}" height="${hh+4}" viewBox="0 0 ${gw} ${hh+4}" aria-hidden="true">
   <rect x="2" y="2" width="${hw}" height="${hh}" rx="${hw*.42}" fill="url(#np-dh)"/>
   <rect x="${hw-2}" y="${hh/2-6}" width="6" height="16" rx="2" fill="url(#np-ch)"/>
@@ -5806,11 +5836,12 @@ function npDB(v){ const hh=Math.round(40+Math.min(v,50)*1.05), hw=Math.round(13+
   <rect x="${hw+42}" y="2" width="${hw}" height="${hh}" rx="${hw*.42}" fill="url(#np-dh)"/>
   ${hw>=17?[hw/2+2,hw*1.5+42].map(cx=>`<text x="${cx}" y="${hh/2+6}" text-anchor="middle" font-family="var(--disp),sans-serif" font-weight="800" font-size="${hw>=22?10:8.5}" fill="#e9edf0" transform="rotate(-90 ${cx} ${hh/2+3})">${v}</text>`).join(''):''}
   <g class="dbsel"><rect x="2" y="2" width="${hw}" height="${hh}" rx="${hw*.42}" fill="none" stroke="#BFFF2F" stroke-width="1.5"/><rect x="${hw+42}" y="2" width="${hw}" height="${hh}" rx="${hw*.42}" fill="none" stroke="#BFFF2F" stroke-width="1.5"/></g></svg>`; }
-function npStackHTML(){ const v=NP.val, up=STACK.filter(x=>x<=v), dn=STACK.filter(x=>x>v);
-  const sp=(x,on)=>`<button class="splate ${on?'on':''}" data-stackv="${x}" aria-label="${x}"><span>${x}</span><i>KG</i>${x===v?`<span class="pin"><s></s><u></u><em>${x}</em></span>`:''}</button>`;
+function npStackHTML(){ const v=NP.val, ST=stackSet(), up=ST.filter(x=>x<=v), dn=ST.filter(x=>x>v);
+  const sp=(x,on)=>`<button class="splate ${on?'on':''}" data-stackv="${x}" aria-label="${x}"><span>${x}</span><i>${uL()==='lb'?'LB':'KG'}</i>${x===v?`<span class="pin"><s></s><u></u><em>${x}</em></span>`:''}</button>`;
   return `<span class="rod l"></span><span class="rod r"></span><span class="cab"></span>
   <div class="up">${up.map(x=>sp(x,true)).join('')}</div>${up.length?'<div class="gap"><i></i></div>':''}<div>${dn.map(x=>sp(x,false)).join('')}</div>`; }
-const STACK=[...Array(20)].map((_,i)=>(i+1)*5); // 5–100
+const STACK=[...Array(20)].map((_,i)=>(i+1)*5), STACK_LB=[...Array(20)].map((_,i)=>(i+1)*10); // 5–100 ק״ג, 10–200 lb
+const stackSet=()=>uL()==='lb'?STACK_LB:STACK;
 function openNumpad(cfg){
   NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
   if(cfg.mode==='range'){ const m=String(cfg.value||'').match(/(\d+)\D+(\d+)/), one=parseInt(cfg.value,10);
@@ -5829,8 +5860,8 @@ function renderNumpad(){
     </div>`;
     let picker='';
     if(NP.sub==='bar'){
-      picker=`<div class="npstage"><div class="npbars">${BARS.map(([k,l])=>`<button class="${(NP.bar??20)===k?'on':''}" data-npbar="${k}">${tt(l)}${k?` <b class="num">${k}</b>`:''}</button>`).join('')}</div><div class="npbar" id="npbar">${npBarSVG(NP.val)}</div><div class="nptot" id="nptot">${npBarTot(NP.val)}</div></div>
-      <div class="pbtns">${PL_SET.map(v=>`<button class="pbtn" data-nppair="${v}" aria-label="${v}"><span>${npPlate(v,38)}</span><b>${v}</b></button>`).join('')}</div>
+      picker=`<div class="npstage"><div class="npbars">${bars().map(([k,l])=>`<button class="${(NP.bar??barDef())===k?'on':''}" data-npbar="${k}">${tt(l)}${k?` <b class="num">${k}</b>`:''}</button>`).join('')}</div><div class="npbar" id="npbar">${npBarSVG(NP.val)}</div><div class="nptot" id="nptot">${npBarTot(NP.val)}</div></div>
+      <div class="pbtns">${plSet().map(v=>`<button class="pbtn" data-nppair="${v}" aria-label="${v}"><span>${npPlate(v,38)}</span><b>${v}</b></button>`).join('')}</div>
       <div class="pbcap">${tt('לחיצה מוסיפה פלטה לכל צד')}</div>
       <div class="npstep">
         <button data-npc="undo" aria-label="${tt('הורד פלטה')}">↶</button>
@@ -5839,13 +5870,13 @@ function renderNumpad(){
     }else if(NP.sub==='db'){
       picker=`<div class="npstage"><div class="rackhint">גלול ובחר משקולת מהמתלה ↔</div>
       <div class="rack" id="rack">
-        ${DB_RACK.map(v=>`<button class="dbitem" data-rackv="${v}">${npDB(v)}<b>${v}</b></button>`).join('')}
+        ${dbRack().map(v=>`<button class="dbitem" data-rackv="${v}">${npDB(v)}<b>${v}</b></button>`).join('')}
       </div></div>
-      <div class="npstep"><button data-npadd="-1">−1</button><button data-npadd="-0.5" style="font-size:15px">−½</button><button data-npadd="0.5" style="font-size:15px">+½</button><button data-npadd="1">+1</button></div>`;
+      ${uL()==='lb'?'<div class="npstep"><button data-npadd="-5">−5</button><button data-npadd="-2.5" style="font-size:15px">−2.5</button><button data-npadd="2.5" style="font-size:15px">+2.5</button><button data-npadd="5">+5</button></div>':'<div class="npstep"><button data-npadd="-1">−1</button><button data-npadd="-0.5" style="font-size:15px">−½</button><button data-npadd="0.5" style="font-size:15px">+½</button><button data-npadd="1">+1</button></div>'}`;
     }else{
       picker=`<div class="npstage" style="padding-bottom:12px"><div class="rackhint" style="margin-bottom:14px">נעץ את הפין במגדל 📍</div>
       <div class="mstack" id="npstk">${npStackHTML()}</div></div>
-      <div class="npstep"><button data-npadd="-2.5">−2.5</button><button data-npadd="2.5">+2.5</button></div>`;
+      ${uL()==='lb'?'<div class="npstep"><button data-npadd="-5">−5</button><button data-npadd="5">+5</button></div>':'<div class="npstep"><button data-npadd="-2.5">−2.5</button><button data-npadd="2.5">+2.5</button></div>'}`;
     }
     body=`${subs}${picker}
     ${c.prev?`<div class="npchips"><button class="chip num" data-npset="${c.prev}">כמו קודם: ${c.prev}</button>${c.tip?`<button class="chip num" data-npset="${c.tip}" style="background:var(--gold-soft);border-color:var(--gold)">💡 ${c.tip}</button>`:''}</div>`:''}`;
@@ -5934,10 +5965,10 @@ document.addEventListener('click',ev=>{
     renderNumpad(); return; }
   if(t.dataset.rackv!==undefined){ NP.val=+t.dataset.rackv; centerRack(true); const el=$('#npval'); if(el)el.textContent=npFmt(NP.val); return; }
   if(t.dataset.stackv!==undefined){ NP.val=+t.dataset.stackv; npUpdate(); return; }
-  if(t.dataset.npbar!==undefined){ const nb=+t.dataset.npbar, ob=NP.bar??20; if(NP.val>=ob)NP.val=Math.max(0,Math.round((NP.val-ob+nb)*100)/100); NP.bar=nb;
+  if(t.dataset.npbar!==undefined){ const nb=+t.dataset.npbar, ob=NP.bar??barDef(); if(NP.val>=ob)NP.val=Math.max(0,Math.round((NP.val-ob+nb)*100)/100); NP.bar=nb;
     if(NP.cfg.exName){ gearSet(NP.cfg.exName,{bar:nb}); try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); m[NP.cfg.exName]=nb; localStorage.setItem(BAR_KEY,JSON.stringify(m)); }catch(_){} }
     document.querySelectorAll('[data-npbar]').forEach(x=>x.classList.toggle('on',+x.dataset.npbar===nb)); npUpdate(); return; }
-  if(t.dataset.nppair!==undefined){ NP.val=Math.round((Math.max(NP.val,NP.bar??20)+2*(+t.dataset.nppair))*100)/100; npUpdate(); return; }
+  if(t.dataset.nppair!==undefined){ NP.val=Math.round((Math.max(NP.val,NP.bar??barDef())+2*(+t.dataset.nppair))*100)/100; npUpdate(); return; }
   if(t.dataset.npc==='undo'){ const {L,rest}=barSplit(NP.val);
     NP.val=rest?Math.round((NP.val-rest)*100)/100:L.length?Math.round((NP.val-2*L[L.length-1])*100)/100:0; npUpdate(); return; }
   if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); }
@@ -5964,9 +5995,9 @@ function openSetPad(ei,si,kind,chain){
   const markDone=()=>{ if(!s.done){ const btn=document.querySelector(`[data-act="set-done"][data-ei="${ei}"][data-si="${si}"]`); if(btn)btn.click(); } };
   openNumpad({
     title:`${e.n} · סט ${si+1} · ${isW?'משקל':'חזרות'}`,
-    unit:isW?'ק״ג':'חזרות', mode:isW?'weight':'reps', exName:e.n, chain:!!chain,
-    value:+(s[kind]||s[isW?'pw':'pr']||0), prev:+(s[isW?'pw':'pr'])||null, tip:tip?tip.w:null,
-    apply(v){ s[kind]=v||''; const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; if(isW&&v)gearSet(e.n,NP.sub==='bar'?{sub:'bar',bar:NP.bar??20}:{sub:NP.sub}); persistActive(); },
+    unit:isW?LU():'חזרות', mode:isW?'weight':'reps', exName:e.n, chain:!!chain,
+    value:isW?+wL(s.w||s.pw||0):+(s[kind]||s.pr||0), prev:isW?(+wL(s.pw)||null):(+s.pr||null), tip:tip?wL(tip.w):null,
+    apply(v){ s[kind]=isW?(wLk(v)||''):(v||''); const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; if(isW&&v)gearSet(e.n,NP.sub==='bar'?{sub:'bar',bar:NP.bar??barDef()}:{sub:NP.sub}); persistActive(); },
     next:isW?()=>openSetPad(ei,si,'r',true):null,
     applyDone:isW?null:markDone,
   });
@@ -6172,7 +6203,7 @@ function vMe(){
       <button class="li" data-act="share-app">${ICON.gift}<span class="lt"><b>הזמנת חברים</b><small>${G('החבר מקבל 14 ימים חינם, ואתה חודש חינם כשהוא מצטרף','החברה מקבלת 14 ימים חינם, ואת חודש חינם כשהיא מצטרפת','החבר מקבל 14 ימים, ואתם חודש חינם כשהוא מצטרף')}</small></span>${ICON.chev}</button>
     </div>
     <div class="card r20 list">
-      <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${wB(S.settings.goalKg)} ${BU()}`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
       ${isPrem()&&S.settings.kcalT?`<button class="li" data-act="cyc-open">${ICON.cal}<span class="lt"><b>ימי אימון וימי מנוחה</b><small>${cycOn()?`${kcalN(cycInfo().train)} ביום אימון · ${kcalN(cycInfo().rest)} ביום מנוחה`:'כבוי · יותר קלוריות בימי אימון'}</small></span>${ICON.chev}</button>`:''}
       <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${'Notification' in window&&Notification.permission!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
@@ -6212,6 +6243,7 @@ function openLookSheet(){
   openSheet(`${sheetHead('שפה ומראה')}
     <div class="card list">
       <button class="li" data-act="lang-open">${ICON.globe}<span class="lt"><b>שפה</b><small data-notr>${LANG_NAMES[LANG]}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="units-open">${ICON.scale||ICON.chart}<span class="lt"><b>יחידות משקל</b><small>${tt('משקל גוף')}: ${uB()==='lb'?'lb':tt('ק״ג')} · ${tt('אימונים')}: ${uL()==='lb'?'lb':tt('ק״ג')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="g-open">${ICON.user}<span class="lt"><b>פנייה</b><small>${{m:'לשון זכר',f:'לשון נקבה',x:'לא משנה'}[S.settings.g]||'לא נבחר'}</small></span>${ICON.chev}</button>
       <button class="li" data-act="acc-open"><span style="width:22px;height:22px;border-radius:50%;background:var(--accent);flex-shrink:0"></span><span class="lt"><b>צבע</b><small>${(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]}</small></span>${ICON.chev}</button>
     </div>`);
@@ -6600,7 +6632,7 @@ const SOC={mutes:{},groups:null,gid:null,view:'chat',info:{},msgs:{},reacts:{},b
 try{SOC.lastRead=JSON.parse(localStorage.getItem('nr-lastread')||'{}');}catch(_){}
 const SOC_EMO=['💪','🔥','🏋️','🦾','⚡','🐺','🦁','🏆','🥇','🚀'];
 const METRIC={workouts:['אימונים','אימונים'],sets:['סטים','סטים'],volume:['נפח','ק״ג']};
-const fmtVol=v=>{v=+v||0;return v>=1000?(Math.round(v/100)/10)+' טון':Math.round(v)+' ק״ג';};
+const fmtVol=v=>{v=+wL(+v||0)||0; if(uL()==='lb')return v>=1000?(Math.round(v/100)/10)+'K lb':Math.round(v)+' lb'; return v>=1000?(Math.round(v/100)/10)+' טון':Math.round(v)+' ק״ג';};
 const metricVal=(r,m)=>m==='volume'?fmtVol(r.volume):(r[m]||0);
 function socMarkRead(gid,id){ if(!id||(SOC.lastRead[gid]||0)>=id)return; SOC.lastRead[gid]=id; try{localStorage.setItem('nr-lastread',JSON.stringify(SOC.lastRead));}catch(_){} socBadge(); }
 function socIsUnread(g){ return g.last_id&&g.last_uid!==S.user?.id&&g.last_id>(SOC.lastRead[g.id]||0); }
@@ -6706,7 +6738,7 @@ function socMsgHTML(m,prev){
   if(m.kind==='challenge'){const mt=m.meta||{};return h+`<div class="c-sys" style="background:var(--accent-soft);color:var(--ink)">🏆 ${who}${V(' פתח',' פתחה')} אתגר: <b>${esc(m.body)}</b> · ${mt.days||''} ימים <button class="linkbtn" data-act="soc-view" data-v="chall" style="padding:0 4px">לאתגר</button></div>`;}
   if(m.kind==='pr')return h+`<div class="c-card pr"><div class="h"><span class="ic2">🏅</span><span><b>${me?'שברת שיא אישי!':who+V(' שבר שיא אישי!',' שברה שיא אישי!')}</b><span class="small muted" style="display:block">${esc(m.body)}</span></span></div>${socReactsHTML(m.id)}</div>`;
   if(m.kind==='workout'){const mt=m.meta||{};return h+`<div class="c-card"><div class="h"><span class="ic2">🏋️</span><span><b>${me?'סיימת':who+V(' סיים',' סיימה')} ${esc(m.body||'אימון')}</b><span class="small muted" style="display:block">${socTime(m.created_at)}</span></span></div>
-    <div class="c-stats"><div><b class="num">${mt.min||0}</b><span>דקות</span></div><div><b class="num">${mt.sets||0}</b><span>סטים</span></div><div><b class="num">${fmtVol(mt.vol).split(' ')[0]}</b><span>${(+mt.vol||0)>=1000?'טון':'ק״ג'} נפח</span></div></div>${socReactsHTML(m.id)}</div>`;}
+    <div class="c-stats"><div><b class="num">${mt.min||0}</b><span>דקות</span></div><div><b class="num">${mt.sets||0}</b><span>סטים</span></div><div><b class="num">${fmtVol(mt.vol).split(' ')[0]}</b><span>${uL()==='lb'?((+wL(mt.vol)||0)>=1000?'K lb':'lb'):((+mt.vol||0)>=1000?'טון':'ק״ג')} נפח</span></div></div>${socReactsHTML(m.id)}</div>`;}
   return '';
 }
 function socLastText(g){
@@ -6794,8 +6826,8 @@ const CH_PRESETS=[
   ['🔥 4 אימונים השבוע','workouts',4,7,'goal'],['📅 12 ימי אימון בחודש','days',12,30,'goal'],['🏁 מי יתאמן הכי הרבה החודש','workouts',1,30,'race'],
   ['🤝 50 אימונים לכל הקבוצה','workouts',50,30,'team'],['🏗️ 20 טון בחודש','volume',20000,30,'goal'],['🏃 120 דקות קרדיו בשבוע','cardio',120,7,'goal'],
   ['💪 300 שכיבות סמיכה בשבוע','ex_reps',300,7,'goal','שכיבות סמיכה'],['🏆 מי ירים הכי כבד בסקוואט','ex_max',1,14,'race','סקוואט']];
-const chVal=(m,v)=>m==='volume'?fmtVol(v):`${Math.round((+v||0)*10)/10}`;
-const chUnit=m=>m==='volume'?'':' '+CHM[m][2];
+const chVal=(m,v)=>m==='volume'?fmtVol(v):m==='ex_max'?`${wL(+v||0)}`:`${Math.round((+v||0)*10)/10}`;
+const chUnit=m=>m==='volume'?'':' '+(m==='ex_max'?LU():CHM[m][2]);
 function vSocChall(){
   const C=SOC.chall;
   const btn=`<button class="btn primary" style="width:100%;margin:4px 0 10px" data-act="soc-chall-new">🏆 אתגר חדש</button>`;
@@ -6990,7 +7022,7 @@ function plansHTML(){
 }
 function recapHTML(){
   const r=S.recap; if(!r||!(r.workouts||r.meals||r.weighins))return '';
-  const t=[r.workouts?[r.workouts,'אימונים']:null, r.volume?[r.volume>=1000?(Math.round(r.volume/100)/10)+'K':r.volume,'ק״ג נפח']:null, r.meals?[r.meals,'ארוחות']:null, !r.volume&&r.weighins?[r.weighins,'שקילות']:null].filter(Boolean).slice(0,3);
+  const t=[r.workouts?[r.workouts,'אימונים']:null, r.volume?(()=>{ const v=Math.round(+wL(r.volume)||0); return [v>=1000?(Math.round(v/100)/10)+'K':v,uL()==='lb'?'lb נפח':'ק״ג נפח']; })():null, r.meals?[r.meals,'ארוחות']:null, !r.volume&&r.weighins?[r.weighins,'שקילות']:null].filter(Boolean).slice(0,3);
   return `<div class="pw-recap"><div class="small muted">מה עשית עד עכשיו</div><div class="pw-rt">${t.map(([v,l])=>`<div><b class="num">${v}</b><span>${tt(l)}</span></div>`).join('')}</div></div>`;
 }
 /* after the trial (lock model): the app is closed, but history and progress stay viewable */
@@ -7563,7 +7595,7 @@ function pbPreview(){
     <div class="small muted" style="margin-bottom:12px">${A.sex==='f'?'לאישה':'לגבר'} · ${P.prog} · ${A.days} ימים · ${P.split}</div>
     <div class="stack" style="gap:10px">${P.sessions.map(se=>`<div class="pb-sess"><div class="spread"><b>${esc(se.name)}</b><span class="small muted">~${se.min} דק׳</span></div>
       ${se.ex.map(e=>`<div class="pb-ex"><span>${esc(e.n)}</span><span class="num muted" ${e.t==='c'?'':'dir="ltr"'}>${e.t==='c'?e.min+' דק׳':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}</div>`).join('')}</div>
-    <div class="small muted" style="margin:12px 0">מתחילים במשקל שמאפשר את כל החזרות בטכניקה טובה. כשמגיעים לקצה העליון של טווח החזרות בכל הסטים, מעלים 2.5–5 ק״ג.</div>
+    <div class="small muted" style="margin:12px 0">מתחילים במשקל שמאפשר את כל החזרות בטכניקה טובה. כשמגיעים לקצה העליון של טווח החזרות בכל הסטים, מעלים ${uL()==='lb'?'5–10 lb':'2.5–5 ק״ג'}.</div>
     <label class="setrow" style="padding:6px 0"><span>החלף את התוכניות הקיימות</span><input type="checkbox" class="sw" id="pb-rep" ${PB.replace?'checked':''}></label>
     <label class="setrow" style="padding:6px 0;border-bottom:0"><span>קבע לי לו״ז שבועי (${PB_DAYS[A.days].map(d=>DAY_LETTERS[d]).join(', ')})</span><input type="checkbox" class="sw" id="pb-sch" ${PB.sched?'checked':''}></label>
     <div class="row" style="margin-top:14px;gap:8px"><button class="btn" style="flex:1" data-act="pb-restart">שינוי תשובות</button><button class="btn primary" style="flex:2" data-act="pb-save">שמירת התוכנית</button></div>`);
@@ -7868,7 +7900,7 @@ function wrapSlides(st){
   S1.push(`<div class="wemo">📊</div><div class="wbig">${esc(st.name)}</div><div class="wmid">החודש שלך ב-NextRep</div><div class="wsub">בוא נראה מה עשית 👀</div>`);
   S1.push(`<div class="wsub">החודש התאמנת</div><div class="wbig num">${st.n}</div><div class="wmid">אימונים</div><div class="wsub">${st.hours} שעות בחדר הכושר · ${st.sets} סטים</div>`);
   if(st.vol)S1.push(`<div class="wsub">בסך הכל הרמת</div><div class="wbig num">${fmtNum(tons)}</div><div class="wmid">טון</div><div class="wsub">${cars>=1?`כמו להרים ${cars} מכוניות 🚗`:`כמו להרים ${pianos} פסנתרים 🎹`}</div>`);
-  if(st.topEx)S1.push(`<div class="wsub">התרגיל שלך החודש</div><div class="wmid" style="font-size:34px">${esc(st.topEx[0])}</div><div class="wsub num">${st.topEx[1]} סטים</div>${st.pr?`<div style="height:18px"></div><div class="wsub">השיא הכי גדול</div><div class="wmid">${esc(st.pr.n)}</div><div class="wbig num" style="font-size:72px"><span dir="ltr">${LANG==='en'?`${st.pr.from} → ${st.pr.to}`:`${st.pr.to} ← ${st.pr.from}`}</span></div><div class="wsub">ק״ג</div>`:''}`);
+  if(st.topEx)S1.push(`<div class="wsub">התרגיל שלך החודש</div><div class="wmid" style="font-size:34px">${esc(st.topEx[0])}</div><div class="wsub num">${st.topEx[1]} סטים</div>${st.pr?`<div style="height:18px"></div><div class="wsub">השיא הכי גדול</div><div class="wmid">${esc(st.pr.n)}</div><div class="wbig num" style="font-size:72px"><span dir="ltr">${LANG==='en'?`${wL(st.pr.from)} → ${wL(st.pr.to)}`:`${wL(st.pr.to)} ← ${wL(st.pr.from)}`}</span></div><div class="wsub">${LU()}</div>`:''}`);
   S1.push(`<div class="wemo">🔥</div><div class="wbig num">${st.days}</div><div class="wmid">ימי אימון</div><div class="wsub">השבוע הכי חזק שלך: ${st.bestWeek} אימונים${weekStreak()>1?` · רצף של ${weekStreak()} שבועות`:''}</div>`);
   if(st.mealDays)S1.push(`<div class="wemo">🍽️</div><div class="wbig num">${st.mealDays}</div><div class="wmid">ימים עם תיעוד תזונה</div><div class="wsub">ממוצע ${st.prot} גר׳ חלבון ביום</div>`);
   S1.push(`<div class="wmid">${esc(st.name)} במספרים</div><div class="wgrid num"><div><b>${st.n}</b>אימונים</div><div><b>${fmtNum(tons)}</b>טון</div><div><b>${st.days}</b>ימי אימון</div><div><b>${st.sets}</b>סטים</div></div>
@@ -8028,10 +8060,10 @@ document.addEventListener('keydown',e=>{ if(e.target.id==='chat-in'&&CO.open&&e.
 /* שיתוף סיכום אימון */
 function workoutShareText(w){
   const lines=[`🏋️ ${w.name} · ${new Date(w.start).toLocaleDateString(LOC)}`,
-    `⏱ ${fmtDur(w.end-w.start)} · ${workoutSets(w)} סטים · ${fmtNum(workoutVol(w))} ק״ג נפח`,''];
+    `⏱ ${fmtDur(w.end-w.start)} · ${workoutSets(w)} סטים · ${fmtNum(wL(workoutVol(w)))} ${uL()==='lb'?'lb נפח':'ק״ג נפח'}`,''];
   for(const e of w.ex||[]){
     if(e.t==='c'){ if(e.c&&(e.c.min||e.c.km))lines.push(`${e.n}: ${e.c.min||0} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`); }
-    else{ const ss=(e.sets||[]).filter(s=>+s.r>0); if(ss.length)lines.push(`${e.n}: ${ss.map(s=>`${+s.w||0}×${+s.r||0}`).join('  ')}`); }
+    else{ const ss=(e.sets||[]).filter(s=>+s.r>0); if(ss.length)lines.push(`${e.n}: ${ss.map(wLs).join('  ')}`); }
   }
   lines.push('','💪 נרשם ב-NextRep');
   return lines.map(tt).join('\n');
@@ -8079,7 +8111,7 @@ function openExSheet(name,opt){
   openSheet(`<h3>${esc(name)}</h3>
     ${opt.reps||opt.rest?`<div class="tgtbox">${opt.sets?`<div><b class="num">${+opt.sets}</b><span>${+opt.sets===1?tt('סט'):tt('סטים')}</span></div>`:''}${opt.reps?`<div><b class="num"><bdi dir="ltr">${esc(String(opt.reps).replace(/\s*[-–]\s*/,'–'))}</bdi></b><span>${tt('חזרות בכל סט')}</span></div>`:''}${opt.rest?`<div><b class="num">${fmtRest(opt.rest)}</b><span>${tt('מנוחה בין סטים')}</span></div>`:''}</div>`:''}
     <div class="row" style="margin-bottom:10px">
-      ${bestE1?`<span class="pill pr num"><span>1RM משוער: ~${bestE1} ק״ג</span>${infoI('e1rm')}</span>`:''}
+      ${bestE1?`<span class="pill pr num"><span>1RM משוער: ~${bestE1} ${LU()}</span>${infoI('e1rm')}</span>`:''}
     </div>
     ${demoHTML(name)}
     ${txt?`<p style="margin:0 0 8px;line-height:1.6">${esc(txt)}</p>`:''}
@@ -8095,7 +8127,7 @@ function openTplView(id){
   const t=S.templates.find(x=>x.id===id); if(!t)return;
   const last=[...S.workouts].filter(w=>w.tid===t.id).sort((a,b)=>b.start-a.start)[0];
   const top=n=>{ const e=last&&(last.ex||[]).find(x=>x.n===n); const d=e?(e.sets||[]).filter(s=>+s.r>0):[]; if(!d.length)return '';
-    const s=d.reduce((a,x)=>(+x.w||0)>(+a.w||0)?x:a,d[0]); return `${+s.w||0}×${+s.r||0}`; };
+    const s=d.reduce((a,x)=>(+x.w||0)>(+a.w||0)?x:a,d[0]); return wLs(s); };
   const rows=(t.ex||[]).map((e,i)=>{ const lt=e.t==='c'?'':top(e.n);
     const meta=e.t==='c'?'אירובי':[`${+e.s||3} סטים`,e.reps?`${esc(e.reps)} חזרות`:'',e.rest?`מנוחה ${fmtRest(e.rest)}`:''].filter(Boolean).join(' · ');
     return `<button class="li tv-ex" data-act="tv-ex" data-tid="${esc(t.id)}" data-i="${i}"><span class="tv-n num">${i+1}</span>${exHas(e.n)?`<img class="libthumb" ${exImg(e.n)} alt="" loading="lazy">`:''}<span class="lt"><b>${esc(e.n)}</b><small class="num">${meta}</small>${lt?`<small class="tv-last num">בפעם הקודמת: <span dir="ltr">${lt}</span></small>`:''}</span>${ICON.chev}</button>`; }).join('');
@@ -8177,11 +8209,11 @@ function renderFinish(){
     <div class="summary-grid">
       <div class="tile"><div class="v num">${fmtDur(w.end-a.start)}</div><div class="k">משך</div></div>
       <div class="tile"><div class="v num">${sets}</div><div class="k">סטים</div></div>
-      <div class="tile"><div class="v num">${fmtNum(vol)}</div><div class="k"><span>נפח (ק״ג)</span>${infoI('vol')}</div></div>
+      <div class="tile"><div class="v num">${fmtNum(wL(vol))}</div><div class="k"><span>${uL()==='lb'?'נפח (lb)':'נפח (ק״ג)'}</span>${infoI('vol')}</div></div>
     </div>
-    ${prs.length?`<div class="row" style="margin-bottom:10px">${prs.map(p=>`<span class="pill pr num">🏅 שיא חדש · ${esc(p.n)} ${p.w} ק״ג</span>`).join('')}</div>`:''}
+    ${prs.length?`<div class="row" style="margin-bottom:10px">${prs.map(p=>`<span class="pill pr num">🏅 שיא חדש · ${esc(p.n)} ${wL(p.w)} ${LU()}</span>`).join('')}</div>`:''}
     <div>${w.ex.map(e=>`<div class="fin-ex"><span>${esc(e.n)}</span><span class="num muted">${
-      e.t==='c'?`${e.c?.min||0} דק׳`:(e.sets||[]).filter(s=>+s.r>0).map(s=>`${+s.w||0}×${+s.r||0}`).join(' · ')||'—'
+      e.t==='c'?`${e.c?.min||0} דק׳`:(e.sets||[]).filter(s=>+s.r>0).map(wLs).join(' · ')||'—'
     }</span></div>`).join('')}</div>
     <div class="row" style="margin-top:16px">
       <button class="btn" data-act="share-active">שתף 📤</button>
@@ -8225,7 +8257,7 @@ async function doSaveWorkout(){
   if(!w.ex.length){toast('אין סטים מלאים לשמירה');return;}
   const bm=bestMap(); const newPRs=[];
   for(const e of w.ex)if(e.t==='s'){ const top=Math.max(0,...e.sets.map(s=>s.w));
-    if(top>0&&top>(bm[e.n]?.w||0))newPRs.push(`${e.n}: ${top} ק״ג`); }
+    if(top>0&&top>(bm[e.n]?.w||0))newPRs.push(`${e.n}: ${wL(top)} ${LU()}`); }
   try{await saveWorkout(w);}catch(e){return;}
   if(newPRs.length&&S.settings.notif?.pr!==false)notify('שיא חדש! 🏅',newPRs.join(' · '));
   if(newPRs.length)sb.rpc('post_pr',{p_text:newPRs.join(', ')}).then(()=>{},()=>{});
@@ -8309,20 +8341,20 @@ function handleAct(b,ev){
       if(s.done){ const nx=e.sets[si2+1];
         if(nx&&!nx.done){ if(s.w)nx.pw=s.w; if(s.r)nx.pr=s.r;
           const nw=document.getElementById(`w-${ei2}-${si2+1}`), nr=document.getElementById(`r-${ei2}-${si2+1}`);
-          if(nw&&!nw.value)nw.placeholder=nx.pw||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; } }
+          if(nw&&!nw.value)nw.placeholder=wL(nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; } }
       persistActive();
       // עדכון נקודתי של השורה — בלי רינדור מלא, כדי שסימון סט יעבוד גם כשהמקלדת פתוחה
       document.querySelectorAll(`[data-cell="${ei2}-${si2}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
       { const rc=document.querySelector(`[data-cell="${ei2}-${si2}"][data-rcell]`), k=s.done?repCls(e,s):''; if(rc){ rc.classList.remove('r-in','r-over','r-under'); if(k)rc.classList.add(k); } }
       const wi=document.getElementById(`w-${ei2}-${si2}`), ri=document.getElementById(`r-${ei2}-${si2}`);
-      if(wi)wi.value=s.w??''; if(ri)ri.value=s.r??'';
+      if(wi)wi.value=wL(s.w??''); if(ri)ri.value=s.r??'';
       updateLive();
       if(s.done&&repCls(e,s)==='r-over'){ const o=(S.active._over=S.active._over||{}); if(!o[e.n]){ o[e.n]=1; setTimeout(()=>toast('מעל טווח החזרות, בפעם הבאה אפשר להעלות משקל'),700); } }
       if(s.done)rirAsk(ei2,si2); else { const rq=document.getElementById('rirq-'+ei2); if(rq)rq.hidden=true; }
       if(s.done){ burst(b); vibrate(15);
         const prev=bestMap()[e.n]?.w||0, sw=+s.w||0;
         if(prev>0&&sw>prev&&+s.r>0){ const pr=(S.active._pr=S.active._pr||{}); if((pr[e.n]||0)<sw){ pr[e.n]=sw; persistActive();
-          setTimeout(()=>{ cheer('🏆','שיא אישי חדש!',`${e.n} · ${sw} ${tt('ק״ג')}`,true); confetti(90); vibrate([20,40,20]); },120); } } }
+          setTimeout(()=>{ cheer('🏆','שיא אישי חדש!',`${e.n} · ${wL(sw)} ${LU()}`,true); confetti(90); vibrate([20,40,20]); },120); } } }
       if(s.done){ const nx=e.sets[si2+1]&&!e.sets[si2+1].done?`${e.n} · סט ${si2+2}`:(S.active.ex[ei2+1]?S.active.ex[ei2+1].n:'');
         startRest(e.rest||S.settings.rest,nx);
         if(e.sets.every(x=>x.done)&&$('#np').hidden){ if(S.active.open)delete S.active.open[ei2]; setTimeout(()=>{ if(S.active&&S.tab==='train')render(); },420); } } break; }
@@ -8465,6 +8497,8 @@ function handleAct(b,ev){
       if(p&&(p<20||p>400)){ toast(tt('יעד חלבון בין 20 ל-400 גר׳')); break; }
       S.settings.kcalT=k; S.settings.protT=p||null; persistSettings(); closeSheet(); toast('היעדים נשמרו 🎯'); render(); break; }
     case 'g-open': openGenderSheet(false); break;
+    case 'units-open': openUnitsSheet(); break;
+    case 'units-set': { const k=b.dataset.k, v=b.dataset.v; if(k!=='uL'&&k!=='uB')break; S.settings[k]=v==='lb'?'lb':null; persistSettings(); openUnitsSheet(); render(); break; }
     case 'acc-open': openAccentSheet(); break;
     case 'g-name-next': { const nm=($('#g-name')?.value||'').trim(); if(!nm){ toast('מה השם שלך?'); $('#g-name')?.focus(); break; }
       S.user=Object.assign({},S.user,{user_metadata:Object.assign({},S.user?.user_metadata,{full_name:nm})}); logEv('name_set',{at:'onboard'});
@@ -8481,7 +8515,7 @@ function handleAct(b,ev){
     case 'food-targets': { const r=TG?tgCalc(TG):null, man=!!$('#t-kcal');
       S.settings.kcalT=(man?Math.round(+($('#t-kcal')?.value)||0):r?.kcal)||null;
       S.settings.protT=(man?Math.round(+($('#t-prot')?.value)||0):r?.prot)||null;
-      if(man)S.settings.goalKg=(Math.round((+($('#t-goal')?.value)||0)*10)/10)||null; else if(TG)S.settings.goalKg=(+TG.goalKg)||null;
+      if(man)S.settings.goalKg=(Math.round((+wBk(+($('#t-goal')?.value)||0)||0)*100)/100)||null; else if(TG)S.settings.goalKg=(+TG.goalKg)||null;
       if(TG)S.settings.body={sex:TG.sex,age:+TG.age||null,h:+TG.h||null,w:+TG.w||null,act:TG.act,goal:TG.goal,pace:TG.pace};
       const then=b.dataset.then||TG?.then; persistSettings(); closeSheet(); toast('היעדים נשמרו 🎯'); render();
       if(then==='menu')setTimeout(openMenu,300); break; }
@@ -8565,8 +8599,8 @@ function handleAct(b,ev){
     case 'hist-del': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? מחק';break;} deleteWorkout(b.dataset.id); closeSheet(); toast('האימון נמחק'); break;
     case 'bw-save': saveBodyweight(); break;
     case 'bw-quick': openWeighIn(); break;
-    case 'goal-kg': { const g=+S.settings.goalKg||0; openNumpad({title:g?`משקל יעד · עכשיו ${g} ק״ג`:'משקל יעד',unit:'ק״ג',mode:'num',value:g||0,
-      apply(v){ S.settings.goalKg=v?Math.round(v*10)/10:null; persistSettings(); toast(v?'משקל היעד נשמר 🎯':'משקל היעד הוסר'); render(); },
+    case 'goal-kg': { const g=+S.settings.goalKg||0; openNumpad({title:g?`משקל יעד · עכשיו ${wB(g)} ${BU()}`:'משקל יעד',unit:BU(),mode:'num',value:g?+wB(g):0,
+      apply(v){ S.settings.goalKg=v?Math.round(wBk(v)*100)/100:null; persistSettings(); toast(v?'משקל היעד נשמר 🎯':'משקל היעד הוסר'); render(); },
       extra:g?{label:'הסר יעד',fn(){ S.settings.goalKg=null; persistSettings(); render(); }}:null}); break; }
     case 'cal-day': openPhotoSet(b.dataset.d,true); break;
     case 'photo-pick': PH.sel=PH.sel===b.dataset.a?null:b.dataset.a; openPhotoSet(PH.day.d); break;
@@ -8762,7 +8796,7 @@ async function enterApp(user){
       S.settings.schedule=st.data.prefs?.schedule||{};
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.menu=st.data.prefs?.menu||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
-      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null; S.settings.saved=st.data.prefs?.saved||null;
+      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.uL=st.data.prefs?.uL||null; S.settings.uB=st.data.prefs?.uB||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null; S.settings.saved=st.data.prefs?.saved||null;
       try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1');
         if(!(src.t>new Date(S.user.created_at).getTime()+36e5))logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
