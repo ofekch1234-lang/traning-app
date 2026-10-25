@@ -5,6 +5,8 @@ const ROOT=path.resolve(__dirname,'../..'),OUT=path.join(ROOT,'dist'),SITE='http
 // Hebrew + Arabic only for now (English nutrition searches are dominated by global sites); skip survey aggregates (FFQ), zero-calorie items and baby formula
 const LANGS=['he','ar'];
 const foods=JSON.parse(fs.readFileSync(path.join(__dirname,'foods.json'),'utf8')).filter(f=>!/^\s*ffq/i.test(f.n)&&+f.k>0&&!/^(תמ"ל|תמ"י|תחליף חלב)/.test(f.n));
+// Hebrew 'one' agrees with the unit's gender: כוס אחת, שוט/ספל אחד
+const oneHe=u=>/^(שוט|ספל|גביע|בקבוק|קרטון|עיגול|ריבוע|סקופ|משולש|קוביה גדול|חטיף|כדור)/.test(String(u&&u.u||''))?'אחד':'אחת';
 const UPDATED={he:'אוקטובר 2026',en:'October 2026',ar:'أكتوبر 2026'};
 
 // ---------- categories (keyword rules on the Hebrew name) ----------
@@ -81,13 +83,13 @@ function profile(f){ const k=+f.k||1, p=(+f.p||0)*4/k, c=(+f.cb||0)*4/k, ft=(+f.
 // ---------- auto copy per language (varies by macro profile so pages are not clones) ----------
 const COPY={
  he:{
-  intro:(n,f,u)=>{ const pr=profile(f); const base=u?`ב${unitName(u,'he')} אחת של ${n} (${u.g} גר׳) יש ${r0(f.k*u.g/100)} קלוריות`:`ב-100 גרם ${n} יש ${r0(f.k)} קלוריות`;
+  intro:(n,f,u)=>{ const pr=profile(f); const base=u?`ב${unitName(u,'he')} ${oneHe(u)} של ${n} (${u.g} גר׳) יש ${r0(f.k*u.g/100)} קלוריות`:`ב-100 גרם ${n} יש ${r0(f.k)} קלוריות`;
     const tail=pr.hiP?`. זה מקור חלבון טוב: ${r1(f.p)} גר׳ חלבון ל-100 גרם, כלומר רוב הקלוריות מגיעות מחלבון.`:pr.hiC?`, ורובן מפחמימות (${r1(f.cb)} גר׳ ל-100 גרם). מתאים לפני או אחרי אימון.`:pr.hiF?`, ורובן משומן (${r1(f.ft)} גר׳ ל-100 גרם), אז הכמות קובעת.`:pr.low?`. זה מאכל דל קלוריות, אפשר להרבות בו בלי לפגוע ביעד היומי.`:'.';
     return base+tail; },
   faq:(n,f,u)=>{ const pr=profile(f); const k100=r0(f.k), pct=Math.round((u?f.k*u.g/100:f.k)/2000*100);
     return [
-     [`${n} משמין?`, `אף מאכל לא משמין בפני עצמו, מה שקובע הוא סך הקלוריות ביום. ${u?`${unitName(u,'he')} אחת`:'100 גרם'} של ${n} הם כ-${pct}% מתפריט של 2,000 קק״ל.${pr.dense?' זה מאכל צפוף בקלוריות, אז שימו לב לכמות.':pr.low?' זה מאכל דל קלוריות, שקשה להשמין ממנו.':''}`],
-     [`כמה חלבון יש ב${n}?`, `${r1(f.p)} גר׳ חלבון ל-100 גרם${u?`, ו-${r1(f.p*u.g/100)} גר׳ ב${unitName(u,'he')} אחת`:''}. ${pr.hiP?'זה מקור חלבון משמעותי לבניית שריר.':'זה לא מקור חלבון משמעותי, כדאי לשלב עם עוף, ביצים, גבינה או קטניות.'}`],
+     [`${n} משמין?`, `אף מאכל לא משמין בפני עצמו, מה שקובע הוא סך הקלוריות ביום. ${u?`${unitName(u,'he')} ${oneHe(u)}`:'100 גרם'} של ${n} הם כ-${pct}% מתפריט של 2,000 קק״ל.${pr.dense?' זה מאכל צפוף בקלוריות, אז שימו לב לכמות.':pr.low?' זה מאכל דל קלוריות, שקשה להשמין ממנו.':''}`],
+     [`כמה חלבון יש ב${n}?`, `${r1(f.p)} גר׳ חלבון ל-100 גרם${u?`, ו-${r1(f.p*u.g/100)} גר׳ ב${unitName(u,'he')} ${oneHe(u)}`:''}. ${pr.hiP?'זה מקור חלבון משמעותי לבניית שריר.':'זה לא מקור חלבון משמעותי, כדאי לשלב עם עוף, ביצים, גבינה או קטניות.'}`],
      [`מה הערך התזונתי של ${n} ל-100 גרם?`, `${k100} קק״ל, ${r1(f.p)} גר׳ חלבון, ${r1(f.cb)} גר׳ פחמימות ו-${r1(f.ft)} גר׳ שומן. הערכים לפי מאגר המזון הלאומי של משרד הבריאות.`],
     ]; },
  },

@@ -1744,7 +1744,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.41';
+const APP_VERSION='13.2.42';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4365,7 +4365,7 @@ const isLiquid=f=>!!f&&(f.liq===true||LIQ_RX.test(String(f.name||''))&&!LIQ_NOT.
 function openPortion(f){
   const liq=isLiquid(f);
   const units=(f.units||[]).map(u=>({u:u.u,g:+u.g,d:!!u.d})).filter(u=>u.g>0);
-  if(liq&&!units.some(u=>/כוס/.test(u.u)))units.push({u:'כוס',g:200,d:true});
+  if(liq&&!units.some(u=>/כוס|ספל|שוט|בקבוק|פחית|קרטון|shot|cup|mug|كوب|شوت/i.test(u.u)))units.push({u:'כוס',g:200,d:!units.some(u=>u.d)});
   const pref=['יחידה בינונית','מנה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
   const def=units.find(u=>u.d)||pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
   _portion={f,units,unit:def,qty:def?1:100,liq};
@@ -4374,8 +4374,9 @@ function openPortion(f){
 function portionCalc(){
   const p=_portion; const grams=p.unit?p.qty*p.unit.g:p.qty;
   const k=v=>Math.round((+v||0)*grams/100);
-  const d=v=>{const x=(+v||0)*grams/100; return x<10?Math.round(x*10)/10:Math.round(x);}; // תצוגה: עשרוני מתחת ל-10 גרם
-  return {grams:Math.round(grams),kcal:k(p.f.kcal),protein:k(p.f.protein),carbs:k(p.f.carbs),fat:k(p.f.fat),
+  const m=v=>Math.round((+v||0)*grams/100*10)/10; // מאקרו לפי הכמות, בדיוק של 0.1 גרם
+  const d=v=>{const x=m(v); return x<10?x:Math.round(x);}; // תצוגה: עשרוני מתחת ל-10 גרם
+  return {grams:Math.round(grams*10)/10,kcal:k(p.f.kcal),protein:m(p.f.protein),carbs:m(p.f.carbs),fat:m(p.f.fat),
     show:{protein:d(p.f.protein),carbs:d(p.f.carbs),fat:d(p.f.fat)}};
 }
 function renderPortion(){
@@ -4407,16 +4408,19 @@ function renderPortion(){
       <button class="btn primary" style="flex:2" data-act="portion-add">הוסף לארוחה ✓</button></div>
   `);
 }
+/* שם קצר לפריט בארוחה: החלק הראשון של השם, ואם הוא מילה אחת ("קפה", "חלב") גם החלק שמבדיל ("מוכן אספרסו", "3% שומן") */
+function foodShort(n){ const parts=String(n||'').split(',').map(x=>x.trim()).filter(Boolean); if(!parts.length)return String(n||'');
+  return parts.length>1&&!/\s/.test(parts[0])?`${parts[0]}, ${parts[1]}`:parts[0]; }
 function addPortionToBasket(){
   const p=_portion; if(!p)return; const c=portionCalc(); if(!c.grams)return;
   const portion=p.unit?`${p.qty} ${p.unit.u}`:`${c.grams} ${p.liq?'מ״ל':'גר׳'}`;
-  S.basket.push({name:p.f.name.split(',')[0].trim()||p.f.name,full:p.f.name,code:p.f.code,portion,grams:c.grams,kcal:c.kcal,protein:c.protein,carbs:c.carbs,fat:c.fat});
+  S.basket.push({name:foodShort(p.f.name),full:p.f.name,code:p.f.code,portion,grams:c.grams,kcal:c.kcal,protein:c.protein,carbs:c.carbs,fat:c.fat});
   _portion=null; closeSheet(); render(); toast('נוסף לארוחה ✓');
 }
 function saveBasket(){
   if(!S.basket.length)return;
   const items=S.basket.map(i=>({name:`${i.name} (${i.portion})`,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat}));
-  const tot=items.reduce((a,i)=>({kcal:a.kcal+i.kcal,protein:a.protein+i.protein,carbs:a.carbs+i.carbs,fat:a.fat+i.fat}),{kcal:0,protein:0,carbs:0,fat:0});
+  const tot=items.reduce((a,i)=>({kcal:a.kcal+i.kcal,protein:a.protein+i.protein,carbs:a.carbs+i.carbs,fat:a.fat+i.fat}),{kcal:0,protein:0,carbs:0,fat:0}); for(const x of ['protein','carbs','fat'])tot[x]=Math.round(tot[x]*10)/10; tot.kcal=Math.round(tot.kcal);
   const h=new Date().getHours();
   const nm=S.basket.length===1?S.basket[0].name:(h<11?'ארוחת בוקר':h<16?'ארוחת צהריים':h<20?'ארוחת ערב':'ארוחת לילה');
   for(const i of S.basket)if(Number.isInteger(i.code))sb.rpc('bump_food',{c:i.code}).then(()=>{},()=>{});
@@ -8401,8 +8405,9 @@ function handleAct(b,ev){
       b.disabled=true; bcSave({code:SCAN.code,...v}).then(pr=>{ toast('עודכן לפי האריזה, תודה! ✓'); openProduct({...SCAN.prod,...pr,check:false}); })
         .catch(e=>{ b.disabled=false; toast(e.message==='mismatch'?`הקלוריות לא מסתדרות עם הרכיבים (בערך ${e.calc}). בדוק שוב את הטבלה`:e.message==='limit'?'הגעת למכסת העדכונים להיום':'השמירה נכשלה, נסה שוב'); }); break; }
     case 'portion-unit': { if(!_portion)break; const i=+b.dataset.i;
-      _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?100:1; renderPortion(); break; }
-    case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:_portion.liq?50:10;
+      const cur=_portion.unit?_portion.qty*_portion.unit.g:_portion.qty;
+      _portion.unit=i<0?null:_portion.units[i]; _portion.qty=i<0?(Math.round(cur)||100):1; renderPortion(); break; }
+    case 'portion-step': { if(!_portion)break; const st=_portion.unit?0.5:_portion.liq?(_portion.qty<100||(+b.dataset.d<0&&_portion.qty<=100)?10:50):10;
       _portion.qty=Math.max(st,Math.round((_portion.qty+st*(+b.dataset.d))*10)/10); renderPortion(); break; }
     case 'portion-add': addPortionToBasket(); break;
     case 'basket-rm': S.basket.splice(+b.dataset.i,1); render(); break;
