@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8bcab5bc"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8bcab5bc"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8bcab5bc"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f55c6c41"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f55c6c41"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f55c6c41"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -81,6 +81,21 @@
 .wb-c{background:var(--surface2);border-radius:12px;padding:8px 4px}.wb-c b{display:block;font-family:var(--disp);font-weight:800;font-size:19px;line-height:1.12}.wb-c span{font-size:11px;color:var(--muted)}
 .wb-tip{display:flex;gap:8px;align-items:flex-start;margin-top:10px;padding:8px 10px;border-radius:12px;background:var(--accent-soft);font-size:13.5px;line-height:1.4}.wb-tip img{width:30px;height:30px;flex-shrink:0}
 .inv-wa{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366!important;color:#fff!important;text-decoration:none;width:100%}
+.inv-rules{padding:4px 14px;margin-bottom:10px}
+.inv-rule{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.inv-rule:last-child{border-bottom:0}
+.inv-rule>span{width:36px;height:36px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;flex:none;font-weight:900}
+.inv-rule>span.on{background:var(--accent);color:var(--accent-ink)}.inv-rule b{display:block;font-size:15px}.inv-rule small{font-size:12.5px;color:var(--muted)}
+.inv-code{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:16px;background:var(--surface2);margin-bottom:10px}
+.inv-code small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;text-transform:none;font-family:inherit;font-weight:500}.inv-code b{font-size:22px;letter-spacing:.12em;font-family:var(--disp)}
+.inv-claim{border-radius:20px;padding:14px;margin-bottom:10px;background:linear-gradient(160deg,var(--accent-soft),var(--surface) 75%);border:1.5px solid var(--accent)}
+.inv-claim small{display:block;font-size:12.5px;color:var(--accent);font-weight:700}.inv-claim b{font-size:18px}
+.inv-claim.soft{display:flex;align-items:center;gap:12px;border-width:1px}.inv-claim.soft small{color:var(--muted);font-weight:400}
+.inv-gi{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;flex:none}
+.inv-people{padding:12px 14px 4px;margin-top:12px}
+.inv-cap{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin:8px 0 6px}.inv-cap i{height:6px;border-radius:4px;background:var(--surface2)}.inv-cap i.on{background:var(--accent)}
+.inv-p{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.inv-p i{width:30px;height:30px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;flex:none}
+.inv-p b{flex:1;font-size:14.5px}.inv-p span{font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--surface2);color:var(--muted)}.inv-p span.on{background:var(--accent-soft);color:var(--accent)}
 .inv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;text-align:center}
 .inv-stats div{background:var(--surface2);border-radius:12px;padding:10px 4px}.inv-stats b{display:block;font-size:18px;font-family:var(--disp);font-weight:800}.inv-stats span{font-size:11.5px;color:var(--muted)}
 .inv-card{display:flex;align-items:center;gap:10px;width:100%;text-align:var(--start);padding:10px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);margin-top:12px;color:inherit}
@@ -1718,7 +1733,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.9';
+const APP_VERSION='13.3.10';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2581,7 +2596,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   let inv=null, refd=null; try{inv=localStorage.getItem('nr-join'); refd=localStorage.getItem('nr-ref');}catch(_){}
   return `<div class="ld lx">
   ${landGenderHTML()}
-  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: דרך ההזמנה מקבלים שבוע פרימיום מתנה. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
+  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: דרך ההזמנה מקבלים 14 ימים חינם. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
   <section class="lx-hero" id="lx-hero">
     <div class="lx-glow" aria-hidden="true"></div>
     <div class="lx-hero-in">
@@ -2742,7 +2757,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
         <span class="pp num">₪${p.price}</span>
         <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span></button>`;}).join('')}
     </div>
-    <div class="ld-note" style="text-align:center">${LW('הזמנת חבר? שניכם מקבלים שבוע פרימיום מתנה.','הזמנת חברה? שתיכן מקבלות שבוע פרימיום מתנה.')}</div>
+    <div class="ld-note" style="text-align:center">${LW('הזמנת חבר? הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא מצטרף.','הזמנת חברה? היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא מצטרפת.')}</div>
   </section>
 
   <section class="lx-sec lx-fits rv">
@@ -3031,7 +3046,7 @@ function vHome(){
       ${weekRowHTML()}
     </div>
     ${coachRowHTML()}
-    <div class="card r20 list"><button class="li" data-act="invite-open" data-src="home"><span class="sbtn" style="background:var(--accent);color:var(--accent-ink)">${ICON.gift}</span><span class="lt"><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום','הזמיני חברה, שתיכן מקבלות שבוע פרימיום','הזמנת חבר: שבוע פרימיום לשניכם')}</b><small>ניתוחי AI בכל ארוחה וראפי המאמן</small></span>${ICON.chev}</button></div>
+    <div class="card r20 list"><button class="li" data-act="invite-open" data-src="home"><span class="sbtn" style="background:var(--accent);color:var(--accent-ink)">${ICON.gift}</span><span class="lt"><b>${G('הזמן חבר, וקבל חודש חינם','הזמיני חברה, וקבלי חודש חינם','הזמנת חבר: חודש חינם')}</b><small>${tt('החבר מקבל 14 ימים חינם, ואתם חודש כשהוא מצטרף')}</small></span>${ICON.chev}</button></div>
     ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>הפעל התראות</b><small>סוף המנוחה, ימי אימון והודעות מראפי</small></span><span class="btn primary" style="padding:8px 12px;pointer-events:none">הפעלה</span></button></div>`:''}
     ${wrapCardHTML()}
   `;
@@ -4188,7 +4203,7 @@ function aiUpsell(){
   logEv('upsell',{why:'ai'});
   openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>הניתוח החינמי של היום נוצל ✨</b><span>מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.</span></div></div>
     <button class="btn primary big" data-act="plans-open" data-why="ai">⭐ שדרוג לפרימיום</button>
-    <button class="btn big" style="margin-top:8px" data-act="invite-open" data-src="ai">🎁 ${G('הזמן חבר: שבוע פרימיום לשניכם','הזמיני חברה: שבוע פרימיום לשתיכן','הזמנת חבר: שבוע פרימיום לשניכם')}</button>
+    <button class="btn big" style="margin-top:8px" data-act="invite-open" data-src="ai">🎁 ${G('הזמן חבר: 14 ימים לו, חודש חינם לך','הזמיני חברה: 14 ימים לה, חודש חינם לך','הזמנת חבר: 14 ימים לחבר, חודש חינם לך')}</button>
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">אמשיך עם המאגר</button>`);
 }
 // out of free analyses: show the upsell instead of opening the camera / file picker
@@ -6150,7 +6165,7 @@ function vMe(){
     ${p.billing||p.admin?`<button class="prem-card ${prem?'on':''}" data-act="plans-open" data-why="me"><span class="lt"><b>${p.admin?'מסלולים ותשלום':prem?'⭐ פרימיום פעיל':'החשבון שלך חינמי'}</b><span>${p.admin?'כפי שהמשתמשים רואים':prem?`${p.paid&&!p.gift?'מנוי':'מתנה'} עד ${p.until?new Date(p.until).toLocaleDateString(LOC):'—'}`:'פרימיום: ניתוח AI בכל ארוחה וראפי המאמן'}</span></span><span class="cta">${p.admin?'פתיחה':prem?'הארכה':'שדרוג'}</span></button>`:''}
     <div class="card r20 list">
       <button class="li" data-act="go" data-to="social">${ICON.users}<span class="lt"><b>הקבוצות שלי</b></span><span class="lv num">${(SOC.groups||[]).length||''}</span>${ICON.chev}</button>
-      <button class="li" data-act="share-app">${ICON.gift}<span class="lt"><b>הזמנת חברים</b><small>${G('שניכם מקבלים שבוע פרימיום, ואתה חודש כשהוא משדרג','שתיכן מקבלות שבוע פרימיום, ואת חודש כשהיא משדרגת','שניכם מקבלים שבוע פרימיום, וחודש כשהחבר משדרג')}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="share-app">${ICON.gift}<span class="lt"><b>הזמנת חברים</b><small>${G('החבר מקבל 14 ימים חינם, ואתה חודש חינם כשהוא מצטרף','החברה מקבלת 14 ימים חינם, ואת חודש חינם כשהיא מצטרפת','החבר מקבל 14 ימים, ואתם חודש חינם כשהוא מצטרף')}</small></span>${ICON.chev}</button>
     </div>
     <div class="card r20 list">
       <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
@@ -6990,7 +7005,7 @@ function vPaywall(full){
     </div>
     <div class="small muted">${full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
     <div class="stack" style="gap:10px">${plansHTML()}</div>
-    ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: שבוע פרימיום לשניכם','או הזמיני חברה: שבוע פרימיום לשתיכן','או הזמנת חבר: שבוע פרימיום לשניכם')}</button>`:''}
+    ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: 14 ימים לו, חודש חינם לך','או הזמיני חברה: 14 ימים לה, חודש חינם לך','או הזמנת חבר: 14 ימים לחבר, חודש חינם לך')}</button>`:''}
     <div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
     <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>
     ${full&&S.plan?.lock?`<button class="btn big" data-act="lock-view" style="background:var(--surface)">📖 ${tt('צפייה בהיסטוריה שלי')}</button>`:''}
@@ -7014,34 +7029,56 @@ function planBanner(){
 /* --- QR + share --- */
 function loadQR(){ return window.qrcode?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);}); }
 function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q.createSvgTag({cellSize:6,margin:2,scalable:true}); }
-/* הזמנת חברים: כשחבר מצטרף שניהם מקבלים שבוע פרימיום; כשהחבר משדרג, המזמין מקבל חודש */
-const INV={st:null,p:null};
-function inviteUrl(){ return `${location.origin}/#ref=${S.user?.id||''}`; }
-function inviteText(){
-  return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁')); }
+/* הזמנת חברים (לאפליקציה בחנויות): לכל משתמש קוד אישי וקישור nextrep.co.il/i/CODE.
+   החבר מקבל 14 ימים חינם. המזמין: חודש חינם על כל חבר שמצטרף למנוי (עד 6 בשנה); מנוי בחנות מקבל את החיוב הבא ב-₪0,
+   כל השאר 30 ימי פרימיום. מי שלא משלם מקבל גם שבוע על כל חבר שמתחיל להתאמן. */
+const INV={st:null,p:null,code:null};
+const INV_SITE='https://www.nextrep.co.il';
+function inviteUrl(){ return INV.code?`${INV_SITE}/i/${INV.code}`:`${INV_SITE}/#ref=${S.user?.id||''}`; }
+function inviteText(){ const d=INV.st?.trial_days||14;
+  return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.')).replace('{d}',d)+(INV.code?` ${tt('קוד ההזמנה')}: ${INV.code}`:''); }
 function logEv(k,meta){ try{ if(S.user)sb.rpc('log_event',{p_kind:k,p_meta:meta||null}).then(()=>{},()=>{}); }catch(_){} }
+function invLoad(){ return INV.p||(INV.p=Promise.all([sb.rpc('my_referrals'),sb.rpc('my_ref_code')]).then(([a,b])=>{ if(a.data)INV.st=a.data; if(b.data)INV.code=b.data; }).catch(()=>{}).finally(()=>{ setTimeout(()=>{INV.p=null;},30000); })); }
+const INV_GIFT='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>';
+/* an invite code saved before sign-in (the invite page, or the code step in the app's questionnaire): attach it to the new account */
+async function refApplyPending(){ let c=null; try{ c=localStorage.getItem('nr-refcode'); }catch(_){} if(!c||!S.user)return;
+  try{ const {data}=await sb.rpc('ref_apply',{p_code:c}); if(data&&(data.ok||['already','late','self','code'].includes(data.err))){ try{ localStorage.removeItem('nr-refcode'); }catch(_){} }
+    if(data?.ok&&data.name){ toast(tt('ההזמנה של {0} נקלטה: 14 ימים חינם').replace('{0}',data.name)); try{ const pl=await sb.rpc('my_plan'); if(pl.data){ S.plan=pl.data; render(); } }catch(_){} } }catch(_){} }
 async function openInviteSheet(src){
   if(!S.user)return;
   logEv('invite_open',{src:src||null});
-  if(!INV.p)INV.p=sb.rpc('my_referrals').then(({data})=>{ if(data)INV.st=data; }).catch(()=>{});
-  const draw=()=>{ const st=INV.st||{trial_days:7,join_days:7,reward_days:30,joined:0,paid:0,days:0,people:[]}, url=inviteUrl(), txt=inviteText();
-    const wa=`https://wa.me/?text=${encodeURIComponent(txt+'\n'+url)}`;
-    openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-cheer.svg" alt=""><div><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום 🎁','הזמיני חברה, שתיכן מקבלות שבוע פרימיום 🎁','הזמנת חבר: שניכם מקבלים שבוע פרימיום 🎁')}</b><span>${G('כשחבר נרשם דרך הקישור שלך, שניכם מקבלים','כשחברה נרשמת דרך הקישור שלך, שתיכן מקבלות','כשחבר נרשם דרך הקישור, שניכם מקבלים')} <b>שבוע פרימיום</b>: ניתוחי AI בכל ארוחה וראפי המאמן. ${G('וכשהוא משדרג, אתה מקבל','וכשהיא משדרגת, את מקבלת','וכשהחבר משדרג, מקבלים')} <b>חודש פרימיום</b> מתנה. בלי הגבלה על כמות החברים.</span></div></div>
-      <a class="btn primary big inv-wa" href="${wa}" target="_blank" rel="noopener" data-act="inv-share" data-ch="wa"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 0 1 0 16.4 8.1 8.1 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.3c-.2 0-.5 0-.8.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1a6.7 6.7 0 0 1-3.4-3c-.2-.4 0-.5.2-.7l.6-.8c.1-.2.1-.4 0-.6L10.5 8c-.2-.4-.4-.4-.6-.4z"/></svg> שליחה בוואטסאפ</a>
-      <div class="row" style="gap:8px;margin-top:8px"><button class="btn" style="flex:1" data-act="inv-share" data-ch="copy" data-url="${esc(url)}">העתקת קישור</button><button class="btn" style="flex:1" data-act="inv-share" data-ch="native" data-url="${esc(url)}" data-text="${esc(txt)}">שיתוף אחר</button><button class="btn" data-act="inv-qr" data-url="${esc(url)}" aria-label="ברקוד">▦</button></div>
-      <div class="inv-stats"><div><b class="num">${st.joined}</b><span>הצטרפו</span></div><div><b class="num">${st.paid}</b><span>שדרגו</span></div><div><b class="num">${(+st.days||0)+(+st.joined||0)*(+st.join_days||7)}</b><span>ימי פרימיום שקיבלת</span></div></div>
-      ${(st.people||[]).length?`<div class="label" style="margin:12px 0 4px">החברים שהזמנת</div><div class="card" style="padding:2px 14px">${st.people.map(x=>`<div class="spread small" style="padding:7px 0;border-bottom:1px solid var(--line)"><span data-notr>${esc(x.name)}</span><span class="${x.paid?'':'muted'}">${x.paid?'🎁 שדרג לפרימיום':'בחינם'}</span></div>`).join('')}</div>`:''}
-      <div class="small muted" style="margin-top:10px">${G('ימי הפרימיום נוספים לסוף הפרימיום שלך, גם אם הוא כבר הסתיים. החבר צריך להירשם דרך הקישור שלך.','ימי הפרימיום נוספים לסוף הפרימיום שלך, גם אם הוא כבר הסתיים. החברה צריכה להירשם דרך הקישור שלך.','ימי הפרימיום נוספים לסוף הפרימיום, גם אם הוא כבר הסתיים. ההרשמה חייבת להיות דרך הקישור.')}</div>
-      <button class="btn big" style="margin-top:12px" data-act="sheet-close">סגור</button>`); };
-  draw(); if(!INV.st){ await INV.p; if(!$('#sheet').hidden)draw(); }
+  const ld=invLoad();
+  const draw=()=>{ const st=INV.st||{trial_days:14,join_days:7,reward_days:30,cap:6,year:0,ready:0,joined:0,paid:0,people:[]}, url=inviteUrl(), txt=inviteText(), code=INV.code;
+    const wa=`https://wa.me/?text=${encodeURIComponent(txt+'\n'+url)}`, cap=+st.cap||6, yr=Math.min(cap,+st.year||0);
+    const claim=+st.ready>0&&st.store?`<div class="inv-claim"><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="inv-gi">${INV_GIFT}</span><div><small>${tt('חבר הצטרף למנוי')}</small><b>${+st.ready>1?tt('מחכים לך {0} חודשים חינם').replace('{0}',st.ready):tt('מחכה לך חודש חינם')}</b></div></div>
+        <div class="small muted" style="margin:8px 0 12px;line-height:1.5">${tt('החיוב הבא שלך יהיה ₪0, והמנוי ממשיך כרגיל אחריו. אישור אחד בחלון של אפל.')}</div>
+        <button class="btn primary big" style="width:100%" data-act="ref-claim">${tt('לקבלת החודש')}</button></div>`
+      :st.soon&&st.store?`<div class="inv-claim soft"><span class="inv-gi">${INV_GIFT}</span><div><b>${tt('חודש חינם בדרך')}</b><small>${tt('יהיה זמין לקבלה ב-')}${pwDate(st.soon)}</small></div></div>`:'';
+    const rule=(ic,t,d,on)=>`<div class="inv-rule"><span class="${on?'on':''}">${ic}</span><div><b>${t}</b><small>${d}</small></div></div>`;
+    const people=(st.people||[]).map(x=>`<div class="inv-p"><i data-notr>${esc((x.name||'?')[0])}</i><b data-notr>${esc(x.name)}</b><span class="${x.paid?'on':''}">${x.paid?tt('הצטרף למנוי'):x.started?tt('מתאמן'):tt('נרשם')}</span></div>`).join('');
+    openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-cheer${S.settings.g==="f"?"-f":""}.svg" alt=""><div><b>${tt('מתאמנים יותר טוב עם חבר')}</b><span>${tt('שלחו את הקישור או את הקוד. ההטבה נשמרת גם כשמורידים את האפליקציה מהחנות.')}</span></div></div>
+      ${claim}
+      <div class="card inv-rules">
+        ${rule(`<b class="num">${st.trial_days||14}</b>`,tt('החבר מקבל {0} ימים חינם').replace('{0}',st.trial_days||14),tt('כל האפליקציה פתוחה, בלי כרטיס אשראי'))}
+        ${rule(INV_GIFT,G('אתה מקבל חודש חינם','את מקבלת חודש חינם','מקבלים חודש חינם'),(st.store?tt('על כל חבר שמצטרף למנוי: החיוב הבא שלך ₪0'):tt('על כל חבר שמצטרף למנוי'))+` · ${tt('עד {0} בשנה').replace('{0}',cap)}`,true)}
+        ${st.paying?'':rule(`<b class="num">+${st.join_days||7}</b>`,G('ועוד שבוע פרימיום לך','ועוד שבוע פרימיום לך','ועוד שבוע פרימיום'),tt('על כל חבר שנרשם ומתחיל להתאמן'))}
+      </div>
+      ${code?`<div class="inv-code"><div><small>${tt('הקוד האישי שלך')}</small><b dir="ltr">${esc(code)}</b></div><button class="btn" data-act="inv-share" data-ch="code" data-url="${esc(code)}">${tt('העתקה')}</button></div>`:''}
+      <a class="btn primary big inv-wa" href="${wa}" target="_blank" rel="noopener" data-act="inv-share" data-ch="wa"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 0 1 0 16.4 8.1 8.1 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8z"/></svg> ${tt('שליחה בוואטסאפ')}</a>
+      <div class="row" style="gap:8px;margin-top:8px"><button class="btn" style="flex:1" data-act="inv-share" data-ch="copy" data-url="${esc(url)}">${tt('העתקת קישור')}</button><button class="btn" style="flex:1" data-act="inv-share" data-ch="native" data-url="${esc(url)}" data-text="${esc(txt)}">${tt('שיתוף אחר')}</button><button class="btn" data-act="inv-qr" data-url="${esc(url)}" aria-label="${tt('ברקוד')}">▦</button></div>
+      ${people||+st.year?`<div class="card inv-people"><div class="spread"><b>${tt('החברים שלך')}</b><span class="small muted">${tt('חודשים השנה')}: <span class="num">${yr}</span> ${tt('מתוך')} <span class="num">${cap}</span></span></div>
+        <div class="inv-cap">${Array.from({length:cap},(_,i)=>`<i class="${i<yr?'on':''}"></i>`).join('')}</div>${people}</div>`:''}
+      <button class="btn big" style="margin-top:12px" data-act="sheet-close">${tt('סגור')}</button>`); };
+  draw(); await ld; if(!$('#sheet').hidden)draw();
 }
+
 function maybeInvitePrompt(reason){
   // הצעה עדינה ברגע טוב: אחרי שיא, ואחרי האימון ה-4 / ה-10 / ה-20. כל סיבה פעם אחת.
   let seen={}; try{seen=JSON.parse(localStorage.getItem('nr-inv-p')||'{}');}catch(_){}
   if(seen[reason])return; seen[reason]=1; try{localStorage.setItem('nr-inv-p',JSON.stringify(seen));}catch(_){}
   setTimeout(()=>{ if(!$('#sheet').hidden||!$('#np').hidden||S.mode!=='app')return;
-    const msg={pr:'שברת שיא 🏅 יש לך חבר שגם יתקדם ככה?',w4:'4 אימונים נשמרו 💪 מתאמנים יותר כשיש עם מי.',w10:'10 אימונים! חבר שמתאמן איתך = שבוע פרימיום לשניכם.',w20:'20 אימונים 🔥 הגיע הזמן להביא את החבר׳ה.'}[reason];
-    openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-wink.svg" alt=""><div><b>${msg}</b><span>${G('הזמן אותו, ושניכם מקבלים שבוע פרימיום.','הזמיני אותה, ושתיכן מקבלות שבוע פרימיום.','הזמנת חבר: שניכם מקבלים שבוע פרימיום.')}</span></div></div>
+    const msg={pr:'שברת שיא 🏅 יש לך חבר שגם יתקדם ככה?',w4:'4 אימונים נשמרו 💪 מתאמנים יותר כשיש עם מי.',w10:'10 אימונים! חבר שמתאמן איתך = חודש חינם בשבילך.',w20:'20 אימונים 🔥 הגיע הזמן להביא את החבר׳ה.'}[reason];
+    openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-wink.svg" alt=""><div><b>${msg}</b><span>${G('הזמן אותו: הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא מצטרף.','הזמיני אותה: היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא מצטרפת.','הזמנת חבר: 14 ימים חינם לחבר, וחודש חינם לך כשהוא מצטרף.')}</span></div></div>
       <button class="btn primary big" data-act="invite-open" data-src="${reason}">🎁 הזמנת חבר</button><button class="btn big" style="margin-top:8px" data-act="sheet-close">אולי אחר כך</button>`); },1600);
 }
 async function openShareSheet(title,sub,url,text){
@@ -7193,8 +7230,10 @@ function payAct(act,b){
     case 'inv-qr': { const u=b.dataset.url; openShareSheet('ברקוד להזמנה','החבר סורק ונרשם דרך הקישור שלך.',u,inviteText()); logEv('invite_share',{ch:'qr'}); return true; }
     case 'inv-share': { const ch=b.dataset.ch; logEv('invite_share',{ch});
       if(ch==='copy'){ navigator.clipboard?.writeText(inviteText()+'\n'+b.dataset.url).then(()=>toast('הקישור הועתק ✓'),()=>toast(b.dataset.url)); }
+      else if(ch==='code'){ navigator.clipboard?.writeText(b.dataset.url).then(()=>toast(tt('הקוד הועתק ✓')),()=>toast(b.dataset.url)); }
       else if(ch==='native'){ if(navigator.share)navigator.share({title:'NextRep',text:b.dataset.text,url:b.dataset.url}).catch(()=>{}); else navigator.clipboard?.writeText(b.dataset.text+'\n'+b.dataset.url).then(()=>toast('הקישור הועתק ✓')); }
       return true; }
+    case 'ref-claim': if(typeof refClaim==='function'){ refClaim(b); return true; } toast(tt('את החודש החינם מממשים באפליקציה')); return true;
     case 'copy-link': navigator.clipboard?.writeText(b.dataset.url).then(()=>toast('הקישור הועתק ✓'),()=>toast(b.dataset.url)); return true;
     case 'share-native': b.dataset.text=tt(b.dataset.text); if(navigator.share)navigator.share({title:'NextRep',text:b.dataset.text,url:b.dataset.url}).catch(()=>{}); else navigator.clipboard?.writeText(b.dataset.text+'\n'+b.dataset.url).then(()=>toast('הקישור הועתק ✓')); return true;
     case 'scan-open': openScanner(); return true;
@@ -8681,6 +8720,7 @@ async function enterApp(user){
   try{ if(IS_STANDALONE&&!localStorage.getItem('nr-inst-'+user.id)){ sb.rpc('mark_seen',{p_inst:true}).then(r=>{ if(!r.error)try{localStorage.setItem('nr-inst-'+user.id,'1');}catch(_){} },()=>{}); } }catch(e){}
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
   if(PAID_RETURN||enterApp._claim){ enterApp._claim=false; try{ const c=await sb.rpc('claim_payment'); if(c.data?.ok&&!c.data.duplicate)toast('התשלום אומת, הגישה נפתחה 🎉'); }catch(_){} }
+  await refApplyPending();
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
     if(st==='expired'){
       if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }

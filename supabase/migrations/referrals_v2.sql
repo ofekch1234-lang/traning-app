@@ -1,0 +1,22 @@
+-- NextRep referrals for the store apps (applied 2026-10-25 as migrations referrals_v2, referrals_v2_enter,
+-- referrals_v2_payment, referrals_v2_grants). Summary of what lives in the database:
+--
+-- Tables
+--   ref_codes(user_id pk, code unique)            personal invite code (email letters + 2 digits, else random)
+--   ref_clicks(code, referrer, ip_hash, dev, ...)  a click on nextrep.co.il/i/CODE (IP stored only as a salted hash)
+--   ref_credits(referrer, referred unique, status pending→ready→used, ready_at = paid + 7 days)
+--   user_access.ref_joined_at                      the referred friend's first workout or meal
+--
+-- Functions (security definer)
+--   my_ref_code()        authenticated: get or create the user's code
+--   ref_click(code)      anon: the invite page logs a click, returns the referrer's first name
+--   ref_lookup(code)     anon: is a typed code real, whose
+--   ref_peek()           anon/auth: first open of the app, a click from the same network and device kind in 48 h
+--   ref_apply(code)      authenticated, account ≤ 7 days old and not paying: sets the referrer, 14-day trial
+--   ref_join(uid)        service: first workout/meal → +7 days to a referrer who is not paying (triggers on workouts, meals)
+--   ref_paid(uid, pay)   service: the friend paid (store webhook or apply_payment) → store subscriber gets a free-month
+--                        credit, everyone else 30 days (referral_reward); at most 6 rewards per referrer per 365 days
+--   ref_credit_use()     authenticated: the app claimed a free month at the store (promotional offer)
+--   my_referrals()       the invite screen
+--   nr_on_entered        no longer gives the referrer a week on sign-up (ref_join does, on the first workout/meal)
+--   billing.ref_trial_days = 14
