@@ -1,0 +1,690 @@
+{
+ "שכיבות סמיכה על הברכיים": {
+  "en": "Knee Push-Ups",
+  "ar": "تمرين الضغط على الركبتين"
+ },
+ "ברכיים על הרצפה, ידיים מעט רחבות מהכתפיים וגוף בקו ישר מהברכיים לראש. הורד את החזה לרצפה ודחוף חזרה.": {
+  "en": "Knees on the floor, hands slightly wider than shoulders, body in a straight line from knees to head. Lower your chest to the floor and push back up.",
+  "ar": "الركبتان على الأرض واليدان أعرض قليلًا من الكتفين والجسم في خط مستقيم من الركبتين إلى الرأس. أنزل صدرك نحو الأرض ثم ادفع للأعلى."
+ },
+ "שכיבות סמיכה בקשת (ארצ׳ר)": {
+  "en": "Archer Push-Up",
+  "ar": "تمرين الضغط القوسي (آرتشر)"
+ },
+ "ידיים רחבות מאוד. רד לכיוון יד אחת בזמן שהיד השנייה נשארת ישרה לצד, דחוף חזרה והחלף צד.": {
+  "en": "Hands very wide. Lower toward one hand while the other arm stays straight out to the side, push back up and switch sides.",
+  "ar": "اليدان متباعدتان جدًا. انزل نحو يد واحدة بينما تبقى الذراع الأخرى ممدودة جانبًا، ثم ادفع للأعلى وبدّل الجانب."
+ },
+ "שכיבות סמיכה עם מחיאת כף": {
+  "en": "Clap Push-Up",
+  "ar": "تمرين الضغط مع التصفيق"
+ },
+ "רד לשכיבת סמיכה ודחוף בפיצוץ כך שהידיים עוזבות את הרצפה, מחא כף ונחת רך עם מרפקים כפופים.": {
+  "en": "Lower into a push-up and press explosively so your hands leave the floor, clap, and land softly with bent elbows.",
+  "ar": "انزل في وضع الضغط ثم ادفع بقوة حتى ترتفع يداك عن الأرض، صفّق، وهبط بنعومة مع ثني المرفقين."
+ },
+ "לחיצת סוונד": {
+  "en": "Svend Press",
+  "ar": "ضغط سفيند"
+ },
+ "לחץ צלחת משקל בין כפות הידיים מול החזה. דחוף אותה קדימה עד יישור ידיים תוך כדי לחיצה חזקה, וחזור לחזה.": {
+  "en": "Squeeze a weight plate between your palms in front of your chest. Press it straight out while squeezing hard, then bring it back to your chest.",
+  "ar": "اضغط قرص وزن بين راحتي يديك أمام الصدر. ادفعه للأمام حتى تستقيم الذراعان مع الاستمرار في الضغط، ثم أعده إلى الصدر."
+ },
+ "חתירת פנדליי": {
+  "en": "Pendlay Row",
+  "ar": "تجديف بندلاي"
+ },
+ "גב מקביל לרצפה, המוט על הרצפה מתחת לכתפיים. משוך בפיצוץ לבטן העליונה והחזר את המוט לרצפה בכל חזרה.": {
+  "en": "Back parallel to the floor, bar on the floor under your shoulders. Row explosively to your upper stomach and return the bar to the floor every rep.",
+  "ar": "الظهر موازٍ للأرض والبار على الأرض تحت الكتفين. اسحبه بقوة نحو أعلى البطن وأعده إلى الأرض في كل تكرار."
+ },
+ "חתירת גורילה בקטלבל": {
+  "en": "Kettlebell Gorilla Row",
+  "ar": "تجديف الغوريلا بالكيتلبل"
+ },
+ "עמידה רחבה, שני קטלבלים על הרצפה בין הרגליים וגב ישר. משוך קטלבל אחד למותן, הורד והחלף יד.": {
+  "en": "Wide stance, two kettlebells on the floor between your feet, back flat. Row one kettlebell to your hip, lower it and switch arms.",
+  "ar": "وقفة واسعة وكيتلبلان على الأرض بين القدمين والظهر مستقيم. اسحب كيتلبل واحدًا نحو الورك ثم أنزله وبدّل اليد."
+ },
+ "חתירת רנגייד": {
+  "en": "Renegade Row",
+  "ar": "تجديف رينيغيد"
+ },
+ "פלאנק גבוה על שתי משקולות, רגליים מעט פתוחות. משוך משקולת אחת למותן בלי לסובב את האגן, הורד והחלף צד.": {
+  "en": "High plank on two dumbbells, feet slightly apart. Row one dumbbell to your hip without rotating your hips, lower it and switch sides.",
+  "ar": "وضعية البلانك العالي على دمبلين مع مباعدة القدمين قليلًا. اسحب دمبلًا واحدًا نحو الورك دون تدوير الحوض، ثم أنزله وبدّل الجانب."
+ },
+ "דדליפט במוט משושה": {
+  "en": "Hex Bar Deadlift",
+  "ar": "رفعة مميتة بالبار السداسي"
+ },
+ "עמוד במרכז המוט, אחוז בידיות, גב ישר וחזה פתוח. דחוף את הרצפה ועמוד זקוף, הורד בשליטה.": {
+  "en": "Stand in the center of the bar, grip the handles, back flat and chest up. Push the floor away to stand tall, then lower with control.",
+  "ar": "قف في منتصف البار وأمسك المقابض، الظهر مستقيم والصدر مرفوع. ادفع الأرض بقدميك حتى تقف مستقيمًا ثم أنزل بتحكم."
+ },
+ "מתח באחיזה רחבה": {
+  "en": "Wide-Grip Pull-Up",
+  "ar": "العقلة بقبضة واسعة"
+ },
+ "אחיזה רחבה מהכתפיים, כפות ידיים קדימה. משוך עד שהסנטר מעל המוט, ירידה איטית עד יישור ידיים.": {
+  "en": "Grip wider than shoulders, palms facing forward. Pull until your chin clears the bar, then lower slowly to straight arms.",
+  "ar": "قبضة أعرض من الكتفين وراحتا اليدين للأمام. اسحب حتى يتجاوز ذقنك البار ثم انزل ببطء حتى تستقيم الذراعان."
+ },
+ "מתח בעזרה": {
+  "en": "Assisted Pull-Up",
+  "ar": "العقلة بالمساعدة"
+ },
+ "השתמש במכונת מתח עם משקל נגדי או בגומייה. משוך עד שהסנטר מעל המוט וירד לאט. ככל שמתחזקים, מפחיתים את העזרה.": {
+  "en": "Use an assisted pull-up machine or a band. Pull until your chin clears the bar and lower slowly. Reduce the assistance as you get stronger.",
+  "ar": "استخدم جهاز العقلة المساعد أو حبلًا مطاطيًا. اسحب حتى يتجاوز ذقنك البار وانزل ببطء. قلّل المساعدة كلما أصبحت أقوى."
+ },
+ "מתח שלילי": {
+  "en": "Negative Pull-Up",
+  "ar": "العقلة السلبية"
+ },
+ "קפוץ או עלה על ספסל למצב סנטר מעל המוט, ורד לאט ככל האפשר, 3 עד 5 שניות, עד יישור ידיים.": {
+  "en": "Jump or step up to the top position with your chin over the bar, then lower as slowly as you can, 3 to 5 seconds, to straight arms.",
+  "ar": "اقفز أو اصعد على مقعد إلى الوضع العلوي وذقنك فوق البار، ثم انزل ببطء قدر الإمكان، من 3 إلى 5 ثوانٍ، حتى تستقيم الذراعان."
+ },
+ "חתירה בכבל באחיזה רחבה": {
+  "en": "Wide-Grip Seated Cable Row",
+  "ar": "تجديف الكابل جلوسًا بقبضة واسعة"
+ },
+ "ישיבה זקופה, ידית רחבה. משוך לחזה התחתון עם מרפקים פתוחים לצדדים, קרב שכמות וחזור בשליטה.": {
+  "en": "Sit tall with a wide bar. Pull to your lower chest with elbows flared out, squeeze your shoulder blades and return with control.",
+  "ar": "اجلس مستقيمًا وأمسك مقبضًا واسعًا. اسحب نحو أسفل الصدر مع فتح المرفقين للجانبين، اضغط لوحي الكتف ثم عُد بتحكم."
+ },
+ "חתירה בכבל בעמידה": {
+  "en": "Standing Cable Row",
+  "ar": "تجديف الكابل وقوفًا"
+ },
+ "עמידה מול הכבל, ברכיים כפופות מעט וגב ישר. משוך את הידית לבטן, קרב שכמות וחזור לאט.": {
+  "en": "Stand facing the cable, knees slightly bent and back straight. Pull the handle to your stomach, squeeze your shoulder blades and return slowly.",
+  "ar": "قف مقابل الكابل مع ثني الركبتين قليلًا والظهر مستقيم. اسحب المقبض نحو البطن، اضغط لوحي الكتف ثم عُد ببطء."
+ },
+ "פולי עליון בגומייה": {
+  "en": "Band Lat Pulldown",
+  "ar": "سحب علوي بالحبل المطاطي"
+ },
+ "קבע גומייה גבוה מעליך. משוך אותה מטה לכיוון החזה העליון עם מרפקים לכיוון הצלעות, וחזור לאט.": {
+  "en": "Anchor a band high above you. Pull it down toward your upper chest, driving your elbows to your ribs, and return slowly.",
+  "ar": "ثبّت حبلًا مطاطيًا في مكان مرتفع. اسحبه للأسفل نحو أعلى الصدر مع توجيه المرفقين نحو الأضلاع، ثم عُد ببطء."
+ },
+ "חתירה בגומייה": {
+  "en": "Band Row",
+  "ar": "تجديف بالحبل المطاطي"
+ },
+ "ישיבה עם רגליים ישרות, גומייה סביב כפות הרגליים. משוך לבטן, קרב שכמות וחזור בשליטה.": {
+  "en": "Sit with straight legs and the band around your feet. Pull to your stomach, squeeze your shoulder blades and return with control.",
+  "ar": "اجلس مع مدّ الساقين ولفّ الحبل المطاطي حول القدمين. اسحب نحو البطن، اضغط لوحي الكتف ثم عُد بتحكم."
+ },
+ "פשיטת גב בשכיבה על הבטן": {
+  "en": "Prone Back Extension",
+  "ar": "تمديد الظهر على البطن"
+ },
+ "שכיבה על הבטן, ידיים ליד הראש. הרם את החזה מהרצפה בעזרת שרירי הגב, החזק רגע והורד לאט.": {
+  "en": "Lie face down with hands by your head. Lift your chest off the floor using your back muscles, hold briefly and lower slowly.",
+  "ar": "استلقِ على بطنك واليدان بجانب الرأس. ارفع صدرك عن الأرض بعضلات الظهر، اثبت لحظة ثم انزل ببطء."
+ },
+ "דדליפט בלנדמיין": {
+  "en": "Landmine Deadlift",
+  "ar": "رفعة مميتة باللاندماين"
+ },
+ "עמוד מעל קצה המוט, אחוז בו בשתי ידיים. דחוף ירכיים אחורה עם גב ישר, ועמוד זקוף תוך כיווץ הישבן.": {
+  "en": "Stand over the end of the bar and hold it with both hands. Push your hips back with a flat back, then stand tall squeezing your glutes.",
+  "ar": "قف فوق طرف البار وأمسكه بكلتا يديك. ادفع الوركين للخلف مع ظهر مستقيم ثم قف مستقيمًا مع شدّ الأرداف."
+ },
+ "סקוואט קוזאק": {
+  "en": "Cossack Squat",
+  "ar": "سكوات القوزاق"
+ },
+ "עמידה רחבה מאוד. רד לצד אחד עם ברך כפופה בזמן שהרגל השנייה ישרה ובהונות למעלה, חזור למרכז והחלף צד.": {
+  "en": "Very wide stance. Sink to one side bending that knee while the other leg stays straight with toes up, return to center and switch sides.",
+  "ar": "وقفة واسعة جدًا. انزل إلى جانب واحد بثني الركبة بينما تبقى الساق الأخرى مستقيمة وأصابعها للأعلى، ثم عُد إلى المنتصف وبدّل الجانب."
+ },
+ "לאנג׳ צולב (קרטסי)": {
+  "en": "Curtsy Lunge",
+  "ar": "اندفاع الانحناءة (كيرتسي)"
+ },
+ "צעד ברגל אחת אחורה ובאלכסון מאחורי הרגל השנייה ורד עד שהברך האחורית קרובה לרצפה. דחוף חזרה והחלף צד.": {
+  "en": "Step one leg back and across behind the other, lowering until the back knee nears the floor. Push back and switch sides.",
+  "ar": "خطوة بساق واحدة للخلف وبشكل مائل خلف الساق الأخرى وانزل حتى تقترب الركبة الخلفية من الأرض. ادفع للعودة وبدّل الجانب."
+ },
+ "סקוואט פיסטול": {
+  "en": "Pistol Squat",
+  "ar": "سكوات المسدس"
+ },
+ "עמידה על רגל אחת, הרגל השנייה ישרה קדימה. רד לאט לסקוואט מלא על רגל אחת ועלה חזרה בלי לגעת ברצפה.": {
+  "en": "Stand on one leg with the other straight out in front. Lower slowly into a full one-leg squat and stand back up without touching down.",
+  "ar": "قف على ساق واحدة والأخرى ممدودة للأمام. انزل ببطء إلى سكوات كامل على ساق واحدة ثم انهض دون لمس الأرض."
+ },
+ "סקוואט פיסטול בעזרה": {
+  "en": "Assisted Pistol Squat",
+  "ar": "سكوات المسدس بالمساعدة"
+ },
+ "כמו סקוואט פיסטול, אבל אחוז בעמוד, ב־TRX או ברצועה כדי לעזור בירידה ובעלייה.": {
+  "en": "Like a pistol squat, but hold a post, TRX or strap to help on the way down and up.",
+  "ar": "مثل سكوات المسدس لكن أمسك عمودًا أو TRX أو حزامًا للمساعدة أثناء النزول والصعود."
+ },
+ "סקוואט זרצ׳ר": {
+  "en": "Zercher Squat",
+  "ar": "سكوات زيرشر"
+ },
+ "החזק את המוט בקפל המרפקים מול הבטן, חזה פתוח. רד לסקוואט עמוק ועלה תוך שמירה על גב זקוף.": {
+  "en": "Hold the bar in the crook of your elbows in front of your stomach, chest up. Squat deep and stand up keeping your torso upright.",
+  "ar": "أمسك البار في ثنية المرفقين أمام البطن مع رفع الصدر. انزل في سكوات عميق ثم انهض مع الحفاظ على الجذع مستقيمًا."
+ },
+ "סקוואט מטוטלת": {
+  "en": "Pendulum Squat",
+  "ar": "سكوات البندول"
+ },
+ "כתפיים מתחת לרפידות וגב צמוד. רד עמוק בשליטה ודחוף דרך כל כף הרגל חזרה למעלה.": {
+  "en": "Shoulders under the pads and back against the pad. Lower deep with control and push through your whole foot back up.",
+  "ar": "الكتفان تحت الوسائد والظهر ملاصق. انزل بعمق وبتحكم ثم ادفع بكامل القدم للأعلى."
+ },
+ "האק סקוואט הפוך": {
+  "en": "Reverse Hack Squat",
+  "ar": "هاك سكوات عكسي"
+ },
+ "פנים אל המכונה, חזה צמוד לרפידה. רד בהטיית ירכיים אחורה ודחוף חזרה למעלה תוך כיווץ הישבן.": {
+  "en": "Face the machine with your chest on the pad. Lower by pushing your hips back, then drive back up squeezing your glutes.",
+  "ar": "وجهك نحو الجهاز والصدر على الوسادة. انزل بدفع الوركين للخلف ثم ادفع للأعلى مع شدّ الأرداف."
+ },
+ "סקוואט עם עקבים מוגבהים": {
+  "en": "Heel-Elevated Squat",
+  "ar": "سكوات مع رفع الكعبين"
+ },
+ "עקבים על צלחת או משטח משופע, רגליים צמודות יחסית. רד עמוק עם גו זקוף והברכיים קדימה, ועלה. מדגיש את הארבע ראשי.": {
+  "en": "Heels on a plate or slant board, feet fairly close. Squat deep with an upright torso and knees forward, then stand. Emphasizes the quads.",
+  "ar": "الكعبان على قرص أو لوح مائل والقدمان متقاربتان نسبيًا. انزل بعمق مع جذع مستقيم والركبتين للأمام ثم انهض. يركز على عضلات الفخذ الأمامية."
+ },
+ "ישיבה על הקיר": {
+  "en": "Wall Sit",
+  "ar": "الجلوس على الحائط"
+ },
+ "גב צמוד לקיר, רד עד שהירכיים מקבילות לרצפה והברכיים בזווית 90°. החזק את המצב לאורך הזמן שנקבע.": {
+  "en": "Back flat against a wall, slide down until thighs are parallel to the floor and knees at 90°. Hold for the set time.",
+  "ar": "الظهر ملاصق للحائط، انزل حتى يصبح الفخذان موازيين للأرض والركبتان بزاوية 90°. اثبت طوال الوقت المحدد."
+ },
+ "גשר צפרדע": {
+  "en": "Frog Pumps",
+  "ar": "مضخات الضفدع"
+ },
+ "שכיבה על הגב, כפות הרגליים צמודות זו לזו וברכיים פתוחות לצדדים. דחוף את האגן למעלה בכיווץ ישבן והורד, בקצב.": {
+  "en": "Lie on your back, soles of the feet together and knees out wide. Drive your hips up squeezing your glutes and lower, in a steady rhythm.",
+  "ar": "استلقِ على ظهرك مع ضمّ باطن القدمين وفتح الركبتين للجانبين. ادفع الحوض للأعلى مع شدّ الأرداف ثم أنزله بإيقاع ثابت."
+ },
+ "גשר ישבן עם צעידה": {
+  "en": "Glute Bridge March",
+  "ar": "جسر الأرداف مع المشي"
+ },
+ "החזק גשר ישבן עם אגן גבוה. הרם ברך אחת לכיוון החזה, הורד והחלף, בלי שהאגן ייפול או יסתובב.": {
+  "en": "Hold a glute bridge with hips high. Lift one knee toward your chest, lower and switch, without letting your hips drop or rotate.",
+  "ar": "اثبت في وضع جسر الأرداف مع رفع الحوض. ارفع ركبة واحدة نحو الصدر ثم أنزلها وبدّل، دون أن ينخفض الحوض أو يدور."
+ },
+ "הרחקת ירך על שש (פייר הידרנט)": {
+  "en": "Fire Hydrant",
+  "ar": "تمرين صنبور الإطفاء"
+ },
+ "על ידיים וברכיים, גב ישר. הרם ברך כפופה לצד עד גובה האגן, החזק רגע והורד. החלף צד.": {
+  "en": "On hands and knees, back flat. Lift one bent knee out to the side to hip height, hold briefly and lower. Switch sides.",
+  "ar": "على اليدين والركبتين والظهر مستقيم. ارفع ركبة مثنية إلى الجانب حتى مستوى الورك، اثبت لحظة ثم أنزلها. بدّل الجانب."
+ },
+ "הרחקת ירך בכבל": {
+  "en": "Cable Hip Abduction",
+  "ar": "إبعاد الورك بالكابل"
+ },
+ "רצועה על הקרסול הרחוק מהכבל, עמידה זקופה ואחיזה לתמיכה. הרחק את הרגל לצד בשליטה וחזור לאט.": {
+  "en": "Strap on the ankle farther from the cable, stand tall holding on for support. Move the leg out to the side with control and return slowly.",
+  "ar": "ثبّت الحزام على الكاحل البعيد عن الكابل وقف مستقيمًا مع الإمساك للدعم. أبعد الساق إلى الجانب بتحكم ثم عُد ببطء."
+ },
+ "היפ תראסט במכונה": {
+  "en": "Hip Thrust Machine",
+  "ar": "هيب ثرست على الجهاز"
+ },
+ "גב עליון על הספסל ורפידה על האגן. דחוף את האגן למעלה עד קו ישר מהכתפיים לברכיים, כווץ ישבן והורד בשליטה.": {
+  "en": "Upper back on the bench and pad across your hips. Drive your hips up to a straight line from shoulders to knees, squeeze and lower with control.",
+  "ar": "أعلى الظهر على المقعد والوسادة على الحوض. ادفع الحوض للأعلى حتى خط مستقيم من الكتفين إلى الركبتين، اشدد الأرداف ثم أنزل بتحكم."
+ },
+ "היפ תראסט בעמידת B": {
+  "en": "B-Stance Hip Thrust",
+  "ar": "هيب ثرست بوضعية B"
+ },
+ "כמו היפ תראסט, אבל רגל אחת עובדת ונטועה בכל כף הרגל והשנייה מעט קדימה על העקב לתמיכה. משקולת על האגן.": {
+  "en": "Like a hip thrust, but one leg does the work with the foot planted while the other rests slightly forward on its heel. Dumbbell on the hips.",
+  "ar": "مثل الهيب ثرست لكن ساق واحدة تعمل والقدم ثابتة بالكامل والأخرى للأمام قليلًا على الكعب للدعم. دمبل على الحوض."
+ },
+ "דדליפט רומני בעמידת B": {
+  "en": "B-Stance Romanian Deadlift",
+  "ar": "رفعة رومانية بوضعية B"
+ },
+ "רוב המשקל על רגל אחת, הרגל השנייה מעט אחורה על הבהונות. הורד את המשקולות בהטיית ירכיים אחורה עם גב ישר ועלה.": {
+  "en": "Most of the weight on one leg, the other slightly back on its toes. Lower the dumbbells by hinging your hips back with a flat back, then stand.",
+  "ar": "معظم الوزن على ساق واحدة والأخرى للخلف قليلًا على أصابعها. أنزل الدمبلز بدفع الوركين للخلف مع ظهر مستقيم ثم انهض."
+ },
+ "לחיצת רגליים ברגל אחת": {
+  "en": "Single-Leg Leg Press",
+  "ar": "مكبس الأرجل بساق واحدة"
+ },
+ "רגל אחת במרכז הפלטפורמה. הורד עד ברך בזווית 90° בערך ודחוף חזרה בלי לנעול את הברך. החלף רגל.": {
+  "en": "One foot in the middle of the platform. Lower until the knee is about 90° and press back up without locking the knee. Switch legs.",
+  "ar": "قدم واحدة في منتصف المنصة. انزل حتى تصبح الركبة بزاوية 90° تقريبًا ثم ادفع للأعلى دون قفل الركبة. بدّل الساق."
+ },
+ "לחיצת רגליים בעמידה רחבה": {
+  "en": "Wide-Stance Leg Press",
+  "ar": "مكبس الأرجل بوقفة واسعة"
+ },
+ "רגליים רחבות וגבוהות על הפלטפורמה, בהונות מעט החוצה. הורד עמוק ודחוף דרך העקבים. מדגיש ישבן ומקרבים.": {
+  "en": "Feet wide and high on the platform, toes slightly out. Lower deep and push through your heels. Emphasizes glutes and adductors.",
+  "ar": "القدمان متباعدتان ومرتفعتان على المنصة وأصابعهما للخارج قليلًا. انزل بعمق وادفع بالكعبين. يركز على الأرداف والعضلات المقرّبة."
+ },
+ "דדליפט רומני ברגל אחת במשקולת": {
+  "en": "Single-Leg Dumbbell RDL",
+  "ar": "رفعة رومانية بساق واحدة بالدمبل"
+ },
+ "עמידה על רגל אחת עם משקולת. הטה את הגו קדימה בזמן שהרגל החופשית עולה אחורה, גב ישר, וחזור לעמידה.": {
+  "en": "Stand on one leg holding a dumbbell. Hinge forward as the free leg rises behind you, back flat, then return to standing.",
+  "ar": "قف على ساق واحدة مع دمبل. أمِل الجذع للأمام بينما ترتفع الساق الحرة للخلف والظهر مستقيم، ثم عُد إلى الوقوف."
+ },
+ "דדליפט סומו במשקולת": {
+  "en": "Dumbbell Sumo Deadlift",
+  "ar": "رفعة سومو بالدمبل"
+ },
+ "עמידה רחבה, בהונות החוצה, משקולת אחת בין הרגליים. רד עם גב ישר ועמוד זקוף בכיווץ ישבן.": {
+  "en": "Wide stance, toes out, one dumbbell between your feet. Lower with a flat back and stand tall squeezing your glutes.",
+  "ar": "وقفة واسعة وأصابع القدمين للخارج ودمبل واحد بين القدمين. انزل مع ظهر مستقيم ثم قف مستقيمًا مع شدّ الأرداف."
+ },
+ "לאנג׳ים לאחור במוט": {
+  "en": "Barbell Reverse Lunge",
+  "ar": "اندفاع خلفي بالبار"
+ },
+ "מוט על הגב העליון. צעד ברגל אחת אחורה ורד עד שהברך האחורית קרובה לרצפה, דחוף חזרה מהרגל הקדמית.": {
+  "en": "Bar on your upper back. Step one leg back and lower until the back knee nears the floor, then push back up through the front leg.",
+  "ar": "البار على أعلى الظهر. خطوة بساق واحدة للخلف وانزل حتى تقترب الركبة الخلفية من الأرض ثم ادفع بالساق الأمامية للعودة."
+ },
+ "סקוואט בולגרי במוט": {
+  "en": "Barbell Bulgarian Split Squat",
+  "ar": "سكوات بلغاري بالبار"
+ },
+ "מוט על הגב העליון, כף הרגל האחורית על ספסל. רד עד שהירך הקדמית כמעט מקבילה לרצפה ועלה.": {
+  "en": "Bar on your upper back, rear foot on a bench. Lower until the front thigh is nearly parallel to the floor and stand up.",
+  "ar": "البار على أعلى الظهر والقدم الخلفية على مقعد. انزل حتى يصبح الفخذ الأمامي موازيًا تقريبًا للأرض ثم انهض."
+ },
+ "לאנג׳ צידי": {
+  "en": "Lateral Lunge",
+  "ar": "اندفاع جانبي"
+ },
+ "צעד רחב לצד, רד על הרגל הצועדת עם אגן אחורה, והרגל השנייה נשארת ישרה. דחוף חזרה למרכז.": {
+  "en": "Take a wide step to the side, sink into that leg with hips back while the other leg stays straight. Push back to center.",
+  "ar": "خطوة واسعة إلى الجانب وانزل على الساق المتقدمة مع دفع الوركين للخلف بينما تبقى الأخرى مستقيمة. ادفع للعودة إلى المنتصف."
+ },
+ "כפיפת ברכיים במשקולת": {
+  "en": "Dumbbell Leg Curl",
+  "ar": "ثني الركبتين بالدمبل"
+ },
+ "שכיבה על הבטן על ספסל, משקולת אחוזה בין כפות הרגליים. כופף ברכיים להביא אותה לכיוון הישבן והורד לאט.": {
+  "en": "Lie face down on a bench with a dumbbell held between your feet. Curl it toward your glutes and lower slowly.",
+  "ar": "استلقِ على بطنك على مقعد وأمسك دمبلًا بين القدمين. اثنِ الركبتين لتقريبه من الأرداف ثم أنزله ببطء."
+ },
+ "לחיצת לנדמיין ביד אחת": {
+  "en": "Single-Arm Landmine Press",
+  "ar": "ضغط اللاندماين بذراع واحدة"
+ },
+ "החזק את קצה המוט ליד הכתף. דחוף אותו למעלה וקדימה עד יישור היד, וחזור לכתף בשליטה.": {
+  "en": "Hold the end of the bar at your shoulder. Press it up and forward to a straight arm, then return to the shoulder with control.",
+  "ar": "أمسك طرف البار عند الكتف. ادفعه للأعلى وللأمام حتى تستقيم الذراع ثم أعده إلى الكتف بتحكم."
+ },
+ "הרחקות צד במכונה": {
+  "en": "Machine Lateral Raise",
+  "ar": "رفرفة جانبية على الجهاز"
+ },
+ "ישיבה זקופה, רפידות על צד הזרועות. הרם את הזרועות לצדדים עד גובה הכתפיים והורד לאט.": {
+  "en": "Sit tall with the pads on the outside of your arms. Raise your arms out to shoulder height and lower slowly.",
+  "ar": "اجلس مستقيمًا والوسائد على جانبي الذراعين. ارفع الذراعين جانبًا حتى مستوى الكتفين ثم أنزلهما ببطء."
+ },
+ "הרחקות אחוריות על ספסל משופע": {
+  "en": "Incline Bench Rear Delt Fly",
+  "ar": "رفرفة خلفية على مقعد مائل"
+ },
+ "שכיבה על הבטן על ספסל משופע עם משקולות. הרם את הזרועות לצדדים עם מרפקים כפופים מעט, וירד לאט.": {
+  "en": "Lie chest-down on an incline bench with dumbbells. Raise your arms out to the sides with a slight bend in the elbows, and lower slowly.",
+  "ar": "استلقِ على صدرك على مقعد مائل مع دمبلين. ارفع الذراعين جانبًا مع ثني خفيف للمرفقين ثم أنزلهما ببطء."
+ },
+ "הרמה קדמית בצלחת": {
+  "en": "Plate Front Raise",
+  "ar": "رفع أمامي بالقرص"
+ },
+ "אחוז בצלחת משקל בשתי ידיים. הרם אותה קדימה עד גובה העיניים עם ידיים כמעט ישרות והורד לאט.": {
+  "en": "Hold a weight plate with both hands. Raise it in front of you to eye level with nearly straight arms and lower slowly.",
+  "ar": "أمسك قرص وزن بكلتا يديك. ارفعه أمامك حتى مستوى العينين مع ذراعين شبه مستقيمتين ثم أنزله ببطء."
+ },
+ "לחיצת ארנולד בעמידה": {
+  "en": "Standing Arnold Press",
+  "ar": "ضغط أرنولد وقوفًا"
+ },
+ "עמידה זקופה, משקולות מול הכתפיים וכפות ידיים אליך. סובב את כפות הידיים החוצה תוך לחיצה למעלה, וחזור באותה תנועה.": {
+  "en": "Stand tall, dumbbells in front of your shoulders with palms facing you. Rotate your palms out as you press up, and reverse on the way down.",
+  "ar": "قف مستقيمًا والدمبلز أمام الكتفين وراحتا اليدين نحوك. لفّ الراحتين للخارج أثناء الضغط للأعلى، وعكس الحركة عند النزول."
+ },
+ "לחיצת כתפיים בקטלבל": {
+  "en": "Kettlebell Overhead Press",
+  "ar": "ضغط الكتف بالكيتلبل"
+ },
+ "קטלבל במנוחה על צד האמה ליד הכתף. לחץ ישר מעל הראש עד יישור היד והורד לכתף בשליטה.": {
+  "en": "Kettlebell resting on the back of your forearm at the shoulder. Press straight overhead to a locked arm and lower to the shoulder with control.",
+  "ar": "الكيتلبل مستند على ظهر الساعد عند الكتف. اضغطه مباشرة فوق الرأس حتى تستقيم الذراع ثم أنزله إلى الكتف بتحكم."
+ },
+ "לחיצת כתפיים בגומייה": {
+  "en": "Band Overhead Press",
+  "ar": "ضغط الكتف بالحبل المطاطي"
+ },
+ "עמוד על הגומייה וקצותיה בגובה הכתפיים. לחץ למעלה עד יישור ידיים והורד לאט.": {
+  "en": "Stand on the band with the ends at shoulder height. Press up to straight arms and lower slowly.",
+  "ar": "قف على الحبل المطاطي وأطرافه عند مستوى الكتفين. اضغط للأعلى حتى تستقيم الذراعان ثم أنزل ببطء."
+ },
+ "הרחקה לצד ולפנים במשקולות": {
+  "en": "Lateral to Front Raise",
+  "ar": "رفرفة جانبية ثم أمامية بالدمبل"
+ },
+ "הרם את המשקולות לצדדים עד גובה הכתפיים והורד, ואז הרם אותן קדימה והורד. זוהי חזרה אחת.": {
+  "en": "Raise the dumbbells out to the sides to shoulder height and lower, then raise them to the front and lower. That is one rep.",
+  "ar": "ارفع الدمبلز جانبًا حتى مستوى الكتفين ثم أنزلها، ثم ارفعها للأمام وأنزلها. هذا تكرار واحد."
+ },
+ "הרמות W בגומייה": {
+  "en": "Band W-Raise",
+  "ar": "رفع W بالحبل المطاطي"
+ },
+ "גומייה בשתי ידיים, מרפקים כפופים צמודים לגוף. משוך את הידיים לצדדים ולאחור ליצירת צורת W וקרב שכמות.": {
+  "en": "Band in both hands, elbows bent and tucked to your sides. Pull your hands out and back to form a W and squeeze your shoulder blades.",
+  "ar": "الحبل المطاطي بكلتا اليدين والمرفقان مثنيان وملاصقان للجسم. اسحب اليدين للجانبين وللخلف لتشكيل حرف W واضغط لوحي الكتف."
+ },
+ "שכיבות סמיכה בפייק": {
+  "en": "Pike Push-Up",
+  "ar": "تمرين الضغط بوضعية البايك"
+ },
+ "אגן גבוה וגוף בצורת V הפוכה. כופף מרפקים להוריד את הראש לכיוון הרצפה בין הידיים, ודחוף חזרה.": {
+  "en": "Hips high with your body in an inverted V. Bend your elbows to lower your head toward the floor between your hands, then push back up.",
+  "ar": "الحوض مرتفع والجسم على شكل V مقلوب. اثنِ المرفقين لإنزال الرأس نحو الأرض بين اليدين ثم ادفع للأعلى."
+ },
+ "כפיפה בריכוז בכבל בעמידה": {
+  "en": "Standing Cable Concentration Curl",
+  "ar": "ثني تركيزي بالكابل وقوفًا"
+ },
+ "ידית ביד אחת מכבל נמוך, הגו נוטה מעט קדימה והמרפק קבוע. כופף עד הכתף, כווץ והורד לאט.": {
+  "en": "Single handle from a low cable, torso leaning slightly forward and elbow fixed. Curl to the shoulder, squeeze and lower slowly.",
+  "ar": "مقبض بيد واحدة من كابل منخفض والجذع مائل للأمام قليلًا والمرفق ثابت. اثنِ حتى الكتف واضغط ثم أنزل ببطء."
+ },
+ "כפיפת מלצר": {
+  "en": "Waiter Curl",
+  "ar": "ثني النادل"
+ },
+ "אחוז משקולת אחת בקצה העליון בשתי כפות ידיים פתוחות, כמו מגש. כופף מרפקים להביא אותה לכתפיים והורד לאט.": {
+  "en": "Hold one dumbbell by the top end in both open palms, like a tray. Curl it up toward your shoulders and lower slowly.",
+  "ar": "أمسك دمبلًا واحدًا من طرفه العلوي براحتي اليدين المفتوحتين كأنه صينية. اثنِ المرفقين لرفعه نحو الكتفين ثم أنزله ببطء."
+ },
+ "כפיפת מרפקים במוט באחיזה צרה": {
+  "en": "Narrow-Grip Barbell Curl",
+  "ar": "ثني البار بقبضة ضيقة"
+ },
+ "אחיזה צרה מרוחב הכתפיים, מרפקים צמודים לגוף. כופף עד החזה בלי להניף את הגו והורד בשליטה.": {
+  "en": "Grip narrower than shoulder width, elbows tucked. Curl to your chest without swinging and lower with control.",
+  "ar": "قبضة أضيق من عرض الكتفين والمرفقان ملاصقان للجسم. اثنِ حتى الصدر دون أرجحة الجذع ثم أنزل بتحكم."
+ },
+ "כפיפת מרפקים בגומייה": {
+  "en": "Band Biceps Curl",
+  "ar": "ثني الذراعين بالحبل المطاطي"
+ },
+ "עמוד על אמצע הגומייה ואחוז בקצוות. כופף מרפקים עד הכתפיים עם מרפקים צמודים לגוף, וירד לאט.": {
+  "en": "Stand on the middle of the band and hold the ends. Curl up to your shoulders with elbows tucked, and lower slowly.",
+  "ar": "قف على منتصف الحبل المطاطي وأمسك طرفيه. اثنِ المرفقين حتى الكتفين مع إبقائهما ملاصقين للجسم ثم أنزل ببطء."
+ },
+ "קיקבק בכבל": {
+  "en": "Cable Triceps Kickback",
+  "ar": "ركلة خلفية للترايسبس بالكابل"
+ },
+ "הגו נוטה קדימה והזרוע העליונה צמודה לגוף. פשוט את המרפק אחורה עד יישור, החזק רגע וחזור לאט.": {
+  "en": "Torso leaning forward and upper arm tight to your side. Extend the elbow back to straight, hold briefly and return slowly.",
+  "ar": "الجذع مائل للأمام وأعلى الذراع ملاصق للجسم. مدّ المرفق للخلف حتى يستقيم، اثبت لحظة ثم عُد ببطء."
+ },
+ "פשיטה מעל הראש בישיבה במשקולת": {
+  "en": "Seated Overhead Dumbbell Extension",
+  "ar": "تمديد الترايسبس فوق الرأس جلوسًا بالدمبل"
+ },
+ "ישיבה זקופה, משקולת אחת בשתי ידיים מעל הראש. הורד אותה מאחורי הראש עם מרפקים מכוונים למעלה, ופשוט חזרה.": {
+  "en": "Sit tall holding one dumbbell overhead with both hands. Lower it behind your head with elbows pointing up, then extend back up.",
+  "ar": "اجلس مستقيمًا وأمسك دمبلًا واحدًا فوق الرأس بكلتا يديك. أنزله خلف الرأس مع توجيه المرفقين للأعلى ثم مدّ الذراعين."
+ },
+ "פשיטה מעל הראש ביד אחת": {
+  "en": "Single-Arm Overhead Extension",
+  "ar": "تمديد فوق الرأس بذراع واحدة"
+ },
+ "משקולת ביד אחת מעל הראש. הורד אותה מאחורי הראש עם מרפק מכוון למעלה ופשוט חזרה עד יישור.": {
+  "en": "Dumbbell in one hand overhead. Lower it behind your head with the elbow pointing up, then extend back to straight.",
+  "ar": "دمبل بيد واحدة فوق الرأس. أنزله خلف الرأس مع توجيه المرفق للأعلى ثم مدّ الذراع حتى تستقيم."
+ },
+ "פשיטה מעל הראש בגומייה": {
+  "en": "Band Overhead Triceps Extension",
+  "ar": "تمديد الترايسبس فوق الرأس بالحبل المطاطي"
+ },
+ "גומייה מתחת לכף הרגל או מאחורי הגב, ידיים מאחורי הראש. פשוט מרפקים למעלה עד יישור וחזור לאט.": {
+  "en": "Band under your foot or behind your back, hands behind your head. Extend your elbows up to straight and return slowly.",
+  "ar": "الحبل المطاطي تحت القدم أو خلف الظهر واليدان خلف الرأس. مدّ المرفقين للأعلى حتى تستقيما ثم عُد ببطء."
+ },
+ "החזקת גוף חלול (הולו)": {
+  "en": "Hollow Body Hold",
+  "ar": "ثبات الجسم المجوف (هولو)"
+ },
+ "שכיבה על הגב, גב תחתון צמוד לרצפה. הרם כתפיים ורגליים ישרות מעט מהרצפה, ידיים מעל הראש, והחזק.": {
+  "en": "Lie on your back with your lower back pressed into the floor. Lift your shoulders and straight legs slightly off the floor, arms overhead, and hold.",
+  "ar": "استلقِ على ظهرك مع لصق أسفل الظهر بالأرض. ارفع الكتفين والساقين المستقيمتين قليلًا عن الأرض والذراعان فوق الرأس واثبت."
+ },
+ "בירד דוג": {
+  "en": "Bird Dog",
+  "ar": "تمرين الطائر والكلب"
+ },
+ "על ידיים וברכיים, גב ישר. הושט יד אחת קדימה ואת הרגל הנגדית אחורה, החזק רגע וחזור. החלף צד.": {
+  "en": "On hands and knees, back flat. Reach one arm forward and the opposite leg back, hold briefly and return. Switch sides.",
+  "ar": "على اليدين والركبتين والظهر مستقيم. مدّ ذراعًا للأمام والساق المقابلة للخلف، اثبت لحظة ثم عُد. بدّل الجانب."
+ },
+ "הרמות רגליים בכיסא קפטן": {
+  "en": "Captain's Chair Leg Raise",
+  "ar": "رفع الساقين على كرسي القبطان"
+ },
+ "אמות על הרפידות וגב צמוד למשענת. הרם את הברכיים או את הרגליים הישרות עד גובה האגן והורד לאט בלי להתנדנד.": {
+  "en": "Forearms on the pads and back against the rest. Raise your knees or straight legs to hip height and lower slowly without swinging.",
+  "ar": "الساعدان على الوسائد والظهر ملاصق للمسند. ارفع الركبتين أو الساقين المستقيمتين حتى مستوى الورك ثم أنزلهما ببطء دون تأرجح."
+ },
+ "דרגון פלאג": {
+  "en": "Dragon Flag",
+  "ar": "علم التنين"
+ },
+ "שכיבה על ספסל ואחיזה מאחורי הראש. הרם את הגוף ישר על הכתפיים, והורד לאט כקורה אחת עד מעל הספסל.": {
+  "en": "Lie on a bench holding on behind your head. Raise your body straight up onto your shoulders, then lower slowly as one rigid line to just above the bench.",
+  "ar": "استلقِ على مقعد وأمسك خلف رأسك. ارفع جسمك مستقيمًا على الكتفين ثم أنزله ببطء كخط واحد صلب حتى فوق المقعد."
+ },
+ "בעיטות פלאטר": {
+  "en": "Flutter Kicks",
+  "ar": "ركلات الرفرفة"
+ },
+ "שכיבה על הגב, ידיים מתחת לאגן וגב תחתון צמוד. הרם רגליים ישרות מעט מהרצפה ובעט למעלה ולמטה לסירוגין, בקצב קצר.": {
+  "en": "Lie on your back, hands under your hips and lower back pressed down. Lift straight legs slightly and kick them up and down alternately in short beats.",
+  "ar": "استلقِ على ظهرك واليدان تحت الحوض وأسفل الظهر ملاصق للأرض. ارفع الساقين المستقيمتين قليلًا واركل للأعلى والأسفل بالتناوب بحركات قصيرة."
+ },
+ "בעיטות מספריים": {
+  "en": "Scissor Kicks",
+  "ar": "ركلات المقص"
+ },
+ "שכיבה על הגב ורגליים ישרות מעט מעל הרצפה. הצלב את הרגליים אחת מעל השנייה לסירוגין, גב תחתון צמוד לרצפה.": {
+  "en": "Lie on your back with straight legs just off the floor. Cross the legs over each other alternately, keeping your lower back down.",
+  "ar": "استلقِ على ظهرك والساقان المستقيمتان فوق الأرض قليلًا. قاطع الساقين فوق بعضهما بالتناوب مع إبقاء أسفل الظهر ملاصقًا للأرض."
+ },
+ "פלאנק ג׳קס": {
+  "en": "Plank Jacks",
+  "ar": "قفزات البلانك"
+ },
+ "פלאנק גבוה עם גוף ישר. קפוץ ופתח רגליים לצדדים וחזור לסגור, בלי שהאגן יעלה או ירד.": {
+  "en": "High plank with a straight body. Jump your feet out wide and back together, without letting your hips rise or sag.",
+  "ar": "وضعية البلانك العالي والجسم مستقيم. اقفز بالقدمين للخارج ثم أعدهما معًا دون أن يرتفع الحوض أو ينخفض."
+ },
+ "כפיפות בטן עם נגיעה ברגליים": {
+  "en": "Toe Touch Crunch",
+  "ar": "طحن البطن مع لمس أصابع القدمين"
+ },
+ "שכיבה על הגב ורגליים ישרות למעלה. הרם כתפיים והושט ידיים לגעת בבהונות, וחזור לאט.": {
+  "en": "Lie on your back with legs straight up. Lift your shoulders and reach your hands to touch your toes, then lower slowly.",
+  "ar": "استلقِ على ظهرك والساقان مرفوعتان مستقيمتين. ارفع الكتفين ومدّ اليدين للمس أصابع القدمين ثم انزل ببطء."
+ },
+ "פלאנק עם הטיית אגן": {
+  "en": "Plank Hip Dip",
+  "ar": "بلانك مع إمالة الورك"
+ },
+ "פלאנק על האמות. סובב את האגן והורד ירך אחת לכיוון הרצפה, חזור למרכז והחלף צד.": {
+  "en": "Forearm plank. Rotate and dip one hip toward the floor, return to center and switch sides.",
+  "ar": "وضعية البلانك على الساعدين. أدر الحوض وأنزل وركًا واحدًا نحو الأرض ثم عُد إلى المنتصف وبدّل الجانب."
+ },
+ "מגבים בתלייה": {
+  "en": "Hanging Windshield Wipers",
+  "ar": "مساحات الزجاج معلقًا"
+ },
+ "תלייה על מוט, רגליים מורמות למעלה. סובב אותן בשליטה לצד אחד ולשני כמו מגבים, בלי להתנדנד.": {
+  "en": "Hang from a bar with legs raised up. Rotate them with control from side to side like windshield wipers, without swinging.",
+  "ar": "تعلّق بالبار والساقان مرفوعتان. أدرهما بتحكم من جانب إلى آخر مثل مساحات الزجاج دون تأرجح."
+ },
+ "החזקת L": {
+  "en": "L-Sit Hold",
+  "ar": "ثبات L"
+ },
+ "ידיים ישרות על מקבילים או על הרצפה, דחוף את הגוף למעלה והרם רגליים ישרות קדימה לצורת L. החזק.": {
+  "en": "Straight arms on parallettes or the floor, push your body up and lift straight legs out in front into an L. Hold.",
+  "ar": "الذراعان مستقيمتان على المتوازيين أو الأرض، ادفع جسمك للأعلى وارفع الساقين المستقيمتين للأمام على شكل L واثبت."
+ },
+ "פלאנק צידי עם השחלה": {
+  "en": "Side Plank Reach-Through",
+  "ar": "بلانك جانبي مع إدخال الذراع"
+ },
+ "פלאנק צידי עם יד עליונה למעלה. השחל את היד מתחת לגוף תוך סיבוב הגו, וחזור לפתוח.": {
+  "en": "Side plank with the top arm up. Thread that arm under your body as you rotate your torso, then open back up.",
+  "ar": "وضعية البلانك الجانبي والذراع العلوية للأعلى. أدخل الذراع تحت جسمك مع تدوير الجذع ثم افتح مجددًا."
+ },
+ "ברפי": {
+  "en": "Burpee",
+  "ar": "تمرين البيربي"
+ },
+ "רד לסקוואט וידיים לרצפה, קפוץ לפלאנק, חזור עם הרגליים לסקוואט וקפוץ למעלה עם ידיים מעל הראש.": {
+  "en": "Squat down with hands to the floor, jump back to a plank, jump the feet back in and leap up with arms overhead.",
+  "ar": "انزل إلى السكوات واليدان على الأرض، اقفز إلى البلانك، أعد القدمين إلى السكوات ثم اقفز للأعلى والذراعان فوق الرأس."
+ },
+ "ג׳אמפינג ג׳קס": {
+  "en": "Jumping Jacks",
+  "ar": "القفز المفتوح"
+ },
+ "קפוץ ופתח רגליים לצדדים תוך הרמת ידיים מעל הראש, וקפוץ חזרה לסגור. קצב קבוע ונחיתה רכה.": {
+  "en": "Jump your feet out wide while raising your arms overhead, then jump back together. Steady pace and soft landings.",
+  "ar": "اقفز بفتح القدمين للجانبين مع رفع الذراعين فوق الرأس ثم اقفز لضمهما. إيقاع ثابت وهبوط ناعم."
+ },
+ "קפיצות טאק": {
+  "en": "Tuck Jump",
+  "ar": "قفزة الضم"
+ },
+ "קפוץ גבוה והבא את הברכיים לכיוון החזה באוויר, נחת רך על כריות כפות הרגליים והמשך לקפיצה הבאה.": {
+  "en": "Jump high and pull your knees toward your chest in the air, land softly on the balls of your feet and go straight into the next jump.",
+  "ar": "اقفز عاليًا واسحب ركبتيك نحو الصدر في الهواء، اهبط بنعومة على مقدمة القدمين وانتقل مباشرة إلى القفزة التالية."
+ },
+ "ת׳ראסטר במשקולות": {
+  "en": "Dumbbell Thruster",
+  "ar": "ثراستر بالدمبل"
+ },
+ "משקולות ליד הכתפיים. רד לסקוואט מלא, ובעלייה לחץ את המשקולות מעל הראש בתנועה אחת רציפה.": {
+  "en": "Dumbbells at your shoulders. Squat down fully, and as you stand press the dumbbells overhead in one continuous motion.",
+  "ar": "الدمبلز عند الكتفين. انزل إلى سكوات كامل، وأثناء الصعود اضغط الدمبلز فوق الرأس بحركة واحدة متصلة."
+ },
+ "זחילת דוב": {
+  "en": "Bear Crawl",
+  "ar": "زحف الدب"
+ },
+ "על ידיים וכפות רגליים עם ברכיים מעט מעל הרצפה. התקדם עם יד ורגל נגדית יחד, גב ישר ואגן נמוך.": {
+  "en": "On hands and feet with knees just off the floor. Move forward with opposite hand and foot together, back flat and hips low.",
+  "ar": "على اليدين والقدمين والركبتان فوق الأرض قليلًا. تقدّم باليد والقدم المتقابلتين معًا مع ظهر مستقيم وحوض منخفض."
+ },
+ "זחילת סרטן": {
+  "en": "Crab Walk",
+  "ar": "مشية السلطعون"
+ },
+ "ישיבה עם ידיים מאחור וכפות רגליים על הרצפה, הרם את האגן. התקדם עם ידיים ורגליים לסירוגין תוך שמירה על אגן גבוה.": {
+  "en": "Sit with hands behind you and feet on the floor, lift your hips. Walk on your hands and feet alternately while keeping the hips up.",
+  "ar": "اجلس واليدان خلفك والقدمان على الأرض ثم ارفع الحوض. امشِ باليدين والقدمين بالتناوب مع إبقاء الحوض مرتفعًا."
+ },
+ "הטחת כדור כוח": {
+  "en": "Medicine Ball Slam",
+  "ar": "ضرب الكرة الطبية"
+ },
+ "הרם את הכדור מעל הראש על קצות האצבעות, והטח אותו בכוח לרצפה תוך כיפוף ירכיים. אסוף והמשך.": {
+  "en": "Lift the ball overhead rising onto your toes, then slam it hard into the floor as you hinge down. Pick it up and repeat.",
+  "ar": "ارفع الكرة فوق الرأس مع الارتفاع على أطراف الأصابع، ثم اضربها بقوة في الأرض مع ثني الوركين. التقطها وكرر."
+ },
+ "נשיאת מזוודה": {
+  "en": "Suitcase Carry",
+  "ar": "حمل الحقيبة"
+ },
+ "משקולת כבדה ביד אחת לצד הגוף. הלך זקוף בלי להיטות לצד המשקל, כתפיים ישרות. החלף יד.": {
+  "en": "Heavy dumbbell in one hand at your side. Walk tall without leaning toward the weight, shoulders level. Switch hands.",
+  "ar": "دمبل ثقيل بيد واحدة بجانب الجسم. امشِ مستقيمًا دون الميل نحو الوزن مع استواء الكتفين. بدّل اليد."
+ },
+ "גרירת מזחלת": {
+  "en": "Sled Drag",
+  "ar": "سحب الزلاجة"
+ },
+ "אחוז ברצועות המזחלת והלך אחורה או קדימה בצעדים קצרים ויציבים, גו נוטה מעט וגב ישר.": {
+  "en": "Hold the sled straps and walk backward or forward in short, steady steps, torso leaning slightly with a flat back.",
+  "ar": "أمسك أحزمة الزلاجة وامشِ للخلف أو للأمام بخطوات قصيرة وثابتة مع ميل خفيف للجذع وظهر مستقيم."
+ },
+ "כדור לקיר": {
+  "en": "Wall Ball",
+  "ar": "كرة الحائط"
+ },
+ "החזק כדור כוח מול החזה מול קיר. רד לסקוואט, ובעלייה זרוק את הכדור גבוה לקיר, תפוס ורד שוב.": {
+  "en": "Hold a medicine ball at your chest facing a wall. Squat down, and as you stand throw the ball high against the wall, catch it and squat again.",
+  "ar": "أمسك كرة طبية أمام الصدر مقابل الحائط. انزل إلى السكوات، وأثناء الصعود ارمِ الكرة عاليًا نحو الحائط، التقطها وانزل مجددًا."
+ },
+ "חבלי קרב": {
+  "en": "Battle Ropes",
+  "ar": "حبال المعركة"
+ },
+ "אחוז בקצות החבלים בעמידה חצי כפופה. צור גלים בהנפות מהירות של הידיים, לסירוגין או יחד, לאורך הזמן שנקבע.": {
+  "en": "Hold the rope ends in a half squat. Make waves with fast arm movements, alternating or together, for the set time.",
+  "ar": "أمسك طرفي الحبلين في وضع نصف القرفصاء. اصنع موجات بحركات سريعة للذراعين بالتناوب أو معًا طوال الوقت المحدد."
+ },
+ "הרמות ברכיים במקום": {
+  "en": "High Knees",
+  "ar": "رفع الركبتين في المكان"
+ },
+ "רוץ במקום והרם כל ברך עד גובה האגן, על כריות כפות הרגליים, עם תנועת ידיים פעילה.": {
+  "en": "Run in place lifting each knee to hip height, on the balls of your feet, with active arms.",
+  "ar": "اركض في المكان مع رفع كل ركبة حتى مستوى الورك على مقدمة القدمين وتحريك الذراعين بنشاط."
+ },
+ "בעיטות לישבן": {
+  "en": "Butt Kicks",
+  "ar": "ركل الأرداف"
+ },
+ "רוץ במקום והבא את העקבים לכיוון הישבן בכל צעד, גו זקוף וקצב מהיר.": {
+  "en": "Run in place bringing your heels toward your glutes with every step, torso upright and a quick pace.",
+  "ar": "اركض في المكان مع تقريب الكعبين من الأرداف في كل خطوة والجذع مستقيم بإيقاع سريع."
+ },
+ "הליכה בשיפוע בהליכון": {
+  "en": "Incline Treadmill Walk",
+  "ar": "المشي المائل على جهاز المشي"
+ },
+ "הגדר שיפוע גבוה ומהירות הליכה נוחה. הלך זקוף בלי להיאחז במעקות, בצעדים מלאים.": {
+  "en": "Set a steep incline and a comfortable walking speed. Walk tall without holding the rails, with full strides.",
+  "ar": "اضبط ميلًا مرتفعًا وسرعة مشي مريحة. امشِ مستقيمًا دون الإمساك بالمقابض بخطوات كاملة."
+ },
+ "ספרינט באופני אוויר": {
+  "en": "Air Bike Sprint",
+  "ar": "عدو على دراجة الهواء"
+ },
+ "ישיבה עם ידיים על הידיות. דווש ודחוף-משוך בידיים במלוא הכוח לאורך הספרינט, ואחריו קצב רגוע להתאוששות.": {
+  "en": "Sit with hands on the handles. Pedal and push-pull the arms all out for the sprint, then an easy pace to recover.",
+  "ar": "اجلس واليدان على المقابض. دوّس وادفع واسحب بالذراعين بأقصى قوة خلال العدو ثم بإيقاع هادئ للتعافي."
+ }
+}
