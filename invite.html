@@ -24,7 +24,7 @@ main{min-height:100svh;max-width:440px;margin:0 auto;display:flex;flex-direction
 .mid{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;padding-top:22px}
 .who{display:flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:99px;background:var(--s);border:1px solid var(--line);font-size:15px;font-weight:700}
 .who i{width:24px;height:24px;border-radius:50%;background:var(--ac);color:#0B0C0B;font-weight:800;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px}
-.rafi{width:150px;height:150px;margin-top:18px}
+.rafi{width:120px;height:120px;margin-top:14px}
 h1{margin:12px 0 0;font-size:34px;line-height:1.12;font-weight:900}h1 em{font-style:normal;color:var(--ac)}
 p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px}
 .code{margin-top:20px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:16px;background:var(--s);border:1px solid var(--line)}
@@ -34,6 +34,7 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
 .btn{white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:18px;background:var(--ac);color:#0A0B0A;box-shadow:0 8px 30px rgba(191,255,47,.18);font:800 17px Heebo,sans-serif;text-decoration:none}
 .note{color:var(--mu);font-size:13px;line-height:1.5;text-align:center}
 .bad{display:none}
+.shots{display:flex;gap:10px;justify-content:center;margin-top:22px;width:100%;direction:ltr}.shots img{width:31%;aspect-ratio:393/852;object-fit:cover;object-position:top;border-radius:18px;border:5px solid #050806;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 20px 40px -20px rgba(0,0,0,.8)}.shots img:nth-child(2){transform:translateY(-12px)}
 .grp{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 18px;border-radius:16px;background:color-mix(in srgb,var(--ac) 10%,var(--s));border:1px solid color-mix(in srgb,var(--ac) 35%,var(--line))}.grp[hidden]{display:none}
 .grp span{font-size:12px;color:var(--mu)}.grp b{font-size:18px}.grp small{font-size:12px;color:var(--mu)}
 .nocode .code,.nocode .who{display:none}
@@ -49,6 +50,7 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
     <div class="grp" id="grp" hidden><span>הקבוצה</span><b></b><small>נכנסים אליה אוטומטית אחרי ההרשמה</small></div>
     <h1><span id="days">14</span> ימים חינם,<br><em>רק דרך ההזמנה</em></h1>
     <p>תוכנית אימונים אישית, ראפי המאמן שזוכר כל סט, וניתוח ארוחות מצילום. בלי כרטיס אשראי.</p>
+    <div class="shots" aria-hidden="true"><img src="/img/shots/he-m-home.webp" alt=""><img src="/img/shots/he-m-active.webp" alt=""><img src="/img/shots/he-m-food.webp" alt=""></div>
     <div class="code"><span>קוד ההזמנה</span><b id="code">—</b><button id="cp" type="button">העתקה</button></div>
   </div>
   <div class="foot">
