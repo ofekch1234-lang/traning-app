@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d694afc0"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d694afc0"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d694afc0"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=396b3354"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=396b3354"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=396b3354"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -139,6 +139,13 @@ body.landing #app{max-width:1120px}
   .ld-bar .pl.r{--from:60px}.ld-bar .pl.l{--from:-60px}
   @keyframes ldload{from{transform:translateX(var(--from));opacity:0}to{transform:none;opacity:1}}
 }
+.lx-real{padding:0!important;min-height:0!important;overflow:hidden;aspect-ratio:393/852}.lx-real img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.lx-gal{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 16px 18px;margin:0 -16px;scrollbar-width:none}.lx-gal::-webkit-scrollbar{display:none}
+.lx-gal figure{margin:0;flex:0 0 min(240px,62vw);scroll-snap-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.lx-gp{width:100%;aspect-ratio:393/852;border-radius:34px;padding:8px;background:#050806;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 30px 60px -30px rgba(0,0,0,.8)}
+.lx-gp img{width:100%;height:100%;border-radius:27px;object-fit:cover;object-position:top;display:block}
+.lx-gal figcaption{font-weight:700;font-size:15px;text-align:center}
+@media (min-width:1000px){.lx-gal{justify-content:center;overflow:visible}.lx-gal figure{flex-basis:220px}}
 .ld-phone{justify-self:center;width:min(330px,100%);background:var(--ink);border-radius:42px;padding:12px;box-shadow:0 30px 60px -30px rgba(10,30,15,.45)}
 .ld-screen{background:var(--bg);border-radius:31px;padding:18px 14px 14px;display:flex;flex-direction:column;gap:10px;min-height:520px;color:var(--ink)}
 .ld-screen .sh{display:flex;justify-content:space-between;align-items:baseline}
@@ -3383,7 +3390,7 @@ function landSetG(g){
   document.querySelectorAll('img').forEach(i=>{ const v=i.getAttribute('src')||''; const n=g==='f'?v.replace(/img\/kobi-([a-z]+)\.svg/,'img/kobi-$1-f.svg').replace(/^icon-192\.png/,'icon-f-192.png'):v.replace(/img\/kobi-([a-z]+)-f\.svg/,'img/kobi-$1.svg').replace(/^icon-f-192\.png/,'icon-192.png'); if(n!==v)i.setAttribute('src',n); });
 }
 function landGenderHTML(){ const g=window.NR_G; return `<div class="ld-g" data-notr><span>${tt('הדף מותאם ל:')}</span><div class="ld-gsw"><button class="${g==='f'?'':'on'}" data-act="land-g" data-v="m">🙋‍♂️ ${tt('גבר')}</button><button class="${g==='f'?'on':''}" data-act="land-g" data-v="f">🙋‍♀️ ${tt('אישה')}</button></div></div>`; }
-function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
+function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>`img/shots/${LANG==='he'?'he':'en'}-${F?'f':'m'}-${k}.webp`;
   const ring=(p)=>{const r=20,c=2*Math.PI*r;return `<svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/>
     <circle id="ld-ring" cx="25" cy="25" r="${r}" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p)).toFixed(1)}" transform="rotate(-90 25 25)"/></svg>`;};
   const pains=F?[
@@ -3427,21 +3434,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
         <div class="lx-trust"><span>✓ ${tt('אייפון ואנדרואיד')}</span><span>✓ ${tt('עובד גם בלי קליטה')}</span><span>✓ ${F?tt('בלשון נקבה בכל האפליקציה'):tt('עברית, ערבית ואנגלית')}</span></div>
       </div>
       <div class="lx-stage" aria-hidden="true">
-        <div class="ld-phone"><div class="ld-screen">
-          <div class="sh"><b>אימון A</b><span class="small muted num">00:41:12</span></div>
-          <div class="ld-card">
-            <div class="spread" style="margin-bottom:6px"><b>${F?'היפ תראסט':'לחיצת חזה במוט'}</b><span class="ld-pr" style="font-size:11.5px;padding:2px 8px">🏅 שיא</span></div>
-            <div class="ld-set done"><span class="n">1</span><span class="v">${F?'60':'80'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
-            <div class="ld-set done"><span class="n">2</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck">✓</span></div>
-            <div class="ld-set now"><span class="n">3</span><span class="v">${F?'65':'82.5'} <small>ק״ג</small></span><span class="v">${F?'10':'8'} <small>חזרות</small></span><span class="ck"></span></div>
-            <div class="ld-prev">${F?'בפעם שעברה: 60 × 10, היום כבר 65':'בפעם שעברה: 80 × 8, היום כבר 82.5'}</div>
-            <div class="ld-set"><span class="n">4</span><span class="v muted">—</span><span class="v muted">—</span><span class="ck"></span></div>
-          </div>
-          <div class="ld-card" style="display:flex;justify-content:space-between;align-items:center">
-            <span><b style="display:block">${F?'סקוואט בולגרי':'לחיצת כתפיים במשקולות'}</b><span class="small muted">הבא בתור, 3 סטים</span></span><span class="muted">›</span>
-          </div>
-          <div class="ld-rest">${ring(.7)}<div><div class="t" id="ld-t">1:03</div><div class="k">מנוחה, הבא: סט 3 של 4</div></div></div>
-        </div></div>
+        <div class="ld-phone"><div class="ld-screen lx-real"><img src="${shot('active')}" alt="" loading="eager"></div></div>
         <div class="lx-chip c1"><span class="ic">🏅</span><span><b>${tt('שיא חדש')}</b><small>${F?tt('עוד 5 ק״ג בהיפ תראסט'):tt('עוד 2.5 ק״ג בלחיצת חזה')}</small></span></div>
         <div class="lx-chip c2"><img src="${F?'icon-f-192.png':'icon-192.png'}" alt=""><span><b>המנוחה נגמרה 💪</b><small>${tt('הבא: סט 3 של 4')}</small></span></div>
         <div class="lx-chip c3"><span class="ic">📸</span><span><b class="num">612 ${tt('קק״ל')}</b><small>${tt('42 גר׳ חלבון · מצילום אחד')}</small></span></div>
@@ -3450,6 +3443,11 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   </section>
 
   <section class="lx-stats rv">${stats.map(([n,s,l])=>`<div><b class="num" data-cnt="${n}">${n}${s}</b><span>${l}</span></div>`).join('')}</section>
+
+  <section class="lx-sec lx-gal-sec rv">
+    <div class="lx-head"><span class="lx-kicker">${tt('ככה זה נראה')}</span><h2>${tt('המסכים האמיתיים של האפליקציה')}</h2></div>
+    <div class="lx-gal" dir="ltr">${[['home',tt('התוכנית שלך, כל בוקר')],['active',tt('יודע כמה להרים בכל סט')],['food',tt('מצלמים את הצלחת וזהו')],['track',tt('רואים את ההתקדמות')]].map(([k,c])=>`<figure><div class="lx-gp"><img src="${shot(k)}" alt="${c}" loading="lazy"></div><figcaption dir="auto">${c}</figcaption></figure>`).join('')}</div>
+  </section>
 
   <section class="lx-sec rv">
     <div class="lx-head"><span class="lx-kicker">${tt('לפני ואחרי')}</span><h2>${F?'מכירה את זה?':'נשמע מוכר?'}</h2></div>
