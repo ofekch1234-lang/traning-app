@@ -111,20 +111,48 @@
   "en": "Today: {0} 💪",
   "ar": "اليوم: {0} 💪"
  },
- "תזכורות NextRep": {
-  "en": "NextRep reminders",
-  "ar": "تذكيرات NextRep"
+ "סוף מנוחה": {
+  "en": "Rest over",
+  "ar": "انتهاء الراحة"
  },
- "אימונים, ארוחות, מנוחה ותזכורות מראפי": {
-  "en": "Workouts, meals, rest and reminders from Repi",
-  "ar": "تمارين، وجبات، راحة وتذكيرات من ريبي"
+ "פעמון כשהמנוחה בין הסטים נגמרת": {
+  "en": "A bell when the rest between sets is over",
+  "ar": "جرس عند انتهاء الراحة بين المجموعات"
  },
- "מנוחה ברטט בלבד": {
-  "en": "Rest timer, vibration only",
-  "ar": "مؤقت الراحة، اهتزاز فقط"
+ "תזכורות אימון": {
+  "en": "Workout reminders",
+  "ar": "تذكيرات التمرين"
  },
- "מנוחה שקטה": {
-  "en": "Rest timer, silent",
-  "ar": "مؤقت الراحة، صامت"
+ "האימון של היום, ואחרי כמה ימים בלי אימון": {
+  "en": "Today's workout, and after a few days without one",
+  "ar": "تمرين اليوم، وبعد بضعة أيام بلا تمرين"
+ },
+ "תזכורות יומיות": {
+  "en": "Daily reminders",
+  "ar": "تذكيرات يومية"
+ },
+ "ארוחות, שקילה וחשבון": {
+  "en": "Meals, weigh-ins and account",
+  "ar": "الوجبات، الوزن والحساب"
+ },
+ "ראפי": {
+  "en": "Repi",
+  "ar": "ريبي"
+ },
+ "הסיכום השבועי וטיפים מראפי": {
+  "en": "Weekly summary and tips from Repi",
+  "ar": "الملخص الأسبوعي ونصائح من ريبي"
+ },
+ "שיאים והישגים": {
+  "en": "Records and achievements",
+  "ar": "الأرقام القياسية والإنجازات"
+ },
+ "סוף מנוחה, רטט בלבד": {
+  "en": "Rest over, vibration only",
+  "ar": "انتهاء الراحة، اهتزاز فقط"
+ },
+ "סוף מנוחה, שקט": {
+  "en": "Rest over, silent",
+  "ar": "انتهاء الراحة، صامت"
  }
 }

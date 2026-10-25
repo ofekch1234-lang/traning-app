@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=44e6393a"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=44e6393a"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=44e6393a"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=2399de57"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=2399de57"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=2399de57"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1695,29 +1695,44 @@ const NAT={perm:'default',rest:4242};
 const natPermMap=r=>r&&r.display==='granted'?'granted':r&&r.display==='denied'?'denied':'default';
 async function natPermSync(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').checkPermissions()); }catch(_){} return NAT.perm; }
 async function natPermAsk(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').requestPermissions()); }catch(_){} return NAT.perm==='granted'; }
-/* sound + vibration: iOS plays a notification silently unless it names a sound, so every one carries our chime
-   (bundled at the web root; iOS also vibrates with it unless the phone's haptics are off). Android takes sound and
-   vibration from the channel, and a channel can't be changed once created, so the ids carry a version.
+/* sound + vibration: iOS plays a local notification silently unless it names a sound, and vibrates with that sound
+   (per the phone's haptics setting). Each kind of notification has its own sound, so you know what happened without
+   looking: rest over = boxing bell, time to train = sport watch, daily reminders = marimba, Rafi = soft pop,
+   a new record = success. The files sit at the web root (app/sounds). Android takes sound and vibration from a
+   channel per kind (users can mute one kind there); a channel can't change once created, so ids carry a version.
    The rest timer follows the "צליל" / "רטט" switches in settings; every other notification always rings. */
-const NAT_SND='nextrep_chime.wav';
-const NAT_CH={ring:'nr_alerts_v1',vib:'nr_vibrate_v1',quiet:'nr_quiet_v1'};
+const NAT_SND={rest:'nr_bell.wav',train:'nr_watch.wav',daily:'nr_marimba.wav',coach:'nr_pop.wav',success:'nr_success.wav'};
+const NAT_CH={rest:'nr_rest_v1',train:'nr_train_v1',daily:'nr_daily_v1',coach:'nr_coach_v1',success:'nr_success_v1',restVib:'nr_rest_vib_v1',restQuiet:'nr_rest_quiet_v1'};
+const NAT_GRP={remind:'train',nudge3:'train',nudge7:'train',meal:'daily',weigh:'daily',trial:'daily',coach:'coach',pr:'success'};
 let _natChP=null;
 function natChannels(){
   if(NATIVE_OS!=='android')return Promise.resolve();
   return _natChP||(_natChP=(async()=>{ const LN=capP('LocalNotifications'); if(!LN)return;
-    const mk=o=>LN.createChannel({importance:4,visibility:1,lights:true,lightColor:'#BFFF2F',...o}).catch(()=>{});
-    await mk({id:NAT_CH.ring,name:tt('תזכורות NextRep'),description:tt('אימונים, ארוחות, מנוחה ותזכורות מראפי'),sound:NAT_SND,vibration:true});
-    await mk({id:NAT_CH.vib,name:tt('מנוחה ברטט בלבד'),sound:'nr_silence.wav',vibration:true}); // a channel with no sound would get the system ding; this one is 0.1 s of silence
-    await mk({id:NAT_CH.quiet,name:tt('מנוחה שקטה'),importance:3,sound:'nr_silence.wav',vibration:false});
+    const mk=o=>LN.createChannel({importance:4,visibility:1,lights:true,lightColor:'#BFFF2F',vibration:true,...o}).catch(()=>{});
+    await mk({id:NAT_CH.rest,name:tt('סוף מנוחה'),description:tt('פעמון כשהמנוחה בין הסטים נגמרת'),sound:NAT_SND.rest});
+    await mk({id:NAT_CH.train,name:tt('תזכורות אימון'),description:tt('האימון של היום, ואחרי כמה ימים בלי אימון'),sound:NAT_SND.train});
+    await mk({id:NAT_CH.daily,name:tt('תזכורות יומיות'),description:tt('ארוחות, שקילה וחשבון'),sound:NAT_SND.daily});
+    await mk({id:NAT_CH.coach,name:tt('ראפי'),description:tt('הסיכום השבועי וטיפים מראפי'),sound:NAT_SND.coach});
+    await mk({id:NAT_CH.success,name:tt('שיאים והישגים'),sound:NAT_SND.success});
+    // a channel without a sound would get the system ding, so these use 0.1 s of silence
+    await mk({id:NAT_CH.restVib,name:tt('סוף מנוחה, רטט בלבד'),sound:'nr_silence.wav'});
+    await mk({id:NAT_CH.restQuiet,name:tt('סוף מנוחה, שקט'),importance:3,sound:'nr_silence.wav',vibration:false});
+    for(const id of ['nr_alerts_v1','nr_vibrate_v1','nr_quiet_v1'])LN.deleteChannel?.({id}).catch(()=>{}); // test build only
   })());
 }
-function natAlert(rest){
-  const snd=!rest||S.settings?.notif?.sound!==false, vib=!rest||S.settings?.notif?.vib!==false;
-  return {...(snd?{sound:NAT_SND}:{}),channelId:snd?NAT_CH.ring:vib?NAT_CH.vib:NAT_CH.quiet};
+function natAlert(grp){
+  grp=NAT_GRP[grp]||grp; grp=NAT_SND[grp]?grp:'daily';
+  if(grp==='rest'){ const snd=S.settings?.notif?.sound!==false, vib=S.settings?.notif?.vib!==false;
+    return {...(snd?{sound:NAT_SND.rest}:{}),channelId:snd?NAT_CH.rest:vib?NAT_CH.restVib:NAT_CH.restQuiet}; }
+  return {sound:NAT_SND[grp],channelId:NAT_CH[grp]};
 }
-function natNotify(title,body,at,id){ try{ const rest=id===NAT.rest;
+/* the same sounds inside the app (rest over while the app is open, a new record) */
+const _natAud={};
+function natPlay(grp){ if(!IS_NATIVE||!NAT_SND[grp])return false;
+  try{ const a=_natAud[grp]||(_natAud[grp]=new Audio(NAT_SND[grp])); a.currentTime=0; a.play().catch(()=>{}); return true; }catch(_){ return false; } }
+function natNotify(title,body,at,id,grp){ try{ grp=grp||(id===NAT.rest?'rest':'daily');
   return natChannels().then(()=>capP('LocalNotifications').schedule({notifications:[{id:id||10000+Math.floor(Math.random()*1e8),title,body,
-  ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(rest)}]})).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
+  ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(grp)}]})).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
 function natCancel(id){ try{ capP('LocalNotifications').cancel({notifications:[{id}]}).catch(()=>{}); }catch(_){} }
 /* ---------- תזכורות באפליקציה המותקנת: מתוזמנות על הטלפון עצמו (בלי שרת התראות) ----------
    מחושבות מחדש אחרי כל שינוי (לו״ז, אימון, שקילה, ארוחה, הגדרות) ובכל חזרה לאפליקציה, לשלושה שבועות קדימה.
@@ -1759,7 +1774,7 @@ async function natSchedule(){
     const old=(pend?.notifications||[]).filter(x=>x.id>=1000&&x.id<2000).map(x=>({id:x.id}));
     if(old.length)await LN.cancel({notifications:old});
     await natChannels();
-    if(plan.length)await LN.schedule({notifications:plan.map((x,i)=>({id:1000+i,title:x.title,body:x.body,schedule:{at:new Date(x.at),allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(false),extra:{kind:x.kind}}))});
+    if(plan.length)await LN.schedule({notifications:plan.map((x,i)=>({id:1000+i,title:x.title,body:x.body,schedule:{at:new Date(x.at),allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(NAT_GRP[x.kind]),extra:{kind:x.kind}}))});
   }catch(e){ console.warn('natSchedule',e); _natSchedSig=''; }
 }
 // a notification that arrives while the app is open: the system banner rings, and we add a haptic tap
@@ -1885,9 +1900,9 @@ async function unsubscribePush(){
     if(sub){ await sb.from('push_subs').delete().eq('endpoint',sub.endpoint); await sub.unsubscribe(); }
   }catch(e){}
 }
-async function notify(title,body){
+async function notify(title,body,grp){
   title=tt(title); body=tt(body);
-  if(IS_NATIVE){ if(NAT.perm==='granted')natNotify(title,body); return; }
+  if(IS_NATIVE){ if(NAT.perm==='granted')natNotify(title,body,null,null,grp); return; }
   try{
     if(!('Notification' in window)||Notification.permission!=='granted')return;
     const reg=await navigator.serviceWorker?.ready;
@@ -2359,7 +2374,7 @@ function tickRest(){
   // Only in the last half-second: earlier, the user could still leave the app and get nothing.
   if(left<=500&&T.armed&&document.visibilityState==='visible'&&(!document.hasFocus||document.hasFocus()))disarmServerRest();
   if(left<=0){stopRest();
-    if(S.settings.notif?.sound!==false)beep();
+    if(S.settings.notif?.sound!==false&&!natPlay('rest'))beep();
     vibrate([200,100,200,100,400]);
     toast('המנוחה נגמרה — סט הבא!');
   }
@@ -8308,7 +8323,7 @@ function checkDayGoals(){
   const pT=+S.settings.protT||0; if(!pT)return; const d=ymd(), t=dayTotals(d); let k='';
   try{ k=localStorage.getItem('nr-pgoal')||''; }catch(_){}
   if(t.protein>=pT&&k!==d){ try{ localStorage.setItem('nr-pgoal',d); }catch(_){}
-    setTimeout(()=>{ cheer('🎯','סגרת את יעד החלבון היום!',`${t.protein} / ${pT} ${tt('גר׳')}`); confetti(70); vibrate([15,40,15]); },450); }
+    setTimeout(()=>{ cheer('🎯','סגרת את יעד החלבון היום!',`${t.protein} / ${pT} ${tt('גר׳')}`); confetti(70); vibrate([15,40,15]); if(S.settings.notif?.sound!==false)natPlay('success'); },450); }
 }
 function renderFinish(){
   const a=S.active; if(!a)return;
@@ -8375,7 +8390,7 @@ async function doSaveWorkout(){
   for(const e of w.ex)if(e.t==='s'){ const top=Math.max(0,...e.sets.map(s=>s.w));
     if(top>0&&top>(bm[e.n]?.w||0))newPRs.push(`${e.n}: ${top} ק״ג`); }
   try{await saveWorkout(w);}catch(e){return;}
-  if(newPRs.length&&S.settings.notif?.pr!==false)notify('שיא חדש! 🏅',newPRs.join(' · '));
+  if(newPRs.length&&S.settings.notif?.pr!==false)notify('שיא חדש! 🏅',newPRs.join(' · '),'pr');
   if(newPRs.length)sb.rpc('post_pr',{p_text:newPRs.join(', ')}).then(()=>{},()=>{});
   S.active=null;
   saveLocalActive(); clearTimeout(_aT); flushActive();
