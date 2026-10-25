@@ -954,5 +954,9 @@
  "הזמין אותך": {
   "en": "invited you",
   "ar": "دعاك"
+ },
+ "החודש החינם זמין לקבלה 7 ימים אחרי שהחבר שילם": {
+  "en": "The free month can be claimed 7 days after your friend pays",
+  "ar": "يمكن استلام الشهر المجاني بعد 7 أيام من دفع صديقك"
  }
 }
