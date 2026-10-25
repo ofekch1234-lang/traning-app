@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ef8c6b40"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ef8c6b40"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ef8c6b40"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=570339fd"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=570339fd"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=570339fd"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -737,6 +737,8 @@ body:not(.landing)>#lx-sticky{display:none}
 #authwrap.code .btn.primary.big{height:56px;font-size:18px}
 .otp-mail{display:flex;align-items:center;gap:8px;background:var(--surface2);border-radius:12px;padding:10px 12px;font-size:14px}
 .otp-mail b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
+.abtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--ink);color:var(--bg);border:0;font-weight:600;font-size:16px}
+.abtn:disabled,.gbtn:disabled{opacity:.6}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
 .pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:var(--start);padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px rgba(22,163,74,.7)}
 .pb-cta .pb-ic{font-size:28px}.pb-cta .btn{flex-shrink:0;border-radius:12px;padding:10px 16px;font-weight:700}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
@@ -1707,7 +1709,7 @@ const ymd=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(
 /* ---------- Supabase config ---------- */
 const SUPABASE_URL='https://dmeougthlruspxwyvrnc.supabase.co';
 const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform())?{auth:{flowType:'pkce',detectSessionInUrl:false}}:undefined);
 
 /* ---------- אפליקציה מותקנת (iOS / Android דרך Capacitor) ----------
    באתר הכל כבוי: IS_NATIVE=false וכל פונקציה כאן חוזרת מיד, כך שהאתר מתנהג בדיוק כמו קודם. */
@@ -2370,6 +2372,84 @@ let GOOGLE_ON=false;
 const OTP_ON=true;
 const SHOW_GOOGLE=false; // Google sign-in hidden by choice (code kept; existing Google users sign in with an email code) // email one-time code login; on once custom SMTP (Resend) is connected
 const OTP={step:'',email:'',busy:false,err:'',until:0,note:''};
+/* ---------- התחברות באפליקציה: Google (בדפדפן של המערכת, PKCE + חזרה בקישור) ו-Apple (החלון המובנה באייפון). בלי קוד במייל ---------- */
+const NAT_CB='il.co.nextrep.app://login';
+let NAUTH={busy:'',err:''};
+const G_SVG=`<svg viewBox="0 0 48 48" width="20" height="20"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.4-.4-3.5z"/></svg>`;
+const APPLE_SVG='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.86-.76-1.47.02-2.83.86-3.59 2.17-1.53 2.66-.39 6.6 1.1 8.75.73 1.05 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.3-3.51zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.65-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>';
+function vNatAuth(){
+  const Gx=(m,f,x)=>window.NR_G==='f'?f:window.NR_G==='m'?m:(x??m);
+  if(!window.NR_G)return `<div id="authwrap">
+    <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div>${langPillsHTML()}</div>
+    <div class="card stack">
+      <div class="tgw-q" style="margin:0"><img src="img/kobi-happy.svg" alt=""><div><b>רגע לפני שמתחילים: איך לפנות אליך?</b><span>ככה אדבר איתך בכל האפליקציה.</span></div></div>
+      <div class="auth-g"><button data-act="auth-g" data-v="m"><span>🙋‍♂️</span><b>בלשון זכר</b></button><button data-act="auth-g" data-v="f"><span>🙋‍♀️</span><b>בלשון נקבה</b></button></div>
+      <button class="linkbtn" data-act="auth-g" data-v="x" style="color:var(--muted)">לא משנה לי</button>
+    </div></div>`;
+  const b=NAUTH.busy;
+  return `<div id="authwrap" class="nat">
+    <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div><div class="muted small">אימונים, תזונה ומאמן אישי באפליקציה אחת</div>${langPillsHTML()}</div>
+    <div class="card stack">
+      <h3 style="margin:0">כניסה או הרשמה</h3>
+      ${NATIVE_OS==='ios'?`<button class="abtn" data-act="nat-apple" ${b?'disabled':''}>${APPLE_SVG}<span>${b==='apple'?tt('רגע…'):tt('המשך עם Apple')}</span></button>`:''}
+      <button class="gbtn" data-act="nat-google" ${b?'disabled':''}>${G_SVG}<span>${b==='google'?tt('רגע…'):tt('המשך עם Google')}</span></button>
+      ${NAUTH.err?`<div class="autherr" style="display:block">${esc(NAUTH.err)}</div>`:''}
+      <div class="small muted gconsent" style="text-align:center;line-height:1.55">${Gx('בהמשך אתה מסכים ל','בהמשך את מסכימה ל','בהמשך את/ה מסכים/ה ל')}<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a>. המידע באפליקציה אינו ייעוץ רפואי.</div>
+      <button class="linkbtn" data-act="auth-g-reset" style="color:var(--muted);font-size:13px">${window.NR_G==='f'?'פנייה בלשון נקבה · שינוי':window.NR_G==='m'?'פנייה בלשון זכר · שינוי':'שינוי אופן הפנייה'}</button>
+    </div></div>`;
+}
+const hex=buf=>Array.from(new Uint8Array(buf),x=>x.toString(16).padStart(2,'0')).join('');
+async function sha256hex(str){
+  if(window.crypto?.subtle)return hex(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)));
+  // fallback (no WebCrypto): small SHA-256
+  const K=[],H=[],isP=n=>{for(let i=2;i*i<=n;i++)if(n%i===0)return false;return true;},frac=x=>((x-Math.floor(x))*4294967296)|0;
+  for(let n=2,c=0;c<64;n++)if(isP(n)){ if(c<8)H[c]=frac(Math.pow(n,1/2)); K[c++]=frac(Math.pow(n,1/3)); }
+  const b=Array.from(new TextEncoder().encode(str)), l=b.length*8; b.push(0x80); while(b.length%64!==56)b.push(0);
+  for(let i=7;i>=0;i--)b.push(i>3?0:(l>>>(i*8))&255);
+  const r=(x,n)=>(x>>>n)|(x<<(32-n));
+  for(let o=0;o<b.length;o+=64){ const w=[]; for(let i=0;i<16;i++)w[i]=(b[o+4*i]<<24)|(b[o+4*i+1]<<16)|(b[o+4*i+2]<<8)|b[o+4*i+3];
+    for(let i=16;i<64;i++){ const s0=r(w[i-15],7)^r(w[i-15],18)^(w[i-15]>>>3), s1=r(w[i-2],17)^r(w[i-2],19)^(w[i-2]>>>10); w[i]=(w[i-16]+s0+w[i-7]+s1)|0; }
+    let [a,bb,c,d,e,f,g,h]=H;
+    for(let i=0;i<64;i++){ const t1=(h+(r(e,6)^r(e,11)^r(e,25))+((e&f)^(~e&g))+K[i]+w[i])|0, t2=((r(a,2)^r(a,13)^r(a,22))+((a&bb)^(a&c)^(bb&c)))|0; h=g;g=f;f=e;e=(d+t1)|0;d=c;c=bb;bb=a;a=(t1+t2)|0; }
+    H[0]=(H[0]+a)|0;H[1]=(H[1]+bb)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0; }
+  return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('');
+}
+async function natGoogle(){
+  NAUTH={busy:'google',err:''}; render(); logEv('login_try',{p:'google'});
+  try{
+    const {data,error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:NAT_CB,skipBrowserRedirect:true,queryParams:{prompt:'select_account'}}});
+    if(error||!data?.url)throw error||new Error('no url');
+    await capP('Browser').open({url:data.url,presentationStyle:'popover'});
+  }catch(e){ console.warn('google',e); NAUTH={busy:'',err:tt('ההתחברות עם Google נכשלה. נסה שוב.')}; render(); }
+}
+let _natExch=false;
+async function natAuthUrl(url){
+  if(!url||!String(url).startsWith(NAT_CB))return false;
+  try{ capP('Browser')?.close().catch(()=>{}); }catch(_){}
+  const q=String(url).slice(NAT_CB.length).replace(/^[?#/]+/,''), P=new URLSearchParams(q.replace('#','&')), code=P.get('code');
+  if(!code){ NAUTH={busy:'',err:P.get('error_description')?tt('ההתחברות בוטלה או נכשלה. נסה שוב.'):''}; render(); return true; }
+  _natExch=true;
+  try{ const {error}=await sb.auth.exchangeCodeForSession(code); if(error)throw error; logEv('login_ok',{p:'google'}); }
+  catch(e){ console.warn('exchange',e); NAUTH={busy:'',err:tt('ההתחברות עם Google נכשלה. נסה שוב.')}; render(); }
+  _natExch=false; return true;
+}
+async function natApple(){
+  NAUTH={busy:'apple',err:''}; render(); logEv('login_try',{p:'apple'});
+  try{
+    const raw=hex(crypto.getRandomValues(new Uint8Array(16))), hashed=await sha256hex(raw);
+    const r=await capP('SignInWithApple').authorize({clientId:'il.co.nextrep.app',redirectURI:SUPABASE_URL+'/auth/v1/callback',scopes:'email name',state:raw.slice(0,8),nonce:hashed});
+    const tok=r?.response?.identityToken; if(!tok)throw new Error('no token');
+    const {data,error}=await sb.auth.signInWithIdToken({provider:'apple',token:tok,nonce:raw}); if(error)throw error;
+    logEv('login_ok',{p:'apple'});
+    const nm=[r.response.givenName,r.response.familyName].filter(Boolean).join(' ').trim();  // Apple sends the name only on the first sign-in
+    if(nm&&!data?.user?.user_metadata?.full_name)sb.auth.updateUser({data:{full_name:nm}}).then(({data:d})=>{ if(d?.user&&S.user){ S.user=d.user; render(); } });
+  }catch(e){ const m=String(e?.message||e?.code||e); console.warn('apple',m);
+    NAUTH={busy:'',err:/cancel|1001/i.test(m)?'':tt('ההתחברות עם Apple נכשלה. נסה שוב.')}; render(); }
+}
+if(IS_NATIVE){
+  capP('App')?.addListener('appUrlOpen',({url})=>{ natAuthUrl(url); });
+  capP('Browser')?.addListener('browserFinished',()=>{ if(NAUTH.busy==='google'&&!_natExch&&!S.user){ NAUTH.busy=''; if(S.mode==='auth')render(); } });
+}
 function vOtp(){
   const code=OTP.step==='code';
   if(OTP.step==='ho')return `<div id="authwrap" class="code">
@@ -2519,6 +2599,7 @@ function socialProfileFix(){
   const patch={};
   if(!md.terms_accepted){ patch.terms_accepted=new Date().toISOString(); patch.terms_v='2026-10-20'; }
   if(!md.full_name&&md.name)patch.full_name=md.name;
+  if(!md.lang)patch.lang=LANG; if(!md.g&&window.NR_G)patch.g=window.NR_G;
   if(Object.keys(patch).length)sb.auth.updateUser({data:patch}).then(({data})=>{ if(data?.user){S.user=data.user; render();} });
 }
 /* מי שנרשם עם מייל בלבד: שואלים איך לפנות אליו. בכל פתיחה עד שעונה, "אחר כך" דוחה ליום, ואחרי 3 דחיות מפסיקים */
@@ -2851,7 +2932,7 @@ function startLandTimer(){
 }
 
 /* ----- auth screen ----- */
-function vAuth(){ if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOGLE)))return vOtp(); if(SHOW_GOOGLE&&(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH)){gsiLoad(); setTimeout(gsiMount,0);}
+function vAuth(){ if(IS_NATIVE)return vNatAuth(); if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOGLE)))return vOtp(); if(SHOW_GOOGLE&&(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH)){gsiLoad(); setTimeout(gsiMount,0);}
   const su=S.authMode==='signup';
   const showForm=!(GOOGLE_ON&&SHOW_GOOGLE)||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
@@ -8544,6 +8625,8 @@ function handleAct(b,ev){
     case 'share-w': { const w=S.workouts.find(x=>x.id===b.dataset.id); if(w)shareText(workoutShareText(w)); break; }
     case 'share-active': { if(S.active)shareText(workoutShareText({...clone(S.active),end:Date.now()})); break; }
     case 'auth-go': doAuth(); break;
+    case 'nat-google': natGoogle(); break;
+    case 'nat-apple': natApple(); break;
     case 'auth-google': b.disabled=true;
       sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+'/',queryParams:{prompt:'select_account'}}}).then(({error})=>{ if(error){b.disabled=false;toast('ההתחברות עם Google נכשלה');} }); break;
     case 'auth-forgot': { const em=($('#au-email')?.value||'').trim(), err=$('#autherr');
