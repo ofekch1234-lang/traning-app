@@ -67,7 +67,10 @@ Deno.serve(async (req: Request) => {
   const users = [...new Set(msgs.map((m) => m.user_id))];
   const { data: subs } = await sb.from("push_subs").select("endpoint,user_id,keys").in("user_id", users);
   const { data: devs } = await sb.from("native_push").select("token,user_id,platform,env").in("user_id", users);
-  let sent = 0, nsent = 0;
+  let sent = 0, nsent = 0, skipped = 0;
+  // a message the installed app already received is not sent again to the old web app (no double notification,
+  // and no old home-screen icon); web push stays for rest timers and for people without the app
+  const gotNative = new Set<Msg>();
   // installed app (iPhone): server notifications only; its rest timer is scheduled on the device itself
   const jwt = devs?.length ? await apnsToken().catch((e) => { console.log(JSON.stringify({ ev: "apns-config", err: String(e).slice(0, 120) })); return null; }) : null;
   if (devs?.length && !jwt) console.log(JSON.stringify({ ev: "apns-config", err: "no APNS_KEY_P8" }));
@@ -84,13 +87,14 @@ Deno.serve(async (req: Request) => {
           body: JSON.stringify({ aps: { alert: { title: m.title, body: m.body }, sound: APNS_SOUND[m.kind] || "default" }, kind: m.kind }),
         });
         const txt = r.status === 200 ? "" : await r.text().catch(() => "");
-        if (r.status === 200) nsent++;
+        if (r.status === 200) { nsent++; gotNative.add(m); }
         console.log(JSON.stringify({ ev: r.status === 200 ? "apns" : "apns-fail", kind: m.kind, user: String(m.user_id).slice(0, 8), status: r.status, body: txt.slice(0, 160) }));
         if (r.status === 410 || /BadDeviceToken|Unregistered|DeviceTokenNotForTopic/.test(txt)) await sb.from("native_push").delete().eq("token", (d as any).token);
       } catch (e) { console.log(JSON.stringify({ ev: "apns-fail", kind: m.kind, err: String(e).slice(0, 160) })); }
     }
   }
   for (const m of msgs) {
+    if (gotNative.has(m)) { skipped++; continue; }
     for (const s of (subs || []).filter((x: any) => x.user_id === m.user_id)) {
       const payload = JSON.stringify({ title: m.title, body: m.body, kind: m.kind });
       try {
@@ -104,5 +108,5 @@ Deno.serve(async (req: Request) => {
       }
     }
   }
-  return Response.json({ sent, native: nsent, rest: due?.length || 0, social: social.size, direct });
+  return Response.json({ sent, native: nsent, skipped, rest: due?.length || 0, social: social.size, direct });
 });
