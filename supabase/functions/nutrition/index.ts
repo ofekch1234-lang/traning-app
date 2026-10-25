@@ -49,7 +49,7 @@ Deno.serve(async (req: Request) => {
 
     const body = await req.json();
     // מכסה חודשית (חודש קלנדרי, שעון ישראל) + תקרה יומית נגד ניצול לרעה. אדמין — בלי הגבלה.
-    const LIM = { photo: { month: 300, day: 40 }, text: { month: 1500, day: 150 } };
+    const LIM = { photo: { month: 300, day: 40 }, text: { month: 600, day: 50 } };
     const isPhoto = !!body.image;
     const L = isPhoto ? LIM.photo : LIM.text, kinds = isPhoto ? ["photo", "label"] : ["text"];
     const { data: plan } = await sb.rpc("my_plan");

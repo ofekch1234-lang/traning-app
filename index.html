@@ -1152,6 +1152,7 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .cyc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .cyc-grid>div{display:flex;flex-direction:column;gap:2px;padding:14px;border-radius:16px;background:var(--surface2)}
 .cyc-grid>div.tr{background:var(--accent-soft)}.cyc-grid span{font-size:13px;color:var(--muted);font-weight:600}.cyc-grid b{font-size:24px}.cyc-grid small{font-size:12px;color:var(--muted)}
+.ai-top{display:flex;flex-direction:column}.ait-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.ait-row:first-child{border-top:0}.ait-row .lt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.ait-row small{color:var(--muted);font-size:12px}.ait-n{display:flex;flex-direction:column;align-items:flex-end}.ait-row.hot .ait-n b{color:var(--gold)}
 .me-fix{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font:inherit;text-align:start;color:var(--text)}
 .me-fix .ic{width:22px;height:22px;flex:none;color:var(--muted)}.me-fix .lt{display:flex;flex-direction:column;gap:2px}.me-fix small{color:var(--muted);font-size:12.5px}
 .me-fix.on{border-color:var(--accent);background:var(--accent-soft)}.me-fix.on .ic{color:var(--accent);fill:var(--accent)}
@@ -1684,7 +1685,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.1';
+const APP_VERSION='13.3.2';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6187,10 +6188,10 @@ function userState(u){
 const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
 async function loadAdmin(){
   A.err=null; S.adminLoading=true; if(S.tab==='admin')render();
-  const [ov,cfg,ev,fn]=await Promise.all([sb.rpc('admin_overview'),sb.rpc('admin_config'),sb.rpc('admin_events'),sb.rpc('admin_funnel')]);
+  const [ov,cfg,ev,fn,ai]=await Promise.all([sb.rpc('admin_overview'),sb.rpc('admin_config'),sb.rpc('admin_events'),sb.rpc('admin_funnel'),sb.rpc('admin_ai_top',{p_limit:10})]);
   S.adminLoading=false;
   if(ov.error){A.err=ov.error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+ov.error.message;}
-  else{A.ov=ov.data; A.cfg=cfg.data||A.cfg; A.events=ev.data||[]; A.funnel=fn.data||A.funnel;}
+  else{A.ov=ov.data; A.cfg=cfg.data||A.cfg; A.events=ev.data||[]; A.funnel=fn.data||A.funnel; A.aiTop=ai.data||[];}
   if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs();
   if(S.tab==='admin')render();
 }
@@ -6271,7 +6272,11 @@ function admOverviewHTML(){
       <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">פעילות · 30 יום</b><span class="small muted"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-inline-end:4px"></span>הרשמה · <span style="color:var(--gold);font-weight:700">₪</span> תשלום</span></div>
       ${adminChart(O.daily||[])}
       <div class="small muted" style="margin-top:8px">פעילים ב-30 יום: <b class="num" style="color:var(--ink)">${O.active30||0}</b></div>
-    </div>`;
+    </div>
+    ${(A.aiTop||[]).length?`<div class="card r20" style="padding:16px">
+      <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">משתמשי AI כבדים · החודש</b><span class="small muted">מכסה: 50 ביום · 600 בחודש (טקסט)</span></div>
+      <div class="ai-top">${A.aiTop.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · ראפי ${u.coach} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
+    </div>`:''}`;
 }
 function admGrowthHTML(){
   const F=A.funnel; if(!F)return '<div class="card r20"><div class="empty" style="margin:0"><div class="big">טוען…</div></div></div>';
