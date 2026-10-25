@@ -31,15 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-<<<<<<< HEAD
   if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ef8c6b40"><\/script>');
   if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ef8c6b40"><\/script>');
   if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ef8c6b40"><\/script>');
-=======
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ef8c6b40"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ef8c6b40"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ef8c6b40"><\/script>');
->>>>>>> main
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1750,13 +1744,8 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-<<<<<<< HEAD
-const APP_VERSION='13.2.40';
-if('serviceWorker' in navigator&&!IS_NATIVE){
-=======
 const APP_VERSION='13.2.41';
-if('serviceWorker' in navigator){
->>>>>>> main
+if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
      (אימון פעיל וטיימר מנוחה נשמרים ונטענים חזרה) */
@@ -6185,12 +6174,8 @@ function vMe(){
     </div>
     <div class="card r20 list">
       <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>יעדים ופרטים אישיים</b><small>${S.settings.kcalT?`${fmtNum(S.settings.kcalT)} קק״ל · ${S.settings.protT||'—'} גר׳ חלבון${S.settings.goalKg?` · יעד ${S.settings.goalKg} ק״ג`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
-<<<<<<< HEAD
-      <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${notifPerm()&&notifPerm()!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
-=======
       ${isPrem()&&S.settings.kcalT?`<button class="li" data-act="cyc-open">${ICON.cal}<span class="lt"><b>ימי אימון וימי מנוחה</b><small>${cycOn()?`${kcalN(cycInfo().train)} ביום אימון · ${kcalN(cycInfo().rest)} ביום מנוחה`:'כבוי · יותר קלוריות בימי אימון'}</small></span>${ICON.chev}</button>`:''}
-      <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${'Notification' in window&&Notification.permission!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
->>>>>>> main
+      <button class="li" data-act="me-notif">${ICON.bell}<span class="lt"><b>התראות ואימון</b><small><span>${on===ks.length?'כל ההתראות פעילות':on?`${on} מתוך ${ks.length} התראות פעילות`:'התראות כבויות'}</span>${notifPerm()&&notifPerm()!=='granted'?'<span> · לא הופעלו במכשיר</span>':''}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
       ${S.isAdmin?`<button class="li" data-act="admin-open">${ICON.chart}<span class="lt"><b>לוח ניהול</b><small>משתמשים, פעילות ועלויות AI</small></span>${ICON.chev}</button>`:''}
