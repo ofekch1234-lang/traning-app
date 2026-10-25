@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "746149894483",
+    "project_id": "nextrep-512209",
+    "storage_bucket": "nextrep-512209.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746149894483:android:b1a5d500f3f3dab2b869a6",
+        "android_client_info": {
+          "package_name": "il.co.nextrep.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746149894483-jmu5n97ncm2khai8m3s68cp4lh1hicn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiCltflh325WPY0gixIhvE7R4VMSeY3LQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746149894483-jmu5n97ncm2khai8m3s68cp4lh1hicn9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "746149894483-3oe30scvv5katoeahsti7upiils6cfls.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "il.co.nextrep.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
