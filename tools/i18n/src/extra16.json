@@ -158,5 +158,37 @@
  "יום מנוחה": {
   "en": "Rest day",
   "ar": "يوم راحة"
+ },
+ "החשבון שלך יימחק עכשיו, יחד עם כל האימונים, הארוחות, השקילות, התמונות וההודעות בקבוצות. אי אפשר לשחזר אותם אחר כך. רשומות תשלום נשמרות בלי פרטים מזהים, כפי שהחוק מחייב.": {
+  "en": "Your account will be deleted now, together with all your workouts, meals, weigh-ins, photos and group messages. They can't be restored. Payment records are kept without identifying details, as the law requires.",
+  "ar": "سيُحذف حسابك الآن مع كل تمارينك ووجباتك وأوزانك وصورك ورسائل المجموعات. لا يمكن استعادتها لاحقًا. تُحفظ سجلات الدفع دون تفاصيل تعريفية كما يقتضي القانون."
+ },
+ "יש לך מנוי בחנות?": {
+  "en": "Subscribed through a store?",
+  "ar": "لديك اشتراك من المتجر؟"
+ },
+ "מחיקת החשבון לא מבטלת מנוי שנקנה ב-App Store או ב-Google Play. את המנוי מבטלים בהגדרות המנויים של הטלפון.": {
+  "en": "Deleting your account doesn't cancel a subscription bought on the App Store or Google Play. Cancel it in your phone's subscription settings.",
+  "ar": "حذف الحساب لا يلغي اشتراكًا تم شراؤه من App Store أو Google Play. يُلغى الاشتراك من إعدادات الاشتراكات في الهاتف."
+ },
+ "סיבת העזיבה (לא חובה, יעזור לנו להשתפר)": {
+  "en": "Why are you leaving? (optional, helps us improve)",
+  "ar": "سبب المغادرة (اختياري، يساعدنا على التحسن)"
+ },
+ "מחיקת החשבון": {
+  "en": "Delete account",
+  "ar": "حذف الحساب"
+ },
+ "מוחק…": {
+  "en": "Deleting…",
+  "ar": "جارٍ الحذف…"
+ },
+ "החשבון נמחק. תודה שהתאמנת איתנו": {
+  "en": "Your account was deleted. Thanks for training with us",
+  "ar": "تم حذف الحساب. شكرًا لتدربك معنا"
+ },
+ "המחיקה נכשלה. נסה שוב או כתוב לנו": {
+  "en": "Deletion failed. Try again or write to us",
+  "ar": "فشل الحذف. حاول مرة أخرى أو راسلنا"
  }
 }

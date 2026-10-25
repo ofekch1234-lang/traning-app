@@ -15,6 +15,6 @@
     "SystemBars": { "insetsHandling": "native", "initialViewportFitValueHint": "cover" },
     "SplashScreen": { "launchShowDuration": 1200, "launchAutoHide": true, "backgroundColor": "#0F1411", "showSpinner": false },
     "Keyboard": { "resize": "native", "resizeOnFullScreen": true },
-    "LocalNotifications": { "smallIcon": "ic_stat_nextrep", "iconColor": "#22C55E" }
+    "LocalNotifications": { "smallIcon": "ic_stat_nextrep", "iconColor": "#5E8C00" }
   }
 }

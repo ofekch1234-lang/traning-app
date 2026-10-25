@@ -42,5 +42,73 @@
  "ההתחברות עם Apple נכשלה. נסה שוב.": {
   "en": "Apple sign-in failed. Please try again.",
   "ar": "فشل تسجيل الدخول عبر Apple. حاول مرة أخرى."
+ },
+ "האימון מחכה לך. בוא נשבור עוד שיא.": {
+  "en": "Your workout is waiting. Let's break another record.",
+  "ar": "تمرينك بانتظارك. هيا نحطم رقمًا جديدًا."
+ },
+ "האימון מחכה לך. בואי נשבור עוד שיא.": {
+  "en": "Your workout is waiting. Let's break another record.",
+  "ar": "تمرينكِ بانتظاركِ. هيا نحطم رقمًا جديدًا."
+ },
+ "בוקר טוב ☀️": {
+  "en": "Good morning ☀️",
+  "ar": "صباح الخير ☀️"
+ },
+ "עלה על המשקל לפני האוכל, לוקח 5 שניות.": {
+  "en": "Step on the scale before you eat. It takes 5 seconds.",
+  "ar": "قف على الميزان قبل الأكل، يستغرق 5 ثوانٍ."
+ },
+ "עלי על המשקל לפני האוכל, לוקח 5 שניות.": {
+  "en": "Step on the scale before you eat. It takes 5 seconds.",
+  "ar": "قفي على الميزان قبل الأكل، يستغرق 5 ثوانٍ."
+ },
+ "ראפי: הסיכום השבועי שלך מוכן 💬": {
+  "en": "Repi: your weekly summary is ready 💬",
+  "ar": "ريبي: ملخصك الأسبوعي جاهز 💬"
+ },
+ "מה הלך טוב השבוע ועל מה להתמקד עכשיו": {
+  "en": "What went well this week and what to focus on next",
+  "ar": "ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز الآن"
+ },
+ "3 ימים בלי אימון": {
+  "en": "3 days without a workout",
+  "ar": "3 أيام بلا تمرين"
+ },
+ "אימון קצר היום ישמור על הרצף. אתה בפנים?": {
+  "en": "A short workout today keeps your streak alive. You in?",
+  "ar": "تمرين قصير اليوم يحافظ على استمراريتك. معنا؟"
+ },
+ "אימון קצר היום ישמור על הרצף. את בפנים?": {
+  "en": "A short workout today keeps your streak alive. You in?",
+  "ar": "تمرين قصير اليوم يحافظ على استمراريتكِ. معنا؟"
+ },
+ "מתגעגעים אליך 🏋️": {
+  "en": "We miss you 🏋️",
+  "ar": "اشتقنا إليك 🏋️"
+ },
+ "שבוע בלי אימון. ראפי הכין לך אימון קל לחזרה.": {
+  "en": "A week without training. Repi prepared an easy comeback workout.",
+  "ar": "أسبوع بلا تمرين. ريبي جهّز لك تمرينًا خفيفًا للعودة."
+ },
+ "מה אכלת היום?": {
+  "en": "What did you eat today?",
+  "ar": "ماذا أكلت اليوم؟"
+ },
+ "30 שניות של רישום, וראפי יכוון לך את היעד.": {
+  "en": "30 seconds of logging, and Repi will fine-tune your target.",
+  "ar": "30 ثانية من التسجيل، وريبي سيضبط لك الهدف."
+ },
+ "הפרימיום שלך מסתיים מחר": {
+  "en": "Your Premium ends tomorrow",
+  "ar": "تنتهي باقة بريميوم غدًا"
+ },
+ "כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.": {
+  "en": "Everything you built stays. Keep going with Repi without a break.",
+  "ar": "كل ما بنيته يبقى. يمكنك المتابعة مع ريبي دون توقف."
+ },
+ "היום: {0} 💪": {
+  "en": "Today: {0} 💪",
+  "ar": "اليوم: {0} 💪"
  }
 }

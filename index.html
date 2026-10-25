@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f143f975"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f143f975"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f143f975"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ca5b2a28"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ca5b2a28"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ca5b2a28"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1695,8 +1695,55 @@ const natPermMap=r=>r&&r.display==='granted'?'granted':r&&r.display==='denied'?'
 async function natPermSync(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').checkPermissions()); }catch(_){} return NAT.perm; }
 async function natPermAsk(){ try{ NAT.perm=natPermMap(await capP('LocalNotifications').requestPermissions()); }catch(_){} return NAT.perm==='granted'; }
 function natNotify(title,body,at,id){ try{ return capP('LocalNotifications').schedule({notifications:[{id:id||10000+Math.floor(Math.random()*1e8),title,body,
-  ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#22C55E'}]}).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
+  ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00'}]}).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
 function natCancel(id){ try{ capP('LocalNotifications').cancel({notifications:[{id}]}).catch(()=>{}); }catch(_){} }
+/* ---------- תזכורות באפליקציה המותקנת: מתוזמנות על הטלפון עצמו (בלי שרת התראות) ----------
+   מחושבות מחדש אחרי כל שינוי (לו״ז, אימון, שקילה, ארוחה, הגדרות) ובכל חזרה לאפליקציה, לשלושה שבועות קדימה.
+   מזהים 1000–1999 שמורים לתזכורות האלה; מנוחה (4242) ובדיקה לא נוגעים בהן. */
+let _natSchedT=0, _natSchedSig='';
+function natSchedSoon(){ if(!IS_NATIVE)return; clearTimeout(_natSchedT); _natSchedT=setTimeout(natSchedule,2500); }
+function natPlan(){
+  if(!S.user||NAT.perm!=='granted')return [];
+  const n=S.settings.notif||{}, out=[], now=new Date(), DAYMS=864e5, Gx=(m,f)=>(S.settings.g==='f'?f:m);
+  const at=(d,h,m)=>{ const x=new Date(d); x.setHours(h,m||0,0,0); return x; };
+  const day=i=>{ const x=new Date(now); x.setHours(12,0,0,0); x.setDate(x.getDate()+i); return x; };
+  const add=(when,title,body,kind)=>{ if(+when>Date.now()+60e3&&out.length<60)out.push({at:+when,title:tt(title),body:tt(body),kind}); };
+  // 1. workout reminder on scheduled days, 8:00 (opt-in like on the web)
+  if(n.remind===true)for(let i=0;i<21;i++){ const d=day(i), t=schedOf(d.getDay()); if(!t)continue; if(i===0&&trainedOn(d))continue;
+    add(at(d,8),`היום: ${t.name} 💪`,Gx('האימון מחכה לך. בוא נשבור עוד שיא.','האימון מחכה לך. בואי נשבור עוד שיא.'),'remind'); }
+  // 2. weigh-in, 7:30, every morning without a weigh-in yet
+  if(n.weigh!==false){ const today=ymd(); const wToday=(S.weights||[]).some(w=>w.d===today);
+    for(let i=0;i<14;i++){ if(i===0&&wToday)continue; add(at(day(i),7,30),'בוקר טוב ☀️',Gx('עלה על המשקל לפני האוכל, לוקח 5 שניות.','עלי על המשקל לפני האוכל, לוקח 5 שניות.'),'weigh'); } }
+  // 3. Rafi's weekly summary, Sunday 9:00
+  if(n.coach!==false&&isPrem())for(let i=0;i<21;i++){ const d=day(i); if(d.getDay()===0)add(at(d,9),'ראפי: הסיכום השבועי שלך מוכן 💬','מה הלך טוב השבוע ועל מה להתמקד עכשיו','coach'); }
+  // 4. no workout for a while: 3 and 7 days after the last one, 18:00
+  if(n.nudge!==false){ const last=Math.max(0,...(S.workouts||[]).map(w=>+w.start||0));
+    if(last){ add(at(new Date(last+3*DAYMS),18),'3 ימים בלי אימון',Gx('אימון קצר היום ישמור על הרצף. אתה בפנים?','אימון קצר היום ישמור על הרצף. את בפנים?'),'nudge3');
+      add(at(new Date(last+7*DAYMS),18),'מתגעגעים אליך 🏋️',Gx('שבוע בלי אימון. ראפי הכין לך אימון קל לחזרה.','שבוע בלי אימון. ראפי הכין לך אימון קל לחזרה.'),'nudge7'); }
+    // 5. nothing logged to eat today (only if the user tracks food), 20:30 today
+    if(+S.settings.kcalT&&(S.meals||[]).some(m=>m.d>=ymd(new Date(Date.now()-7*DAYMS)))&&!(S.meals||[]).some(m=>m.d===ymd()))
+      add(at(day(0),20,30),'מה אכלת היום?',Gx('30 שניות של רישום, וראפי יכוון לך את היעד.','30 שניות של רישום, וראפי יכוון לך את היעד.'),'meal'); }
+  // 6. premium ends tomorrow (trial or gift, not a store subscription that renews)
+  const until=S.plan?.until?+new Date(S.plan.until):0, storeOn=!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
+  if(until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.'),'trial');
+  return out.sort((a,b)=>a.at-b.at);
+}
+async function natSchedule(){
+  if(!IS_NATIVE)return; const LN=capP('LocalNotifications'); if(!LN)return;
+  const plan=natPlan(), sig=JSON.stringify(plan.map(x=>[x.at,x.kind,x.title]))+LANG;
+  if(sig===_natSchedSig)return; _natSchedSig=sig;
+  try{
+    const pend=await LN.getPending().catch(()=>({notifications:[]}));
+    const old=(pend?.notifications||[]).filter(x=>x.id>=1000&&x.id<2000).map(x=>({id:x.id}));
+    if(old.length)await LN.cancel({notifications:old});
+    if(plan.length)await LN.schedule({notifications:plan.map((x,i)=>({id:1000+i,title:x.title,body:x.body,schedule:{at:new Date(x.at),allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',extra:{kind:x.kind}}))});
+  }catch(e){ console.warn('natSchedule',e); _natSchedSig=''; }
+}
+if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationActionPerformed',({notification})=>{
+  const k=notification?.extra?.kind, to={remind:'train',nudge3:'train',nudge7:'train',weigh:'track',meal:'food'}[k];
+  if(to&&S.user&&S.mode==='app'){ S.tab=to; if(to==='food')S.foodDate=ymd(); render(); window.scrollTo(0,0); }
+  logEv('notif_open',{k:k||'other'}); });
+if(IS_NATIVE){ const _r0=render; render=function(){ const r=_r0.apply(this,arguments); natSchedSoon(); return r; }; }
 /* קישורים החוצה: וואטסאפ/מייל/טלפון נפתחים באפליקציה המתאימה, כל השאר בדפדפן בתוך האפליקציה */
 function natOpen(url){ try{ if(/^(mailto|tel|sms|whatsapp):|^https:\/\/(wa\.me|api\.whatsapp\.com|apps\.apple\.com|play\.google\.com)\//i.test(url)){ location.href=url; return; }
   capP('Browser').open({url,presentationStyle:'popover'}).catch(()=>{ location.href=url; }); }catch(_){ location.href=url; } }
@@ -1716,11 +1763,11 @@ if(IS_NATIVE){
     if(!$('#sheet').hidden){ closeSheet(); return; }
     if(S.mode==='app'&&S.tab!=='home'){ S.tab='home'; render(); window.scrollTo(0,0); return; }
     capP('App').minimizeApp(); }catch(_){} });
-  capP('App')?.addListener('appStateChange',({isActive})=>{ if(isActive)natPermSync(); });
+  capP('App')?.addListener('appStateChange',({isActive})=>{ if(isActive)natPermSync().then(()=>{ _natSchedSig=''; natSchedSoon(); }); });
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.0';
+const APP_VERSION='13.3.1';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2422,7 +2469,7 @@ async function natApple(){
 }
 if(IS_NATIVE){
   capP('App')?.addListener('appUrlOpen',({url})=>{ natAuthUrl(url); });
-  capP('Browser')?.addListener('browserFinished',()=>{ if(NAUTH.busy==='google'&&!_natExch&&!S.user){ NAUTH.busy=''; if(S.mode==='auth')render(); } });
+  capP('Browser')?.addListener?.('browserFinished',()=>{ if(NAUTH.busy==='google'&&!_natExch&&!S.user){ NAUTH.busy=''; if(S.mode==='auth')render(); } });
 }
 function vOtp(){
   const code=OTP.step==='code';
@@ -8538,11 +8585,22 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
-    case 'acct-delete': openSheet(`<h3>מחיקת החשבון</h3><div class="muted" style="margin:-4px 0 12px">כל האימונים, הארוחות, השקילות, התמונות וההודעות שלך יימחקו לצמיתות תוך עד 30 יום, ולא יהיה אפשר לשחזר אותם. רשומות תשלום נשמרות לפי חוק.</div>
-      <textarea id="del-why" class="adm-in" rows="2" placeholder="למה אתה עוזב? (לא חובה, יעזור לנו להשתפר)"></textarea>
-      <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn danger" style="flex:1.4" data-act="acct-delete-go">שליחת בקשת מחיקה</button></div>`); break;
-    case 'acct-delete-go': { if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב לאישור';break;} const why=($('#del-why')?.value||'').trim();
-      sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ בקשה למחיקת חשבון ומידע.'+(why?' סיבה: '+why:'')}).then(({error})=>{ if(error){toast('השליחה נכשלה, כתוב לנו במייל');return;} closeSheet(); toast('הבקשה התקבלה. נמחק את החשבון תוך 30 יום ונעדכן אותך'); }); break; }
+    case 'acct-delete': openSheet(`<h3>מחיקת החשבון</h3><div class="muted" style="margin:-4px 0 12px;line-height:1.55">החשבון שלך יימחק עכשיו, יחד עם כל האימונים, הארוחות, השקילות, התמונות וההודעות בקבוצות. אי אפשר לשחזר אותם אחר כך. רשומות תשלום נשמרות בלי פרטים מזהים, כפי שהחוק מחייב.</div>
+      <div class="rtip" style="margin:0 0 12px"><b>יש לך מנוי בחנות?</b><span>מחיקת החשבון לא מבטלת מנוי שנקנה ב-App Store או ב-Google Play. את המנוי מבטלים בהגדרות המנויים של הטלפון.</span></div>
+      <textarea id="del-why" class="adm-in" rows="2" placeholder="${tt('סיבת העזיבה (לא חובה, יעזור לנו להשתפר)')}"></textarea>
+      <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn danger" style="flex:1.4" data-act="acct-delete-go">מחיקת החשבון</button></div>`); break;
+    case 'acct-delete-go': { if(!b.dataset.sure){b.dataset.sure='1';b.textContent=tt('בטוח? לחיצה נוספת מוחקת');break;} if(b.disabled)break;
+      const why=($('#del-why')?.value||'').trim(); b.disabled=true; b.textContent=tt('מוחק…');
+      (async()=>{ try{
+          if(why)await sb.rpc('send_support',{p_topic:'general',p_body:'🗑️ מחיקת חשבון. סיבה: '+why}).catch(()=>{});
+          logEv('account_delete',{});
+          const {data:{session}}=await sb.auth.getSession();
+          const r=await fetch(SUPABASE_URL+'/functions/v1/delete-account',{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:'Bearer '+(session?.access_token||'')},body:JSON.stringify({confirm:'DELETE'})});
+          if(!r.ok)throw new Error('http '+r.status);
+          try{ Object.keys(localStorage).filter(k=>/^nr[-_]/.test(k)&&!/^nr-(lang|g)$/.test(k)).forEach(k=>localStorage.removeItem(k)); }catch(_){}
+          closeSheet(); await sb.auth.signOut().catch(()=>{}); toast('החשבון נמחק. תודה שהתאמנת איתנו');
+        }catch(e){ console.warn('delete',e); b.disabled=false; b.textContent=tt('מחיקת החשבון'); delete b.dataset.sure; toast('המחיקה נכשלה. נסה שוב או כתוב לנו'); } })();
+      break; }
     case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-g': { if(b.dataset.v!==window.NR_G)landSetG(b.dataset.v); return true; }
     case 'land-signup': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
