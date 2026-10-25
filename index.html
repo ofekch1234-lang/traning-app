@@ -135,7 +135,7 @@ body.landing #app{max-width:1120px}
 .ld-set .ck{width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:15px}
 .ld-set.done .ck{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .ld-set.now{background:var(--accent-soft,#E3F5E8);outline:1.5px solid var(--accent)}
-.ld-rest{margin-top:auto;display:flex;align-items:center;gap:12px;background:var(--ink);color:var(--bg);border-radius:16px;padding:10px 14px}
+.ld-rest{margin-top:auto;display:flex;align-items:center;gap:12px;background:#1E2220;color:var(--ink);border-radius:16px;padding:10px 14px}
 .ld-rest svg{flex-shrink:0}
 .ld-rest .t{font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.12;font-variant-numeric:tabular-nums}
 .ld-rest .k{font-size:12.5px;opacity:.75}
@@ -170,8 +170,8 @@ body.landing #app{max-width:1120px}
 .ld-steps li::before{content:counter(st);font-family:var(--disp);font-weight:800;font-size:29px;line-height:1.12;color:var(--accent);text-align:center}
 .ld-steps b{display:block}
 .ld-steps span{color:var(--muted);font-size:15px}
-.ld-end{background:var(--ink);color:var(--bg);border-radius:24px;padding:34px 22px;display:grid;gap:14px;margin-top:56px}
-.ld-end p{color:var(--bg);opacity:.75}
+.ld-end{background:linear-gradient(160deg,#1C2810 0%,#141715 62%);border:1px solid #33470F;color:var(--ink);border-radius:24px;padding:34px 22px;display:grid;gap:14px;margin-top:56px}
+.ld-end p{color:var(--muted)}
 .ld-end .btn.primary{justify-self:start}
 .ld-list{margin:0;padding:0;list-style:none;display:grid;gap:9px}
 .ld-list li{display:flex;gap:10px;line-height:1.5}.ld-list li::before{content:'✓';color:var(--accent);font-weight:700}
@@ -958,13 +958,13 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .hd-btn.me{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700;font-size:16px}
 .hd-dot{position:absolute;top:2px;inset-inline-end:2px;width:10px;height:10px;border-radius:50%;background:#E8590C;border:2px solid var(--bg)}
 .ttl{font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.12;margin:2px 0 0}
-.hcard{background:var(--ink);color:var(--bg);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.hcard{background:linear-gradient(160deg,#1C2810 0%,#141715 62%);border:1px solid #33470F;color:var(--ink);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
 .hcard .lbl{font-size:13px;color:var(--accent);font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:center}
-.hcard .lbl span:last-child{color:color-mix(in srgb,var(--bg) 70%,transparent);font-weight:400}
+.hcard .lbl span:last-child{color:var(--muted);font-weight:400}
 .hcard .nm{font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.1}
-.hcard .sub{font-size:13.5px;color:color-mix(in srgb,var(--bg) 72%,transparent)}
+.hcard .sub{font-size:13.5px;color:var(--muted)}
 .hcard .go{height:54px;border-radius:15px;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
-.hcard .alt{align-self:center;color:color-mix(in srgb,var(--bg) 72%,transparent);font-size:14px;padding:2px 8px}
+.hcard .alt{align-self:center;color:var(--muted);font-size:14px;padding:2px 8px}
 .card.r20{border-radius:20px}
 .bar2{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}.bar2 i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .5s}
 .bar2 i.p{background:#2563EB}.bar2 i.cb{background:#D99A00}.bar2 i.ft{background:#E8590C}
@@ -1061,8 +1061,8 @@ body.active-w #app{padding-bottom:120px}
 #restbar .inner{border-radius:20px;padding:12px 12px 12px 16px}
 #restbar .t{min-width:58px;font-size:26px}
 #restbar .tl{display:flex;flex-direction:column;min-width:60px}
-#restbar .tl small{font-size:12px;color:color-mix(in srgb,var(--bg) 70%,transparent)}
-#restbar button{border:0;background:color-mix(in srgb,var(--bg) 14%,transparent);border-radius:12px;height:40px;padding:0 12px;font-size:14px;font-weight:600}
+#restbar .tl small{font-size:12px;color:var(--muted)}
+#restbar button{border:0;background:rgba(255,255,255,.08);border-radius:12px;height:40px;padding:0 12px;font-size:14px;font-weight:600}
 #restbar button.go{background:var(--accent);color:var(--accent-ink);font-weight:700}
 /* tab bar */
 /* סרגל לשוניות צף: אי זכוכית מעוגל מעל התחתית, קפסולה שמחליקה ללשונית הפעילה */
@@ -1102,13 +1102,13 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
   display:flex;justify-content:center;padding:0 16px;
 }
 #restbar .inner{
-  width:100%;max-width:528px;background:var(--ink);color:var(--bg);
+  width:100%;max-width:528px;background:#1E2220;color:var(--ink);border:1px solid #2E3430;
   border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);
 }
 #restbar .t{font-family:var(--disp);font-weight:800;font-size:22px;line-height:1.12;min-width:64px}
-#restbar .bar{flex:1;height:5px;border-radius:99px;background:color-mix(in srgb,var(--bg) 25%,transparent);overflow:hidden}
+#restbar .bar{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
 #restbar .bar>i{display:block;height:100%;background:var(--accent);border-radius:99px}
-#restbar button{color:var(--bg);border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);padding:6px 11px;font-size:13px}
+#restbar button{color:var(--ink);border:1px solid rgba(255,255,255,.14);padding:6px 11px;font-size:13px}
 
 /* active workout */
 .ex-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
@@ -1768,7 +1768,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.2';
+const APP_VERSION='13.3.3';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
