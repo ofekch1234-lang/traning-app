@@ -1488,6 +1488,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-name::-webkit-search-cancel-button{display:none}
 /* landing: cinematic. Pure black, one big centered headline per chapter, the phone only in the hero; every other visual is a small piece of the app's own UI */
 body.landing{background:#000}
+body.landing header.top{background:#000!important;border-color:transparent!important}
 .cx{--cx-mut:#86868B;--cx-tile:#111213;--cx-line:#1F2123;text-align:center;padding-bottom:12px}
 .cx h2{font-family:var(--disp);font-weight:800;font-size:clamp(34px,6vw,64px);line-height:1.04;letter-spacing:-.035em;margin:0 auto;max-width:18ch;text-wrap:balance;background:linear-gradient(180deg,#fff 35%,#a3a8a5 120%);-webkit-background-clip:text;background-clip:text;color:transparent}
 :root[lang="ar"] .cx h2{letter-spacing:0;line-height:1.2}
@@ -1501,7 +1502,7 @@ body.landing{background:#000}
 .cx-go{padding:15px 28px!important;font-size:17px!important;font-weight:800!important;border-radius:999px!important}
 .cx-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .cx-link{color:var(--accent);font-weight:600;font-size:17px;text-decoration:none}
-.cx-link::after{content:' ‹'}[dir=ltr] .cx-link::after{content:' ›'}
+.cx-link::after{content:' ←'}[dir=ltr] .cx-link::after{content:' →'}
 .cx-link:hover{text-decoration:underline}
 .cx-hero::after{content:'';position:absolute;inset:auto 0 0;height:140px;background:linear-gradient(180deg,transparent,#000);z-index:3;pointer-events:none}
 .cx-stage{position:relative;width:min(980px,100%);height:clamp(300px,46vw,520px);margin-top:clamp(20px,4vw,40px);direction:ltr}
@@ -1735,7 +1736,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.23';
+const APP_VERSION='13.3.24';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
