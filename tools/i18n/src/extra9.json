@@ -1,7 +1,7 @@
 {
-"אני קובי, המאמן שלך כאן. סיור קצר של חצי דקה כדי שתדע איפה הכל. אפשר לדלג בכל רגע.": {
-"en": "I'm Kobi, your coach here. A quick 30-second tour so you know where everything is. You can skip anytime.",
-"ar": "أنا كوبي، مدربك هنا. جولة قصيرة لنصف دقيقة لتعرف مكان كل شيء. يمكنك التخطي في أي لحظة."
+"אני ראפי, המאמן שלך כאן. סיור קצר של חצי דקה כדי שתדע איפה הכל. אפשר לדלג בכל רגע.": {
+"en": "I'm Repi, your coach here. A quick 30-second tour so you know where everything is. You can skip anytime.",
+"ar": "أنا ريبي، مدربك هنا. جولة قصيرة لنصف دقيقة لتعرف مكان كل شيء. يمكنك التخطي في أي لحظة."
 },
 "כאן מתחילים אימון. מסמנים סט בשתי נגיעות, המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. בכל תרגיל יש ״צפה בהדגמה״.": {
 "en": "Start a workout here. Log a set in two taps, last time's weight is already filled in, and the rest timer starts on its own. Every exercise has \"Watch demo\".",
@@ -19,9 +19,9 @@
 "en": "Type a food and pick it from the database, or write a whole meal (\"chicken with rice\") and tap ✨ Calculate. You can also snap your plate or scan a barcode.",
 "ar": "اكتب الطعام واختره من قاعدة البيانات، أو اكتب وجبة كاملة (\"دجاج مع أرز\") واضغط ✨ احسب. يمكنك أيضًا تصوير طبقك أو مسح الباركود."
 },
-"קובי הבוט, המאמן שלך": {
-"en": "Kobi the bot, your coach",
-"ar": "كوبي البوت، مدربك"
+"ראפי, המאמן שלך": {
+"en": "Repi, your coach",
+"ar": "ريبي، مدربك"
 },
 "בכל יום ראשון אשלח לך סיכום שבועי: מה הלך טוב ועל מה להתמקד. למנויים אני זמין גם לשאלות, לפי הנתונים שלך.": {
 "en": "Every Sunday I'll send you a weekly summary: what went well and what to focus on. Subscribers can also ask me questions, based on their data.",

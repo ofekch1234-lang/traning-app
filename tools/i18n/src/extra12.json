@@ -1,11 +1,11 @@
 {
- "האפליקציה חינמית: אימונים, טיימר, שיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. מי שרוצה עוד בוחר בפרימיום: ניתוחי AI בכל ארוחה וקובי המאמן האישי, בתשלום חד-פעמי בלי מנוי מתחדש ובלי התחייבות.": {
-  "en": "The app is free: workouts, timer, PRs, smart menu, calorie tracking and barcode, groups and challenges, and one AI analysis a day. Want more? Go Premium: AI analysis for every meal and Kobi, your personal coach, with a one-time payment, no renewing subscription and no commitment.",
-  "ar": "التطبيق مجاني: التدريبات، المؤقت، الأرقام القياسية، القائمة الذكية، تتبع السعرات والباركود، الفرق والتحديات، وتحليل واحد بالذكاء الاصطناعي يوميًا. من يريد المزيد يختار بريميوم: تحليلات لكل وجبة وكوبي المدرب الشخصي، بدفعة واحدة دون اشتراك متجدد ودون التزام."
+ "האפליקציה חינמית: אימונים, טיימר, שיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. מי שרוצה עוד בוחר בפרימיום: ניתוחי AI בכל ארוחה וראפי המאמן האישי, בתשלום חד-פעמי בלי מנוי מתחדש ובלי התחייבות.": {
+  "en": "The app is free: workouts, timer, PRs, smart menu, calorie tracking and barcode, groups and challenges, and one AI analysis a day. Want more? Go Premium: AI analysis for every meal and Repi, your personal coach, with a one-time payment, no renewing subscription and no commitment.",
+  "ar": "التطبيق مجاني: التدريبات، المؤقت، الأرقام القياسية، القائمة الذكية، تتبع السعرات والباركود، الفرق والتحديات، وتحليل واحد بالذكاء الاصطناعي يوميًا. من يريد المزيد يختار بريميوم: تحليلات لكل وجبة وريبي المدرب الشخصي، بدفعة واحدة دون اشتراك متجدد ودون التزام."
  },
- "קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומשתמשי פרימיום יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
-  "en": "Kobi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and Premium users can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
-  "ar": "كوبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وما يجب التركيز عليه، ويمكن لمستخدمي بريميوم سؤاله أي شيء عن التدريب والتغذية والتعافي. عندما يوصي بتمرين، يظهر فيديو توضيحي."
+ "ראפי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומשתמשי פרימיום יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
+  "en": "Repi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and Premium users can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
+  "ar": "ريبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وما يجب التركيز عليه، ويمكن لمستخدمي بريميوم سؤاله أي شيء عن التدريب والتغذية والتعافي. عندما يوصي بتمرين، يظهر فيديو توضيحي."
  },
  "מתחילים בחינם": {
   "en": "Start for free",
@@ -63,9 +63,9 @@
   "en": "AI analysis for every meal: photo, text and label",
   "ar": "تحليل لكل وجبة: صورة ونص وملصق غذائي"
  },
- "קובי המאמן: סיכום שבועי ושיחה": {
-  "en": "Kobi the coach: weekly summary and chat",
-  "ar": "كوبي المدرب: ملخص أسبوعي ومحادثة"
+ "ראפי המאמן: סיכום שבועי ושיחה": {
+  "en": "Repi the coach: weekly summary and chat",
+  "ar": "ريبي المدرب: ملخص أسبوعي ومحادثة"
  },
  "מסלולי פרימיום, תשלום אחד:": {
   "en": "Premium plans, one payment:",
@@ -95,17 +95,17 @@
   "en": "Invite a friend? You both get a free Premium week.",
   "ar": "دعوتِ صديقة؟ تحصلان كلتاكما على أسبوع بريميوم هدية."
  },
- "ניתוחי AI בכל ארוחה וקובי המאמן": {
-  "en": "AI analysis for every meal and Kobi the coach",
-  "ar": "تحليلات لكل وجبة وكوبي المدرب"
+ "ניתוחי AI בכל ארוחה וראפי המאמן": {
+  "en": "AI analysis for every meal and Repi the coach",
+  "ar": "تحليلات لكل وجبة وريبي المدرب"
  },
- "ניתוחי AI בכל ארוחה וקובי המאמן.": {
-  "en": "AI analysis for every meal and Kobi the coach.",
-  "ar": "تحليلات لكل وجبة وكوبي المدرب."
+ "ניתוחי AI בכל ארוחה וראפי המאמן.": {
+  "en": "AI analysis for every meal and Repi the coach.",
+  "ar": "تحليلات لكل وجبة وريبي المدرب."
  },
- ": ניתוחי AI בכל ארוחה וקובי המאמן. {0}": {
-  "en": ": AI analysis for every meal and Kobi the coach. {0}",
-  "ar": ": تحليلات لكل وجبة وكوبي المدرب. {0}"
+ ": ניתוחי AI בכל ארוחה וראפי המאמן. {0}": {
+  "en": ": AI analysis for every meal and Repi the coach. {0}",
+  "ar": ": تحليلات لكل وجبة وريبي المدرب. {0}"
  },
  "הזמן חבר, שניכם מקבלים שבוע פרימיום": {
   "en": "Invite a friend, you both get a Premium week",
@@ -163,9 +163,9 @@
   "en": "Today's free analysis is used ✨",
   "ar": "استُخدم التحليل المجاني لليوم ✨"
  },
- "מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וקובי המאמן האישי.": {
-  "en": "You get another one tomorrow. You can keep going with the food search or barcode, or upgrade to Premium: AI analysis for every meal and Kobi, your personal coach.",
-  "ar": "غدًا يوجد تحليل آخر. يمكنك المتابعة بالبحث في قاعدة الأطعمة أو الباركود، أو الترقية إلى بريميوم: تحليل لكل وجبة وكوبي المدرب الشخصي."
+ "מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.": {
+  "en": "You get another one tomorrow. You can keep going with the food search or barcode, or upgrade to Premium: AI analysis for every meal and Repi, your personal coach.",
+  "ar": "غدًا يوجد تحليل آخر. يمكنك المتابعة بالبحث في قاعدة الأطعمة أو الباركود، أو الترقية إلى بريميوم: تحليل لكل وجبة وريبي المدرب الشخصي."
  },
  "⭐ שדרוג לפרימיום": {
   "en": "⭐ Upgrade to Premium",
@@ -187,9 +187,9 @@
   "en": "Premium {0} until {1}",
   "ar": "بريميوم {0} حتى {1}"
  },
- "החשבון שלך חינמי. פרימיום: ניתוח AI בכל ארוחה וקובי": {
-  "en": "Your account is free. Premium: AI analysis for every meal and Kobi",
-  "ar": "حسابك مجاني. بريميوم: تحليل لكل وجبة وكوبي"
+ "החשבון שלך חינמי. פרימיום: ניתוח AI בכל ארוחה וראפי": {
+  "en": "Your account is free. Premium: AI analysis for every meal and Repi",
+  "ar": "حسابك مجاني. بريميوم: تحليل لكل وجبة وريبي"
  },
  "שדרוג": {
   "en": "Upgrade",
@@ -255,13 +255,13 @@
   "en": "Plate photos, text descriptions and label reading",
   "ar": "تصوير الطبق ووصف نصي وقراءة الملصق"
  },
- "קובי, המאמן האישי שלך": {
-  "en": "Kobi, your personal coach",
-  "ar": "كوبي، مدربك الشخصي"
+ "ראפי, המאמן האישי שלך": {
+  "en": "Repi, your personal coach",
+  "ar": "ريبي، مدربك الشخصي"
  },
- "סיכום שבועי לפי הנתונים שלך ושיחה עם קובי על אימונים ותזונה": {
-  "en": "A weekly summary based on your data, and chats with Kobi about training and nutrition",
-  "ar": "ملخص أسبوعي حسب بياناتك ومحادثة مع كوبي عن التدريب والتغذية"
+ "סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה": {
+  "en": "A weekly summary based on your data, and chats with Repi about training and nutrition",
+  "ar": "ملخص أسبوعي حسب بياناتك ومحادثة مع ريبي عن التدريب والتغذية"
  },
  "הפרימיום הסתיים": {
   "en": "Premium has ended",
@@ -319,9 +319,9 @@
   "en": "Premium days left",
   "ar": "أيام من بريميوم"
  },
- "אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI בכל ארוחה וקובי?": {
-  "en": "After that you continue for free. Want to keep AI analysis for every meal and Kobi?",
-  "ar": "بعدها تستمر مجانًا. تريد الاستمرار مع تحليل لكل وجبة وكوبي؟"
+ "אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI בכל ארוחה וראפי?": {
+  "en": "After that you continue for free. Want to keep AI analysis for every meal and Repi?",
+  "ar": "بعدها تستمر مجانًا. تريد الاستمرار مع تحليل لكل وجبة وريبي؟"
  },
  "היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. היא חינמית, ודרך הקישור שלי מקבלים שבוע פרימיום מתנה 🎁": {
   "en": "Hey! I'm using NextRep, an app that remembers every set for me, counts calories from a photo of my plate and builds me a menu. It's free, and through my link you get a free Premium week 🎁",
@@ -419,17 +419,17 @@
   "en": "Invite a friend: you both get a Premium week.",
   "ar": "دعوة صديق: تحصلان كلاكما على أسبوع بريميوم."
  },
- "🔒 קובי ניתח את השבוע שלך": {
-  "en": "🔒 Kobi analyzed your week",
-  "ar": "🔒 كوبي حلّل أسبوعك"
+ "🔒 ראפי ניתח את השבוע שלך": {
+  "en": "🔒 Repi analyzed your week",
+  "ar": "🔒 ريبي حلّل أسبوعك"
  },
- "הסיכום השבועי והשיחה עם קובי זמינים בפרימיום": {
-  "en": "The weekly summary and chatting with Kobi are available in Premium",
-  "ar": "الملخص الأسبوعي والمحادثة مع كوبي متاحان في بريميوم"
+ "הסיכום השבועי והשיחה עם ראפי זמינים בפרימיום": {
+  "en": "The weekly summary and chatting with Repi are available in Premium",
+  "ar": "الملخص الأسبوعي والمحادثة مع ريبي متاحان في بريميوم"
  },
- "היי, אני קובי 👋 בפרימיום אני שולח לך כל שבוע סיכום אישי לפי הנתונים שלך, ועונה על כל שאלה על אימונים ותזונה.": {
-  "en": "Hi, I'm Kobi 👋 With Premium I send you a personal weekly summary based on your data, and answer any question about training and nutrition.",
-  "ar": "مرحبًا، أنا كوبي 👋 في بريميوم أرسل لك كل أسبوع ملخصًا شخصيًا حسب بياناتك، وأجيب عن أي سؤال عن التدريب والتغذية."
+ "היי, אני ראפי 👋 בפרימיום אני שולח לך כל שבוע סיכום אישי לפי הנתונים שלך, ועונה על כל שאלה על אימונים ותזונה.": {
+  "en": "Hi, I'm Repi 👋 With Premium I send you a personal weekly summary based on your data, and answer any question about training and nutrition.",
+  "ar": "مرحبًا، أنا ريبي 👋 في بريميوم أرسل لك كل أسبوع ملخصًا شخصيًا حسب بياناتك، وأجيب عن أي سؤال عن التدريب والتغذية."
  },
  "⭐ פתיחה עם פרימיום": {
   "en": "⭐ Unlock with Premium",
@@ -439,13 +439,13 @@
   "en": "🎁 Free week",
   "ar": "🎁 أسبوع مجاني"
  },
- "🔒 קובי ניתח את השבוע שלך · זמין בפרימיום": {
-  "en": "🔒 Kobi analyzed your week · available in Premium",
-  "ar": "🔒 كوبي حلّل أسبوعك · متاح في بريميوم"
+ "🔒 ראפי ניתח את השבוע שלך · זמין בפרימיום": {
+  "en": "🔒 Repi analyzed your week · available in Premium",
+  "ar": "🔒 ريبي حلّل أسبوعك · متاح في بريميوم"
  },
- "🔒 השיחה עם קובי זמינה בפרימיום": {
-  "en": "🔒 Chatting with Kobi is available in Premium",
-  "ar": "🔒 المحادثة مع كوبي متاحة في بريميوم"
+ "🔒 השיחה עם ראפי זמינה בפרימיום": {
+  "en": "🔒 Chatting with Repi is available in Premium",
+  "ar": "🔒 المحادثة مع ريبي متاحة في بريميوم"
  },
  "סיכום שבועי לפי הנתונים שלך, תשובות על אימונים ותזונה, וניתוחי AI בכל ארוחה.": {
   "en": "A weekly summary based on your data, answers about training and nutrition, and AI analysis for every meal.",
@@ -463,9 +463,9 @@
   "en": "🎁 Invite a friend: a free week",
   "ar": "🎁 دعوة صديق: أسبوع مجاني"
  },
- "השיחה עם קובי זמינה בפרימיום": {
-  "en": "Chatting with Kobi is available in Premium",
-  "ar": "المحادثة مع كوبي متاحة في بريميوم"
+ "השיחה עם ראפי זמינה בפרימיום": {
+  "en": "Chatting with Repi is available in Premium",
+  "ar": "المحادثة مع ريبي متاحة في بريميوم"
  },
  "אפשר לסיים את האימון שהתחלת 💪": {
   "en": "You can finish the workout you started 💪",

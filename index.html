@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c5707e93"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c5707e93"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c5707e93"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8cf91069"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8cf91069"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8cf91069"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1112,7 +1112,7 @@ nav.tabs button.fab .ic{stroke-width:2.2}
 nav.tabs button.fab.on{color:var(--accent)}
 nav.tabs button.fab.on::before{display:none}
 nav.tabs button.fab:active .fabc{transform:scale(.94)}
-/* in a chat (group / Kobi) the workout button lies flat so it never covers the message box */
+/* in a chat (group / Repi) the workout button lies flat so it never covers the message box */
 body.chatting nav.tabs button.fab{color:var(--muted);font-weight:400}
 body.chatting nav.tabs button.fab .fabc{width:auto;height:auto;margin-top:0;background:none;color:inherit;border:0;box-shadow:none}
 body.chatting nav.tabs button.fab svg{width:23px;height:23px}
@@ -1162,6 +1162,8 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .set-done.r-under input{background:var(--surface2);border-color:var(--line)}
 .setgrid .h .tgt{display:inline-block;margin-inline-start:3px;padding:1px 6px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:11px}
 .tc-card{display:flex;flex-direction:column;gap:12px;text-align:start}
+.tc-card .tc-h{display:flex;gap:12px;align-items:flex-start}.tc-card .tc-h .tc-t{flex:1}
+.tc-av{width:44px;height:44px;flex-shrink:0}
 .tc-card .tc-t{display:flex;flex-direction:column;gap:3px;min-width:0}
 .tc-card .tc-t b{font-family:var(--disp);font-size:18px;font-weight:800;line-height:1.2}
 .tc-card .tc-t small{color:var(--muted);font-size:13.5px;line-height:1.45}
@@ -1665,7 +1667,7 @@ if(I18)I18.start();
   document.addEventListener('touchmove',e=>{ if(e.touches.length>1&&!inViewer(e.target))e.preventDefault(); },{passive:false});
   // הקשה כפולה: נחסמת ב-CSS (touch-action:manipulation) בלי לבלוע לחיצות מהירות על כפתורים
 })();
-/* אישה: קובי ואייקון האפליקציה בוורוד */
+/* אישה: ראפי ואייקון האפליקציה בוורוד */
 window.__fixF=null;
 if(window.NR_G==='f'){ const fx=root=>{ if(!root||root.nodeType!==1)return; const L=root.matches?.('img')?[root]:[]; root.querySelectorAll?.('img').forEach(i=>L.push(i));
     for(const i of L){ const v=i.getAttribute('src')||''; const n=v.replace(/img\/kobi-([a-z]+)\.svg/,'img/kobi-$1-f.svg').replace(/^icon-192\.png/,'icon-f-192.png'); if(n!==v)i.setAttribute('src',n); } };
@@ -1722,7 +1724,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.37';
+const APP_VERSION='13.2.38';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -1758,7 +1760,7 @@ async function ensureNotifPerm(){
     return (await Notification.requestPermission())==='granted';
   }catch(e){return false;}
 }
-/* בקשת התראות ברגע הנכון: שאלה אחת לכל הקשר, עם הסבר של קובי לפני החלון של המערכת */
+/* בקשת התראות ברגע הנכון: שאלה אחת לכל הקשר, עם הסבר של ראפי לפני החלון של המערכת */
 function notifCan(){ if(IS_NATIVE)return NAT.perm==='default'; try{ return ('Notification' in window)&&Notification.permission==='default'&&(!IS_IOS||IS_STANDALONE); }catch(_){ return false; } }
 function notifAsk(ctx,title,text){
   if(!notifCan()||!$('#sheet').hidden||!$('#np').hidden)return false;
@@ -2584,12 +2586,12 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
     ['מתאמן כבר חודשים ולא בטוח שמשהו באמת השתנה.','גרף משקל, תמונות שבועיות ושיאים אישיים מראים בדיוק מה זז.'],
   ];
   const faq=[
-    ['כמה זה עולה?','האפליקציה חינמית: אימונים, טיימר, שיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. מי שרוצה עוד בוחר בפרימיום: ניתוחי AI בכל ארוחה וקובי המאמן האישי, בתשלום חד-פעמי בלי מנוי מתחדש ובלי התחייבות.'],
-    ['מה קובי הבוט יודע לעשות?','קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומשתמשי פרימיום יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.'],
+    ['כמה זה עולה?','האפליקציה חינמית: אימונים, טיימר, שיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. מי שרוצה עוד בוחר בפרימיום: ניתוחי AI בכל ארוחה וראפי המאמן האישי, בתשלום חד-פעמי בלי מנוי מתחדש ובלי התחייבות.'],
+    ['מה ראפי יודע לעשות?','ראפי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומשתמשי פרימיום יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.'],
     ['צריך להוריד משהו מחנות האפליקציות?','לא. נכנסים מהדפדפן ומוסיפים למסך הבית. האפליקציה נפתחת במסך מלא עם אייקון, כמו כל אפליקציה אחרת.'],
     ['זה עובד בחדר כושר בלי קליטה?','כן. האימון נשמר בטלפון ומסתנכרן ברגע שחוזרת קליטה.'],
     ['אני מתחיל, זה מתאים לי?','כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.'],
-    ['באיזו שפה האפליקציה?','עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.'],
+    ['באיזו שפה האפליקציה?','עברית, ערבית ואנגלית, כולל ראפי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.'],
     ...(F?[['אימוני כוח לא יעשו אותי "גדולה"?','לא. בלי תוספים ועם תזונה רגילה, אימוני משקולות בונים שריר לאט ובצורה שמחטבת ומחזקת. זה הדבר הכי יעיל לשינוי הרכב גוף, הרבה יותר מאירובי לבד.']]:[]),
   ];
   const minPm=Math.min(...LP.plans.map(p=>p.price/p.months)), pmTxt=`₪${minPm.toFixed(1).replace(/\.0$/,'')}`;
@@ -2691,12 +2693,12 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
       <article class="lx-card wide rv lx-kobi">
         <div class="lx-ct">
           <span class="lx-tag">🤖 ${tt('מאמן AI')}</span>
-          <h3>${F?'מאמן שמכיר אותך ולא שופט':'קובי הבוט, המאמן שלך בכיס'}</h3>
-          <p>${F?'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי "פשוט תאכלי פחות". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.':'קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.'}</p>
+          <h3>${F?'מאמן שמכיר אותך ולא שופט':'ראפי, המאמן שלך בכיס'}</h3>
+          <p>${F?'ראפי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי "פשוט תאכלי פחות". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.':'ראפי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.'}</p>
           <ul class="ld-list"><li>סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע</li><li>שואלים אותו כל שאלה על אימון, תזונה והתאוששות</li><li>כשהוא ממליץ על תרגיל, סרטון ההדגמה מופיע מתחת לתשובה</li></ul>
         </div>
         <div class="ld-kobi lx-chat" aria-hidden="true">
-          <div class="ld-kh"><img src="img/kobi-happy.svg" alt=""><b>קובי הבוט</b></div>
+          <div class="ld-kh"><img src="img/kobi-happy.svg" alt=""><b>ראפי</b></div>
           <div class="ld-bub me">${F?'ההיפ תראסט שלי תקוע על 60 כבר שבועיים, מה לעשות?':'לחיצת החזה שלי תקועה על 80 כבר שבועיים, מה לעשות?'}</div>
           <div class="ld-bub">${F?'ראיתי: 60×10 בשלושת האימונים האחרונים 💪 השבוע נסי 65 לסט ראשון, גם אם יוצאות רק 8 חזרות. ותוסיפי סקוואט בולגרי כתרגיל שני.':'ראיתי: 80×8 בשלושת האימונים האחרונים 💪 השבוע נסה 82.5 לסט ראשון, גם אם יוצאות רק 6 חזרות. ותוסיף לחיצת חזה בשיפוע כתרגיל שני.'}</div>
           <div class="ld-demo"><span>▶</span>${F?'סקוואט בולגרי':'לחיצת חזה בשיפוע'}<small>צפה בהדגמה</small></div>
@@ -2751,7 +2753,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f';
   <section class="lx-sec" id="ld-pricing">
     <div class="lx-head rv"><span class="lx-kicker">${tt('מחירים')}</span><h2>שבוע ראשון חינם</h2>
       <p>בלי כרטיס אשראי. ${LP.trial} ימים עם הכל פתוח, ואחר כך ${LW('בוחר','בוחרת')} מסלול. האימונים והנתונים שלך נשמרים תמיד.</p></div>
-    <div class="lx-incl rv"><b>⭐ מה כלול</b><ul><li>אימונים, טיימר ושיאים</li><li>תפריט חכם לפי היעד</li><li>מעקב קלוריות, מאגר וברקוד</li><li>ניתוח AI בכל ארוחה: צילום, טקסט ותווית</li><li>קובי המאמן: סיכום שבועי ושיחה</li><li>קבוצות ואתגרים</li></ul></div>
+    <div class="lx-incl rv"><b>⭐ מה כלול</b><ul><li>אימונים, טיימר ושיאים</li><li>תפריט חכם לפי היעד</li><li>מעקב קלוריות, מאגר וברקוד</li><li>ניתוח AI בכל ארוחה: צילום, טקסט ותווית</li><li>ראפי המאמן: סיכום שבועי ושיחה</li><li>קבוצות ואתגרים</li></ul></div>
     <div class="ld-note" style="text-align:center">אחרי השבוע, תשלום אחד בלי חידוש אוטומטי:</div>
     <div class="ld-prices lx-prices rv">
       ${LP.plans.map(p=>{const pm=p.price/p.months;return `<button class="plan ${p.best?'best':''}" data-act="land-signup">
@@ -2980,18 +2982,18 @@ const ICON={play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="t
   shield:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 3.5l7 2.5v5.5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/></svg>',
   chart:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 20h16M6 15.5l4-4.5 3.5 3L19 7.5"/></svg>',
   food:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M7 3v7a2 2 0 0 0 2 2v9M5 3v4.5M9 3v4.5M17 3c-1.8 0-3 2.2-3 5.2 0 2.3 1.2 3.8 3 3.8v9"/></svg>'};
-/* one Kobi line on the home screen: the weekly summary's first sentence, or the lock, or hello */
+/* one Repi line on the home screen: the weekly summary's first sentence, or the lock, or hello */
 function coachRowHTML(){
   if(!S.user||S.mode!=='app')return '';
   const locked=!coachCanChat();
   if(!locked&&CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
   const fresh=!S.workouts.length&&!CO.sum;
   let t,sub,act='coach-open',img='happy';
-  if(locked&&!fresh){ t='🔒 קובי ניתח את השבוע שלך'; sub='הסיכום השבועי והשיחה עם קובי זמינים בפרימיום'; act='plans-open'; img='wink'; }
-  else if(fresh){ t='היי, אני קובי 👋'; sub=locked?'בפרימיום אני שולח לך סיכום שבועי ועונה על שאלות':'אחרי האימון הראשון אשלח לך כאן סיכום שבועי'; }
-  else if(CO.loading||CO.sum===undefined){ t='קובי מכין את הסיכום השבועי…'; sub=''; }
-  else if(CO.sum){ const txt=coachParse(CO.sum.body).text.replace(/\s+/g,' ').trim(); t='קובי: הסיכום השבועי שלך'; sub=txt.length>110?txt.slice(0,110)+'…':txt; img='wink'; }
-  else { t='קובי, המאמן האישי שלך'; sub='שאל אותי על אימונים, תזונה והתקדמות'; }
+  if(locked&&!fresh){ t='🔒 ראפי ניתח את השבוע שלך'; sub='הסיכום השבועי והשיחה עם ראפי זמינים בפרימיום'; act='plans-open'; img='wink'; }
+  else if(fresh){ t='היי, אני ראפי 👋'; sub=locked?'בפרימיום אני שולח לך סיכום שבועי ועונה על שאלות':'אחרי האימון הראשון אשלח לך כאן סיכום שבועי'; }
+  else if(CO.loading||CO.sum===undefined){ t='ראפי מכין את הסיכום השבועי…'; sub=''; }
+  else if(CO.sum){ const txt=coachParse(CO.sum.body).text.replace(/\s+/g,' ').trim(); t='ראפי: הסיכום השבועי שלך'; sub=txt.length>110?txt.slice(0,110)+'…':txt; img='wink'; }
+  else { t='ראפי, המאמן האישי שלך'; sub='שאל אותי על אימונים, תזונה והתקדמות'; }
   return `<button class="card r20 kobi-row coach-card" data-act="${act}" data-why="coach" style="padding:12px 14px"><img src="img/kobi-${img}.svg" alt=""><span class="lt"><b>${t}</b>${sub?`<span ${CO.sum&&!locked&&!fresh?'data-notr':''}>${esc(sub)}</span>`:''}</span>${ICON.chev}</button>`;
 }
 function weekRowHTML(){
@@ -3049,8 +3051,8 @@ function vHome(){
       ${weekRowHTML()}
     </div>
     ${coachRowHTML()}
-    <div class="card r20 list"><button class="li" data-act="invite-open" data-src="home"><span class="sbtn" style="background:linear-gradient(135deg,#6D28D9,#BE185D);color:#fff">${ICON.gift}</span><span class="lt"><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום','הזמיני חברה, שתיכן מקבלות שבוע פרימיום','הזמנת חבר: שבוע פרימיום לשניכם')}</b><small>ניתוחי AI בכל ארוחה וקובי המאמן</small></span>${ICON.chev}</button></div>
-    ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>הפעל התראות</b><small>סוף המנוחה, ימי אימון והודעות מקובי</small></span><span class="btn primary" style="padding:8px 12px;pointer-events:none">הפעלה</span></button></div>`:''}
+    <div class="card r20 list"><button class="li" data-act="invite-open" data-src="home"><span class="sbtn" style="background:linear-gradient(135deg,#6D28D9,#BE185D);color:#fff">${ICON.gift}</span><span class="lt"><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום','הזמיני חברה, שתיכן מקבלות שבוע פרימיום','הזמנת חבר: שבוע פרימיום לשניכם')}</b><small>ניתוחי AI בכל ארוחה וראפי המאמן</small></span>${ICON.chev}</button></div>
+    ${(()=>{try{return !TOUR.on&&notifCan()&&!notifSnoozed();}catch(e){return false;}})()?`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>הפעל התראות</b><small>סוף המנוחה, ימי אימון והודעות מראפי</small></span><span class="btn primary" style="padding:8px 12px;pointer-events:none">הפעלה</span></button></div>`:''}
     ${wrapCardHTML()}
   `;
 }
@@ -3238,7 +3240,7 @@ function openGenderSheet(first){
   const opt=(v,e,l,d)=>`<button class="pb-opt ${(cur||sx)===v?'on':''}" data-act="g-set" data-v="${v}" data-first="${first?1:''}"><b>${e} ${l}</b>${d?`<small>${d}</small>`:''}</button>`;
   const md=S.user?.user_metadata||{}, noName=first&&!String(md.full_name||md.name||'').trim();
   // first time without a name: step 1 is the name, then how to address you
-  if(noName){ openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>היי, אני קובי 👋 איך קוראים לך?</b><span>ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.</span></div></div>
+  if(noName){ openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>היי, אני ראפי 👋 איך קוראים לך?</b><span>ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.</span></div></div>
       <input id="g-name" type="text" autocomplete="given-name" enterkeyhint="next" maxlength="40" placeholder="${tt('השם שלך')}">
       <button class="btn primary big" style="margin-top:12px" data-act="g-name-next">המשך</button>`);
     setTimeout(()=>$('#g-name')?.focus(),150); return; }
@@ -3596,6 +3598,12 @@ const GLOSS={
   vol:['נפח','כמות העבודה באימון: משקל × חזרות, בכל הסטים יחד. נפח שעולה לאורך זמן מעיד על התקדמות.'],
   volm:['נפח לפי שריר','כמה סטים עשית לכל שריר בשבוע האחרון. לבניית שריר, 10 עד 20 סטים בשבוע לכל שריר מתאימים לרוב המתאמנים.'],
   bank:['בנק קלוריות','היעד נספר לפי שבוע, מיום ראשון. אכלת פחות מהיעד ביום מסוים? ההפרש נשמר לימים הבאים. עברת? זה יורד מהבנק. נספרים רק ימים שרשמת בהם אוכל.'],
+  block:['בלוק אימונים','תקופה של 6 שבועות: 5 שבועות שבהם העומס עולה בהדרגה, ושבוע קל בסוף. בסוף כל בלוק ראפי מראה מה התחזק ומרענן את התוכנית.'],
+  deload:['שבוע קל','שבוע עם חצי מהסטים ואותו משקל. הגוף מתאושש מהעומס שנצבר ואחריו חוזרים חזקים יותר. זה חלק מהתוכנית, לא הפסקה.'],
+  rir:['חזרות בטנק','כמה חזרות עוד יכולת לעשות בסוף הסט. 0 = לא היית מצליח עוד אחת. ראפי משתמש בזה כדי לכוון את הסט הבא ואת האימון הבא.'],
+  sug:['המספרים בירוק','ההמלצה של ראפי לסט הזה: משקל וחזרות לפי מה שעשית בפעם הקודמת. לוחצים ✓ כדי לאשר, או משנים כרצונך.'],
+  tdee:['איך ראפי מחשב','הוא משווה כמה אכלת לפי התיעוד מול מגמת המשקל בשבועיים האחרונים, ומזה מחשב כמה הגוף שלך באמת שורף. מגמה = השינוי הממוצע בשבוע, בלי הקפיצות היומיות של מים ומלח.'],
+  dbreak:['הפסקת דיאטה','שבועיים של אכילה בשימור באמצע חיטוב ארוך. עוזר לשמור על אנרגיה ומוטיבציה, ואז ממשיכים לרדת.'],
   treat:['פינוק יומי','קלוריות ששמורות כל יום לפינוק מחוץ לתפריט. התפריט נבנה על היעד פחות הפינוק, כך שגם עם הפינוק נשארים ביעד.']};
 const infoI=k=>`<button type="button" class="ii" data-act="info" data-k="${k}" aria-label="${tt('מה זה?')}">i</button>`;
 function showInfo(b){
@@ -4179,7 +4187,7 @@ function aiQuotaLine(){ if(S.plan?.admin||!S.plan)return ''; aiQuotaLoad();
   return `<div id="aiq" class="small muted" style="text-align:center;margin-top:6px">${AIQ.photo>0?`📸 נותרו ${AIQ.photo} ניתוחי תמונה החודש`:'📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר'}</div>`; }
 function aiUpsell(){
   logEv('upsell',{why:'ai'});
-  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>הניתוח החינמי של היום נוצל ✨</b><span>מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וקובי המאמן האישי.</span></div></div>
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>הניתוח החינמי של היום נוצל ✨</b><span>מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.</span></div></div>
     <button class="btn primary big" data-act="plans-open" data-why="ai">⭐ שדרוג לפרימיום</button>
     <button class="btn big" style="margin-top:8px" data-act="invite-open" data-src="ai">🎁 ${G('הזמן חבר: שבוע פרימיום לשניכם','הזמיני חברה: שבוע פרימיום לשתיכן','הזמנת חבר: שבוע פרימיום לשניכם')}</button>
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">אמשיך עם המאגר</button>`);
@@ -4607,27 +4615,27 @@ function coachWeekLine(bi){ if(bi.ended)return 'הבלוק הסתיים. בוא 
 /* train tab card: where you are in the block */
 function tcCardHTML(){
   if(!S.templates.length||S.active)return '';
-  if(!isPrem())return S.plan?.billing?`<button class="card r20 tc-card tc-lock" data-act="plans-open" data-why="coach"><span class="tc-t"><b>המאמן החכם</b><small>משקל וחזרות לכל סט, שבוע קל בזמן, ותוכנית חדשה כל 6 שבועות.</small></span><span class="chip">פרימיום</span></button>`:'';
+  if(!isPrem())return S.plan?.billing?`<button class="card r20 tc-card tc-lock" data-act="plans-open" data-why="coach"><img class="tc-av" src="img/kobi-happy.svg" alt=""><span class="tc-t" style="flex:1"><b>ראפי, המאמן שלך</b><small>משקל וחזרות לכל סט, שבוע קל בזמן, ותוכנית חדשה כל 6 שבועות.</small></span><span class="chip">פרימיום</span></button>`:'';
   const c=coachCfg(); if(c.mode==='off')return '';
   const bi=blockInfo(), lw=lastWorkout(), gap=lw?(Date.now()-lw.start)/DAY:0;
   const weeks=bi?bi.weeks:+c.weeks||6, wk=bi?Math.min(bi.wk,weeks):0;
   const bars=Array.from({length:weeks},(_,i)=>{ const dl=i===weeks-1, h=dl?34:40+Math.round(i/(weeks-2)*60);
     return `<i class="${dl?'dl':''} ${i+1<wk?'past':''} ${i+1===wk?'cur':''}" style="height:${h}%"></i>`; }).join('');
   return `<div class="card r20 tc-card">
-    <div class="spread"><span class="tc-t"><b>${bi?(bi.ended?'התוכנית החדשה שלך מוכנה':`בלוק ${bi.n} · שבוע ${wk} מתוך ${weeks}`):'המאמן החכם מוכן'}</b>
-      <small>${bi?coachWeekLine(bi):'הבלוק הראשון מתחיל באימון הבא. המשקל והחזרות לכל סט יחכו לך ממולאים.'}</small></span>
-      <button class="ibtn" data-act="coach-set" aria-label="הגדרות המאמן">${ICON.dots}</button></div>
+    <div class="tc-h"><img class="tc-av" src="img/kobi-happy.svg" alt=""><span class="tc-t"><b>${bi?(bi.ended?'התוכנית החדשה שלך מוכנה':`בלוק ${bi.n} · שבוע ${wk} מתוך ${weeks}`):'ראפי מוכן'}${bi&&!bi.ended?infoI('block'):''}</b>
+      <small>${bi?coachWeekLine(bi):'הבלוק הראשון מתחיל באימון הבא. המשקל והחזרות לכל סט יחכו לך ממולאים.'}${bi?.deload?infoI('deload'):''}</small></span>
+      <button class="ibtn" data-act="coach-set" aria-label="הגדרות של ראפי">${ICON.dots}</button></div>
     <div class="tc-wk" aria-hidden="true">${bars}</div>
     ${bi?.ended?`<button class="btn primary big" data-act="coach-block">לתוכנית החדשה</button>`:''}
     ${!bi?.ended&&gap>=7?`<button class="linkbtn small" style="align-self:flex-start" data-act="coach-back">הייתי חולה או בחופש</button>`:''}
   </div>`;
 }
 function openCoachSettings(){
-  const c=coachCfg(), M=[['full','המאמן מנהל הכל','משקל וחזרות בכל סט, ובסוף כל בלוק הוא מרענן את התוכנית בעצמו.'],['assist','התוכנית שלי, עם מאמן','המאמן ממליץ על משקל וחזרות ומציע שינויים. התרגילים לא משתנים בלי אישור שלך.'],['off','בלי מאמן','רק תיעוד, כמו קודם.']];
-  openSheet(`<h3>המאמן החכם</h3>
+  const c=coachCfg(), M=[['full','ראפי מנהל הכל','משקל וחזרות בכל סט, ובסוף כל בלוק ראפי מרענן את התוכנית בעצמו.'],['assist','התוכנית שלי, ראפי מלווה','ראפי ממליץ על משקל וחזרות ומציע שינויים. התרגילים לא משתנים בלי אישור שלך.'],['off','בלי ראפי','רק תיעוד, כמו קודם.']];
+  openSheet(`<h3>ראפי, המאמן שלך</h3>
     <div class="card list" style="margin-bottom:12px">${M.map(([k,t,d])=>`<button class="li" data-act="coach-mode" data-v="${k}"><span class="tc-radio ${c.mode===k?'on':''}"></span><span class="lt"><b>${t}</b><small>${d}</small></span></button>`).join('')}</div>
     <div class="card list" style="margin-bottom:12px">
-      <button class="li" data-act="coach-rir"><span class="lt"><b>שאלה אחרי סט</b><small>"כמה חזרות עוד היו לך?" עוזר למאמן לדייק. אפשר לדלג תמיד.</small></span><span class="tc-tog ${c.rir?'on':''}"></span></button>
+      <button class="li" data-act="coach-rir"><span class="lt"><b>שאלה אחרי סט</b><small>"כמה חזרות עוד היו לך?" עוזר לראפי לדייק. אפשר לדלג תמיד.</small></span><span class="tc-tog ${c.rir?'on':''}"></span></button>
     </div>
     <div class="label" style="margin:0 0 6px">קפיצת משקל במוט ובמכונות</div>
     <div class="row" style="margin-bottom:10px">${[1.25,2.5,5].map(x=>`<button class="chip num ${+c.incBb===x?'on':''}" data-act="coach-inc" data-k="incBb" data-v="${x}">${x} ק״ג</button>`).join('')}</div>
@@ -4690,7 +4698,7 @@ function doSwap(ei,to){
 /* after a set: "how many reps were left?" — tunes the next set right away */
 function rirAsk(ei,si){
   if(!coachOn()||!coachCfg().rir)return; const el=document.getElementById('rirq-'+ei); if(!el)return;
-  el.innerHTML=`<span>כמה חזרות עוד היו לך?</span><span class="row" style="gap:6px;flex-wrap:nowrap">${[0,1,2,3].map(v=>`<button class="chip num" data-act="rir" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`;
+  el.innerHTML=`<span>כמה חזרות עוד היו לך?${infoI('rir')}</span><span class="row" style="gap:6px;flex-wrap:nowrap">${[0,1,2,3].map(v=>`<button class="chip num" data-act="rir" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`;
   el.hidden=false; }
 function rirSet(ei,si,v){
   const e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)return; s.rir=v; persistActive();
@@ -4700,7 +4708,7 @@ function rirSet(ei,si,v){
     else if(v===0&&rr&&r<rr.lo&&w>0){ nx.pw=roundTo(w*0.95,wStep(e.n)); msg=`קשה מדי: בסט הבא ${nx.pw} ק״ג.`; }
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
     if(nw&&!nw.value)nw.placeholder=nx.pw||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
-  else if(v===0&&rr&&r<rr.lo)msg='קרוב לכישלון ומתחת לטווח. המאמן יתחשב בזה בפעם הבאה.';
+  else if(v===0&&rr&&r<rr.lo)msg='קרוב לכישלון ומתחת לטווח. אתחשב בזה בפעם הבאה.';
   const el=document.getElementById('rirq-'+ei); if(el){ el.innerHTML=`<span>${msg}</span>`; setTimeout(()=>{ if(el.textContent.includes(msg))el.hidden=true; },2600); } }
 
 /* ===== המאמן החכם · תזונה =====
@@ -4733,14 +4741,14 @@ function ncCardHTML(){
   if(!isPrem()||ncCfg().off||!S.settings.kcalT)return '';
   const c=ncCfg(), r=ncCheck(); if(!r||!r.due)return '';
   if(c.brk&&Date.now()>c.brk.until)return `<div class="card r20 tc-card"><span class="tc-t"><b>ההפסקה הסתיימה</b><small>שבועיים של שימור מאחוריך. חוזרים ליעד של החיטוב?</small></span><button class="btn primary big" data-act="nc-brk-end">חוזרים לחיטוב</button></div>`;
-  if(!r.enough)return c.wait===ymd()?'':`<div class="card r20 tc-card"><div class="spread"><span class="tc-t"><b>מאמן התזונה</b><small>${r.days&&r.wi?`כדי לכוון לך יעד לפי הגוף שלך, חסרים לי עוד ${r.days} ימי תיעוד ו-${r.wi} שקילות בשבועיים האחרונים.`:r.days?`כדי לכוון לך יעד לפי הגוף שלך, חסרים לי עוד ${r.days} ימי תיעוד בשבועיים האחרונים.`:`כדי לכוון לך יעד לפי הגוף שלך, חסרות לי עוד ${r.wi} שקילות בשבועיים האחרונים.`}</small></span><button class="ibtn" data-act="nc-wait" aria-label="סגור">✕</button></div></div>`;
+  if(!r.enough)return c.wait===ymd()?'':`<div class="card r20 tc-card"><div class="tc-h"><img class="tc-av" src="img/kobi-happy.svg" alt=""><span class="tc-t"><b>ראפי · תזונה</b><small>${r.days&&r.wi?`כדי לכוון לך יעד לפי הגוף שלך, חסרים לי עוד ${r.days} ימי תיעוד ו-${r.wi} שקילות בשבועיים האחרונים.`:r.days?`כדי לכוון לך יעד לפי הגוף שלך, חסרים לי עוד ${r.days} ימי תיעוד בשבועיים האחרונים.`:`כדי לכוון לך יעד לפי הגוף שלך, חסרות לי עוד ${r.wi} שקילות בשבועיים האחרונים.`}</small></span><button class="ibtn" data-act="nc-wait" aria-label="סגור">✕</button></div></div>`;
   const diff=r.next-r.cur, ok=Math.abs(diff)<30;
   const pace=v=>`${v>0?'+':''}${v}`;
   return `<div class="card r20 tc-card">
-    <span class="tc-t"><b>סיכום שבועי · מאמן התזונה</b>
-    <small>${r.wantWk?`מגמה: ${pace(r.actWk)} ק״ג בשבוע (היעד ${pace(r.wantWk)}). לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`:`מגמה: ${pace(r.actWk)} ק״ג בשבוע. לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`}</small></span>
+    <div class="tc-h"><img class="tc-av" src="img/kobi-happy.svg" alt=""><span class="tc-t"><b>ראפי · הסיכום השבועי שלך${infoI('tdee')}</b>
+    <small>${r.wantWk?`מגמה: ${pace(r.actWk)} ק״ג בשבוע (היעד ${pace(r.wantWk)}). לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`:`מגמה: ${pace(r.actWk)} ק״ג בשבוע. לפי מה שאכלת והמשקל, הגוף שלך שורף בערך ${r.tdee.toLocaleString()} קק״ל ביום.`}</small></span></div>
     <div class="tc-nc"><span>${ok?'בדיוק בקצב. היעד נשאר':'היעד החדש'}</span><b class="num">${Math.round(ok?r.cur:r.next).toLocaleString()}</b>${ok?'':`<small class="num" dir="ltr">${diff>0?'+':''}${diff}</small>`}</div>
-    ${r.brk?`<div class="rtip" style="margin:0"><b>3 חודשים של חיטוב</b><span>שבועיים של אכילה בשימור עוזרים לגוף ולראש, ואז ממשיכים חזק יותר.</span><button class="linkbtn small" style="align-self:flex-start" data-act="nc-brk">לקחת הפסקה של שבועיים</button></div>`:''}
+    ${r.brk?`<div class="rtip" style="margin:0"><b>3 חודשים של חיטוב${infoI('dbreak')}</b><span>שבועיים של אכילה בשימור עוזרים לגוף ולראש, ואז ממשיכים חזק יותר.</span><button class="linkbtn small" style="align-self:flex-start" data-act="nc-brk">לקחת הפסקה של שבועיים</button></div>`:''}
     <div class="row" style="gap:8px">${ok?`<button class="btn primary" style="flex:1" data-act="nc-keep">מעולה</button>`:`<button class="btn primary" style="flex:1.3" data-act="nc-apply">לעדכן יעד</button><button class="btn" style="flex:1" data-act="nc-keep">להשאיר</button>`}</div>
   </div>`; }
 function ncDone(apply){
@@ -4762,7 +4770,7 @@ function vStrength(e,ei,cur){
         <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
         <div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}
-        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':'המאמן'}</b><span>${esc(co.why)}</span></div>`:''}
+        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':'ראפי'}${infoI('sug')}</b><span>${esc(co.why)}</span></div>`:''}
         ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${tip.w}</b> ק״ג</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${tip.w}</span> ק״ג, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">
@@ -4791,7 +4799,7 @@ function openExMenu(ei){
       <button class="li" data-act="ex-info" data-ei="${ei}">${ICON.play.replace('width="16" height="16"','class="ic"')}<span class="lt"><b>הדגמה וטכניקה</b></span></button>
       <button class="li" data-act="ex-close" data-ei="${ei}">${ICON.down}<span class="lt"><b>כווץ, אעשה אותו אחר כך</b></span></button>
       ${e.t==='s'&&exGroup(e.n)?`<button class="li" data-act="ex-swap" data-ei="${ei}">${ICON.list}<span class="lt"><b>אין לי את זה</b><small>להחליף לתרגיל אחר לאותו שריר</small></span></button>`:''}
-      ${e.t==='s'&&coachOn()?`<button class="li" data-act="ex-lock" data-ei="${ei}">${ICON.ok.replace('<svg','<svg class="ic"')}<span class="lt"><b>${coachCfg().lock[e.n]?'שחרר את התרגיל':'נעל את התרגיל'}</b><small>${coachCfg().lock[e.n]?'המאמן יוכל להציע להחליף אותו':'המאמן לא יחליף אותו בבלוק הבא'}</small></span></button>`:''}
+      ${e.t==='s'&&coachOn()?`<button class="li" data-act="ex-lock" data-ei="${ei}">${ICON.ok.replace('<svg','<svg class="ic"')}<span class="lt"><b>${coachCfg().lock[e.n]?'שחרר את התרגיל':'נעל את התרגיל'}</b><small>${coachCfg().lock[e.n]?'ראפי יוכל להציע להחליף אותו':'ראפי לא יחליף אותו בבלוק הבא'}</small></span></button>`:''}
       <button class="li" data-act="rm-ex" data-ei="${ei}" style="color:var(--danger)">${ICON.plus.replace('class="ic"','class="ic" style="transform:rotate(45deg)"')}<span class="lt"><b>הסר מהאימון</b></span></button>
     </div>
     <div class="label" style="margin:0 0 6px">מנוחה אחרי סט</div>
@@ -5077,7 +5085,7 @@ function weeklyBalanceHTML(){
   const rate=d30!=null?d30/4.3:d7; // ק״ג לשבוע
   let proj='';
   if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=goal-lw.kg; if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${goal} ק״ג בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד השבועות האחרונים'; }
-  // משפט אחד של קובי לפי המספרים (בלי AI)
+  // משפט אחד של ראפי לפי המספרים (בלי AI)
   let tip='';
   if(avgK!=null&&kT){ const diff=avgK-kT;
     if(diff>150&&goal&&lw&&goal<lw.kg)tip=`אוכל בממוצע ${kcalN(diff)} קק״ל מעל היעד, וזה מה שעוצר את הירידה.`;
@@ -6080,7 +6088,7 @@ function vMe(){
     <div class="me-head"><span class="me-av" data-notr>${esc((firstName()||S.user?.email||'?').charAt(0).toUpperCase())}</span>
       <div style="min-width:0"><b style="font-size:22px;display:block" data-notr>${esc(firstName()||S.user?.email||'')}</b><span class="small muted">${created?`<span>מתאמן מ${created.toLocaleDateString(LOC,{month:'long'})}</span>`:''}${mo?`<span> · ${mo} אימונים החודש</span>`:''}</span></div>
       <button class="ibtn" data-act="me-name" aria-label="עריכת השם" style="margin-inline-start:auto">${ICON.pen}</button></div>
-    ${p.billing||p.admin?`<button class="prem-card ${prem?'on':''}" data-act="plans-open" data-why="me"><span class="lt"><b>${p.admin?'מסלולים ותשלום':prem?'⭐ פרימיום פעיל':'החשבון שלך חינמי'}</b><span>${p.admin?'כפי שהמשתמשים רואים':prem?`${p.paid&&!p.gift?'מנוי':'מתנה'} עד ${p.until?new Date(p.until).toLocaleDateString(LOC):'—'}`:'פרימיום: ניתוח AI בכל ארוחה וקובי המאמן'}</span></span><span class="cta">${p.admin?'פתיחה':prem?'הארכה':'שדרוג'}</span></button>`:''}
+    ${p.billing||p.admin?`<button class="prem-card ${prem?'on':''}" data-act="plans-open" data-why="me"><span class="lt"><b>${p.admin?'מסלולים ותשלום':prem?'⭐ פרימיום פעיל':'החשבון שלך חינמי'}</b><span>${p.admin?'כפי שהמשתמשים רואים':prem?`${p.paid&&!p.gift?'מנוי':'מתנה'} עד ${p.until?new Date(p.until).toLocaleDateString(LOC):'—'}`:'פרימיום: ניתוח AI בכל ארוחה וראפי המאמן'}</span></span><span class="cta">${p.admin?'פתיחה':prem?'הארכה':'שדרוג'}</span></button>`:''}
     <div class="card r20 list">
       <button class="li" data-act="go" data-to="social">${ICON.users}<span class="lt"><b>הקבוצות שלי</b></span><span class="lv num">${(SOC.groups||[]).length||''}</span>${ICON.chev}</button>
       <button class="li" data-act="share-app">${ICON.gift}<span class="lt"><b>הזמנת חברים</b><small>${G('שניכם מקבלים שבוע פרימיום, ואתה חודש כשהוא משדרג','שתיכן מקבלות שבוע פרימיום, ואת חודש כשהיא משדרגת','שניכם מקבלים שבוע פרימיום, וחודש כשהחבר משדרג')}</small></span>${ICON.chev}</button>
@@ -6111,7 +6119,7 @@ function openNotifSheet(){
       ${sw('rest','סיום מנוחה','כשהטיימר נגמר, גם כשהמסך כבוי')}
       ${sw('pr','שיא חדש','חגיגה כששברת שיא אישי')}
       ${sw('social','קבוצות','הודעות, אימונים ואתגרים של החברים')}
-      ${sw('coach','סיכום שבועי מקובי','בכל יום ראשון בבוקר')}
+      ${sw('coach','סיכום שבועי מראפי','בכל יום ראשון בבוקר')}
       ${sw('nudge','תזכורות חכמות','כשלא התאמנת כמה ימים, או כשהרצף בסכנה')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
       ${sw('vib','רטט','משוב בלחיצות ובטיימר')}
@@ -6941,7 +6949,7 @@ function vPaywall(full){
     <div class="pw-prem">
       ${S.plan?.lock?`<div class="pr"><i>✓</i><div><b>${tt('כל האפליקציה פתוחה')}</b><span>${tt('אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים')}</span></div></div>`:''}
       <div class="pr"><i>AI</i><div><b>ניתוח תזונה AI בכל ארוחה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית</span></div></div>
-      <div class="pr"><i>K</i><div><b>קובי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם קובי על אימונים ותזונה</span></div></div>
+      <div class="pr"><i>K</i><div><b>ראפי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה</span></div></div>
     </div>
     <div class="small muted">${full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
     ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px" ${storeOn?'hidden':''}>${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
@@ -6966,7 +6974,7 @@ function planPill(){
 }
 function planBanner(){
   const p=S.plan; if(!p||p.admin||!p.billing||!p.premium||p.days_left==null||p.days_left>(p.paid&&!p.gift?5:2))return '';
-  return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון לפרימיום':`נשארו ${p.days_left} ימים לפרימיום`}</b><span class="small muted" style="display:block">אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI בכל ארוחה וקובי?</span></span><span style="color:var(--accent);font-weight:700">הארכה</span></button>`;
+  return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון לפרימיום':`נשארו ${p.days_left} ימים לפרימיום`}</b><span class="small muted" style="display:block">אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI בכל ארוחה וראפי?</span></span><span style="color:var(--accent);font-weight:700">הארכה</span></button>`;
 }
 /* --- QR + share --- */
 function loadQR(){ return window.qrcode?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);}); }
@@ -6983,7 +6991,7 @@ async function openInviteSheet(src){
   if(!INV.p)INV.p=sb.rpc('my_referrals').then(({data})=>{ if(data)INV.st=data; }).catch(()=>{});
   const draw=()=>{ const st=INV.st||{trial_days:7,join_days:7,reward_days:30,joined:0,paid:0,days:0,people:[]}, url=inviteUrl(), txt=inviteText();
     const wa=`https://wa.me/?text=${encodeURIComponent(txt+'\n'+url)}`;
-    openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-cheer.svg" alt=""><div><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום 🎁','הזמיני חברה, שתיכן מקבלות שבוע פרימיום 🎁','הזמנת חבר: שניכם מקבלים שבוע פרימיום 🎁')}</b><span>${G('כשחבר נרשם דרך הקישור שלך, שניכם מקבלים','כשחברה נרשמת דרך הקישור שלך, שתיכן מקבלות','כשחבר נרשם דרך הקישור, שניכם מקבלים')} <b>שבוע פרימיום</b>: ניתוחי AI בכל ארוחה וקובי המאמן. ${G('וכשהוא משדרג, אתה מקבל','וכשהיא משדרגת, את מקבלת','וכשהחבר משדרג, מקבלים')} <b>חודש פרימיום</b> מתנה. בלי הגבלה על כמות החברים.</span></div></div>
+    openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-cheer.svg" alt=""><div><b>${G('הזמן חבר, שניכם מקבלים שבוע פרימיום 🎁','הזמיני חברה, שתיכן מקבלות שבוע פרימיום 🎁','הזמנת חבר: שניכם מקבלים שבוע פרימיום 🎁')}</b><span>${G('כשחבר נרשם דרך הקישור שלך, שניכם מקבלים','כשחברה נרשמת דרך הקישור שלך, שתיכן מקבלות','כשחבר נרשם דרך הקישור, שניכם מקבלים')} <b>שבוע פרימיום</b>: ניתוחי AI בכל ארוחה וראפי המאמן. ${G('וכשהוא משדרג, אתה מקבל','וכשהיא משדרגת, את מקבלת','וכשהחבר משדרג, מקבלים')} <b>חודש פרימיום</b> מתנה. בלי הגבלה על כמות החברים.</span></div></div>
       <a class="btn primary big inv-wa" href="${wa}" target="_blank" rel="noopener" data-act="inv-share" data-ch="wa"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 0 1 0 16.4 8.1 8.1 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3 4.3c-.2 0-.5 0-.8.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1a6.7 6.7 0 0 1-3.4-3c-.2-.4 0-.5.2-.7l.6-.8c.1-.2.1-.4 0-.6L10.5 8c-.2-.4-.4-.4-.6-.4z"/></svg> שליחה בוואטסאפ</a>
       <div class="row" style="gap:8px;margin-top:8px"><button class="btn" style="flex:1" data-act="inv-share" data-ch="copy" data-url="${esc(url)}">העתקת קישור</button><button class="btn" style="flex:1" data-act="inv-share" data-ch="native" data-url="${esc(url)}" data-text="${esc(txt)}">שיתוף אחר</button><button class="btn" data-act="inv-qr" data-url="${esc(url)}" aria-label="ברקוד">▦</button></div>
       <div class="inv-stats"><div><b class="num">${st.joined}</b><span>הצטרפו</span></div><div><b class="num">${st.paid}</b><span>שדרגו</span></div><div><b class="num">${(+st.days||0)+(+st.joined||0)*(+st.join_days||7)}</b><span>ימי פרימיום שקיבלת</span></div></div>
@@ -7217,7 +7225,7 @@ async function hoCreate(){
 const TOUR={on:false,i:0};
 const TOUR_STEPS=[
   // בית
-  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני קובי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.'},
+  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני ראפי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.'},
   {tab:'home',sel:'.coach-card',title:'הסיכום השבועי שלי',text:'כל יום ראשון אכתוב לך כאן מה הלך טוב השבוע ועל מה להתמקד, לפי האימונים והתזונה שלך. לחיצה על הכרטיס פותחת אותו.'},
   {tab:'home',sel:'.hcard',title:'מכאן מתחילים להתאמן',text:'הכרטיס הכהה הוא האימון הבא שלך. לחיצה אחת, והאימון מתחיל עם המשקלים מהפעם הקודמת.'},
   {tab:'home',kind:'notif',title:'לא לפספס את סוף המנוחה 🔔',text:'הפעל התראות ונודיע לך כשהמנוחה בין הסטים נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.'},
@@ -7491,7 +7499,7 @@ function openNotifOnboard(){
   try{ localStorage.setItem('nr-notif-onb','1'); }catch(_){}
   logEv('notif_onb_open');
   openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-happy.svg" alt=""><div><b>דבר אחד חשוב: התראות 🔔</b><span>${G('בלי זה אני לא יכול להזכיר לך כלום. מפעילים פעם אחת, ואני דואג לשאר:','בלי זה אני לא יכול להזכיר לך כלום. מפעילים פעם אחת, ואני דואג לשאר:','בלי זה אי אפשר להזכיר כלום. מפעילים פעם אחת, ואנחנו דואגים לשאר:')}</span></div></div>
-    <ul class="nc-list" style="margin:0 0 14px"><li><i>⏱️</i>סוף המנוחה בין הסטים, גם כשהטלפון בכיס</li><li><i>📅</i>תזכורת בימי האימון שלך</li><li><i>💬</i>הסיכום השבועי מקובי והודעות מהקבוצה</li></ul>
+    <ul class="nc-list" style="margin:0 0 14px"><li><i>⏱️</i>סוף המנוחה בין הסטים, גם כשהטלפון בכיס</li><li><i>📅</i>תזכורת בימי האימון שלך</li><li><i>💬</i>הסיכום השבועי מראפי והודעות מהקבוצה</li></ul>
     <button class="btn primary big" data-act="notif-onb">🔔 ${G('הפעל התראות','הפעילי התראות','הפעלת התראות')}</button>
     <button class="nc-later" data-act="notif-onb-later">אחר כך</button>`);
 }
@@ -7808,28 +7816,28 @@ function coachCardHTML(){
   if(!S.user||S.mode!=='app')return '';
   const locked=!coachCanChat();
   if(!locked&&CO.sum===undefined&&!CO.loading&&!CO.err&&S.workouts.length)setTimeout(coachLoadSummary,0);
-  const fresh=!S.workouts.length&&!CO.sum; // no workouts yet: Kobi introduces himself instead of hiding
+  const fresh=!S.workouts.length&&!CO.sum; // no workouts yet: Repi introduces himself instead of hiding
   if(CO.cardOpen===undefined){ try{CO.cardOpen=localStorage.getItem('nr-co-card')==='1';}catch(_){CO.cardOpen=false;} }
   const open=CO.cardOpen;
-  const head=`<button class="co-h co-tog" data-act="coach-card-tog" aria-expanded="${open}"><img class="co-av" src="img/kobi-${CO.sum?'wink':'happy'}.svg" alt=""><div style="flex:1;min-width:0;text-align:start"><b>קובי הבוט</b><div class="small muted">${CO.sum?'הסיכום השבועי שלך':'המאמן האישי שלך'}</div></div><span class="co-chev">${open?'▴':'▾'}</span></button>`;
+  const head=`<button class="co-h co-tog" data-act="coach-card-tog" aria-expanded="${open}"><img class="co-av" src="img/kobi-${CO.sum?'wink':'happy'}.svg" alt=""><div style="flex:1;min-width:0;text-align:start"><b>ראפי</b><div class="small muted">${CO.sum?'הסיכום השבועי שלך':'המאמן האישי שלך'}</div></div><span class="co-chev">${open?'▴':'▾'}</span></button>`;
   let body;
   if(locked&&!fresh)body=`<div class="co-lockcard"><div class="co-blur"><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:80%"></div><div class="co-skel" style="width:66%"></div><div class="co-skel" style="width:74%"></div></div>
-      <div class="co-lk"><b>🔒 קובי ניתח את השבוע שלך</b><span class="small muted">הסיכום השבועי והשיחה עם קובי זמינים בפרימיום</span></div></div>`;
-  else if(fresh&&locked)body=`<div class="small muted" style="line-height:1.55">היי, אני קובי 👋 בפרימיום אני שולח לך כל שבוע סיכום אישי לפי הנתונים שלך, ועונה על כל שאלה על אימונים ותזונה.</div>`;
-  else if(fresh)body=`<div class="small muted" style="line-height:1.55">היי, אני קובי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
-  else if(CO.loading||CO.sum===undefined)body=`<div class="small muted">קובי מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
+      <div class="co-lk"><b>🔒 ראפי ניתח את השבוע שלך</b><span class="small muted">הסיכום השבועי והשיחה עם ראפי זמינים בפרימיום</span></div></div>`;
+  else if(fresh&&locked)body=`<div class="small muted" style="line-height:1.55">היי, אני ראפי 👋 בפרימיום אני שולח לך כל שבוע סיכום אישי לפי הנתונים שלך, ועונה על כל שאלה על אימונים ותזונה.</div>`;
+  else if(fresh)body=`<div class="small muted" style="line-height:1.55">היי, אני ראפי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
+  else if(CO.loading||CO.sum===undefined)body=`<div class="small muted">ראפי מכין את הסיכום השבועי שלך…</div><div class="co-skel" style="width:92%"></div><div class="co-skel" style="width:75%"></div><div class="co-skel" style="width:60%"></div>`;
   else if(CO.sum)body=`<div class="co-txt" dir="auto" data-notr>${esc(coachParse(CO.sum.body).text)}</div>`;
-  else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים קובי ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
+  else if(CO.empty)body=`<div class="small muted">אחרי כמה אימונים ראפי ישלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.</div>`;
   else body=`<div class="small muted">לא הצלחנו לטעון את הסיכום עכשיו.</div>`;
   const acts=locked?`<div class="co-acts"><button class="btn primary" style="flex:1.4" data-act="plans-open" data-why="coach">⭐ פתיחה עם פרימיום</button><button class="btn" style="flex:1" data-act="invite-open" data-src="coach">🎁 שבוע חינם</button></div>`
-    :`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את קובי':'🔒 שאל את קובי'}</button></div>`;
-  return `<div class="card coach-card ${open?'open':'mini'}">${head}${open?body+acts:(locked&&!fresh?`<div class="co-txt co-peek" data-act="coach-card-tog">🔒 קובי ניתח את השבוע שלך · זמין בפרימיום</div>`:CO.sum?`<div class="co-txt co-peek" dir="auto" data-notr data-act="coach-card-tog">${esc(coachParse(CO.sum.body).text)}</div>`:'')}</div>`;
+    :`<div class="co-acts">${CO.sum?`<button class="btn" style="flex:1" data-act="coach-open">קרא הכל</button>`:''}<button class="btn ${coachCanChat()?'primary':''}" style="flex:1.4" data-act="coach-open" data-ask="1">${coachCanChat()?'💬 שאל את ראפי':'🔒 שאל את ראפי'}</button></div>`;
+  return `<div class="card coach-card ${open?'open':'mini'}">${head}${open?body+acts:(locked&&!fresh?`<div class="co-txt co-peek" data-act="coach-card-tog">🔒 ראפי ניתח את השבוע שלך · זמין בפרימיום</div>`:CO.sum?`<div class="co-txt co-peek" dir="auto" data-notr data-act="coach-card-tog">${esc(coachParse(CO.sum.body).text)}</div>`:'')}</div>`;
 }
 async function coachLoadMsgs(){
   const {data}=await sb.from('coach_messages').select('id,role,body,created_at').order('id',{ascending:false}).limit(60);
   CO.msgs=(data||[]).reverse(); CO.toBottom=true; if(CO.open)render();
 }
-/* הדגמות בתשובות של קובי: כשהשאלה היא "איך עושים X" — מזהים את התרגיל (גם בשם המתורגם) ומצרפים כרטיס הדגמה */
+/* הדגמות בתשובות של ראפי: כשהשאלה היא "איך עושים X" — מזהים את התרגיל (גם בשם המתורגם) ומצרפים כרטיס הדגמה */
 let _coNames=null;
 function coachDemos(q,reply,prevReply){
   q=String(q||''); if(!q||!/(איך|כיצד|טכניק|לבצע|מבצעים|עושים|ביצוע|תנוחה|הדגמ|דוגמ|תראה|להראות|הראה|סרטון|how|technique|form|perform|demo|show|example|video|كيف|طريقة|أداء|تقنية|أرني|مثال|فيديو)/i.test(q))return [];
@@ -7838,7 +7846,7 @@ function coachDemos(q,reply,prevReply){
   const r1=coachFind(reply); if(r1.length)return r1.slice(0,3);
   return coachFind(prevReply).slice(0,3);
 }
-/* תגית ההדגמות שקובי מוסיף בסוף תשובה: [[demo: שם | שם]] — שמות מדויקים מהמאגר */
+/* תגית ההדגמות שראפי מוסיף בסוף תשובה: [[demo: שם | שם]] — שמות מדויקים מהמאגר */
 let _libSet=null;
 function coachParse(body){
   body=String(body||''); if(!_libSet)_libSet=new Set(Object.values(LIB).flat());
@@ -7863,13 +7871,13 @@ function vCoach(){
   const head=`<div class="sg-head">
     <button class="rarrow" data-act="coach-back" aria-label="חזרה" style="width:40px;height:40px;font-size:18px;direction:ltr;unicode-bidi:isolate">${ARW_PREV}</button>
     <img class="co-av" src="img/kobi-${CO.busy?'think':'happy'}.svg" alt="" style="width:42px;height:42px">
-    <span class="t"><b>קובי הבוט</b><span class="small muted">${CO.busy?'חושב…':'המאמן האישי שלך'}</span></span></div>`;
+    <span class="t"><b>ראפי</b><span class="small muted">${CO.busy?'חושב…':'המאמן האישי שלך'}</span></span></div>`;
   const M=CO.msgs;
   let list='';
   if(!M)list=`<div class="c-sys">טוען…</div>`;
   else{
     let lastQ='', prevA='';
-    list+=`<div class="co-intro"><img src="img/kobi-happy.svg" alt=""><b>היי, אני קובי 👋</b><span>המאמן האישי שלך. שאל אותי כל דבר על אימונים, תזונה והתקדמות. אני עונה לפי הנתונים שלך. לא ייעוץ רפואי.</span></div>`;
+    list+=`<div class="co-intro"><img src="img/kobi-happy.svg" alt=""><b>היי, אני ראפי 👋</b><span>המאמן האישי שלך. שאל אותי כל דבר על אימונים, תזונה והתקדמות. אני עונה לפי הנתונים שלך. לא ייעוץ רפואי.</span></div>`;
     for(const m of M){
       if(m.role==='summary')list+=`<div class="co-sum"><span class="lbl"><img src="img/kobi-wink.svg" alt="" style="width:22px;height:22px;vertical-align:-6px;margin-inline-end:4px">📅 סיכום שבועי · ${fmtDate(m.created_at)}</span><span dir="auto" data-notr style="display:block">${esc(coachParse(m.body).text)}</span></div>`;
       else if(m.role==='user'){ lastQ=m.body; list+=`<div class="cm me"><div class="bub" dir="auto" data-notr>${esc(m.body)}</div><div class="tm">${socTime(m.created_at)}</div></div>`; }
@@ -7881,9 +7889,9 @@ function vCoach(){
   }
   const foot=coachCanChat()
     ?`${M&&!M.some(m=>m.role==='user')?`<div class="co-chips">${CO_CHIPS.map(q=>`<button data-act="coach-chip" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>`:''}
-      <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="שאל את קובי…" maxlength="500" enterkeyhint="send" ${CO.busy?'disabled':''}></textarea>
+      <div class="chatbar"><textarea id="chat-in" rows="1" placeholder="שאל את ראפי…" maxlength="500" enterkeyhint="send" ${CO.busy?'disabled':''}></textarea>
       <button data-act="coach-send" aria-label="שליחה" ${CO.busy?'disabled':''}><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" class="flipx" style="transform:scaleX(-1)"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button></div>`
-    :`<div class="co-lock"><div style="font-weight:600;margin-bottom:4px">🔒 השיחה עם קובי זמינה בפרימיום</div><div class="small muted" style="margin-bottom:10px">סיכום שבועי לפי הנתונים שלך, תשובות על אימונים ותזונה, וניתוחי AI בכל ארוחה.</div><div class="row" style="gap:8px;justify-content:center"><button class="btn primary" data-act="plans-open" data-why="coach">⭐ שדרוג לפרימיום</button><button class="btn" data-act="invite-open" data-src="coach">${G('🎁 הזמן חבר: שבוע חינם','🎁 הזמיני חברה: שבוע חינם','🎁 הזמנת חבר: שבוע חינם')}</button></div></div>`;
+    :`<div class="co-lock"><div style="font-weight:600;margin-bottom:4px">🔒 השיחה עם ראפי זמינה בפרימיום</div><div class="small muted" style="margin-bottom:10px">סיכום שבועי לפי הנתונים שלך, תשובות על אימונים ותזונה, וניתוחי AI בכל ארוחה.</div><div class="row" style="gap:8px;justify-content:center"><button class="btn primary" data-act="plans-open" data-why="coach">⭐ שדרוג לפרימיום</button><button class="btn" data-act="invite-open" data-src="coach">${G('🎁 הזמן חבר: שבוע חינם','🎁 הזמיני חברה: שבוע חינם','🎁 הזמנת חבר: שבוע חינם')}</button></div></div>`;
   return `<div id="chatroot">${head}<div id="chatlist">${list}</div>${foot}</div>`;
 }
 async function coachSend(text){
@@ -7896,10 +7904,10 @@ async function coachSend(text){
     const {data,error}=await sb.functions.invoke('coach',{body:{mode:'chat',text,lang:LANG}});
     let code=data?.error; if(error){ try{ code=(await error.context?.json?.())?.error||code; }catch(_){} }
     if(code==='quota'){ toast('הגעת ל-20 שאלות היום. נמשיך מחר 💪'); CO.msgs.pop(); CO.draft=text; }
-    else if(code==='premium'||code==='paid_only'){ toast('השיחה עם קובי זמינה בפרימיום'); CO.msgs.pop(); if(S.plan)S.plan.premium=false; }
+    else if(code==='premium'||code==='paid_only'){ toast('השיחה עם ראפי זמינה בפרימיום'); CO.msgs.pop(); if(S.plan)S.plan.premium=false; }
     else if(error||!data?.reply)throw error||new Error('empty');
     else{ CO.msgs.push({id:'r'+Date.now(),role:'assistant',body:data.reply,created_at:new Date().toISOString()}); CO.left=data.left; }
-  }catch(e){ console.error(e); CO.msgs.pop(); CO.draft=text; toast('קובי לא זמין כרגע. נסה שוב בעוד רגע'); }
+  }catch(e){ console.error(e); CO.msgs.pop(); CO.draft=text; toast('ראפי לא זמין כרגע. נסה שוב בעוד רגע'); }
   CO.busy=false; CO.toBottom=true; render(); setTimeout(()=>$('#chat-in')?.focus(),50);
 }
 function coachAct(act,b){
