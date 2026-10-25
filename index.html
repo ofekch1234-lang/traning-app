@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a978dffe"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a978dffe"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a978dffe"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1f7fc8c8"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1f7fc8c8"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1f7fc8c8"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1982,7 +1982,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.9';
+const APP_VERSION='13.3.10';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2786,7 +2786,7 @@ function vOnb(){
     let si=0; const wk=[0,1,2,3,4,5,6].map(d=>{ const on=days.includes(d); const L=on?'ABCDEF'[si++%P.sessions.length]:'–'; return `<div class="${on?'t':''}"><span>${DAY_LETTERS[d]}</span><b>${L}</b></div>`; }).join('');
     h=`<div class="ob-phd"><img src="${onbRafi('cheer')}" alt=""><div><div class="ob-kick acc">${tt('התוכנית שלך מוכנה')}</div><h1 class="ob-h3"><span data-notr>${nm}</span>, ${tt('ככה נראה השבוע שלך')}</h1></div></div>
       <div class="ob-wk">${wk}</div>
-      <div class="ob-card"><div class="spread"><span><b>${esc(String(s0.name||'').replace(/^[A-F] — /,'A · '))}</b><small>${ex.length} ${tt('תרגילים')} · ${tt('כ-')}${s0.min||60} ${tt('דקות')}</small></span><span class="ob-tag acc">${tt('ראשון בתור')}</span></div>
+      <div class="ob-card"><div class="spread"><span><b>${esc(String(s0.name||'').replace(/^[A-F] — /,'A · '))}</b><small>${ex.length} ${tt('תרגילים')} · ${tt('כ-')}${s0.min||60} ${tt('דקות')}</small></span><span class="ob-tag acc" style="white-space:nowrap;flex:none">${tt('ראשון בתור')}</span></div>
         ${ex.slice(0,3).map((e,i)=>`<div class="ob-ex"><span class="n">${i+1}</span><span class="t">${esc(e.n)}</span><span class="r" dir="ltr">${e.t==='c'?e.min+' min':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}
         ${ex.length>3?`<div class="ob-ex mut"><span class="n">+${ex.length-3}</span><span class="t">${ex.slice(3,6).map(e=>esc(e.n)).join(', ')}</span></div>`:''}</div>
       ${r?`<div class="ob-card"><div class="spread"><b>${tt('היעד היומי שלך')}</b><small>${tt('מתעדכן כל שבוע')}</small></div>
@@ -8124,7 +8124,7 @@ const PB_SLOTS={
   lpress:{gym:['לחיצת רגליים'],home:['סקוואט בולגרי'],bw:['לאנג׳ים'],c:1},
   hinge:{gym:['דדליפט רומני','דדליפט'],home:['דדליפט רומני'],bw:['גשר ישבן'],c:1},
   lunge:{gym:['לאנג׳ים בהליכה','סקוואט בולגרי'],home:['לאנג׳ים בהליכה','סקוואט בולגרי'],bw:['לאנג׳ים','עליות על ספסל'],c:1},
-  glute:{gym:['היפ תראסט'],home:['היפ תראסט'],bw:['גשר ישבן']},
+  glute:{gym:['היפ תראסט'],home:['היפ תראסט'],bw:['גשר ישבן'],c:1},
   lext:{gym:['פשיטת ברכיים'],home:[],bw:[]},
   lcurl:{gym:['כפיפת ברכיים','כפיפת ברכיים בישיבה'],home:[],bw:[]},
   calf:{gym:['הרמות עקבים','הרמות עקבים בישיבה'],home:['הרמות עקבים'],bw:['הרמות עקבים']},
@@ -8134,6 +8134,11 @@ const PB_SLOTS={
   trioh:{gym:['פשיטה מעל הראש בכבל','לחיצה צרפתית'],home:['לחיצה צרפתית'],bw:['מקבילים על ספסל']},
   core:{gym:['הרמות רגליים בתלייה','כפיפות בטן בכבל','גלגל בטן','פאלוף פרס'],home:['פלאנק','דד באג','הרמות רגליים בשכיבה'],bw:['פלאנק','דד באג','הרמות רגליים בשכיבה','מטפס הרים']},
   cardio:{gym:['הליכון','אופניים','אליפטיקל'],home:['קפיצה בחבל'],bw:['קפיצה בחבל'],cardio:1},
+  // women's plans: more glute / lower-body work, dumbbell pressing instead of a heavy barbell bench
+  abd:{gym:['מכונת מרחיקים','הליכת מפלצת עם גומייה'],home:['הליכת מפלצת עם גומייה'],bw:['קיקבק ישבן על הברכיים']},
+  kick:{gym:['קיקבק ישבן בכבל','קיקבק ישבן על הברכיים'],home:['קיקבק ישבן על הברכיים'],bw:['קיקבק ישבן על הברכיים','גשר ישבן ברגל אחת']},
+  step:{gym:['עליות על ספסל במשקולות','לאנג׳ אחורי מהגבהה'],home:['עליות על ספסל במשקולות','לאנג׳ים לאחור במשקולות'],bw:['עליות על ספסל','לאנג׳ים'],c:1},
+  dpress:{gym:['לחיצת חזה במשקולות','לחיצה במכונת חזה','לחיצת חזה בשיפוע'],home:['לחיצת חזה במשקולות','לחיצת חזה בשיפוע'],bw:['שכיבות סמיכה בשיפוע','שכיבות סמיכה'],c:1},
 };
 const PB_BAN={knees:['סקוואט','האק סקוואט','סקוואט בסמית׳','סקוואט קדמי','סקוואט בולגרי','לאנג׳ים','לאנג׳ים בהליכה','פשיטת ברכיים','קפיצה לארגז','סקוואט גביע','עליות על ספסל','מטפס הרים'],
   lowback:['דדליפט','דדליפט סומו','חתירה במוט','חתירת T','סקוואט','סקוואט קדמי','גלגל בטן','סופרמן','דדליפט רומני','הרמות רגליים בתלייה'],
@@ -8154,19 +8159,30 @@ const PB_SESS={
   upB:['פלג עליון B',['incline','vpull:1','fly','row:1','rear','hammer','trioh']],
   loA:['פלג תחתון A',['squat','hinge','lpress','lcurl','calf','core']],
   loB:['פלג תחתון B',['hinge:1','lunge','glute','lext','calf:1','core:1']],
+  wfullA:['גוף מלא: סקוואט וישבן',['squat','glute','row','dpress','lat','abd','core:1']],
+  wfullB:['גוף מלא: ירך אחורית וישבן',['hinge','lunge','vpull','ohp:1','kick','tri','core:3']],
+  wfullC:['גוף מלא: ישבן ורגליים',['glute','lpress','step','row:3','dpress:1','rear','core:1']],
+  wloA:['תחתון וישבן A',['squat','glute','hinge','abd','lcurl','core:1']],
+  wupA:['עליון וחיטוב A',['vpull','dpress','row','ohp:1','lat','tri','core:3']],
+  wloB:['תחתון וישבן B',['hinge','glute','lunge','kick','lext','abd','core:1']],
+  wupB:['עליון וחיטוב B',['row:3','dpress:1','vpull:2','lat','rear','bi','core:3']],
+  wloC:['תחתון וישבן',['lpress','glute','step','kick','abd','lcurl:1','core:1']],
 };
 const PB_FOCUS={chest:['fly','incline'],back:['row','rear'],legs:['lpress','lext'],glutes:['glute','lunge'],shoulders:['lat','rear'],arms:['bi','tri'],core:['core']};
-const PB_SPLIT=(days,level)=>days<=2?['fullA','fullB']:days===3?(level==='beg'?['fullA','fullB','fullC']:['push','pull','legs']):days===4?['upA','loA','upB','loB']:days===5?['push','pull','legs','upA','loB']:['push','pull','legs','push2','pull2','legs2'];
+const PB_SPLIT_F=days=>days<=2?['wfullA','wfullB']:days===3?['wfullA','wfullB','wfullC']:days===4?['wloA','wupA','wloB','wupB']:days===5?['wloA','wupA','wloB','wupB','wloC']:['wloA','wupA','wloB','wupB','wloC','wfullA'];
+const PB_SPLIT_NAME_F=days=>days<=2?'גוף מלא עם דגש על ישבן ורגליים, פעמיים בשבוע':days===3?'גוף מלא עם דגש על ישבן ורגליים, 3 פעמים בשבוע':days===4?'תחתון וישבן, עליון וחיטוב':days===5?'3 ימי תחתון וישבן, 2 ימי עליון':'3 ימי תחתון וישבן, 2 עליון ויום גוף מלא';
+const PB_SPLIT=(days,level,sex)=>sex==='f'?PB_SPLIT_F(days):days<=2?['fullA','fullB']:days===3?(level==='beg'?['fullA','fullB','fullC']:['push','pull','legs']):days===4?['upA','loA','upB','loB']:days===5?['push','pull','legs','upA','loB']:['push','pull','legs','push2','pull2','legs2'];
 const PB_DAYS={2:[0,3],3:[0,2,4],4:[0,1,3,4],5:[0,1,2,3,4],6:[0,1,2,3,4,5]};
-const PB_SPLIT_NAME=(days,level)=>days<=2?'גוף מלא, פעמיים בשבוע':days===3?(level==='beg'?'גוף מלא, 3 פעמים בשבוע':'דחיפה, משיכה, רגליים'):days===4?'פלג עליון ותחתון':days===5?'דחיפה, משיכה, רגליים + עליון ותחתון':'דחיפה, משיכה, רגליים פעמיים';
+const PB_SPLIT_NAME=(days,level,sex)=>sex==='f'?PB_SPLIT_NAME_F(days):days<=2?'גוף מלא, פעמיים בשבוע':days===3?(level==='beg'?'גוף מלא, 3 פעמים בשבוע':'דחיפה, משיכה, רגליים'):days===4?'פלג עליון ותחתון':days===5?'דחיפה, משיכה, רגליים + עליון ותחתון':'דחיפה, משיכה, רגליים פעמיים';
 /* קבוצות השריר שהאימון מבטיח לפי השם שלו (ולפי הדגש שנבחר) */
 function pbReq(title,focus){
   const r=new Set(), t=String(title);
   if(/דחיפה/.test(t))['חזה','כתפיים','יד אחורית'].forEach(g=>r.add(g));
   if(/משיכה/.test(t))['גב','יד קדמית'].forEach(g=>r.add(g));
   if(/פלג עליון/.test(t))['חזה','גב'].forEach(g=>r.add(g));
-  if(/פלג תחתון|רגליים/.test(t))r.add('רגליים');
-  if(/גוף מלא/.test(t))['חזה','גב','רגליים'].forEach(g=>r.add(g));
+  if(/פלג תחתון|רגליים|תחתון|ישבן/.test(t))r.add('רגליים');
+  if(/עליון וחיטוב/.test(t))['גב','כתפיים'].forEach(g=>r.add(g));
+  if(/גוף מלא/.test(t))(/ישבן/.test(t)?['גב','רגליים']:['חזה','גב','רגליים']).forEach(g=>r.add(g));
   for(const [w,g] of [['חזה','חזה'],['כתפיים','כתפיים'],['יד אחורית','יד אחורית'],['יד קדמית','יד קדמית'],['גב','גב'],['בטן','בטן וליבה']])if(t.includes(w))r.add(g);
   if(/ידיים/.test(t)){ r.add('יד קדמית'); r.add('יד אחורית'); }
   const F={chest:['חזה'],back:['גב'],legs:['רגליים'],glutes:['רגליים'],shoulders:['כתפיים'],arms:['יד קדמית','יד אחורית'],core:['בטן וליבה']};
@@ -8177,12 +8193,12 @@ function pbMuscle(n){ for(const [g,arr] of Object.entries(LIB))if(arr.includes(n
 function pbBuild(){
   const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[]));
   const prog=A.goal==='strength'?'כוח':A.goal==='cut'?'חיטוב':A.goal==='fit'?'כושר':'מסה';
-  const sessions=PB_SPLIT(A.days,A.level).map((key,si)=>{
+  const sessions=PB_SPLIT(A.days,A.level,A.sex).map((key,si)=>{
     const [title,slots0]=PB_SESS[key]; const slots=[...slots0]; const used=new Set();
     // דגש: תרגיל בידוד נוסף לשריר הנבחר, אם מתאים לאימון
     for(const f of A.focus)for(const sl of PB_FOCUS[f]||[]){ const base=sl; const fits=slots.some(x=>x.split(':')[0]===base)||(['fly','incline'].includes(base)&&/push|up|full/.test(key))||(['bi','tri'].includes(base)&&/pull|push|up|full/.test(key))||(['glute','lpress','lext','lunge'].includes(base)&&/legs|lo|full/.test(key))||(['lat','rear','row'].includes(base)&&/push|pull|up|full/.test(key))||base==='core';
       if(fits){ slots.push(base+':f'); break; } }
-    if(A.sex==='f'&&/legs|lo|full/.test(key)&&!slots.some(x=>x.split(':')[0]==='glute'))slots.splice(Math.min(2,slots.length),0,'glute');
+    if(A.sex==='f'&&!key.startsWith('w')&&/legs|lo|full/.test(key)&&!slots.some(x=>x.split(':')[0]==='glute'))slots.splice(Math.min(2,slots.length),0,'glute');
     if(A.goal==='cut')slots.push('cardio');
     const ex=[]; let compIdx=0;
     for(const sl of slots){
@@ -8230,7 +8246,7 @@ function pbBuild(){
       if(have.length&&have.length<L.length)ttl=`${mt[1]}: ${have.length>1?have.slice(0,-1).join(', ')+' ו'+have[have.length-1]:have[0]}`; }
     return {name:`${letter} — ${ttl}`,ex,min:Math.round(mins(ex))};
   });
-  PB.plan={prog,split:PB_SPLIT_NAME(A.days,A.level),sessions};
+  PB.plan={prog,split:PB_SPLIT_NAME(A.days,A.level,A.sex),sessions};
 }
 function pbSheet(){
   const st=PB.step, Q=PB_Q[st];
