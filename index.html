@@ -977,6 +977,10 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .ob-f>span:first-child{font-size:13px;font-weight:700;color:#A3ADA6}
 .ob-f .v{display:flex;align-items:baseline;gap:6px}.ob-f input{width:100%;min-width:0;border:0;background:none;color:#F2F5F2;font-size:30px;font-weight:900;padding:0;height:auto}
 .ob-f em{font-style:normal;font-size:14px;color:#A3ADA6;font-weight:700}
+.ob-fh{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.u-mini{display:inline-flex;gap:2px;padding:2px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);align-self:center;flex-shrink:0}
+.u-mini button{font:600 12px/1 var(--body);padding:6px 9px;border-radius:999px;color:#A3ADA6;background:none;border:0;min-height:0}
+.u-mini button.on{background:var(--accent);color:var(--accent-ink,#111)}
 .ob-pace{grid-column:1/-1}.ob-pace .ob-sx{margin-top:8px}.ob-pace-h{display:block;margin-top:8px;font-size:12.5px;color:#A3ADA6;line-height:1.4}
 .ob-sx{display:flex;gap:6px}.ob-sx button{flex:1;height:40px;border-radius:12px;background:#1E2220;border:0;color:#A3ADA6;font-weight:700;font-size:15px}.ob-sx button.on{background:#F2F5F2;color:#0A0B0A}
 .ob-priv{display:flex;align-items:center;gap:10px;color:#A3ADA6;font-size:13px;line-height:1.4;margin-top:14px}
@@ -2097,7 +2101,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.26';
+const APP_VERSION='13.3.27';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2456,7 +2460,9 @@ function toast(msg){const t=$('#toast');$('#toast-msg').textContent=msg;t.hidden
 
 /* יחידות משקל: הכול נשמר בק״ג; ההצגה וההקלדה לפי ההגדרה, בנפרד למשקל גוף (uB) ולמשקלי אימון (uL) */
 const LB=2.2046226;
-const uL=()=>S.settings?.uL==='lb'?'lb':'kg', uB=()=>S.settings?.uB==='lb'?'lb':'kg';
+/* during the first questionnaire the choice lives in ONB.a.u until the account is set up */
+const onbU=()=>{ try{ return typeof ONB!=='undefined'&&ONB&&!ONB.applied&&ONB.a?.u||null; }catch(_){ return null; } };
+const uL=()=>(S.settings?.uL||onbU())==='lb'?'lb':'kg', uB=()=>(S.settings?.uB||onbU())==='lb'?'lb':'kg';
 const uTxt=u=>u==='lb'?'lb':tt('ק״ג');
 function toU(kg,u){ if(kg===''||kg==null)return ''; const x=+kg; if(!isFinite(x))return kg; return u==='lb'?Math.round(x*LB*10)/10:Math.round(x*100)/100; }
 function fromU(v,u){ if(v===''||v==null)return ''; const x=+v; if(!x)return x; return u==='lb'?Math.round(x/LB*10000)/10000:x; }
@@ -2939,7 +2945,9 @@ function vOnb(){
         <div class="ob-seg">${[45,60,75].map(m=>`<button class="${+a.time===m?'on':''}" data-act="onb-pick" data-k="time" data-v="${m}">${m} ${tt('דק׳')}</button>`).join('')}</div></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='body'){
-    const f=(k,l,u)=>{ const isW=k==='w'||k==='goalKg', uu=isW?BU():u, vv=isW?wB(a[k]||''):(a[k]||''); return `<label class="ob-f ${+a[k]?'has':''}"><span>${l}</span><span class="v"><input id="onb-${k}" class="num" type="text" readonly data-np="num" data-unit="${uu}" aria-label="${l}" value="${vv}" placeholder="–"><em>${uu}</em></span></label>`; };
+    const f=(k,l,u)=>{ const isW=k==='w'||k==='goalKg', uu=isW?BU():u, vv=isW?(a[k]?(uB()==='lb'?Math.round(+wB(a[k])):wB(a[k])):''):(a[k]||'');
+      const unit=k==='w'?`<span class="u-mini" role="group" aria-label="${tt('יחידות משקל')}">${[['kg',tt('ק״ג')],['lb','lb']].map(([v,l2])=>`<button type="button" class="${uB()===v?'on':''}" data-act="onb-unit" data-v="${v}" aria-pressed="${uB()===v}">${l2}</button>`).join('')}</span>`:`<em>${uu}</em>`;
+      return `<label class="ob-f ${+a[k]?'has':''}"><span${k==='w'?' class="ob-fh"':''}>${l}${k==='w'?unit:''}</span><span class="v"><input id="onb-${k}" class="num" type="text" readonly data-np="num" data-unit="${uu}" aria-label="${l}" value="${vv}" placeholder="–"><em>${uu}</em></span></label>`; };
     h=`${onbTop()}${onbSay('think',tt('כמה מספרים, ואני מחשב לך יעד קלוריות וחלבון.'))}
       <div class="ob-mid"><div class="ob-g2b">${f('h',tt('גובה'),tt('ס״מ'))}${f('w',tt('משקל'),tt('ק״ג'))}${f('age',tt('גיל'),tt('שנים'))}
         <div class="ob-f"><span>${tt('מין (לחישוב)')}</span><span class="ob-sx"><button class="${a.sex==='m'?'on':''}" data-act="onb-pick" data-k="sex" data-v="m">${tt('זכר')}</button><button class="${a.sex==='f'?'on':''}" data-act="onb-pick" data-k="sex" data-v="f">${tt('נקבה')}</button></span></div></div>
@@ -3037,6 +3045,7 @@ function onbAct(act,b){
       if(LANG!=='en'&&(v==='f')!==(was==='f')){ location.reload(); return true; } // feminine Hebrew/Arabic dictionary loads on start
       window.NR_G=v; applyLook(v,null); if(v==='m'&&iconIsF())iconSet(false); onbPaint(); return true; }
     case 'onb-icon': if(b.dataset.v==='f'){ b.disabled=true; iconSet(true).then(ok=>{ if(ok)toast(tt('האייקון הוחלף ✓')); onbPaint(); }); } else { ONB.iconNo=true; onbSave(); onbPaint(); } return true;
+    case 'onb-unit': { const v=b.dataset.v==='lb'?'lb':'kg'; ONB.a.u=v; if(S.settings){ S.settings.uB=v==='lb'?'lb':null; S.settings.uL=v==='lb'?'lb':null; } onbSave(); onbPaint(); vibrate(8); return true; }
     case 'onb-pick': { const k=b.dataset.k; let v=b.dataset.v; if(/^\d+$/.test(v))v=+v;
       if(b.dataset.multi){ const arr=a[k]||(a[k]=[]); const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); if(k==='blk'&&v==='pain'&&i>=0)a.lim=[]; }
       else a[k]=v; vibrate(6); onbSave(); onbPaint(); return true; }
@@ -3074,7 +3083,7 @@ async function onbApply(){
   const a=ONB.a, g=a.g||window.NR_G||'m';
   try{ localStorage.setItem('nr-notif-onb','1'); }catch(_){}
   if(a.name){ S.user=Object.assign({},S.user,{user_metadata:Object.assign({},S.user?.user_metadata,{full_name:a.name})}); try{ sb.auth.updateUser({data:{full_name:a.name}}).then(({data})=>{ if(data?.user)S.user=data.user; },()=>{}); }catch(_){} }
-  S.settings.g=g; const t=onbTG(), r=tgCalc(t);
+  S.settings.g=g; if(a.u==='lb'){ S.settings.uB='lb'; S.settings.uL='lb'; } const t=onbTG(), r=tgCalc(t);
   S.settings.body={sex:t.sex,age:t.age,h:t.h,w:t.w,act:t.act,goal:t.goal,pace:t.pace};
   if(r){ S.settings.kcalT=r.kcal; S.settings.protT=r.prot; } if(+a.goalKg)S.settings.goalKg=+a.goalKg;
   const c=coachCfg(); c.mode=a.mode||'full';
