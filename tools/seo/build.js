@@ -118,12 +118,11 @@ const COPY={
 };
 
 // ---------- HTML ----------
-const CSS=`:root{--bg:#F3F5F2;--sf:#fff;--sf2:#EAEEE9;--ink:#1A201C;--mut:#5D675F;--line:#DFE4DE;--acc:#16A34A;--soft:#DCFCE7}
-@media(prefers-color-scheme:dark){:root{--bg:#131619;--sf:#1B2024;--sf2:#242A2E;--ink:#EDF1EE;--mut:#9AA5A0;--line:#2B3237;--acc:#22C55E;--soft:#17351F}}
+const CSS=`:root{--bg:#0A0B0A;--sf:#141715;--sf2:#1E2220;--ink:#F2F5F1;--mut:#9AA39C;--line:#272C29;--acc:#BFFF2F;--soft:#222C11;color-scheme:dark}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Heebo,system-ui,sans-serif;color:var(--ink);line-height:1.5}a{color:inherit}
 .top{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--sf);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
 .brand{font-family:'Inter Tight',sans-serif;font-weight:800;letter-spacing:-.045em;font-size:24px;direction:ltr;text-decoration:none;line-height:1}.brand b{color:var(--acc);font-weight:inherit}
-.top .cta-s{background:var(--acc);color:#fff;border-radius:10px;padding:8px 14px;font-size:14px;font-weight:700;text-decoration:none}
+.top .cta-s{background:var(--acc);color:#0A0B0A;border-radius:10px;padding:8px 14px;font-size:14px;font-weight:700;text-decoration:none}
 .wrap{max-width:760px;margin:0 auto;padding:16px 16px 40px}.crumb{font-size:12.5px;color:var(--mut);margin-bottom:8px}.crumb a{text-decoration:none}
 h1{font-family:Karantina,sans-serif;font-size:clamp(38px,9vw,56px);line-height:1;margin:0 0 6px}.sub{color:var(--mut);font-size:14px;margin-bottom:14px}
 .card{background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
@@ -132,7 +131,7 @@ h1{font-family:Karantina,sans-serif;font-size:clamp(38px,9vw,56px);line-height:1
 h2{font-size:18px;margin:0 0 10px}p{margin:0 0 10px}
 table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:9px 4px;border-top:1px solid var(--line);text-align:start}th{color:var(--mut);font-weight:500;font-size:13px;border-top:0}td:last-child{text-align:end;font-weight:700;white-space:nowrap}td:nth-child(2){color:var(--mut);font-size:13px}
 .cmp a{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:14px;text-decoration:none}.cmp i{flex:1;height:8px;background:var(--sf2);border-radius:99px;overflow:hidden;display:block}.cmp i::after{content:"";display:block;height:100%;background:var(--acc);width:var(--w)}.cmp span:first-child{width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cmp b{width:56px;text-align:end}.cmp a.me{font-weight:700}
-.cta{background:linear-gradient(135deg,#14532d,#16A34A);color:#fff;border-radius:16px;padding:18px;display:flex;gap:12px;align-items:center;margin-bottom:12px}.cta img{width:52px;height:52px;flex-shrink:0}.cta b{display:block;font-size:17px}.cta span{font-size:13.5px;opacity:.9}.cta a{background:#fff;color:#14532d;border-radius:10px;padding:10px 14px;font-weight:700;text-decoration:none;white-space:nowrap}
+.cta{background:linear-gradient(135deg,#1B2610,#33480F);color:#fff;border:1px solid #3F5A12;border-radius:16px;padding:18px;display:flex;gap:12px;align-items:center;margin-bottom:12px}.cta img{width:52px;height:52px;flex-shrink:0}.cta b{display:block;font-size:17px}.cta span{font-size:13.5px;opacity:.9}.cta a{background:#fff;color:#14532d;border-radius:10px;padding:10px 14px;font-weight:700;text-decoration:none;white-space:nowrap}
 @media(max-width:480px){.cta{flex-wrap:wrap}.cta a{width:100%;text-align:center}}
 .faq details{border-top:1px solid var(--line);padding:8px 0}.faq summary{font-weight:700;cursor:pointer}.faq p{margin:6px 0 0;font-size:14px;color:var(--mut)}
 .links{display:flex;flex-wrap:wrap;gap:6px}.links a{background:var(--sf);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;text-decoration:none}
@@ -143,7 +142,7 @@ table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:9px 4px;b
 const HEAD=(l,title,desc,canon,alts,extra='')=>`<!doctype html><html lang="${l}" dir="${T[l].dir}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${SITE}${canon}">
 ${alts.map(([al,p])=>`<link rel="alternate" hreflang="${al}" href="${SITE}${p}">`).join('')}<link rel="alternate" hreflang="x-default" href="${SITE}${alts[0][1]}">
-<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:image" content="${SITE}/icon-512.png"><meta name="theme-color" content="#16A34A"><meta name="google-site-verification" content="DSzgalUkvNBmbAsodxTRFc0sHzMPQaTsiP2vO3B87LI">
+<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:image" content="${SITE}/icon-512.png"><meta name="theme-color" content="#0A0B0A"><meta name="google-site-verification" content="DSzgalUkvNBmbAsodxTRFc0sHzMPQaTsiP2vO3B87LI">
 <link rel="icon" href="/icon-192.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Inter+Tight:wght@800&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/food/food.css?v=1">${extra}</head><body>
 <div class="top"><a class="brand" href="/">Next<b>Rep</b></a><a class="cta-s" href="/?utm_source=seo&utm_medium=food">${T[l].ctaB}</a></div><div class="wrap">`;
