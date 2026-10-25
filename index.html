@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5abf1b32"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5abf1b32"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5abf1b32"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a5bfc50b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a5bfc50b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a5bfc50b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -425,6 +425,15 @@ body:not(.landing)>#lx-sticky{display:none}
 .plan .pm{font-size:13px;color:var(--muted)}
 .plan .was{display:block;font-size:17px;line-height:1.1;color:var(--muted);font-weight:400;text-align:end;margin-bottom:2px}.plan .tag.launch{background:#E8590C}
 .plan .tag{position:absolute;top:-11px;inset-inline-start:14px;background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px}
+.ofr-card{display:block;width:100%;text-align:var(--start);color:var(--ink);font:inherit;border:1.5px solid var(--gold);background:linear-gradient(160deg,var(--gold-soft),var(--surface) 70%);padding:14px 16px;margin-bottom:12px;position:relative}
+.ofr-h{display:flex;align-items:center;gap:10px}.ofr-h img{width:44px;height:44px;flex:none}.ofr-h small{display:block;color:var(--muted);font-size:12.5px}.ofr-h b{font-size:16px}
+.ofr-p{margin-top:10px;font-size:14.5px;line-height:1.45}.ofr-p b{color:var(--accent);font-size:16px}.ofr-p s{color:var(--muted)}
+.ofr-c{position:absolute;top:14px;inset-inline-end:14px;color:var(--accent);font-weight:700;font-size:13px}
+.ofr-t{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--gold-soft);color:var(--gold);border-radius:14px;padding:9px 12px;margin:2px 0 4px}
+.ofr-t.in{margin:10px 0 0;background:var(--surface)}
+.ofr-t .l{font-weight:700;font-size:13.5px}.ofr-t .l b{color:var(--ink)}
+.ofr-t .t{display:flex;gap:3px;direction:ltr}.ofr-t .t span{background:var(--surface);color:var(--ink);border-radius:8px;min-width:34px;padding:5px 0;text-align:center;font:700 17px/1 inherit;font-variant-numeric:tabular-nums}
+.ofr-t.in .t span{background:var(--gold-soft)}.ofr-t .t i{font-style:normal;font-weight:700;align-self:center}
 .planbanner{display:flex;gap:10px;align-items:center;width:100%;text-align:var(--start);background:var(--gold-soft);border:1px solid var(--gold);border-radius:14px;padding:11px 14px;margin-bottom:12px;color:var(--ink)}
 .qrbox{background:#fff;border-radius:16px;padding:14px;display:grid;place-items:center;margin:4px auto;width:min(260px,100%)}
 .qrbox svg,.qrbox img{width:100%;height:auto;display:block}
@@ -1895,7 +1904,15 @@ function natPlan(){
       add(at(day(0),20,30),'מה אכלת היום?',Gx('30 שניות של רישום, וראפי יכוון לך את היעד.','30 שניות של רישום, וראפי יכוון לך את היעד.'),'meal'); }
   // 6. premium ends tomorrow (trial or gift, not a store subscription that renews)
   const until=S.plan?.until?+new Date(S.plan.until):0, storeOn=!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
-  if(until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.'),'trial');
+  const ow=offerWin(), ofw=ow&&!ow.second;
+  if(ofw){ const pr=tt('חודש ראשון ב-₪9.90 במקום ₪29.90');
+    add(new Date(until-DAYMS),'נשארו 24 שעות להצעה ⏳',pr+'. '+tt('אחרי זה המחיר המלא.'),'trial');
+    add(new Date(until-3*36e5),'עוד 3 שעות ההצעה נגמרת',pr+'. '+tt('הפרימיום והנתונים שלך ממשיכים בלי הפסקה.'),'trial');
+    add(new Date(until-36e5),'שעה אחרונה להצעה',pr+'. '+tt('בעוד שעה המחיר המלא.'),'trial'); }
+  if(ow||(until&&!storeOn&&!S.plan?.plan_months&&!(S.plan?.paid&&!S.plan?.gift)&&S.plan?.lock&&RC_KEYS[NATIVE_OS]&&until>Date.now())){ const s2=offerSecond(until);
+    add(new Date(s2),'ההצעה חזרה, ל-24 שעות בלבד',tt('חודש ראשון ב-₪9.90 במקום ₪29.90. כל האימונים והנתונים שלך מחכים.'),'trial');
+    add(new Date(s2+23*36e5),'שעה אחרונה להצעה',tt('חודש ראשון ב-₪9.90. אחרי זה המחיר המלא.'),'trial'); }
+  if(!ofw&&until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.'),'trial');
   return out.sort((a,b)=>a.at-b.at);
 }
 /* server notifications on the installed app (new signup for admins, groups, billing): the iPhone registers with
@@ -1938,6 +1955,7 @@ if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationReceive
   if(n&&n.id===NAT.rest)return; capP('Haptics')?.notification?.({type:'SUCCESS'})?.catch?.(()=>{}); }catch(_){} });
 if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationActionPerformed',({notification})=>{
   const k=notification?.extra?.kind, to={remind:'train',nudge3:'train',nudge7:'train',weigh:'track',meal:'food'}[k];
+  if(k==='trial'&&S.user&&S.mode==='app'){ setTimeout(()=>{ try{ handleAct({dataset:{act:'plans-open',why:'notif'}}); }catch(_){} },300); }
   if(to&&S.user&&S.mode==='app'){ S.tab=to; if(to==='food')S.foodDate=ymd(); render(); window.scrollTo(0,0); }
   logEv('notif_open',{k:k||'other'}); });
 if(IS_NATIVE){ const _r0=render; render=function(){ const r=_r0.apply(this,arguments); natSchedSoon(); return r; }; }
@@ -1964,7 +1982,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.6';
+const APP_VERSION='13.3.7';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3661,6 +3679,7 @@ function vHome(){
       <div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div>
       <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div>
     </div>
+    ${offerCard()}
     ${foodFirst?foodCard+`<div class="card r20 list"><button class="li" data-act="pb-open">${ICON.list}<span class="lt"><b>${G('רוצה גם תוכנית אימון?','רוצה גם תוכנית אימון?','גם תוכנית אימון?')}</b><small>8 שאלות קצרות, ויש לך תוכנית שמתאימה ליעד</small></span>${ICON.chev}</button></div>`:workCard+foodCard}
     <div class="card r20">
       <div class="spread"><b style="font-size:17px">השבוע</b>${streak>1?`<span class="small" style="color:#B45309;font-weight:600">🔥 ${streak} שבועות ברצף</span>`:`<span class="small muted">${wkSub}</span>`}</div>
@@ -7582,6 +7601,29 @@ const STORE_URL={ios:'',android:''};
 const RC={ready:false,pkgs:null,err:null,busy:false,uid:null};
 const rcIsAnnual=p=>p.packageType==='ANNUAL'||p.identifier==='$rc_annual';
 const rcIsMonthly=p=>p.packageType==='MONTHLY'||p.identifier==='$rc_monthly';
+/* Intro offer (decided 2026-10-23, timing updated 2026-10-25): during the free premium week the store shows the
+   `lock_offer` offering (first month ₪9.90 / first year ₪149.90). It ends with the trial; the last 24 h show a live
+   countdown. Once, 7 days after the lock, the offer comes back for 24 h. Both windows come from the server's
+   `until`, so they can't be reset on the device. Users who ever paid (store or web) never get it. */
+const OFFER_DAY=864e5;
+function offerSecond(u){ const s=new Date(u+7*OFFER_DAY); s.setHours(12,0,0,0); return +s<u+7*OFFER_DAY?+s+OFFER_DAY:+s; }
+function offerWin(){ const p=S.plan; if(!IS_NATIVE||!p||p.admin||!p.lock||!RC_KEYS[NATIVE_OS])return null;
+  if(p.store_until||p.plan_months||(p.paid&&!p.gift))return null;
+  const u=p.until?+new Date(p.until):0, now=Date.now(); if(!u)return null;
+  if(p.premium&&u>now)return {end:u,second:false};
+  const s=offerSecond(u); if(!p.premium&&now>=s&&now<s+OFFER_DAY)return {end:s+OFFER_DAY,second:true};
+  return null; }
+function rcCheck(){ if(RC.ready&&RC.uid&&RC.offer!==!!offerWin())rcLoad(); }
+const ocdFmt=ms=>{ ms=Math.max(0,ms); const h=Math.floor(ms/36e5), m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
+  return `<span>${z(h)}</span><i>:</i><span>${z(m)}</span><i>:</i><span>${z(x)}</span>`; };
+function offerTimerHTML(w,inline){ if(!w)return '';
+  const left=w.end-Date.now();
+  if(left>OFFER_DAY)return inline?'':`<div class="ofr-t"><span class="l">${tt('ההצעה בתוקף עד')} <b class="num">${offerDay(w.end)}</b></span></div>`;
+  return `<div class="ofr-t ${inline?'in':''}"><span class="l">${tt(w.second?'ההצעה חזרה ל-24 שעות בלבד':'ההצעה נגמרת בעוד')}</span><span class="t ocd" data-end="${w.end}">${ocdFmt(left)}</span></div>`; }
+const offerDay=t=>new Date(t).toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'numeric'})+', '+new Date(t).toLocaleTimeString(LOC,{hour:'2-digit',minute:'2-digit'});
+setInterval(()=>{ const els=document.querySelectorAll('.ocd'); if(!els.length)return; let done=false;
+  els.forEach(e=>{ const l=+e.dataset.end-Date.now(); if(l<=0)done=true; e.innerHTML=ocdFmt(l); });
+  if(done&&!ocdFmt._busy){ ocdFmt._busy=true; setTimeout(()=>{ ocdFmt._busy=false; if(S.user)enterApp(S.user); },1500); } },1000);
 async function rcInit(){
   if(!IS_NATIVE||!S.user||!RC_KEYS[NATIVE_OS]||RC.uid===S.user.id)return;
   const P=capP('Purchases'); if(!P)return;
@@ -7590,7 +7632,8 @@ async function rcInit(){
     RC.uid=S.user.id; await rcLoad(); }catch(e){ RC.err=String(e?.message||e); rcPaint(); }
 }
 async function rcLoad(){
-  try{ const o=await capP('Purchases').getOfferings(); RC.pkgs=(o?.current?.availablePackages||[]).filter(p=>rcIsAnnual(p)||rcIsMonthly(p)); RC.err=null; }
+  try{ const o=await capP('Purchases').getOfferings(), off=offerWin()&&o?.all?.lock_offer;
+    RC.offer=!!offerWin(); RC.pkgs=((off||o?.current)?.availablePackages||[]).filter(p=>rcIsAnnual(p)||rcIsMonthly(p)); RC.err=null; }
   catch(e){ RC.err=String(e?.message||e); }
   rcPaint();
 }
@@ -7604,13 +7647,17 @@ function storePlansHTML(){
   if(RC.err&&!RC.pkgs)return `<div class="small muted" style="text-align:center">${tt('לא הצלחנו לטעון את המסלולים.')} <button class="linkbtn" data-act="rc-reload">${tt('נסה שוב')}</button></div>`;
   if(!RC.pkgs)return `<div class="small muted" style="text-align:center">${tt('טוען מסלולים…')}</div>`;
   const y=RC.pkgs.find(rcIsAnnual), m=RC.pkgs.find(rcIsMonthly);
-  const save=y&&m&&m.product.price>0?Math.round((1-y.product.price/12/m.product.price)*100):0;
-  const row=(p,annual)=>{ const pr=p.product;
+  const ip=pr=>{ const i=pr?.introPrice; return i&&+i.price>0&&+i.price<+pr.price?i:null; };
+  const yP=y?(ip(y.product)?+ip(y.product).price:y.product.price):0;
+  const save=y&&m&&m.product.price>0?Math.round((1-yP/12/m.product.price)*100):0;
+  const row=(p,annual)=>{ const pr=p.product, i=ip(pr), full=esc(pr.priceString||rcMoney(pr.price,pr.currencyCode));
     return `<button class="plan ${annual?'best':''}" data-act="rc-buy" data-id="${esc(p.identifier)}" ${RC.busy?'disabled':''}>
       ${rcTrial(pr)||(annual&&save>0?`<span class="tag">${tt('חיסכון של {0}%').replace('{0}',save)}</span>`:'')}
       <span class="pn">${annual?tt('מנוי שנתי'):tt('מנוי חודשי')}</span>
-      <span class="pp num">${esc(pr.priceString||rcMoney(pr.price,pr.currencyCode))}</span>
-      <span class="pm">${annual?`<span class="num">${rcMoney(pr.price/12,pr.currencyCode)}</span> ${tt('לחודש, בחיוב שנתי')}`:tt('בחיוב חודשי')}</span>
+      ${i?`<span class="pp num"><s class="was">${full}</s>${esc(i.priceString||rcMoney(i.price,pr.currencyCode))}</span>
+      <span class="pm">${annual?`<span class="num">${rcMoney(i.price/12,pr.currencyCode)}</span> ${tt('לחודש בשנה הראשונה, אחר כך {0} לשנה').replace('{0}',full)}`:tt('לחודש הראשון, אחר כך {0} לחודש').replace('{0}',full)}</span>`
+      :`<span class="pp num">${full}</span>
+      <span class="pm">${annual?`<span class="num">${rcMoney(pr.price/12,pr.currencyCode)}</span> ${tt('לחודש, בחיוב שנתי')}`:tt('בחיוב חודשי')}</span>`}
     </button>`; };
   return [y&&row(y,true),m&&row(m,false)].filter(Boolean).join('')||`<div class="small muted" style="text-align:center">${tt('המסלולים לא זמינים כרגע.')}</div>`;
 }
@@ -7677,6 +7724,7 @@ function vPaywall(full){
       <div class="pr"><i>K</i><div><b>ראפי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה</span></div></div>
     </div>
     <div class="small muted">${full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
+    ${IS_NATIVE&&!storeOn&&offerWin()?offerTimerHTML(offerWin()):''}
     ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px" ${storeOn?'hidden':''}>${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
     ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: שבוע פרימיום לשניכם','או הזמיני חברה: שבוע פרימיום לשתיכן','או הזמנת חבר: שבוע פרימיום לשניכם')}</button>`:''}
     ${IS_NATIVE?`<div class="small muted" style="text-align:center;font-size:12px;line-height:1.55">${NATIVE_OS==='ios'?'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה. ניהול וביטול בהגדרות החשבון ב-App Store.':'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון Google Play, אלא אם מבטלים לפני סוף התקופה. ניהול וביטול ב-Google Play.'}<br><a href="terms.html" target="_blank">תנאי שימוש</a> · <a href="privacy.html" target="_blank">מדיניות פרטיות</a></div>
@@ -7690,15 +7738,23 @@ function vPaywall(full){
 const PLAN_LABEL={4:'מנוי 4 חודשים',6:'מנוי 6 חודשים',12:'מנוי שנתי'};
 function planPill(){
   const p=S.plan; if(!p||p.admin||!p.billing)return '';
-  if(planBanner())return ''; // the urgent banner already says it
+  if(planBanner()||offerCard())return ''; // the urgent banner / offer card already says it
   if(!p.premium)return `<button class="planpill free" data-act="plans-open" data-why="pill">${G('חינם · שדרג לפרימיום ⭐','חינם · שדרגי לפרימיום ⭐','חינם · שדרוג לפרימיום ⭐')}</button>`;
   const d=p.until?new Date(p.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'';
   if(p.paid&&!p.gift)return `<button class="planpill paid" data-act="plans-open">⭐ ${PLAN_LABEL[p.plan_months]||'פרימיום'}${d?` · עד ${d}`:''}</button>`;
   if(p.lock&&!p.access_until)return `<button class="planpill paid" data-act="plans-open">🎁 ${tt('שבוע ניסיון')} · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
   return `<button class="planpill paid" data-act="plans-open">🎁 פרימיום מתנה · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
 }
+function offerCard(){ const w=offerWin(); if(!w||w.second)return '';
+  const m=RC.offer&&RC.pkgs?RC.pkgs.find(rcIsMonthly):null, i=m?.product?.introPrice;
+  const pi=i&&+i.price>0?i.priceString:'₪9.90', pf=m?.product?.priceString||'₪29.90';
+  return `<button class="card r20 ofr-card" data-act="plans-open" data-why="offer">
+    <div class="ofr-h"><img src="img/kobi-happy.svg" alt=""><span><small>${tt('שבוע הפרימיום שלך פעיל עד')}</small><b>${offerDay(w.end)}</b></span></div>
+    <div class="ofr-p">${tt('הצעת היכרות: חודש ראשון ב-{0} במקום {1}').replace('{0}',`<b class="num">${esc(pi)}</b>`).replace('{1}',`<s class="num">${esc(pf)}</s>`)}</div>
+    ${offerTimerHTML(w,true)}
+    <span class="ofr-c">${tt('לפרטים')} ›</span></button>`; }
 function planBanner(){
-  const p=S.plan; if(!p||p.admin||!p.billing||!p.premium||p.days_left==null||p.days_left>(p.paid&&!p.gift?5:2))return '';
+  const p=S.plan; if(offerWin())return ''; if(!p||p.admin||!p.billing||!p.premium||p.days_left==null||p.days_left>(p.paid&&!p.gift?5:2))return '';
   return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון לפרימיום':`נשארו ${p.days_left} ימים לפרימיום`}</b><span class="small muted" style="display:block">אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI בכל ארוחה וראפי?</span></span><span style="color:var(--accent);font-weight:700">הארכה</span></button>`;
 }
 /* --- QR + share --- */
@@ -9349,7 +9405,7 @@ async function enterApp(user){
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
   if(PAID_RETURN||enterApp._claim){ enterApp._claim=false; try{ const c=await sb.rpc('claim_payment'); if(c.data?.ok&&!c.data.duplicate)toast('התשלום אומת, הגישה נפתחה 🎉'); }catch(_){} }
   rcInit();
-  try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
+  try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status; rcCheck();
     if(st==='expired'){
       if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }
       if(enterApp._ro){ S.locked=true; } else {

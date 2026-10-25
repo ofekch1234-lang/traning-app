@@ -26,7 +26,9 @@ The web app at the repo root is the single source of truth. This folder only wra
 - **Days 1–7:** full premium, no card (server trial, as today).
 - **Day 7 → locked:** read-only. The user can view existing history (workouts, meals, weight) but cannot log
   anything new or use AI, menu, coach. Paywall on every open. A workout in progress may be finished (grace).
-- **Lock-time offer, 24 h real countdown (server timestamp, can't be reset):**
+- **Intro offer (updated 2026-10-25): open for the whole free week, ends with the trial; the last 24 h show a live countdown
+  (home card + paywall), local notifications 24 h / 3 h / 1 h before. Built in `offerWin()` in index.html.**
+- **Original note, lock-time offer, 24 h real countdown (server timestamp, can't be reset):**
   monthly first month ₪9.90 then ₪29.90, **or** yearly first year ₪149.90 then ₪179.90 (highlighted, "save 58%").
 - **Second chance, once:** 7 days after the lock, push + email: the same offer again for 24 h. Never again after that.
 - **Regular prices:** ₪29.90/month, ₪179.90/year.
