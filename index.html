@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=48122327"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=48122327"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=48122327"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=6661376a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=6661376a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=6661376a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2101,7 +2101,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.27';
+const APP_VERSION='13.3.28';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2763,6 +2763,7 @@ function vNatAuth(){
       <h3 style="margin:0">כניסה או הרשמה</h3>
       ${NATIVE_OS==='ios'?`<button class="abtn" data-act="nat-apple" ${b?'disabled':''}>${APPLE_SVG}<span>${b==='apple'?tt('רגע…'):tt('המשך עם Apple')}</span></button>`:''}
       <button class="gbtn" data-act="nat-google" ${b?'disabled':''}>${G_SVG}<span>${b==='google'?tt('רגע…'):tt('המשך עם Google')}</span></button>
+      <button class="linkbtn" data-act="nat-mail" style="font-size:14px">✉️ ${tt('כניסה עם אימייל')}</button>
       ${NAUTH.err?`<div class="autherr" style="display:block">${esc(NAUTH.err)}</div>`:''}
       <div class="small muted gconsent" style="text-align:center;line-height:1.55">${Gx('בהמשך אתה מסכים ל','בהמשך את מסכימה ל','בהמשך את/ה מסכים/ה ל')}<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a>. המידע באפליקציה אינו ייעוץ רפואי.</div>
       <button class="linkbtn" data-act="onb-new" style="font-size:14px">${tt('חדש ב-NextRep? מתחילים עם ראפי')}</button>
@@ -3154,11 +3155,12 @@ async function natGoogleNative(){
 }
 async function natGoogle(){
   NAUTH={busy:'google',err:''}; render(); logEv('login_try',{p:'google'});
-  // iPhone: Google's own sign-in sheet ("NextRep"), no browser page. Android keeps the browser flow until its OAuth client is registered.
-  if(NATIVE_OS==='ios'){ try{ await natGoogleNative(); return; }
-    catch(e){ const m=String(e?.message||e?.code||e); console.warn('google native',m);
-      if(/cancel|-5\b|12501/i.test(m)){ NAUTH={busy:'',err:''}; render(); return; }
-      NAUTH={busy:'',err:tt('ההתחברות עם Google נכשלה. נסה שוב.')}; render(); return; } }
+  // Google's own sign-in sheet, no browser page: iPhone (iOS client) and Android (Android clients for the Play signing key and the upload key).
+  // On Android, an unexpected failure falls back to the browser flow below.
+  if(NATIVE_OS==='ios'||NATIVE_OS==='android'){ try{ await natGoogleNative(); return; }
+    catch(e){ const m=String(e?.message||e?.code||e); console.warn('google native',m); logEv('login_fail',{p:'google',native:1,m:m.slice(0,80)});
+      if(/cancel|-5\b|12501|16\b/i.test(m)){ NAUTH={busy:'',err:''}; render(); return; }
+      if(NATIVE_OS==='ios'){ NAUTH={busy:'',err:tt('ההתחברות עם Google נכשלה. נסה שוב.')}; render(); return; } } }
   try{
     const {data,error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:NAT_CB,skipBrowserRedirect:true,queryParams:{prompt:'select_account'}}});
     if(error||!data?.url)throw error||new Error('no url');
@@ -3231,6 +3233,7 @@ function vOtp(){
         :`<div class="small muted gconsent" style="text-align:center">בהמשך אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>`}
       ${code?'':hoBtn}
       ${code?'':`<button class="linkbtn" data-act="auth-g-reset" style="font-size:12.5px;color:var(--muted)">${{m:'פנייה בלשון זכר',f:'פנייה בלשון נקבה',x:'פנייה: לא משנה'}[window.NR_G]||''} · שינוי</button>`}
+      ${!code&&IS_NATIVE?'<button class="linkbtn" data-act="nat-pass" style="font-size:13.5px">🔑 כניסה עם סיסמה</button><button class="linkbtn" data-act="nat-mail-off" style="color:var(--muted)">חזרה</button>':''}
       ${code?'<button class="linkbtn" data-act="otp-back" style="color:var(--muted)">חזרה</button>':IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
     </div></div>`;
 }
@@ -3666,7 +3669,7 @@ function startLandTimer(){
 }
 
 /* ----- auth screen ----- */
-function vAuth(){ if(IS_NATIVE)return ONB.login?vNatAuth():vOnb(); if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOGLE)))return vOtp(); if(SHOW_GOOGLE&&(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH)){gsiLoad(); setTimeout(gsiMount,0);}
+function vAuth(){ if(IS_NATIVE&&!NAUTH.mail)return ONB.login?vNatAuth():vOnb(); if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOGLE)))return vOtp(); if(SHOW_GOOGLE&&(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH)){gsiLoad(); setTimeout(gsiMount,0);}
   const su=S.authMode==='signup';
   const showForm=!(GOOGLE_ON&&SHOW_GOOGLE)||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
@@ -9632,6 +9635,9 @@ function handleAct(b,ev){
     case 'share-active': { if(S.active)shareText(workoutShareText({...clone(S.active),end:Date.now()})); break; }
     case 'auth-go': doAuth(); break;
     case 'nat-google': natGoogle(); break;
+    case 'nat-mail': NAUTH={busy:'',err:'',mail:true}; OTP.step=''; OTP.err=''; S.authEmailOpen=false; render(); setTimeout(()=>$('#otp-email')?.focus(),60); break;
+    case 'nat-mail-off': NAUTH={busy:'',err:''}; OTP.step=''; OTP.err=''; S.authEmailOpen=false; render(); break;
+    case 'nat-pass': S.authMode='login'; S.authEmailOpen=true; render(); setTimeout(()=>$('#au-email')?.focus(),50); break;
     case 'nat-apple': natApple(); break;
     case 'auth-google': b.disabled=true;
       sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+'/',queryParams:{prompt:'select_account'}}}).then(({error})=>{ if(error){b.disabled=false;toast('ההתחברות עם Google נכשלה');} }); break;
