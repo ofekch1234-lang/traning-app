@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=088dca88"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=088dca88"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=088dca88"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8bcab5bc"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8bcab5bc"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8bcab5bc"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -492,6 +492,11 @@ body:not(.landing)>#lx-sticky{display:none}
 /* admin: funnel + desktop layout */
 .fn-step{padding:8px 0;border-top:1px solid var(--line)}.fn-step:first-of-type{border-top:0}
 .fn-bar{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-bottom:6px}.fn-bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.rg-edit{cursor:pointer;border-radius:50%}.rg-pen{opacity:.6;font-size:12px}
+.tgt-or{display:flex;align-items:center;gap:10px;margin:16px 0 8px;color:var(--muted);font-size:13px}.tgt-or::before,.tgt-or::after{content:'';flex:1;height:1px;background:var(--line)}
+.tgt-smart{width:100%;background:var(--surface2);border-radius:16px;padding:12px 14px}
+.adm-ug{padding:0;overflow:hidden}.adm-ugh{width:100%}.adm-ugh .lt b{font-size:15px}.adm-chev{display:inline-flex;transform:rotate(-90deg);transition:transform .2s;color:var(--muted)}.adm-chev.on{transform:rotate(90deg)}
+.adm-urow{padding-top:9px;padding-bottom:9px}.adm-urow .av2{width:34px;height:34px;font-size:14px}.adm-urow small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .adm-tbl{width:100%;border-collapse:collapse;font-size:13px}.adm-tbl th{font-weight:600;color:var(--muted);text-align:var(--start);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .adm-tbl td{padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .adm-grid{display:grid;gap:12px;min-width:0}.adm-grid>*{min-width:0;max-width:100%}
@@ -1686,7 +1691,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.7';
+const APP_VERSION='13.3.8';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3081,8 +3086,8 @@ function vFood(){
       <span class="gt"><b>הגדר יעד יומי</b><span>כמה קלוריות וחלבון לאכול כדי להגיע למטרה שלך</span></span>
       <span class="btn primary" style="pointer-events:none">הגדרה</span></button>`:''}
     <div class="card r20 ring-row">
-      <div class="rg"><svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true"><circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="10"/><circle cx="56" cy="56" r="${R}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 56 56)" style="transition:stroke-dashoffset .5s"/></svg>
-        <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'קק״ל נותרו':'קק״ל מעל היעד'}</span><small class="num">${tt('מתוך')} ${kcalN(kT)}</small>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
+      <div class="rg ${kT?'rg-edit':''}" ${kT?`data-act="tgt-open" role="button" tabindex="0" aria-label="${tt('עריכת היעד היומי')}"`:''}><svg viewBox="0 0 112 112" width="112" height="112" aria-hidden="true"><circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="10"/><circle cx="56" cy="56" r="${R}" fill="none" stroke="${over?'var(--gold)':'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 56 56)" style="transition:stroke-dashoffset .5s"/></svg>
+        <div>${kT?`<b class="num">${kcalN(Math.abs(left))}</b><span>${left>=0?'קק״ל נותרו':'קק״ל מעל היעד'}</span><small class="num">${tt('מתוך')} ${kcalN(kT)} <span class="rg-pen" aria-hidden="true">✎</span></small>`:`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל</span>`}</div></div>
       <div class="stack" style="flex:1;gap:10px;min-width:0">
         ${cycTag(d)}${mb('חלבון',t.protein,pT,'p')}${mb('פחמימה',t.carbs,mT.c,'cb')}${mb('שומן',t.fat,mT.f,'ft')}
       </div>
@@ -6365,18 +6370,29 @@ function admSrcSummary(){ const m=A.src||{}, all=Object.values(m); if(!all.lengt
   const c={}; all.forEach(v=>{ const n=srcName({...v,m:''}); c[n]=(c[n]||0)+1; }); const tot=(A.ov||{}).users||all.length, rows=Object.entries(c).sort((a,b)=>b[1]-a[1]), mx=rows[0][1];
   return `<div class="card r20 adm-srcs"><div class="small muted" style="font-weight:600;margin-bottom:8px">מאיפה הגיעו המשתמשים</div>${rows.map(([n,k])=>`<div class="as-row"><span>${esc(n)}</span><i><b style="width:${Math.round(k/mx*100)}%"></b></i><span class="num">${k}</span></div>`).join('')}
     ${tot>all.length?`<div class="small muted" style="margin-top:6px">${tot-all.length} משתמשים נרשמו לפני שהתחלנו למדוד</div>`:''}</div>`; }
+/* users list: one compact line per user, grouped by sign-up time; only the newest group is open */
+function admUserRow(u){ const st=userState(u);
+  return `<button class="li adm-urow" data-act="adm-user" data-id="${u.id}">
+    <span class="av2" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
+    <span class="lt"><b><span data-notr>${esc(u.full_name||u.email.split('@')[0])}</span> ${stPill(st)}</b><small dir="ltr" style="text-align:var(--start)">${esc(u.email)}${admSrc(u)?' · '+esc(admSrc(u)):''}</small></span>
+    <span class="small muted num" style="text-align:end;white-space:nowrap">${u.last_seen?agoHe(u.last_seen):agoHe(u.created_at)}</span></button>`; }
+function admUserGroups(U){
+  if(!U.rows.length)return `<div class="card r20 list"><div class="li small muted" style="justify-content:center">${U.loading?'טוען…':'אין תוצאות'}</div></div>`;
+  if(U.q||U.filter!=='all')return `<div class="card r20 list">${U.rows.map(admUserRow).join('')}</div>`;
+  const d0=new Date(); d0.setHours(0,0,0,0); const t0=+d0, DAYMS=864e5;
+  const G=[['today','היום',t0],['yday','אתמול',t0-DAYMS],['week','השבוע',t0-7*DAYMS],['month','החודש',t0-30*DAYMS],['older','קודם',-Infinity]];
+  const by={}; for(const u of U.rows){ const c=+new Date(u.created_at); const g=G.find(x=>c>=x[2]); (by[g[0]]=by[g[0]]||[]).push(u); }
+  const open=A.uOpen||(A.uOpen={}); let first=true;
+  return G.filter(([k])=>by[k]).map(([k,t])=>{ const on=open[k]??first; first=false;
+    return `<div class="card r20 list adm-ug"><button class="li adm-ugh" data-act="adm-ug" data-k="${k}" aria-expanded="${on}"><span class="lt"><b>${t}</b></span><span class="pill2 num" style="--c:var(--accent)">${by[k].length}</span><span class="adm-chev ${on?'on':''}">${ICON.chev}</span></button>${on?by[k].map(admUserRow).join(''):''}</div>`; }).join('');
+}
 function admUsersHTML(){
   const U=A.users, O=A.ov||{};
   const cnt={all:O.users,pending:O.pending,trial:O.trial,paying:O.paying,expiring:O.expiring7,expired:O.expired,blocked:O.blocked};
   return `<label class="srch">${ICON.search}<input id="adm-q" type="search" placeholder="חיפוש לפי שם, אימייל או טלפון" value="${esc(U.q)}" aria-label="חיפוש משתמש"></label>
     <div class="chips">${ADM_FILTERS.filter(([k])=>k==='all'||cnt[k]).map(([k,t])=>`<button class="chip ${U.filter===k?'on':''}" data-act="adm-filter" data-f="${k}">${t}${cnt[k]!=null?`<i class="num">${cnt[k]}</i>`:''}</button>`).join('')}</div>
     ${U.filter==='all'&&!U.q?admSrcSummary():''}
-    <div class="card r20 list">${U.rows.map(u=>{const st=userState(u);
-      return `<button class="li" data-act="adm-user" data-id="${u.id}">
-        <span class="av2" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
-        <span class="lt"><b><span data-notr>${esc(u.full_name||u.email.split('@')[0])}</span> ${stPill(st)}</b><small dir="ltr" style="text-align:var(--start)">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</small>${admSrc(u)?`<small class="adm-src">${esc(admSrc(u))}</small>`:''}</span>
-        <span class="small muted" style="text-align:end;white-space:nowrap;line-height:1.4">${u.last_seen?agoHe(u.last_seen):agoHe(u.created_at)}${u.until&&new Date(u.until)>new Date()?`<br><span class="num">עד ${dShort(u.until)}</span>`:''}</span>
-      </button>`;}).join('')||`<div class="li small muted" style="justify-content:center">${U.loading?'טוען…':'אין תוצאות'}</div>`}</div>
+    ${admUserGroups(U)}
     <div class="small muted" style="text-align:center">${U.loading&&!U.rows.length?'':`${U.rows.length} מתוך ${U.total}`}</div>
     ${U.rows.length<U.total?`<button class="btn big" style="background:var(--surface)" data-act="adm-more">${U.loading?'טוען…':`טען עוד ${Math.min(30,U.total-U.rows.length)}`}</button>`:''}`;
 }
@@ -6404,7 +6420,9 @@ async function admUserSheet(id){
         <a class="btn" href="mailto:${esc(u.email)}">שליחת מייל</a>
         ${u.access_until&&new Date(u.access_until)>new Date()?`<button class="btn" data-act="adm-revoke" data-id="${u.id}">ביטול מנוי (החזר)</button>`:''}
         ${u.access!=='rejected'?`<button class="btn danger" data-act="adm-set" data-id="${u.id}" data-st="rejected">חסימה</button>`:''}
-      </div>`}`);
+      </div>
+      <button class="btn danger big" style="width:100%;margin-top:10px;background:transparent;border:1px solid color-mix(in srgb,var(--danger) 45%,transparent)" data-act="adm-del" data-id="${u.id}">מחיקת המשתמש וכל המידע שלו</button>
+      <div class="small muted" style="text-align:center;margin-top:6px;line-height:1.5">מוחק את החשבון, האימונים, הארוחות, השקילות והתמונות. אי אפשר לשחזר.${u.store_until?' מנוי מהחנות צריך לבטל ב-App Store / Google Play.':''}</div>`}`);
   };
   draw(null); const {data}=await sb.rpc('admin_user',{p_uid:id}); if(!$('#sheet').hidden)draw(data);
 }
@@ -6483,6 +6501,14 @@ function admAct(act,b){
     case 'adm-user-ext': sb.rpc('admin_users',{p_q:'',p_filter:'all',p_limit:100,p_offset:0}).then(({data})=>{ A.pick=data?.rows||[]; admUserSheet(b.dataset.id); }); return true;
     case 'adm-set': { const id=b.dataset.id, st=b.dataset.st; if(st==='rejected'&&!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב';return true;}
       sb.rpc('admin_set_access',{uid:id,st}).then(({error})=>{ if(error){toast('נכשל');return;} toast(st==='approved'?'✓ הגישה אושרה':'המשתמש נחסם'); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true; }
+    case 'adm-ug': { const k=b.dataset.k, o=A.uOpen||(A.uOpen={}); o[k]=b.getAttribute('aria-expanded')!=='true'; render(); return true; }
+    case 'adm-del': { const id=b.dataset.id; if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='בטוח? לחיצה נוספת מוחקת לצמיתות'; b.style.background='var(--danger)'; b.style.color='#fff'; return true; }
+      if(b.disabled)return true; b.disabled=true; b.textContent='מוחק…';
+      sb.auth.getSession().then(({data:{session}})=>fetch(SUPABASE_URL+'/functions/v1/delete-account',{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:'Bearer '+(session?.access_token||'')},body:JSON.stringify({confirm:'DELETE',uid:id})}))
+        .then(r=>r.json().catch(()=>({})).then(j=>{ if(!r.ok||!j.ok)throw new Error(j.error||r.status); }))
+        .then(()=>{ toast('המשתמש נמחק'); closeSheet(); A.users.rows=A.users.rows.filter(x=>x.id!==id); loadAdmin(); admLoadUsers(true); })
+        .catch(e=>{ b.disabled=false; delete b.dataset.sure; b.textContent='מחיקת המשתמש וכל המידע שלו'; toast(String(e.message)==='target_admin'?'אי אפשר למחוק אדמין':'המחיקה נכשלה'); });
+      return true; }
     case 'adm-grant': { const d=+b.dataset.days; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל');return;} toast(`נוספו ${d} ימים ✓`); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true; }
     case 'adm-revoke': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? הגישה תיסגר עכשיו';return true;}
       sb.rpc('admin_revoke',{p_uid:b.dataset.id}).then(({error})=>{ if(error){toast('נכשל');return;} toast('המנוי בוטל'); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true;
@@ -8347,6 +8373,19 @@ function handleAct(b,ev){
     case 'saved-manage': openSavedManage(); break;
     case 'saved-rm': { const m=savedMeals().find(x=>x.id===b.dataset.id); if(m){ unsaveFixed(m.name); openSavedManage(); toast('הוסרה'); } break; }
     case 'food-targets-open': openTargetsSheet(); break;
+    case 'tgt-open': { const k=+S.settings.kcalT||'', p=+S.settings.protT||'', m=macroT();
+      openSheet(`<h3>${tt('היעד היומי')}</h3>
+        <div class="row" style="gap:10px">
+          <div style="flex:1"><div class="label">${tt('קלוריות')}</div><input class="num" type="text" readonly data-np="num" data-unit="${tt('קק״ל')}" aria-label="${tt('יעד קלוריות')}" id="tgm-k" value="${k}"></div>
+          <div style="flex:1"><div class="label">${tt('חלבון (גר׳)')}</div><input class="num" type="text" readonly data-np="num" data-unit="${tt('גר׳ חלבון')}" aria-label="${tt('יעד חלבון')}" id="tgm-p" value="${p}"></div></div>
+        <div class="small muted" style="margin:8px 2px 0">${tt('פחמימה ושומן מתחלקים אוטומטית לפי הקלוריות והחלבון.')}${m.c?` ${tt('כרגע')}: <span class="num">${m.c}</span> ${tt('גר׳ פחמימה')}, <span class="num">${m.f}</span> ${tt('גר׳ שומן')}.`:''}</div>
+        <button class="btn primary big" style="width:100%;margin-top:14px" data-act="tgt-save">${tt('שמירה')}</button>
+        <div class="tgt-or"><span>${tt('או')}</span></div>
+        <button class="li tgt-smart" data-act="food-targets-open"><span style="font-size:22px">✨</span><span class="lt"><b>${tt('הבונה החכם')}</b><small>${tt('חישוב מחדש לפי גובה, משקל, פעילות, מטרה וקצב')}</small></span>${ICON.chev}</button>`); break; }
+    case 'tgt-save': { const k=Math.round(+($('#tgm-k')?.value)||0), p=Math.round(+($('#tgm-p')?.value)||0);
+      if(k<800||k>6000){ toast(tt('יעד קלוריות בין 800 ל-6,000')); break; }
+      if(p&&(p<20||p>400)){ toast(tt('יעד חלבון בין 20 ל-400 גר׳')); break; }
+      S.settings.kcalT=k; S.settings.protT=p||null; persistSettings(); closeSheet(); toast('היעדים נשמרו 🎯'); render(); break; }
     case 'g-open': openGenderSheet(false); break;
     case 'acc-open': openAccentSheet(); break;
     case 'g-name-next': { const nm=($('#g-name')?.value||'').trim(); if(!nm){ toast('מה השם שלך?'); $('#g-name')?.focus(); break; }
