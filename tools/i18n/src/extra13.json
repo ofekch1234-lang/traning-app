@@ -23,13 +23,13 @@
   "en": "After your first workout I'll send you a weekly summary here",
   "ar": "بعد تدريبك الأول سأرسل لك هنا ملخصًا أسبوعيًا"
  },
- "קובי מכין את הסיכום השבועי…": {
-  "en": "Kobi is preparing your weekly summary…",
-  "ar": "كوبي يُعدّ ملخصك الأسبوعي…"
+ "ראפי מכין את הסיכום השבועי…": {
+  "en": "Repi is preparing your weekly summary…",
+  "ar": "ريبي يُعدّ ملخصك الأسبوعي…"
  },
- "קובי: הסיכום השבועי שלך": {
-  "en": "Kobi: your weekly summary",
-  "ar": "كوبي: ملخصك الأسبوعي"
+ "ראפי: הסיכום השבועי שלך": {
+  "en": "Repi: your weekly summary",
+  "ar": "ريبي: ملخصك الأسبوعي"
  },
  "שאל אותי על אימונים, תזונה והתקדמות": {
   "en": "Ask me about training, nutrition and progress",
@@ -111,9 +111,9 @@
   "en": "Turn on notifications",
   "ar": "فعّل الإشعارات"
  },
- "סוף המנוחה, ימי אימון והודעות מקובי": {
-  "en": "End of rest, workout days and messages from Kobi",
-  "ar": "نهاية الراحة وأيام التدريب ورسائل كوبي"
+ "סוף המנוחה, ימי אימון והודעות מראפי": {
+  "en": "End of rest, workout days and messages from Repi",
+  "ar": "نهاية الراحة وأيام التدريب ورسائل ريبي"
  },
  "הפעלה": {
   "en": "Turn on",
@@ -635,9 +635,9 @@
   "en": "Subscription",
   "ar": "اشتراك"
  },
- "פרימיום: ניתוח AI בכל ארוחה וקובי המאמן": {
-  "en": "Premium: AI analysis for every meal and Kobi the coach",
-  "ar": "بريميوم: تحليل لكل وجبة وكوبي المدرب"
+ "פרימיום: ניתוח AI בכל ארוחה וראפי המאמן": {
+  "en": "Premium: AI analysis for every meal and Repi the coach",
+  "ar": "بريميوم: تحليل لكل وجبة وريبي المدرب"
  },
  "פתיחה": {
   "en": "Open",
@@ -743,9 +743,9 @@
   "en": "Friends' messages, workouts and challenges",
   "ar": "رسائل الأصدقاء وتدريباتهم وتحدياتهم"
  },
- "סיכום שבועי מקובי": {
-  "en": "Weekly summary from Kobi",
-  "ar": "ملخص أسبوعي من كوبي"
+ "סיכום שבועי מראפי": {
+  "en": "Weekly summary from Repi",
+  "ar": "ملخص أسبوعي من ريبي"
  },
  "בכל יום ראשון בבוקר": {
   "en": "Every Sunday morning",
@@ -1011,9 +1011,9 @@
   "en": "What's your name, and how should I address you? That's how I'll talk to you across the app.",
   "ar": "ما اسمك، وكيف أخاطبك؟ هكذا سأتحدث معك في كل التطبيق."
  },
- "היי, אני קובי 👋 איך קוראים לך?": {
-  "en": "Hi, I'm Kobi 👋 What's your name?",
-  "ar": "مرحبًا، أنا كوبي 👋 ما اسمك؟"
+ "היי, אני ראפי 👋 איך קוראים לך?": {
+  "en": "Hi, I'm Repi 👋 What's your name?",
+  "ar": "مرحبًا، أنا ريبي 👋 ما اسمك؟"
  },
  "ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.": {
   "en": "That's how I'll address you in the app, and how friends will see you in groups.",
@@ -1043,9 +1043,9 @@
   "en": "Without them we can't remind you of anything. Turn them on once and we'll take care of the rest:",
   "ar": "بدونها لا يمكننا تذكيرك بشيء. فعّلها مرة واحدة ونحن نتولى الباقي:"
  },
- "הסיכום השבועי מקובי והודעות מהקבוצה": {
-  "en": "Kobi's weekly summary and messages from your group",
-  "ar": "ملخص كوبي الأسبوعي ورسائل الفريق"
+ "הסיכום השבועי מראפי והודעות מהקבוצה": {
+  "en": "Repi's weekly summary and messages from your group",
+  "ar": "ملخص ريبي الأسبوعي ورسائل الفريق"
  },
  "הפעלת התראות": {
   "en": "Turn on notifications",

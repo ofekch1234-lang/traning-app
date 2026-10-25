@@ -55,13 +55,13 @@
   "en": "The Israeli Ministry of Health food database: local foods, not a generic American list. Too lazy to search? Snap your plate: the AI identifies each item, estimates the grams and counts calories and protein. You can also scan a nutrition label.",
   "ar": "قاعدة بيانات التغذية الإسرائيلية: أطعمة محلية، لا قائمة أمريكية عامة. لا رغبة لك في البحث؟ صوّر طبقك: يتعرّف الذكاء الاصطناعي على كل مكوّن ويقدّر الغرامات ويحسب السعرات والبروتين. ويمكنك أيضًا مسح الملصق الغذائي."
  },
- "קובי הבוט, המאמן שלך בכיס": {
-  "en": "Kobi the bot, your coach in your pocket",
-  "ar": "كوبي البوت، مدربك في جيبك"
+ "ראפי, המאמן שלך בכיס": {
+  "en": "Repi, your coach in your pocket",
+  "ar": "ريبي، مدربك في جيبك"
  },
- "קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.": {
-  "en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic internet advice: he looks at your numbers.",
-  "ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. لا نصائح عامة من الإنترنت، بل ينظر إلى أرقامك."
+ "ראפי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. הוא לא נותן עצות כלליות מהאינטרנט, הוא מסתכל על המספרים שלך.": {
+  "en": "Repi is an AI coach who knows every set, meal and weigh-in of yours. No generic internet advice: he looks at your numbers.",
+  "ar": "ريبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. لا نصائح عامة من الإنترنت، بل ينظر إلى أرقامك."
  },
  "סיכום שבועי: מה השתפר, איפה נתקעת ועל מה להתמקד השבוע": {
   "en": "Weekly summary: what improved, where you're stuck and what to focus on this week",
@@ -95,21 +95,21 @@
   "en": "First {0} days free with every feature. Then pick a plan: one payment, no auto-renewal, no commitment.",
   "ar": "أول {0} أيام مجانًا مع كل الميزات. بعدها اختر باقة: دفعة واحدة، بلا تجديد تلقائي وبلا التزام."
  },
- "כל המסלולים כוללים הכל: אימונים, תזונה עם AI, קובי הבוט, קבוצות ואתגרים.": {
-  "en": "Every plan includes everything: workouts, AI nutrition, Kobi the bot, groups and challenges.",
-  "ar": "كل الباقات تشمل كل شيء: التمارين، التغذية بالذكاء الاصطناعي، كوبي البوت، المجموعات والتحديات."
+ "כל המסלולים כוללים הכל: אימונים, תזונה עם AI, ראפי, קבוצות ואתגרים.": {
+  "en": "Every plan includes everything: workouts, AI nutrition, Repi, groups and challenges.",
+  "ar": "كل الباقات تشمل كل شيء: التمارين، التغذية بالذكاء الاصطناعي، ريبي، المجموعات والتحديات."
  },
  "7 ימים ראשונים בחינם, עם כל הפיצ׳רים. אחר כך ממשיכים במסלול בתשלום חד-פעמי: בלי מנוי מתחדש, בלי חיוב אוטומטי ובלי התחייבות. המחירים מופיעים למעלה.": {
   "en": "The first 7 days are free, with every feature. Then you continue with a one-time-payment plan: no recurring subscription, no automatic charge and no commitment. Prices are shown above.",
   "ar": "أول 7 أيام مجانية مع كل الميزات. بعدها تتابع بباقة بدفعة واحدة: بلا اشتراك متجدد، بلا خصم تلقائي وبلا التزام. الأسعار معروضة في الأعلى."
  },
- "מה קובי הבוט יודע לעשות?": {
-  "en": "What can Kobi the bot do?",
-  "ar": "ماذا يستطيع كوبي البوت أن يفعل؟"
+ "מה ראפי יודע לעשות?": {
+  "en": "What can Repi do?",
+  "ar": "ماذا يستطيع ريبي أن يفعل؟"
  },
- "קובי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומנויים יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
-  "en": "Kobi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and subscribers can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
-  "ar": "كوبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وعلى ماذا تركّز، ويمكن للمشتركين سؤاله أي شيء عن التدريب والتغذية والتعافي. وعندما يوصي بتمرين، يظهر فيديو توضيحي."
+ "ראפי הוא מאמן AI שמכיר את הנתונים שלך: כל שבוע הוא שולח סיכום עם מה הלך טוב ועל מה להתמקד, ומנויים יכולים לשאול אותו כל שאלה על אימון, תזונה והתאוששות. כשהוא ממליץ על תרגיל, מופיע סרטון הדגמה.": {
+  "en": "Repi is an AI coach who knows your data: every week he sends a summary of what went well and what to focus on, and subscribers can ask him anything about training, nutrition and recovery. When he recommends an exercise, a demo video appears.",
+  "ar": "ريبي مدرب ذكاء اصطناعي يعرف بياناتك: كل أسبوع يرسل ملخصًا بما سار جيدًا وعلى ماذا تركّز، ويمكن للمشتركين سؤاله أي شيء عن التدريب والتغذية والتعافي. وعندما يوصي بتمرين، يظهر فيديو توضيحي."
  },
  "כן. עונים על כמה שאלות ומקבלים תוכנית שמותאמת לך, עם סרטון הדגמה לכל תרגיל. אבל הכלי בנוי למי שמתאמן באופן קבוע ורוצה לראות מספרים.": {
   "en": "Yes. Answer a few questions and get a plan tailored to you, with a demo video for every exercise. But the tool is built for people who train regularly and want to see numbers.",
@@ -119,9 +119,9 @@
   "en": "What language is the app in?",
   "ar": "بأي لغة التطبيق؟"
  },
- "עברית, ערבית ואנגלית, כולל קובי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.": {
-  "en": "Hebrew, Arabic and English, including Kobi, notifications and meal recognition. Switch language in settings anytime.",
-  "ar": "العبرية والعربية والإنجليزية، بما في ذلك كوبي والإشعارات والتعرّف على الوجبات. غيّر اللغة من الإعدادات في أي وقت."
+ "עברית, ערבית ואנגלית, כולל ראפי, ההתראות וזיהוי הארוחות. מחליפים שפה בהגדרות בכל רגע.": {
+  "en": "Hebrew, Arabic and English, including Repi, notifications and meal recognition. Switch language in settings anytime.",
+  "ar": "العبرية والعربية والإنجليزية، بما في ذلك ريبي والإشعارات والتعرّف على الوجبات. غيّر اللغة من الإعدادات في أي وقت."
  },
  "נרשמים בקליק עם Google, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. {0} ימים ראשונים עלינו.": {
   "en": "Sign up in one click with Google, add it to your home screen, and from your next workout every set is saved. The first {0} days are on us.",
@@ -247,9 +247,9 @@
   "en": "AI nutrition",
   "ar": "تغذية بالذكاء الاصطناعي"
  },
- "קובי הבוט": {
-  "en": "Kobi the bot",
-  "ar": "كوبي البوت"
+ "ראפי": {
+  "en": "Repi",
+  "ar": "ريبي"
  },
  "קבוצות ואתגרים": {
   "en": "Groups & challenges",
@@ -315,21 +315,21 @@
   "en": "By purchasing you agree to the ",
   "ar": "بالشراء توافق على "
  },
- "היי, אני קובי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.": {
-  "en": "Hi, I'm Kobi 👋 After your first workout I'll send you a weekly summary here: what went well and what to focus on.",
-  "ar": "مرحبًا، أنا كوبي 👋 بعد تمرينك الأول سأرسل لك هنا ملخصًا أسبوعيًا: ما الذي سار جيدًا وعلى ماذا تركّز."
+ "היי, אני ראפי 👋 אחרי האימון הראשון שלך אשלח לך כאן סיכום שבועי: מה הלך טוב ועל מה להתמקד.": {
+  "en": "Hi, I'm Repi 👋 After your first workout I'll send you a weekly summary here: what went well and what to focus on.",
+  "ar": "مرحبًا، أنا ريبي 👋 بعد تمرينك الأول سأرسل لك هنا ملخصًا أسبوعيًا: ما الذي سار جيدًا وعلى ماذا تركّز."
  },
- "אני קובי, המאמן שלך כאן. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בקצרה מה יש בו. אפשר לדלג בכל רגע.": {
-  "en": "I'm Kobi, your coach here. Every screen you open for the first time, I'll quickly show you what's in it. You can skip anytime.",
-  "ar": "أنا كوبي، مدربك هنا. في كل شاشة تفتحها لأول مرة سأريك بسرعة ما فيها. يمكنك التخطي في أي وقت."
+ "אני ראפי, המאמן שלך כאן. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בקצרה מה יש בו. אפשר לדלג בכל רגע.": {
+  "en": "I'm Repi, your coach here. Every screen you open for the first time, I'll quickly show you what's in it. You can skip anytime.",
+  "ar": "أنا ريبي، مدربك هنا. في كل شاشة تفتحها لأول مرة سأريك بسرعة ما فيها. يمكنك التخطي في أي وقت."
  },
  "הבנתי 💪": {
   "en": "Got it 💪",
   "ar": "فهمت 💪"
  },
- "אני קובי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.": {
-  "en": "I'm Kobi, your coach. On every screen you open for the first time, I'll show you in a few short steps what it's for.",
-  "ar": "أنا كوبي، مدربك. في كل شاشة تفتحها لأول مرة سأريك في خطوات قصيرة ما الذي تفعله فيها."
+ "אני ראפי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.": {
+  "en": "I'm Repi, your coach. On every screen you open for the first time, I'll show you in a few short steps what it's for.",
+  "ar": "أنا ريبي، مدربك. في كل شاشة تفتحها لأول مرة سأريك في خطوات قصيرة ما الذي تفعله فيها."
  },
  "הסיכום השבועי שלי": {
   "en": "My weekly summary",
@@ -1927,9 +1927,9 @@
   "en": "A coach who knows you and doesn't judge",
   "ar": "مدرب يعرفك ولا يحكم عليك"
  },
- "קובי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי \"פשוט תאכלי פחות\". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.": {
-  "en": "Kobi is an AI coach who knows every set, meal and weigh-in of yours. No generic advice and no \"just eat less\". He looks at your numbers and tells you the next step.",
-  "ar": "كوبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. بلا نصائح عامة ولا \"كلي أقل فحسب\". ينظر إلى أرقامك ويخبرك بالخطوة التالية."
+ "ראפי הוא מאמן AI שמכיר כל סט, כל ארוחה וכל שקילה שלך. בלי עצות כלליות ובלי \"פשוט תאכלי פחות\". הוא מסתכל על המספרים שלך ואומר מה הצעד הבא.": {
+  "en": "Repi is an AI coach who knows every set, meal and weigh-in of yours. No generic advice and no \"just eat less\". He looks at your numbers and tells you the next step.",
+  "ar": "ريبي مدرب ذكاء اصطناعي يعرف كل مجموعة ووجبة ووزن لك. بلا نصائح عامة ولا \"كلي أقل فحسب\". ينظر إلى أرقامك ويخبرك بالخطوة التالية."
  },
  "מתאמנות ביחד": {
   "en": "Training together",
@@ -2083,9 +2083,9 @@
   "en": "A reminder on your training days",
   "ar": "تذكير في أيام تدريبك"
  },
- "תשובות מקובי והודעות מהקבוצה": {
-  "en": "Replies from Kobi and messages from your group",
-  "ar": "ردود كوبي ورسائل المجموعة"
+ "תשובות מראפי והודעות מהקבוצה": {
+  "en": "Replies from Repi and messages from your group",
+  "ar": "ردود ريبي ورسائل المجموعة"
  },
  "תזכיר לי מחר": {
   "en": "Remind me tomorrow",

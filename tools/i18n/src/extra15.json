@@ -406,5 +406,109 @@
  "מגמה: {0} ק״ג בשבוע. לפי מה שאכלת והמשקל, הגוף שלך שורף בערך {1} קק״ל ביום.": {
   "en": "Trend: {0} kg a week. Based on what you ate and your weight, your body burns about {1} kcal a day.",
   "ar": "الاتجاه: {0} كغ أسبوعيًا. حسب ما أكلت ووزنك، يحرق جسمك تقريبًا {1} سعرة يوميًا."
+ },
+ "ראפי, המאמן שלך": {
+  "en": "Repi, your coach",
+  "ar": "ريبي، مدربك"
+ },
+ "ראפי מוכן": {
+  "en": "Repi is ready",
+  "ar": "ريبي جاهز"
+ },
+ "הגדרות של ראפי": {
+  "en": "Repi settings",
+  "ar": "إعدادات ريبي"
+ },
+ "ראפי מנהל הכל": {
+  "en": "Repi runs everything",
+  "ar": "ريبي يدير كل شيء"
+ },
+ "משקל וחזרות בכל סט, ובסוף כל בלוק ראפי מרענן את התוכנית בעצמו.": {
+  "en": "Weight and reps for every set, and at the end of each block Repi refreshes your plan.",
+  "ar": "وزن وتكرارات لكل مجموعة، وفي نهاية كل دورة يجدد ريبي برنامجك بنفسه."
+ },
+ "התוכנית שלי, ראפי מלווה": {
+  "en": "My plan, Repi guides",
+  "ar": "برنامجي، وريبي يرافقني"
+ },
+ "ראפי ממליץ על משקל וחזרות ומציע שינויים. התרגילים לא משתנים בלי אישור שלך.": {
+  "en": "Repi suggests weight and reps and proposes changes. Exercises never change without your OK.",
+  "ar": "يقترح ريبي الوزن والتكرارات ويعرض تغييرات. لا تتغير التمارين دون موافقتك."
+ },
+ "בלי ראפי": {
+  "en": "Without Repi",
+  "ar": "بدون ريبي"
+ },
+ "\"כמה חזרות עוד היו לך?\" עוזר לראפי לדייק. אפשר לדלג תמיד.": {
+  "en": "\"How many more reps did you have?\" helps Repi fine-tune. You can always skip.",
+  "ar": "\"كم تكرارًا كان لديك بعد؟\" يساعد ريبي على الدقة. يمكنك التخطي دائمًا."
+ },
+ "קרוב לכישלון ומתחת לטווח. אתחשב בזה בפעם הבאה.": {
+  "en": "Close to failure and below the range. I'll factor it in next time.",
+  "ar": "قريب من الفشل وتحت النطاق. سآخذ ذلك بالحسبان المرة القادمة."
+ },
+ "ראפי · תזונה": {
+  "en": "Repi · nutrition",
+  "ar": "ريبي · التغذية"
+ },
+ "ראפי · הסיכום השבועי שלך": {
+  "en": "Repi · your weekly check-in",
+  "ar": "ريبي · ملخصك الأسبوعي"
+ },
+ "ראפי יוכל להציע להחליף אותו": {
+  "en": "Repi may suggest swapping it",
+  "ar": "يمكن لريبي اقتراح استبداله"
+ },
+ "ראפי לא יחליף אותו בבלוק הבא": {
+  "en": "Repi won't swap it next block",
+  "ar": "لن يستبدله ريبي في الدورة القادمة"
+ },
+ "ראפי": {
+  "en": "Repi",
+  "ar": "ريبي"
+ },
+ "בלוק אימונים": {
+  "en": "Training block",
+  "ar": "دورة تدريبية"
+ },
+ "תקופה של 6 שבועות: 5 שבועות שבהם העומס עולה בהדרגה, ושבוע קל בסוף. בסוף כל בלוק ראפי מראה מה התחזק ומרענן את התוכנית.": {
+  "en": "A 6-week cycle: 5 weeks where the load builds up gradually, then a light week. At the end of each block Repi shows what got stronger and refreshes your plan.",
+  "ar": "فترة من 6 أسابيع: 5 أسابيع يرتفع فيها الحمل تدريجيًا ثم أسبوع خفيف. في نهاية كل دورة يعرض ريبي ما تحسن ويجدد برنامجك."
+ },
+ "שבוע עם חצי מהסטים ואותו משקל. הגוף מתאושש מהעומס שנצבר ואחריו חוזרים חזקים יותר. זה חלק מהתוכנית, לא הפסקה.": {
+  "en": "A week with half the sets at the same weight. Your body recovers from the built-up load and you come back stronger. It's part of the plan, not a break.",
+  "ar": "أسبوع بنصف المجموعات وبالوزن نفسه. يتعافى جسمك من الحمل المتراكم وتعود أقوى. إنه جزء من البرنامج وليس استراحة."
+ },
+ "חזרות בטנק": {
+  "en": "Reps in the tank",
+  "ar": "تكرارات في الاحتياط"
+ },
+ "כמה חזרות עוד יכולת לעשות בסוף הסט. 0 = לא היית מצליח עוד אחת. ראפי משתמש בזה כדי לכוון את הסט הבא ואת האימון הבא.": {
+  "en": "How many more reps you could have done at the end of the set. 0 = you couldn't do one more. Repi uses it to tune your next set and next workout.",
+  "ar": "كم تكرارًا كان بإمكانك أداؤه بعد في نهاية المجموعة. 0 = لم تكن لتستطيع تكرارًا آخر. يستخدمه ريبي لضبط المجموعة والتدريب التاليين."
+ },
+ "המספרים בירוק": {
+  "en": "The green numbers",
+  "ar": "الأرقام الخضراء"
+ },
+ "ההמלצה של ראפי לסט הזה: משקל וחזרות לפי מה שעשית בפעם הקודמת. לוחצים ✓ כדי לאשר, או משנים כרצונך.": {
+  "en": "Repi's suggestion for this set: weight and reps based on what you did last time. Tap ✓ to accept, or change them as you like.",
+  "ar": "اقتراح ريبي لهذه المجموعة: الوزن والتكرارات حسب ما فعلته في المرة السابقة. اضغط ✓ للتأكيد أو غيّرها كما تريد."
+ },
+ "איך ראפי מחשב": {
+  "en": "How Repi calculates",
+  "ar": "كيف يحسب ريبي"
+ },
+ "הוא משווה כמה אכלת לפי התיעוד מול מגמת המשקל בשבועיים האחרונים, ומזה מחשב כמה הגוף שלך באמת שורף. מגמה = השינוי הממוצע בשבוע, בלי הקפיצות היומיות של מים ומלח.": {
+  "en": "He compares what you logged eating with your weight trend over the last two weeks, and from that works out how much your body really burns. Trend = the average weekly change, without the daily jumps from water and salt.",
+  "ar": "يقارن ما سجلت أنك أكلته باتجاه وزنك خلال الأسبوعين الأخيرين، ومن ذلك يحسب كم يحرق جسمك فعلًا. الاتجاه = متوسط التغير الأسبوعي دون القفزات اليومية بسبب الماء والملح."
+ },
+ "הפסקת דיאטה": {
+  "en": "Diet break",
+  "ar": "استراحة من الحمية"
+ },
+ "שבועיים של אכילה בשימור באמצע חיטוב ארוך. עוזר לשמור על אנרגיה ומוטיבציה, ואז ממשיכים לרדת.": {
+  "en": "Two weeks of eating at maintenance in the middle of a long cut. It helps keep your energy and motivation up, then you keep losing.",
+  "ar": "أسبوعان من الأكل على مستوى الثبات وسط تنشيف طويل. يساعد على الحفاظ على الطاقة والحافز ثم تواصل النزول."
  }
 }
