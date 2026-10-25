@@ -2,5 +2,30 @@
   "buildCommand": "node tools/seo/build.js",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "headers": [{"source": "/food/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400"}]}, {"source": "/ar/food/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400"}]}]
+  "headers": [
+    {
+      "source": "/food/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=86400"
+        }
+      ]
+    },
+    {
+      "source": "/ar/food/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=86400"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/i/:code",
+      "destination": "/invite"
+    }
+  ]
 }

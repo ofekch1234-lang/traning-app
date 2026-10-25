@@ -334,5 +334,197 @@
  "יעד חלבון בין 20 ל-400 גר׳": {
   "en": "Protein target between 20 and 400 g",
   "ar": "هدف البروتين بين 20 و400 غ"
+ },
+ "🎁 חבר הזמין אותך ל-NextRep: דרך ההזמנה מקבלים 14 ימים חינם. ההטבה נשמרת כשנרשמים מהמכשיר הזה.": {
+  "en": "🎁 A friend invited you to NextRep: with the invite you get 14 days free. The offer is kept when you sign up on this device.",
+  "ar": "🎁 دعاك صديق إلى NextRep: مع الدعوة تحصل على 14 يومًا مجانًا. يُحفظ العرض عند التسجيل من هذا الجهاز."
+ },
+ "הזמנת חבר? הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא מצטרף.": {
+  "en": "Invited a friend? They get 14 days free, and you get a free month when they subscribe.",
+  "ar": "دعوت صديقًا؟ يحصل على 14 يومًا مجانًا، وتحصل أنت على شهر مجاني عندما يشترك."
+ },
+ "הזמנת חברה? היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא מצטרפת.": {
+  "en": "Invited a friend? She gets 14 days free, and you get a free month when she subscribes.",
+  "ar": "دعوتِ صديقة؟ تحصل على 14 يومًا مجانًا، وتحصلين على شهر مجاني عندما تشترك."
+ },
+ "הזמן חבר, וקבל חודש חינם": {
+  "en": "Invite a friend, get a free month",
+  "ar": "ادعُ صديقًا واحصل على شهر مجاني"
+ },
+ "הזמיני חברה, וקבלי חודש חינם": {
+  "en": "Invite a friend, get a free month",
+  "ar": "ادعي صديقة واحصلي على شهر مجاني"
+ },
+ "הזמנת חבר: חודש חינם": {
+  "en": "Invite a friend: a free month",
+  "ar": "دعوة صديق: شهر مجاني"
+ },
+ "החבר מקבל 14 ימים חינם, ואתם חודש כשהוא מצטרף": {
+  "en": "Your friend gets 14 days free, and you a month when they subscribe",
+  "ar": "يحصل صديقك على 14 يومًا مجانًا، وأنت على شهر عندما يشترك"
+ },
+ "הזמן חבר: 14 ימים לו, חודש חינם לך": {
+  "en": "Invite a friend: 14 days for them, a free month for you",
+  "ar": "ادعُ صديقًا: 14 يومًا له، وشهر مجاني لك"
+ },
+ "הזמיני חברה: 14 ימים לה, חודש חינם לך": {
+  "en": "Invite a friend: 14 days for her, a free month for you",
+  "ar": "ادعي صديقة: 14 يومًا لها، وشهر مجاني لكِ"
+ },
+ "הזמנת חבר: 14 ימים לחבר, חודש חינם לך": {
+  "en": "Invite a friend: 14 days for them, a free month for you",
+  "ar": "دعوة صديق: 14 يومًا للصديق، وشهر مجاني لك"
+ },
+ "החבר מקבל 14 ימים חינם, ואתה חודש חינם כשהוא מצטרף": {
+  "en": "Your friend gets 14 days free, and you get a free month when they subscribe",
+  "ar": "يحصل صديقك على 14 يومًا مجانًا، وتحصل على شهر مجاني عندما يشترك"
+ },
+ "החברה מקבלת 14 ימים חינם, ואת חודש חינם כשהיא מצטרפת": {
+  "en": "Your friend gets 14 days free, and you get a free month when she subscribes",
+  "ar": "تحصل صديقتك على 14 يومًا مجانًا، وتحصلين على شهر مجاني عندما تشترك"
+ },
+ "החבר מקבל 14 ימים, ואתם חודש חינם כשהוא מצטרף": {
+  "en": "Your friend gets 14 days, and you a free month when they subscribe",
+  "ar": "يحصل صديقك على 14 يومًا، وأنت على شهر مجاني عندما يشترك"
+ },
+ "או הזמן חבר: 14 ימים לו, חודש חינם לך": {
+  "en": "Or invite a friend: 14 days for them, a free month for you",
+  "ar": "أو ادعُ صديقًا: 14 يومًا له، وشهر مجاني لك"
+ },
+ "או הזמיני חברה: 14 ימים לה, חודש חינם לך": {
+  "en": "Or invite a friend: 14 days for her, a free month for you",
+  "ar": "أو ادعي صديقة: 14 يومًا لها، وشهر مجاني لكِ"
+ },
+ "או הזמנת חבר: 14 ימים לחבר, חודש חינם לך": {
+  "en": "Or invite a friend: 14 days for them, a free month for you",
+  "ar": "أو دعوة صديق: 14 يومًا للصديق، وشهر مجاني لك"
+ },
+ "היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.": {
+  "en": "Hi! I use NextRep, an app that remembers every set, counts calories from a photo of my plate and builds me a meal plan. With my link you get {d} days free.",
+  "ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويحسب السعرات من صورة الطبق ويبني لي قائمة طعام. عبر رابطي تحصل على {d} يومًا مجانًا."
+ },
+ "היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.": {
+  "en": "Hi! I use NextRep, an app that remembers every set, counts calories from a photo of my plate and builds me a meal plan. With my link you get {d} days free.",
+  "ar": "مرحبًا! أستخدم NextRep، تطبيق يتذكر كل مجموعة ويحسب السعرات من صورة الطبق ويبني لي قائمة طعام. عبر رابطي تحصلين على {d} يومًا مجانًا."
+ },
+ "קוד ההזמנה": {
+  "en": "Invite code",
+  "ar": "رمز الدعوة"
+ },
+ "ההזמנה של {0} נקלטה: 14 ימים חינם": {
+  "en": "{0}'s invite is in: 14 days free",
+  "ar": "تم تسجيل دعوة {0}: 14 يومًا مجانًا"
+ },
+ "חבר הצטרף למנוי": {
+  "en": "A friend subscribed",
+  "ar": "صديق اشترك"
+ },
+ "מחכים לך {0} חודשים חינם": {
+  "en": "{0} free months are waiting for you",
+  "ar": "{0} أشهر مجانية بانتظارك"
+ },
+ "מחכה לך חודש חינם": {
+  "en": "A free month is waiting for you",
+  "ar": "شهر مجاني بانتظارك"
+ },
+ "החיוב הבא שלך יהיה ₪0, והמנוי ממשיך כרגיל אחריו. אישור אחד בחלון של אפל.": {
+  "en": "Your next charge will be ₪0, and your subscription continues as usual after it. One confirmation in Apple's window.",
+  "ar": "ستكون دفعتك القادمة ₪0، ويستمر الاشتراك كالمعتاد بعدها. تأكيد واحد في نافذة Apple."
+ },
+ "לקבלת החודש": {
+  "en": "Claim the month",
+  "ar": "احصل على الشهر"
+ },
+ "חודש חינם בדרך": {
+  "en": "A free month is on its way",
+  "ar": "شهر مجاني في الطريق"
+ },
+ "יהיה זמין לקבלה ב-": {
+  "en": "Ready to claim on ",
+  "ar": "جاهز للاستلام في "
+ },
+ "מתאמן": {
+  "en": "Training",
+  "ar": "يتمرّن"
+ },
+ "מתאמנים יותר טוב עם חבר": {
+  "en": "Training is better with a friend",
+  "ar": "التمرين أفضل مع صديق"
+ },
+ "שלחו את הקישור או את הקוד. ההטבה נשמרת גם כשמורידים את האפליקציה מהחנות.": {
+  "en": "Send the link or the code. The offer is kept even when the app is downloaded from the store.",
+  "ar": "أرسل الرابط أو الرمز. يُحفظ العرض حتى عند تنزيل التطبيق من المتجر."
+ },
+ "החבר מקבל {0} ימים חינם": {
+  "en": "Your friend gets {0} days free",
+  "ar": "يحصل صديقك على {0} يومًا مجانًا"
+ },
+ "אתה מקבל חודש חינם": {
+  "en": "You get a free month",
+  "ar": "تحصل على شهر مجاني"
+ },
+ "את מקבלת חודש חינם": {
+  "en": "You get a free month",
+  "ar": "تحصلين على شهر مجاني"
+ },
+ "מקבלים חודש חינם": {
+  "en": "You get a free month",
+  "ar": "تحصل على شهر مجاني"
+ },
+ "על כל חבר שמצטרף למנוי: החיוב הבא שלך ₪0": {
+  "en": "For every friend who subscribes: your next charge is ₪0",
+  "ar": "عن كل صديق يشترك: دفعتك القادمة ₪0"
+ },
+ "על כל חבר שמצטרף למנוי": {
+  "en": "For every friend who subscribes",
+  "ar": "عن كل صديق يشترك"
+ },
+ "עד {0} בשנה": {
+  "en": "up to {0} a year",
+  "ar": "حتى {0} في السنة"
+ },
+ "על כל חבר שנרשם ומתחיל להתאמן": {
+  "en": "For every friend who signs up and starts training",
+  "ar": "عن كل صديق يسجّل ويبدأ التمرين"
+ },
+ "הקוד האישי שלך": {
+  "en": "Your personal code",
+  "ar": "رمزك الشخصي"
+ },
+ "העתקה": {
+  "en": "Copy",
+  "ar": "نسخ"
+ },
+ "החברים שלך": {
+  "en": "Your friends",
+  "ar": "أصدقاؤك"
+ },
+ "חודשים השנה": {
+  "en": "Months this year",
+  "ar": "أشهر هذا العام"
+ },
+ "10 אימונים! חבר שמתאמן איתך = חודש חינם בשבילך.": {
+  "en": "10 workouts! A friend who trains with you = a free month for you.",
+  "ar": "10 تمارين! صديق يتمرن معك = شهر مجاني لك."
+ },
+ "הזמן אותו: הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא מצטרף.": {
+  "en": "Invite them: they get 14 days free, and you a free month when they subscribe.",
+  "ar": "ادعه: يحصل على 14 يومًا مجانًا، وتحصل على شهر مجاني عندما يشترك."
+ },
+ "הזמיני אותה: היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא מצטרפת.": {
+  "en": "Invite her: she gets 14 days free, and you a free month when she subscribes.",
+  "ar": "ادعيها: تحصل على 14 يومًا مجانًا، وتحصلين على شهر مجاني عندما تشترك."
+ },
+ "הזמנת חבר: 14 ימים חינם לחבר, וחודש חינם לך כשהוא מצטרף.": {
+  "en": "Invite a friend: 14 days free for them, and a free month for you when they subscribe.",
+  "ar": "دعوة صديق: 14 يومًا مجانًا للصديق، وشهر مجاني لك عندما يشترك."
+ },
+ "הקוד הועתק ✓": {
+  "en": "Code copied ✓",
+  "ar": "تم نسخ الرمز ✓"
+ },
+ "את החודש החינם מממשים באפליקציה": {
+  "en": "The free month is claimed in the app",
+  "ar": "يُستلم الشهر المجاني داخل التطبيق"
  }
 }

@@ -1,5 +1,4 @@
 // NextRep — App Store / Google Play subscriptions via RevenueCat.
-// NOT DEPLOYED YET: deploy at store launch, after the secrets below are set.
 //
 // Two callers, one source of truth:
 //  1. RevenueCat webhook (every purchase / renewal / cancel / refund / expiry).
@@ -45,7 +44,13 @@ async function syncUser(sb: ReturnType<typeof createClient>, uid: string) {
   };
   const { error } = await sb.from("store_subs").upsert(row);
   if (error) throw error;
-  return { premium: !!expires && !refunded && expires > new Date(), until: row.expires_at, will_renew: row.will_renew };
+  const premium = !!expires && !refunded && expires > new Date();
+  // a paid store subscription (not a free trial) rewards whoever invited this user (free month or 30 days, once)
+  if (premium && row.period_type !== "trial") {
+    const { error: e2 } = await sb.rpc("ref_paid", { p_uid: uid, p_payment_id: null });
+    if (e2) console.error("ref_paid", e2.message);
+  }
+  return { premium, until: row.expires_at, will_renew: row.will_renew };
 }
 
 Deno.serve(async (req: Request) => {
