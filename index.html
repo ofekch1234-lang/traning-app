@@ -6679,6 +6679,7 @@ function admPayHTML(){
     <div class="sect2"><span>תשלומים אחרונים</span></div>
     <div class="card r20 list">${(C.payments||[]).slice(0,20).map(p=>`<div class="li"><span class="tk" style="--c:var(--accent)">₪</span><span class="lt"><b data-notr>${esc(p.name||p.email||'')}</b><small>${dShort(p.created_at)} · ${p.months} חודשים</small></span><b class="num">₪${+p.amount||0}</b></div>`).join('')||'<div class="li small muted">עוד אין תשלומים</div>'}</div>
     <div class="sect2"><span>הגדרות</span></div>
+    ${IS_NATIVE?`<div class="card r20"><div class="small muted" style="line-height:1.6">מנוי, מחירים, מסלול חינמי וחיבור ל-Grow מנוהלים מהדפדפן, ב-nextrep.co.il.</div></div>`:`
     <details class="card r20 fold"><summary class="li"><span class="lt"><b>מנוי, מחירים ומסלול חינמי</b><small>${B.enabled?'גבייה פעילה':'גבייה כבויה'} · ${B.free_ai_per_day??1} ניתוחי AI חינם ביום · ${B.trial_days?B.trial_days+' ימי פרימיום לנרשם':'בלי פרימיום לנרשם'}</small></span>${ICON.chev}</summary>
       <div class="fold-b">
       <label class="setrow" style="padding:0;border:0"><span><b>גבייה פעילה</b><span class="small muted" style="display:block">כשכבוי, כולם נכנסים בלי הגבלה</span></span><input id="adm-en" type="checkbox" class="sw" ${B.enabled?'checked':''}></label>
@@ -6697,7 +6698,7 @@ function admPayHTML(){
       <div class="small"><b>קישור לעמוד תודה</b></div><div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(location.origin)}/thanks.html</div>
       <div class="small"><b>קישור לעדכון מערכות מידע (שרת)</b></div><div class="adm-in small" dir="ltr" style="word-break:break-all">${esc(hook)}</div>
       <button class="btn" style="border-radius:14px" data-act="copy-link" data-url="${esc(hook)}">העתקת כתובת העדכון</button>
-      </div></details>
+      </div></details>`}
     ${ev.length>open.length?`<details class="card r20 fold"><summary class="li"><span class="lt"><b>יומן הודעות מהסליקה</b><small>${ev.length-open.length} הודעות אחרונות</small></span>${ICON.chev}</summary><div class="list" style="border-top:1px solid var(--line)">${ev.filter(e=>!e.open).slice(0,20).map(evRow).join('')}</div></details>`:''}`;
 }
 function admMsgsHTML(){
