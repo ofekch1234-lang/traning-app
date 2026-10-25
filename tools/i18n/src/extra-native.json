@@ -958,5 +958,17 @@
  "החודש החינם זמין לקבלה 7 ימים אחרי שהחבר שילם": {
   "en": "The free month can be claimed 7 days after your friend pays",
   "ar": "يمكن استلام الشهر المجاني بعد 7 أيام من دفع صديقك"
+ },
+ "גוללים את הסרגל · הקשה על המספר להקלדה": {
+  "en": "Scroll the ruler · tap the number to type",
+  "ar": "مرّر المسطرة · اضغط على الرقم للكتابة"
+ },
+ "כמו בשקילה הקודמת": {
+  "en": "Same as last weigh-in",
+  "ar": "مثل الوزن السابق"
+ },
+ "מהשקילה הקודמת": {
+  "en": "from last weigh-in",
+  "ar": "عن الوزن السابق"
  }
 }

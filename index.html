@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4e14bea1"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4e14bea1"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4e14bea1"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cf8cb992"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cf8cb992"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cf8cb992"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1511,6 +1511,14 @@ svg text{font-family:var(--body)}
 .dbitem:not(.sel) .dbsel{display:none}
 .dbitem.sel b{color:var(--accent);font-size:15px;font-weight:800}
 .npstage .rack{-webkit-mask:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent);mask:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent);position:relative;z-index:1}
+.sr-delta{text-align:center;color:var(--accent);font-weight:600;font-size:14px;margin:-6px 0 6px;min-height:20px}
+.sr-wrap{position:relative;margin:4px -16px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}
+.sruler{display:flex;overflow-x:auto;scrollbar-width:none;touch-action:pan-x;overscroll-behavior:contain}.sruler::-webkit-scrollbar{display:none}
+.sr-sp{flex:none;display:block}.sr-svg{flex:none;display:block}
+.sr-svg line{stroke:#4A524C;stroke-width:1.5;stroke-linecap:round}.sr-svg line.hf{stroke:#7A847D}.sr-svg line.mj{stroke:var(--ink);stroke-width:2.5}
+.sr-svg text{fill:var(--muted);font-size:14px;font-weight:600;text-anchor:middle;font-family:inherit}.sr-svg .rf{fill:var(--muted)}
+.sr-ptr{position:absolute;left:50%;top:0;width:4px;height:52px;margin-left:-2px;border-radius:2px;background:var(--accent);pointer-events:none}
+.sr-ptr::before{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--accent)}
 .rackhint{text-align:center;color:var(--muted);font-size:11.5px;margin-bottom:2px}
 /* מגדל מכונה: מסגרת, מוטות מנחים, הלוחות הנבחרים מורמים והפין נעוץ */
 .mstack{position:relative;width:236px;margin:8px auto 2px;padding:0 20px;direction:ltr}
@@ -2081,7 +2089,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.18';
+const APP_VERSION='13.3.19';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6400,7 +6408,7 @@ function openWeighIn(date,after){
   const ws=S.weights||[]; const cur=ws.find(x=>x.d===d); const last=[...ws].filter(x=>x.d<=d).sort((a,b)=>a.d<b.d?1:-1)[0]||ws[ws.length-1];
   const label=d===ymd()?'שקילה היום':`שקילה · ${fmtDate(+new Date(d+'T12:00:00'))}`;
   openNumpad({ title:`${label}${cur?` · רשום: ${cur.kg} ק״ג`:last?` · אחרונה: ${last.kg} ק״ג`:''}`,
-    unit:'ק״ג', mode:'num', value:cur?+cur.kg:last?+last.kg:0, steps:[-0.5,-0.1,0.1,0.5],
+    unit:'ק״ג', mode:'scale', value:cur?+cur.kg:last?+last.kg:0, ref:(()=>{ const p=[...ws].filter(x=>x.d<d).sort((x,y)=>x.d<y.d?1:-1)[0]; return p?+p.kg:null; })(),
     apply(v){ if(!v){ if(cur)toast('לא נשמר — הקלד משקל'); return; } saveBodyweight(v,d); after&&after(); },
     extra:cur?{label:'מחק',fn(){ deleteBodyweight(d); after&&after(); }}:null });
 }
@@ -6670,6 +6678,10 @@ function renderNumpad(){
       ${[45,60,75,90,120,150,180,240].map(n=>`<button data-npset="${n}" class="num ${NP.val===n?'sel':''}">${n<60?n+'״':Math.floor(n/60)+':'+String(n%60).padStart(2,'0')}</button>`).join('')}
     </div>
     <div class="npstep"><button data-npadd="-15">−15</button><button data-npadd="15">+15</button></div>`;
+  }else if(c.mode==='scale'){ // bodyweight ruler: scroll it like a scale, a light tick every 100 g
+    body=`<div class="sr-delta" id="srdelta">${srDelta()}</div>
+    <div class="sr-wrap"><div class="sruler" id="sruler" dir="ltr"><i class="sr-sp"></i>${srTicks()}<i class="sr-sp"></i></div><b class="sr-ptr"></b></div>
+    <div class="rackhint" style="margin-top:6px">${tt('גוללים את הסרגל · הקשה על המספר להקלדה')}</div>`;
   }else{ // num — ספרות חופשיות (אירובי, משקל גוף)
     body=`<div class="npdigits">
       ${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-npd="${n}" class="num">${n}</button>`).join('')}
@@ -6678,13 +6690,14 @@ function renderNumpad(){
   }
   $('#np').innerHTML=`${c.mode==='weight'?npDefs():''}
     <div class="nptitle">${esc(c.title||'')}</div>
-    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):npFmt(NP.val)}</span><span class="npunit">${esc(c.unit||'')}</span></div>
+    <div class="npdisp"><span class="npval num" id="npval"${c.mode==='scale'?' data-npc="type" role="button" style="cursor:text"':''}>${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):c.mode==='scale'?(+NP.val||0).toFixed(1):npFmt(NP.val)}</span><span class="npunit">${esc(c.unit||'')}</span></div>
     ${body}
     <div class="npact">
       ${c.next?`<button class="btn primary big" style="flex:2" data-npc="next">בחרתי — לחזרות ←</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
        :c.applyDone?`<button class="btn primary big" style="flex:2" data-npc="savedone">שמור סט ✓</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
        :`${c.extra?`<button class="btn danger big" style="flex:1" data-npc="extra">${esc(c.extra.label)}</button>`:''}<button class="btn primary big" style="flex:2" data-npc="save">שמור</button>`}
     </div>`;
+  if(c.mode==='scale')requestAnimationFrame(srInit);
   const rack=$('#rack');
   if(rack){
     rack.addEventListener('scroll',()=>{ clearTimeout(NP._rt); NP._rt=setTimeout(rackPick,90); });
@@ -6713,6 +6726,22 @@ function rackPick(){
   if(v!==NP.val){ NP.val=v; vibrate(8); const el=$('#npval'); if(el)el.textContent=npFmt(v); }
   items.forEach(it=>it.classList.toggle('sel',it===best));
 }
+/* bodyweight ruler */
+const SR_PX=12; // px per 0.1 kg
+function srRange(){ const c=NP.cfg, base=NP.val||c.ref||70; NP.srLo=Math.max(20,Math.floor(Math.min(base,c.ref||base)-25)); NP.srHi=Math.min(300,Math.ceil(Math.max(base,c.ref||base)+25)); if(!NP.val)NP.val=Math.round(base*10)/10; }
+function srTicks(){ srRange(); const n=(NP.srHi-NP.srLo)*10, W=n*SR_PX, ref=NP.cfg.ref; let h='';
+  for(let i=0;i<=n;i++){ const x=i*SR_PX+.5, maj=i%10===0, half=i%5===0; h+=`<line x1="${x}" x2="${x}" y1="6" y2="${maj?46:half?32:20}" class="${maj?'mj':half?'hf':''}"/>`; if(maj)h+=`<text x="${x}" y="68">${NP.srLo+i/10}</text>`; }
+  if(ref){ const x=Math.round((ref-NP.srLo)*10)*SR_PX+.5; h+=`<circle cx="${x}" cy="84" r="3.5" class="rf"/>`; }
+  return `<svg class="sr-svg" width="${W+1}" height="92" viewBox="0 0 ${W+1} 92" aria-hidden="true">${h}</svg>`; }
+function srDelta(){ const r=NP.cfg?.ref; if(!r||!NP.val)return '&nbsp;'; const d=Math.round((NP.val-r)*10)/10;
+  return d===0?tt('כמו בשקילה הקודמת'):`<span class="num" dir="ltr">${d>0?'+':'−'}${Math.abs(d).toFixed(1)}</span> ${tt('מהשקילה הקודמת')}`; }
+function srTick(){ try{ if(S.settings?.notif?.vib===false)return; if(IS_NATIVE){ const h=capP('Haptics'); if(h?.selectionChanged)h.selectionChanged().catch(()=>{}); else h?.impact({style:'LIGHT'}).catch(()=>{}); } else if(navigator.vibrate)navigator.vibrate(3); }catch(e){} }
+function srInit(){ const el=$('#sruler'); if(!el)return; const half=el.clientWidth/2; el.querySelectorAll('.sr-sp').forEach(i=>i.style.width=half+'px');
+  NP._srLock=true; el.scrollLeft=Math.round((NP.val-NP.srLo)*10)*SR_PX; requestAnimationFrame(()=>{ NP._srLock=false; });
+  try{ const h=capP('Haptics'); IS_NATIVE&&h?.selectionStart&&h.selectionStart().catch(()=>{}); }catch(e){}
+  el.addEventListener('scroll',()=>{ if(NP._srLock||!NP.cfg||NP.cfg.mode!=='scale')return; const v=Math.round((NP.srLo+el.scrollLeft/SR_PX/10)*10)/10;
+    if(v!==NP.val){ NP.val=Math.max(NP.srLo,Math.min(NP.srHi,v)); srTick(); const a=$('#npval'); if(a)a.textContent=NP.val.toFixed(1); const d=$('#srdelta'); if(d)d.innerHTML=srDelta(); }
+    clearTimeout(NP._srT); NP._srT=setTimeout(()=>{ const x=Math.round((NP.val-NP.srLo)*10)*SR_PX; if(Math.abs(el.scrollLeft-x)>1)el.scrollTo({left:x,behavior:'smooth'}); },120); },{passive:true}); }
 function npRange(){ return NP.lo===NP.hi?String(NP.lo):`${NP.lo}-${NP.hi}`; }
 function npUpdate(){ if(NP.cfg.mode==='range'){ renderNumpad(); return; } const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
   if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs')renderNumpad();
@@ -6747,6 +6776,7 @@ document.addEventListener('click',ev=>{
     if(d==='.'&&NP.str.includes('.'))return;
     if(NP.str.replace('.','').length>=5)return;
     NP.str=(NP.str==='0'&&d!=='.'?'':NP.str)+d; NP.val=parseFloat(NP.str)||0; }
+  else if(t.dataset.npc==='type'){ NP.cfg.mode='num'; NP.str=NP.val?NP.val.toFixed(1):''; NP.typing=false; renderNumpad(); return; }
   else if(t.dataset.npc==='back'){ NP.typing=true; NP.str=NP.str.slice(0,-1); NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
   else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); return; }
