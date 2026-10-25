@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8cf91069"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8cf91069"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8cf91069"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1f2d8ede"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1f2d8ede"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1f2d8ede"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1164,6 +1164,17 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .tc-card{display:flex;flex-direction:column;gap:12px;text-align:start}
 .tc-card .tc-h{display:flex;gap:12px;align-items:flex-start}.tc-card .tc-h .tc-t{flex:1}
 .tc-av{width:44px;height:44px;flex-shrink:0}
+.fdate{position:relative;cursor:pointer;padding:4px 6px;border-radius:10px}
+.fdate input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:0;padding:0}
+.pastnote{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;background:var(--accent-soft,rgba(52,199,89,.12));color:var(--text);font-size:14px;font-weight:600}
+.pastnote .linkbtn{text-decoration:none;font-weight:700}.pastnote .ic{width:18px;height:18px;color:var(--accent);flex:none}.pastnote span{flex:1;min-width:0}
+.me-when{display:flex;gap:10px;align-items:flex-end;margin-top:12px;flex-wrap:wrap}
+.me-date{display:flex;flex-direction:column;gap:6px;flex:1;min-width:140px}.me-date input{width:100%}
+.me-slot{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
+.me-slot button{border:0;background:none;padding:9px 12px;border-radius:9px;font:inherit;font-size:14px;color:var(--muted)}
+.me-slot button.on{background:var(--surface);color:var(--text);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.me-del{text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:14px;padding:12px;color:var(--danger,#e5484d);font-weight:600}
+.me-del .ic{width:18px;height:18px}.me-del.sure{background:rgba(229,72,77,.1);border-radius:12px}
 .tc-card .tc-t{display:flex;flex-direction:column;gap:3px;min-width:0}
 .tc-card .tc-t b{font-family:var(--disp);font-size:18px;font-weight:800;line-height:1.2}
 .tc-card .tc-t small{color:var(--muted);font-size:13.5px;line-height:1.45}
@@ -1724,7 +1735,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.38';
+const APP_VERSION='13.2.39';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2148,7 +2159,7 @@ async function trySync(){
   try{
     while(q.length){
       const it=q[0];
-      const {error}=await sb.from(it.table).upsert(it.row);
+      const {error}=it.row&&it.row._del?await sb.from(it.table).delete().eq('id',it.row.id):await sb.from(it.table).upsert(it.row);
       if(error&&!/duplicate|conflict/i.test(error.message||''))throw error;
       q.shift(); localStorage.setItem(Q_KEY,JSON.stringify(q));
     }
@@ -2955,7 +2966,7 @@ function nextWorkoutInfo(){
   for(let i=1;i<=7;i++){ const d=(new Date().getDay()+i)%7; const t=schedOf(d); if(t)return {t,label:'הבא בתור',sub:i===1?'מחר בלו״ז':`בלו״ז · יום ${DAY_NAMES[d]}`}; }
   const t=nextTpl(); return t?{t,label:'הבא בתור',sub:''}:null;
 }
-const ICON={play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>',
+const ICON={cal:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',trash:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12.5h8L17 7M10.5 11v5M13.5 11v5"/></svg>',play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>',
   chev:'<span class="chev" aria-hidden="true">›</span>',
   plus:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
   search:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>',
@@ -3110,7 +3121,7 @@ function vFood(){
   const mb=(label,v,target,cls)=>`<div><div class="spread small"><span>${label}</span><span class="num"><b>${v}</b><span class="muted">${target?` / ${target}`:' ג׳'}</span></span></div><div class="bar2" style="height:6px;margin-top:4px"><i class="${cls}" style="width:${target?Math.min(100,v/target*100):Math.min(100,v/3)}%"></i></div></div>`;
   return `
     <div class="spread"><h2 class="ttl">תזונה</h2>
-      <div class="row" style="gap:0;flex-wrap:nowrap"><button class="hd-btn" style="border:0;background:none;font-size:22px" data-act="food-nav" data-dir="-1" aria-label="יום קודם">${ARW_PREV}</button><b style="font-size:15px">${d===today?'היום':fmtDate(+dt)}</b><button class="hd-btn" style="border:0;background:none;font-size:22px;${d>=today?'opacity:.3':''}" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled':''}>${ARW_NEXT}</button></div></div>
+      <div class="row" style="gap:0;flex-wrap:nowrap"><button class="hd-btn" style="border:0;background:none;font-size:22px" data-act="food-nav" data-dir="-1" aria-label="יום קודם">${ARW_PREV}</button><label class="fdate" aria-label="${tt('בחירת תאריך')}"><b style="font-size:15px">${d===today?'היום':fmtDate(+dt)}</b><input type="date" id="food-date" value="${d}" max="${today}" min="${ymd(new Date(Date.now()-59*864e5))}" onclick="try{this.showPicker()}catch(_){}"></label><button class="hd-btn" style="border:0;background:none;font-size:22px;${d>=today?'opacity:.3':''}" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled':''}>${ARW_NEXT}</button></div></div>
     ${d===today?ncCardHTML():''}
     ${!kT?`<button class="goalcta" data-act="food-targets-open">
       <span class="gi">🎯</span>
@@ -3124,7 +3135,8 @@ function vFood(){
       </div>
     </div>
     ${d===today?foodBankLine():''}
-    ${d===today?(S.ai.busy?`<div class="card r20 aiload" style="margin:0">
+    ${d!==today?`<div class="pastnote">${ICON.cal||''}<span>מוסיף ארוחות ליום ${fmtDate(+dt)}</span><button class="linkbtn small" data-act="food-today">חזרה להיום</button></div>`:''}
+    ${(S.ai.busy?`<div class="card r20 aiload" style="margin:0">
         ${S.ai.img?`<img src="${S.ai.img}" alt="">`:`<span class="ai-spark">✨</span>`}
         <div style="flex:1;min-width:0"><b class="ai-q">${S.ai.q?`״${esc(S.ai.q)}״`:'מנתח את התמונה'}</b>
           <div class="small muted" id="ai-step">${AI_STEPS[0]}</div>
@@ -3136,7 +3148,7 @@ function vFood(){
         <div class="spread small"><b>הארוחה שבהרכבה</b><span class="num muted">${Math.round(S.basket.reduce((a,i)=>a+i.kcal,0))} קק״ל · ${Math.round(S.basket.reduce((a,i)=>a+i.protein,0))} גר׳ חלבון</span></div>
         ${S.basket.map((it,i)=>`<div class="bitem"><span>${esc(it.name)} <span class="muted small">· ${esc(it.portion)}</span></span><span class="num">${it.kcal}</span><button class="linkbtn small" data-act="basket-rm" data-i="${i}" aria-label="הסר" style="color:var(--danger)">✕</button></div>`).join('')}
         <div class="row" style="margin-top:6px"><button class="btn" data-act="basket-clear">נקה</button><button class="btn" data-act="food-add-open" style="flex:1">+ עוד</button><button class="btn primary" style="flex:1" data-act="basket-save">שמור ✓ (${S.basket.length})</button></div>
-      </div>`:''}`):''}
+      </div>`:''}`)}
     <div class="card r20 list">
       ${slots.map(([k,label])=>{ const ms=meals.filter(m=>mealSlot(m)===k); const kc=ms.reduce((a,m)=>a+(+m.kcal||0),0);
         return `<div class="li" style="align-items:flex-start;${ms.length?'flex-direction:column;gap:6px':''}">
@@ -4399,6 +4411,10 @@ function renderMealEdit(){
     <h3>עריכת ארוחה</h3>
     <div class="label">שם הארוחה</div>
     <input id="me-name" value="${esc(m.name)}" data-bind="mif" data-mf="mealname">
+    <div class="me-when">
+      <label class="me-date"><span class="label" style="margin:0">תאריך</span><input type="date" value="${esc(m.d)}" max="${ymd()}" min="${ymd(new Date(Date.now()-59*864e5))}" data-bind="mif" data-mf="date" onclick="try{this.showPicker()}catch(_){}"></label>
+      <div class="seg me-slot">${[['b','בוקר'],['l','צהריים'],['d','ערב']].map(([k,l])=>`<button class="${mealSlot(m)===k?'on':''}" data-act="meal-slot" data-v="${k}">${l}</button>`).join('')}</div>
+    </div>
     <div class="label" style="margin:14px 0 6px">מרכיבים (${m.items.length}) · <span class="num">${Math.round(tot.kcal)} קק״ל · ${Math.round(tot.protein)} גר׳ חלבון</span></div>
     <div class="stack" style="gap:8px">
       ${m.items.map((it,i)=>`<div style="border:1px solid var(--line);border-radius:10px;padding:10px">
@@ -4420,6 +4436,7 @@ function renderMealEdit(){
       <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
       <button class="btn primary" style="flex:2" data-act="meal-edit-save">שמור שינויים ✓</button>
     </div>
+    <button class="linkbtn me-del" data-act="meal-del-ask">${ICON.trash||''}<span>מחיקת הארוחה</span></button>
   `);
 }
 async function saveMealEdit(){
@@ -4433,12 +4450,22 @@ async function saveMealEdit(){
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast('עודכן ✓'); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
+async function deleteMeal(id){
+  S.meals=S.meals.filter(m=>m.id!==id); _mealEdit=null; saveSnapshot(); closeSheet(); render();
+  // drop a pending offline insert of the same meal; otherwise delete on the server (queued when offline)
+  try{ const q=qAll(), k=q.filter(x=>!(x.table==='meals'&&x.row&&x.row.id===id&&!x.row._del)); if(k.length!==q.length){ localStorage.setItem(Q_KEY,JSON.stringify(k)); updateSyncBadge(); } }catch(_){}
+  try{ const {error}=await sb.from('meals').delete().eq('id',id); if(error)throw error; }
+  catch(e){ qPush('meals',{id,_del:1}); }
+  toast('הארוחה נמחקה');
+}
 async function saveMealDraft(){
   const m=_mealDraft; if(!m)return;
   if(!m.items.length)return;
-  const row={id:'m'+Date.now(),user_id:S.user.id,d:S.foodDate,ts:Date.now(),name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,...x})=>({...x,name:String(x.name||'').trim()||'פריט'}))};
+  const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
+  if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
+  const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,...x})=>({...x,name:String(x.name||'').trim()||'פריט'}))};
   S.meals.push({...row}); saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
-  try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast('נרשם 🍽️'); }
+  try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
 function shrinkImage(file,MAXPX=1280,Q=0.85){
@@ -8332,9 +8359,10 @@ function handleAct(b,ev){
     case 'meal-item-del': { if(_mealEdit){_mealEdit.items.splice(+b.dataset.i,1); renderMealEdit();} break; }
     case 'meal-item-add': { if(_mealEdit){_mealEdit.items.push({name:'',kcal:0,protein:0,carbs:0,fat:0}); renderMealEdit();} break; }
     case 'meal-edit-save': saveMealEdit(); break;
-    case 'meal-del': { const id=b.dataset.id;
-      S.meals=S.meals.filter(m=>m.id!==id); saveSnapshot(); render();
-      sb.from('meals').delete().eq('id',id).then(()=>{}); break; }
+    case 'meal-del-ask': { b.dataset.act='meal-del'; b.classList.add('sure'); const sp=b.querySelector('span'); if(sp)sp.textContent=tt('בטוח? לחיצה נוספת מוחקת'); clearTimeout(b._t); b._t=setTimeout(()=>{ if(b.isConnected){ b.dataset.act='meal-del-ask'; b.classList.remove('sure'); if(sp)sp.textContent=tt('מחיקת הארוחה'); } },4000); break; }
+    case 'meal-del': { const id=b.dataset.id||_mealEdit?.id; if(!id)break; deleteMeal(id); break; }
+    case 'meal-slot': { if(_mealEdit){ const x=new Date(_mealEdit.ts||Date.now()); x.setHours({b:8,l:13,d:19}[b.dataset.v]||13,0,0,0); _mealEdit.ts=+x; renderMealEdit(); } break; }
+    case 'food-today': S.foodDate=ymd(); render(); break;
     case 'food-targets-open': openTargetsSheet(); break;
     case 'g-open': openGenderSheet(false); break;
     case 'acc-open': openAccentSheet(); break;
@@ -8491,6 +8519,7 @@ document.addEventListener('input',ev=>{
   else if(k==='pqty'&&_portion){ const v=+String(i.value).replace(',','.'); if(v>0){_portion.qty=v; renderPortion();} }
   else if(k==='mif'){ if(!_mealEdit)return;
     if(i.dataset.mf==='mealname'){_mealEdit.name=i.value;return;}
+    if(i.dataset.mf==='date'){ if(/^\d{4}-\d{2}-\d{2}$/.test(i.value)&&i.value<=ymd()){ const o=new Date(_mealEdit.ts||Date.now()), x=new Date(i.value+'T12:00:00'); x.setHours(o.getHours(),o.getMinutes(),0,0); _mealEdit.d=i.value; _mealEdit.ts=+x; } return; }
     const it=_mealEdit.items[+i.dataset.mi]; if(!it)return;
     const f=i.dataset.mf;
     it[f]=f==='name'?i.value:(+String(i.value).replace(',','.')||0);
@@ -8499,6 +8528,7 @@ document.addEventListener('input',ev=>{
 });
 document.addEventListener('toggle',ev=>{ const d=ev.target; if(d?.dataset?.det)S.settings[d.dataset.det]=d.open; },true);
 document.addEventListener('change',ev=>{
+  if(ev.target.id==='food-date'){ const v=ev.target.value; if(/^\d{4}-\d{2}-\d{2}$/.test(v)&&v<=ymd()){ S.foodDate=v; render(); } return; }
   if(ev.target.dataset&&ev.target.dataset.cmp&&PH.cmp){ const c=PH.cmp; c[ev.target.dataset.cmp]=ev.target.value; openPhotoCompare(c.angle,c.a,c.b); return; }
   if(ev.target.dataset&&ev.target.dataset.photoAngle&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0], a=ev.target.dataset.photoAngle, d=ev.target.dataset.photoDate; ev.target.value='';
