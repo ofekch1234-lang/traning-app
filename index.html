@@ -1722,7 +1722,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.36';
+const APP_VERSION='13.2.37';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2170,7 +2170,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); return flushActive(); }
@@ -5645,7 +5645,13 @@ function npFmt(v){ return (Math.round(v*100)/100).toString(); }
 /* איזה ציוד לתרגיל? משקולות / מכונה / מוט — לפי השם, עם זיכרון לבחירה ידנית */
 const PAD_KEY='ironlog-padmode';
 function padModes(){ try{return JSON.parse(localStorage.getItem(PAD_KEY)||'{}');}catch(e){return {};} }
+/* ציוד לכל תרגיל (סוג מוט, משקולות/מכונה) — נשמר בהגדרות המסונכרנות, כדי שבאימון הבא הכל יחכה כמו שהיה */
+function gearOf(name){ return (S.settings.gear||{})[name]||null; }
+let _gearT=null;
+function gearSet(name,patch){ if(!name)return; const g=S.settings.gear||(S.settings.gear={}); g[name]=Object.assign({},g[name],patch);
+  clearTimeout(_gearT); _gearT=setTimeout(()=>persistSettings(),1200); }
 function guessSub(name){
+  const sg=gearOf(name)?.sub; if(sg)return sg;
   const saved=padModes()[name]; if(saved)return saved;
   if(/משקולת|משקולות|פטיש|לאנג|גביע|קטלבל|חקלאי|ארנולד|בולגרי|בריכוז|קיקבק|שראג/.test(name))return 'db';
   if(/מכונ|פולי|כבל|חבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|פייס|האק/.test(name))return 'stack';
@@ -5656,7 +5662,7 @@ const DB_RACK=[1,2,3,4,5,6,7,8,9,10,11,12,12.5,14,15,16,17.5,18,20,22,22.5,24,25
 const PL_SET=[20,10,5,2.5,1.25];
 /* סוג המוט: נזכר לכל תרגיל, ניחוש לפי השם */
 const BARS=[[20,'אולימפי'],[15,'נשים'],[10,'זיגזג'],[0,'בלי מוט']], BAR_KEY='nr-barkg';
-function barGuess(name){ try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); if(m[name]!=null)return +m[name]; }catch(_){}
+function barGuess(name){ const gb=gearOf(name)?.bar; if(gb!=null)return +gb; try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); if(m[name]!=null)return +m[name]; }catch(_){}
   if(/זיגזג|EZ|סקול|צרפתי/i.test(name||''))return 10;
   if(/לחיצת רגליים|האק|לנדמיין|T-?בר|חתירת T|מכונת סמית/i.test(name||''))return 0;
   return 20; }
@@ -5839,12 +5845,12 @@ document.addEventListener('click',ev=>{
   if(t.dataset.nphi!==undefined){ NP.hi=Math.max(1,Math.min(50,NP.hi+ +t.dataset.nphi)); if(NP.lo>NP.hi)NP.lo=NP.hi; npUpdate(); return; }
   if(NP.cfg.mode==='range'&&t.dataset.npc==='save'){ const c=NP.cfg, v=npRange(); closeNumpad(); c.apply(v); return; }
   if(t.dataset.npsub!==undefined){ NP.sub=t.dataset.npsub;
-    if(NP.cfg.exName){ try{const m=padModes();m[NP.cfg.exName]=NP.sub;localStorage.setItem(PAD_KEY,JSON.stringify(m));}catch(e){} }
+    if(NP.cfg.exName){ gearSet(NP.cfg.exName,{sub:NP.sub}); try{const m=padModes();m[NP.cfg.exName]=NP.sub;localStorage.setItem(PAD_KEY,JSON.stringify(m));}catch(e){} }
     renderNumpad(); return; }
   if(t.dataset.rackv!==undefined){ NP.val=+t.dataset.rackv; centerRack(true); const el=$('#npval'); if(el)el.textContent=npFmt(NP.val); return; }
   if(t.dataset.stackv!==undefined){ NP.val=+t.dataset.stackv; npUpdate(); return; }
   if(t.dataset.npbar!==undefined){ const nb=+t.dataset.npbar, ob=NP.bar??20; if(NP.val>=ob)NP.val=Math.max(0,Math.round((NP.val-ob+nb)*100)/100); NP.bar=nb;
-    if(NP.cfg.exName){ try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); m[NP.cfg.exName]=nb; localStorage.setItem(BAR_KEY,JSON.stringify(m)); }catch(_){} }
+    if(NP.cfg.exName){ gearSet(NP.cfg.exName,{bar:nb}); try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); m[NP.cfg.exName]=nb; localStorage.setItem(BAR_KEY,JSON.stringify(m)); }catch(_){} }
     document.querySelectorAll('[data-npbar]').forEach(x=>x.classList.toggle('on',+x.dataset.npbar===nb)); npUpdate(); return; }
   if(t.dataset.nppair!==undefined){ NP.val=Math.round((Math.max(NP.val,NP.bar??20)+2*(+t.dataset.nppair))*100)/100; npUpdate(); return; }
   if(t.dataset.npc==='undo'){ const {L,rest}=barSplit(NP.val);
@@ -5875,7 +5881,7 @@ function openSetPad(ei,si,kind,chain){
     title:`${e.n} · סט ${si+1} · ${isW?'משקל':'חזרות'}`,
     unit:isW?'ק״ג':'חזרות', mode:isW?'weight':'reps', exName:e.n, chain:!!chain,
     value:+(s[kind]||s[isW?'pw':'pr']||0), prev:+(s[isW?'pw':'pr'])||null, tip:tip?tip.w:null,
-    apply(v){ s[kind]=v||''; const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; persistActive(); },
+    apply(v){ s[kind]=v||''; const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; if(isW&&v)gearSet(e.n,NP.sub==='bar'?{sub:'bar',bar:NP.bar??20}:{sub:NP.sub}); persistActive(); },
     next:isW?()=>openSetPad(ei,si,'r',true):null,
     applyDone:isW?null:markDone,
   });
@@ -8605,7 +8611,7 @@ async function enterApp(user){
       S.settings.schedule=st.data.prefs?.schedule||{};
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.menu=st.data.prefs?.menu||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
-      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null;
+      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null;
       try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1');
         if(!(src.t>new Date(S.user.created_at).getTime()+36e5))logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
