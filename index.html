@@ -1474,12 +1474,18 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   background:#0A0B0A;
   transition:opacity .45s ease,visibility .45s}
 #splash.out{opacity:0;visibility:hidden}
-#splash img{width:98px;height:98px;border-radius:26px;box-shadow:0 0 60px rgba(191,255,47,.18)}
+#splash{--s-tile:118px}
+:root.s-native #splash{--s-tile:inherit}
+#splash .s-tile{width:var(--s-tile);height:var(--s-tile);border-radius:calc(var(--s-tile)*.232);background:#BFFF2F;display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(191,255,47,.18)}
+#splash .s-tile svg{width:100%;height:100%;fill:#0B0C0B}
+#splash .s-tile svg *{transform-box:fill-box;transform-origin:center}
+:root.s-native #splash{justify-content:center}:root.s-native #splash .s-tile{box-shadow:none}
+:root.s-native #splash .sb{position:absolute;top:calc(50% + var(--s-tile)/2 + 22px)}
+:root.s-native #splash .st{position:absolute;top:calc(50% + var(--s-tile)/2 + 66px)}
 #splash .sb{font-family:var(--brand);font-weight:800;font-size:28px;color:#fff;letter-spacing:-.045em}
 #splash .sb b{font-weight:inherit;color:#BFFF2F}
 #splash .st{color:rgba(255,255,255,.75);font-size:13.5px}
 :root[data-g="f"] #splash .sb b{color:#FF4FA3}
-:root[data-g="f"] #splash img{box-shadow:0 0 60px rgba(255,79,163,.2)}
 :root[data-g="f"] #splash .sb b{color:#500724}
 .auth-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .auth-g button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;border-radius:16px;background:var(--surface2);border:2px solid transparent;color:inherit;font:inherit}
@@ -1513,9 +1519,22 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   #view.anim>*:nth-child(5){animation-delay:.16s}
   #view.anim>*:nth-child(n+6){animation-delay:.19s}
   /* ספלאש */
-  #splash img{animation:spLogo .7s cubic-bezier(.3,1.4,.4,1) both}
-  #splash .sb{animation:rise .5s .25s ease-out both}
-  #splash .st{animation:rise .5s .4s ease-out both}
+  /* splash: the bar is loaded (bar, plates one by one, the N drops in and lands) */
+  #splash .s-tile{animation:sTile .35s cubic-bezier(.2,.9,.3,1.2) both}
+  :root.s-native #splash .s-tile{animation:none}
+  #splash .s-bar{animation:sBar .3s .1s cubic-bezier(.2,.8,.2,1) both}
+  #splash .s-p1l{animation:sPl .28s .38s cubic-bezier(.3,1.5,.5,1) both}#splash .s-p1r{animation:sPr .28s .38s cubic-bezier(.3,1.5,.5,1) both}
+  #splash .s-p2l{animation:sPl .28s .58s cubic-bezier(.3,1.5,.5,1) both}#splash .s-p2r{animation:sPr .28s .58s cubic-bezier(.3,1.5,.5,1) both}
+  #splash .s-n{animation:sN .3s .82s cubic-bezier(.5,0,.75,0) both}
+  #splash .s-land{animation:sLand .3s 1.1s ease-out both}
+  #splash .sb{animation:rise .45s 1.15s ease-out both}
+  #splash .st{animation:rise .45s 1.3s ease-out both}
+  @keyframes sTile{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
+  @keyframes sBar{from{transform:scaleX(0)}to{transform:none}}
+  @keyframes sPl{from{transform:translateX(-30px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes sPr{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes sN{from{transform:translateY(-120px);opacity:0}1%{opacity:1}to{transform:none;opacity:1}}
+  @keyframes sLand{0%{transform:none}35%{transform:scaleY(.9) scaleX(1.05)}70%{transform:scaleY(1.03)}100%{transform:none}}
   @keyframes spLogo{from{transform:scale(.55) rotate(-14deg);opacity:0}to{transform:none;opacity:1}}
   @keyframes up{from{transform:translateY(26px);opacity:.5}to{transform:none;opacity:1}}
   @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -1544,11 +1563,19 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 </style>
 </head>
 <body>
-<div id="splash">
-  <img src="icon-192.png" alt="NextRep"><script>if(window.NR_G==='f')document.currentScript.previousElementSibling.src='icon-f-192.png';</script>
+<div id="splash" role="img" aria-label="NextRep">
+  <div class="s-land"><div class="s-tile"><svg viewBox="-5.56 -5.56 111.11 111.11" aria-hidden="true"><g>
+<g class="s-bar"><rect x="12" y="48.5" width="15" height="3"/><rect x="73" y="48.5" width="15" height="3"/></g>
+<g class="s-p1l"><rect x="17.6" y="34" width="7.4" height="32" rx="3.7"/></g><g class="s-p1r"><rect x="75" y="34" width="7.4" height="32" rx="3.7"/></g>
+<g class="s-p2l"><rect x="9.3" y="40.5" width="6.6" height="19" rx="3.3"/></g><g class="s-p2r"><rect x="84.1" y="40.5" width="6.6" height="19" rx="3.3"/></g>
+<g class="s-n"><path d="M27.5,30.5 A5.5,5.5 0 0 1 33,25 H42.1 L58.3,41.2 V56.2 L38.5,36.4 V68.5 L27.5,75 Z"/><path d="M72.5,69.5 A5.5,5.5 0 0 1 67,75 H57.9 L41.7,58.8 V43.8 L61.5,63.6 V31.5 L72.5,25 Z"/></g></g></svg></div></div>
   <div class="sb" dir="ltr">Next<b>Rep</b></div>
   <div class="st">הסט הבא שלך מתחיל כאן</div>
 </div>
+<script>(function(){ var n=window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform(), r=document.documentElement;
+  window.NR_SPLASH_T0=Date.now();
+  if(n){ var h=Math.max(innerWidth,innerHeight); r.style.setProperty('--s-tile',(560*h/2732).toFixed(1)+'px'); r.classList.add('s-native');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ try{ Capacitor.Plugins.SplashScreen.hide({fadeOutDuration:0}); }catch(e){} }); }); } })();</script>
 <div id="app">
   <header class="top">
     <div class="brand" dir="ltr">Next<b>Rep</b></div>
@@ -1691,7 +1718,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.8';
+const APP_VERSION='13.3.9';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8709,7 +8736,8 @@ async function enterApp(user){
 }
 function hideSplash(){
   const sp=$('#splash'); if(!sp)return;
-  setTimeout(()=>{ sp.classList.add('out'); setTimeout(()=>sp.remove(),600); },450);
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches, wait=rm?300:Math.max(300,1750-(Date.now()-(window.NR_SPLASH_T0||0)));
+  setTimeout(()=>{ sp.classList.add('out'); setTimeout(()=>sp.remove(),600); },wait);
 }
 (async function boot(){
   render();
