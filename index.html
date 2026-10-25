@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5432b833"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5432b833"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5432b833"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=fe248500"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=fe248500"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=fe248500"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1495,7 +1495,7 @@ body.landing header.top{background:#000!important;border-color:transparent!impor
 .cx-p{margin:16px auto 0!important;font-size:clamp(16px,1.6vw,19px)!important;line-height:1.6!important;color:var(--cx-mut)!important;max-width:40em!important}
 /* hero */
 .cx-hero{position:relative;padding-top:clamp(36px,7vw,92px);display:grid;justify-items:center;gap:18px;overflow:hidden;margin-inline:-16px;padding-inline:16px}
-.cx-h1{font-family:var(--disp)!important;font-weight:800!important;font-size:clamp(46px,9vw,112px)!important;line-height:1!important;letter-spacing:-.045em!important;margin:0;background:linear-gradient(180deg,#fff 30%,#9aa3a0 115%);-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance}
+.cx-h1{max-width:17ch;font-family:var(--disp)!important;font-weight:800!important;font-size:clamp(38px,6.2vw,80px)!important;line-height:1.04!important;letter-spacing:-.045em!important;margin:0;background:linear-gradient(180deg,#fff 30%,#9aa3a0 115%);-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance}
 :root[lang="ar"] .cx-h1{letter-spacing:0!important;line-height:1.15!important}
 .cx-sub{margin:0!important;font-size:clamp(17px,2vw,22px)!important;color:var(--cx-mut)!important;max-width:30em!important}
 .cx-cta{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:6px}
@@ -1736,7 +1736,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.24';
+const APP_VERSION='13.3.25';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2614,8 +2614,8 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
   ${landGenderHTML()}
   ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: דרך ההזמנה מקבלים 14 ימים חינם. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
   <section class="cx-hero" id="lx-hero">
-    <h1 class="cx-h1">${tt('המאמן שלך.')}<br>${tt('זוכר כל סט.')}</h1>
-    <p class="cx-sub">${tt('תוכנית אישית, הדגמה לכל תרגיל ומעקב תזונה מצילום.')}</p>
+    <h1 class="cx-h1">${tt('תוכנית אימונים, תזונה AI ומאמן אישי שמכיר אותך.')}</h1>
+    <p class="cx-sub">${tt('אפליקציה אחת שהופכת כל אימון לצעד קדימה.')}</p>
     <div class="cx-cta"><button class="btn primary cx-go" data-act="land-signup">${tt('שבוע ראשון חינם')}</button><a class="cx-link" href="#cx-how">${tt('איך זה עובד')}</a></div>
     <div class="cx-stage" aria-hidden="true"><div class="cx-glow"></div>
       <div class="cx-ph side l"><img src="${shot('food')}" alt=""></div><div class="cx-ph side r"><img src="${shot('track')}" alt=""></div><div class="cx-ph main"><img src="${shot('active')}" alt="" loading="eager"></div>
