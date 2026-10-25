@@ -7864,7 +7864,7 @@ async function refClaim(btn){
     await rcInit();
     const ci=(await P.getCustomerInfo())?.customerInfo, pid=ci?.entitlements?.active?.premium?.productIdentifier;
     const o=await P.getOfferings(), pkgs=Object.values(o?.all||{}).flatMap(x=>x.availablePackages||[]);
-    const base=String(pid||'').replace(/_offer$/,''), pk=pkgs.find(p=>p.product?.identifier===base)||pkgs.find(p=>p.product?.identifier===pid);
+    const base=String(pid||'').replace(/_offer$/,''), pk=pkgs.find(p=>p.product?.identifier===pid)||pkgs.find(p=>p.product?.identifier===base);
     const disc=(pk?.product?.discounts||[]).find(d=>/ref_free_month/.test(d.identifier||''));
     if(!pk||!disc){ reset(); toast(tt('ההטבה עוד לא זמינה בחנות. נסו שוב מאוחר יותר.')); logEv('ref_claim_fail',{why:!pk?'pkg':'disc',pid}); return; }
     const promo=await P.getPromotionalOffer({product:pk.product,discount:disc});
