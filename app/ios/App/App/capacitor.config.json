@@ -28,10 +28,20 @@
 		},
 		"LocalNotifications": {
 			"smallIcon": "ic_stat_nextrep",
-			"iconColor": "#22C55E"
+			"iconColor": "#5E8C00"
+		},
+		"SocialLogin": {
+			"providers": {
+				"google": true,
+				"facebook": false,
+				"apple": false,
+				"twitter": false
+			},
+			"logLevel": 1
 		}
 	},
 	"packageClassList": [
+		"SignInWithApple",
 		"AppPlugin",
 		"CAPBrowserPlugin",
 		"HapticsPlugin",
@@ -39,6 +49,7 @@
 		"LocalNotificationsPlugin",
 		"SplashScreenPlugin",
 		"StatusBarPlugin",
+		"SocialLoginPlugin",
 		"PurchasesPlugin"
 	]
 }

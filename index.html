@@ -2436,8 +2436,25 @@ async function sha256hex(str){
     H[0]=(H[0]+a)|0;H[1]=(H[1]+bb)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0; }
   return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('');
 }
+// Google client IDs (public identifiers, not secrets): web = token audience for Supabase, iOS = native sign-in on iPhone
+const G_WEB='746149894483-jmu5n97ncm2khai8m3s68cp4lh1hicn9.apps.googleusercontent.com', G_IOS='746149894483-3oe30scvv5katoeahsti7upiils6cfls.apps.googleusercontent.com';
+let _slInit=null;
+async function natGoogleNative(){
+  const SL=capP('SocialLogin'); if(!SL)throw new Error('no plugin');
+  if(!_slInit)_slInit=SL.initialize({google:{webClientId:G_WEB,iOSClientId:G_IOS,iOSServerClientId:G_WEB,mode:'online'}});
+  await _slInit;
+  const r=await SL.login({provider:'google',options:{scopes:['email','profile']}});
+  const tok=r?.result?.idToken; if(!tok)throw new Error('no token');
+  const {error}=await sb.auth.signInWithIdToken({provider:'google',token:tok}); if(error)throw error;
+  logEv('login_ok',{p:'google',native:1});
+}
 async function natGoogle(){
   NAUTH={busy:'google',err:''}; render(); logEv('login_try',{p:'google'});
+  // iPhone: Google's own sign-in sheet ("NextRep"), no browser page. Android keeps the browser flow until its OAuth client is registered.
+  if(NATIVE_OS==='ios'){ try{ await natGoogleNative(); return; }
+    catch(e){ const m=String(e?.message||e?.code||e); console.warn('google native',m);
+      if(/cancel|-5\b|12501/i.test(m)){ NAUTH={busy:'',err:''}; render(); return; }
+      NAUTH={busy:'',err:tt('ההתחברות עם Google נכשלה. נסה שוב.')}; render(); return; } }
   try{
     const {data,error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:NAT_CB,skipBrowserRedirect:true,queryParams:{prompt:'select_account'}}});
     if(error||!data?.url)throw error||new Error('no url');

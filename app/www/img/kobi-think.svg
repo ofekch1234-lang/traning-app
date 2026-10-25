@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
 <defs>
-  <radialGradient id="bgt" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#3EE08A"/><stop offset=".5" stop-color="#16A34A"/><stop offset="1" stop-color="#053D2E"/></radialGradient>
-  <radialGradient id="halot" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#BBF7D0" stop-opacity=".55"/><stop offset="1" stop-color="#BBF7D0" stop-opacity="0"/></radialGradient>
-  <linearGradient id="headt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#EEF5F0"/><stop offset="1" stop-color="#BFD0C6"/></linearGradient>
+  <radialGradient id="bgt" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#E4FF94"/><stop offset=".5" stop-color="#BFFF2F"/><stop offset="1" stop-color="#557F06"/></radialGradient>
+  <radialGradient id="halot" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#F4FFD1" stop-opacity=".55"/><stop offset="1" stop-color="#F4FFD1" stop-opacity="0"/></radialGradient>
+  <linearGradient id="headt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#F1F2F1"/><stop offset="1" stop-color="#C9CDCA"/></linearGradient>
   <linearGradient id="headSidet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".10"/><stop offset=".18" stop-color="#000" stop-opacity="0"/><stop offset=".82" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient>
-  <linearGradient id="visort" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22362D"/><stop offset=".5" stop-color="#0B1712"/><stop offset="1" stop-color="#030806"/></linearGradient>
-  <linearGradient id="bezelt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9FB3A8"/><stop offset="1" stop-color="#E9F1EC"/></linearGradient>
-  <linearGradient id="hoodt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A8F47"/><stop offset="1" stop-color="#0F4D2A"/></linearGradient>
-  <linearGradient id="bandt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4ADE80"/><stop offset="1" stop-color="#16A34A"/></linearGradient>
+  <linearGradient id="visort" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2E2B"/><stop offset=".5" stop-color="#0D0F0E"/><stop offset="1" stop-color="#040504"/></linearGradient>
+  <linearGradient id="bezelt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A8ADAA"/><stop offset="1" stop-color="#ECEEEC"/></linearGradient>
+  <linearGradient id="hoodt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F2521"/><stop offset="1" stop-color="#0A0B0A"/></linearGradient>
+  <linearGradient id="bandt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFFF2F"/><stop offset="1" stop-color="#BFFF2F"/></linearGradient>
   <linearGradient id="goldt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FEF9C3"/><stop offset=".45" stop-color="#FACC15"/><stop offset="1" stop-color="#92400E"/></linearGradient>
-  <radialGradient id="eart" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#F3F7F4"/><stop offset="1" stop-color="#A9BEB2"/></radialGradient>
-  <radialGradient id="ledt" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#DCFCE7"/><stop offset=".45" stop-color="#4ADE80"/><stop offset="1" stop-color="#15803D"/></radialGradient>
+  <radialGradient id="eart" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#F5F6F5"/><stop offset="1" stop-color="#B3B8B5"/></radialGradient>
+  <radialGradient id="ledt" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#F4FFD6"/><stop offset=".45" stop-color="#BFFF2F"/><stop offset="1" stop-color="#7FB50C"/></radialGradient>
   <filter id="glowt" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   <filter id="softt" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
-  <filter id="sht" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#022C22" flood-opacity=".55"/></filter>
+  <filter id="sht" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#1C2A06" flood-opacity=".55"/></filter>
   <clipPath id="clipt"><circle cx="120" cy="120" r="120"/></clipPath>
   <clipPath id="vclipt"><rect x="68" y="104" width="104" height="60" rx="29"/></clipPath>
 </defs>
@@ -23,45 +23,45 @@
   <g opacity=".10" stroke="#fff" stroke-width="2"><circle cx="120" cy="120" r="104" fill="none"/><circle cx="120" cy="120" r="86" fill="none" stroke-dasharray="3 9"/></g>
   <!-- hoodie -->
   <path d="M24 256c4-48 42-72 96-72s92 24 96 72z" fill="url(#hoodt)"/>
-  <path d="M70 196c10 22 90 22 100 0c-10-10-28-14-50-14s-40 4-50 14z" fill="#0B3D21" opacity=".55"/>
+  <path d="M70 196c10 22 90 22 100 0c-10-10-28-14-50-14s-40 4-50 14z" fill="#16210A" opacity=".55"/>
   <path fill="none" d="M60 206c6-6 14-10 22-12M180 206c-6-6-14-10-22-12" stroke="#fff" stroke-opacity=".12" stroke-width="4" stroke-linecap="round"/>
 </g>
-<g filter="url(#sht)" opacity=".9"><circle cx="52" cy="120" r="19" fill="#0B3D21"/><circle cx="188" cy="120" r="19" fill="#0B3D21"/>
-  <path d="M120 50c-44 0-66 18-66 54v26c0 34 22 50 66 50s66-16 66-50v-26c0-36-22-54-66-54z" fill="#0B3D21"/></g>
+<g filter="url(#sht)" opacity=".9"><circle cx="52" cy="120" r="19" fill="#16210A"/><circle cx="188" cy="120" r="19" fill="#16210A"/>
+  <path d="M120 50c-44 0-66 18-66 54v26c0 34 22 50 66 50s66-16 66-50v-26c0-36-22-54-66-54z" fill="#16210A"/></g>
 <g>
   <!-- antenna -->
-  <path fill="none" d="M120 54v-18" stroke="#B9CBC0" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="120" cy="30" r="12" fill="#4ADE80" opacity=".35" filter="url(#softt)"/>
+  <path fill="none" d="M120 54v-18" stroke="#C3C7C4" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="120" cy="30" r="12" fill="#BFFF2F" opacity=".35" filter="url(#softt)"/>
   <circle cx="120" cy="30" r="7.5" fill="url(#ledt)"/>
   <circle cx="117.6" cy="27.4" r="2.2" fill="#fff"/>
   <!-- ears -->
-  <g><circle cx="52" cy="120" r="19" fill="url(#eart)"/><circle cx="52" cy="120" r="12" fill="#0F2A1D"/><circle cx="52" cy="120" r="7" fill="url(#ledt)" filter="url(#glowt)"/>
-     <circle cx="188" cy="120" r="19" fill="url(#eart)"/><circle cx="188" cy="120" r="12" fill="#0F2A1D"/><circle cx="188" cy="120" r="7" fill="url(#ledt)" filter="url(#glowt)"/></g>
+  <g><circle cx="52" cy="120" r="19" fill="url(#eart)"/><circle cx="52" cy="120" r="12" fill="#121A0A"/><circle cx="52" cy="120" r="7" fill="url(#ledt)" filter="url(#glowt)"/>
+     <circle cx="188" cy="120" r="19" fill="url(#eart)"/><circle cx="188" cy="120" r="12" fill="#121A0A"/><circle cx="188" cy="120" r="7" fill="url(#ledt)" filter="url(#glowt)"/></g>
   <!-- head -->
   <path d="M120 50c-44 0-66 18-66 54v26c0 34 22 50 66 50s66-16 66-50v-26c0-36-22-54-66-54z" fill="url(#headt)"/>
   <path d="M120 50c-44 0-66 18-66 54v26c0 34 22 50 66 50s66-16 66-50v-26c0-36-22-54-66-54z" fill="url(#headSidet)"/>
   <path fill="none" d="M74 70c12-10 28-14 46-14" stroke="#fff" stroke-width="5.5" stroke-linecap="round"/>
-  <path d="M182 104c2 14 2 30-6 44" stroke="#4ADE80" stroke-opacity=".5" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#softt)"/>
+  <path d="M182 104c2 14 2 30-6 44" stroke="#BFFF2F" stroke-opacity=".5" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#softt)"/>
   <!-- sweatband -->
   <path d="M55 84c40-12 90-12 130 0v15c-40-11-90-11-130 0z" fill="url(#bandt)"/>
   <path d="M56 88c40-11 88-11 128 0" stroke="#fff" stroke-opacity=".65" stroke-width="2.2" fill="none"/>
-  <path d="M56 96c40-10 88-10 128 0" stroke="#052E16" stroke-opacity=".25" stroke-width="1.6" fill="none"/>
+  <path d="M56 96c40-10 88-10 128 0" stroke="#0E1606" stroke-opacity=".25" stroke-width="1.6" fill="none"/>
   <!-- visor bezel + glass -->
   <rect x="64" y="100" width="112" height="68" rx="33" fill="url(#bezelt)"/>
   <rect x="68" y="104" width="104" height="60" rx="29" fill="url(#visort)"/>
   <g clip-path="url(#vclipt)">
     <path d="M60 100l40 0-34 70h-12z" fill="#fff" opacity=".06"/>
     <path d="M110 100h10l-34 70h-10z" fill="#fff" opacity=".05"/>
-    <g opacity=".07" stroke="#4ADE80"><path d="M68 108h104"/><path d="M68 112h104"/><path d="M68 116h104"/><path d="M68 120h104"/><path d="M68 124h104"/><path d="M68 128h104"/><path d="M68 132h104"/><path d="M68 136h104"/><path d="M68 140h104"/><path d="M68 144h104"/><path d="M68 148h104"/><path d="M68 152h104"/><path d="M68 156h104"/><path d="M68 160h104"/></g>
-    <g filter="url(#glowt)" fill="#5EF59A"><rect x="88" y="128" width="18" height="12" rx="6"/><rect x="134" y="126" width="18" height="14" rx="7"/></g>
-        <path fill="none" d="M111 152h18" stroke="#86EFAC" stroke-width="4.5" stroke-linecap="round" filter="url(#glowt)"/>
+    <g opacity=".07" stroke="#BFFF2F"><path d="M68 108h104"/><path d="M68 112h104"/><path d="M68 116h104"/><path d="M68 120h104"/><path d="M68 124h104"/><path d="M68 128h104"/><path d="M68 132h104"/><path d="M68 136h104"/><path d="M68 140h104"/><path d="M68 144h104"/><path d="M68 148h104"/><path d="M68 152h104"/><path d="M68 156h104"/><path d="M68 160h104"/></g>
+    <g filter="url(#glowt)" fill="#CFFF5E"><rect x="88" y="128" width="18" height="12" rx="6"/><rect x="134" y="126" width="18" height="14" rx="7"/></g>
+        <path fill="none" d="M111 152h18" stroke="#DFFF94" stroke-width="4.5" stroke-linecap="round" filter="url(#glowt)"/>
         
   </g>
   <path fill="none" d="M80 112c10-4 22-6 34-5" stroke="#fff" stroke-opacity=".22" stroke-width="4" stroke-linecap="round"/>
-  <g fill="#DCFCE7" opacity=".9"><circle cx="178" cy="60" r="4"/><circle cx="190" cy="47" r="6"/><circle cx="206" cy="30" r="9"/></g>
+  <g fill="#F4FFD6" opacity=".9"><circle cx="178" cy="60" r="4"/><circle cx="190" cy="47" r="6"/><circle cx="206" cy="30" r="9"/></g>
   <!-- cheeks -->
   <ellipse cx="74" cy="168" rx="7" ry="3.6" fill="#FB7185" opacity=".5"/><ellipse cx="166" cy="168" rx="7" ry="3.6" fill="#FB7185" opacity=".5"/>
   <!-- chin seam -->
-  <path d="M98 176c14 3 30 3 44 0" stroke="#9FB3A8" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
+  <path d="M98 176c14 3 30 3 44 0" stroke="#A8ADAA" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
 </g>
 </svg>

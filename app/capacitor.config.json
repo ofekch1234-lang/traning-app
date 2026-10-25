@@ -12,9 +12,32 @@
     "allowMixedContent": false
   },
   "plugins": {
-    "SystemBars": { "insetsHandling": "native", "initialViewportFitValueHint": "cover" },
-    "SplashScreen": { "launchShowDuration": 1200, "launchAutoHide": true, "backgroundColor": "#0F1411", "showSpinner": false },
-    "Keyboard": { "resize": "native", "resizeOnFullScreen": true },
-    "LocalNotifications": { "smallIcon": "ic_stat_nextrep", "iconColor": "#5E8C00" }
+    "SystemBars": {
+      "insetsHandling": "native",
+      "initialViewportFitValueHint": "cover"
+    },
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "launchAutoHide": true,
+      "backgroundColor": "#0F1411",
+      "showSpinner": false
+    },
+    "Keyboard": {
+      "resize": "native",
+      "resizeOnFullScreen": true
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_nextrep",
+      "iconColor": "#5E8C00"
+    },
+    "SocialLogin": {
+      "providers": {
+        "google": true,
+        "facebook": false,
+        "apple": false,
+        "twitter": false
+      },
+      "logLevel": 1
+    }
   }
 }

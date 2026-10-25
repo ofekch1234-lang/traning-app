@@ -65,6 +65,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>il.co.nextrep.app</string>
+				<string>com.googleusercontent.apps.746149894483-3oe30scvv5katoeahsti7upiils6cfls</string>
 			</array>
 		</dict>
 	</array>
