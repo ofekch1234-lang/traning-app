@@ -36,7 +36,7 @@
   if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5ff1a1fe"><\/script>');
 })();
 </script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="menu-foods.js?v=16"></script>
 <style>
@@ -56,12 +56,12 @@
   --danger:#B3362B;
   --shadow:none;
   --overlay-shadow:0 -8px 30px rgba(10,20,14,.18);
-  --disp:'Rubik',system-ui,-apple-system,sans-serif;--brand:'Inter Tight',system-ui,-apple-system,sans-serif;
-  --body:'Rubik',system-ui,-apple-system,sans-serif;
+  --disp:'Heebo',system-ui,-apple-system,sans-serif;--brand:'Inter Tight',system-ui,-apple-system,sans-serif;
+  --body:'Heebo',system-ui,-apple-system,sans-serif;
   --dir:rtl; --start:right; --end:left;
 }
 :root[dir="ltr"]{--dir:ltr;--start:left;--end:right}
-:root[lang="ar"]{--body:'Rubik','IBM Plex Sans Arabic',system-ui,sans-serif;--disp:'Rubik','IBM Plex Sans Arabic',system-ui,sans-serif}
+:root[lang="ar"]{--body:'Heebo','IBM Plex Sans Arabic',system-ui,sans-serif;--disp:'Heebo','IBM Plex Sans Arabic',system-ui,sans-serif}
 :root[dir="ltr"] .flipx{transform:none!important}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -1699,7 +1699,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.34';
+const APP_VERSION='13.2.35';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7196,9 +7196,9 @@ function checkNewBadges(){
 /* כרטיס לשיתוף (תמונה) */
 /* ----- סטודיו שיתוף: תצוגה מקדימה, רקע ירוק / צילום מהמצלמה / תמונה מהגלריה, עם "מדבקה" (כמו Nike Run Club) ----- */
 const STD={opts:null,bg:null,style:0,pos:2,face:'environment',stream:null,url:null,busy:false};
-const stF=(w,s,fam='Rubik')=>`${w} ${s}px ${fam}, "IBM Plex Sans Arabic", system-ui, sans-serif`;
+const stF=(w,s,fam='Heebo')=>`${w} ${s}px ${fam}, "IBM Plex Sans Arabic", system-ui, sans-serif`;
 let _stFonts=null;
-function stFonts(){ return _stFonts||(_stFonts=Promise.all(['700 80px Rubik','500 40px Rubik','400 120px Karantina','800 80px "Inter Tight"','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f).catch(()=>{})))); }
+function stFonts(){ return _stFonts||(_stFonts=Promise.all(['700 80px Heebo','500 40px Heebo','400 120px Karantina','800 80px "Inter Tight"','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f).catch(()=>{})))); }
 function stDir(x){ x.direction=LANG==='en'?'ltr':'rtl'; }
 function stLtr(x,fn){ const d=x.direction; x.direction='ltr'; fn(); x.direction=d; }
 /* המדבקה עצמה — טקסט לבן עם צל, בלי רקע */

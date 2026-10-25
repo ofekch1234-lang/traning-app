@@ -118,7 +118,7 @@ const COPY={
 // ---------- HTML ----------
 const CSS=`:root{--bg:#F3F5F2;--sf:#fff;--sf2:#EAEEE9;--ink:#1A201C;--mut:#5D675F;--line:#DFE4DE;--acc:#16A34A;--soft:#DCFCE7}
 @media(prefers-color-scheme:dark){:root{--bg:#131619;--sf:#1B2024;--sf2:#242A2E;--ink:#EDF1EE;--mut:#9AA5A0;--line:#2B3237;--acc:#22C55E;--soft:#17351F}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Rubik,system-ui,sans-serif;color:var(--ink);line-height:1.5}a{color:inherit}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Heebo,system-ui,sans-serif;color:var(--ink);line-height:1.5}a{color:inherit}
 .top{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--sf);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
 .brand{font-family:'Inter Tight',sans-serif;font-weight:800;letter-spacing:-.045em;font-size:24px;direction:ltr;text-decoration:none;line-height:1}.brand b{color:var(--acc);font-weight:inherit}
 .top .cta-s{background:var(--acc);color:#fff;border-radius:10px;padding:8px 14px;font-size:14px;font-weight:700;text-decoration:none}
@@ -142,7 +142,7 @@ const HEAD=(l,title,desc,canon,alts,extra='')=>`<!doctype html><html lang="${l}"
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${SITE}${canon}">
 ${alts.map(([al,p])=>`<link rel="alternate" hreflang="${al}" href="${SITE}${p}">`).join('')}<link rel="alternate" hreflang="x-default" href="${SITE}${alts[0][1]}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:image" content="${SITE}/icon-512.png"><meta name="theme-color" content="#16A34A"><meta name="google-site-verification" content="DSzgalUkvNBmbAsodxTRFc0sHzMPQaTsiP2vO3B87LI">
-<link rel="icon" href="/icon-192.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Inter+Tight:wght@800&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/icon-192.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Inter+Tight:wght@800&family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/food/food.css?v=1">${extra}</head><body>
 <div class="top"><a class="brand" href="/">Next<b>Rep</b></a><a class="cta-s" href="/?utm_source=seo&utm_medium=food">${T[l].ctaB}</a></div><div class="wrap">`;
 const FOOT=(l,alts)=>`<div class="foot">${T[l].footer}<br><br>${T[l].app}
