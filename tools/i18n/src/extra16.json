@@ -46,5 +46,49 @@
  "בטוח? לחיצה נוספת מוחקת": {
   "en": "Sure? Tap again to delete",
   "ar": "متأكد؟ اضغط مرة أخرى للحذف"
+ },
+ "הארוחות הקבועות שלי": {
+  "en": "My saved meals",
+  "ar": "وجباتي المحفوظة"
+ },
+ "שומרים ארוחה מחלון העריכה שלה, והיא מופיעה במסך התזונה לרישום בלחיצה אחת.": {
+  "en": "Save a meal from its edit screen and it shows up on the Nutrition screen, ready to log in one tap.",
+  "ar": "احفظ وجبة من شاشة تعديلها لتظهر في شاشة التغذية وتسجّلها بنقرة واحدة."
+ },
+ "אין עדיין ארוחות קבועות.": {
+  "en": "No saved meals yet.",
+  "ar": "لا توجد وجبات محفوظة بعد."
+ },
+ "שמורה כארוחה קבועה": {
+  "en": "Saved as a regular meal",
+  "ar": "محفوظة كوجبة ثابتة"
+ },
+ "שמירה כארוחה קבועה": {
+  "en": "Save as a regular meal",
+  "ar": "حفظ كوجبة ثابتة"
+ },
+ "לחיצה מסירה מהרשימה": {
+  "en": "Tap to remove it from the list",
+  "ar": "اضغط لإزالتها من القائمة"
+ },
+ "תופיע במסך התזונה, לרישום בלחיצה אחת": {
+  "en": "It'll appear on the Nutrition screen, ready to log in one tap",
+  "ar": "ستظهر في شاشة التغذية لتسجيلها بنقرة واحدة"
+ },
+ "הוסרה מהארוחות הקבועות": {
+  "en": "Removed from saved meals",
+  "ar": "أُزيلت من الوجبات المحفوظة"
+ },
+ "נשמרה כארוחה קבועה": {
+  "en": "Saved as a regular meal",
+  "ar": "حُفظت كوجبة ثابتة"
+ },
+ "הוסרה": {
+  "en": "Removed",
+  "ar": "أُزيلت"
+ },
+ "הסרה": {
+  "en": "Remove",
+  "ar": "إزالة"
  }
 }
