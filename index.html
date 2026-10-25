@@ -1765,7 +1765,30 @@ function natPlan(){
   if(until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.'),'trial');
   return out.sort((a,b)=>a.at-b.at);
 }
+/* server notifications on the installed app (new signup for admins, groups, billing): the iPhone registers with
+   Apple's push service and the token is stored per user; the server sends through APNs. Android joins with FCM later. */
+const NAT_PUSH={tok:'',uid:'',busy:false};
+async function natPushReg(){
+  if(!IS_NATIVE||NATIVE_OS!=='ios'||!S.user||NAT.perm!=='granted'||NAT_PUSH.busy)return;
+  if(NAT_PUSH.tok&&NAT_PUSH.uid===S.user.id)return;
+  const PN=capP('PushNotifications'); if(!PN)return; NAT_PUSH.busy=true;
+  try{
+    if(!natPushReg._l){ natPushReg._l=1;
+      PN.addListener('registration',async t=>{ const tok=t&&t.value; if(!tok||!S.user)return;
+        const {error}=await sb.rpc('native_push_register',{p_token:tok,p_platform:'ios',p_env:'production'});
+        if(!error){ NAT_PUSH.tok=tok; NAT_PUSH.uid=S.user.id; } });
+      PN.addListener('registrationError',e=>console.warn('push reg',e));
+      PN.addListener('pushNotificationReceived',()=>{ try{ capP('Haptics')?.notification?.({type:'SUCCESS'})?.catch?.(()=>{}); }catch(_){} });
+      PN.addListener('pushNotificationActionPerformed',a=>{ try{ const k=a?.notification?.data?.kind;
+        if(k==='admin'&&S.isAdmin){ S.tab='admin'; render(); loadAdmin(); } else if(k==='social'){ S.tab='social'; location.hash='social'; render(); } }catch(_){} });
+    }
+    await PN.register();
+  }catch(e){ console.warn('natPushReg',e); }
+  NAT_PUSH.busy=false;
+}
+async function natPushOff(){ if(!NAT_PUSH.tok)return; try{ await sb.from('native_push').delete().eq('token',NAT_PUSH.tok); }catch(_){} NAT_PUSH.tok=''; NAT_PUSH.uid=''; }
 async function natSchedule(){
+  natPushReg();
   if(!IS_NATIVE)return; const LN=capP('LocalNotifications'); if(!LN)return;
   const plan=natPlan(), sig=JSON.stringify(plan.map(x=>[x.at,x.kind,x.title]))+LANG;
   if(sig===_natSchedSig)return; _natSchedSig=sig;
@@ -8684,7 +8707,7 @@ function handleAct(b,ev){
     case 'land-login': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
-    case 'access-logout': sb.auth.signOut(); break;
+    case 'access-logout': natPushOff().finally(()=>sb.auth.signOut()); break;
     case 'np-close': closeNumpad(); break;
     case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
@@ -8761,7 +8784,7 @@ function handleAct(b,ev){
     case 'auth-email-open': S.authEmailOpen=true; render(); setTimeout(()=>($('#au-name')||$('#au-email'))?.focus(),50); break;
     case 'auth-toggle': S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
     case 'logout':
-      if(b.dataset.sure){sb.auth.signOut();}
+      if(b.dataset.sure){natPushOff().finally(()=>sb.auth.signOut());}
       else{b.dataset.sure='1';b.textContent='בטוח? יציאה';setTimeout(()=>{delete b.dataset.sure;if(b.isConnected)b.textContent='יציאה';},2500);}
       break;
   }

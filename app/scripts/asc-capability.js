@@ -1,4 +1,4 @@
-// Makes sure the App ID has the capabilities the app's entitlements need (Sign in with Apple),
+// Makes sure the App ID has the capabilities the app's entitlements need (Sign in with Apple, push notifications),
 // through the App Store Connect API with the same key the TestFlight upload uses. Idempotent.
 // env: ASC_KEY_ID, ASC_ISSUER_ID, KEY (path to the .p8), BUNDLE (bundle identifier)
 const fs = require('fs'), crypto = require('crypto');
@@ -24,10 +24,13 @@ async function api(path, opts = {}) {
   if (!bid) { console.log('::warning::Bundle ID ' + BUNDLE + ' not found; automatic signing will register it'); return; }
   const have = (j.included || []).map(c => c.attributes.capabilityType);
   console.log('App ID', BUNDLE, 'capabilities:', have.join(', ') || '(none)');
-  if (have.includes('APPLE_ID_AUTH')) { console.log('Sign in with Apple: already on'); return; }
-  const { status } = await api('bundleIdCapabilities', { method: 'POST', body: JSON.stringify({ data: {
-    type: 'bundleIdCapabilities',
-    attributes: { capabilityType: 'APPLE_ID_AUTH', settings: [{ key: 'APPLE_ID_AUTH_APP_CONSENT', options: [{ key: 'PRIMARY_APP_CONSENT' }] }] },
-    relationships: { bundleId: { data: { type: 'bundleIds', id: bid.id } } } } }) });
-  console.log('Sign in with Apple: turned on (' + status + ')');
+  const add = async (type, label, settings) => {
+    if (have.includes(type)) { console.log(label + ': already on'); return; }
+    const { status } = await api('bundleIdCapabilities', { method: 'POST', body: JSON.stringify({ data: {
+      type: 'bundleIdCapabilities', attributes: settings ? { capabilityType: type, settings } : { capabilityType: type },
+      relationships: { bundleId: { data: { type: 'bundleIds', id: bid.id } } } } }) });
+    console.log(label + ': turned on (' + status + ')');
+  };
+  await add('APPLE_ID_AUTH', 'Sign in with Apple', [{ key: 'APPLE_ID_AUTH_APP_CONSENT', options: [{ key: 'PRIMARY_APP_CONSENT' }] }]);
+  await add('PUSH_NOTIFICATIONS', 'Push notifications');
 })().catch(e => { console.log('::error::' + e.message); process.exit(1); });
