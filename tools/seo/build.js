@@ -35,7 +35,7 @@ const catName=(id,l)=>(CATS.find(c=>c[0]===id)||[0,0,CAT_OTHER])[2][l];
 
 // ---------- i18n for the page chrome ----------
 const T={
- he:{dir:'rtl',lang:'he',title:n=>`כמה קלוריות יש ב${n}? ערכים תזונתיים`,h1:n=>`כמה קלוריות יש ב${n}?`,sub:'ערכים תזונתיים לפי מאגר המזון הלאומי של משרד הבריאות ויחידות מדידה ביתיות. עודכן ',
+ he:{dir:'rtl',lang:'he',title:(n,f)=>`${shortOf(n)}: ${r0(f.k)} קלוריות ו-${r1(f.p)} גר׳ חלבון ל-100 גרם`,h1:n=>`כמה קלוריות יש ב${n}?`,sub:'ערכים תזונתיים לפי מאגר המזון הלאומי של משרד הבריאות ויחידות מדידה ביתיות. עודכן ',
    kcal:'קק״ל',in:(u,g)=>`קק״ל ב${u} (${g} גר׳)`,per100:'ל-100 גרם',prot:'גר׳ חלבון',carb:'גר׳ פחמימה',fat:'גר׳ שומן',byAmount:'לפי כמות',amount:'כמות',vs:n=>`${n} מול…`,
    ctaT:n=>`כמה ${n} מותר לך ביום?`,ctaS:'תלוי ביעד שלך. NextRep מחשבת לך יעד יומי של קלוריות וחלבון, ומצלמים את הצלחת במקום לחפש בטבלאות.',ctaB:'להתחיל בחינם',
    faq:'שאלות נפוצות',related:'מאכלים קרובים',home:'מאגר מזון',crumb:'מאגר מזון',calc:'מחשבון קלוריות יומי',calcBmi:'מחשבון BMI',calcProt:'מחשבון חלבון',
@@ -49,7 +49,7 @@ const T={
    indexT:'Calories & nutrition facts for Israeli foods',indexS:n=>`${n} foods and products from the Israeli national food database, with real serving sizes: a pita, a tablespoon, a slice, a cup. Search or pick a category.`,search:'Search a food…',more:'more',
    footer:'Data based on the Israeli Ministry of Health national food database and average serving weights. Values are estimates, not nutritional advice.',app:'NextRep: a workout & nutrition app. Remembers every set, counts calories from a photo of your meal, and includes a personal AI coach.',
    g:'g',unitDefault:'serving',staples:'Common foods'},
- ar:{dir:'rtl',lang:'ar',title:n=>`كم سعرة حرارية في ${n}؟ القيم الغذائية`,h1:n=>`كم سعرة حرارية في ${n}؟`,sub:'القيم الغذائية حسب قاعدة بيانات الأغذية لوزارة الصحة الإسرائيلية مع مقادير منزلية. تحديث ',
+ ar:{dir:'rtl',lang:'ar',title:(n,f)=>`${shortOf(n)}: ${r0(f.k)} سعرة و${r1(f.p)} غ بروتين لكل 100 غ`,h1:n=>`كم سعرة حرارية في ${n}؟`,sub:'القيم الغذائية حسب قاعدة بيانات الأغذية لوزارة الصحة الإسرائيلية مع مقادير منزلية. تحديث ',
    kcal:'سعرة',in:(u,g)=>`سعرة في ${u} (${g} غ)`,per100:'لكل 100 غ',prot:'غ بروتين',carb:'غ كربوهيدرات',fat:'غ دهون',byAmount:'حسب الكمية',amount:'الكمية',vs:n=>`${n} مقابل…`,
    ctaT:n=>`كم ${n} يناسبك يوميًا؟`,ctaS:'يعتمد على هدفك. NextRep يحسب لك هدفًا يوميًا للسعرات والبروتين، وتصوّر طبقك بدل البحث في الجداول.',ctaB:'ابدأ مجانًا',
    faq:'أسئلة شائعة',related:'أطعمة مشابهة',home:'قاعدة الأغذية',crumb:'قاعدة الأغذية',calc:'حاسبة السعرات اليومية',calcBmi:'حاسبة BMI',calcProt:'حاسبة البروتين',
@@ -57,7 +57,13 @@ const T={
    footer:'البيانات مبنية على قاعدة بيانات الأغذية الوطنية لوزارة الصحة وأوزان حصص متوسطة. القيم تقديرية وليست نصيحة غذائية.',app:'NextRep: تطبيق تمارين وتغذية. يتذكر كل مجموعة، يحسب السعرات من صورة وجبتك، ومعه مدرب ذكاء اصطناعي شخصي.',
    g:'غ',unitDefault:'حصة',staples:'أطعمة شائعة'},
 };
-const nameOf=(f,l)=>l==='he'?f.n:l==='en'?(f.e||f.n):(f.a||f.n);
+// Hebrew display name: the Ministry table lists "בשר עוף, ירך, …"; people search "ירך עוף". URLs keep the original name.
+const ALIAS_HE={2685:'קורנפלור (עמילן תירס), יבש',2691:'קורנפלור (עמילן תירס), גלעם'};
+const CUT_HE=/^בשר (עוף|הודו|בקר|עגל|כבש|טלה|אווז|ברווז), (ירך|חזה|כנפיים|כנף|שוק|כבד|לב|קורקבן|צוואר|גב|פילה שריר|פילה|אנטריקוט|צלעות|כתף|שייטל|סינטה|אסאדו|רוסטביף|סטייק)(?=,|$)/;
+const displayHe=f=>ALIAS_HE[f.c]||String(f.n).replace(CUT_HE,(m,a,p)=>`${p} ${a}`);
+// a short form for the <title>: the first parts of the name, up to ~44 characters
+const shortOf=n=>{ const ps=String(n).split(',').map(x=>x.trim()).filter(Boolean); let s=ps[0]||String(n); for(let i=1;i<ps.length&&i<3;i++){ if((s+', '+ps[i]).length>44)break; s+=', '+ps[i]; } return s; };
+const nameOf=(f,l)=>l==='he'?displayHe(f):l==='en'?(f.e||f.n):(f.a||f.n);
 const unitName=(u,l)=>l==='he'?u.u:l==='en'?(u.ue||u.u):(u.ua||u.u);
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const r0=x=>Math.round(+x||0), r1=x=>Math.round((+x||0)*10)/10;
@@ -157,7 +163,7 @@ function foodPage(f,l){
   const intro=COPY[l].intro(n,f,u), faq=COPY[l].faq(n,f,u), cmp=comparisons(f);
   const rows=[...f.units.map(x=>[unitName(x,l),x.g,r0(f.k*x.g/100)]),[t.per100,100,r0(f.k)]]; if(u)rows.push([`2 × ${unitName(u,l)}`,u.g*2,r0(f.k*u.g*2/100)]);
   const maxK=Math.max(+f.k,...cmp.map(x=>+x.k))||1;
-  const title=t.title(n), desc=u?`${t.in(unitName(u,l),u.g)}: ${kU} ${t.kcal}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat} ${t.per100}.`:`${r0(f.k)} ${t.kcal} ${t.per100}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat}.`;
+  const title=t.title(n,f), desc=u?`${t.in(unitName(u,l),u.g)}: ${kU} ${t.kcal}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat} ${t.per100}.`:`${r0(f.k)} ${t.kcal} ${t.per100}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat}.`;
   const ld=[{"@context":"https://schema.org","@type":"NutritionInformation","name":n,"calories":`${kU} calories`,"servingSize":u?`${unitName(u,l)} (${u.g} g)`:"100 g","proteinContent":`${pU} g`,"carbohydrateContent":`${cU} g`,"fatContent":`${fU} g`},
     {"@context":"https://schema.org","@type":"FAQPage","mainEntity":faq.map(([q,a])=>({"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}}))},
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":t.crumb,"item":SITE+indexPath(l)},{"@type":"ListItem","position":2,"name":catName(f.cat,l),"item":SITE+catPath(f.cat,l)},{"@type":"ListItem","position":3,"name":n}]}];
