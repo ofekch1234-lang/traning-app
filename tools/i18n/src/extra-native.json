@@ -970,5 +970,37 @@
  "מהשקילה הקודמת": {
   "en": "from last weigh-in",
   "ar": "عن الوزن السابق"
+ },
+ "מזמין אותך לקבוצה": {
+  "en": "invites you to the group",
+  "ar": "يدعوك إلى المجموعة"
+ },
+ "איך נבנה את התוכנית?": {
+  "en": "How should we build your plan?",
+  "ar": "كيف نبني خطتك؟"
+ },
+ "התוכניות הקיימות נשארות עד שתבחר להחליף אותן.": {
+  "en": "Your current plans stay until you choose to replace them.",
+  "ar": "خططك الحالية تبقى حتى تختار استبدالها."
+ },
+ "עם ראפי": {
+  "en": "With Rafi",
+  "ar": "مع رافي"
+ },
+ "כמו בפתיחה: מטרה, ניסיון, ימים, גוף ומגבלות. בונה תוכנית ויעד תזונה מותאמים": {
+  "en": "Like the first run: goal, experience, days, body and limits. Builds a matching plan and nutrition target",
+  "ar": "كما في البداية: الهدف والخبرة والأيام والجسم والقيود. يبني خطة وهدفًا غذائيًا مناسبين"
+ },
+ "שאלון מהיר": {
+  "en": "Quick questionnaire",
+  "ar": "استبيان سريع"
+ },
+ "8 שאלות קצרות, תוכנית אימונים בלבד": {
+  "en": "8 short questions, workout plan only",
+  "ar": "8 أسئلة قصيرة، خطة تمارين فقط"
+ },
+ "עדכן גם את יעד התזונה": {
+  "en": "Also update my nutrition target",
+  "ar": "حدّث هدف التغذية أيضًا"
  }
 }

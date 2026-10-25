@@ -34,6 +34,8 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
 .btn{white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:18px;background:var(--ac);color:#0A0B0A;box-shadow:0 8px 30px rgba(191,255,47,.18);font:800 17px Heebo,sans-serif;text-decoration:none}
 .note{color:var(--mu);font-size:13px;line-height:1.5;text-align:center}
 .bad{display:none}
+.grp{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 18px;border-radius:16px;background:color-mix(in srgb,var(--ac) 10%,var(--s));border:1px solid color-mix(in srgb,var(--ac) 35%,var(--line))}.grp[hidden]{display:none}
+.grp span{font-size:12px;color:var(--mu)}.grp b{font-size:18px}.grp small{font-size:12px;color:var(--mu)}
 .nocode .code,.nocode .who{display:none}
 </style>
 </head>
@@ -44,6 +46,7 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
   <div class="mid">
     <div class="who"><i id="ini">?</i><span id="who">חבר הזמין אותך</span></div>
     <img class="rafi" src="/img/kobi-happy.svg?v=3" alt="ראפי, המאמן של NextRep">
+    <div class="grp" id="grp" hidden><span>הקבוצה</span><b></b><small>נכנסים אליה אוטומטית אחרי ההרשמה</small></div>
     <h1><span id="days">14</span> ימים חינם,<br><em>רק דרך ההזמנה</em></h1>
     <p>תוכנית אימונים אישית, ראפי המאמן שזוכר כל סט, וניתוח ארוחות מצילום. בלי כרטיס אשראי.</p>
     <div class="code"><span>קוד ההזמנה</span><b id="code">—</b><button id="cp" type="button">העתקה</button></div>
@@ -57,6 +60,7 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
 (function(){
   var URL='https://dmeougthlruspxwyvrnc.supabase.co', KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
   var code=(location.pathname.split('/i/')[1]||new URLSearchParams(location.search).get('c')||'').replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,12);
+  var grp=(new URLSearchParams(location.search).get('g')||'').replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,8);
   var ua=navigator.userAgent||'', android=/android/i.test(ua), ios=/iphone|ipad|ipod/i.test(ua);
   if(android){ document.getElementById('ios').style.display='none'; document.getElementById('note').textContent='האפליקציה לאנדרואיד בדרך. שמרו את הקוד, ותקבלו את ההטבה כשהיא תצא.'; }
   else if(!ios){ document.getElementById('note').textContent='פתחו את הקישור הזה בטלפון כדי להוריד את האפליקציה. ההטבה תזוהה אוטומטית.'; }
@@ -64,11 +68,12 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
   document.getElementById('code').textContent=code;
   try{ localStorage.setItem('nr-refcode',code); }catch(e){}
   document.getElementById('cp').onclick=function(){ var b=this; try{ navigator.clipboard.writeText(code).then(function(){ b.textContent='הועתק ✓'; }); }catch(e){} };
-  fetch(URL+'/rest/v1/rpc/ref_click',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify({p_code:code})})
+  fetch(URL+'/rest/v1/rpc/ref_click',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify(grp?{p_code:code,p_group:grp}:{p_code:code})})
     .then(function(r){return r.json();}).then(function(d){
       if(!d||!d.ok){ document.querySelector('.who').style.display='none'; return; }
       var n=String(d.name||'').trim(); if(n){ document.getElementById('who').textContent=n+' הזמין/ה אותך'; document.getElementById('ini').textContent=n[0]; document.title=n+' הזמין/ה אותך ל-NextRep · 14 ימים חינם'; }
       if(d.days)document.getElementById('days').textContent=d.days;
+      if(d.group){ var g=document.getElementById('grp'); g.querySelector('b').textContent=d.group; g.hidden=false; if(n)document.getElementById('who').textContent=n+' מזמין/ה אותך לקבוצה'; }
     }).catch(function(){});
 })();
 </script>

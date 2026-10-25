@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cf8cb992"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cf8cb992"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cf8cb992"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d694afc0"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d694afc0"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d694afc0"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -921,7 +921,7 @@ html[dir=ltr] .ob-back svg{transform:scaleX(-1)}
 @keyframes lrBub{0%{opacity:0;transform:scale(.6)}12%{opacity:1;transform:scale(1)}80%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.9)}}
 @keyframes lrJoy{0%{transform:none}30%{transform:translateY(-16px) rotate(-6deg)}60%{transform:rotate(4deg)}100%{transform:none}}
 
-.ob-badge{margin-top:6px;display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);font-size:13px;font-weight:700}
+.ob-badge{margin-top:6px;display:inline-flex;align-items:center;gap:8px;min-height:30px;padding:5px 14px;border-radius:16px;max-width:100%;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);font-size:13px;font-weight:700}
 .ob-badge i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
 .ob-h1{margin:20px 0 0;font-size:42px;line-height:1.04;font-weight:900;letter-spacing:-.02em}
 .ob-h2{margin:6px 0 0;font-size:29px;line-height:1.15;font-weight:900}
@@ -2089,7 +2089,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.19';
+const APP_VERSION='13.3.20';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2750,7 +2750,7 @@ let ONB=(()=>{ try{ const o=JSON.parse(localStorage.getItem(ONB_KEY)||'null'); i
 /* an invite link opened on this network in the last 48 hours (the store drops the link, so we match the click) */
 function onbRefPeek(){ if(ONB.peeked||ONB.ref||ONB.refNo)return; ONB.peeked=true; onbSave();
   let saved=null; try{ saved=localStorage.getItem('nr-refcode'); }catch(_){}
-  const done=d=>{ if(d?.ok&&d.code&&!ONB.ref&&!ONB.refNo){ ONB.ref={code:d.code,name:d.name||''}; onbSave(); if(ONB_STEPS[ONB.s]==='welcome')onbPaint(); } };
+  const done=d=>{ if(d?.ok&&d.code&&!ONB.ref&&!ONB.refNo){ ONB.ref={code:d.code,name:d.name||'',grp:d.grp||null,group:d.group||''}; if(d.grp){ try{ localStorage.setItem('nr-join',d.grp); }catch(_){} } onbSave(); if(ONB_STEPS[ONB.s]==='welcome')onbPaint(); } };
   try{ Promise.resolve(saved?sb.rpc('ref_lookup',{p_code:saved}):sb.rpc('ref_peek')).then(r=>done(r?.data)).catch(()=>{}); }catch(_){} }
 const onbSave=()=>{ try{ localStorage.setItem(ONB_KEY,JSON.stringify(ONB)); }catch(_){} };
 const ONB_STEPS=['welcome','meet','invite','name','addr','goal','memory','exp','sched','body','mode','block','build','plan','save'];
@@ -2806,6 +2806,15 @@ function onbPB(){ const a=ONB.a;
 function onbTG(){ const a=ONB.a, d=+a.days||3;
   return {sex:a.sex||(onbF()?'f':'m'),age:+a.age,h:onbH(),w:+a.w,act:d<=3?1.375:d<=5?1.55:1.725,goal:a.goal==='cut'?'cut':a.goal==='mass'?'bulk':'keep',pace:a.pace==='slow'||a.pace==='fast'?a.pace:'normal'}; }
 function onbPlan(){ PB.a=onbPB(); pbBuild(); return PB.plan; }
+/* "build me a plan" for an existing user, with Rafi: the same questions as the first run (goal → plan), answers kept in memory only */
+let ONB_BAK=null;
+function onbRedoStart(){ ONB_BAK=ONB; const b=S.settings.body||{};
+  ONB={s:ONB_STEPS.indexOf('goal'),authed:true,redo:true,applied:true,peeked:true,a:{blk:[],lim:[],name:firstName()||'',g:S.settings.g||window.NR_G||'m',sex:b.sex||undefined,h:b.h||'',w:tgLastWeight()||b.w||'',age:b.age||'',pace:b.pace==='slow'||b.pace==='fast'?b.pace:'normal',goalKg:S.settings.goalKg||''}};
+  onbPaint(); try{ $('#onb')?.scrollTo(0,0); }catch(_){} try{ logEv('pb_rafi'); }catch(_){} }
+function onbRedoEnd(){ $('#onbpost')?.remove(); ONB=ONB_BAK||{s:0,a:{blk:[],lim:[]},applied:true}; ONB_BAK=null; }
+function onbRedoFinish(){ const a=ONB.a, t=onbTG(), r=tgCalc(t);
+  PB.a=onbPB(); pbBuild(); PB.replace=true; PB.sched=true; PB.rafi=r?{t,r,goalKg:+a.goalKg||null,mode:a.mode||null}:{mode:a.mode||null};
+  onbRedoEnd(); S.tab='train'; render(); pbPreview(); }
 function onbTop(back){ const st=ONB_STEPS[ONB.s], n=ONB_QN[st]||0;
   return `<div class="ob-top"><button class="ob-back" data-act="onb-back" aria-label="${tt('חזרה')}">${ONB_BACK}</button>${n?`<div class="ob-prog" aria-hidden="true">${Array.from({length:8},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</div><span class="ob-step">${n} ${tt('מתוך')} 8</span>`:''}</div>`; }
 function onbSay(img,html){ return `<div class="ob-rafi"><img src="${onbRafi(img)}" alt=""><div class="ob-bub">${html}</div></div>`; }
@@ -2838,7 +2847,7 @@ function vOnb(){
     h=`<div class="ob-glow" aria-hidden="true"></div>
       <div class="ob-hd"><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div>${langPillsHTML()}</div>
       <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('happy')}" alt="${tt('ראפי, המאמן של NextRep')}">
-        <div class="ob-badge"><i></i>${ONB.ref?.name?`<span data-notr>${esc(ONB.ref.name)}</span> ${tt('הזמין אותך')} · ${tt('14 ימים חינם')}`:tt('שבוע ראשון חינם · בלי כרטיס אשראי')}</div>
+        <div class="ob-badge"><i></i>${ONB.ref?.name?(ONB.ref.group?`<span style="text-align:center;line-height:1.35"><b data-notr>${esc(ONB.ref.name)}</b> ${tt('מזמין אותך לקבוצה')} <b data-notr>${esc(ONB.ref.group)}</b> · ${tt('14 ימים חינם')}</span>`:`<span data-notr>${esc(ONB.ref.name)}</span> ${tt('הזמין אותך')} · ${tt('14 ימים חינם')}`):tt('שבוע ראשון חינם · בלי כרטיס אשראי')}</div>
         <h1 class="ob-h1">${tt('המאמן שזוכר')}<br><em>${tt('כל סט שלך.')}</em></h1>
         <p class="ob-sub">${tt('תוכנית אישית, משקל מדויק לכל סט ויעד תזונתי שמתעדכן. ראפי לצידך מהאימון הראשון.')}</p></div>
       <div class="ob-foot"><button class="ob-cta" data-act="onb-next">${OG('בוא נתחיל','בואי נתחיל')}</button><button class="ob-ghost" data-act="onb-login">${tt('כבר יש לי חשבון')}</button>${ONB.ref?.code?'':`<button class="ob-ghost sm" data-act="onb-refcode">${tt('יש לי קוד הזמנה')}</button>`}</div>`;
@@ -2977,7 +2986,8 @@ const iconIsF=()=>{ try{ return localStorage.getItem('nr-icon')==='f'; }catch(_)
 function iconOfferHTML(){ return `<div class="ob-icon"><img src="icon-f-192.png" alt=""><div><b>${tt('אייקון ורוד לאפליקציה?')}</b><small>${tt('מחליפים עכשיו, ואפשר לחזור בהגדרות.')}</small></div>
   <div class="ob-icon-b"><button data-act="onb-icon" data-v="f">${tt('כן, להחליף')}</button><button data-act="onb-icon" data-v="no" class="no">${tt('לא תודה')}</button></div></div>`; }
 function onbPaint(){ if(ONB.authed){ let el=$('#onbpost'); if(!el){ el=document.createElement('div'); el.id='onbpost'; document.body.appendChild(el); } el.innerHTML=vOnb(); } else render(); }
-function onbGo(s){ if(ONB_STEPS[s]==='invite'&&(!ONB.ref||ONB.refDone))s+=(s>ONB.s?1:-1); ONB.s=Math.max(ONB.authed?1:0,Math.min(ONB_STEPS.length-1,s)); onbSave(); onbPaint(); try{ $('#onb')?.scrollTo(0,0); }catch(_){}
+function onbGo(s){ if(ONB.redo){ if(s<ONB_STEPS.indexOf('goal')){ onbRedoEnd(); return; } if(ONB_STEPS[s]==='save'){ onbRedoFinish(); return; } }
+  if(ONB_STEPS[s]==='invite'&&(!ONB.ref||ONB.refDone))s+=(s>ONB.s?1:-1); ONB.s=Math.max(ONB.authed?1:0,Math.min(ONB_STEPS.length-1,s)); onbSave(); onbPaint(); try{ $('#onb')?.scrollTo(0,0); }catch(_){}
   const st=ONB_STEPS[ONB.s];
   if(st==='name')setTimeout(()=>{ const i=$('#onb-name'); if(i&&!i.value){ try{ i.focus({preventScroll:true}); }catch(_){ i.focus(); } } },250);
   if(st==='build'){ ONB.bi=0; clearInterval(onbGo._t); onbGo._t=setInterval(()=>{ if(ONB_STEPS[ONB.s]!=='build'){ clearInterval(onbGo._t); return; }
@@ -2988,6 +2998,7 @@ function onbAct(act,b){
   switch(act){
     case 'onb-next': if(!onbReady(st))return true;
       if(st==='name'){ a.name=String($('#onb-name')?.value||a.name||'').trim().slice(0,30); try{ document.activeElement?.blur(); }catch(_){} }
+      if(st==='plan'&&ONB.redo){ onbRedoFinish(); return true; }
       if(st==='plan'){ ONB.applied=false; // a new run through the questions: apply it after this sign-in
         if(ONB.authed){ ONB.applied=true; ONB.authed=false; onbSave(); b.disabled=true; onbApply().catch(e=>{ console.warn('onbApply',e); b.disabled=false; toast(tt('לא הצלחנו לשמור את התוכנית, נסה שוב')); }); return true; } }
       onbGo(ONB.s+1); return true;
@@ -2997,7 +3008,7 @@ function onbAct(act,b){
     case 'onb-refcheck': { const c=String($('#onb-ref')?.value||'').replace(/[^A-Za-z0-9]/g,'').toUpperCase(); ONB.refTyped=c; if(c.length<4){ ONB.refErr=tt('הקוד קצר מדי'); onbPaint(); return true; }
       b.disabled=true; Promise.resolve(sb.rpc('ref_lookup',{p_code:c})).then(({data}={})=>{ if(data?.ok&&!data.self){ ONB.ref={code:data.code,name:data.name}; ONB.refErr=''; ONB.refTyped=''; vibrate(8); } else ONB.refErr=tt('לא מצאנו את הקוד הזה. בדקו שהוא הוקלד נכון.'); onbSave(); onbPaint(); }).catch(()=>{ ONB.refErr=tt('אין חיבור כרגע. נסו שוב.'); onbPaint(); }); return true; }
     case 'onb-refok': if(ONB.ref?.code){ try{ localStorage.setItem('nr-refcode',ONB.ref.code); }catch(_){} } ONB.refDone=true; { const fs=ONB.refFromStart; ONB.refFromStart=false; onbGo(fs?ONB_STEPS.indexOf('meet'):ONB.s+1); } return true;
-    case 'onb-refno': ONB.ref=null; ONB.refNo=true; ONB.refErr=''; try{ localStorage.removeItem('nr-refcode'); }catch(_){} { const fs=ONB.refFromStart; ONB.refFromStart=false; onbGo(fs?ONB_STEPS.indexOf('meet'):ONB.s+1); } return true;
+    case 'onb-refno': if(ONB.ref?.grp){ try{ localStorage.removeItem('nr-join'); }catch(_){} } ONB.ref=null; ONB.refNo=true; ONB.refErr=''; try{ localStorage.removeItem('nr-refcode'); }catch(_){} { const fs=ONB.refFromStart; ONB.refFromStart=false; onbGo(fs?ONB_STEPS.indexOf('meet'):ONB.s+1); } return true;
     case 'onb-login': ONB.login=true; onbSave(); render(); return true;
     case 'onb-new': ONB.login=false; onbSave(); render(); return true;
     case 'onb-g': { const v=b.dataset.v, was=window.NR_G; a.g=v; if(!a.sex)a.sex=v; onbSave();
@@ -7689,8 +7700,9 @@ function socJoinSheet(){
   setTimeout(()=>$('#sg-code')?.focus(),60);
 }
 function socInviteSheet(){
+  invLoad();
   const info=SOC.info[SOC.gid]||{}; const code=info.invite_code||((SOC.groups||[]).find(g=>g.id===SOC.gid)||{}).invite_code||'';
-  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">שלח את הקישור. מי שאין לו חשבון יירשם ויצטרף אחרי אישור.</div>
+  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">חבר חדש מקבל 14 ימים חינם ונכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא מצטרף למנוי.</div>
     <div class="inv-code">${esc(code)}</div>
     <div class="row" style="margin-top:12px;flex-wrap:nowrap"><button class="btn primary big" style="flex:2" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
       <button class="btn big" style="flex:1" data-act="soc-qr" data-code="${esc(code)}">ברקוד</button></div>
@@ -7756,14 +7768,14 @@ function socAct(act,b){
       else{ mu.add(u); sb.from('group_mutes').insert({group_id:gid,muted_id:u==='*'?null:u}).then(({error})=>{ if(error&&!/duplicate/.test(error.message)){mu.delete(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'הקבוצה הושתקה 🔕':'לא תקבל התראות מההודעות שלו 🔕'); }
       socInviteSheet(); return true; }
     case 'soc-invite': socMutesLoad(SOC.gid); socInviteSheet(); if(!SOC.info[SOC.gid])socLoadInfo(SOC.gid).then(socInviteSheet); return true;
-    case 'soc-share': { const code=b.dataset.code, url=`${SITE}/#join=${code}`;
-      const text=`בוא להתאמן איתי ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. קוד הקבוצה: ${code}`;
+    case 'soc-share': { const code=b.dataset.code, url=socInvUrl(code);
+      const text=`בוא להתאמן איתי בקבוצה ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. 14 ימים חינם דרך ההזמנה. קוד הקבוצה: ${code}`;
       if(navigator.share)navigator.share({title:'NextRep',text:tt(text),url}).catch(()=>{});
       else navigator.clipboard?.writeText(tt(text)+'\n'+url).then(()=>toast('הקישור הועתק'),()=>toast(url)); return true; }
     case 'soc-leave': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב ליציאה';return true;}
       sb.rpc('leave_group',{gid:SOC.gid}).then(()=>{closeSheet();SOC.gid=null;toast('יצאת מהקבוצה');socLoad();render();}); return true;
     case 'soc-send': socSend(); return true;
-    case 'soc-qr': { const code=b.dataset.code, url=`${SITE}/#join=${code}`; openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
+    case 'soc-qr': { const code=b.dataset.code, url=socInvUrl(code); openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
     case 'soc-older': { const gid=SOC.gid, arr=SOC.msgs[gid]||[]; const h0=$('#chatlist')?.scrollHeight||0;
       socLoadMsgs(gid,arr[0]?.id).then(rows=>{SOC.msgs[gid]=rows.concat(arr);render();const l=$('#chatlist');if(l)l.scrollTop=l.scrollHeight-h0;}); return true; }
     case 'soc-react': { const id=+b.dataset.id, e=b.dataset.e, uid=S.user.id; const rs=SOC.reacts[id]||(SOC.reacts[id]=[]);
@@ -7999,6 +8011,8 @@ function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q
    כל השאר 30 ימי פרימיום. מי שלא משלם מקבל גם שבוע על כל חבר שמתחיל להתאמן. */
 const INV={st:null,p:null,code:null};
 const INV_SITE='https://www.nextrep.co.il';
+/* a group invite is also a personal invite: 14 free days for the friend, a free month for you when they subscribe */
+function socInvUrl(code){ return INV.code?`${INV_SITE}/i/${INV.code}?g=${code}`:`${INV_SITE}/#join=${code}`; }
 function inviteUrl(){ return INV.code?`${INV_SITE}/i/${INV.code}`:`${INV_SITE}/#ref=${S.user?.id||''}`; }
 function inviteText(){ const d=INV.st?.trial_days||14;
   return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.')).replace('{d}',d)+(INV.code?` ${tt('קוד ההזמנה')}: ${INV.code}`:''); }
@@ -8516,6 +8530,11 @@ function pbSheet(){
       ${Q.multi?`<button class="btn primary" style="flex:2" data-act="pb-next">${val.length?'המשך':'דלג'}</button>`:''}
     </div>`);
 }
+function pbChoose(){
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="${onbRafi('happy')}" alt=""><div><b>${tt('איך נבנה את התוכנית?')}</b><span>${tt('התוכניות הקיימות נשארות עד שתבחר להחליף אותן.')}</span></div></div>
+    <button class="pb-cta" data-act="pb-rafi" style="width:100%;margin-bottom:10px"><span class="pb-ic">✨</span><span style="flex:1"><b>${tt('עם ראפי')} · ${tt('מומלץ')}</b><small>${tt('כמו בפתיחה: מטרה, ניסיון, ימים, גוף ומגבלות. בונה תוכנית ויעד תזונה מותאמים')}</small></span></button>
+    <button class="card r20" data-act="pb-quick" style="width:100%;text-align:start;display:flex;gap:12px;align-items:center">${ICON.list}<span><b>${tt('שאלון מהיר')}</b><small class="muted" style="display:block">${tt('8 שאלות קצרות, תוכנית אימונים בלבד')}</small></span></button>
+    <button class="btn big" style="margin-top:12px" data-act="sheet-close">${tt('ביטול')}</button>`); }
 function pbPreview(){
   const P=PB.plan, A=PB.a;
   openSheet(`<h3 style="margin-bottom:2px">התוכנית שלך מוכנה ✨</h3>
@@ -8524,11 +8543,14 @@ function pbPreview(){
       ${se.ex.map(e=>`<div class="pb-ex"><span>${esc(e.n)}</span><span class="num muted" ${e.t==='c'?'':'dir="ltr"'}>${e.t==='c'?e.min+' דק׳':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}</div>`).join('')}</div>
     <div class="small muted" style="margin:12px 0">מתחילים במשקל שמאפשר את כל החזרות בטכניקה טובה. כשמגיעים לקצה העליון של טווח החזרות בכל הסטים, מעלים 2.5–5 ק״ג.</div>
     <label class="setrow" style="padding:6px 0"><span>החלף את התוכניות הקיימות</span><input type="checkbox" class="sw" id="pb-rep" ${PB.replace?'checked':''}></label>
+    ${PB.rafi?.r?`<label class="setrow" style="padding:6px 0"><span>${tt('עדכן גם את יעד התזונה')} (<span class="num">${Math.round(PB.rafi.r.kcal).toLocaleString('en-US')}</span> ${tt('קק״ל')} · <span class="num">${PB.rafi.r.prot}</span> ${tt('גר׳ חלבון')})</span><input type="checkbox" class="sw" id="pb-tg" checked></label>`:''}
     <label class="setrow" style="padding:6px 0;border-bottom:0"><span>קבע לי לו״ז שבועי (${PB_DAYS[A.days].map(d=>DAY_LETTERS[d]).join(', ')})</span><input type="checkbox" class="sw" id="pb-sch" ${PB.sched?'checked':''}></label>
     <div class="row" style="margin-top:14px;gap:8px"><button class="btn" style="flex:1" data-act="pb-restart">שינוי תשובות</button><button class="btn primary" style="flex:2" data-act="pb-save">שמירת התוכנית</button></div>`);
 }
 async function pbSave(){
-  const A=PB.a, P=PB.plan, rep=$('#pb-rep')?.checked, sch=$('#pb-sch')?.checked;
+  const A=PB.a, P=PB.plan, rep=$('#pb-rep')?.checked, sch=$('#pb-sch')?.checked, tg=PB.rafi?.r&&$('#pb-tg')?.checked;
+  if(PB.rafi){ if(tg){ const {t,r}=PB.rafi; S.settings.body={sex:t.sex,age:t.age,h:t.h,w:t.w,act:t.act,goal:t.goal,pace:t.pace}; S.settings.kcalT=r.kcal; S.settings.protT=r.prot; if(PB.rafi.goalKg)S.settings.goalKg=PB.rafi.goalKg; }
+    if(PB.rafi.mode){ try{ coachCfg().mode=PB.rafi.mode; }catch(_){} } PB.rafi=null; if(!sch)persistSettings(); }
   if(rep)for(const t of [...S.templates])await deleteTemplate(t.id);
   const base=rep?0:S.templates.length, now=Date.now(), ids=[];
   for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
@@ -8586,7 +8608,9 @@ function startAct(act){
 }
 function pbAct(act,b){
   switch(act){
-    case 'pb-open': PB.step=0; PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]}; pbSheet(); return true;
+    case 'pb-open': if(IS_NATIVE||window.NR_PB_RAFI){ pbChoose(); return true; }
+    case 'pb-quick': PB.rafi=null; PB.step=0; PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]}; pbSheet(); return true;
+    case 'pb-rafi': closeSheet(); onbRedoStart(); return true;
     case 'pb-pick': { const Q=PB_Q[PB.step]; let v=b.dataset.v; if(typeof Q.o[0][0]==='number')v=+v;
       if(Q.multi){ const arr=PB.a[Q.k]; const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); if(v==='glutes')PB._gTouched=true; pbSheet(); }
       else { PB.a[Q.k]=v; if(Q.k==='sex'){ const f=PB.a.focus; if(v==='f'&&!f.includes('glutes'))f.push('glutes'); if(v==='m'){const i=f.indexOf('glutes'); if(i>=0&&!PB._gTouched)f.splice(i,1);} } PB.step++; pbSheet(); } return true; }
