@@ -8,7 +8,7 @@ const rpc = async (fn, body = {}) => {
   if (!r.ok) throw new Error(`${fn}: HTTP ${r.status} ${await r.text()}`);
   return r.json();
 };
-let fails = 0; const ok = (c, msg) => { console.log((c ? 'ok   ' : 'FAIL ') + msg); if (!c) fails++; };
+let fails = 0; const ok = (c, msg) => { console.log((c ? 'ok   ' : 'FAIL ') + msg); if (!c) { fails++; if (process.env.CI) console.log('::error::' + msg.replace(/\n/g, '%0A')); } };
 const eq = (a, b) => Math.abs(+a - +b) < 1e-9;
 
 // reference records (per 100 g, USDA FoodData Central SR Legacy)
@@ -16,7 +16,7 @@ const REF = {
   brewed:   { kcal: 1, protein: 0.12, carbs: 0,    fat: 0.02, rec: 'FDC 171890' },
   espresso: { kcal: 9, protein: 0.12, carbs: 1.67, fat: 0.18, rec: 'FDC 171891' },
 };
-let net = true; try { await rpc('food_integrity_check'); } catch (e) { if (process.env.CI) throw e; net = false; console.log('skip DB checks (no network here): ' + e.message.slice(0, 80)); }
+let net = true; try { await rpc('food_integrity_check'); } catch (e) { if (process.env.CI) { console.log('::error::DB unreachable: ' + e.message); throw e; } net = false; console.log('skip DB checks (no network here): ' + e.message.slice(0, 80)); }
 if (net) {
 // 1. database-wide checks (same values under different sources, missing provenance, borrowed values, merged rows)
 const issues = await rpc('food_integrity_check');
