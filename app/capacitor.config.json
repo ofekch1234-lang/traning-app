@@ -2,7 +2,7 @@
   "appId": "il.co.nextrep.app",
   "appName": "NextRep",
   "webDir": "www",
-  "backgroundColor": "#0F1411",
+  "backgroundColor": "#0A0B0A",
   "ios": {
     "contentInset": "never",
     "scheme": "NextRep",
@@ -19,7 +19,7 @@
     "SplashScreen": {
       "launchShowDuration": 1200,
       "launchAutoHide": true,
-      "backgroundColor": "#0F1411",
+      "backgroundColor": "#0A0B0A",
       "showSpinner": false
     },
     "Keyboard": {
