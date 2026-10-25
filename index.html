@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a5bfc50b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a5bfc50b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a5bfc50b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a978dffe"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a978dffe"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a978dffe"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1982,7 +1982,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.7';
+const APP_VERSION='13.3.8';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2645,6 +2645,7 @@ const ONB_STEPS=['welcome','meet','name','addr','goal','memory','exp','sched','b
 const ONB_QN={name:1,addr:2,goal:3,memory:3,exp:4,sched:5,body:6,mode:7,block:8};
 const onbF=()=>(ONB.a.g||window.NR_G)==='f';
 const OG=(m,f)=>onbF()?f:m;
+const onbH=()=>{ const h=+ONB.a.h; return h>0&&h<3?Math.round(h*100):h; }; // 1.72 typed in metres → 172 cm
 const onbRafi=k=>`img/kobi-${k}${onbF()?'-f':''}.svg`;
 const ONB_CHK='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
 const ONB_BACK='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
@@ -2653,7 +2654,7 @@ function onbPB(){ const a=ONB.a;
   return {sex:a.sex||(onbF()?'f':'m'),goal:a.goal||'mass',level:a.exp||'mid',days:+a.days||3,time:+a.time||60,equip:a.equip||'gym',
     focus:(a.sex||(onbF()?'f':'m'))==='f'?['glutes']:[],limits:[...(a.lim||[])]}; }
 function onbTG(){ const a=ONB.a, d=+a.days||3;
-  return {sex:a.sex||(onbF()?'f':'m'),age:+a.age,h:+a.h,w:+a.w,act:d<=2?1.375:d<=4?1.55:1.725,goal:a.goal==='cut'?'cut':a.goal==='mass'?'bulk':'keep',pace:'normal'}; }
+  return {sex:a.sex||(onbF()?'f':'m'),age:+a.age,h:onbH(),w:+a.w,act:d<=2?1.375:d<=4?1.55:1.725,goal:a.goal==='cut'?'cut':a.goal==='mass'?'bulk':'keep',pace:'normal'}; }
 function onbPlan(){ PB.a=onbPB(); pbBuild(); return PB.plan; }
 function onbTop(back){ const st=ONB_STEPS[ONB.s], n=ONB_QN[st]||0;
   return `<div class="ob-top"><button class="ob-back" data-act="onb-back" aria-label="${tt('חזרה')}">${ONB_BACK}</button>${n?`<div class="ob-prog" aria-hidden="true">${Array.from({length:8},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</div><span class="ob-step">${n} ${tt('מתוך')} 8</span>`:''}</div>`; }
@@ -2678,7 +2679,7 @@ function onbReady(st){ const a=ONB.a;
   if(st==='name')return String(a.name||'').trim().length>=2;
   if(st==='addr')return !!a.g; if(st==='goal')return !!a.goal; if(st==='exp')return !!a.exp;
   if(st==='sched')return !!a.days&&!!a.equip&&!!a.time;
-  if(st==='body')return +a.h>=120&&+a.h<=230&&+a.w>=30&&+a.w<=300&&+a.age>=13&&+a.age<100&&!!a.sex;
+  if(st==='body')return onbH()>=120&&onbH()<=230&&+a.w>=30&&+a.w<=300&&+a.age>=13&&+a.age<100&&!!a.sex;
   if(st==='mode')return !!a.mode; return true; }
 function vOnb(){
   const st=ONB_STEPS[ONB.s]||'welcome', a=ONB.a, nm=esc(String(a.name||'').trim());
@@ -2716,14 +2717,15 @@ function vOnb(){
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='goal'){
     h=`${onbTop()}${onbSay('think',`<span data-notr>${nm}</span>, ${OG('מה הכי חשוב לך עכשיו?','מה הכי חשוב לך עכשיו?')}`)}
-      <div class="ob-mid ob-list">${onbOpt('goal','cut',tt('לרדת במשקל'),tt('ולשמור על השריר בדרך'),OBI.fire)}${onbOpt('goal','mass',tt('לבנות שריר'),tt('לגדול ולהיראות חזק יותר'),OBI.db)}${onbOpt('goal','strength',tt('להיות חזק יותר'),tt('להעלות משקלים בתרגילים הגדולים'),OBI.bolt)}${onbOpt('goal','fit',tt('כושר ובריאות'),tt('להרגיש טוב ולהתמיד'),OBI.heart)}</div>
+      <div class="ob-mid ob-list">${onbOpt('goal','cut',tt('לרדת במשקל'),OG(tt('ולשמור על השריר בדרך'),tt('ולהתחטב בדרך, בלי לאבד שריר')),OBI.fire)}${onbOpt('goal','mass',OG(tt('לבנות שריר'),tt('להתחטב ולבנות שריר')),OG(tt('לגדול ולהיראות חזק יותר'),tt('גוף מעוצב, ישבן ורגליים חזקים')),OBI.db)}${onbOpt('goal','strength',OG(tt('להיות חזק יותר'),tt('להיות חזקה יותר')),OG(tt('להעלות משקלים בתרגילים הגדולים'),tt('להרים יותר, ולהרגיש את זה ביום-יום')),OBI.bolt)}${onbOpt('goal','fit',tt('כושר ובריאות'),OG(tt('להרגיש טוב ולהתמיד'),tt('אנרגיה, ביטחון והתמדה')),OBI.heart)}</div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='memory'){
-    const T={cut:[tt('לרדת במשקל, מעולה.'),tt('יורדים בשומן ושומרים על השריר: אימוני כוח וחלבון.')],mass:[tt('לבנות שריר, מעולה.'),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')],strength:[tt('להתחזק, מעולה.'),tt('כוח נבנה מהעלאות קטנות וקבועות במשקל.')],fit:[tt('כושר ובריאות, מעולה.'),tt('הסוד הוא להתמיד, ולהתקדם קצת בכל פעם.')]}[a.goal]||[tt('מעולה.'),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')];
+    const T={cut:[tt('לרדת במשקל, מעולה.'),tt('יורדים בשומן ושומרים על השריר: אימוני כוח וחלבון.')],mass:[OG(tt('לבנות שריר, מעולה.'),tt('להתחטב ולבנות שריר, מעולה.')),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')],strength:[tt('להתחזק, מעולה.'),tt('כוח נבנה מהעלאות קטנות וקבועות במשקל.')],fit:[tt('כושר ובריאות, מעולה.'),tt('הסוד הוא להתמיד, ולהתקדם קצת בכל פעם.')]}[a.goal]||[tt('מעולה.'),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')];
     h=`${onbTop()}<div class="ob-pad"><div class="ob-kick acc">${T[0]}</div><h1 class="ob-h2">${T[1]}</h1></div>
-      <div class="ob-demo"><div class="spread"><span><b>${tt('לחיצת חזה במוט')}</b><small>${tt('אימון A · סט 2 מתוך 4')}</small></span><span class="ob-tag">${tt('דוגמה')}</span></div>
-        <div class="ob-set"><span class="n">1</span><span class="l">${tt('בפעם שעברה')}</span><b dir="ltr">60 kg × 8</b></div>
-        <div class="ob-set on"><span class="n">2</span><span class="l"><b>${tt('ראפי ממליץ היום')}</b><small>${tt('עשית 8 חזרות נקיות, אז מעלים')}</small></span><span class="r"><b dir="ltr">62.5 kg × 8</b><small>+2.5 ${tt('ק״ג')}</small></span></div>
+      ${(()=>{ const F=onbF(), D=F?{ex:tt('היפ טראסט במוט'),w0:30,w1:32.5,r:10,txt:tt('עשית 10 חזרות נקיות, אז מעלים')}:{ex:tt('לחיצת חזה במוט'),w0:60,w1:62.5,r:8,txt:tt('עשית 8 חזרות נקיות, אז מעלים')};
+      return `<div class="ob-demo"><div class="spread"><span><b>${D.ex}</b><small>${tt('אימון A · סט 2 מתוך 4')}</small></span><span class="ob-tag">${tt('דוגמה')}</span></div>
+        <div class="ob-set"><span class="n">1</span><span class="l">${tt('בפעם שעברה')}</span><b dir="ltr">${D.w0} kg × ${D.r}</b></div>
+        <div class="ob-set on"><span class="n">2</span><span class="l"><b>${tt('ראפי ממליץ היום')}</b><small>${D.txt}</small></span><span class="r"><b dir="ltr">${D.w1} kg × ${D.r}</b><small>+2.5 ${tt('ק״ג')}</small></span></div>`; })()}
         <div class="ob-rafi sm"><img src="${onbRafi('cheer')}" alt=""><div class="ob-bub">${OG('קשה מדי? תגיד לי כמה חזרות נשארו לך בטנק, ואני מכוונן.','קשה מדי? תגידי לי כמה חזרות נשארו לך בטנק, ואני מכוונן.')}</div></div></div>
       <div class="ob-mid"><p class="ob-p">${tt('אני זוכר כל סט שעשית, ויודע מתי להעלות משקל ומתי לחכות.')} <b>${OG('אתה רק מרים.','את רק מרימה.')}</b></p></div>
       ${onbCta(tt('מגניב, ממשיכים'))}`;
