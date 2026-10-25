@@ -526,5 +526,13 @@
  "את החודש החינם מממשים באפליקציה": {
   "en": "The free month is claimed in the app",
   "ar": "يُستلم الشهر المجاني داخل التطبيق"
+ },
+ "חבר חדש מקבל 14 ימים חינם ונכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא מצטרף למנוי.": {
+  "en": "A new friend gets 14 days free and joins the group right away, and you get a free month when they subscribe.",
+  "ar": "الصديق الجديد يحصل على 14 يومًا مجانًا وينضم إلى المجموعة مباشرة، وأنت تحصل على شهر مجاني عندما يشترك."
+ },
+ "בוא להתאמן איתי בקבוצה ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. 14 ימים חינם דרך ההזמנה. קוד הקבוצה: {0}": {
+  "en": "Come train with me in a group on NextRep 💪 We'll follow each other, cheer each other on and compete in challenges. 14 days free through the invite. Group code: {0}",
+  "ar": "تعال تدرّب معي في مجموعة على NextRep 💪 سنتابع بعضنا ونشجّع بعضنا ونتنافس في التحديات. 14 يومًا مجانًا عبر الدعوة. رمز المجموعة: {0}"
  }
 }

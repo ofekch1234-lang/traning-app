@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f55c6c41"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f55c6c41"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f55c6c41"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c8a7ade5"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c8a7ade5"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c8a7ade5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1734,7 +1734,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.13';
+const APP_VERSION='13.3.14';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6857,8 +6857,9 @@ function socJoinSheet(){
   setTimeout(()=>$('#sg-code')?.focus(),60);
 }
 function socInviteSheet(){
+  invLoad();
   const info=SOC.info[SOC.gid]||{}; const code=info.invite_code||((SOC.groups||[]).find(g=>g.id===SOC.gid)||{}).invite_code||'';
-  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">שלח את הקישור. מי שאין לו חשבון יירשם ויצטרף אחרי אישור.</div>
+  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">חבר חדש מקבל 14 ימים חינם ונכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא מצטרף למנוי.</div>
     <div class="inv-code">${esc(code)}</div>
     <div class="row" style="margin-top:12px;flex-wrap:nowrap"><button class="btn primary big" style="flex:2" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
       <button class="btn big" style="flex:1" data-act="soc-qr" data-code="${esc(code)}">ברקוד</button></div>
@@ -6924,14 +6925,14 @@ function socAct(act,b){
       else{ mu.add(u); sb.from('group_mutes').insert({group_id:gid,muted_id:u==='*'?null:u}).then(({error})=>{ if(error&&!/duplicate/.test(error.message)){mu.delete(u);toast('לא הצלחנו לעדכן');socInviteSheet();} }); toast(u==='*'?'הקבוצה הושתקה 🔕':'לא תקבל התראות מההודעות שלו 🔕'); }
       socInviteSheet(); return true; }
     case 'soc-invite': socMutesLoad(SOC.gid); socInviteSheet(); if(!SOC.info[SOC.gid])socLoadInfo(SOC.gid).then(socInviteSheet); return true;
-    case 'soc-share': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`;
-      const text=`בוא להתאמן איתי ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. קוד הקבוצה: ${code}`;
+    case 'soc-share': { const code=b.dataset.code, url=socInvUrl(code);
+      const text=`בוא להתאמן איתי בקבוצה ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. 14 ימים חינם דרך ההזמנה. קוד הקבוצה: ${code}`;
       if(navigator.share)navigator.share({title:'NextRep',text:tt(text),url}).catch(()=>{});
       else navigator.clipboard?.writeText(tt(text)+'\n'+url).then(()=>toast('הקישור הועתק'),()=>toast(url)); return true; }
     case 'soc-leave': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב ליציאה';return true;}
       sb.rpc('leave_group',{gid:SOC.gid}).then(()=>{closeSheet();SOC.gid=null;toast('יצאת מהקבוצה');socLoad();render();}); return true;
     case 'soc-send': socSend(); return true;
-    case 'soc-qr': { const code=b.dataset.code, url=`${location.origin}/#join=${code}`; openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
+    case 'soc-qr': { const code=b.dataset.code, url=socInvUrl(code); openShareSheet('ברקוד לקבוצה','החבר סורק ומצטרף לקבוצה.',url,`בוא להתאמן איתי ב-NextRep 💪 קוד הקבוצה: ${code}`); return true; }
     case 'soc-older': { const gid=SOC.gid, arr=SOC.msgs[gid]||[]; const h0=$('#chatlist')?.scrollHeight||0;
       socLoadMsgs(gid,arr[0]?.id).then(rows=>{SOC.msgs[gid]=rows.concat(arr);render();const l=$('#chatlist');if(l)l.scrollTop=l.scrollHeight-h0;}); return true; }
     case 'soc-react': { const id=+b.dataset.id, e=b.dataset.e, uid=S.user.id; const rs=SOC.reacts[id]||(SOC.reacts[id]=[]);
@@ -7036,6 +7037,8 @@ function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q
    כל השאר 30 ימי פרימיום. מי שלא משלם מקבל גם שבוע על כל חבר שמתחיל להתאמן. */
 const INV={st:null,p:null,code:null};
 const INV_SITE='https://www.nextrep.co.il';
+/* a group invite is also a personal invite: 14 free days for the friend, a free month for you when they subscribe */
+function socInvUrl(code){ return INV.code?`${INV_SITE}/i/${INV.code}?g=${code}`:`${INV_SITE}/#join=${code}`; }
 function inviteUrl(){ return INV.code?`${INV_SITE}/i/${INV.code}`:`${INV_SITE}/#ref=${S.user?.id||''}`; }
 function inviteText(){ const d=INV.st?.trial_days||14;
   return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.')).replace('{d}',d)+(INV.code?` ${tt('קוד ההזמנה')}: ${INV.code}`:''); }

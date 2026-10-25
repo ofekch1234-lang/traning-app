@@ -20,3 +20,8 @@
 --   my_referrals()       the invite screen
 --   nr_on_entered        no longer gives the referrer a week on sign-up (ref_join does, on the first workout/meal)
 --   billing.ref_trial_days = 14
+
+-- referrals_groups (applied 2026-10-25): group invites are personal invites too
+--   ref_clicks.grp: the group code from /i/CODE?g=GROUP; ref_click(code, group) stores it and returns the group name;
+--   ref_peek returns grp + group so the app joins the group after sign-up;
+--   join_group: a first-week member nobody invited counts as invited by the group's creator (ref_apply).
