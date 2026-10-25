@@ -84,6 +84,7 @@
 .inv-rules{padding:4px 14px;margin-bottom:10px}
 .inv-rule{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.inv-rule:last-child{border-bottom:0}
 .inv-rule>span{width:36px;height:36px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;flex:none;font-weight:900}
+.inv-wait{display:block;margin-top:3px;font-style:normal;font-size:12.5px;color:var(--ink);font-weight:600}
 .inv-rule>span.on{background:var(--accent);color:var(--accent-ink)}.inv-rule b{display:block;font-size:15px}.inv-rule small{font-size:12.5px;color:var(--muted)}
 .inv-code{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:16px;background:var(--surface2);margin-bottom:10px}
 .inv-code small{display:block;font-size:12px;color:var(--muted);letter-spacing:0;text-transform:none;font-family:inherit;font-weight:500}.inv-code b{font-size:22px;letter-spacing:.12em;font-family:var(--disp)}
@@ -2080,7 +2081,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.15';
+const APP_VERSION='13.3.16';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7993,7 +7994,7 @@ async function openInviteSheet(src){
       ${claim}
       <div class="card inv-rules">
         ${rule(`<b class="num">${st.trial_days||14}</b>`,tt('החבר מקבל {0} ימים חינם').replace('{0}',st.trial_days||14),tt('כל האפליקציה פתוחה, בלי כרטיס אשראי'))}
-        ${rule(INV_GIFT,G('אתה מקבל חודש חינם','את מקבלת חודש חינם','מקבלים חודש חינם'),(st.store?tt('על כל חבר שמצטרף למנוי: החיוב הבא שלך ₪0'):tt('על כל חבר שמצטרף למנוי'))+` · ${tt('עד {0} בשנה').replace('{0}',cap)}`,true)}
+        ${rule(INV_GIFT,G('אתה מקבל חודש חינם','את מקבלת חודש חינם','מקבלים חודש חינם'),(st.store?tt('על כל חבר שמצטרף למנוי: החיוב הבא שלך ₪0'):tt('על כל חבר שמצטרף למנוי'))+` · ${tt('עד {0} בשנה').replace('{0}',cap)}`+(st.store?`<em class="inv-wait">${tt('החודש החינם זמין לקבלה 7 ימים אחרי שהחבר שילם')}</em>`:''),true)}
         ${st.paying?'':rule(`<b class="num">+${st.join_days||7}</b>`,G('ועוד שבוע פרימיום לך','ועוד שבוע פרימיום לך','ועוד שבוע פרימיום'),tt('על כל חבר שנרשם ומתחיל להתאמן'))}
       </div>
       ${code?`<div class="inv-code"><div><small>${tt('הקוד האישי שלך')}</small><b dir="ltr">${esc(code)}</b></div><button class="btn" data-act="inv-share" data-ch="code" data-url="${esc(code)}">${tt('העתקה')}</button></div>`:''}
