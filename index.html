@@ -31,9 +31,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=1');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1f2d8ede"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1f2d8ede"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1f2d8ede"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b2daa093"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b2daa093"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=b2daa093"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1173,6 +1173,10 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .me-slot{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
 .me-slot button{border:0;background:none;padding:9px 12px;border-radius:9px;font:inherit;font-size:14px;color:var(--muted)}
 .me-slot button.on{background:var(--surface);color:var(--text);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.me-fix{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font:inherit;text-align:start;color:var(--text)}
+.me-fix .ic{width:22px;height:22px;flex:none;color:var(--muted)}.me-fix .lt{display:flex;flex-direction:column;gap:2px}.me-fix small{color:var(--muted);font-size:12.5px}
+.me-fix.on{border-color:var(--accent);background:var(--accent-soft)}.me-fix.on .ic{color:var(--accent);fill:var(--accent)}
+.svrow .linkbtn{text-decoration:none;font-weight:600}.chip.sv{display:inline-flex;align-items:center;gap:6px}.chip.sv .ic{width:14px;height:14px;color:var(--accent);fill:var(--accent)}.chip.sv small{color:var(--muted);font-weight:500}
 .me-del{text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:14px;padding:12px;color:var(--danger,#e5484d);font-weight:600}
 .me-del .ic{width:18px;height:18px}.me-del.sure{background:rgba(229,72,77,.1);border-radius:12px}
 .tc-card .tc-t{display:flex;flex-direction:column;gap:3px;min-width:0}
@@ -1735,7 +1739,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.2.39';
+const APP_VERSION='13.2.40';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2183,7 +2187,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null,saved:S.settings.saved||null}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); return flushActive(); }
@@ -2966,7 +2970,7 @@ function nextWorkoutInfo(){
   for(let i=1;i<=7;i++){ const d=(new Date().getDay()+i)%7; const t=schedOf(d); if(t)return {t,label:'הבא בתור',sub:i===1?'מחר בלו״ז':`בלו״ז · יום ${DAY_NAMES[d]}`}; }
   const t=nextTpl(); return t?{t,label:'הבא בתור',sub:''}:null;
 }
-const ICON={cal:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',trash:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12.5h8L17 7M10.5 11v5M13.5 11v5"/></svg>',play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>',
+const ICON={star:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>',cal:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',trash:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12.5h8L17 7M10.5 11v5M13.5 11v5"/></svg>',play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>',
   chev:'<span class="chev" aria-hidden="true">›</span>',
   plus:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
   search:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>',
@@ -3097,10 +3101,26 @@ function macroBar(label,v,target,col){
     </div>
   </div>`;
 }
+/* ארוחות קבועות: שמורות בהעדפות, נרשמות בלחיצה אחת */
+function savedMeals(){ return Array.isArray(S.settings.saved)?S.settings.saved:(S.settings.saved=[]); }
+function mealKey(n){ return String(n||'').trim().replace(/\s+/g,' '); }
+function isSavedMeal(m){ const k=mealKey(m?.name); return !!k&&savedMeals().some(x=>mealKey(x.name)===k); }
+function saveAsFixed(m){ const L=savedMeals(), k=mealKey(m.name)||'ארוחה', i=L.findIndex(x=>mealKey(x.name)===k);
+  const row={id:i>=0?L[i].id:'s'+Date.now(),name:k,kcal:Math.round(+m.kcal||0),protein:Math.round(+m.protein||0),carbs:Math.round(+m.carbs||0),fat:Math.round(+m.fat||0),items:clone(m.items||[]).map(({_f,...x})=>x)};
+  if(i>=0)L[i]=row; else L.unshift(row); if(L.length>40)L.length=40; persistSettings(); return row; }
+function unsaveFixed(name){ const k=mealKey(name); S.settings.saved=savedMeals().filter(x=>mealKey(x.name)!==k); persistSettings(); }
+function savedChips(){ const L=savedMeals(); if(!L.length)return '';
+  return `<div class="spread small" style="margin-bottom:-6px"><b class="muted" style="font-weight:600">הארוחות הקבועות שלי</b><button class="linkbtn small" data-act="saved-manage">עריכה</button></div>
+  <div class="again">${L.map(m=>`<button class="chip num sv" data-act="saved-add" data-id="${esc(m.id)}">${ICON.star||''}<span data-notr>${esc(m.name.length>22?m.name.slice(0,21)+'…':m.name)}</span><small>${kcalN(m.kcal)}</small></button>`).join('')}</div>`; }
+function openSavedManage(){ const L=savedMeals();
+  openSheet(`<div class="spread"><h3 style="margin:0">הארוחות הקבועות שלי</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
+    <div class="small muted" style="margin:6px 0 12px">שומרים ארוחה מחלון העריכה שלה, והיא מופיעה במסך התזונה לרישום בלחיצה אחת.</div>
+    ${L.length?`<div class="card list">${L.map(m=>`<div class="li"><span class="lt"><b data-notr>${esc(m.name)}</b><small class="num">${kcalN(m.kcal)} קק״ל · ${m.protein} גר׳ חלבון</small></span><button class="hd-btn" style="width:40px;height:40px;color:var(--danger)" data-act="saved-rm" data-id="${esc(m.id)}" aria-label="${tt('הסרה')}">${ICON.trash||'✕'}</button></div>`).join('')}</div>`
+      :`<div class="small muted">אין עדיין ארוחות קבועות.</div>`}`); }
 function recentMealNames(){
   const seen=new Set(), out=[];
   for(const m of [...S.meals].sort((a,b)=>b.ts-a.ts)){
-    const n=(m.name||'').trim(); if(!n||seen.has(n))continue;
+    const n=(m.name||'').trim(); if(!n||seen.has(n)||isSavedMeal(m))continue;
     seen.add(n); out.push(m);
     if(out.length>=4)break;
   }
@@ -3144,6 +3164,7 @@ function vFood(){
       </div>`
       :`<div class="ask"><label for="ask-q" class="ask-in">${ICON.search}<input id="ask-q" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200" data-bind="askq" placeholder="${tt('מה אכלת?')}" value="${esc(S.askQ||'')}"></label>${S.askQ?`<button class="sq clr" data-act="ask-clear" aria-label="${tt('ניקוי')}">✕</button>`:''}<button class="sq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button><label class="sq pr" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label></div>
       <div id="ask-res" class="card r20 ask-res" hidden></div>
+      ${savedMeals().length&&!S.basket.length?`<div class="svrow stack" style="gap:10px">${savedChips()}</div>`:''}
       ${S.basket.length?`<div class="card r20 basket" style="margin:0">
         <div class="spread small"><b>הארוחה שבהרכבה</b><span class="num muted">${Math.round(S.basket.reduce((a,i)=>a+i.kcal,0))} קק״ל · ${Math.round(S.basket.reduce((a,i)=>a+i.protein,0))} גר׳ חלבון</span></div>
         ${S.basket.map((it,i)=>`<div class="bitem"><span>${esc(it.name)} <span class="muted small">· ${esc(it.portion)}</span></span><span class="num">${it.kcal}</span><button class="linkbtn small" data-act="basket-rm" data-i="${i}" aria-label="הסר" style="color:var(--danger)">✕</button></div>`).join('')}
@@ -3176,6 +3197,7 @@ function openFoodAdd(opts){
         <button data-act="food-manual">${ICON.pen}ידני</button>
       </div>
       ${aiQuotaLine()}
+      ${savedChips()}
       ${recents.length?`<div class="small muted" style="font-weight:600;margin-bottom:-6px">שוב</div><div class="again">${recents.map(m=>`<button class="chip num" data-act="meal-again" data-id="${esc(m.id)}"><span data-notr>${esc(m.name.length>22?m.name.slice(0,22)+'…':m.name)}</span> · ${m.kcal}</button>`).join('')}</div>`:''}
     </div>
   </div>`);
@@ -4436,6 +4458,7 @@ function renderMealEdit(){
       <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
       <button class="btn primary" style="flex:2" data-act="meal-edit-save">שמור שינויים ✓</button>
     </div>
+    <button class="me-fix ${isSavedMeal(m)?'on':''}" data-act="meal-fix">${ICON.star||''}<span class="lt"><b>${isSavedMeal(m)?'שמורה כארוחה קבועה':'שמירה כארוחה קבועה'}</b><small>${isSavedMeal(m)?'לחיצה מסירה מהרשימה':'תופיע במסך התזונה, לרישום בלחיצה אחת'}</small></span></button>
     <button class="linkbtn me-del" data-act="meal-del-ask">${ICON.trash||''}<span>מחיקת הארוחה</span></button>
   `);
 }
@@ -8363,6 +8386,16 @@ function handleAct(b,ev){
     case 'meal-del': { const id=b.dataset.id||_mealEdit?.id; if(!id)break; deleteMeal(id); break; }
     case 'meal-slot': { if(_mealEdit){ const x=new Date(_mealEdit.ts||Date.now()); x.setHours({b:8,l:13,d:19}[b.dataset.v]||13,0,0,0); _mealEdit.ts=+x; renderMealEdit(); } break; }
     case 'food-today': S.foodDate=ymd(); render(); break;
+    case 'meal-fix': { if(!_mealEdit)break; const m=_mealEdit; const n=$('#me-name'); if(n)m.name=n.value;
+      if(isSavedMeal(m)){ unsaveFixed(m.name); toast('הוסרה מהארוחות הקבועות'); }
+      else { const its=m.items.filter(i=>(i.name||'').trim()||+i.kcal>0), t=its.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0),carbs:a.carbs+(+i.carbs||0),fat:a.fat+(+i.fat||0)}),{kcal:0,protein:0,carbs:0,fat:0});
+        saveAsFixed({name:m.name,items:its,...t}); toast('נשמרה כארוחה קבועה'); }
+      renderMealEdit(); break; }
+    case 'saved-add': { const src=savedMeals().find(x=>x.id===b.dataset.id); if(!src)break;
+      _mealDraft={name:src.name,items:clone(src.items||[]),kcal:+src.kcal||0,protein:+src.protein||0,carbs:+src.carbs||0,fat:+src.fat||0};
+      saveMealDraft(); break; }
+    case 'saved-manage': openSavedManage(); break;
+    case 'saved-rm': { const m=savedMeals().find(x=>x.id===b.dataset.id); if(m){ unsaveFixed(m.name); openSavedManage(); toast('הוסרה'); } break; }
     case 'food-targets-open': openTargetsSheet(); break;
     case 'g-open': openGenderSheet(false); break;
     case 'acc-open': openAccentSheet(); break;
@@ -8649,7 +8682,7 @@ async function enterApp(user){
       S.settings.schedule=st.data.prefs?.schedule||{};
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.menu=st.data.prefs?.menu||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
-      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null;
+      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null; S.settings.saved=st.data.prefs?.saved||null;
       try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1');
         if(!(src.t>new Date(S.user.created_at).getTime()+36e5))logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
