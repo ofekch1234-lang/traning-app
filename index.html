@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cf5adf36"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cf5adf36"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cf5adf36"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c559baff"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c559baff"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c559baff"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2109,7 +2109,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.37';
+const APP_VERSION='13.3.38';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3823,6 +3823,20 @@ function weekStreak(){
   return streak;
 }
 /* v13: what's next to train — shared by home and the train tab */
+/* iPhone widget (home screen + lock screen): today's calories and protein, the next workout and the week, written to the
+   widget after every change (debounced, and only when something changed). Native iOS only. */
+function widgetSync(){ if(NATIVE_OS!=='ios'||S.mode!=='app'||!S.user)return; clearTimeout(widgetSync._t);
+  widgetSync._t=setTimeout(()=>{ try{ const P=capP('WidgetBridge'); if(!P)return;
+    const d=ymd(), t=dayTotals(d), tm=new Date(); tm.setDate(tm.getDate()+1);
+    const nw=nextWorkoutInfo(), tpl=nw&&nw.t, ws=weekKeyOf(Date.now());
+    const snap={day:d,kcal:t.kcal,kT:kcalFor(d)||0,kT2:kcalFor(ymd(tm))||0,prot:t.protein,pT:+S.settings.protT||0,
+      next:tpl?tt(tpl.name):null,nextEx:(tpl&&tpl.ex||[]).length,nextSub:nw?tt(nw.label):'',
+      wkDone:S.workouts.filter(w=>w.start>=ws).length,wkPlan:Object.values(S.settings.schedule||{}).filter(Boolean).length,
+      accent:(getComputedStyle(document.documentElement).getPropertyValue('--accent')||'').trim()||'#BFFF2F',rtl:LANG!=='en',
+      L:{left:tt('קק״ל נותרו'),over:tt('מעל היעד'),kcal:tt('קק״ל'),protein:tt('חלבון'),next:tt('האימון הבא'),noPlan:tt('אין אימון מתוכנן'),ex:tt('תרגילים'),week:tt('השבוע')}};
+    const js=JSON.stringify(snap); if(js===widgetSync._last)return; widgetSync._last=js; P.set({json:js}).catch(()=>{ widgetSync._last=null; });
+  }catch(_){} },1200); }
+document.addEventListener('visibilitychange',()=>{ if(document.hidden){ widgetSync._last=null; widgetSync(); } });
 function nextWorkoutInfo(){
   const todayT=schedOf(new Date().getDay()), doneToday=trainedOn(new Date());
   if(todayT&&!doneToday)return {t:todayT,label:'האימון של היום',sub:''};
@@ -9890,6 +9904,7 @@ async function enterApp(user){
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
   if(S.active){startClock();keepAwake(true);}
 }
+{ const _r=render; render=function(){ const out=_r.apply(this,arguments); try{ widgetSync(); }catch(_){} return out; }; }
 function hideSplash(){
   const sp=$('#splash'); if(!sp)return;
   const rm=matchMedia('(prefers-reduced-motion: reduce)').matches, wait=rm?300:Math.max(300,1750-(Date.now()-(window.NR_SPLASH_T0||0)));

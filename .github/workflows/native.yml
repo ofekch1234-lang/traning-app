@@ -84,7 +84,7 @@ jobs:
           test -n "$ASC_KEY_ID" -a -n "$ASC_ISSUER_ID" -a -n "$TEAM" -a -n "$ASC_KEY_P8" || { echo "::error::Missing ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_P8 / APPLE_TEAM_ID secrets"; exit 1; }
           mkdir -p "$RUNNER_TEMP/keys"; printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8"
           echo "KEY=$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
-      - name: App ID capabilities (Sign in with Apple)
+      - name: App ID capabilities (Sign in with Apple) + widget App ID
         run: node scripts/asc-capability.js
       - name: Archive (Release)
         working-directory: app/ios/App
@@ -97,9 +97,17 @@ jobs:
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" > "$RUNNER_TEMP/archive.log" 2>&1 \
             || { grep -E "error:|error -|No profiles|No signing|requires a provisioning|Provisioning|certificate" "$RUNNER_TEMP/archive.log" | sort -u | head -15 | sed 's/^/::error::/'; tail -40 "$RUNNER_TEMP/archive.log"; exit 1; }
           tail -5 "$RUNNER_TEMP/archive.log"
-          codesign --force --sign - --entitlements App/App.entitlements --timestamp=none "$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app"
-          codesign -d --entitlements - "$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app" 2>/dev/null | grep -q applesignin \
+          # $(AppIdentifierPrefix) is only expanded by a signed build; stamp the real prefix (the team ID) ourselves
+          sed "s/\$(AppIdentifierPrefix)/$TEAM./g" App/App.entitlements > "$RUNNER_TEMP/app.entitlements"
+          sed "s/\$(AppIdentifierPrefix)/$TEAM./g" NextRepWidget/NextRepWidget.entitlements > "$RUNNER_TEMP/widget.entitlements"
+          APPX="$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app"
+          test -d "$APPX/PlugIns/NextRepWidget.appex" || { echo "::error::Widget extension missing from the archive"; exit 1; }
+          codesign --force --sign - --entitlements "$RUNNER_TEMP/widget.entitlements" --timestamp=none "$APPX/PlugIns/NextRepWidget.appex"
+          codesign --force --sign - --entitlements "$RUNNER_TEMP/app.entitlements" --timestamp=none "$APPX"
+          codesign -d --entitlements - "$APPX" 2>/dev/null | grep -q applesignin \
             && echo "Entitlements in archive: Sign in with Apple ✓" || { echo "::error::Sign in with Apple entitlement missing from the archive"; exit 1; }
+          codesign -d --entitlements - "$APPX/PlugIns/NextRepWidget.appex" 2>/dev/null | grep -q "il.co.nextrep.shared" \
+            && echo "Widget: keychain sharing ✓" || { echo "::error::Widget keychain group missing"; exit 1; }
       - name: Sign for the App Store and upload to TestFlight
         working-directory: app/ios/App
         run: |

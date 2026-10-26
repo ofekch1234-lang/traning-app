@@ -18,7 +18,15 @@ async function api(path, opts = {}) {
   if (!r.ok && r.status !== 409) throw new Error(path + ' → ' + r.status + ' ' + JSON.stringify(j.errors || j).slice(0, 400));
   return { status: r.status, j };
 }
+// the home-screen widget is its own App ID (no capabilities needed: it shares data through keychain sharing)
+async function ensureBundle(identifier, name) {
+  const { j } = await api('bundleIds?filter[identifier]=' + encodeURIComponent(identifier));
+  if ((j.data || []).some(d => d.attributes.identifier === identifier)) { console.log('App ID', identifier, ': exists'); return; }
+  const { status } = await api('bundleIds', { method: 'POST', body: JSON.stringify({ data: { type: 'bundleIds', attributes: { identifier, name, platform: 'IOS' } } }) });
+  console.log('App ID', identifier, ': registered (' + status + ')');
+}
 (async () => {
+  await ensureBundle(BUNDLE + '.widget', 'NextRep Widget');
   const { j } = await api('bundleIds?filter[identifier]=' + encodeURIComponent(BUNDLE) + '&include=bundleIdCapabilities');
   const bid = (j.data || []).find(d => d.attributes.identifier === BUNDLE);
   if (!bid) { console.log('::warning::Bundle ID ' + BUNDLE + ' not found; automatic signing will register it'); return; }
