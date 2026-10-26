@@ -857,6 +857,8 @@ body.chatting{overflow:hidden}
 /* ---------- פתיחה עם ראפי (אפליקציה) ---------- */
 #onb{position:fixed;inset:0;z-index:96;background:#0A0B0A;color:#F2F5F2;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 #onbpost{position:fixed;inset:0;z-index:97}
+/* nothing of the app shows through the start screens, not even for a frame while they repaint */
+body:has(#onb) header.top{visibility:hidden}
 /* number pad, sheets and toasts open above the full-screen start */
 body:has(#onb) #np-bg{z-index:108}body:has(#onb) #np{z-index:109}body:has(#onb) #sheet-bg{z-index:110}body:has(#onb) #sheet{z-index:111}body:has(#onb) #toast{z-index:112}
 #onb .acc,#onb em{color:var(--accent);font-style:normal}
@@ -964,6 +966,8 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .ob-g2{display:flex;gap:12px}
 .ob-gcard{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 10px 18px;border-radius:22px;background:#141715;border:2px solid #232825;color:#F2F5F2}
 .ob-gcard.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,#141715)}
+.ob-gcard{position:relative}.ob-gsym{position:absolute;top:12px;inset-inline-start:12px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1C201D;border:1.5px solid #2C322E}
+.ob-gsym svg{width:22px;height:22px}.ob-gsym.m{color:#BFFF2F}.ob-gsym.f{color:#FF5FAE}.ob-gcard.on .ob-gsym{border-color:currentColor}
 .ob-gcard img{width:96px;height:96px}.ob-gcard .w{font-size:38px;font-weight:900;line-height:1}.ob-gcard .q{font-size:13px;color:#A3ADA6}
 .ob-days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .ob-days button{height:58px;border-radius:16px;background:#141715;border:2px solid #232825;color:#F2F5F2;font-size:22px;font-weight:900}
@@ -2105,7 +2109,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.35';
+const APP_VERSION='13.3.36';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2719,7 +2723,9 @@ function render_(){
   const showLand=S.mode==='auth'&&!S.showAuth&&!IS_STANDALONE;
   document.body.classList.toggle('landing',showLand); $('#landlogin').hidden=!showLand;
   if(showLand){v.innerHTML=vLanding();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}startLandTimer();return;}
-  if(S.mode==='auth'){v.innerHTML=vAuth();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
+  if(S.mode==='auth'){ const h=vAuth(), cur=v.querySelector(':scope > #onb');
+    if(cur&&h.startsWith('<div id="onb"')){ const t=document.createElement('div'); t.innerHTML=h; onbMorph(cur,t.firstElementChild); return; } // keep the full-screen start layer: replacing it flashes the app behind it on iOS
+    v.innerHTML=h;if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
   if(S.tab!=='home')CO.open=false;
   if(S.tab==='home')v.innerHTML=CO.open?vCoach():vHome();
   else if(S.tab==='train')v.innerHTML=vTrain();
@@ -2912,7 +2918,7 @@ function vOnb(){
         <p class="ob-hint">${tt('ככה אפנה אליך באימונים ובסיכום השבועי.')}</p></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='addr'){
-    const card=(v,img,w,q)=>`<button class="ob-gcard ${a.g===v?'on':''}" data-act="onb-g" data-v="${v}" aria-pressed="${a.g===v}"><img src="img/kobi-happy${v==='f'?'-f':''}.svg" alt=""><span class="w">${w}</span><span class="q">${q}</span></button>`;
+    const card=(v,img,w,q)=>`<button class="ob-gcard ${a.g===v?'on':''}" data-act="onb-g" data-v="${v}" aria-pressed="${a.g===v}"><span class="ob-gsym ${v==='f'?'f':'m'}" aria-hidden="true">${v==='f'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7M8.5 19h7"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.3 9.7 21 3M15 3h6v6"/></svg>'}</span><img src="img/kobi-happy${v==='f'?'-f':''}.svg" alt=""><span class="w">${w}</span><span class="q">${q}</span></button>`;
     h=`${onbTop()}${onbSay('happy',`${tt('נעים מאוד')}, <span data-notr>${nm}</span>! ${tt('איך לפנות אליך?')}`)}
       <div class="ob-mid"><div class="ob-g2">${card('m','',tt('אתה'),tt('״בוא נשבור שיא היום״'))}${card('f','',tt('את'),tt('״בואי נשבור שיא היום״'))}</div>
         ${a.g==='f'&&iconCan()&&!iconIsF()&&!ONB.iconNo?iconOfferHTML():''}
@@ -3020,9 +3026,9 @@ async function iconSet(f){ if(!iconCan())return false; try{ if(f)await capP('App
 const iconIsF=()=>{ try{ return localStorage.getItem('nr-icon')==='f'; }catch(_){ return false; } };
 function iconOfferHTML(){ return `<div class="ob-icon"><img src="icon-f-192.png" alt=""><div><b>${tt('אייקון ורוד לאפליקציה?')}</b><small>${tt('מחליפים עכשיו, ואפשר לחזור בהגדרות.')}</small></div>
   <div class="ob-icon-b"><button data-act="onb-icon" data-v="f">${tt('כן, להחליף')}</button><button data-act="onb-icon" data-v="no" class="no">${tt('לא תודה')}</button></div></div>`; }
-/* a pick or a typed answer on the same step updates the screen in place. Replacing the whole full-screen #onb layer made iOS show the app behind it (header logo, dark frame) for a frame on every tap. */
+/* picks, typed answers and step changes update the screen in place. Replacing the whole full-screen #onb layer made iOS show the app behind it (header logo, dark frame) for a frame on every tap. */
 function onbMorph(a,b){
-  if(a.nodeType!==b.nodeType||a.nodeName!==b.nodeName){ a.replaceWith(b); return; }
+  if(a.nodeType!==b.nodeType||a.nodeName!==b.nodeName||(a.nodeType===1&&a.id!==b.id)){ a.replaceWith(b); return; }
   if(a.nodeType===3){ if(a.nodeValue!==b.nodeValue)a.nodeValue=b.nodeValue; return; }
   if(a.nodeType!==1)return;
   for(const at of [...a.attributes]) if(!b.hasAttribute(at.name))a.removeAttribute(at.name);
@@ -3033,9 +3039,9 @@ function onbMorph(a,b){
   for(let i=bc.length;i<ac.length;i++)ac[i].remove();
 }
 function onbPaint(){
-  const key=ONB.s+'|'+!!ONB.authed, same=onbPaint._k===key; onbPaint._k=key;
+  // every repaint, including moving to the next step, updates the existing full-screen layer: replacing it let iOS show the app behind it for a frame
   const cur=$('#onb');
-  if(same&&cur&&(ONB.authed?cur.parentElement?.id==='onbpost':S.mode==='auth'&&!ONB.login)){
+  if(cur&&(ONB.authed?cur.parentElement?.id==='onbpost':S.mode==='auth'&&!ONB.login)){
     const t=document.createElement('div'); t.innerHTML=vOnb(); const nw=t.firstElementChild;
     if(nw&&nw.id==='onb'){ onbMorph(cur,nw); return; }
   }
