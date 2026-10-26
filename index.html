@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=6b254448"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=6b254448"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=6b254448"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cf5adf36"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cf5adf36"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cf5adf36"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2105,7 +2105,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.33';
+const APP_VERSION='13.3.34';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6441,7 +6441,16 @@ function nutritionWeekHTML(){
   for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=ymd(d);
     days.push({ds,dow:d.getDay(),t:dayTotals(ds),has:mealsOf(ds).length>0}); }
   const logged=days.filter(x=>x.has);
-  if(!logged.length)return '';
+  // nothing logged this week yet: say so (with the empty week as faint placeholders) instead of an empty section
+  if(!logged.length)return `<div class="sect">תזונה · 7 ימים</div>
+  <div class="card" style="text-align:center">
+    <div style="display:flex;align-items:flex-end;gap:6px;height:44px;margin-bottom:12px;direction:var(--dir)" aria-hidden="true">
+      ${days.map(x=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;max-width:26px;height:6px;border-radius:4px;background:var(--line)"></div><span style="font-size:10.5px;color:var(--muted)">${DAY_LETTERS[x.dow]}</span></div>`).join('')}
+    </div>
+    <b>עדיין לא נרשמו ארוחות השבוע</b>
+    <div class="small muted" style="margin-top:4px">ארוחות שיירשמו יופיעו כאן: ממוצע יומי של קלוריות וחלבון מול היעד.</div>
+    <button class="btn primary" style="margin-top:12px" data-act="go" data-to="food">הוספת ארוחה</button>
+  </div>`;
   const avgK=Math.round(logged.reduce((a,x)=>a+x.t.kcal,0)/logged.length);
   const avgP=Math.round(logged.reduce((a,x)=>a+x.t.protein,0)/logged.length);
   const mx=Math.max(kT||0,...days.map(x=>x.t.kcal),1);
@@ -9598,7 +9607,7 @@ function handleAct(b,ev){
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': natPushOff().finally(()=>sb.auth.signOut()); break;
     case 'np-close': closeNumpad(); break;
-    case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); break;
+    case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); window.scrollTo(0,0); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
     case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
     case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
