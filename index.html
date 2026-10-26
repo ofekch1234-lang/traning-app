@@ -3299,6 +3299,8 @@ async function otpVerify(){
   const {error}=await sb.auth.verifyOtp({email:OTP.email,token:t,type:'email'});
   OTP.busy=false;
   if(error){ if(HO.clip){ HO.clip.rej(new Error('otp')); HO.clip=null; } OTP.err='הקוד שגוי או שפג תוקפו'; render(); return; }
+  // a fresh sign-in always gets a fresh transfer code (a cached one may already have been used in the app)
+  try{ sessionStorage.removeItem('nr-ho'); }catch(_){} HO.p=null;
   if(IS_IOS&&!IS_STANDALONE&&IS_MOBILE)hoFetch().catch(()=>{});
   OTP.step=''; // onAuthStateChange takes it from here
 }
