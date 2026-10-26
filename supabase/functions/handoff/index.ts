@@ -1,6 +1,7 @@
 // NextRep — העברת התחברות מהדפדפן לאפליקציה שבמסך הבית (באייפון הן לא חולקות אחסון).
 // create: משתמש מחובר מקבל קוד בן 6 ספרות (תקף 15 דקות, חד-פעמי).
 // redeem: האפליקציה שבמסך הבית שולחת את הקוד ומקבלת token_hash של קישור כניסה, שאותו היא מאמתת מול Supabase.
+// הקישור נוצר רק ברגע ה-redeem: קישור שנוצר מראש נפסל ברגע שהמשתמש מבקש קוד חדש למייל (Supabase שומר טוקן אחד), וזה מה שגרם לכשלים.
 // verify_jwt כבוי: create בודק את המשתמש בעצמו, redeem מוגן בתוקף קצר, שימוש יחיד ומגבלת ניסיונות לכל IP.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -24,14 +25,11 @@ Deno.serve(async (req: Request) => {
       const sb = createClient(url, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: auth } } });
       const { data: { user } } = await sb.auth.getUser();
       if (!user?.email) return json({ error: "unauthorized" }, 401);
-      const { data: link, error } = await admin.auth.admin.generateLink({ type: "magiclink", email: user.email });
-      const th = (link as { properties?: { hashed_token?: string } } | null)?.properties?.hashed_token;
-      if (error || !th) { console.error("generateLink", error); return json({ error: "link_failed" }, 500); }
       await admin.from("login_handoff").delete().eq("user_id", user.id);
       let code = "";
       for (let i = 0; i < 6; i++) {
         const c = String(crypto.getRandomValues(new Uint32Array(1))[0] % 1000000).padStart(6, "0");
-        const { error: e } = await admin.from("login_handoff").insert({ code: c, user_id: user.id, token_hash: th });
+        const { error: e } = await admin.from("login_handoff").insert({ code: c, user_id: user.id, token_hash: "" });
         if (!e) { code = c; break; }
       }
       if (!code) return json({ error: "busy" }, 500);
@@ -48,7 +46,13 @@ Deno.serve(async (req: Request) => {
         : { data: null };
       if (!row) { await admin.from("login_handoff_fail").insert({ ip }); return json({ error: "invalid" }, 404); }
       await admin.from("login_handoff").update({ used_at: new Date().toISOString() }).eq("code", row.code);
-      return json({ token_hash: row.token_hash });
+      const { data: u } = await admin.auth.admin.getUserById(row.user_id);
+      const email = u?.user?.email;
+      if (!email) return json({ error: "invalid" }, 404);
+      const { data: link, error } = await admin.auth.admin.generateLink({ type: "magiclink", email });
+      const th = (link as { properties?: { hashed_token?: string } } | null)?.properties?.hashed_token;
+      if (error || !th) { console.error("generateLink", error); return json({ error: "link_failed" }, 500); }
+      return json({ token_hash: th });
     }
     return json({ error: "bad_request" }, 400);
   } catch (e) {
