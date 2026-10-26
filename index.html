@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=fe248500"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=fe248500"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=fe248500"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=00300791"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=00300791"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=00300791"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1480,6 +1480,9 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-bot{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
 .mc-q{min-width:34px;height:30px;padding:0 8px;border-radius:9px;background:var(--surface2);font-weight:700;font-size:13.5px;color:var(--ink)}
 .mc-r{margin-inline-start:auto;font-size:13px}
+.mc-cnt{display:flex;align-items:center;gap:8px;margin-top:6px;padding:4px 6px 4px 4px;border-radius:11px;flex-wrap:wrap}
+.mc-cnt .mc-cl{font-size:13.5px;color:var(--muted);min-width:44px}.mc-cnt b{min-width:22px;text-align:center;font-size:16px}
+.mc-cnt.ask{background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}.mc-ask{font-size:12.5px;font-weight:700;color:var(--accent);margin-inline-start:auto}
 .mc-sugg{display:grid;gap:2px;margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
 .mc-sugg button{display:flex;justify-content:space-between;gap:8px;padding:7px 6px;border-radius:8px;text-align:start;font-size:14px;color:inherit}
 .mc-sugg button:active{background:var(--accent-soft)}
@@ -1736,7 +1739,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.28';
+const APP_VERSION='13.3.29';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4180,8 +4183,9 @@ function aiTicker(on){
    replaces the nutrition values), grams, ½ / ×2, remove. Values scale from each item's base. */
 const MC={base:[],sugg:{},t:null};
 function openMealConfirm(data){
-  const items=data.items.map(it=>({name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0}));
-  MC.base=items.map(i=>({g:i.g||100,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat,noG:!i.g}));
+  const items=data.items.map(it=>{ const c=Math.round(+it.count||0); return {name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,
+    cnt:c>0&&c<=30&&it.unit?c:0,unit:String(it.unit||'').slice(0,24),ask:it.sure===false}; });
+  MC.base=items.map(i=>({g:i.g||100,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat,noG:!i.g,cnt:i.cnt}));
   items.forEach((i,n)=>{ if(!i.g)i.g=100; i._f=1; });
   MC.sugg={};
   _mealDraft={name:String(data.name||'ארוחה'),items,kcal:0,protein:0,carbs:0,fat:0};
@@ -4200,7 +4204,8 @@ function openMealConfirm(data){
 }
 function mcCalc(n){ const it=_mealDraft.items[n], b=MC.base[n]; if(!it||!b)return;
   const f=b.noG?it._f:(it.g/b.g);
-  const m=v=>Math.round(v*f*10)/10; Object.assign(it,{kcal:Math.round(b.kcal*f),protein:m(b.protein),carbs:m(b.carbs),fat:m(b.fat)}); }
+  const m=v=>Math.round(v*f*10)/10; Object.assign(it,{kcal:Math.round(b.kcal*f),protein:m(b.protein),carbs:m(b.carbs),fat:m(b.fat)});
+  if(b.cnt)it.cnt=Math.max(.5,Math.round(b.cnt*f*2)/2); }
 function mcTotals(){
   ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=Math.round(_mealDraft.items.reduce((a,x)=>a+x[k],0)*(k==='kcal'?1:10))/(k==='kcal'?1:10));
   const el=$('#mc-tot'); if(el)el.innerHTML=[['kcal','קק״ל'],['protein','חלבון'],['carbs','פחמימה'],['fat','שומן']].map(([k,l])=>`<div class="tile"><div class="v num" style="font-size:24px">${_mealDraft[k]}</div><div class="k">${tt(l)}</div></div>`).join('');
@@ -4213,6 +4218,7 @@ function mcRender(){
   L.innerHTML=_mealDraft.items.map((it,n)=>{ const b=MC.base[n];
     return `<div class="mc-it">
       <div class="mc-top"><input class="mc-name" type="search" enterkeyhint="search" name="nr-food-${n}" data-mi="${n}" value="${esc(it.name)}" aria-label="${tt('מאכל')}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button class="mc-x" data-act="mc-del" data-mi="${n}" aria-label="${tt('הסר')}">✕</button></div>
+      ${b.cnt?`<div class="mc-cnt${it.ask?' ask':''}"><span class="mc-cl">${esc(it.unit)}</span><button class="mc-q" data-act="mc-cm" data-mi="${n}" aria-label="−">−</button><b class="num" id="mc-c${n}">${it.cnt}</b><button class="mc-q" data-act="mc-cp" data-mi="${n}" aria-label="+">+</button>${it.ask?`<span class="mc-ask">${tt('בדוק את הכמות')}</span>`:''}</div>`:''}
       <div class="mc-bot">
         ${b.noG?`<span class="small muted">${tt('מנה')} ×${it._f}</span>`:`<label class="mc-g muted small"><input type="text" readonly data-np="num" data-unit="${tt('גר׳')}" aria-label="${tt('גרמים')}" class="mc-gin num" data-mi="${n}" value="${it.g}"> ${tt('גר׳')}</label>`}
         <button class="mc-q" data-act="mc-half" data-mi="${n}">½</button><button class="mc-q" data-act="mc-dbl" data-mi="${n}" dir="ltr">×2</button>
@@ -4227,15 +4233,17 @@ function mcAct(act,b){
   if(act==='mc-del'){ _mealDraft.items.splice(n,1); MC.base.splice(n,1); MC.sugg={}; mcRender(); return; }
   if(act==='mc-half'||act==='mc-dbl'){ const k=act==='mc-half'?.5:2;
     if(base.noG)it._f=Math.max(.25,Math.round(it._f*k*4)/4); else it.g=Math.max(1,Math.min(3000,Math.round(it.g*k))); mcRender(); return; }
+  if(act==='mc-cm'||act==='mc-cp'){ if(!base.cnt)return; const c=Math.max(1,Math.min(30,Math.round(it.cnt||base.cnt)+(act==='mc-cp'?1:-1))), f=c/base.cnt;
+    if(base.noG)it._f=f; else it.g=Math.max(1,Math.round(base.g*f)); it.ask=false; mcRender(); return; }
   if(act==='mc-pick'){ const f=(MC.sugg[n]||[])[+b.dataset.j]; if(!f)return;
-    it.name=f.name; MC.base[n]={g:100,kcal:+f.kcal||0,protein:+f.protein||0,carbs:+f.carbs||0,fat:+f.fat||0,noG:false};
+    it.name=f.name; it.cnt=0; it.ask=false; MC.base[n]={g:100,kcal:+f.kcal||0,protein:+f.protein||0,carbs:+f.carbs||0,fat:+f.fat||0,noG:false};
     if(base.noG){ it.g=100; } MC.sugg[n]=[]; mcRender(); return; }
 }
 document.addEventListener('input',ev=>{
   const t=ev.target; if(!_mealDraft||!t.dataset||t.dataset.mi==null)return;
   const n=+t.dataset.mi, it=_mealDraft.items[n]; if(!it)return;
   if(t.classList.contains('mc-gin')){ const g=+String(t.value).replace(',','.'); if(!(g>0)||g>3000)return; it.g=Math.round(g); mcCalc(n);
-    const r=$('#mc-r'+n); if(r)r.textContent=mcRowVals(n); mcTotals(); return; }
+    const r=$('#mc-r'+n); if(r)r.textContent=mcRowVals(n); const c=$('#mc-c'+n); if(c)c.textContent=it.cnt; mcTotals(); return; }
   if(t.classList.contains('mc-name')){ it.name=t.value; const q=t.value.trim(); clearTimeout(MC.t);
     if(q.length<2){ MC.sugg[n]=[]; const s=$('#mc-s'+n); if(s)s.hidden=true; return; }
     MC.t=setTimeout(async()=>{ try{ const {data}=await sb.rpc('search_foods',LANG==='he'?{q,lim:5}:{q,lim:5,lang:LANG});
@@ -8346,7 +8354,7 @@ function handleAct(b,ev){
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
-    case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': mcAct(act,b); break;
+    case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': case 'mc-cm': case 'mc-cp': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'bc-fix': openBcFix(); break;
