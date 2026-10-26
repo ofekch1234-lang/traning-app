@@ -2105,7 +2105,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.34';
+const APP_VERSION='13.3.35';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3020,7 +3020,26 @@ async function iconSet(f){ if(!iconCan())return false; try{ if(f)await capP('App
 const iconIsF=()=>{ try{ return localStorage.getItem('nr-icon')==='f'; }catch(_){ return false; } };
 function iconOfferHTML(){ return `<div class="ob-icon"><img src="icon-f-192.png" alt=""><div><b>${tt('אייקון ורוד לאפליקציה?')}</b><small>${tt('מחליפים עכשיו, ואפשר לחזור בהגדרות.')}</small></div>
   <div class="ob-icon-b"><button data-act="onb-icon" data-v="f">${tt('כן, להחליף')}</button><button data-act="onb-icon" data-v="no" class="no">${tt('לא תודה')}</button></div></div>`; }
-function onbPaint(){ if(ONB.authed){ let el=$('#onbpost'); if(!el){ el=document.createElement('div'); el.id='onbpost'; document.body.appendChild(el); } el.innerHTML=vOnb(); } else render(); }
+/* a pick or a typed answer on the same step updates the screen in place. Replacing the whole full-screen #onb layer made iOS show the app behind it (header logo, dark frame) for a frame on every tap. */
+function onbMorph(a,b){
+  if(a.nodeType!==b.nodeType||a.nodeName!==b.nodeName){ a.replaceWith(b); return; }
+  if(a.nodeType===3){ if(a.nodeValue!==b.nodeValue)a.nodeValue=b.nodeValue; return; }
+  if(a.nodeType!==1)return;
+  for(const at of [...a.attributes]) if(!b.hasAttribute(at.name))a.removeAttribute(at.name);
+  for(const at of [...b.attributes]) if(a.getAttribute(at.name)!==at.value)a.setAttribute(at.name,at.value);
+  if(a.tagName==='INPUT'||a.tagName==='TEXTAREA')return; // keep what the user is typing
+  const ac=[...a.childNodes], bc=[...b.childNodes];
+  bc.forEach((n,i)=>{ if(i<ac.length)onbMorph(ac[i],n); else a.appendChild(n); });
+  for(let i=bc.length;i<ac.length;i++)ac[i].remove();
+}
+function onbPaint(){
+  const key=ONB.s+'|'+!!ONB.authed, same=onbPaint._k===key; onbPaint._k=key;
+  const cur=$('#onb');
+  if(same&&cur&&(ONB.authed?cur.parentElement?.id==='onbpost':S.mode==='auth'&&!ONB.login)){
+    const t=document.createElement('div'); t.innerHTML=vOnb(); const nw=t.firstElementChild;
+    if(nw&&nw.id==='onb'){ onbMorph(cur,nw); return; }
+  }
+  if(ONB.authed){ let el=$('#onbpost'); if(!el){ el=document.createElement('div'); el.id='onbpost'; document.body.appendChild(el); } el.innerHTML=vOnb(); } else render(); }
 function onbGo(s){ if(ONB.redo){ if(s<ONB_STEPS.indexOf('goal')){ onbRedoEnd(); return; } if(ONB_STEPS[s]==='save'){ onbRedoFinish(); return; } }
   if(ONB_STEPS[s]==='invite'&&(!ONB.ref||ONB.refDone))s+=(s>ONB.s?1:-1); ONB.s=Math.max(ONB.authed?1:0,Math.min(ONB_STEPS.length-1,s)); onbSave(); onbPaint(); try{ $('#onb')?.scrollTo(0,0); }catch(_){}
   const st=ONB_STEPS[ONB.s];
