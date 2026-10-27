@@ -25,6 +25,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="il.co.nextrep.app" android:host="login" />
+                <!-- the live workout notification / Live Activity buttons: il.co.nextrep.app://live/add30 | skip | open -->
+                <data android:scheme="il.co.nextrep.app" android:host="live" />
             </intent-filter>
         </activity>
 
@@ -50,6 +52,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />

@@ -1,6 +1,7 @@
 import WidgetKit
 import SwiftUI
 import Security
+import ActivityKit
 
 // MARK: - Data written by the app (WidgetBridgePlugin) into a shared keychain item
 
@@ -248,7 +249,6 @@ struct NRWidgetView: View {
     }
 }
 
-@main
 struct NextRepWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "NextRepToday", provider: NRProvider()) { entry in
@@ -257,5 +257,159 @@ struct NextRepWidget: Widget {
         .configurationDisplayName("NextRep")
         .description("קלוריות, חלבון והאימון הבא שלך")
         .supportedFamilies([.systemMedium, .accessoryRectangular, .accessoryCircular])
+    }
+}
+
+// MARK: - Workout Live Activity (lock screen + Dynamic Island) while a workout is running
+
+/// Must stay identical to the definition in the app target (WidgetBridgePlugin.swift).
+struct NRWorkoutAttributes: ActivityAttributes {
+    public struct ContentState: Codable, Hashable {
+        var phase: String          // "rest" | "set" | "done"
+        var restStart: Date?
+        var restEnd: Date?
+        var title: String
+        var line: String
+        var detail: String
+        var progress: Double
+    }
+    var workout: String
+    var startedAt: Date
+    var accent: String
+    var rtl: Bool
+    var L: [String: String]
+}
+
+private func nrLink(_ path: String) -> URL { URL(string: "il.co.nextrep.app://live/\(path)")! }
+
+struct NRLivePill: View {
+    let text: String
+    let filled: Bool
+    let acc: Color
+    var body: some View {
+        Text(text).font(.system(size: 14, weight: .bold))
+            .frame(maxWidth: .infinity).padding(.vertical, 8)
+            .background(filled ? acc : Color.white.opacity(0.12))
+            .foregroundColor(filled ? Color.black : nrInk)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+    }
+}
+
+struct NRRestTimer: View {
+    let s: NRWorkoutAttributes.ContentState
+    let size: CGFloat
+    let acc: Color
+    var body: some View {
+        if let e = s.restEnd {
+            let st = min(s.restStart ?? e, e)
+            Text(timerInterval: st...e, countsDown: true)
+                .font(.system(size: size, weight: .heavy, design: .rounded)).monospacedDigit()
+                .foregroundColor(acc).environment(\.layoutDirection, .leftToRight)
+        }
+    }
+}
+
+struct NRLiveLock: View {
+    let a: NRWorkoutAttributes
+    let s: NRWorkoutAttributes.ContentState
+    var body: some View {
+        let acc = Color(hex: a.accent)
+        VStack(alignment: .leading, spacing: 9) {
+            HStack(spacing: 6) {
+                Text("NextRep · \(a.workout)").font(.system(size: 12, weight: .semibold)).foregroundColor(nrMuted).lineLimit(1)
+                Spacer()
+                if s.phase != "done" {
+                    Text(a.startedAt, style: .timer).font(.system(size: 12, weight: .semibold)).monospacedDigit()
+                        .foregroundColor(nrMuted).environment(\.layoutDirection, .leftToRight)
+                }
+            }
+            if s.phase == "rest", let e = s.restEnd {
+                HStack(alignment: .bottom, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(a.L["rest"] ?? "מנוחה").font(.system(size: 12)).foregroundColor(nrMuted)
+                        NRRestTimer(s: s, size: 38, acc: acc)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text(s.line).font(.system(size: 12)).foregroundColor(nrMuted).lineLimit(1)
+                        Text(s.detail).font(.system(size: 16, weight: .bold)).foregroundColor(nrInk).lineLimit(2).multilineTextAlignment(.trailing)
+                    }
+                }
+                ProgressView(timerInterval: min(s.restStart ?? e, e)...e, countsDown: true, label: { EmptyView() }, currentValueLabel: { EmptyView() })
+                    .tint(acc)
+                HStack(spacing: 8) {
+                    Link(destination: nrLink("add30")) { NRLivePill(text: a.L["add30"] ?? "+30 שנ׳", filled: false, acc: acc) }
+                    Link(destination: nrLink("skip")) { NRLivePill(text: a.L["skip"] ?? "דלג על המנוחה", filled: true, acc: acc) }
+                }
+            } else {
+                Text(s.title).font(.system(size: 19, weight: .heavy)).foregroundColor(s.phase == "done" ? acc : nrInk).lineLimit(1)
+                Text(s.line).font(.system(size: 13)).foregroundColor(nrMuted).lineLimit(1)
+                if !s.detail.isEmpty { Text(s.detail).font(.system(size: 13)).foregroundColor(nrMuted).lineLimit(1) }
+                if s.phase != "done" { ProgressView(value: min(1, max(0, s.progress))).tint(acc) }
+            }
+        }
+        .padding(16)
+        .environment(\.layoutDirection, a.rtl ? .rightToLeft : .leftToRight)
+        .widgetURL(nrLink("open"))
+    }
+}
+
+struct NRWorkoutLive: Widget {
+    var body: some WidgetConfiguration {
+        ActivityConfiguration(for: NRWorkoutAttributes.self) { ctx in
+            NRLiveLock(a: ctx.attributes, s: ctx.state)
+                .activityBackgroundTint(nrBG.opacity(0.92))
+                .activitySystemActionForegroundColor(Color(hex: ctx.attributes.accent))
+        } dynamicIsland: { ctx in
+            let a = ctx.attributes, s = ctx.state, acc = Color(hex: a.accent)
+            return DynamicIsland {
+                DynamicIslandExpandedRegion(.leading) {
+                    if s.phase == "rest" {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(a.L["rest"] ?? "מנוחה").font(.system(size: 12)).foregroundColor(nrMuted)
+                            NRRestTimer(s: s, size: 30, acc: acc)
+                        }
+                    } else {
+                        Text(s.title).font(.system(size: 16, weight: .heavy)).foregroundColor(nrInk).lineLimit(1)
+                    }
+                }
+                DynamicIslandExpandedRegion(.trailing) {
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text(s.line).font(.system(size: 12)).foregroundColor(nrMuted).lineLimit(1)
+                        if s.phase == "rest" { Text(s.detail).font(.system(size: 14, weight: .bold)).foregroundColor(nrInk).lineLimit(2) }
+                    }
+                }
+                DynamicIslandExpandedRegion(.bottom) {
+                    if s.phase == "rest" {
+                        HStack(spacing: 8) {
+                            Link(destination: nrLink("add30")) { NRLivePill(text: a.L["add30"] ?? "+30 שנ׳", filled: false, acc: acc) }
+                            Link(destination: nrLink("skip")) { NRLivePill(text: a.L["skipShort"] ?? "דלג", filled: true, acc: acc) }
+                        }
+                    } else if s.phase != "done" {
+                        ProgressView(value: min(1, max(0, s.progress))).tint(acc)
+                    }
+                }
+            } compactLeading: {
+                Text("N").font(.system(size: 13, weight: .black)).foregroundColor(.black)
+                    .frame(width: 22, height: 22).background(acc).clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+            } compactTrailing: {
+                if s.phase == "rest" { NRRestTimer(s: s, size: 15, acc: acc).frame(maxWidth: 52) }
+                else if s.phase == "done" { Text("✓").foregroundColor(acc) }
+                else { Text(a.startedAt, style: .timer).font(.system(size: 14, weight: .semibold)).monospacedDigit().foregroundColor(acc).frame(maxWidth: 52) }
+            } minimal: {
+                if s.phase == "rest" { NRRestTimer(s: s, size: 12, acc: acc) }
+                else { Text("N").font(.system(size: 12, weight: .black)).foregroundColor(acc) }
+            }
+            .widgetURL(nrLink("open"))
+            .keylineTint(acc)
+        }
+    }
+}
+
+@main
+struct NextRepWidgets: WidgetBundle {
+    var body: some Widget {
+        NextRepWidget()
+        NRWorkoutLive()
     }
 }

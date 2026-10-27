@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e2b46a20"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e2b46a20"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e2b46a20"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=2c816cd4"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=2c816cd4"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=2c816cd4"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2086,7 +2086,50 @@ function natAlert(grp){
 /* the same sounds inside the app (rest over while the app is open, a new record) */
 const _natAud={};
 function natPlay(grp){ if(!IS_NATIVE||!NAT_SND[grp])return false;
+  // native player: the music only gets quieter for a moment and keeps playing (an <audio> element would stop it)
+  const WB=capP('WidgetBridge');
+  if(WB?.play){ WB.play({name:NAT_SND[grp].replace(/\.wav$/,'')}).then(r=>{ if(!r?.ok)natPlayWeb(grp); }).catch(()=>natPlayWeb(grp)); return true; }
+  return natPlayWeb(grp); }
+function natPlayWeb(grp){
   try{ const a=_natAud[grp]||(_natAud[grp]=new Audio(NAT_SND[grp])); a.currentTime=0; a.play().catch(()=>{}); return true; }catch(_){ return false; } }
+/* the live workout card on the lock screen: iPhone Live Activity (lock screen + Dynamic Island), Android ongoing
+   notification. It shows the rest countdown and the next set, or the current set with the workout clock. The
+   countdown runs on the phone itself, so nothing has to wake the app; it changes only when a set or a rest changes. */
+const LIVE={on:false,start:0,sig:'',lastEnd:0};
+function liveLabels(){ return {rest:tt('מנוחה'),add30:tt('+30 שנ׳'),skip:tt('דלג על המנוחה'),skipShort:tt('דלג'),channel:tt('אימון פעיל')}; }
+function liveState(){ const A=S.active; if(!A)return null;
+  const work=(A.ex||[]).map((e,ei)=>({e,ei})).filter(x=>x.e.t!=='c'), all=[]; work.forEach(({e,ei})=>(e.sets||[]).forEach((st,si)=>all.push({e,ei,st,si})));
+  const done=all.filter(x=>x.st.done).length, next=all.find(x=>!x.st.done), prog=all.length?done/all.length:0;
+  const tgt=x=>{ const w=+(x.st.w||x.st.pw)||0, r=+(x.st.r||x.st.pr)||0; return w&&r?`${wL(w)} × ${r}`:r?`${r} ${tt('חזרות')}`:''; };
+  const setsOf=x=>(x.e.sets||[]).length, nm=x=>tt(x.e.n);
+  const resting=!!T.int&&T.end>Date.now();
+  if(resting&&next)return {phase:'rest',restStart:(T.end-T.total*1000)/1000,restEnd:T.end/1000,title:tt('מנוחה'),
+    line:tt('הבא · סט {0}').replace('{0}',next.si+1),detail:[nm(next),tgt(next)].filter(Boolean).join(' · '),progress:prog};
+  if(!next)return {phase:'set',title:tt('כל הסטים בוצעו'),line:tt('אפשר לסיים ולשמור את האימון'),detail:'',progress:1};
+  const after=all.find(x=>!x.st.done&&x.ei!==next.ei);
+  return {phase:'set',title:nm(next),line:tt('סט {0} מתוך {1}').replace('{0}',next.si+1).replace('{1}',setsOf(next))+(tgt(next)?` · ${tt('יעד')} ${tgt(next)}`:''),
+    detail:after?tt('אחריו: {0}').replace('{0}',nm(after)):'',progress:prog}; }
+function liveSync(){ if(!IS_NATIVE)return; const WB=capP('WidgetBridge'); if(!WB?.live)return;
+  const want=!!S.active&&S.settings.notif?.live!==false&&NAT.perm==='granted'&&Date.now()-(+S.active.start||0)<4*36e5;
+  if(!want){ if(LIVE.on){ LIVE.on=false; LIVE.sig='';
+      const w=(S.workouts||[]).find(x=>x.start===LIVE.start); // just saved: a short "saved" card, then it goes away
+      if(w){ const sets=(w.ex||[]).reduce((a,e)=>a+(e.sets||[]).length,0), min=Math.max(1,Math.round(((w.end||Date.now())-w.start)/6e4));
+        const st={phase:'done',title:tt('האימון נשמר ✓'),line:tt('{0} דק׳ · {1} סטים').replace('{0}',min).replace('{1}',sets),detail:'',progress:1};
+        WB.live({op:NATIVE_OS==='ios'?'end':'update',state:JSON.stringify(st),attrs:JSON.stringify(liveAttrs(w)),after:300}).catch(()=>{});
+        if(NATIVE_OS!=='ios')setTimeout(()=>{ if(!LIVE.on)WB.live({op:'end'}).catch(()=>{}); },300e3);
+      } else WB.live({op:'end'}).catch(()=>{}); }
+    return; }
+  const st=liveState(); if(!st)return; const sig=JSON.stringify(st)+LANG;
+  if(LIVE.on&&LIVE.start===S.active.start&&sig===LIVE.sig)return;
+  const op=LIVE.on&&LIVE.start===S.active.start?'update':'start';
+  LIVE.on=true; LIVE.start=S.active.start; LIVE.sig=sig;
+  WB.live({op:NATIVE_OS==='ios'?op:'update',state:JSON.stringify(st),attrs:JSON.stringify(liveAttrs(S.active))}).then(r=>{ if(r&&!r.ok&&op==='update'&&r.why==='none'){ LIVE.on=false; LIVE.sig=''; liveSync(); } }).catch(()=>{}); }
+function liveAttrs(A){ return {workout:tt(A.name||'')||'NextRep',startedAt:(+A.start||Date.now())/1000,accent:S.settings.g==='f'?'#FF6FA3':'#BFFF2F',rtl:LANG!=='en',L:liveLabels()}; }
+function liveLink(url){ const m=String(url||'').match(/^il\.co\.nextrep\.app:\/\/live\/(\w+)/); if(!m)return false;
+  const a=m[1]; setTimeout(()=>{ try{
+    if(a==='add30'&&T.int){ T.end+=30000; T.total+=30; tickRest(); armServerRest(T.label); saveRestState(); liveSync(); }
+    else if(a==='skip'&&T.int){ stopRest(); liveSync(); }
+    if(S.active&&S.mode==='app'&&S.tab!=='train'){ S.tab='train'; render(); } }catch(_){} },300); return true; }
 function natNotify(title,body,at,id,grp){ try{ grp=grp||(id===NAT.rest?'rest':'daily');
   return natChannels().then(()=>capP('LocalNotifications').schedule({notifications:[{id:id||10000+Math.floor(Math.random()*1e8),title,body,
   ...(at?{schedule:{at,allowWhileIdle:true}}:{}),smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(grp)}]})).catch(()=>{}); }catch(_){ return Promise.resolve(); } }
@@ -2192,7 +2235,7 @@ if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationActionP
   if(k==='trial'&&S.user&&S.mode==='app'){ setTimeout(()=>{ try{ handleAct({dataset:{act:'plans-open',why:'notif'}}); }catch(_){} },300); }
   if(to&&S.user&&S.mode==='app'){ S.tab=to; if(to==='food')S.foodDate=ymd(); render(); window.scrollTo(0,0); }
   logEv('notif_open',{k:k||'other'}); });
-if(IS_NATIVE){ const _r0=render; render=function(){ const r=_r0.apply(this,arguments); natSchedSoon(); return r; }; }
+if(IS_NATIVE){ const _r0=render; render=function(){ const r=_r0.apply(this,arguments); natSchedSoon(); clearTimeout(LIVE.t); LIVE.t=setTimeout(liveSync,400); return r; }; }
 /* קישורים החוצה: וואטסאפ/מייל/טלפון נפתחים באפליקציה המתאימה, כל השאר בדפדפן בתוך האפליקציה */
 function natOpen(url){ try{ if(/^(mailto|tel|sms|whatsapp):|^https:\/\/(wa\.me|api\.whatsapp\.com|apps\.apple\.com|play\.google\.com)\//i.test(url)){ location.href=url; return; }
   capP('Browser').open({url,presentationStyle:'popover'}).catch(()=>{ location.href=url; }); }catch(_){ location.href=url; } }
@@ -2216,7 +2259,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.56';
+const APP_VERSION='13.3.58';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2789,7 +2832,7 @@ function startRest(sec,label){
   T.total=sec;T.end=Date.now()+sec*1000;T.label=label||'';
   restRirHide(); $('#restbar').hidden=false;
   clearInterval(T.int);T.int=setInterval(tickRest,250);tickRest();
-  ensureRestPush(); armServerRest(T.label); saveRestState();
+  ensureRestPush(); armServerRest(T.label); saveRestState(); if(IS_NATIVE)setTimeout(liveSync,0);
 }
 function tickRest(){
   const left=Math.max(0,T.end-Date.now());
@@ -2806,7 +2849,7 @@ function tickRest(){
     toast('המנוחה נגמרה — סט הבא!');
   }
 }
-function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;restRirHide();disarmServerRest();saveRestState();}
+function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;restRirHide();disarmServerRest();saveRestState();if(IS_NATIVE)setTimeout(liveSync,0);}
 /* the last set of an exercise: ask "reps left?" on the rest bar (optional; no answer changes nothing) */
 function restRir(ei,si){ const e=S.active?.ex?.[ei], el=$('#rest-rir'); if(!e||!el||!coachOn()||!coachCfg().rir)return;
   el.classList.remove('ok'); el.innerHTML=`<span><small>${esc(e.n)} · סט אחרון</small><b>כמה חזרות נשארו?</b><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></span><span class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`; el.hidden=false; }
@@ -3362,7 +3405,7 @@ async function natApple(){
     NAUTH={busy:'',err:/cancel|1001/i.test(m)?'':tt('ההתחברות עם Apple נכשלה. נסה שוב.')}; render(); }
 }
 if(IS_NATIVE){
-  capP('App')?.addListener('appUrlOpen',({url})=>{ natAuthUrl(url); });
+  capP('App')?.addListener('appUrlOpen',({url})=>{ if(liveLink(url))return; natAuthUrl(url); });
   capP('Browser')?.addListener?.('browserFinished',()=>{ if(NAUTH.busy==='google'&&!_natExch&&!S.user){ NAUTH.busy=''; if(S.mode==='auth')render(); } });
 }
 function vOtp(){
@@ -7557,6 +7600,7 @@ function openNotifSheet(){
       ${sw('pr','שיא חדש','חגיגה כששברת שיא אישי')}
       ${sw('social','קבוצות','הודעות, אימונים ואתגרים של החברים')}
       ${sw('coach','סיכום שבועי מראפי','בכל יום ראשון בבוקר')}
+      ${IS_NATIVE?sw('live','התראה חיה בזמן אימון','טיימר המנוחה והסט הבא במסך הנעילה'):''}
       ${sw('nudge','תזכורות חכמות','כשאימון מהלו״ז עוד לא בוצע, כשלא התאמנת כמה ימים, או כשהרצף בסכנה')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
       ${sw('vib','רטט','משוב בלחיצות ובטיימר')}
@@ -10096,8 +10140,8 @@ function handleAct(b,ev){
       S.settings.schedule=S.settings.schedule||{};
       if(id)S.settings.schedule[d]=id; else delete S.settings.schedule[d];
       persistSettings(); closeSheet(); render(); break; }
-    case 'rest-add': T.end+=15000; T.total+=15; tickRest(); if(T.int)armServerRest(T.label); break;
-    case 'rest-sub': T.end-=15000; T.total=Math.max(5,T.total-15); tickRest(); if(T.int)armServerRest(T.label); break;
+    case 'rest-add': T.end+=15000; T.total+=15; tickRest(); if(T.int)armServerRest(T.label); liveSync(); break;
+    case 'rest-sub': T.end-=15000; T.total=Math.max(5,T.total-15); tickRest(); if(T.int)armServerRest(T.label); liveSync(); break;
     case 'rest-skip': stopRest(); break;
     case 'aw-menu': openSheet(`<h3>${esc(S.active?.name||'אימון')}</h3>
       <div class="card r20 list" style="margin-bottom:10px">
