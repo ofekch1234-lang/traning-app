@@ -3,7 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>NextRep</title>
+<title>NextRep | אפליקציית אימונים, תזונה וספירת קלוריות</title>
+<meta name="description" content="תוכנית אימונים אישית שיודעת כמה להרים בכל סט, ספירת קלוריות מצילום הצלחת, ומאמן AI בעברית שמכיר את המספרים שלך. שבוע ראשון חינם, באייפון, באנדרואיד ובדפדפן.">
+<link rel="canonical" href="https://www.nextrep.co.il/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NextRep">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://www.nextrep.co.il/">
+<meta property="og:title" content="NextRep | אפליקציית אימונים, תזונה וספירת קלוריות">
+<meta property="og:description" content="תוכנית אימונים אישית, ספירת קלוריות מצילום הצלחת ומאמן AI בעברית. שבוע ראשון חינם.">
+<meta property="og:image" content="https://www.nextrep.co.il/icon-512.png">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Organization", "name": "NextRep", "url": "https://www.nextrep.co.il/", "logo": "https://www.nextrep.co.il/icon-512.png", "email": "support@nextrep.co.il"}, {"@context": "https://schema.org", "@type": "WebSite", "name": "NextRep", "url": "https://www.nextrep.co.il/", "inLanguage": ["he", "ar", "en"]}, {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "NextRep", "applicationCategory": "HealthApplication", "operatingSystem": "iOS, Android, Web", "url": "https://www.nextrep.co.il/", "inLanguage": ["he", "ar", "en"], "description": "אפליקציית אימונים ותזונה בעברית: תוכנית אימונים אישית, ספירת קלוריות מצילום הצלחת ומאמן AI אישי.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "ILS", "description": "שבוע ראשון חינם"}}]</script>
 <meta name="theme-color" content="#0A0B0A">
 <meta name="google-site-verification" content="DSzgalUkvNBmbAsodxTRFc0sHzMPQaTsiP2vO3B87LI">
 <link rel="manifest" href="manifest.json?v=2">
@@ -17,12 +28,22 @@
 /* שפה: נקבעת לפני הכל — כיוון הדף + טעינת המילון (סינכרונית, כדי שלא יהבהב טקסט בעברית) */
 (function(){
   var L=null; try{ L=localStorage.getItem('nr_lang'); }catch(e){}
+  if(L!=='he'&&L!=='ar'&&L!=='en'&&/googlebot|google-inspectiontool|bingbot|duckduckbot|yandex|baiduspider|applebot|facebookexternalhit|twitterbot|linkedinbot|slackbot|whatsapp|crawler|spider/i.test(navigator.userAgent||''))L='he'; // crawlers get the main (Hebrew) page
   if(L!=='he'&&L!=='ar'&&L!=='en'){
     var ls=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||'he']).map(function(x){return String(x).toLowerCase();});
+    /* the phone's time zone tells where the visitor is: many people in Israel keep the phone in English but read Hebrew,
+       so in Israel Hebrew wins over English (Arabic stays Arabic); in Arab countries an English phone gets Arabic */
+    var tz=''; try{ tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''; }catch(e){}
+    var inIL=/^Asia\/(Jerusalem|Tel_Aviv)$/.test(tz), inAR=/^(Asia\/(Gaza|Hebron|Riyadh|Dubai|Amman|Baghdad|Kuwait|Qatar|Bahrain|Muscat|Beirut|Damascus|Aden)|Africa\/(Cairo|Algiers|Casablanca|Tunis|Tripoli|Khartoum))$/.test(tz);
+    var hasAr=ls.some(function(x){return x.indexOf('ar')===0;});
     if(ls.some(function(x){return x.indexOf('he')===0||x.indexOf('iw')===0||/-il$/.test(x)&&x.indexOf('ar')!==0;}))L='he';
-    else if(ls[0].indexOf('ar')===0)L='ar'; else if(ls[0].indexOf('en')===0)L='en'; else L='he';
+    else if(ls[0].indexOf('ar')===0)L='ar';
+    else if(inIL)L=hasAr?'ar':'he';
+    else if(inAR)L='ar';
+    else if(ls[0].indexOf('en')===0)L='en'; else L='he';
   }
   window.NR_LANG=L;
+  if(L==='ar')document.title='NextRep | تطبيق تمارين وتغذية وحساب السعرات'; else if(L==='en')document.title='NextRep | Workout, nutrition and calorie tracking app';
   var g=null,ac=null; try{ g=localStorage.getItem('nr-g'); ac=localStorage.getItem('nr-acc'); }catch(e){}
   window.NR_G=g; ac=ac||(g==='f'?'rose':'green');
   var h=document.documentElement; h.lang=L; h.dir=L==='en'?'ltr':'rtl'; if(ac!=='green')h.setAttribute('data-accent',ac);
@@ -628,6 +649,8 @@ body:not(.landing)>#lx-sticky{display:none}
 .consent{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;color:var(--muted);cursor:pointer}
 .consent input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:var(--accent)}
 .consent a{color:var(--accent)}
+.ld-tools{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;margin:8px 0 18px;font-size:14px}.ld-tools>b{font-size:13px;color:var(--muted);font-weight:600}
+.ld-tools>div{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.ld-tools a{color:var(--ink);text-decoration:none;padding:7px 12px;border:1px solid var(--line);border-radius:99px;font-size:13.5px}
 .ld-legal{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}.ld-legal a{color:var(--muted)}
 .gconsent a{color:inherit;text-decoration:underline}
 .gsi-wrap{display:flex;justify-content:center;min-height:44px}
@@ -1805,7 +1828,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.51';
+const APP_VERSION='13.3.53';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2794,6 +2817,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
     <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
     <button class="btn primary cx-go" data-act="land-signup">${tt('אני רוצה להתחיל')}</button>
   </section>
+  ${LANG!=='en'?`<nav class="ld-tools" aria-label="${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}"><b>${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}</b><div>${(LANG==='ar'?[['/ar/calc/','حاسبة السعرات اليومية'],['/ar/calc/bmi','حاسبة BMI'],['/ar/calc/protein','حاسبة البروتين'],['/ar/food/','جدول السعرات للأطعمة']]:[['/calc/','מחשבון קלוריות יומי'],['/calc/bmi','מחשבון BMI'],['/calc/protein','מחשבון חלבון'],['/food/','טבלת קלוריות למזון'],['/guide/','מדריכי אימון ותזונה']]).map(([h,t])=>`<a href="${h}" data-notr>${t}</a>`).join('')}</div></nav>`:''}
   <div class="ld-foot">${langPillsHTML()}<div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:support@nextrep.co.il">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
   <div class="lx-sticky" id="lx-sticky"><button class="btn primary" data-act="land-signup">${tt('שבוע ראשון חינם')} · ${tt('להתחלה')}</button></div>
   </div>`;
