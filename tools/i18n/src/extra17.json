@@ -670,5 +670,25 @@
  "כשאימון מהלו״ז עוד לא בוצע, כשלא התאמנת כמה ימים, או כשהרצף בסכנה": {
   "en": "When a scheduled workout isn't done yet, after a few days without training, or when your streak is at risk",
   "ar": "عندما لم يُنجز تمرين من الجدول بعد، أو بعد أيام بلا تدريب، أو عندما تكون سلسلتك في خطر"
+ },
+ "{0} עוד מחכה להיום": {
+  "en": "{0} is still waiting for today",
+  "ar": "تمرين {0} ما زال بانتظارك اليوم"
+ },
+ "עוד אפשר להספיק היום, או להזיז ליום פנוי בלי לאבד כלום.": {
+  "en": "There's still time today, or move it to a free day without losing anything.",
+  "ar": "ما زال بإمكانك إنجازه اليوم، أو نقله إلى يوم فارغ دون أن تخسر شيئًا."
+ },
+ "עוד אפשר להספיק היום, או להזיז למחר בלי לאבד כלום.": {
+  "en": "There's still time today, or move it to tomorrow without losing anything.",
+  "ar": "ما زال بإمكانك إنجازه اليوم، أو نقله إلى الغد دون أن تخسر شيئًا."
+ },
+ "הזז למחר": {
+  "en": "Move to tomorrow",
+  "ar": "انقل إلى الغد"
+ },
+ "הזז ליום פנוי": {
+  "en": "Move to a free day",
+  "ar": "انقل إلى يوم فارغ"
  }
 }
