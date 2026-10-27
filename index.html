@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=6706ac34"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=6706ac34"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=6706ac34"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=73a1c155"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=73a1c155"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=73a1c155"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -475,6 +475,11 @@ body:not(.landing)>#lx-sticky{display:none}
 .ofr-h{display:flex;align-items:center;gap:10px}.ofr-h img{width:44px;height:44px;flex:none}.ofr-h small{display:block;color:var(--muted);font-size:12.5px}.ofr-h b{font-size:16px}
 .ofr-p{margin-top:10px;font-size:14.5px;line-height:1.45}.ofr-p b{color:var(--accent);font-size:16px}.ofr-p s{color:var(--muted)}
 .ofr-c{position:absolute;top:14px;inset-inline-end:14px;color:var(--accent);font-weight:700;font-size:13px}
+.lc{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:6px 0 2px}.lc .pw-x{position:absolute;top:0;inset-inline-end:0}
+.lc-b{background:#FF5A4E;color:#fff;font-size:13px;font-weight:800;padding:5px 12px;border-radius:99px;letter-spacing:.2px}
+.lc h2{margin:6px 0 0;font-size:24px;line-height:1.2}.lc-s{font-size:13.5px;color:var(--muted)}
+.lc-cd{display:flex;gap:6px;direction:ltr;margin:10px 0 6px}.lc-cd>span{width:70px;height:72px;border-radius:16px;background:var(--surface2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.lc-cd b{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}.lc-cd small{font-size:11px;color:var(--muted)}.lc-cd>i{font-style:normal;font-size:24px;color:var(--muted);align-self:center}
 .ofr-t{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--gold-soft);color:var(--gold);border-radius:14px;padding:9px 12px;margin:2px 0 4px}
 .ofr-t.in{margin:10px 0 0;background:var(--surface)}
 .ofr-t .l{font-weight:700;font-size:13.5px}.ofr-t .l b{color:var(--ink)}
@@ -2208,8 +2213,9 @@ function natPlan(){
     add(new Date(until-3*36e5),'עוד 3 שעות ההצעה נגמרת',pr+'. '+tt('הפרימיום והנתונים שלך ממשיכים בלי הפסקה.'),'trial');
     add(new Date(until-36e5),'שעה אחרונה להצעה',pr+'. '+tt('בעוד שעה המחיר המלא.'),'trial'); }
   if(ow||(until&&!storeOn&&!S.plan?.plan_months&&!(S.plan?.paid&&!S.plan?.gift)&&S.plan?.lock&&RC_KEYS[NATIVE_OS]&&until>Date.now())){ const s2=offerSecond(until);
-    add(new Date(s2),'ההצעה חזרה, ל-24 שעות בלבד',tt('חודש ראשון ב-₪9.90 במקום ₪29.90. כל האימונים והנתונים שלך מחכים.'),'trial');
-    add(new Date(s2+23*36e5),'שעה אחרונה להצעה',tt('חודש ראשון ב-₪9.90. אחרי זה המחיר המלא.'),'trial'); }
+    add(new Date(s2),'הזדמנות אחרונה: ₪9.90 לחודש הראשון',tt('ההצעה לא תחזור. 24 שעות בלבד, ואחר כך רק מחיר מלא.'),'trial');
+    add(new Date(s2+21*36e5),'עוד 3 שעות, וההצעה נעלמת',tt('₪9.90 במקום ₪29.90. האימונים והנתונים שלך מחכים.'),'trial');
+    add(new Date(s2+23*36e5),'שעה אחרונה. אחר כך מחיר מלא',tt('החודש הראשון ב-₪9.90. לא נציע את זה שוב.'),'trial'); }
   if(!ofw&&until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.'),'trial');
   return out.sort((a,b)=>a.at-b.at);
 }
@@ -2293,7 +2299,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.72';
+const APP_VERSION='13.3.74';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8530,9 +8536,19 @@ function offerTimerHTML(w,inline){ if(!w)return '';
   const left=w.end-Date.now();
   if(left>OFFER_DAY)return inline?'':`<div class="ofr-t"><span class="l">${tt('ההצעה בתוקף עד')} <b class="num">${offerDay(w.end)}</b></span></div>`;
   return `<div class="ofr-t ${inline?'in':''}"><span class="l">${tt(w.second?'ההצעה חזרה ל-24 שעות בלבד':'ההצעה נגמרת בעוד')}</span><span class="t ocd" data-end="${w.end}">${ocdFmt(left)}</span></div>`; }
+/* the second (and last) window, 7 days after the lock: said plainly, with a big countdown. After it the offer never returns. */
+const lastChance=()=>{ const w=IS_NATIVE&&!(S.plan?.store_until&&new Date(S.plan.store_until)>Date.now())?offerWin():null; return w&&w.second?w:null; };
+const ocdBig=ms=>{ ms=Math.max(0,ms); const h=Math.floor(ms/36e5), m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
+  return `<span><b>${z(h)}</b><small>${tt('שעות')}</small></span><i>:</i><span><b>${z(m)}</b><small>${tt('דקות')}</small></span><i>:</i><span><b>${z(x)}</b><small>${tt('שניות')}</small></span>`; };
+function lastChanceHTML(w,full){ return `<div class="lc">${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}
+  <span class="lc-b">${tt('הזדמנות אחרונה')}</span>
+  <h2>${tt('ההצעה חזרה לפעם האחרונה')}</h2>
+  <span class="lc-s">${tt('כשהשעון מגיע לאפס, היא לא תחזור')}</span>
+  <div class="lc-cd ocd ocd-big" data-end="${w.end}">${ocdBig(w.end-Date.now())}</div>
+  <span class="lc-s">${tt('האימונים, השקילות והארוחות שלך שמורים ומחכים')}</span></div>`; }
 const offerDay=t=>new Date(t).toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'numeric'})+', '+new Date(t).toLocaleTimeString(LOC,{hour:'2-digit',minute:'2-digit'});
 setInterval(()=>{ const els=document.querySelectorAll('.ocd'); if(!els.length)return; let done=false;
-  els.forEach(e=>{ const l=+e.dataset.end-Date.now(); if(l<=0)done=true; e.innerHTML=ocdFmt(l); });
+  els.forEach(e=>{ const l=+e.dataset.end-Date.now(); if(l<=0)done=true; e.innerHTML=e.classList.contains('ocd-big')?ocdBig(l):ocdFmt(l); });
   if(done&&!ocdFmt._busy){ ocdFmt._busy=true; setTimeout(()=>{ ocdFmt._busy=false; if(S.user)enterApp(S.user); },1500); } },1000);
 async function rcInit(){
   if(!IS_NATIVE||!S.user||!RC_KEYS[NATIVE_OS]||RC.uid===S.user.id)return;
@@ -8643,9 +8659,9 @@ function vPaywall(full){
   // active App Store / Google Play subscription: show its renewal date instead of the plans (changes go through the store)
   const storeOn=IS_NATIVE&&!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
   const body=`
-    ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
+    ${lastChance()?lastChanceHTML(lastChance(),full):`${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
     <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':S.plan?.lock?'שבוע הניסיון הסתיים':'הפרימיום הסתיים'):(S.plan?.premium?'⭐ הפרימיום שלך':'⭐ NextRep פרימיום')}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
-    ${full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
+    ${full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}`}
     ${!full&&storeOn?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ ${S.plan.store_renews?'המנוי שלך פעיל ומתחדש ב-':'המנוי שלך פעיל עד '}<b class="num">${pwDate(S.plan.store_until)}</b>.${S.plan.store_renews?'':' החידוש האוטומטי כבוי.'} שינוי מסלול וביטול דרך "ניהול המנוי" למטה.</div>`
       :!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${pwDate(S.plan.until)}</b>. ${IS_NATIVE?'מנוי מהחנות מתחיל מיום הרכישה ומתחדש אוטומטית.':'חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.'}</div>`:''}
     <div class="pw-prem">
@@ -8654,7 +8670,7 @@ function vPaywall(full){
       <div class="pr"><i>K</i><div><b>ראפי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה</span></div></div>
     </div>
     <div class="small muted">${full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
-    ${IS_NATIVE&&!storeOn&&offerWin()?offerTimerHTML(offerWin()):''}
+    ${IS_NATIVE&&!storeOn&&offerWin()&&!lastChance()?offerTimerHTML(offerWin()):''}
     ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px" ${storeOn?'hidden':''}>${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
     ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: 14 ימים לו, חודש חינם לך','או הזמיני חברה: 14 ימים לה, חודש חינם לך','או הזמנת חבר: 14 ימים לחבר, חודש חינם לך')}</button>`:''}
     ${IS_NATIVE?`<div class="small muted" style="text-align:center;font-size:12px;line-height:1.55">${NATIVE_OS==='ios'?'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה. ניהול וביטול בהגדרות החשבון ב-App Store.':'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון Google Play, אלא אם מבטלים לפני סוף התקופה. ניהול וביטול ב-Google Play.'}<br><a href="terms.html" target="_blank">תנאי שימוש</a> · <a href="privacy.html" target="_blank">מדיניות פרטיות</a></div>
