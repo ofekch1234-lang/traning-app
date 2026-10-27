@@ -4,4 +4,5 @@
     <string name="title_activity_main">NextRep</string>
     <string name="package_name">il.co.nextrep.app</string>
     <string name="custom_url_scheme">il.co.nextrep.app</string>
+    <string name="widget_desc">קלוריות, חלבון והאימון הבא שלך</string>
 </resources>

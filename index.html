@@ -2110,7 +2110,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.39';
+const APP_VERSION='13.3.40';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3825,8 +3825,8 @@ function weekStreak(){
 }
 /* v13: what's next to train — shared by home and the train tab */
 /* iPhone widget (home screen + lock screen): today's calories and protein, the next workout and the week, written to the
-   widget after every change (debounced, and only when something changed). Native iOS only. */
-function widgetSync(){ if(NATIVE_OS!=='ios'||S.mode!=='app'||!S.user)return; clearTimeout(widgetSync._t);
+   widget after every change (debounced, and only when something changed). Native iOS and Android. */
+function widgetSync(){ if((NATIVE_OS!=='ios'&&NATIVE_OS!=='android')||S.mode!=='app'||!S.user)return; clearTimeout(widgetSync._t);
   widgetSync._t=setTimeout(()=>{ try{ const P=capP('WidgetBridge'); if(!P)return;
     const d=ymd(), t=dayTotals(d), tm=new Date(); tm.setDate(tm.getDate()+1);
     const nw=nextWorkoutInfo(), tpl=nw&&nw.t, ws=weekKeyOf(Date.now());

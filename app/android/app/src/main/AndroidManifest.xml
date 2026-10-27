@@ -28,6 +28,14 @@
             </intent-filter>
         </activity>
 
+        <!-- home-screen widget -->
+        <receiver android:name=".NextRepWidget" android:exported="false" android:label="NextRep">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/nextrep_widget_info" />
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
