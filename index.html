@@ -128,7 +128,7 @@
 .acc-dot.on{box-shadow:0 0 0 3px var(--ink)}
 *{box-sizing:border-box}
 html,body{touch-action:manipulation}
-html,body{overscroll-behavior-x:none}body{overflow-x:clip}.again{overscroll-behavior-x:contain} /* בלי זום בהקשה כפולה */
+html,body{overscroll-behavior-x:none}html{overflow-x:hidden}body{overflow-x:clip;max-width:100vw}#view{overflow-x:clip}.again{overscroll-behavior-x:contain} /* בלי זום בהקשה כפולה */
 #phview,#phview *{touch-action:pinch-zoom}
 html{height:100%}
 body{
@@ -1932,7 +1932,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.77';
+const APP_VERSION='13.3.79';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
