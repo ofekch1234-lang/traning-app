@@ -2208,14 +2208,17 @@ function natPlan(){
   // 6. premium ends tomorrow (trial or gift, not a store subscription that renews)
   const until=S.plan?.until?+new Date(S.plan.until):0, storeOn=!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
   const ow=offerWin(), ofw=ow&&!ow.second;
-  if(ofw){ const pr=tt('חודש ראשון ב-₪9.90 במקום ₪29.90');
-    add(new Date(until-DAYMS),'נשארו 24 שעות להצעה ⏳',pr+'. '+tt('אחרי זה המחיר המלא.'),'trial');
-    add(new Date(until-3*36e5),'עוד 3 שעות ההצעה נגמרת',pr+'. '+tt('הפרימיום והנתונים שלך ממשיכים בלי הפסקה.'),'trial');
-    add(new Date(until-36e5),'שעה אחרונה להצעה',pr+'. '+tt('בעוד שעה המחיר המלא.'),'trial'); }
+  // the intro offer: the free week ends at 23:59 (server). Hours people are awake: 10:00, 22:00, 22:30
+  if(ofw){ const L=new Date(until-60e3);
+    add(at(new Date(+L-2*DAYMS),10),'השבוע הכי קשה כבר מאחוריך','עכשיו מתחילים לראות תוצאות. ממשיכים עם ראפי ב-₪9.90 לחודש הראשון.','trial');
+    add(at(new Date(+L-DAYMS),22),'24 השעות האחרונות מתחילות','עד מחר בחצות: ₪9.90 במקום ₪29.90 לחודש הראשון.','trial');
+    add(at(L,10),'מאמן אישי ב-₪9.90, עד חצות','מאמן כושר עולה מאות שקלים לחודש. ראפי: ₪9.90 לחודש הראשון.','trial');
+    add(at(L,22,30),'90 דקות. ואז המחיר משתלש','₪9.90 במקום ₪29.90. נגמר בחצות.','trial'); }
+  // last chance: one whole day, a week after the free week
   if(ow||(until&&!storeOn&&!S.plan?.plan_months&&!(S.plan?.paid&&!S.plan?.gift)&&S.plan?.lock&&RC_KEYS[NATIVE_OS]&&until>Date.now())){ const s2=offerSecond(until);
-    add(new Date(s2),'הזדמנות אחרונה: ₪9.90 לחודש הראשון',tt('ההצעה לא תחזור. 24 שעות בלבד, ואחר כך רק מחיר מלא.'),'trial');
-    add(new Date(s2+21*36e5),'עוד 3 שעות, וההצעה נעלמת',tt('₪9.90 במקום ₪29.90. האימונים והנתונים שלך מחכים.'),'trial');
-    add(new Date(s2+23*36e5),'שעה אחרונה. אחר כך מחיר מלא',tt('החודש הראשון ב-₪9.90. לא נציע את זה שוב.'),'trial'); }
+    add(at(s2,9),'קיבלת הזדמנות שנייה. לא תהיה שלישית','₪9.90 לחודש הראשון, עד הלילה בחצות. אחר כך זה נעלם.','trial');
+    add(at(s2,20),'4 שעות. ואז זה נגמר לתמיד','התוכנית שלך שמורה. חוזרים ב-₪9.90 במקום ₪29.90.','trial');
+    add(at(s2,22,30),'חצות. זה הדדליין','אחרי זה ההצעה לא חוזרת, אף פעם.','trial'); }
   if(!ofw&&until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.'),'trial');
   return out.sort((a,b)=>a.at-b.at);
 }
@@ -8522,7 +8525,7 @@ const rcIsMonthly=p=>p.packageType==='MONTHLY'||p.identifier==='$rc_monthly';
    countdown. Once, 7 days after the lock, the offer comes back for 24 h. Both windows come from the server's
    `until`, so they can't be reset on the device. Users who ever paid (store or web) never get it. */
 const OFFER_DAY=864e5;
-function offerSecond(u){ const s=new Date(u+7*OFFER_DAY); s.setHours(12,0,0,0); return +s<u+7*OFFER_DAY?+s+OFFER_DAY:+s; }
+function offerSecond(u){ const s=new Date(u+7*OFFER_DAY); s.setHours(0,0,0,0); return +s; } // the whole day, 7 days after the free week ended (00:00–24:00 local)
 function offerWin(){ const p=S.plan; if(!IS_NATIVE||!p||p.admin||!p.lock||!RC_KEYS[NATIVE_OS])return null;
   if(p.store_until||p.plan_months||(p.paid&&!p.gift))return null;
   const u=p.until?+new Date(p.until):0, now=Date.now(); if(!u)return null;

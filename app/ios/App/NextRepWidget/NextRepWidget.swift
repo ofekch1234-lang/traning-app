@@ -263,6 +263,23 @@ struct NextRepWidget: Widget {
 // MARK: - Workout Live Activity (lock screen + Dynamic Island) while a workout is running
 
 /// Must stay identical to the definition in the app target (WidgetBridgePlugin.swift).
+
+// The app icon, embedded so the widget extension needs no asset catalog (lime, or pink for the women's theme).
+private let nrIconM = "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"
+private let nrIconF = "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"
+struct NRLogo: View {
+    let accent: String
+    let size: CGFloat
+    var body: some View {
+        let fem = accent.lowercased().contains("ff6fa3") || accent.lowercased().contains("ff4fa3")
+        if let data = Data(base64Encoded: fem ? nrIconF : nrIconM), let img = UIImage(data: data) {
+            Image(uiImage: img).resizable().interpolation(.high).frame(width: size, height: size)
+                .clipShape(RoundedRectangle(cornerRadius: size * 0.26, style: .continuous))
+        } else {
+            Text("N").font(.system(size: size * 0.6, weight: .black)).frame(width: size, height: size)
+        }
+    }
+}
 struct NRWorkoutAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         var phase: String          // "rest" | "set" | "done"
@@ -316,6 +333,7 @@ struct NRLiveLock: View {
         let acc = Color(hex: a.accent)
         VStack(alignment: .leading, spacing: 9) {
             HStack(spacing: 6) {
+                NRLogo(accent: a.accent, size: 18)
                 Text("NextRep · \(a.workout)").font(.system(size: 12, weight: .semibold)).foregroundColor(nrMuted).lineLimit(1)
                 Spacer()
                 if s.phase != "done" {
@@ -390,15 +408,14 @@ struct NRWorkoutLive: Widget {
                     }
                 }
             } compactLeading: {
-                Text("N").font(.system(size: 13, weight: .black)).foregroundColor(.black)
-                    .frame(width: 22, height: 22).background(acc).clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                NRLogo(accent: a.accent, size: 24)
             } compactTrailing: {
                 if s.phase == "rest" { NRRestTimer(s: s, size: 15, acc: acc).frame(maxWidth: 52) }
                 else if s.phase == "done" { Text("✓").foregroundColor(acc) }
                 else { Text(a.startedAt, style: .timer).font(.system(size: 14, weight: .semibold)).monospacedDigit().foregroundColor(acc).frame(maxWidth: 52) }
             } minimal: {
                 if s.phase == "rest" { NRRestTimer(s: s, size: 12, acc: acc) }
-                else { Text("N").font(.system(size: 12, weight: .black)).foregroundColor(acc) }
+                else { NRLogo(accent: a.accent, size: 20) }
             }
             .widgetURL(nrLink("open"))
             .keylineTint(acc)
