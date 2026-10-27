@@ -46,7 +46,10 @@ public class WidgetBridgePlugin: CAPPlugin, CAPBridgedPlugin, AVAudioPlayerDeleg
     private func release() {
         player = nil
         // give the audio back: other apps (music, podcasts) resume at full volume
-        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        let session = AVAudioSession.sharedInstance()
+        try? session.setActive(false, options: .notifyOthersOnDeactivation)
+        // back to the app's normal mode: silent demo videos mix with the music (see AppDelegate)
+        try? session.setCategory(.ambient, mode: .default, options: [.mixWithOthers])
     }
 
     /// The workout Live Activity (lock screen + Dynamic Island): op = start | update | end.

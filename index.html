@@ -9615,7 +9615,7 @@ function exImg(name){ const c=exClip(name); return c?`src="${c.poster}"`:''; }
 function demoHTML(name){
   const c=exClip(name); if(!c)return '';
   return `<div class="demo" role="img" aria-label="הדגמה מונפשת: ${esc(name)}">
-    <video src="${c.mp4}" poster="${c.poster}" autoplay muted loop playsinline preload="auto" disablepictureinpicture></video>
+    <video src="${c.mp4}" poster="${c.poster}" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" onloadstart="this.muted=true;this.defaultMuted=true"></video>
     <span class="tag">▶ הדגמה</span>
   </div>`;
 }
