@@ -1150,5 +1150,13 @@
  "חזרות": {
   "en": "reps",
   "ar": "تكرارات"
+ },
+ "קשה מדי? אחרי כל סט תגיד לי כמה חזרות עוד היית מצליח, ואני מכוונן.": {
+  "en": "Too hard? After each set tell me how many more reps you could have done, and I'll adjust.",
+  "ar": "صعب جدًا؟ بعد كل مجموعة أخبرني كم تكرارًا إضافيًا كنت ستستطيع، وأنا أضبط."
+ },
+ "קשה מדי? אחרי כל סט תגידי לי כמה חזרות עוד היית מצליחה, ואני מכוונן.": {
+  "en": "Too hard? After each set tell me how many more reps you could have done, and I'll adjust.",
+  "ar": "صعب جدًا؟ بعد كل مجموعة أخبريني كم تكرارًا إضافيًا كنتِ ستستطيعين، وأنا أضبط."
  }
 }
