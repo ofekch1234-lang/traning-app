@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=dd7ea91b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=dd7ea91b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=dd7ea91b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4b373528"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4b373528"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4b373528"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -468,6 +468,50 @@ body:not(.landing)>#lx-sticky{display:none}
 .adm-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .adm-acts .btn{text-align:center;text-decoration:none}
 .adm-det{padding:12px 14px}
+.ni{display:block;flex:none}
+.ni-t{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:9px}
+.mv-ib{width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);flex:none}
+.mv-day{display:flex;align-items:center;gap:8px;margin:0 2px 10px;color:var(--ink);font-size:14px}.mv-day span{color:var(--muted);font-size:13px}.mv-day .ni{color:var(--ink)}
+.mv-tot{padding:14px 16px}
+.mv-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13.5px;color:var(--muted)}
+.mv-row b{font-family:var(--brand);font-size:22px;color:var(--ink);font-weight:700}.mv-row .mv-p{font-size:17px}
+.mv-bar{position:relative;height:7px;border-radius:5px;background:var(--surface2);margin:9px 0 12px;overflow:hidden}
+.mv-bar i{position:absolute;inset-block:0;inset-inline-start:0;border-radius:5px;background:color-mix(in srgb,var(--accent) 35%,transparent)}
+.mv-bar em{position:absolute;inset-block:0;inset-inline-start:0;border-radius:5px;background:var(--accent)}
+.mv-pl{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.mv-prot{display:flex;gap:5px}
+.mv-prot span{flex:1;min-width:0;text-align:center;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mv-prot i{display:block;height:24px;border-radius:7px;background:var(--surface2);margin-bottom:4px;position:relative;overflow:hidden}
+.mv-prot i::after{content:'';position:absolute;inset:auto 0 0 0;height:var(--h);background:color-mix(in srgb,var(--accent) 30%,transparent)}
+.mv-prot i b{position:relative;z-index:1;font-size:11.5px;line-height:24px;color:var(--ink);font-weight:600}
+.mv-prot span.ok{color:var(--ink)}.mv-prot span.ok i::after{background:var(--accent)}.mv-prot span.ok i b{color:var(--accent-ink)}
+.mv-note{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.45}.mv-note.fit{color:var(--ink)}
+.mv-tl{margin-top:14px}
+.mv-m{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.mv-t{width:40px;flex:none;text-align:center;font-family:var(--brand);font-size:12.5px;color:var(--muted);padding-top:17px}
+.mv-c{flex:1;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:11px 12px}
+.mv-h{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:0;font:inherit;color:var(--ink);text-align:start;cursor:pointer}
+.mv-ic{width:42px;height:42px;flex:none;border-radius:13px;background:var(--surface2);display:grid;place-items:center;color:var(--ink)}
+.mv-ic.done{background:var(--accent);color:var(--accent-ink)}
+.mv-nm{flex:1;min-width:0}.mv-nm b{display:block;font-size:15.5px;line-height:1.3}
+.mv-nm small{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mv-k{text-align:end;flex:none}.mv-k b{display:block;font-family:var(--brand);font-size:15px;font-weight:700}.mv-k small{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.mv-dots{display:flex;gap:3px;margin-top:5px}.mv-dots i{width:7px;height:7px;border-radius:50%}
+.mv-m.done .mv-c{opacity:.6}
+.mv-m.nx .mv-c{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}.mv-m.nx .mv-t{color:var(--accent);font-weight:700}
+.mv-lbl{display:inline-block;font-size:11px;font-weight:700;color:var(--accent-ink);background:var(--accent);border-radius:6px;padding:1px 7px;margin-bottom:8px}
+.mv-it{display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.mv-i{display:flex;align-items:center;gap:9px;font-size:14.5px}.mv-in{flex:1;min-width:0}
+.mv-g{background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:5px 9px;font-size:13px;color:var(--ink);white-space:nowrap}
+.mv-rb{display:flex;gap:8px;align-items:flex-start;margin:12px 0 0}.mv-rb img{width:28px;height:28px;border-radius:50%;flex:none;margin-top:2px}
+.mv-rb div{flex:1;background:var(--accent-soft);border-radius:14px;border-start-start-radius:4px;padding:9px 12px;font-size:13.5px;line-height:1.45}.mv-rb b{color:var(--accent)}
+.mv-acts{display:flex;gap:8px;margin-top:12px}.mv-acts .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px}
+.mv-acts .mv-ed{flex:none;min-width:48px;padding-inline:12px}.mv-acts .mv-ed.on{flex:1}
+.mv-op{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:start;background:var(--surface2);border:1px solid var(--line);border-radius:18px;padding:13px 14px;margin-bottom:10px;color:var(--ink);font:inherit}
+.mv-op.best{border-color:var(--accent)}.mv-op .mv-nm b{white-space:normal}
+.mv-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mv-tags span{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--muted);background:var(--bg);border-radius:8px;padding:3px 8px}
+.mv-tags span.a{color:var(--accent-ink);background:var(--accent);font-weight:700}
 .mn-top{display:flex;align-items:center;gap:10px;margin:2px 0 12px}.mn-top h2{flex:1;margin:0;font-family:var(--disp);font-weight:800;font-size:24px;line-height:1.12}
 .mn-bar+.mn-bar{margin-top:9px}.mn-bar .bar{height:8px;border-radius:9px;background:var(--surface2);overflow:hidden;margin-top:5px}.mn-bar .bar i{display:block;height:100%;background:var(--accent);border-radius:9px;transition:width .3s}
 .mn-fit{color:var(--accent);font-weight:600}
@@ -1932,7 +1976,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.79';
+const APP_VERSION='13.3.81';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3729,6 +3773,10 @@ function tplBuild(kind,rnd,used,p,ctx){
     comps[0].L=main;
     let w=(t.w||1)*Math.max(...main.map(mfW));
     if(usedT.includes(t.id))w*=.05;
+    // תבנית שלא יכולה להגיע לגודל שהארוחה צריכה (למשל קוטג׳ וסלט כארוחת צהריים גדולה) כמעט לא נבחרת
+    // צהריים הם הארוחה הגדולה: ארוחה "קלה" על בסיס גבינה או ביצים מתאימה פחות
+    if(ctx.slot==='l'&&main.every(f=>['cheese','egg','yog'].includes(f.gp)))w*=.15;
+    if(ctx.K){ const cap=comps.reduce((a,c)=>a+Math.max(...c.L.map(f=>(+f.k||0)*(+f.mx||0)/100)),0); if(cap<ctx.K*.9)w*=.02; }
     cands.push({t,comps,w});
   }
   if(!cands.length)return null;
@@ -3836,12 +3884,24 @@ function menuBalance(meals,kT,pT){
   const step=(i,d)=>{ const g=mfClamp(i.f,i.g+d*mfStep(i.f)); if(g===i.g)return false; i.g=g; return true; };
   for(let n=0;n<80;n++){
     const k=tot('k'), pr=tot('p'), fp=tot('ft')*9/Math.max(k,1); let moved=false;
-    if(pr<pT-8){ const c=all().filter(i=>i.f.r==='P'&&i.g<i.f.mx&&i.f.gp!=='egg').sort((a,b)=>b.f.p/b.f.k-a.f.p/a.f.k)[0]; if(c)moved=step(c,1)||moved; }
-    else if(pr>pT+25){ const c=all().filter(i=>i.f.r==='P'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.p-a.g*a.f.p)[0]; if(c)moved=step(c,-1)||moved; }
+    // חלבון: מוסיפים בארוחה שיש בה הכי מעט, ומורידים מזו שיש בה הכי הרבה, כדי שיתחלק לאורך היום
+    const mp=m=>m._it.reduce((a,i)=>a+i.f.p*i.g/100,0);
+    if(pr<pT-8){ const c=meals.filter(m=>mp(m)<(m.k==='s'?20:50)).sort((a,b)=>(mp(a)-(a.k==='s'?0:12))-(mp(b)-(b.k==='s'?0:12))).map(m=>m._it.filter(i=>i.f.r==='P'&&i.g<i.f.mx&&i.f.gp!=='egg').sort((a,b)=>b.f.p/b.f.k-a.f.p/a.f.k)[0]).find(Boolean)
+        ||all().filter(i=>i.f.r==='P'&&i.g<i.f.mx&&i.f.gp!=='egg').sort((a,b)=>b.f.p/b.f.k-a.f.p/a.f.k)[0]; if(c)moved=step(c,1)||moved; }
+    else if(pr>pT+25){ const c=[...meals].sort((a,b)=>mp(b)-mp(a)).map(m=>m._it.filter(i=>i.f.r==='P'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.p-a.g*a.f.p)[0]).find(Boolean); if(c)moved=step(c,-1)||moved; }
     if(fp<.2&&k<kT+60){ const c=all().filter(i=>i.f.r==='F'&&i.g<i.f.mx).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)moved=step(c,1)||moved; }
     else if(fp>.36){ const c=all().filter(i=>i.f.r==='F'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c)moved=step(c,-1)||moved; }
-    if(k>kT+60){ const c=all().filter(i=>(i.f.r==='C'||(i.f.r==='F'&&fp>.25)||i.f.r==='X')&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c)moved=step(c,-1)||moved; }
-    else if(k<kT-60){ let c=null; for(const r of ['C','X','L','F']){ c=all().filter(i=>i.f.r===r&&i.g<i.f.mx).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)break; } if(c)moved=step(c,1)||moved; }
+    // קלוריות: מוסיפים בארוחה שהכי רחוקה מהחלק שלה ביום, ומורידים מזו שהכי עברה אותו (ככה הצהריים לא יוצאים קטנים מביניים)
+    const mk=m=>m._it.reduce((a,i)=>a+i.f.k*i.g/100,0), gap=m=>m._K?(mk(m)-m._K)/m._K:0;
+    const shrink=m=>m._it.filter(i=>(i.f.r==='C'||(i.f.r==='F'&&fp>.25)||i.f.r==='X'||i.f.r==='L')&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0];
+    const grow=m=>{ for(const r of ['C','X','L','F']){ const c=m._it.filter(i=>i.f.r===r&&i.g<i.f.mx).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)return c; } return null; };
+    if(k>kT+60){ const c=[...meals].sort((a,b)=>gap(b)-gap(a)).map(shrink).find(Boolean); if(c)moved=step(c,-1)||moved; }
+    else if(k<kT-60){ const c=[...meals].sort((a,b)=>gap(a)-gap(b)).map(grow).find(Boolean); if(c)moved=step(c,1)||moved; }
+    else if(meals.some(m=>m._K)){ const lo=[...meals].filter(m=>gap(m)<-.15).sort((a,b)=>gap(a)-gap(b)).find(m=>grow(m));
+      const sur=lo?[...meals].filter(m=>m!==lo&&gap(m)>.03).sort((x,y)=>gap(y)-gap(x)):[];
+      // ביניים שגדלה בגלל חלבון: מקטינים בה את החלבון, והוא עובר לארוחה העיקרית
+      const a=sur.map(shrink).find(Boolean)||sur.filter(m=>m.k==='s'&&mp(m)>15).map(m=>m._it.find(i=>i.f.r==='P'&&i.g>i.f.mn)).find(Boolean);
+      if(lo&&a){ const g2=a.f.r==='P'&&lo._it.find(i=>i.f.r==='P'&&i.g<i.f.mx&&i.f.gp!=='egg')||grow(lo); moved=step(a,-1)||moved; moved=step(g2,1)||moved; } }
     if(!moved)break;
   }
   // ירקות: לפחות ~350 גרם ביום
@@ -3855,23 +3915,27 @@ function menuGenerate(seed){
   const sl=menuSlots(p), pw=sl.map(x=>({b:.85,l:1.15,d:1,s:.45}[x.k]||1)+(x.pw?.2:0)), pws=pw.reduce((a,b)=>a+b,0);
   const usedT=[];
   const meals=sl.map((x,i)=>{ const kind=mealKind(x.k,p,x.pw), K=kT*x.share, Pt=pT*pw[i]/pws;
-    const b=buildMeal(kind,rnd,used,p,{Pt,K,pw:x.pw,usedT}), tt=b._t; if(tt)usedT.push(tt.id);
+    const b=buildMeal(kind,rnd,used,p,{Pt,K,pw:x.pw,usedT,slot:x.k}), tt=b._t; if(tt)usedT.push(tt.id);
     const it=solveMeal(b,K,Pt);
-    return {k:x.k,pw:x.pw,_it:it,t:tt}; });
+    return {k:x.k,pw:x.pw,_it:it,t:tt,_K:K}; });
+  for(const m of meals){ if(m.k!=='s'||m._it.some(i=>i.f.r==='P'))continue; const L=mfPool('P','s',p), f=mfPick(L.filter(x=>['ygp','cot'].includes(x.id)),rnd)||mfPick(L.filter(x=>x.id!=='why'&&x.id!=='tun'),rnd); if(f){ m._it.unshift({f,g:f.mn||f.df}); m.t=null; } }
   menuBalance(meals,kT,pT);
   // עדיין חסרות קלוריות? מוסיפים כמו תזונאי: פרי לביניים/בוקר, כפית שמן זית לסלט, חופן אגוזים לביניים
   const usedAll=()=>meals.flatMap(m=>m._it.map(i=>i.f.id));
   for(let n=0;n<4;n++){
     const k=meals.flatMap(m=>m._it).reduce((a,i)=>a+i.f.k*i.g/100,0); if(k>=kT-120)break;
-    const hasR=(m,r)=>m._it.some(i=>i.f.r===r);
-    let tgt=meals.find(m=>m.k==='s'&&m._it.some(i=>['ygp','cot','why','tun'].includes(i.f.id))&&!hasR(m,'X'))||meals.find(m=>m.k==='b'&&!hasR(m,'X')&&m._it.length<5), f=null;
+    const hasR=(m,r)=>m._it.some(i=>i.f.r===r), un=m=>m._it.reduce((x,i)=>x+i.f.k*i.g/100,0)<(m._K||1e9)*.95;
+    let tgt=meals.find(m=>un(m)&&m.k==='s'&&m._it.some(i=>['ygp','cot','why','tun'].includes(i.f.id))&&!hasR(m,'X'))||meals.find(m=>un(m)&&m.k==='b'&&!hasR(m,'X')&&m._it.length<5), f=null;
     if(tgt)f=mfPick(mfPool('X',tgt.k==='b'?'w':'s',p).filter(x=>!usedAll().includes(x.id)),rnd);
-    if(!f){ tgt=meals.find(m=>m._it.some(i=>i.f.id==='sld')&&!hasR(m,'F')); const o=MFI('oil'); if(tgt&&o&&mfAllowed(o,p))f=o; }
-    if(!f){ tgt=meals.find(m=>m.k!=='s'&&hasR(m,'V')&&!hasR(m,'F')); if(tgt)f=mfPick(MFid(['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&tgt._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); }
-    if(!f){ tgt=meals.find(m=>m.k==='s'&&!hasR(m,'X')); if(tgt)f=mfPick(mfPool('X','s',p).filter(x=>!usedAll().includes(x.id)),rnd); }
-    if(!f){ tgt=meals.find(m=>m.k==='s'&&m._it.length<3&&!hasR(m,'F')); if(tgt)f=mfPick(mfPool('F','s',p),rnd); }
+    if(!f){ tgt=meals.find(m=>un(m)&&m._it.some(i=>i.f.id==='sld')&&!hasR(m,'F')); const o=MFI('oil'); if(tgt&&o&&mfAllowed(o,p))f=o; }
+    if(!f){ tgt=meals.find(m=>un(m)&&m.k!=='s'&&hasR(m,'V')&&!hasR(m,'F')); if(tgt)f=mfPick(MFid(['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&tgt._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); }
+    if(!f){ tgt=meals.find(m=>un(m)&&m.k==='s'&&!hasR(m,'X')); if(tgt)f=mfPick(mfPool('X','s',p).filter(x=>!usedAll().includes(x.id)),rnd); }
+    if(!f){ tgt=meals.find(m=>un(m)&&m.k==='s'&&m._it.length<3&&!hasR(m,'F')); if(tgt)f=mfPick(mfPool('F','s',p),rnd); }
     if(!f||!tgt)break; tgt._it.push({f,g:f.df}); menuBalance(meals,kT,pT);
   }
+  // ארוחה עיקרית שיצאה קטנה מדי ואין בה מה להגדיל: מוסיפים שומן טוב (טחינה/שמן זית/אבוקדו) ומאזנים שוב
+  for(const m of meals){ if(!(m.k==='l'||m.k==='d')||!m._K||m._it.some(i=>i.f.r==='F'))continue; const mk=m._it.reduce((x,i)=>x+i.f.k*i.g/100,0); if(mk>=m._K*.85)continue;
+    const f=mfPick(MFid(['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&m._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); if(f){ m._it.push({f,g:f.df}); menuBalance(meals,kT,pT); } }
   M.day={seed,auto:true,meals:meals.map(m=>({k:m.k,pw:m.pw,...(m.t?{t:m.t.id,tm:m.t.main}:{}),items:m._it.map(i=>({id:i.f.id,g:i.g}))}))};
   persistSettings();
 }
@@ -4034,68 +4098,146 @@ function openFreeSheet(){
     <div class="pb-list">${[[0,'🙅','בלי'],[100,'🍫','100 קק״ל'],[150,'🍦','150 קק״ל'],[200,'🍷','200 קק״ל'],[ten,'⭐',`10% · ${ten} קק״ל`]].filter((x,i,a)=>a.findIndex(y=>y[0]===x[0])===i)
       .map(([v,e,l])=>`<button class="pb-opt ${cur===v?'on':''}" data-act="mn-free-set" data-v="${v}"><b>${e} ${l}</b>${v?`<small>${treatIdeas(v).slice(0,2).map(t=>tt(t[1])).join(' · ')}</small>`:''}</button>`).join('')}</div>`);
 }
-function mnTotHTML(){
-  const M=menuS(), day=M.day, kT=+S.settings.kcalT?mnKT():0, pT=+S.settings.protT||0;
-  const t=menuTot(day), has=day&&day.meals.some(m=>m.items.length), left=kT-t.k, pleft=pT-t.p;
-  const over=has&&kT&&t.k>kT+30, fit=has&&!over&&left<=Math.max(80,kT*.05)&&(!pT||pleft<=10), free=mnFree();
-  const vg=has?day.meals.flatMap(m=>m.items).filter(i=>miFood(i)?.r==='V').reduce((a,i)=>a+(+i.g||0),0):0;
-  const overMsg=!over?'':free&&t.k<=kT+free?`<div class="mn-over soft">🍫 חורג מהתפריט ב-<b class="num">${kcalN(Math.round(-left))}</b> קק״ל. זה יורד מתקציב הפינוק (נשארו <b class="num">${kcalN(Math.round(kT+free-t.k))}</b>)</div>`
-    :`<div class="mn-over">⚠️ חורג מהיעד ב-<b class="num">${kcalN(Math.round(t.k-(kT+free)))}</b> קק״ל</div>`;
-  return `${overMsg}${mnBar('קלוריות',t.k,kT,'קק״ל',over&&free&&t.k<=kT+free?'soft':true)}${mnBar('חלבון',t.p,pT,'גר׳')}
-      ${has?`<div class="mn-mac num"><span>🍞 <b>${Math.round(t.cb)}</b> גר׳ פחמימה</span><span>🥑 <b>${Math.round(t.ft)}</b> גר׳ שומן</span><span>🥦 <b>${Math.round(vg)}</b> גר׳ ירקות</span></div>`:''}
-      ${has?`<div class="small ${fit?'mn-fit':'muted'}" style="margin-top:8px">${fit?'✓ התפריט תואם ליעד שלך':left>0?`נשארו <b class="num">${kcalN(Math.round(left))}</b> קק״ל${pleft>0?` · <b class="num">${Math.round(pleft)}</b> גר׳ חלבון`:''}`:over?'אפשר להקטין כמות, להסיר פריט או ללחוץ "✨ תפריט אחר"':'✓ התפריט תואם ליעד שלך'}</div>`:''}`;
-}
-function mealCardHTML(m,mi){ const mt=mealTot(m), done=m.done===ymd();
-      return `<div class="card mn-meal ${done?'done':''}" data-mi="${mi}">
-        <div class="spread"><b>${mealLabel(m)}${m.pw?' <span class="mn-pw">💪 אחרי אימון</span>':''}</b><span class="row" style="gap:6px;flex-wrap:nowrap">${m.items.length?`<span class="small muted num">${kcalN(Math.round(mt.k))} קק״ל · ${Math.round(mt.p)} גר׳ חלבון</span>`:''}<button class="mn-x2" data-act="mn-meal-rm" data-m="${mi}" aria-label="${tt('הסרת הארוחה')}">🗑</button></span></div>
-        ${mealName(m)?`<div class="mn-tn">${esc(mealName(m))}</div>`:''}
-        ${!m.items.length?`<button class="btn" style="width:100%;margin-top:6px" data-act="mn-fill" data-m="${mi}">✨ מלא לי לפי מה שנשאר מהיעד</button>`:''}
-        ${m.items.map((it,ii)=>{ const f=miFood(it)||{};
-          return `<div class="mn-it"><span class="mn-n">${fEmoji(f)} ${esc(mfName(f))}</span>
-            <button class="mn-g num" data-act="mn-g" data-m="${mi}" data-i="${ii}">${miAmt(it)}</button>
-            <button class="mn-ic" data-act="mn-swap" data-m="${mi}" data-i="${ii}" aria-label="החלפה">🔄</button>
-            <button class="mn-ic x" data-act="mn-rm" data-m="${mi}" data-i="${ii}" aria-label="הסרה">✕</button></div>`; }).join('')}
-        <div class="row" style="gap:8px;margin-top:8px">
-          <button class="btn" style="flex:1" data-act="mn-add" data-m="${mi}">+ הוסף</button>
-          ${m.items.length?`<button class="btn ${done?'':'primary'}" style="flex:1.3" data-act="mn-log" data-m="${mi}">${done?'✓ נרשם ביומן':'✓ אכלתי, רשום'}</button>`:''}
-        </div></div>`; }
 /* עדכון נקודתי: רק הארוחה שהשתנתה ושורת הסיכום, בלי לצייר מחדש את כל המסך */
 function mnPatch(mi){
   const tot=$('#mn-tot'), M=menuS();
   const hasNow=!!M.day&&M.day.meals.some(m=>m.items.length);
   if(!S.menuOpen||!tot||S.tab!=='food'||hasNow!==!!mnPatch._has){ mnPatch._has=hasNow; render(); return; }
   tot.innerHTML=mnTotHTML();
-  const list=mi==null?M.day.meals.map((_,i)=>i):[mi];
+  const list=M.day.meals.map((_,i)=>i);
   for(const i of list){ const el=document.querySelector(`.mn-meal[data-mi="${i}"]`), m=M.day.meals[i];
     if(!el||!m){ render(); return; }
     const t=document.createElement('div'); t.innerHTML=mealCardHTML(m,i); el.replaceWith(t.firstElementChild); }
 }
+/* NextRep icon set: one hand-drawn 32px grid. t=tone fill, b=ink line, a=accent line, af=accent fill. line style = ink + lime accent, tile style = dark glyph on the icon colour */
+const NI_I={"bf":{"c":"#FFD25E","t":"<path d=\"M7 15h14v4.5a5.5 5.5 0 0 1-5.5 5.5h-3A5.5 5.5 0 0 1 7 19.5Z\"/>","b":"<path d=\"M7 15h14v4.5a5.5 5.5 0 0 1-5.5 5.5h-3A5.5 5.5 0 0 1 7 19.5Z\"/><path d=\"M21 16.5h1.2a2.8 2.8 0 0 1 0 5.6H21\"/><path d=\"M5 28.5h18\"/>","a":"<path d=\"M11 5.5c-1.4 1.6 1.4 2.8 0 5M16.5 4c-1.4 1.6 1.4 2.8 0 5\"/>"},"ln":{"c":"#BFFF2F","t":"<circle cx=\"16\" cy=\"16.5\" r=\"6\"/>","b":"<circle cx=\"16\" cy=\"16.5\" r=\"9.5\"/><path d=\"M3.5 5.5v5.5a2 2 0 0 0 4 0V5.5M5.5 11v16\"/><path d=\"M28.5 27V5.5c-2.4 1.6-3.5 5.4-3.5 9.8h3.5\"/>","a":"<path d=\"M13.5 18.5c0-3 1.8-5 5-5.2-.1 3.1-2 5.2-5 5.2Zm0 0 2.6-2.6\"/>"},"dn":{"c":"#B9A6FF","t":"<path d=\"M4.5 16h23a11.5 9.5 0 0 1-23 0Z\"/>","b":"<path d=\"M4.5 16h23a11.5 9.5 0 0 1-23 0Z\"/><path d=\"M12 28.5h8\"/><path d=\"M10 11.5c-1-1.3 1-2.4 0-4M14.5 11c-1-1.3 1-2.4 0-4\"/>","a":"<path d=\"M23.5 3.5a4.3 4.3 0 1 0 5 5.6 3.5 3.5 0 0 1-5-5.6Z\"/>"},"sn":{"c":"#FF8A7A","t":"<path d=\"M16 10.5c-3.5-2.3-10 0-10 6.2 0 5.6 4 11.8 7.3 11 1.2-.4 1.8-.6 2.7-.6s1.5.2 2.7.6c3.3.8 7.3-5.4 7.3-11 0-6.2-6.5-8.5-10-6.2Z\"/>","b":"<path d=\"M16 10.5c-3.5-2.3-10 0-10 6.2 0 5.6 4 11.8 7.3 11 1.2-.4 1.8-.6 2.7-.6s1.5.2 2.7.6c3.3.8 7.3-5.4 7.3-11 0-6.2-6.5-8.5-10-6.2Z\"/><path d=\"M16 10.5c0-2.6.8-4.6 2.4-6\"/>","a":"<path d=\"M18 7.5c.6-2.6 2.6-4 5.5-4-.5 2.8-2.6 4.2-5.5 4Z\"/>"},"pre":{"c":"#BFFF2F","t":"<rect x=\"3.5\" y=\"9.5\" width=\"22\" height=\"13\" rx=\"3.5\"/>","b":"<rect x=\"3.5\" y=\"9.5\" width=\"22\" height=\"13\" rx=\"3.5\"/><path d=\"M28.5 13.5v5\"/>","a":"<path d=\"M15.5 11.5 11.5 17h5l-2 4.5\" stroke-width=\"2.3\"/>"},"post":{"c":"#7DE3FF","t":"<path d=\"M9.5 11h13l-1.6 16a2.2 2.2 0 0 1-2.2 2h-5.4a2.2 2.2 0 0 1-2.2-2Z\"/>","b":"<path d=\"M9.5 11h13l-1.6 16a2.2 2.2 0 0 1-2.2 2h-5.4a2.2 2.2 0 0 1-2.2-2Z\"/><path d=\"M10.5 18.5h11\"/>","a":"<path d=\"M8.5 6.5h15V11h-15Z\"/><path d=\"M13 6.5V3h3.5\"/>"},"nt":{"c":"#B9A6FF","t":"<path d=\"M18.5 4.5A11.5 11.5 0 1 0 27.5 21 9.5 9.5 0 0 1 18.5 4.5Z\"/>","b":"<path d=\"M18.5 4.5A11.5 11.5 0 1 0 27.5 21 9.5 9.5 0 0 1 18.5 4.5Z\"/>","a":"<path d=\"M22 6h4.5L22 11h4.5\"/><path d=\"M26.5 13.5h2.8l-2.8 3h2.8\" stroke-width=\"1.7\"/>"},"gp":{"c":"#BFFF2F","t":"<ellipse cx=\"20\" cy=\"12\" rx=\"8.5\" ry=\"7\" transform=\"rotate(-45 20 12)\"/>","b":"<ellipse cx=\"20\" cy=\"12\" rx=\"8.5\" ry=\"7\" transform=\"rotate(-45 20 12)\"/><path d=\"M14.2 17.8 9.5 22.5\"/><path d=\"M9.5 22.5a2.3 2.3 0 1 0-3 .9 2.3 2.3 0 1 0 3.9 2.1 2.3 2.3 0 0 0-.9-3Z\"/>","a":"<path d=\"M17.5 7.3c1.8-1 4-1 5.6.1\"/>"},"gc":{"c":"#F5B53A","t":"<path d=\"M8.5 13.5a5 5 0 1 1 3-9.5h9a5 5 0 1 1 3 9.5V26a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2Z\"/>","b":"<path d=\"M8.5 13.5a5 5 0 1 1 3-9.5h9a5 5 0 1 1 3 9.5V26a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2Z\"/>","a":"<path d=\"M13 15.5l1.5 1.5M18 13l1.5 1.5M15.5 21l1.5 1.5\"/>"},"gv":{"c":"#4FD98B","t":"<path d=\"M9 16.5a4.5 4.5 0 0 1 .4-9 6 6 0 0 1 11.3-1.2 5 5 0 0 1 3 9.6Z\"/>","b":"<path d=\"M9 16.5a4.5 4.5 0 0 1 .4-9 6 6 0 0 1 11.3-1.2 5 5 0 0 1 3 9.6Z\"/><path d=\"M12.5 16.5 14 28h4l1.5-11.5\"/>","a":"<path d=\"M16 22.5V18M16 19.5l-2.3-2.3M16 19.5l2.3-2.3\"/>"},"gf":{"c":"#9BD15A","t":"<path d=\"M16 3.5c4.5 0 6.5 5 8.6 10.5 2.4 6.4-1.8 14.5-8.6 14.5S5 20.4 7.4 14C9.5 8.5 11.5 3.5 16 3.5Z\"/>","b":"<path d=\"M16 3.5c4.5 0 6.5 5 8.6 10.5 2.4 6.4-1.8 14.5-8.6 14.5S5 20.4 7.4 14C9.5 8.5 11.5 3.5 16 3.5Z\"/>","af":"<circle cx=\"16\" cy=\"19\" r=\"4.2\"/>"},"gr":{"c":"#FF9F43","t":"<circle cx=\"16\" cy=\"16\" r=\"11.5\"/>","b":"<circle cx=\"16\" cy=\"16\" r=\"11.5\"/><circle cx=\"16\" cy=\"16\" r=\"8\"/><path d=\"M16 8v16M8 16h16M10.3 10.3l11.4 11.4M21.7 10.3 10.3 21.7\"/>"},"gd":{"c":"#E9ECE6","t":"<path d=\"M9 12.5 12 7h8l3 5.5V27a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 9 27Z\"/>","b":"<path d=\"M9 12.5 12 7h8l3 5.5V27a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 9 27Z\"/><path d=\"M12 7V3.5h8V7M9 12.5h14\"/>","a":"<path d=\"M16 16.5c1.8 2.3 2.7 3.6 2.7 4.8a2.7 2.7 0 0 1-5.4 0c0-1.2.9-2.5 2.7-4.8Z\"/>"},"gw":{"c":"#5AB8FF","t":"<path d=\"M8.4 15.5c2.5-1.3 5-1.3 7.6 0s5.1 1.3 7.6 0L22 27.2a1.8 1.8 0 0 1-1.8 1.5h-8.4a1.8 1.8 0 0 1-1.8-1.5Z\"/>","b":"<path d=\"M7 4.5h18l-3 22.7a1.8 1.8 0 0 1-1.8 1.5h-8.4a1.8 1.8 0 0 1-1.8-1.5Z\"/>","a":"<path d=\"M8.4 15.5c2.5-1.3 5-1.3 7.6 0s5.1 1.3 7.6 0\"/>"},"swap":{"c":"#BFFF2F","b":"<path d=\"M5 12.5A11.5 11.5 0 0 1 26 9\"/><path d=\"M27 19.5A11.5 11.5 0 0 1 6 23\"/>","a":"<path d=\"M26.5 3.5V9.5h-6M5.5 28.5v-6h6\"/>"},"cart":{"c":"#BFFF2F","t":"<path d=\"M5 10.5h22l-1.8 15.4a2.5 2.5 0 0 1-2.5 2.1H9.3a2.5 2.5 0 0 1-2.5-2.1Z\"/>","b":"<path d=\"M5 10.5h22l-1.8 15.4a2.5 2.5 0 0 1-2.5 2.1H9.3a2.5 2.5 0 0 1-2.5-2.1Z\"/><path d=\"M11 13V9a5 5 0 0 1 10 0v4\"/>","a":"<path d=\"m12 20 2.8 2.8L20.5 17\"/>"},"out":{"c":"#FF8A7A","t":"<path d=\"M6 13.5h20V28H6Z\"/>","b":"<path d=\"M6 13.5V28h20V13.5\"/><path d=\"M13 28v-7h6v7\"/>","a":"<path d=\"M4 9.5 6.5 4h19L28 9.5\"/><path d=\"M4 9.5a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0\"/>"},"fast":{"c":"#FFD25E","t":"<circle cx=\"16\" cy=\"18\" r=\"10\"/>","b":"<circle cx=\"16\" cy=\"18\" r=\"10\"/><path d=\"M13 3.5h6M16 3.5V8M24.5 8.5l1.8-1.8\"/>","a":"<path d=\"M16 18V12.5M16 18l3.5 2.2\"/>"},"tip":{"c":"#BFFF2F","t":"<path d=\"M11 21a8.5 8.5 0 1 1 10 0v3H11Z\"/>","b":"<path d=\"M11 21a8.5 8.5 0 1 1 10 0v3H11Z\"/><path d=\"M12.5 28.5h7\"/>","a":"<path d=\"M16 9.5l1.1 2.9 2.9 1.1-2.9 1.1L16 17.5l-1.1-2.9-2.9-1.1 2.9-1.1Z\"/>"},"bal":{"c":"#BFFF2F","t":"<path d=\"M16 16V4.5A11.5 11.5 0 0 1 27.5 16Z\"/>","b":"<circle cx=\"16\" cy=\"16\" r=\"11.5\"/><path d=\"M16 4.5V27.5M16 16h11.5\"/>","a":"<path d=\"M16 16 7.9 24.1\"/>"},"egg":{"c":"#FFE08A","t":"<path d=\"M16 3.5c4.8 0 9 7.6 9 14a9 9 0 0 1-18 0c0-6.4 4.2-14 9-14Z\"/>","b":"<path d=\"M16 3.5c4.8 0 9 7.6 9 14a9 9 0 0 1-18 0c0-6.4 4.2-14 9-14Z\"/>","a":"<path d=\"M11.5 16c.3-2.4 1.3-4.7 2.7-6.2\"/>"},"fish":{"c":"#7DB6FF","t":"<path d=\"M9 16c3-5.5 8.5-8 14-7 3 .6 5.6 3.4 6.5 7-.9 3.6-3.5 6.4-6.5 7-5.5 1-11-1.5-14-7Z\"/>","b":"<path d=\"M9 16c3-5.5 8.5-8 14-7 3 .6 5.6 3.4 6.5 7-.9 3.6-3.5 6.4-6.5 7-5.5 1-11-1.5-14-7Z\"/><path d=\"M9 16 3 10.5v11Z\"/>","a":"<path d=\"M18.5 12c1.3 2.6 1.3 5.4 0 8\"/>","af":"<circle cx=\"24\" cy=\"14.6\" r=\"1.4\"/>"},"meat":{"c":"#FF7A6B","t":"<path d=\"M6 12c2-5 9-7.5 15-6s9 6 7.5 11-7 9.5-14 9-11-4.5-10.5-8.5c.3-2 1.2-3.5 2-5.5Z\"/>","b":"<path d=\"M6 12c2-5 9-7.5 15-6s9 6 7.5 11-7 9.5-14 9-11-4.5-10.5-8.5c.3-2 1.2-3.5 2-5.5Z\"/>","a":"<path d=\"M10 14c3-3.5 8-4.6 12.5-3\"/>","af":"<circle cx=\"20\" cy=\"18\" r=\"2.6\"/>"},"cheese":{"c":"#FFD25E","t":"<path d=\"M4 20.5 24.5 8l3.5 4.5v12.5A1.5 1.5 0 0 1 26.5 26.5h-21A1.5 1.5 0 0 1 4 25Z\"/>","b":"<path d=\"M4 20.5 24.5 8l3.5 4.5v12.5A1.5 1.5 0 0 1 26.5 26.5h-21A1.5 1.5 0 0 1 4 25Z\"/><path d=\"M4 20.5h24\"/>","af":"<circle cx=\"11\" cy=\"23.5\" r=\"1.6\"/><circle cx=\"20.5\" cy=\"23\" r=\"1.9\"/><circle cx=\"22.5\" cy=\"15.5\" r=\"1.3\"/>"},"yog":{"c":"#E9ECE6","t":"<path d=\"M7 11h18l-2 15.5a2 2 0 0 1-2 1.5H11a2 2 0 0 1-2-1.5Z\"/>","b":"<path d=\"M7 11h18l-2 15.5a2 2 0 0 1-2 1.5H11a2 2 0 0 1-2-1.5Z\"/><path d=\"M5.5 7h21v4h-21Z\"/>","a":"<path d=\"M12 18.5c1.3-1.3 2.7-1.3 4 0s2.7 1.3 4 0\"/>"},"rice":{"c":"#F2EBD9","t":"<path d=\"M7 15a9 6.5 0 0 1 18 0Z\"/>","b":"<path d=\"M4.5 15h23a11.5 10 0 0 1-23 0Z\"/><path d=\"M7 15a9 6.5 0 0 1 18 0\"/><path d=\"M12 28.5h8\"/>","a":"<path d=\"M18 2.5l6 10M22 2l5 9.5\"/>"},"pasta":{"c":"#F5B53A","t":"<path d=\"M4.5 15h23a11.5 10 0 0 1-23 0Z\"/>","b":"<path d=\"M4.5 15h23a11.5 10 0 0 1-23 0Z\"/><path d=\"M12 28.5h8\"/>","a":"<path d=\"M7.5 15c0-3 2-4 3.5-2s2.5 2 3.5 0 2.5-2 3.5 0 2.5 2 3.5 0 3.5-1 3.5 2\"/><path d=\"M22 2.5v8\"/>"},"potato":{"c":"#D9A86C","t":"<path d=\"M8 9.5c3.5-4 11.5-5 16-1.5s3.5 11-.5 15-12.5 4.5-16 .5S4.5 13.5 8 9.5Z\"/>","b":"<path d=\"M8 9.5c3.5-4 11.5-5 16-1.5s3.5 11-.5 15-12.5 4.5-16 .5S4.5 13.5 8 9.5Z\"/>","af":"<circle cx=\"12\" cy=\"13\" r=\"1.2\"/><circle cx=\"19.5\" cy=\"10.5\" r=\"1.2\"/><circle cx=\"16.5\" cy=\"19\" r=\"1.2\"/><circle cx=\"22.5\" cy=\"17\" r=\"1.2\"/>"},"pita":{"c":"#E8B866","t":"<path d=\"M4.5 13h23a11.5 11.5 0 0 1-23 0Z\"/>","b":"<path d=\"M4.5 13h23a11.5 11.5 0 0 1-23 0Z\"/><path d=\"M8.5 17.5a7.5 7.5 0 0 0 15 0\"/>","a":"<path d=\"M6 13c1-2.8 3-2.8 4.2-.6M11 12.5c.6-3.5 3.6-4.8 6-3M18 12.5c1-2.5 3.5-3 5-1.5\"/>","af":"<circle cx=\"24.5\" cy=\"10.5\" r=\"2\"/>"},"humus":{"c":"#E8C27A","t":"<path d=\"M3.5 18c0-3.5 5.6-6 12.5-6s12.5 2.5 12.5 6-5.6 7-12.5 7-12.5-3.5-12.5-7Z\"/>","b":"<path d=\"M3.5 18c0-3.5 5.6-6 12.5-6s12.5 2.5 12.5 6-5.6 7-12.5 7-12.5-3.5-12.5-7Z\"/>","a":"<path d=\"M16 15.5c3 0 5 1 5 2.6s-2.4 2.6-5 2.6-3.6-.9-3.6-2 1.3-1.6 2.7-1.6\"/>","af":"<circle cx=\"11\" cy=\"7.5\" r=\"2\"/><circle cx=\"16\" cy=\"5.5\" r=\"2\"/><circle cx=\"21\" cy=\"7.5\" r=\"2\"/>"},"nuts":{"c":"#C98B5B","t":"<path d=\"M12 4c4 2.5 6 7 5 11.5-.7 3-3 4.5-5 4.5s-4.3-1.5-5-4.5C6 11 8 6.5 12 4Z\"/><path d=\"M21.5 12.5c3.8 2 5.6 6 4.7 10-.6 2.7-2.6 4-4.5 4s-4-1.3-4.6-4c-.9-4 .7-8 4.4-10Z\"/>","b":"<path d=\"M12 4c4 2.5 6 7 5 11.5-.7 3-3 4.5-5 4.5s-4.3-1.5-5-4.5C6 11 8 6.5 12 4Z\"/><path d=\"M21.5 12.5c3.8 2 5.6 6 4.7 10-.6 2.7-2.6 4-4.5 4s-4-1.3-4.6-4c-.9-4 .7-8 4.4-10Z\"/>","a":"<path d=\"M12 8v8M21.6 16.5v6\"/>"},"oil":{"c":"#C7D85A","t":"<path d=\"M10.5 10.5l2-3h7l2 3V27a1.5 1.5 0 0 1-1.5 1.5H12a1.5 1.5 0 0 1-1.5-1.5Z\"/>","b":"<path d=\"M12.5 3.5h7v4l2 3V27a1.5 1.5 0 0 1-1.5 1.5H12a1.5 1.5 0 0 1-1.5-1.5V10.5l2-3Z\"/><path d=\"M12.5 7.5h7\"/>","a":"<path d=\"M16 14.5c2 2.6 3 4 3 5.3a3 3 0 0 1-6 0c0-1.3 1-2.7 3-5.3Z\"/>"},"banana":{"c":"#FFE066","t":"<path d=\"M7 7.5c-1.5 10 5 19 15.5 19 2.4 0 4.4-.7 5.5-2-7.5-.3-14.5-6-16-16.5Z\"/>","b":"<path d=\"M7 7.5c-1.5 10 5 19 15.5 19 2.4 0 4.4-.7 5.5-2-7.5-.3-14.5-6-16-16.5Z\"/><path d=\"M7 7.5 6 4h4.5l1.5 4.5\"/>","a":"<path d=\"M10.5 13c1.5 5 5 8.5 10 10\"/>"},"straw":{"c":"#FF6B7A","t":"<path d=\"M16 9.5c6 0 10 2.5 9 7.5-1 6-6 11.5-9 11.5S8 23 7 17c-1-5 3-7.5 9-7.5Z\"/>","b":"<path d=\"M16 9.5c6 0 10 2.5 9 7.5-1 6-6 11.5-9 11.5S8 23 7 17c-1-5 3-7.5 9-7.5Z\"/>","a":"<path d=\"M9.5 10 16 7.5l6.5 2.5M16 7.5V3.5\"/>","af":"<circle cx=\"12\" cy=\"15\" r=\"1.1\"/><circle cx=\"19.5\" cy=\"14.5\" r=\"1.1\"/><circle cx=\"16\" cy=\"19.5\" r=\"1.1\"/><circle cx=\"12.5\" cy=\"22\" r=\"1.1\"/><circle cx=\"20\" cy=\"21.5\" r=\"1.1\"/>"},"salad":{"c":"#4FD98B","t":"<path d=\"M4 15h24a12 10 0 0 1-24 0Z\"/>","b":"<path d=\"M4 15h24a12 10 0 0 1-24 0Z\"/><path d=\"M12 28.5h8\"/>","a":"<path d=\"M8.5 15c0-4 2.5-7 6.5-7 0 4-2.5 7-6.5 7Zm8.5 0c.5-3.5 3-6 6.5-6-.3 3.5-3 6-6.5 6Z\"/>"},"bar":{"c":"#BFFF2F","t":"<path d=\"M7.5 10h17v12h-17Z\"/>","b":"<path d=\"M7.5 10h17v12h-17Z\"/><path d=\"M7.5 10 4.5 12l3 2-3 2 3 2-3 2 3 2M24.5 10l3 2-3 2 3 2-3 2 3 2-3 2\"/>","a":"<path d=\"M12 16h8\"/>"},"cake":{"c":"#FF9FC3","t":"<path d=\"M4.5 26.5V17.5l22-6.5v15.5Z\"/>","b":"<path d=\"M4.5 26.5V17.5l22-6.5v15.5Z\"/><path d=\"M4.5 21.5h22\"/>","a":"<path d=\"M18 10.5c0-2 1-3.5 2.5-4.5\"/>","af":"<circle cx=\"17.5\" cy=\"10.5\" r=\"2.4\"/>"},"coffee":{"c":"#C98B5B","t":"<path d=\"M8 10h14l-1.6 16.5a2 2 0 0 1-2 1.5h-6.8a2 2 0 0 1-2-1.5Z\"/>","b":"<path d=\"M8 10h14l-1.6 16.5a2 2 0 0 1-2 1.5h-6.8a2 2 0 0 1-2-1.5Z\"/><path d=\"M6.5 6.5h17V10h-17Z\"/><path d=\"M11 6.5 12 3.5h6l1 3\"/>","a":"<path d=\"M9 17h12\"/>"},"vegan":{"c":"#4FD98B","t":"<path d=\"M16 17c-5 0-8-3-8-8 5 0 8 3 8 8Z\"/><path d=\"M16 15c0-5 3-8.5 8-8.5 0 5-3 8.5-8 8.5Z\"/>","b":"<path d=\"M16 28.5V15\"/><path d=\"M16 17c-5 0-8-3-8-8 5 0 8 3 8 8Z\"/><path d=\"M16 15c0-5 3-8.5 8-8.5 0 5-3 8.5-8 8.5Z\"/>","a":"<path d=\"M10 28.5h12\"/>"},"veg":{"c":"#FF9F43","t":"<path d=\"M5.6 26.4 16 11l5 5-15.2 10.4c-.7.5-.7.5-.2 0Z\"/>","b":"<path d=\"M5.5 26.5 16 11l5 5Z\"/><path d=\"M11 18.5l2 2M13.5 15l1.5 1.5\"/>","a":"<path d=\"M18 13c-.5-3.5 1-6.5 3.5-8.5M19 14c3.5.5 6.5-1 8.5-3.5M18.5 13.5c1.5-3 4-4.8 7-5\"/>"},"gf0":{"c":"#F5B53A","b":"<path d=\"M16 28.5V9\"/><path d=\"M16 13c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Zm0 6c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Zm0-10c0-2 .9-3.6 0-5.5-.9 1.9 0 3.5 0 5.5Z\"/>","a":"<circle cx=\"16\" cy=\"16\" r=\"13\"/><path d=\"M6.8 6.8l18.4 18.4\"/>"},"lf0":{"c":"#E9ECE6","b":"<path d=\"M10.5 13 13 9h6l2.5 4v11a1.2 1.2 0 0 1-1.2 1.2h-8.6a1.2 1.2 0 0 1-1.2-1.2Z\"/><path d=\"M13 9V6.5h6V9\"/>","a":"<circle cx=\"16\" cy=\"16\" r=\"13\"/><path d=\"M6.8 6.8l18.4 18.4\"/>"},"fiber":{"c":"#C7D85A","t":"<path d=\"M16 13c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Zm0 6c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Zm0 6c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Z\"/>","b":"<path d=\"M16 29V8\"/><path d=\"M16 13c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Zm0 6c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Zm0 6c-2.5 0-4-1.6-4-4 2.5 0 4 1.6 4 4Zm0 0c2.5 0 4-1.6 4-4-2.5 0-4 1.6-4 4Z\"/>","a":"<path d=\"M16 8c0-2 .9-3.6 0-5.5-.9 1.9 0 3.5 0 5.5Z\"/>"},"sugar":{"c":"#FFFFFF","t":"<path d=\"M6 11 16 6l10 5v11l-10 5-10-5Z\"/>","b":"<path d=\"M6 11 16 6l10 5v11l-10 5-10-5Z\"/><path d=\"M6 11l10 5 10-5M16 16v11\"/>","af":"<circle cx=\"11\" cy=\"17.5\" r=\"1\"/><circle cx=\"21\" cy=\"17.5\" r=\"1\"/><circle cx=\"16\" cy=\"11\" r=\"1\"/>"},"salt":{"c":"#B9C2BB","t":"<path d=\"M10.5 13a5.5 5.5 0 0 1 11 0V27a1.5 1.5 0 0 1-1.5 1.5h-8a1.5 1.5 0 0 1-1.5-1.5Z\"/>","b":"<path d=\"M10.5 13a5.5 5.5 0 0 1 11 0V27a1.5 1.5 0 0 1-1.5 1.5h-8a1.5 1.5 0 0 1-1.5-1.5Z\"/><path d=\"M10.5 15h11\"/>","af":"<circle cx=\"14\" cy=\"10.5\" r=\"1\"/><circle cx=\"18\" cy=\"10.5\" r=\"1\"/><circle cx=\"16\" cy=\"7.8\" r=\"1\"/>"},"kcal":{"c":"#FF8A3D","t":"<path d=\"M16 28.5c-5.5 0-9-3.8-9-8.5 0-6 6-8 6-15 4 2 9 6.5 9 12 1.5-1 2-2.5 2-4 1.5 2 2 4.5 2 7 0 4.7-4.5 8.5-10 8.5Z\"/>","b":"<path d=\"M16 28.5c-5.5 0-9-3.8-9-8.5 0-6 6-8 6-15 4 2 9 6.5 9 12 1.5-1 2-2.5 2-4 1.5 2 2 4.5 2 7 0 4.7-4.5 8.5-10 8.5Z\"/>","a":"<path d=\"M16 25c-2 0-3.5-1.4-3.5-3.3 0-2.4 2.3-3.5 3.5-6 1.5 1.8 3.5 3.5 3.5 6 0 1.9-1.5 3.3-3.5 3.3Z\"/>"},"scan":{"c":"#BFFF2F","b":"<path d=\"M4 9.5V6a2 2 0 0 1 2-2h3.5M22.5 4H26a2 2 0 0 1 2 2v3.5M28 22.5V26a2 2 0 0 1-2 2h-3.5M9.5 28H6a2 2 0 0 1-2-2v-3.5\"/><path d=\"M9.5 10v12M13 10v12M17 10v12M20 10v12M23 10v12\"/>","a":"<path d=\"M2.5 16h27\"/>"},"cam":{"c":"#BFFF2F","t":"<path d=\"M4 11a2.5 2.5 0 0 1 2.5-2.5H10l2-3h8l2 3h3.5A2.5 2.5 0 0 1 28 11v13a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 4 24Z\"/>","b":"<path d=\"M4 11a2.5 2.5 0 0 1 2.5-2.5H10l2-3h8l2 3h3.5A2.5 2.5 0 0 1 28 11v13a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 4 24Z\"/><circle cx=\"16\" cy=\"17.5\" r=\"5.5\"/>","a":"<path d=\"M16 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8Z\"/>"},"search":{"c":"#BFFF2F","t":"<circle cx=\"14\" cy=\"14\" r=\"8.5\"/>","b":"<circle cx=\"14\" cy=\"14\" r=\"8.5\"/><path d=\"M20.5 20.5 27.5 27.5\"/>","a":"<path d=\"M9.8 12.5a4.8 4.8 0 0 1 3.4-3.3\"/>"},"add":{"c":"#BFFF2F","t":"<circle cx=\"16\" cy=\"16\" r=\"12\"/>","b":"<circle cx=\"16\" cy=\"16\" r=\"12\"/>","a":"<path d=\"M16 10.5v11M10.5 16h11\"/>"},"fav":{"c":"#FF6B7A","t":"<path d=\"M16 27.5S3.5 20.5 3.5 11.8A6.3 6.3 0 0 1 16 9a6.3 6.3 0 0 1 12.5 2.8C28.5 20.5 16 27.5 16 27.5Z\"/>","b":"<path d=\"M16 27.5S3.5 20.5 3.5 11.8A6.3 6.3 0 0 1 16 9a6.3 6.3 0 0 1 12.5 2.8C28.5 20.5 16 27.5 16 27.5Z\"/>","a":"<path d=\"M8 11.5a3 3 0 0 1 2.5-2.5\"/>"},"again":{"c":"#BFFF2F","b":"<path d=\"M6.5 10A11 11 0 1 1 5 16\"/><path d=\"M16 10v6l4 2.5\"/>","a":"<path d=\"M5 4.5V10h5.5\"/>"},"scale":{"c":"#B9C2BB","t":"<path d=\"M7 14h18l2.5 13.5h-23Z\"/>","b":"<path d=\"M7 14h18l2.5 13.5h-23Z\"/><path d=\"M8 10.5h16M16 10.5V14\"/><circle cx=\"16\" cy=\"21\" r=\"3.8\"/>","a":"<path d=\"M16 21l2-2\"/>"},"cup":{"c":"#7DE3FF","t":"<path d=\"M6 8h16v16a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3Z\"/>","b":"<path d=\"M6 8h16v16a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3Z\"/><path d=\"M22 11h3a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-3\"/>","a":"<path d=\"M6 13h5M6 18h5M6 22.5h3\"/>"},"prep":{"c":"#7DB6FF","t":"<rect x=\"4\" y=\"16\" width=\"24\" height=\"10.5\" rx=\"2.5\"/>","b":"<rect x=\"4\" y=\"16\" width=\"24\" height=\"10.5\" rx=\"2.5\"/><rect x=\"6\" y=\"5.5\" width=\"20\" height=\"8.5\" rx=\"2.5\"/>","a":"<path d=\"M4 19.5h24M6 9h20\"/>"},"chef":{"c":"#FFFFFF","t":"<path d=\"M9 18.5a5.5 5.5 0 0 1 1.5-10.8 6 6 0 0 1 11 0 5.5 5.5 0 0 1 1.5 10.8Z\"/>","b":"<path d=\"M9 18.5a5.5 5.5 0 0 1 1.5-10.8 6 6 0 0 1 11 0 5.5 5.5 0 0 1 1.5 10.8V26a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 9 26Z\"/>","a":"<path d=\"M9 22h14\"/>"},"window":{"c":"#B9A6FF","t":"<path d=\"M16 16V4.5A11.5 11.5 0 0 1 16 27.5Z\"/>","b":"<circle cx=\"16\" cy=\"16\" r=\"11.5\"/>","a":"<path d=\"M16 9v7l4.5 3\"/>"},"target":{"c":"#BFFF2F","t":"<circle cx=\"16\" cy=\"16\" r=\"7\"/>","b":"<circle cx=\"16\" cy=\"16\" r=\"11.5\"/><circle cx=\"16\" cy=\"16\" r=\"7\"/>","a":"<path d=\"M16 16 26 6M22 6h4v4\"/>","af":"<circle cx=\"16\" cy=\"16\" r=\"2.4\"/>"},"streak":{"c":"#FF8A3D","t":"<rect x=\"4.5\" y=\"6.5\" width=\"23\" height=\"21\" rx=\"3.5\"/>","b":"<rect x=\"4.5\" y=\"6.5\" width=\"23\" height=\"21\" rx=\"3.5\"/><path d=\"M4.5 12.5h23M10.5 4v5M21.5 4v5\"/>","a":"<path d=\"m11.5 20 3 3 6-6.5\"/>"},"week":{"c":"#BFFF2F","b":"<path d=\"M4 27.5h24\"/><rect x=\"6\" y=\"15\" width=\"4\" height=\"10\" rx=\"1.5\"/><rect x=\"14\" y=\"10\" width=\"4\" height=\"15\" rx=\"1.5\"/>","a":"<rect x=\"22\" y=\"5.5\" width=\"4\" height=\"19.5\" rx=\"1.5\"/>"},"shak":{"c":"#FF7A6B","t":"<circle cx=\"14\" cy=\"17\" r=\"10\"/>","b":"<circle cx=\"14\" cy=\"17\" r=\"10\"/><path d=\"M24 17h5.5\"/><circle cx=\"10.5\" cy=\"14.5\" r=\"3.6\"/><circle cx=\"17.5\" cy=\"20\" r=\"3.6\"/>","af":"<circle cx=\"10.5\" cy=\"14.5\" r=\"1.7\"/><circle cx=\"17.5\" cy=\"20\" r=\"1.7\"/>"},"tomato":{"c":"#FF5A4E","t":"<circle cx=\"16\" cy=\"18\" r=\"10\"/>","b":"<circle cx=\"16\" cy=\"18\" r=\"10\"/>","a":"<path d=\"M16 8V4M11.5 9.5 16 8l4.5 1.5M16 8l-3-3M16 8l3-3\"/>"},"cucum":{"c":"#4FD98B","t":"<rect x=\"3\" y=\"11\" width=\"26\" height=\"10\" rx=\"5\" transform=\"rotate(-35 16 16)\"/>","b":"<rect x=\"3\" y=\"11\" width=\"26\" height=\"10\" rx=\"5\" transform=\"rotate(-35 16 16)\"/>","af":"<circle cx=\"11\" cy=\"20\" r=\"1\"/><circle cx=\"15\" cy=\"16.5\" r=\"1\"/><circle cx=\"19.5\" cy=\"13.5\" r=\"1\"/><circle cx=\"14\" cy=\"21.5\" r=\"1\"/><circle cx=\"18.5\" cy=\"18\" r=\"1\"/>"},"grapes":{"c":"#B9A6FF","t":"<circle cx=\"10.5\" cy=\"13\" r=\"3.2\"/><circle cx=\"16\" cy=\"13\" r=\"3.2\"/><circle cx=\"21.5\" cy=\"13\" r=\"3.2\"/><circle cx=\"13.2\" cy=\"18.5\" r=\"3.2\"/><circle cx=\"18.8\" cy=\"18.5\" r=\"3.2\"/><circle cx=\"16\" cy=\"24\" r=\"3.2\"/>","b":"<circle cx=\"10.5\" cy=\"13\" r=\"3.2\"/><circle cx=\"16\" cy=\"13\" r=\"3.2\"/><circle cx=\"21.5\" cy=\"13\" r=\"3.2\"/><circle cx=\"13.2\" cy=\"18.5\" r=\"3.2\"/><circle cx=\"18.8\" cy=\"18.5\" r=\"3.2\"/><circle cx=\"16\" cy=\"24\" r=\"3.2\"/>","a":"<path d=\"M16 9.8V6c0-1.5 1.2-2.6 3.5-2.6\"/>"},"melon":{"c":"#FF6B7A","t":"<path d=\"M3.5 11a12.5 12.5 0 0 0 25 0Z\"/>","b":"<path d=\"M3.5 11a12.5 12.5 0 0 0 25 0Z\"/><path d=\"M7 11a9 9 0 0 0 18 0\" stroke-opacity=\".5\"/>","af":"<circle cx=\"11.5\" cy=\"14.5\" r=\"1.1\"/><circle cx=\"16\" cy=\"17.5\" r=\"1.1\"/><circle cx=\"20.5\" cy=\"14.5\" r=\"1.1\"/>"},"date":{"c":"#A86B3C","t":"<path d=\"M16 4c4 0 6 5 6 12s-2 12-6 12-6-5-6-12 2-12 6-12Z\"/>","b":"<path d=\"M16 4c4 0 6 5 6 12s-2 12-6 12-6-5-6-12 2-12 6-12Z\"/>","a":"<path d=\"M13.5 10c-.8 3-.8 8 0 12\"/>"},"oats":{"c":"#E8C27A","t":"<path d=\"M4.5 15h23a11.5 10 0 0 1-23 0Z\"/>","b":"<path d=\"M4.5 15h23a11.5 10 0 0 1-23 0Z\"/><path d=\"M12 28.5h8\"/>","a":"<path d=\"M20 15 26 5.5\"/>","af":"<circle cx=\"9.5\" cy=\"12.5\" r=\"1.3\"/><circle cx=\"13.5\" cy=\"11\" r=\"1.3\"/><circle cx=\"17\" cy=\"12.5\" r=\"1.3\"/><circle cx=\"11.5\" cy=\"8.5\" r=\"1.3\"/>"},"schn":{"c":"#E8A04A","t":"<path d=\"M4 17c0-5.5 5-9 11-9s11 3 11 8.5S21 26 14 26 4 22 4 17Z\"/>","b":"<path d=\"M4 17c0-5.5 5-9 11-9s11 3 11 8.5S21 26 14 26 4 22 4 17Z\"/>","a":"<path d=\"M22.5 4.5a5.5 5.5 0 0 1 5.5 5.5h-5.5Z\"/>","af":"<circle cx=\"10\" cy=\"15\" r=\"1\"/><circle cx=\"14.5\" cy=\"13\" r=\"1\"/><circle cx=\"19\" cy=\"15.5\" r=\"1\"/><circle cx=\"12.5\" cy=\"19.5\" r=\"1\"/><circle cx=\"17.5\" cy=\"20.5\" r=\"1\"/>"},"falafel":{"c":"#B5803F","t":"<circle cx=\"10.5\" cy=\"20\" r=\"5.5\"/><circle cx=\"21.5\" cy=\"20\" r=\"5.5\"/><circle cx=\"16\" cy=\"11\" r=\"5.5\"/>","b":"<circle cx=\"10.5\" cy=\"20\" r=\"5.5\"/><circle cx=\"21.5\" cy=\"20\" r=\"5.5\"/><circle cx=\"16\" cy=\"11\" r=\"5.5\"/>","af":"<circle cx=\"9\" cy=\"19\" r=\".9\"/><circle cx=\"12\" cy=\"21.5\" r=\".9\"/><circle cx=\"20\" cy=\"19\" r=\".9\"/><circle cx=\"23\" cy=\"21.5\" r=\".9\"/><circle cx=\"14.5\" cy=\"10\" r=\".9\"/><circle cx=\"17.5\" cy=\"12.5\" r=\".9\"/>"},"pizza":{"c":"#FFB24A","t":"<path d=\"M16 28.5 4.5 7.5c7-3.5 16-3.5 23 0Z\"/>","b":"<path d=\"M16 28.5 4.5 7.5c7-3.5 16-3.5 23 0Z\"/><path d=\"M6.2 10.7c6.2-3 13.4-3 19.6 0\"/>","af":"<circle cx=\"12\" cy=\"13.5\" r=\"1.8\"/><circle cx=\"19.5\" cy=\"14\" r=\"1.8\"/><circle cx=\"16\" cy=\"20\" r=\"1.8\"/>"},"burger":{"c":"#E8A04A","t":"<path d=\"M5 13a11 7.5 0 0 1 22 0Z\"/>","b":"<path d=\"M5 13a11 7.5 0 0 1 22 0Z\"/><rect x=\"4.5\" y=\"17.5\" width=\"23\" height=\"3.5\" rx=\"1.75\"/><path d=\"M5.5 23.5h21v.5a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3Z\"/>","a":"<path d=\"M4.5 15.3c1.5-1.2 3-1.2 4.6 0s3 1.2 4.6 0 3-1.2 4.6 0 3 1.2 4.6 0 3-1.2 4.6 0\"/>"},"sushi":{"c":"#FF8A7A","t":"<circle cx=\"16\" cy=\"16\" r=\"7.5\"/>","b":"<circle cx=\"16\" cy=\"16\" r=\"11.5\"/><circle cx=\"16\" cy=\"16\" r=\"7.5\"/>","af":"<circle cx=\"16\" cy=\"16\" r=\"3.4\"/>"},"tuna":{"c":"#7DB6FF","t":"<path d=\"M5 12v8.5c0 2.5 5 4.5 11 4.5s11-2 11-4.5V12\"/>","b":"<ellipse cx=\"16\" cy=\"12\" rx=\"11\" ry=\"4.5\"/><path d=\"M5 12v8.5c0 2.5 5 4.5 11 4.5s11-2 11-4.5V12\"/>","a":"<circle cx=\"20\" cy=\"11.5\" r=\"1.8\"/><path d=\"M18.3 12 12 13\"/>"},"soup":{"c":"#FF9F43","t":"<path d=\"M4.5 15h23a11.5 10 0 0 1-23 0Z\"/>","b":"<path d=\"M4.5 15h23a11.5 10 0 0 1-23 0Z\"/><path d=\"M12 28.5h8\"/>","a":"<path d=\"M11 11c-1.2-1.4 1.2-2.6 0-4.5M16 11c-1.2-1.4 1.2-2.6 0-4.5M21 11c-1.2-1.4 1.2-2.6 0-4.5\"/>"},"tahini":{"c":"#E8D6A8","t":"<path d=\"M8 12h16v13a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3Z\"/>","b":"<path d=\"M8 12h16v13a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3Z\"/><path d=\"M9.5 7.5h13V12h-13Z\"/>","a":"<path d=\"M8 17.5h16\"/>","af":"<circle cx=\"13\" cy=\"22\" r=\".9\"/><circle cx=\"16.5\" cy=\"23.5\" r=\".9\"/><circle cx=\"19.5\" cy=\"21.5\" r=\".9\"/>"},"honey":{"c":"#FFC23D","t":"<path d=\"M8 12h16v13a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3Z\"/>","b":"<path d=\"M8 12h16v13a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3Z\"/><path d=\"M9.5 7.5h13V12h-13Z\"/>","a":"<path d=\"M8 15.5c2 0 2.5 3 4.5 3S15 15.5 16 15.5s1.5 4 3.5 4 2.5-4 4.5-4\"/>"},"choc":{"c":"#A0663F","t":"<rect x=\"7\" y=\"4\" width=\"18\" height=\"24\" rx=\"2.5\"/>","b":"<rect x=\"7\" y=\"4\" width=\"18\" height=\"24\" rx=\"2.5\"/><path d=\"M7 11h18M7 18h18M16 4v14\"/>","a":"<path d=\"M7 21.5h18\"/>"},"icecr":{"c":"#FFB3D1","t":"<path d=\"M9 14a7 7 0 1 1 14 0Z\"/>","b":"<path d=\"M9 14a7 7 0 1 1 14 0Z\"/><path d=\"M9.5 14 16 29l6.5-15\"/><path d=\"M12 19.5l6.5-3M13.8 24l3.8-2\"/>","a":"<path d=\"M20 14v2.5\"/>"},"popcorn":{"c":"#FFE066","t":"<path d=\"M7 12a3 3 0 0 1 3-4 3.5 3.5 0 0 1 6-1.5 3.5 3.5 0 0 1 6 1.5 3 3 0 0 1 3 4Z\"/>","b":"<path d=\"M7 12h18l-2.5 16.5h-13Z\"/><path d=\"M7 12a3 3 0 0 1 3-4 3.5 3.5 0 0 1 6-1.5 3.5 3.5 0 0 1 6 1.5 3 3 0 0 1 3 4\"/>","a":"<path d=\"M12.5 12l1 16.5M19.5 12l-1 16.5\"/>"},"chips":{"c":"#FF8A3D","t":"<path d=\"M8 5h16l-2 4v14l2 4H8l2-4V9Z\"/>","b":"<path d=\"M8 5h16l-2 4v14l2 4H8l2-4V9Z\"/><path d=\"M10 9h12M10 23h12\"/>","af":"<circle cx=\"16\" cy=\"16\" r=\"3.2\"/>"},"tea":{"c":"#9BD15A","t":"<path d=\"M5.5 12h17v7a8.5 8.5 0 0 1-17 0Z\"/>","b":"<path d=\"M5.5 12h17v7a8.5 8.5 0 0 1-17 0Z\"/><path d=\"M22.5 14h1.5a3 3 0 0 1 0 6h-2\"/>","a":"<path d=\"M14 12V6\"/><rect x=\"11.5\" y=\"2.5\" width=\"5\" height=\"4\" rx=\"1\"/>"},"juice":{"c":"#FF9F43","t":"<path d=\"M8.5 13.5h15l-1.7 13.2a2 2 0 0 1-2 1.8h-7.6a2 2 0 0 1-2-1.8Z\"/>","b":"<path d=\"M7 7.5h18l-2.8 19.2a2 2 0 0 1-2 1.8h-8.4a2 2 0 0 1-2-1.8Z\"/>","a":"<path d=\"M17 7.5 19.5 2.5h3\"/><path d=\"M8.5 13.5h15\"/>"},"soda":{"c":"#FF6B5E","t":"<rect x=\"9\" y=\"5\" width=\"14\" height=\"23\" rx=\"3\"/>","b":"<rect x=\"9\" y=\"5\" width=\"14\" height=\"23\" rx=\"3\"/><path d=\"M10.5 9h11M10.5 24h11\"/>","a":"<path d=\"M9.5 18c2.5-2.5 5-2.5 6.5-1s4 1.5 6.5-1\"/>"},"zero":{"c":"#B9C2BB","b":"<rect x=\"9\" y=\"5\" width=\"14\" height=\"23\" rx=\"3\"/><path d=\"M10.5 9h11M10.5 24h11\"/>","a":"<ellipse cx=\"16\" cy=\"16.5\" rx=\"3\" ry=\"4\"/>"},"wine":{"c":"#D9558A","t":"<path d=\"M10.6 9h10.8c-.6 3.2-2.4 5-5.4 5s-4.8-1.8-5.4-5Z\"/>","b":"<path d=\"M10 4h12c0 6-2 10-6 10s-6-4-6-10Z\"/><path d=\"M16 14v12M11 28h10\"/>","a":"<path d=\"M10.6 9h10.8\"/>"},"beer":{"c":"#FFC23D","t":"<path d=\"M7 12h14v13a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 7 25Z\"/>","b":"<path d=\"M7 9h14v16a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 7 25Z\"/><path d=\"M21 12.5h2.5a2.5 2.5 0 0 1 2.5 2.5v4a2.5 2.5 0 0 1-2.5 2.5H21\"/>","a":"<path d=\"M6.5 9a2.8 2.8 0 0 1 3-4 3.3 3.3 0 0 1 5.5-.5 3.3 3.3 0 0 1 5 1.3 2.6 2.6 0 0 1 1.5 3.2\"/><path d=\"M11.5 15v8M16.5 15v8\"/>"},"smooth":{"c":"#FF8AB4","t":"<path d=\"M9 13h14l-1.8 14a2 2 0 0 1-2 1.7h-6.4a2 2 0 0 1-2-1.7Z\"/>","b":"<path d=\"M9 13h14l-1.8 14a2 2 0 0 1-2 1.7h-6.4a2 2 0 0 1-2-1.7Z\"/><path d=\"M7.5 13a8.5 6 0 0 1 17 0Z\"/>","a":"<path d=\"M17.5 7.5 20 2.5h3\"/>"},"bottle":{"c":"#5AB8FF","t":"<path d=\"M10 13.5h12V26a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 10 26Z\"/>","b":"<path d=\"M13 3.5h6V7l3 3.5V26a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 10 26V10.5L13 7Z\"/><path d=\"M13 7h6\"/>","a":"<path d=\"M10 13.5c2-1 4-1 6 0s4 1 6 0\"/>"},"bscale":{"c":"#BFFF2F","t":"<rect x=\"4.5\" y=\"4.5\" width=\"23\" height=\"23\" rx=\"6\"/>","b":"<rect x=\"4.5\" y=\"4.5\" width=\"23\" height=\"23\" rx=\"6\"/><path d=\"M10 13a6 6 0 0 1 12 0Z\"/>","a":"<path d=\"M16 13l2.2-3.2\"/>"},"down":{"c":"#BFFF2F","b":"<path d=\"M4 4.5v23h24\"/>","a":"<path d=\"M8.5 9l6 6 4-3.5 7.5 8\"/><path d=\"M26 15v4.5h-4.5\"/>"},"arm":{"c":"#BFFF2F","t":"<rect x=\"7\" y=\"7\" width=\"5\" height=\"18\" rx=\"2\" transform=\"rotate(-45 16 16)\"/><rect x=\"20\" y=\"7\" width=\"5\" height=\"18\" rx=\"2\" transform=\"rotate(-45 16 16)\"/>","b":"<rect x=\"7\" y=\"7\" width=\"5\" height=\"18\" rx=\"2\" transform=\"rotate(-45 16 16)\"/><rect x=\"20\" y=\"7\" width=\"5\" height=\"18\" rx=\"2\" transform=\"rotate(-45 16 16)\"/><rect x=\"3\" y=\"11\" width=\"4\" height=\"10\" rx=\"1.6\" transform=\"rotate(-45 16 16)\"/><rect x=\"25\" y=\"11\" width=\"4\" height=\"10\" rx=\"1.6\" transform=\"rotate(-45 16 16)\"/>","a":"<path d=\"M12 16h8\" transform=\"rotate(-45 16 16)\"/>"},"sleep":{"c":"#B9A6FF","t":"<path d=\"M14 19V12h11a3.5 3.5 0 0 1 3.5 3.5V19Z\"/>","b":"<path d=\"M3.5 25V8M3.5 19h25v6M28.5 19v-3.5A3.5 3.5 0 0 0 25 12H14v7\"/>","a":"<rect x=\"6.5\" y=\"13\" width=\"5\" height=\"4\" rx=\"2\"/>"},"steps":{"c":"#7DE3FF","t":"<path d=\"M10 3.5c2.5 0 4 3 4 6.5s-1.5 5.5-4 5.5-4-2-4-5.5 1.5-6.5 4-6.5Z\"/><path d=\"M22 10c2.5 0 4 3 4 6.5S24.5 22 22 22s-4-2-4-5.5 1.5-6.5 4-6.5Z\"/>","b":"<path d=\"M10 3.5c2.5 0 4 3 4 6.5s-1.5 5.5-4 5.5-4-2-4-5.5 1.5-6.5 4-6.5Z\"/><path d=\"M22 10c2.5 0 4 3 4 6.5S24.5 22 22 22s-4-2-4-5.5 1.5-6.5 4-6.5Z\"/>","a":"<ellipse cx=\"10\" cy=\"19.5\" rx=\"2.6\" ry=\"2.4\"/><ellipse cx=\"22\" cy=\"26\" rx=\"2.6\" ry=\"2.4\"/>"},"pulse":{"c":"#FF6B7A","t":"<path d=\"M16 27.5S3.5 20.5 3.5 11.8A6.3 6.3 0 0 1 16 9a6.3 6.3 0 0 1 12.5 2.8C28.5 20.5 16 27.5 16 27.5Z\"/>","b":"<path d=\"M16 27.5S3.5 20.5 3.5 11.8A6.3 6.3 0 0 1 16 9a6.3 6.3 0 0 1 12.5 2.8C28.5 20.5 16 27.5 16 27.5Z\"/>","a":"<path d=\"M4.5 16.5H11l2-4 3 8 2.5-5.5 1.5 1.5h7\"/>"},"energy":{"c":"#FFD25E","t":"<circle cx=\"16\" cy=\"16\" r=\"12\"/>","b":"<circle cx=\"16\" cy=\"16\" r=\"12\"/>","a":"<path d=\"M17.5 7.5 11 17h5.5l-1.5 7.5 6.5-9.5H16Z\"/>"},"hunger":{"c":"#FF9F43","b":"<path d=\"M4 21a12 12 0 0 1 24 0\"/><path d=\"M8 24.5h16\"/>","a":"<path d=\"M16 21 10.5 13\"/><circle cx=\"16\" cy=\"21\" r=\"1.8\"/>"},"tape":{"c":"#FFD25E","t":"<circle cx=\"13\" cy=\"14\" r=\"9.5\"/>","b":"<circle cx=\"13\" cy=\"14\" r=\"9.5\"/><circle cx=\"13\" cy=\"14\" r=\"3\"/><path d=\"M13 23.5h15.5v-5\"/>","a":"<path d=\"M18 23.5v-2.5M22 23.5v-2.5M26 23.5v-2.5\"/>"},"pill":{"c":"#7DE3FF","t":"<path d=\"M11.4 20.6 20.6 11.4l2.8 2.8a6.5 6.5 0 0 1-9.2 9.2Z\"/>","b":"<rect x=\"2.8\" y=\"10.5\" width=\"26.4\" height=\"11\" rx=\"5.5\" transform=\"rotate(-45 16 16)\"/><path d=\"M11.4 11.4 20.6 20.6\"/>","a":"<path d=\"M9.2 13.4a3.5 3.5 0 0 1 2.4-2.4\"/>"},"shield":{"c":"#4FD98B","t":"<path d=\"M16 3.5 26 7.5v8c0 6.5-4.3 11-10 13-5.7-2-10-6.5-10-13v-8Z\"/>","b":"<path d=\"M16 3.5 26 7.5v8c0 6.5-4.3 11-10 13-5.7-2-10-6.5-10-13v-8Z\"/>","a":"<path d=\"M16 11v9M11.5 15.5h9\"/>"},"edit":{"c":"#BFFF2F","b":"<path d=\"M5 27l1.2-5.6L20.5 7.1a2.8 2.8 0 0 1 4 0l.4.4a2.8 2.8 0 0 1 0 4L10.6 25.8Z\"/>","a":"<path d=\"M18 9.5l4.5 4.5\"/>"},"trophy":{"c":"#FFD25E","t":"<path d=\"M9 4.5h14v7a7 7 0 0 1-14 0Z\"/>","b":"<path d=\"M9 4.5h14v7a7 7 0 0 1-14 0Z\"/><path d=\"M9 7H5.5v2a4 4 0 0 0 4 4M23 7h3.5v2a4 4 0 0 1-4 4M16 18.5V23M11 28h10l-1-5h-8Z\"/>","a":"<path d=\"M16 8.2l.9 1.9 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3Z\"/>"}};
+function niSvg(k,sz,mode,col){ const o=NI_I[k]||NI_I.bal, s=sz||24, tile=mode==='tile';
+  const acc=tile?'#0A0B0A':(col||'var(--accent)'), ink=tile?'#0A0B0A':'currentColor', tone=tile?'#0A0B0A':(col||'var(--accent)'), op=tile?.16:.16;
+  return '<svg class="ni" viewBox="0 0 32 32" width="'+s+'" height="'+s+'" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+    (o.t?'<g fill="'+tone+'" fill-opacity="'+op+'" stroke="none">'+o.t+'</g>':'')+'<g stroke="'+ink+'" stroke-width="2">'+o.b+'</g>'+
+    (o.a?'<g stroke="'+acc+'" stroke-width="2">'+o.a+'</g>':'')+(o.af?'<g fill="'+acc+'" stroke="none">'+o.af+'</g>':'')+'</svg>'; }
+function niTile(k,sz,box){ const o=NI_I[k]||NI_I.bal; return '<span class="ni-t" style="background:'+o.c+(box?';width:'+box+'px;height:'+box+'px':'')+'">'+niSvg(k,sz||18,'tile')+'</span>'; }
+/* ---- תפריט v3: ציר זמן של היום, אייקונים משלנו, הסבר קצר של ראפי לכל ארוחה, החלפה של ארוחה שלמה ---- */
+const MN_ICO={chk:'gp',thg:'gp',tky:'gp',sch:'schn',bef:'meat',stk:'meat',sal:'fish',fsh:'fish',dns:'fish',tun:'tuna',egg:'egg',oml:'egg',shk:'shak',cot:'cheese',whc:'cheese',bgc:'cheese',ylc:'cheese',ygp:'yog',why:'post',tof:'vegan',len:'humus',chp:'humus',eda:'humus',hum:'humus',
+  ric:'rice',brr:'rice',qui:'rice',bul:'rice',cus:'rice',pti:'rice',bkw:'rice',pas:'pasta',wpa:'pasta',swp:'potato',pot:'potato',crn:'gc',pit:'pita',tor:'pita',brd:'gc',rck:'gc',oat:'oats',grn:'oats',
+  ban:'banana',apl:'sn',str:'straw',blu:'straw',grp:'grapes',dat:'date',org:'gr',clm:'gr',kiw:'gr',mng:'gr',per:'gr',sld:'salad',brc:'gv',cau:'gv',grb:'gv',zuc:'gv',spn:'gv',egp:'gv',pep:'gv',car:'veg',cuc:'cucum',tom:'tomato',
+  oil:'oil',oli:'oil',thn:'tahini',avo:'gf',alm:'nuts',wal:'nuts',pst:'nuts',pnb:'nuts',chm:'gd',mlk:'gd',soy:'gd'};
+const MN_RG={P:'gp',C:'gc',V:'gv',F:'gf',X:'gr',L:'gd'};
+function fIco(f){ if(!f)return 'bal'; if(MN_ICO[f.id])return MN_ICO[f.id]; if(MN_RG[f.r])return MN_RG[f.r];
+  const n=String(mfName(f)||f.name||''); for(const [w,k] of [['ביצ','egg'],['חביתה','egg'],['שקשוקה','shak'],['עוף','gp'],['הודו','gp'],['שניצל','schn'],['בקר','meat'],['סטייק','meat'],['דג','fish'],['סלמון','fish'],['טונה','tuna'],['גבינ','cheese'],['קוטג','cheese'],['יוגורט','yog'],['אורז','rice'],['פסטה','pasta'],['תפוח אדמה','potato'],['בטטה','potato'],['פיתה','pita'],['לחם','gc'],['חומוס','humus'],['סלט','salad'],['בננה','banana'],['תפוח','sn'],['שוקולד','choc'],['קפה','coffee'],['פיצה','pizza'],['המבורגר','burger']])if(n.includes(w))return k;
+  return 'bal'; }
+const MN_DOT={P:'#BFFF2F',C:'#F5B53A',V:'#4FD98B',F:'#9BD15A',X:'#FF9F43',L:'#E9ECE6'};
+function mnDots(m){ const rs=[...new Set((m.items||[]).map(i=>miFood(i)?.r).filter(r=>MN_DOT[r]))].sort((a,b)=>'PCVFXL'.indexOf(a)-'PCVFXL'.indexOf(b));
+  return rs.length?`<span class="mv-dots">${rs.map(r=>`<i style="background:${MN_DOT[r]}"></i>`).join('')}</span>`:''; }
+/* איזו ארוחה זו ומתי בערך: לפי הסדר ביום */
+function mnRole(day,i){ const m=day.meals[i], td=isTrainDay(ymd()), last=i===day.meals.length-1, di=day.meals.findIndex(x=>x.k==='d');
+  if(m.pw&&td)return {ic:'post',n:'אחרי האימון'};
+  if(m.k==='s'&&last&&di>=0&&di<i)return {ic:'nt',n:'לפני השינה'};
+  return {ic:{b:'bf',l:'ln',d:'dn',s:'sn'}[m.k]||'ln',n:MSLOT[m.k]?.[1]||'ארוחה'}; }
+function mnTime(day,i){ const base={b:8*60,l:13*60,d:19*60+30}, ms=day.meals, at=j=>ms[j]&&base[ms[j].k];
+  let t=base[ms[i].k];
+  if(t==null){ let a=null,b=null; for(let j=i-1;j>=0;j--)if(at(j)!=null){ a=at(j); break; } for(let j=i+1;j<ms.length;j++)if(at(j)!=null){ b=at(j); break; }
+    t=a!=null&&b!=null?(a+b)/2:a!=null?a+150:b!=null?b-150:10*60; }
+  t=Math.round(t/30)*30; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); }
+/* ראפי מסביר בשורה אחת למה הארוחה בנויה ככה (כללים של תזונאית, עם המספרים של המשתמש) */
+function mnWhy(day,i){ const m=day.meals[i], t=mealTot(m), P=Math.round(t.p), r=mnRole(day,i), td=isTrainDay(ymd());
+  const big=day.meals.every((x,j)=>j===i||mealTot(x).k<=t.k), veg=m.items.filter(x=>miFood(x)?.r==='V').reduce((a,x)=>a+(+x.g||0),0);
+  if(r.ic==='post')return `${tt('אחרי האימון')}: <b>${P} ${tt('גר׳ חלבון')}</b> ${tt('ופחמימה, כדי שהשריר יתאושש ויתמלא מחדש באנרגיה.')}`;
+  if(r.ic==='nt')return `${tt('ארוחה קטנה עם')} <b>${P} ${tt('גר׳ חלבון')}</b>. ${tt('חלבון לפני השינה ממשיך לעבוד על השריר גם בלילה.')}`;
+  if(m.k==='b')return `${tt('פותחים את היום עם')} <b>${P} ${tt('גר׳ חלבון')}</b>. ${tt('ככה מגיעים פחות רעבים לצהריים.')}`;
+  if(m.k==='s')return P>=10?`${tt('ביניים עם')} <b>${P} ${tt('גר׳ חלבון')}</b> ${tt('שומר על שובע עד הארוחה הבאה, בלי לנשנש.')}`:`${tt('ביניים קטן')} ${tt('כדי לא להגיע רעבים לארוחה הבאה.')}`;
+  if(big&&td)return `${tt('הארוחה הגדולה של היום')}. <b>${tt('יום אימון')}</b>, ${tt('אז יש בה יותר פחמימה לאנרגיה.')}`;
+  if(big)return `${tt('הארוחה הגדולה של היום')}, ${tt('עם')} <b>${P} ${tt('גר׳ חלבון')}</b>. ${tt('ככה לא מגיעים רעבים לערב.')}`;
+  if(veg>=150)return `${tt('הרבה ירקות בנפח גדול')}: <b>${tt('משביע')}</b>, ${tt('בלי הרבה קלוריות.')}`;
+  return `<b>${P} ${tt('גר׳ חלבון')}</b> ${tt('בארוחה. 30 עד 45 גרם בכל ארוחה זה מה שהגוף מנצל הכי טוב.')}`; }
+function mnNext(day){ const today=ymd(); return day.meals.findIndex(m=>m.items.length&&m.done!==today); }
+function mnTotHTML(){
+  const M=menuS(), day=M.day, kT=+S.settings.kcalT?mnKT():0, pT=+S.settings.protT||0, today=ymd();
+  const t=menuTot(day), has=day&&day.meals.some(m=>m.items.length), left=kT-t.k, pleft=pT-t.p;
+  const over=has&&kT&&t.k>kT+30, fit=has&&!over&&left<=Math.max(80,kT*.05)&&(!pT||pleft<=10), free=mnFree();
+  const overMsg=!over?'':free&&t.k<=kT+free?`<div class="mn-over soft">${tt('חורג מהתפריט ב-')}<b class="num">${kcalN(Math.round(-left))}</b> ${tt('קק״ל. זה יורד מתקציב הפינוק')}</div>`
+    :`<div class="mn-over">${tt('חורג מהיעד ב-')}<b class="num">${kcalN(Math.round(t.k-(kT+free)))}</b> ${tt('קק״ל')}</div>`;
+  const eaten=day?day.meals.filter(m=>m.done===today).reduce((a,m)=>a+mealTot(m).k,0):0;
+  const pr=has?day.meals.map((m,i)=>({n:mnRole(day,i).n,p:Math.round(mealTot(m).p),d:m.done===today})):[];
+  const short=n=>({'ארוחת בוקר':'בוקר','ארוחת צהריים':'צהריים','ארוחת ערב':'ערב','ארוחת ביניים':'ביניים','אחרי האימון':'אחרי אימון','לפני השינה':'לילה'}[n]||n);
+  return `${overMsg}<div class="mv-row"><span><b class="num">${kcalN(Math.round(t.k))}</b> / <span class="num">${kcalN(kT)}</span> ${tt('קק״ל')}</span><span>${tt('חלבון')} <b class="num mv-p">${Math.round(t.p)}</b> / <span class="num">${pT}</span> ${tt('גר׳')}</span></div>
+    <div class="mv-bar"><i style="width:${kT?Math.min(100,Math.round(t.k/kT*100)):0}%"></i>${eaten?`<em style="width:${kT?Math.min(100,Math.round(eaten/kT*100)):0}%"></em>`:''}</div>
+    ${pr.length?`<div class="mv-pl">${tt('חלבון לאורך היום')}</div><div class="mv-prot">${pr.map(x=>`<span class="${x.d?'ok':''}"><i style="--h:${Math.min(100,Math.round(x.p/45*100))}%"><b class="num">${x.p}</b></i>${tt(short(x.n))}</span>`).join('')}</div>`:''}
+    ${has?`<div class="mv-note ${fit?'fit':''}">${fit?tt('התפריט תואם ליעד שלך. 30–45 גרם חלבון בכל ארוחה עיקרית, ככה הגוף בונה שריר הכי טוב.'):left>0?`${tt('נשארו')} <b class="num">${kcalN(Math.round(left))}</b> ${tt('קק״ל')}${pleft>0?` · <b class="num">${Math.round(pleft)}</b> ${tt('גר׳ חלבון')}`:''}`:tt('אפשר להקטין כמות, להסיר פריט או לבקש תפריט אחר')}</div>`:''}`;
+}
+function mealCardHTML(m,mi){ const M=menuS(), day=M.day, today=ymd(), done=m.done===today, mt=mealTot(m), r=mnRole(day,mi), nx=mnNext(day);
+  const open=(S.mnX!=null?S.mnX===mi:nx===mi), ed=S.mnEd===mi, isNext=nx===mi;
+  const sub=m.items.length?esc(mealName(m)||m.items.slice(0,3).map(it=>mfName(miFood(it)||{})).join(', ')):tt('ריקה');
+  const head=`<button class="mv-h" data-act="mn-x" data-m="${mi}" aria-expanded="${open}">
+      <span class="mv-ic ${done?'done':''}">${done?'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg>':niSvg(r.ic,26)}</span>
+      <span class="mv-nm"><b>${tt(r.n)}</b><small>${sub}</small>${mnDots(m)}</span>
+      ${m.items.length?`<span class="mv-k"><b class="num">${kcalN(Math.round(mt.k))}</b><small><span class="num">${Math.round(mt.p)}</span> ${tt('גר׳ חלבון')}</small></span>`:''}</button>`;
+  let body='';
+  if(open){
+    body=`<div class="mv-it">${m.items.map((it,ii)=>{ const f=miFood(it)||{};
+        return `<div class="mv-i">${niTile(fIco(f),18)}<span class="mv-in">${esc(mfName(f))}</span><button class="mv-g num" data-act="mn-g" data-m="${mi}" data-i="${ii}">${miAmt(it)}</button>${ed?`<button class="mn-ic" data-act="mn-swap" data-m="${mi}" data-i="${ii}" aria-label="${tt('החלפה')}">${niSvg('swap',18)}</button><button class="mn-ic x" data-act="mn-rm" data-m="${mi}" data-i="${ii}" aria-label="${tt('הסרה')}">✕</button>`:''}</div>`; }).join('')}
+      ${ed?`<div class="row" style="gap:8px;margin-top:4px"><button class="btn" style="flex:1" data-act="mn-add" data-m="${mi}">+ ${tt('הוסף פריט')}</button><button class="btn" data-act="mn-meal-rm" data-m="${mi}">${tt('מחק ארוחה')}</button></div>`:''}</div>
+      ${!m.items.length?`<button class="btn" style="width:100%;margin-top:10px" data-act="mn-fill" data-m="${mi}">✨ ${tt('מלא לי לפי מה שנשאר מהיעד')}</button>`:''}
+      ${m.items.length&&!done&&!ed?`<div class="mv-rb"><img src="img/kobi-happy.svg" alt=""><div>${mnWhy(day,mi)}</div></div>`:''}
+      ${m.items.length?`<div class="mv-acts"><button class="btn mv-ed ${ed?'on':''}" data-act="mn-ed" data-m="${mi}" aria-label="${tt('עריכה')}">${ed?tt('סיום'):niSvg('edit',18)}</button>
+        ${done?`<button class="btn" style="flex:1" disabled>✓ ${tt('נרשם ביומן')}</button>`:`<button class="btn" data-act="mn-mswap" data-m="${mi}">${niSvg('swap',18)}${tt('החלף')}</button><button class="btn primary" data-act="mn-log" data-m="${mi}">${tt('אכלתי')}</button>`}</div>`:''}`;
+  }
+  return `<div class="mv-m ${done?'done':''} ${isNext&&!done?'nx':''} ${open?'open':''} mn-meal" data-mi="${mi}"><div class="mv-t num">${mnTime(day,mi)}</div><div class="mv-c">
+    ${isNext&&!done?`<span class="mv-lbl">${tt('הבא בתור')}</span>`:''}${head}${body}</div></div>`; }
 function vMenu(){
   mnPatch._has=!!menuS().day&&menuS().day.meals.some(m=>m.items.length);
-  const M=menuS(), day=M.day, kT=+S.settings.kcalT||0, pT=+S.settings.protT||0, today=ymd();
-  const has=day&&day.meals.some(m=>m.items.length);
-  return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="חזרה">→</button><h2>התפריט שלי</h2>
-      <button class="btn" data-act="mn-prefs" style="padding:6px 12px">⚙️ העדפות</button></div>
-    <div class="card" id="mn-tot">${mnTotHTML()}</div>
-    ${day?mnTreatHTML():''}
+  const M=menuS(), day=M.day, has=day&&day.meals.some(m=>m.items.length), td=isTrainDay(ymd());
+  return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="${tt('חזרה')}">→</button><h2>${tt('התפריט שלי')}</h2>
+      <button class="mv-ib" data-act="mn-prefs" aria-label="${tt('העדפות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg></button></div>
     ${!day?`<div class="card mn-start">
-        <button class="mn-big" data-act="mn-gen"><span>✨</span><b>תציע לי</b><small>תפריט מלא לפי היעד והטעם שלך</small></button>
-        <button class="mn-big" data-act="mn-empty"><span>✍️</span><b>אבנה לבד</b><small>מוסיפים מזונות ורואים כמה נשאר</small></button>
+        <button class="mn-big" data-act="mn-gen"><span>✨</span><b>${tt('תציע לי')}</b><small>${tt('תפריט מלא לפי היעד והטעם שלך')}</small></button>
+        <button class="mn-big" data-act="mn-empty"><span>✍️</span><b>${tt('אבנה לבד')}</b><small>${tt('מוסיפים מזונות ורואים כמה נשאר')}</small></button>
       </div>`:`
-    <div class="row" style="gap:8px;margin-bottom:10px">
-      <button class="btn ${has?'':'primary'}" style="flex:1" data-act="mn-gen">✨ ${has?'תפריט אחר':'תציע לי'}</button>
-      ${has?`<button class="btn" style="flex:1" data-act="mn-clear">✍️ אבנה לבד</button>`:''}
+    <div class="mv-day">${niSvg(td?'pre':'nt',20)}<b>${tt(td?'יום אימון':'יום מנוחה')}</b><span>${tt(td?(day.meals.some(m=>m.pw)?'הארוחה שאחרי האימון מקבלת יותר':'חלבון ופחמימה לאורך היום'):'אותו חלבון, בלי ארוחת אימון')}</span></div>
+    <div class="card mv-tot" id="mn-tot">${mnTotHTML()}</div>
+    <div class="mv-tl">${day.meals.map((m,mi)=>mealCardHTML(m,mi)).join('')}</div>
+    <button class="btn mn-addmeal" data-act="mn-meal-add">+ ${tt('הוסף ארוחה')}</button>
+    ${mnTreatHTML()}
+    <div class="row" style="gap:8px;margin:4px 0 10px">
+      <button class="btn" style="flex:1" data-act="mn-gen">✨ ${tt(has?'תפריט אחר':'תציע לי')}</button>
+      ${has?`<button class="btn" style="flex:1" data-act="mn-clear">✍️ ${tt('אבנה לבד')}</button>`:''}
     </div>
-    ${day.meals.map((m,mi)=>mealCardHTML(m,mi)).join('')}
-    <button class="btn mn-addmeal" data-act="mn-meal-add">+ הוסף ארוחה</button>
     ${has?`<div class="card stack" style="gap:8px">
-      <div class="spread"><b>💾 תבניות</b><button class="linkbtn small" data-act="mn-tsave">שמור את היום כתבנית</button></div>
-      ${M.tpl.length?`<div class="mw-chips">${M.tpl.map((x,i)=>`<span class="chip mn-tp"><button data-act="mn-tload" data-i="${i}">${esc(x.name)}</button><button data-act="mn-tdel" data-i="${i}" aria-label="מחיקה">✕</button></span>`).join('')}</div>`
-        :`<div class="small muted">${G('שמור תפריט שאהבת, למשל "יום אימון" ו"יום מנוחה", ותטען אותו בלחיצה.','שמרי תפריט שאהבת, למשל "יום אימון" ו"יום מנוחה", ותטעני אותו בלחיצה.')}</div>`}
+      <div class="spread"><b>💾 ${tt('תבניות')}</b><button class="linkbtn small" data-act="mn-tsave">${tt('שמור את היום כתבנית')}</button></div>
+      ${M.tpl.length?`<div class="mw-chips">${M.tpl.map((x,i)=>`<span class="chip mn-tp"><button data-act="mn-tload" data-i="${i}">${esc(x.name)}</button><button data-act="mn-tdel" data-i="${i}" aria-label="${tt('מחיקה')}">✕</button></span>`).join('')}</div>`
+        :`<div class="small muted">${G('שמור תפריט שאהבת, למשל "יום אימון" ו"יום מנוחה", ותטען אותו בלחיצה.','שמרי תפריט שאהבת, למשל "יום אימון" ו"יום מנוחה", ותטעני אותו בלחיצה.','אפשר לשמור תפריט שאהבתם ולטעון אותו בלחיצה.')}</div>`}
     </div>`:''}
-    <button class="linkbtn small mn-del" data-act="mn-del">🗑 מחק את התפריט</button>
-    <div class="small muted" style="text-align:center;margin:6px 0 4px">הערכים מהמאגר הישראלי. הערכה כללית, לא ייעוץ תזונתי.</div>`}`;
+    <button class="linkbtn small mn-del" data-act="mn-del">🗑 ${tt('מחק את התפריט')}</button>
+    <div class="small muted" style="text-align:center;margin:6px 0 4px">${tt('הערכים מהמאגר הישראלי. הערכה כללית, לא ייעוץ תזונתי.')}</div>`}`;
 }
+/* החלפת ארוחה שלמה: 3 אפשרויות עם אותם ערכים בערך */
+let MSW=null;
+function openMealSwap(mi){
+  const M=menuS(), p=M.p||{}, day=M.day, m=day.meals[mi]; if(!m)return;
+  const cur=mealTot(m), K=Math.max(150,cur.k), Pt=Math.max(8,cur.p), kind=mealKind(m.k,p,m.pw);
+  const others=day.meals.flatMap((x,j)=>j===mi?[]:x.items.map(i=>i.id)).filter(Boolean), usedT=day.meals.map((x,j)=>j===mi?null:x.t).filter(Boolean);
+  const curKey=m.items.map(i=>i.id).sort().join(','), seen=new Set([curKey]), C=[];
+  for(let s=1;s<=40&&C.length<12;s++){ const rnd=mRand((Date.now()%1e7)+s*7919);
+    const b=buildMeal(kind,rnd,others,p,{Pt,K,pw:m.pw,usedT,slot:m.k}); if(!b||!b.length)continue;
+    if(m.k==='s'&&Pt>=10&&!b.some(x=>(x.f||x).r==='P')){ const L=mfPool('P','s',p), f=mfPick(L.filter(x=>['ygp','cot'].includes(x.id)),rnd)||mfPick(L.filter(x=>x.id!=='why'&&x.id!=='tun'),rnd); if(f){ b.unshift(b[0]&&b[0].f?{f,g:f.df}:f); b._t=null; } }
+    const it=solveMeal(b,K,Pt), tk=it.reduce((a,i)=>a+i.f.k*i.g/100,0), tp=it.reduce((a,i)=>a+i.f.p*i.g/100,0);
+    if(Math.abs(tk-K)>K*.25||tp<Pt*.6)continue;
+    const key=it.map(i=>i.f.id).sort().join(','); if(seen.has(key))continue; seen.add(key);
+    const items=it.map(i=>({id:i.f.id,g:i.g})), mm={k:m.k,pw:m.pw,items,...(b._t?{t:b._t.id,tm:b._t.main}:{})};
+    C.push({mm,like:it.reduce((a,i)=>a+mfW(i.f),0)/it.length,ck:Math.max(0,...it.map(i=>+i.f.ck||0))}); }
+  if(!C.length)return toast(tt('לא מצאתי חלופה מתאימה כרגע'));
+  const pick=[]; const take=(L,tag)=>{ const x=L.find(c=>!pick.some(q=>q.c===c)); if(x)pick.push({c:x,tag}); };
+  take([...C].sort((a,b)=>b.like-a.like),'like'); take([...C].sort((a,b)=>a.ck-b.ck||b.like-a.like),'fast'); take(C,'new');
+  MSW={mi,opts:pick}; renderMealSwap(); }
+function renderMealSwap(){ const M=menuS(), m=M.day.meals[MSW.mi], cur=mealTot(m), r=mnRole(M.day,MSW.mi);
+  openSheet(`<h3 style="margin:0 0 2px">${tt('החלפה ל')}${tt(r.n)}</h3><div class="small muted" style="margin-bottom:14px">${tt('אותם ערכים בערך')}: <span class="num">${kcalN(Math.round(cur.k))}</span> ${tt('קק״ל')}, <span class="num">${Math.round(cur.p)}</span> ${tt('גר׳ חלבון')}</div>
+    ${MSW.opts.map(({c,tag},i)=>{ const mm=c.mm, t=mealTot(mm), main=miFood(mm.items.find(x=>miFood(x)?.r==='P')||mm.items[0])||{};
+      const nm=mealName(mm)||mm.items.slice(0,3).map(it=>mfName(miFood(it)||{})).join(', ');
+      const tags=[]; if(tag==='like')tags.push(`<span class="a">${G('הכי דומה למה שאתה אוהב','הכי דומה למה שאת אוהבת','הכי דומה למה שאוהבים')}</span>`);
+      tags.push(`<span>${niSvg('fast',14)}${c.ck===0?tt('בלי בישול'):c.ck===1?tt('עד 20 דק׳'):tt('בישול')}</span>`);
+      return `<button class="mv-op ${i===0?'best':''}" data-act="mn-mswap-pick" data-i="${i}">${niTile(fIco(main),24,42)}<span class="mv-nm"><b>${esc(nm)}</b>${mnDots(mm)}<span class="mv-tags">${tags.join('')}</span></span><span class="mv-k"><b class="num">${kcalN(Math.round(t.k))}</b><small><span class="num">${Math.round(t.p)}</span> ${tt('גר׳ חלבון')}</small></span></button>`; }).join('')}
+    <button class="btn big" style="width:100%;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px" data-act="mn-mswap" data-m="${MSW.mi}">${niSvg('swap',18)}${tt('עוד אפשרויות')}</button>`); }
+
 /* כרטיס בטאב התזונה */
 function menuCardHTML(){
   const M=menuS(), day=M.day, today=ymd(), has=day&&day.meals.some(m=>m.items.length);
@@ -4345,11 +4487,11 @@ async function mnLog(mi){
 function menuAct(act,b){
   const M=menuS(), mi=+b.dataset.m, ii=+b.dataset.i;
   switch(act){
-    case 'mn-open': openMenu(); return true;
+    case 'mn-open': S.mnX=null; S.mnEd=null; openMenu(); return true;
     case 'mn-close': S.menuOpen=false; render(); window.scrollTo(0,0); return true;
     case 'mn-prefs': openMenuWizard(); return true;
     case 'mn-target': closeSheet(); openTargetsSheet(); TG.then='menu'; return true;
-    case 'mn-gen': menuGenerate(); render(); toast('✨ תפריט חדש'); return true;
+    case 'mn-gen': S.mnX=null; S.mnEd=null; menuGenerate(); render(); toast('✨ תפריט חדש'); return true;
     case 'mn-empty': case 'mn-clear': menuEmpty(); render(); return true;
     case 'mn-rm': M.day.meals[mi].items.splice(ii,1); M.day.auto=false; persistSettings(); mnPatch(mi); return true;
     case 'mn-g': openQty(mi,ii); return true;
@@ -4371,7 +4513,12 @@ function menuAct(act,b){
     case 'mn-add-pick': { const f=MFI(b.dataset.id); if(!f||!MADD)return true; const ai=MADD.mi; M.day.meals[ai].items.push({id:f.id,g:f.df}); M.day.auto=false; MADD=null; persistSettings(); closeSheet(); mnPatch(ai); return true; }
     case 'mn-add-db': { const f=MADD?.db?.[+b.dataset.i]; if(!f)return true;
       { const du=dbUnit(f); M.day.meals[MADD.mi].items.push(dbItem(f,du?du.ug:100)); } M.day.auto=false; const ai=MADD.mi; MADD=null; persistSettings(); closeSheet(); mnPatch(ai); return true; }
-    case 'mn-log': mnLog(mi); return true;
+    case 'mn-log': S.mnX=null; S.mnEd=null; mnLog(mi); return true;
+    case 'mn-x': { const nx=mnNext(M.day), cur=S.mnX!=null?S.mnX:nx; S.mnX=cur===mi?-1:mi; if(S.mnEd!==S.mnX)S.mnEd=null; mnPatch(); return true; }
+    case 'mn-ed': S.mnEd=S.mnEd===mi?null:mi; S.mnX=mi; mnPatch(); return true;
+    case 'mn-mswap': openMealSwap(mi); return true;
+    case 'mn-mswap-pick': { const o=MSW?.opts?.[+b.dataset.i]; if(!o)return true; const m=M.day.meals[MSW.mi], mm=o.c.mm;
+      m.items=mm.items; if(mm.t){ m.t=mm.t; m.tm=mm.tm; } else { delete m.t; delete m.tm; } M.day.auto=false; MSW=null; persistSettings(); closeSheet(); mnPatch(); toast(tt('הארוחה הוחלפה ✓')); return true; }
     case 'mn-free': openFreeSheet(); return true;
     case 'mn-free-set': { M.p=M.p||{}; M.p.free=+b.dataset.v||0; closeSheet();
       if(M.day&&M.day.auto)menuGenerate(M.day.seed); else persistSettings();
@@ -5516,9 +5663,9 @@ function vPlans(){
     <button class="btn primary big" data-act="tpl-new">+ תוכנית חדשה</button>
     ${list.length?list.map(t=>`
       <div class="card">
-        <div class="spread">
-          <b>${esc(t.name)}</b>
-          <div class="row" style="gap:6px">
+        <div class="spread" style="gap:10px;align-items:center">
+          <b style="flex:1;min-width:0">${esc(t.name)}</b>
+          <div class="row" style="gap:6px;flex:none;flex-wrap:nowrap">
             <button class="btn" data-act="tpl-edit" data-id="${esc(t.id)}">עריכה</button>
             <button class="btn primary" data-act="start-tpl" data-id="${esc(t.id)}">התחל</button>
           </div>
