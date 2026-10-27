@@ -690,5 +690,233 @@
  "הזז ליום פנוי": {
   "en": "Move to a free day",
   "ar": "انقل إلى يوم فارغ"
+ },
+ "מגמה · ממוצע 7 ימים": {
+  "en": "Trend · 7-day average",
+  "ar": "الاتجاه · متوسط 7 أيام"
+ },
+ "שקילה אחרונה": {
+  "en": "Last weigh-in",
+  "ar": "آخر وزن"
+ },
+ "נשמרה ✓": {
+  "en": "Saved ✓",
+  "ar": "تم الحفظ ✓"
+ },
+ "המגמה היא ממוצע של 7 השקילות האחרונות. היא מחליקה קפיצות של מים ומלח, ומראה לאן המשקל באמת הולך.": {
+  "en": "The trend is the average of your last 7 weigh-ins. It smooths out water and salt jumps and shows where your weight is really heading.",
+  "ar": "الاتجاه هو متوسط آخر 7 أوزان. يخفّف قفزات الماء والملح، ويُظهر إلى أين يتجه وزنك فعلًا."
+ },
+ "שקילות יומיות סביב קו המגמה": {
+  "en": "Daily weigh-ins around the trend line",
+  "ar": "الأوزان اليومية حول خط الاتجاه"
+ },
+ "היום": {
+  "en": "Today",
+  "ar": "اليوم"
+ },
+ "אחרונה": {
+  "en": "Last",
+  "ar": "الأخير"
+ },
+ "מגמה": {
+  "en": "Trend",
+  "ar": "الاتجاه"
+ },
+ "שקילה יומית": {
+  "en": "Daily weigh-in",
+  "ar": "وزن يومي"
+ },
+ "מגמה (ממוצע 7 ימים)": {
+  "en": "Trend (7-day average)",
+  "ar": "الاتجاه (متوسط 7 أيام)"
+ },
+ "היום {0}, עלייה של {1} {2}": {
+  "en": "Today {0}, up {1} {2}",
+  "ar": "اليوم {0}، ارتفاع {1} {2}"
+ },
+ "מאתמול": {
+  "en": "from yesterday",
+  "ar": "عن الأمس"
+ },
+ "מהשקילה הקודמת": {
+  "en": "from the last weigh-in",
+  "ar": "عن الوزن السابق"
+ },
+ "זה כמעט תמיד מים, מלח או ארוחה מאוחרת. שומן לא עולה בלילה אחד.": {
+  "en": "It's almost always water, salt or a late meal. Fat doesn't go up in one night.",
+  "ar": "غالبًا ما يكون ماءً أو ملحًا أو وجبة متأخرة. الدهون لا تزيد في ليلة واحدة."
+ },
+ "המגמה ממשיכה לרדת.": {
+  "en": "The trend is still going down.",
+  "ar": "الاتجاه مستمر في الانخفاض."
+ },
+ "המגמה היא מה שקובע.": {
+  "en": "The trend is what counts.",
+  "ar": "الاتجاه هو ما يهم."
+ },
+ "נשמר": {
+  "en": "Saved",
+  "ar": "تم الحفظ"
+ },
+ "שבוע מוצלח. 5 ימים בטווח מספיקים כדי להתקדם, גם בלי שבוע מושלם.": {
+  "en": "A good week. 5 days in range are enough to make progress, no perfect week needed.",
+  "ar": "أسبوع ناجح. 5 أيام ضمن النطاق تكفي للتقدّم، حتى بدون أسبوع مثالي."
+ },
+ "עוד יום אחד בטווח, והשבוע מוצלח. לא צריך שבוע מושלם.": {
+  "en": "One more day in range and the week is a good one. No perfect week needed.",
+  "ar": "يوم واحد آخر ضمن النطاق والأسبوع ناجح. لا حاجة لأسبوع مثالي."
+ },
+ "עוד {0} ימים בטווח, והשבוע מוצלח. לא צריך שבוע מושלם.": {
+  "en": "{0} more days in range and the week is a good one. No perfect week needed.",
+  "ar": "{0} أيام أخرى ضمن النطاق والأسبوع ناجح. لا حاجة لأسبوع مثالي."
+ },
+ "השבוע הזה פחות, וזה בסדר. מה שקובע הוא רוב השבועות.": {
+  "en": "This week is a weaker one, and that's okay. What counts is most weeks.",
+  "ar": "هذا الأسبوع أقل، ولا بأس. المهم هو أغلب الأسابيع."
+ },
+ "השבוע שלך": {
+  "en": "Your week",
+  "ar": "أسبوعك"
+ },
+ "ימים בטווח": {
+  "en": "days in range",
+  "ar": "أيام ضمن النطاق"
+ },
+ "שבועות טובים": {
+  "en": "Good weeks",
+  "ar": "أسابيع جيدة"
+ },
+ "{0} מתוך {1}": {
+  "en": "{0} of {1}",
+  "ar": "{0} من {1}"
+ },
+ "שבוע פחות טוב לא מאפס כלום. ראפי סופר את רוב השבועות, לא רצף מושלם.": {
+  "en": "A weaker week doesn't reset anything. Repi counts most weeks, not a perfect streak.",
+  "ar": "أسبوع أقل لا يُصفّر شيئًا. رابي يحسب أغلب الأسابيع، لا سلسلة مثالية."
+ },
+ "ההפסקה הסתיימה. חוזרים ליעד החיטוב": {
+  "en": "The break is over. Back to your cutting target",
+  "ar": "انتهت الاستراحة. نعود إلى هدف التنشيف"
+ },
+ "הפסקת דיאטה · עוד {0} ימים באכילת שימור": {
+  "en": "Diet break · {0} more days at maintenance",
+  "ar": "استراحة من الحمية · {0} أيام أخرى بأكل الثبات"
+ },
+ "ראפי מציע": {
+  "en": "Repi suggests",
+  "ar": "رابي يقترح"
+ },
+ "{0} שבועות של חיטוב. מגיעה לך הפסקה.": {
+  "en": "{0} weeks of cutting. You’ve earned a break.",
+  "ar": "{0} أسابيع من التنشيف. تستحق استراحة."
+ },
+ "שבועיים באכילת שימור: {0} קק״ל במקום {1}. זה לא ויתור, זה חלק מהתוכנית.": {
+  "en": "Two weeks at maintenance: {0} kcal instead of {1}. It's not giving up, it's part of the plan.",
+  "ar": "أسبوعان بأكل الثبات: {0} سعرة بدل {1}. هذا ليس تراجعًا، بل جزء من الخطة."
+ },
+ "עכשיו": {
+  "en": "Now",
+  "ar": "الآن"
+ },
+ "שבועיים הפסקה": {
+  "en": "Two-week break",
+  "ar": "استراحة أسبوعين"
+ },
+ "פחות רעב ועייפות, יותר כוח באימונים": {
+  "en": "Less hunger and fatigue, more strength in training",
+  "ar": "جوع وتعب أقل، وقوة أكبر في التمارين"
+ },
+ "המשקל יכול לעלות קצת בגלל מים. זה צפוי ויורד כשחוזרים": {
+  "en": "Weight may go up a little from water. It's expected and comes off when you return",
+  "ar": "قد يرتفع الوزن قليلًا بسبب الماء. هذا متوقع وينخفض عند العودة"
+ },
+ "אחרי שבועיים ראפי מחזיר אוטומטית ליעד החיטוב": {
+  "en": "After two weeks Repi switches you back to the cutting target",
+  "ar": "بعد أسبوعين يعيدك رابي تلقائيًا إلى هدف التنشيف"
+ },
+ "להתחיל הפסקה": {
+  "en": "Start the break",
+  "ar": "ابدأ الاستراحة"
+ },
+ "אחר כך": {
+  "en": "Later",
+  "ar": "لاحقًا"
+ },
+ "מחר ממשיכים רגיל, בלי לפצות": {
+  "en": "Tomorrow is a normal day, no making up for it",
+  "ar": "غدًا نكمل كالمعتاد، بلا تعويض"
+ },
+ "היום בטווח": {
+  "en": "In range today",
+  "ar": "ضمن النطاق اليوم"
+ },
+ "אפשר לסגור את היום": {
+  "en": "You can call it a day",
+  "ar": "يمكنك إنهاء اليوم"
+ },
+ "היום בדרך הנכונה": {
+  "en": "On track today",
+  "ar": "على المسار اليوم"
+ },
+ "יש מקום לארוחת ערב מלאה": {
+  "en": "Room for a full dinner",
+  "ar": "هناك مكان لعشاء كامل"
+ },
+ "יש מקום לעוד ארוחות מלאות": {
+  "en": "Room for more full meals",
+  "ar": "هناك مكان لوجبات كاملة أخرى"
+ },
+ "יש מקום לארוחה קטנה": {
+  "en": "Room for a small meal",
+  "ar": "هناك مكان لوجبة صغيرة"
+ },
+ "רוצה לנסות מצב רגוע?": {
+  "en": "Want to try calm mode?",
+  "ar": "هل تريد تجربة الوضع الهادئ؟"
+ },
+ "בלי מספרי קלוריות על המסך. רק חלבון, טבעת התקדמות ומגמה שבועית. ראפי ממשיך לחשב ולכוון ברקע.": {
+  "en": "No calorie numbers on screen. Just protein, a progress ring and the weekly trend. Repi keeps calculating and adjusting in the background.",
+  "ar": "بلا أرقام سعرات على الشاشة. فقط البروتين وحلقة التقدّم والاتجاه الأسبوعي. رابي يواصل الحساب والضبط في الخلفية."
+ },
+ "לנסות": {
+  "en": "Try it",
+  "ar": "جرّب"
+ },
+ "לא תודה": {
+  "en": "No thanks",
+  "ar": "لا شكرًا"
+ },
+ "מצב רגוע": {
+  "en": "Calm mode",
+  "ar": "الوضع الهادئ"
+ },
+ "בלי מספרי קלוריות. רק חלבון, טבעת התקדמות ומגמה שבועית.": {
+  "en": "No calorie numbers. Just protein, a progress ring and the weekly trend.",
+  "ar": "بلا أرقام سعرات. فقط البروتين وحلقة التقدّم والاتجاه الأسبوعي."
+ },
+ "מצב רגוע הופעל. אפשר לכבות ביעד היומי": {
+  "en": "Calm mode is on. You can turn it off in the daily target",
+  "ar": "تم تفعيل الوضع الهادئ. يمكن إيقافه من الهدف اليومي"
+ },
+ "בסדר, נשאר כמו שזה": {
+  "en": "Okay, keeping it as is",
+  "ar": "حسنًا، يبقى كما هو"
+ },
+ "גר׳ חלבון": {
+  "en": "g protein",
+  "ar": "غ بروتين"
+ },
+ "ממוצע": {
+  "en": "Average",
+  "ar": "المتوسط"
+ },
+ "חלבון": {
+  "en": "Protein",
+  "ar": "بروتين"
+ },
+ "גר׳": {
+  "en": "g",
+  "ar": "غ"
  }
 }
