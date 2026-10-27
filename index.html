@@ -1834,7 +1834,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.59';
+const APP_VERSION='13.3.61';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6069,10 +6069,21 @@ function gearSet(name,patch){ if(!name)return; const g=S.settings.gear||(S.setti
 function guessSub(name){
   const sg=gearOf(name)?.sub; if(sg)return sg;
   const saved=padModes()[name]; if(saved)return saved;
-  if(/משקולת|משקולות|פטיש|לאנג|גביע|קטלבל|חקלאי|ארנולד|בולגרי|בריכוז|קיקבק|שראג/.test(name))return 'db';
-  if(/מכונ|פולי|כבל|חבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|פייס|האק/.test(name))return 'stack';
-  return 'bar';
+  return eqGuess(name);
 }
+/* which picker to open first: the gear named in the exercise wins ("…במוט", "…במשקולות", "…בכבל"),
+   then the library's own exercise (its English id says Dumbbell / Cable / Barbell…), then typical names */
+function eqGuess(name){ const n=String(name||'');
+  if(/במוט|מוט |\bEZ\b|סמית/.test(n))return 'bar';
+  if(/משקולת|משקולות|קטלבל/.test(n))return 'db';
+  if(/מכונ|פולי|כבל|חבל|פק-דק/.test(n))return 'stack';
+  const id=(typeof EXDB!=='undefined'&&EXDB[n])||'';
+  if(id){ if(/Dumbbell|Kettlebell|_DB_|Hammer|Side_Lateral|Front_.*Raise|Arnold|Goblet|Farmer|Concentration|Kickback/i.test(id))return 'db';
+    if(/Cable|Machine|Lever|Pulldown|Leg_Press|Leg_Extension|Leg_Curl|Pec_Deck|Butterfly|Thigh_A|Face_Pull|Pull_Through|Pulley|Seated_Row|Calf_Press/i.test(id))return 'stack';
+    if(/Barbell|EZ|Smith|Deadlift|Good_Morning|Rack_Pull|Pendlay|Hack_Squat|Bent.?Over/i.test(id))return 'bar'; }
+  if(/הרחק|הרמות? (צד|קדמי)|הרמה (צידית|קדמית)|פרפר|פטיש|לאנג|גביע|חקלאי|ארנולד|בולגרי|בריכוז|קיקבק|כפיפת מרפקים|פשיטת מרפק/.test(n))return 'db';
+  if(/פשיטת ברכיים|כפיפת ברכיים|מוצלבים|פייס|לחיצת רגליים|פולי|מקרבים|מרחיקים/.test(n))return 'stack';
+  return 'bar'; }
 const DB_RACK_KG=[1,2,3,4,5,6,7,8,9,10,11,12,12.5,14,15,16,17.5,18,20,22,22.5,24,25,26,27.5,28,30,32.5,35,37.5,40,42.5,45,47.5,50];
 const DB_RACK_LB=[2,3,5,8,10,12,15,17.5,20,22.5,25,27.5,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,120];
 const dbRack=()=>uL()==='lb'?DB_RACK_LB:DB_RACK_KG;
