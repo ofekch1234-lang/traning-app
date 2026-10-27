@@ -31,10 +31,10 @@
     var tc=q('meta[name="theme-color"]'); if(tc)tc.setAttribute('content','#0A0B0A');
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
-    var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=b3d0007d"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=b3d0007d"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=b3d0007d"><\/script>');
+    document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4659c564"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4659c564"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4659c564"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1718,7 +1718,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .pw-prem .pr i{font-style:normal;flex-shrink:0;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:700}
 .pw-prem .pr b{display:block;font-size:15px}.pw-prem .pr span{font-size:13px;color:var(--muted)}
 .dots{display:flex;justify-content:space-between;margin-top:10px;padding:0 2px;direction:var(--dir)}
-.day.miss i{background:transparent;border:2px dashed var(--line)}
+.day.miss i{background:transparent;border:2px dashed var(--line)}.day.mvd i,.wk-row .mvd i{background:transparent;border:2px dotted var(--line);opacity:.55}
 .day{text-align:center;font-size:11.5px;color:var(--muted)}
 .day i{display:block;width:13px;height:13px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--line);margin:5px auto 0}
 .day.on i{background:var(--accent);border-color:var(--accent)}
@@ -2014,7 +2014,7 @@ async function natPermAsk(){ try{ NAT.perm=natPermMap(await capP('LocalNotificat
    The rest timer follows the "צליל" / "רטט" switches in settings; every other notification always rings. */
 const NAT_SND={rest:'nr_bell.wav',train:'nr_watch.wav',daily:'nr_marimba.wav',coach:'nr_pop.wav',success:'nr_success.wav'};
 const NAT_CH={rest:'nr_rest_v1',train:'nr_train_v1',daily:'nr_daily_v1',coach:'nr_coach_v1',success:'nr_success_v1',restVib:'nr_rest_vib_v1',restQuiet:'nr_rest_quiet_v1'};
-const NAT_GRP={remind:'train',nudge3:'train',nudge7:'train',meal:'daily',weigh:'daily',trial:'daily',coach:'coach',pr:'success'};
+const NAT_GRP={miss:'train',remind:'train',nudge3:'train',nudge7:'train',meal:'daily',weigh:'daily',trial:'daily',coach:'coach',pr:'success'};
 let _natChP=null;
 function natChannels(){
   if(NATIVE_OS!=='android')return Promise.resolve();
@@ -2057,8 +2057,14 @@ function natPlan(){
   const day=i=>{ const x=new Date(now); x.setHours(12,0,0,0); x.setDate(x.getDate()+i); return x; };
   const add=(when,title,body,kind)=>{ if(+when>Date.now()+60e3&&out.length<60)out.push({at:+when,title:tt(title),body:tt(body),kind}); };
   // 1. workout reminder on scheduled days, 8:00 (opt-in like on the web)
-  if(n.remind===true)for(let i=0;i<21;i++){ const d=day(i), t=schedOf(d.getDay()); if(!t)continue; if(i===0&&trainedOn(d))continue;
+  if(n.remind===true)for(let i=0;i<21;i++){ const d=day(i), t=schedOn(d); if(!t)continue; if(i===0&&trainedOn(d))continue;
     add(at(d,8),`היום: ${t.name} 💪`,Gx('האימון מחכה לך. בוא נשבור עוד שיא.','האימון מחכה לך. בואי נשבור עוד שיא.'),'remind'); }
+  // 1b. a scheduled workout still not done at 19:00: train today or move it (part of the smart reminders, on by default).
+  //     A workout that was already moved in is not offered again.
+  if(n.nudge!==false)for(let i=0;i<14;i++){ const d=day(i), t=schedOn(d); if(!t||mvInto(d))continue; if(i===0&&(trainedOn(d)||S.active))continue;
+    const nx=new Date(d); nx.setDate(nx.getDate()+1); const len=out.length;
+    add(at(d,19),`${t.name} עוד מחכה להיום`,schedOn(nx)?'עוד אפשר להספיק היום, או להזיז ליום פנוי בלי לאבד כלום.':'עוד אפשר להספיק היום, או להזיז למחר בלי לאבד כלום.','miss');
+    if(out.length>len)out[out.length-1].act=schedOn(nx)?'NR_MISS2':'NR_MISS'; }
   // 2. weigh-in, 7:30, every morning without a weigh-in yet
   if(n.weigh!==false){ const today=ymd(); const wToday=(S.weights||[]).some(w=>w.d===today);
     for(let i=0;i<14;i++){ if(i===0&&wToday)continue; add(at(day(i),7,30),'בוקר טוב ☀️',Gx('עלה על המשקל לפני האוכל, לוקח 5 שניות.','עלי על המשקל לפני האוכל, לוקח 5 שניות.'),'weigh'); } }
@@ -2110,20 +2116,32 @@ async function natPushOff(){ if(!NAT_PUSH.tok)return; try{ await sb.from('native
 async function natSchedule(){
   natPushReg();
   if(!IS_NATIVE)return; const LN=capP('LocalNotifications'); if(!LN)return;
-  const plan=natPlan(), sig=JSON.stringify(plan.map(x=>[x.at,x.kind,x.title]))+LANG;
+  const plan=natPlan(), sig=JSON.stringify(plan.map(x=>[x.at,x.kind,x.title,x.act||'']))+LANG;
   if(sig===_natSchedSig)return; _natSchedSig=sig;
   try{
     const pend=await LN.getPending().catch(()=>({notifications:[]}));
     const old=(pend?.notifications||[]).filter(x=>x.id>=1000&&x.id<2000).map(x=>({id:x.id}));
     if(old.length)await LN.cancel({notifications:old});
     await natChannels();
-    if(plan.length)await LN.schedule({notifications:plan.map((x,i)=>({id:1000+i,title:x.title,body:x.body,schedule:{at:new Date(x.at),allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(NAT_GRP[x.kind]),extra:{kind:x.kind}}))});
+    // the two buttons under the 19:00 reminder (long-press on iPhone, expand on Android); titles follow the app language
+    if(natSchedule._at!==LANG+S.settings.g&&LN.registerActionTypes){ natSchedule._at=LANG+S.settings.g;
+      const today={id:'today',title:tt('מתאמן היום'),foreground:true};
+      await LN.registerActionTypes({types:[{id:'NR_MISS',actions:[today,{id:'move',title:tt('הזז למחר'),foreground:true}]},
+        {id:'NR_MISS2',actions:[today,{id:'move',title:tt('הזז ליום פנוי'),foreground:true}]}]}).catch(()=>{}); }
+    if(plan.length)await LN.schedule({notifications:plan.map((x,i)=>({id:1000+i,title:x.title,body:x.body,schedule:{at:new Date(x.at),allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert(NAT_GRP[x.kind]),...(x.act?{actionTypeId:x.act}:{}),extra:{kind:x.kind}}))});
   }catch(e){ console.warn('natSchedule',e); _natSchedSig=''; }
 }
 // a notification that arrives while the app is open: the system banner rings, and we add a haptic tap
 if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationReceived',n=>{ try{
   if(n&&n.id===NAT.rest)return; capP('Haptics')?.notification?.({type:'SUCCESS'})?.catch?.(()=>{}); }catch(_){} });
-if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationActionPerformed',({notification})=>{
+/* the 19:00 reminder: "move" moves the workout right away, "today" opens the train tab, a plain tap asks with the sheet.
+   On a cold start the account loads first, so the action waits for it. */
+function natMvRun(a,tries){ if(!S.user||S.mode!=='app'){ if((tries||0)<30)setTimeout(()=>natMvRun(a,(tries||0)+1),500); return; }
+  if(a==='move'){ const r=mvDo(); if(r){ toast(`${r.t.name} ${tt('הוזז')} ${mvLabel(r.to)}`); logEv('mv_move',{src:'notif'}); render(); return; } }
+  if(a==='tap'&&mvCan()){ mvSheet(); return; }
+  S.tab='train'; render(); window.scrollTo(0,0); }
+if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationActionPerformed',({actionId,notification})=>{
+  if(notification?.extra?.kind==='miss'){ natMvRun(actionId==='move'?'move':actionId==='today'?'today':'tap'); logEv('notif_open',{k:'miss',a:actionId||'tap'}); return; }
   const k=notification?.extra?.kind, to={remind:'train',nudge3:'train',nudge7:'train',weigh:'track',meal:'food'}[k];
   if(k==='trial'&&S.user&&S.mode==='app'){ setTimeout(()=>{ try{ handleAct({dataset:{act:'plans-open',why:'notif'}}); }catch(_){} },300); }
   if(to&&S.user&&S.mode==='app'){ S.tab=to; if(to==='food')S.foodDate=ymd(); render(); window.scrollTo(0,0); }
@@ -2152,7 +2170,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.48';
+const APP_VERSION='13.3.50';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2476,6 +2494,7 @@ Object.assign(INFO,INFO_MORE);
 const fmtRest=s=>s>=60?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} דק׳`:`${s} שנ׳`;
 
 /* ---------- state ---------- */
+const MV_OPEN=(location.hash||'')==='#mv'; if(MV_OPEN){ try{history.replaceState(null,'',location.pathname);}catch(_){} }
 const S={
   mode:'boot', user:null, authMode:'login', authEmail:'',
   workouts:[], templates:[], weights:[], meals:[],
@@ -2613,7 +2632,7 @@ function persistActive(){
   clearTimeout(_aT);_aT=setTimeout(flushActive,800);
 }
 /* newer account-level settings, saved and restored with the rest (health questionnaire, sensitive exercises, nutrition notes, training level) */
-const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb'];
+const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb','mv'];
 async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
@@ -3873,10 +3892,10 @@ function weekDots(){
     const dt=new Date(sun); dt.setDate(sun.getDate()+d);
     const on=trained.has(dt.toDateString());
     const isToday=dt.getTime()===today.getTime();
-    const hasSched=!!schedOf(d);
+    const hasSched=!!schedOn(dt), mvd=!on&&mvFrom(dt);
     const sched=!on&&hasSched&&dt>=today;
     const missed=!on&&hasSched&&dt<today;
-    out+=`<div class="day ${on?'on':''} ${sched?'sched':''} ${missed?'miss':''} ${isToday?'today':''} ${isToday&&on&&Date.now()-(S._justTrained||0)<6000?'pop':''}"><span>${DAY_LETTERS[d]}</span><b class="dt num">${dt.getDate()}</b><i></i></div>`;
+    out+=`<div class="day ${on?'on':''} ${sched?'sched':''} ${missed?'miss':''} ${mvd?'mvd':''} ${isToday?'today':''} ${isToday&&on&&Date.now()-(S._justTrained||0)<6000?'pop':''}"><span>${DAY_LETTERS[d]}</span><b class="dt num">${dt.getDate()}</b><i></i></div>`;
   }
   return out;
 }
@@ -3909,9 +3928,9 @@ function widgetSync(){ if((NATIVE_OS!=='ios'&&NATIVE_OS!=='android')||S.mode!=='
   }catch(_){} },1200); }
 document.addEventListener('visibilitychange',()=>{ if(document.hidden){ widgetSync._last=null; widgetSync(); } });
 function nextWorkoutInfo(){
-  const todayT=schedOf(new Date().getDay()), doneToday=trainedOn(new Date());
-  if(todayT&&!doneToday)return {t:todayT,label:'האימון של היום',sub:''};
-  for(let i=1;i<=7;i++){ const d=(new Date().getDay()+i)%7; const t=schedOf(d); if(t)return {t,label:'הבא בתור',sub:i===1?'מחר בלו״ז':`בלו״ז · יום ${DAY_NAMES[d]}`}; }
+  const now=new Date(), todayT=schedOn(now), doneToday=trainedOn(now), mi=mvInto(now);
+  if(todayT&&!doneToday)return {t:todayT,label:'האימון של היום',sub:mi?(mi.from===ymd(new Date(Date.now()-864e5))?'הוזז מאתמול':'הוזז מיום '+DAY_NAMES[new Date(mi.from+'T12:00:00').getDay()]):''};
+  for(let i=1;i<=7;i++){ const dt=new Date(now); dt.setHours(12,0,0,0); dt.setDate(dt.getDate()+i); const d=dt.getDay(), t=schedOn(dt); if(t)return {t,label:'הבא בתור',sub:i===1?'מחר בלו״ז':`בלו״ז · יום ${DAY_NAMES[d]}`}; }
   const t=nextTpl(); return t?{t,label:'הבא בתור',sub:''}:null;
 }
 const ICON={star:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>',cal:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',trash:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12.5h8L17 7M10.5 11v5M13.5 11v5"/></svg>',play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>',
@@ -3962,8 +3981,8 @@ function weekRowHTML(){
   let out='';
   for(let d=0;d<7;d++){
     const dt=new Date(sun); dt.setDate(sun.getDate()+d);
-    const on=trained.has(dt.toDateString()), isToday=dt.getTime()===today.getTime(), hasSched=!!schedOf(d);
-    const cls=[on?'on':'', !on&&hasSched&&dt>=today?'sched':'', !on&&hasSched&&dt<today?'miss':'', !on&&!hasSched&&dt>today?'fut':'', isToday?'today':''].filter(Boolean).join(' ');
+    const on=trained.has(dt.toDateString()), isToday=dt.getTime()===today.getTime(), hasSched=!!schedOn(dt);
+    const cls=[on?'on':'', !on&&hasSched&&dt>=today?'sched':'', !on&&hasSched&&dt<today?'miss':'', !on&&mvFrom(dt)?'mvd':'', !on&&!hasSched&&dt>today?'fut':'', isToday?'today':''].filter(Boolean).join(' ');
     out+=`<div class="${cls}"><span>${DAY_LETTERS[d]}</span><i></i></div>`;
   }
   return `<div class="wk-row">${out}</div>`;
@@ -5897,7 +5916,7 @@ function cycInfo(){ const kT=+S.settings.kcalT||0; if(!kT)return null;
   if(kT-down<floor){ const k=Math.max(0,kT-floor)/(down||1); down=Math.round(down*k/10)*10; up=Math.round(up*k/10)*10; }
   return {n,src,ok:up>0&&down>0,up,down,train:kT+up,rest:kT-down}; }
 function cycOn(){ return isPrem()&&!!ncCfg().cyc&&!!cycInfo()?.ok; }
-function isTrainDay(ds){ const dt=new Date(ds+'T12:00:00'); if(trainedOn(dt))return true; if(ds<ymd())return false; return !!schedOf(dt.getDay()); }
+function isTrainDay(ds){ const dt=new Date(ds+'T12:00:00'); if(trainedOn(dt))return true; if(ds<ymd())return false; return !!schedOn(dt); }
 function kcalFor(ds){ const kT=+S.settings.kcalT||0; if(!kT||!cycOn())return kT; const c=cycInfo(); return isTrainDay(ds||ymd())?c.train:c.rest; }
 function cycTag(ds){ if(!cycOn())return ''; const t=isTrainDay(ds); return `<button class="daytag ${t?'tr':''}" data-act="cyc-open">${t?'יום אימון':'יום מנוחה'}</button>`; }
 function openCycSheet(){ const c=cycInfo(), on=!!ncCfg().cyc, kT=+S.settings.kcalT||0;
@@ -6030,6 +6049,28 @@ function vCardio(e,ei,cur){
 const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 const DAY_LETTERS=LANG==='he'?['א','ב','ג','ד','ה','ו','ש']:[0,1,2,3,4,5,6].map(i=>new Date(2024,0,7+i).toLocaleDateString(LOC,{weekday:LANG==='ar'?'short':'narrow'}));
 function schedOf(d){ const id=(S.settings.schedule||{})[String(d)]; return id?S.templates.find(t=>t.id===id):null; }
+/* one-time moves of a scheduled workout ("move to tomorrow" from the 19:00 reminder): S.settings.mv=[{from,to,tid}].
+   The weekly schedule itself never changes; a workout can be moved once, to the nearest free day. */
+function mvList(){ return Array.isArray(S.settings.mv)?S.settings.mv:[]; }
+function schedOn(dt){ const ds=ymd(dt), L=mvList();
+  if(L.some(m=>m.from===ds))return null;
+  const m=L.find(m=>m.to===ds); if(m){ const t=S.templates.find(x=>x.id===m.tid); if(t)return t; }
+  return schedOf(dt.getDay()); }
+function mvInto(dt){ return mvList().find(m=>m.to===ymd(dt))||null; }
+function mvFrom(dt){ return mvList().some(m=>m.from===ymd(dt)); }
+function mvTarget(){ for(let i=1;i<=6;i++){ const d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()+i); if(!schedOn(d))return d; } return null; }
+function mvCan(){ const now=new Date(); return !!schedOn(now)&&!trainedOn(now)&&!S.active&&!mvInto(now)&&!!mvTarget(); }
+function mvLabel(d){ const i=Math.round((new Date(ymd(d)+'T12:00:00')-new Date(ymd()+'T12:00:00'))/864e5); return i===1?tt('למחר'):tt('ליום {0}').replace('{0}',tt(DAY_NAMES[d.getDay()])); }
+function mvDo(){ const now=new Date(), t=schedOn(now), to=mvTarget(); if(!t||!to||!mvCan())return null;
+  const keep=ymd(new Date(Date.now()-14*864e5));
+  S.settings.mv=[...mvList().filter(m=>m.to>=keep),{from:ymd(now),to:ymd(to),tid:t.id}]; persistSettings(); return {t,to}; }
+function mvSheet(){ if(!S.user||S.mode!=='app'||!mvCan())return; const t=schedOn(new Date()), to=mvTarget();
+  openSheet(`<div class="brkq"><div class="brkq-k">${tt('ראפי')}</div><h3>${esc(t.name)}</h3>
+    <p class="small muted">${tt('עוד מחכה להיום. אפשר להספיק היום, או להזיז בלי לאבד כלום.')}</p>
+    <div class="card list" style="margin-top:8px">
+      <button class="li" data-act="mv-today"><span class="lt"><b>${tt('מתאמן היום')}</b><small>${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳</small></span></button>
+      <button class="li" data-act="mv-go"><span class="lt"><b>${tt('הזז')} ${mvLabel(to)}</b><small>${tt('הלו״ז הקבוע לא משתנה')}</small></span></button>
+    </div></div>`); }
 function trainedOn(date){ const k=date.toDateString(); return S.workouts.some(w=>new Date(w.start).toDateString()===k); }
 function vPlans(){
   const list=[...S.templates].sort((a,b)=>(a.order||0)-(b.order||0));
@@ -6267,7 +6308,7 @@ function todayRowHTML(){
     :(logged?`<b class="num">${kcalN(t.kcal)}</b><span>קק״ל היום</span>`:`<b>יעד יומי</b><span>לחץ להגדרה</span>`);
   const ws=S.weights||[], lw=ws[ws.length-1], wToday=lw&&lw.d===d, bwD=bwChange(7);
   const weight=lw?`<b class="num">${wB(lw.kg)}<small> ${BU()}</small></b><span>${wToday?'נשקלת היום ✓':bwD!=null?`${bwD>0?'▲':bwD<0?'▼':'·'} ${Math.abs(bwD)} השבוע`:'+ שקילה'}</span>`:`<b>+ שקילה</b><span>ראשונה</span>`;
-  const tr=trainedOn(new Date()), sch=schedOf(new Date().getDay());
+  const tr=trainedOn(new Date()), sch=schedOn(new Date());
   const work=S.active?`<b>פעיל ⏱️</b><span>חזור לאימון</span>`:tr?`<b>התאמנת ✓</b><span>כל הכבוד</span>`:sch?`<b>${esc(sch.name.split(' · ')[0].slice(0,10))}</b><span>היום בלו״ז</span>`:`<b>מנוחה</b><span>או אימון חופשי</span>`;
   return `<div class="todayrow">
     <button class="tr-tile" data-act="${kT||logged?'go':'food-targets-open'}" data-to="food">${ring}<div>${food}</div></button>
@@ -7368,7 +7409,7 @@ function openNotifSheet(){
       ${sw('pr','שיא חדש','חגיגה כששברת שיא אישי')}
       ${sw('social','קבוצות','הודעות, אימונים ואתגרים של החברים')}
       ${sw('coach','סיכום שבועי מראפי','בכל יום ראשון בבוקר')}
-      ${sw('nudge','תזכורות חכמות','כשלא התאמנת כמה ימים, או כשהרצף בסכנה')}
+      ${sw('nudge','תזכורות חכמות','כשאימון מהלו״ז עוד לא בוצע, כשלא התאמנת כמה ימים, או כשהרצף בסכנה')}
       ${sw('sound','צליל','צפצוף בסיום מנוחה')}
       ${sw('vib','רטט','משוב בלחיצות ובטיימר')}
     </div>
@@ -9677,6 +9718,8 @@ function handleAct(b,ev){
     case 'wu-tog': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e?.wu)break; e.wuOpen=!e.wuOpen; persistActive(); render(); break; }
     case 'wu-done': { const e=S.active?.ex?.[+b.dataset.ei], x=e?.wu?.[+b.dataset.wi]; if(!x)break; x.done=!x.done; vibrate(8); if(e.wu.every(y=>y.done))e.wuOpen=false; persistActive(); render(); break; }
     case 'coach-wu': { const c=coachCfg(); c.wu=c.wu===false; persistSettings(); openCoachSettings(); break; }
+    case 'mv-today': closeSheet(); S.tab='train'; location.hash='train'; render(); window.scrollTo(0,0); break;
+    case 'mv-go': { const r=mvDo(); closeSheet(); if(r){ toast(`${r.t.name} ${tt('הוזז')} ${mvLabel(r.to)}`); logEv('mv_move',{}); } render(); break; }
     case 'co-brkq': { const g=window.__brkGo, lw=lastWorkout(); if(!g)break; const c=coachCfg(); c.backAns={for:lw?.start||0,v:b.dataset.v}; persistSettings(); closeSheet(); window.__brkGo=null; startWorkout(g.name,g.tid,true); break; }
     case 'co-ovr': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e?.co?.ovr)break; const o=e.co.ovr;
       e.sets.forEach(x=>{ if(!x.done){ x.pw=o.w; x.pr=o.r; x.sug=1; } }); e.co={k:'up',why:`לפי הבחירה שלך: עולים ל-${wL(o.w)} ומתחילים מ-${o.r} חזרות. אם הסט הראשון כבד מדי, אפשר לחזור למשקל הקודם.`};
@@ -10200,9 +10243,12 @@ async function enterApp(user){
   setTimeout(()=>{ if(onbApplyPending())return; if(iconAskPending())return; if(!checkInstallGate()){ if(!S.settings.g)openGenderSheet(true); else onboardNext(); } },700);
   socialProfileFix();
   if(PAID_RETURN&&!enterApp._paid){ enterApp._paid=true; toast('תודה! התשלום התקבל 🎉'); }
+  if(MV_OPEN&&!enterApp._mv){ enterApp._mv=true; setTimeout(mvSheet,1200); }
   if(S.active){startClock();keepAwake(true);}
 }
 { const _r=render; render=function(){ const out=_r.apply(this,arguments); try{ widgetSync(); }catch(_){} return out; }; }
+// a tap on the 19:00 "workout still waiting" web notification while the app is already open
+try{ navigator.serviceWorker?.addEventListener('message',e=>{ if(e.data&&e.data.nr==='mv')mvSheet(); }); }catch(_){}
 function hideSplash(){
   const sp=$('#splash'); if(!sp)return;
   const rm=matchMedia('(prefers-reduced-motion: reduce)').matches, wait=rm?300:Math.max(300,1750-(Date.now()-(window.NR_SPLASH_T0||0)));

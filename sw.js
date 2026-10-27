@@ -1,5 +1,5 @@
 /* יומן הברזל — service worker: עבודה אופליין */
-const CACHE = 'nextrep-v248';
+const CACHE = 'nextrep-v250';
 const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png', '/manifest-f.json', '/icon-f-180.png', '/icon-f-192.png', '/icon-f-512.png', '/badge-96.png', '/menu-foods.js?v=16'];
 
 self.addEventListener('install', e => {
@@ -52,13 +52,14 @@ self.addEventListener('push', e => {
     vibrate: [200, 100, 200],
     // תג ייחודי לכל התראה: באייפון התראה שמחליפה תג קיים נכנסת בשקט (בלי באנר/צליל)
     tag: (d.kind || 'nr') + '-' + Date.now(),
-    data: { url: '/', kind: d.kind || '' }
+    data: { url: d.kind === 'miss' ? '/#mv' : '/', kind: d.kind || '' }
   }));
 });
 self.addEventListener('notificationclick', e => {
   e.notification.close();
+  const nd = e.notification.data || {};
   e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
-    for (const c of list) { if ('focus' in c) return c.focus(); }
-    return clients.openWindow('/');
+    for (const c of list) { if ('focus' in c) { if (nd.kind === 'miss') c.postMessage({ nr: 'mv' }); return c.focus(); } }
+    return clients.openWindow(nd.url || '/');
   }));
 });
