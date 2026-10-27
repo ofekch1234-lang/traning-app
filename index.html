@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f536120e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f536120e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f536120e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ee66501e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ee66501e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ee66501e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1491,6 +1491,8 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .brkq h3{margin:4px 0 2px}.brkq-k{font-size:12px;font-weight:800;color:var(--accent);letter-spacing:.04em}
 .rtip .co-ovr{align-self:flex-start;margin-top:8px;font-size:13px;padding:6px 12px;background:var(--surface2);color:var(--ink)}
 .setgrid input[data-sug]:placeholder-shown::placeholder{color:var(--accent);opacity:.95;font-weight:700}
+.setgrid [data-cell]{position:relative}.setgrid .sugd{position:absolute;top:4px;inset-inline-start:7px;font-style:normal;font-size:10.5px;font-weight:800;color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:99px;padding:0 5px;line-height:15px;pointer-events:none;z-index:1}
+.rtip .co-tgt{font-weight:700;color:var(--ink)}.rtip .co-tgt .num{color:inherit;font-weight:800}
 .rirq{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:8px;padding:8px 10px;border-radius:12px;background:var(--surface2);font-size:13.5px}
 .rirq .chip{min-width:40px;justify-content:center}
 .rtip{margin-top:8px;padding:9px 12px;border-radius:12px;background:var(--accent-soft);display:flex;flex-direction:column;gap:1px;font-size:13.5px}
@@ -2265,7 +2267,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.64';
+const APP_VERSION='13.3.66';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5909,7 +5911,7 @@ function coachRec(e,ctx){
   const tr=perSet(0);
   return {k:stuck?'stuck':'reps',w:topW,r:tr,sets:n,ps:perSet,why:stuck
     ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-${tr} חזרות. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.`
-    :`נשארים על ${wL(topW)} ומנסים חזרה אחת יותר מהפעם הקודמת. ב-${rr.hi} חזרות בכל הסטים, עולים במשקל.`};
+    :`חזרה אחת יותר מהפעם הקודמת (${low}), באותו משקל. כשתגיע ל-${top} בכל הסטים, עולים במשקל.`};
 }
 const RIR_WK={1:'עוצרים 3 חזרות לפני שאין כוח',2:'עוצרים 2–3 חזרות לפני שאין כוח',3:'עוצרים 2 חזרות לפני שאין כוח',4:'עוצרים 1–2 חזרות לפני שאין כוח',5:'עוצרים חזרה אחת לפני שאין כוח'};
 function coachWeekLine(bi){ if(bi.ended)return 'הבלוק הסתיים. בוא נראה מה התחזק ומה משתנה.';
@@ -6139,8 +6141,12 @@ function ncDone(apply){
   (c.h||(c.h=[])).push({t:Date.now(),k:S.settings.kcalT,tdee:r.tdee||null}); if(c.h.length>26)c.h.shift();
   persistSettings(); render(); if(apply)toast('היעד עודכן'); }
 
+/* "+1" / "+2.5" on a number Rafi already filled in, when it is above what was done last time in that set */
+function sugDelta(s,last,si,k){ if(!last||s.done||!s.sug)return ''; const l=last[Math.min(si,last.length-1)]; if(!l)return '';
+  const now=k==='w'?+s.pw||0:+s.pr||0, was=k==='w'?+l.w||0:+l.r||0; if(!now||!was||now<=was)return '';
+  const d=Math.round((now-was)*100)/100; return `<i class="sugd" dir="ltr">+${k==='w'?wL(d):d}</i>`; }
 function vStrength(e,ei,cur){
-  const prev=lastPerf(e.n);
+  const prev=lastPerf(e.n), lastS=e.sets.some(x=>x.done)?null:lastSetsOf(e.n);
   const rr=repRange(e.reps);
   const target=e.reps?`${e.sets.length===1?tt('סט אחד'):`${e.sets.length} ${tt('סטים')}`} · <bdi dir="ltr">${esc(String(e.reps).replace(/\s*[-–—]\s*/,'–'))}</bdi> ${tt('חזרות')}`:''; // "3 סטים · 6–8 חזרות" instead of "יעד 3×6–8"
   const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
@@ -6151,7 +6157,7 @@ function vStrength(e,ei,cur){
         <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
         <div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}
-        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':co.k==='hold'?'עוד אימון אחד במשקל הזה':co.k==='sens'?'אזור רגיש':co.k==='reset'?'צעד אחורה כדי לקפוץ':'ראפי · המאמן החכם שלך'}${infoI('sug')}</b><span>${esc(co.why)}</span>${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}
+        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':co.k==='hold'?'עוד אימון אחד במשקל הזה':co.k==='sens'?'אזור רגיש':co.k==='reset'?'צעד אחורה כדי לקפוץ':'ראפי · המאמן החכם שלך'}${infoI('sug')}</b>${co.r&&co.k!=='new'?`<span class="co-tgt">${tt('היום')}: ${co.w?`<span class="num">${wL(co.w)}</span> ${LU()}, `:''}<span class="num">${co.r}</span> ${tt('חזרות')}. ${tt('כבר מילאתי בטבלה')}.</span>`:''}<span>${esc(co.why)}</span>${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}
         ${(()=>{ const c=e.sets.some(x=>x.done)?null:cueOf(e,co); return c?`<div class="rtip cue"><b>דגש טכניקה</b><span data-notr>${esc(c)}</span></div>`:''; })()}
         ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wL(tip.w)}</b> ${LU()}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wL(tip.w)}</span> ${LU()}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
@@ -6166,8 +6172,8 @@ function vStrength(e,ei,cur){
       <span class="h">סט</span><span class="h">${LU()}</span><span class="h">חזרות${rr?` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===rr.hi?rr.lo:rr.lo+'–'+rr.hi}</bdi>`:''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num">${si+1}</span>
-        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${wL(s.w??'')}" placeholder="${wL(s.pw??'')}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
-        <span class="${s.done?'set-done '+repCls(e,s):''}" data-cell="${ei}-${si}" data-rcell="1"><input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" ${s.sug?'data-sug="1"':''} data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
+        <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}">${sugDelta(s,lastS,si,'w')}<input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${wL(s.w??'')}" placeholder="${wL(s.pw??'')}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
+        <span class="${s.done?'set-done '+repCls(e,s):''}" data-cell="${ei}-${si}" data-rcell="1">${sugDelta(s,lastS,si,'r')}<input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" ${s.sug?'data-sug="1"':''} data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><button class="done-btn" data-act="set-done" data-ei="${ei}" data-si="${si}" aria-label="סיום סט"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
       `).join('')}
     </div>
@@ -9797,7 +9803,7 @@ function startWorkout(name,tid,asked){
     const nSets=rc?rc.sets:Math.max(1,+e.s||3);
     const sets=Array.from({length:nSets},(_,i)=>rc?{w:'',r:'',pw:rc.w??prev[i]?.w??'',pr:rc.ps?rc.ps(i):rc.r,done:false,sug:1}
       :{w:'',r:'',pw:prev[i]?.w??prev[prev.length-1]?.w??'',pr:prev[i]?.r??prev[prev.length-1]?.r??'',done:false});
-    return {n:e.n,m:e.m,t:'s',reps:e.reps||'',rest:+e.rest||0,how:e.how||'',sets,...(rc?{co:{k:rc.k,why:rc.why,...(rc.ovr?{ovr:rc.ovr}:{})}}:{}),...(co?.deload?{dl:1}:{})};
+    return {n:e.n,m:e.m,t:'s',reps:e.reps||'',rest:+e.rest||0,how:e.how||'',sets,...(rc?{co:{k:rc.k,why:rc.why,...(rc.r?{w:rc.w||0,r:rc.r}:{}),...(rc.ovr?{ovr:rc.ovr}:{})}}:{}),...(co?.deload?{dl:1}:{})};
   });
   if(co&&coachCfg().wu!==false){ const fi=ex.findIndex(e=>e.t==='s'&&heavyLift(e.n)); if(fi>=0){ const e=ex[fi], w=+e.sets[0]?.pw||0, wu=wuFor(e.n,w); if(wu){ e.wu=wu; e.wuOpen=true; } } }
   S.active={start:Date.now(),name,tid:tid||null,ex,...(co?.deload?{dl:1}:{})};
