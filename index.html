@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c559baff"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c559baff"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c559baff"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=272ded38"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=272ded38"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=272ded38"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -760,6 +760,7 @@ body:not(.landing)>#lx-sticky{display:none}
 .pb-list{display:flex;flex-direction:column;gap:8px}.pb-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pb-opt{display:flex;flex-direction:column;gap:2px;text-align:var(--start);padding:13px 14px;border-radius:14px;background:var(--surface2);border:2px solid transparent;color:var(--ink)}
 .pb-opt b{font-size:16px}.pb-opt small{color:var(--muted);font-size:13px}
+.pb-opt .pb-rate{margin-top:4px;font-size:13px;font-weight:700;color:var(--accent)}
 .pb-opt.on{border-color:var(--accent);background:var(--accent-soft)}
 .lockbar{display:flex;align-items:center;gap:12px;margin-bottom:12px;border:1.5px solid var(--accent)}.lockbar>span:first-child{font-size:24px}.lockbar b{display:block}.lockbar small{color:var(--muted);font-size:12.5px;line-height:1.4;display:block}.lockbar{flex-wrap:wrap}.lockbar .btn{flex:1 0 100%;padding:11px 14px}
 body.locked #hdr-groups,body.locked #hdr-me{display:none!important}
@@ -2109,7 +2110,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.38';
+const APP_VERSION='13.3.39';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4104,6 +4105,13 @@ function macroSplit(kcal,prot,leanW){ const fat=Math.round(Math.max(leanW?0.8*le
 /* daily carb/fat targets, derived from the saved calorie + protein targets (so a manual protein change keeps them consistent) */
 function macroT(ds){ const kT=+S.settings.kcalT||0; if(!kT)return {c:0,f:0}; const pT=+S.settings.protT||Math.round(kT*0.25/4), b=S.settings.body||{};
   const m=macroSplit(kT,pT,b.w&&b.h?tgLean(+b.w,+b.h):0), dk=ds?kcalFor(ds)-kT:0; return {c:Math.max(0,Math.round(m.carbs+dk/4)),f:m.fat}; }
+/* expected weight change per week for a pace: from the user's own numbers when we have them, otherwise a typical range */
+function tgPaceRate(t,pace){
+  const r=tgCalc(Object.assign({},t,{pace}));
+  if(r&&r.wk){ const v=Math.abs(wB(r.wk)); return `~${v} ${BU()} ${tt('בשבוע')}`; }
+  const R={cut:{slow:[0.25,0.5],norm:[0.5,0.75],fast:[0.75,1]},bulk:{slow:[0.1,0.25],norm:[0.25,0.4],fast:[0.4,0.6]}}[t.goal]?.[pace];
+  return R?`${wB(R[0])}–${wB(R[1])} ${BU()} ${tt('בשבוע')}`:'';
+}
 function tgWkText(wk,pace){ const x=wk<0?`בקצב הזה: ירידה של ~${Math.abs(wB(wk))} ${BU()} בשבוע.`:wk>0?`בקצב הזה: עלייה של ~${wB(wk)} ${BU()} בשבוע.`:'שמירה על המשקל, עם התקדמות בכוח.';
   return x+(pace==='fast'&&wk?` <span class="tgw-warn">קצב מהיר: קשה יותר להתמיד ולשמור על השריר.</span>`:''); }
 /* result screen: editing calories/protein recomputes the rest live */
@@ -5049,7 +5057,7 @@ function tgRender(){
       <button class="btn primary big" data-act="tg-next" style="margin-top:14px;width:100%">המשך</button>${key==='gw'?`<button class="linkbtn" data-act="tg-nogoal" style="display:block;margin:10px auto 0;color:var(--muted)">בלי משקל יעד</button>`:''}`; }
   else if(key==='act')body=kobi(G('כמה אתה זז ביום-יום?','כמה את זזה ביום-יום?','כמה את/ה זז/ה ביום-יום?'),'כולל אימונים, עבודה והליכה.')+`<div class="pb-list">${TG_ACT.map(([v,a,d],i)=>`<button class="pb-opt ${t.act===v?'on':''}" data-act="tg-pick" data-k="act" data-v="${v}"><b>${['🛋️','🚶','🏃','🔥','🏆'][i]} ${a}</b><small>${d}</small></button>`).join('')}</div>`;
   else if(key==='goal')body=kobi('ומה המטרה?','')+`<div class="pb-list">${[['cut','🔥','ירידה במשקל','לרדת בשומן ולשמור על השריר'],['keep','⚖️','שמירה','להישאר במשקל ולהשתפר בכוח'],['bulk','💪','עלייה במסה','לבנות שריר, עם מעט שומן']].map(([v,e,l,d])=>`<button class="pb-opt ${t.goal===v?'on':''}" data-act="tg-pick" data-k="goal" data-v="${v}"><b>${e} ${l}</b><small>${d}</small></button>`).join('')}</div>
-    ${t.goal==='cut'||t.goal==='bulk'?`<div class="label" style="margin-top:12px">באיזה קצב?</div><div class="pb-grid">${[['slow','🐢',t.goal==='cut'?'רגוע':'עלייה נקייה',t.goal==='cut'?'קל יותר להתמיד':'פחות שומן'],['norm','⚡',t.goal==='cut'?'רגיל':'מהיר יותר',t.goal==='cut'?'תוצאות מהר יותר':'יותר כוח מהר'],['fast','🚀',t.goal==='cut'?'מהיר':'מהיר מאוד',t.goal==='cut'?'לא מומלץ: קשה להתמיד ומאבדים שריר':'לא מומלץ: הרבה יותר שומן']].map(([v,e,l,d])=>`<button class="pb-opt ${v==='fast'?'pb-fast':''} ${t.pace===v?'on':''}" data-act="tg-pace" data-v="${v}"><b>${e} ${l}</b><small>${d}</small></button>`).join('')}</div>
+    ${t.goal==='cut'||t.goal==='bulk'?`<div class="label" style="margin-top:12px">באיזה קצב?</div><div class="pb-grid">${[['slow','🐢',t.goal==='cut'?'רגוע':'עלייה נקייה',t.goal==='cut'?'קל יותר להתמיד':'פחות שומן'],['norm','⚡',t.goal==='cut'?'רגיל':'מהיר יותר',t.goal==='cut'?'תוצאות מהר יותר':'יותר כוח מהר'],['fast','🚀',t.goal==='cut'?'מהיר':'מהיר מאוד',t.goal==='cut'?'לא מומלץ: קשה להתמיד ומאבדים שריר':'לא מומלץ: הרבה יותר שומן']].map(([v,e,l,d])=>`<button class="pb-opt ${v==='fast'?'pb-fast':''} ${t.pace===v?'on':''}" data-act="tg-pace" data-v="${v}"><b>${e} ${l}</b><small>${d}</small><span class="pb-rate">${tgPaceRate(t,v)}</span></button>`).join('')}</div>
       <button class="btn primary big" data-act="tg-next" style="margin-top:14px;width:100%">לתוצאה ✨</button>`:''}`;
   else { const r=tgCalc(t);
     body=r?kobi('הנה היעד שלך 🎯',`<span id="tgw-wk">${tgWkText(t.goal==='keep'?0:r.wk,t.pace)}</span>`,'cheer')+`
