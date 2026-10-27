@@ -1086,5 +1086,85 @@
  "אם בהתחלה יוצאות פחות חזרות, זה נורמלי בקפיצה כזו.": {
   "en": "If you get fewer reps at first, that's normal with a jump like this.",
   "ar": "إذا خرجت تكرارات أقل في البداية، فهذا طبيعي مع قفزة كهذه."
+ },
+ "כמו פעם קודמת": {
+  "en": "Same as last time",
+  "ar": "مثل المرة السابقة"
+ },
+ "פעם קודמת": {
+  "en": "Last time",
+  "ar": "المرة السابقة"
+ },
+ "פעם קודמת:": {
+  "en": "Last time:",
+  "ar": "المرة السابقة:"
+ },
+ "היום: אותם משקלים, ועוד חזרה אחת בכל סט": {
+  "en": "Today: same weights, one more rep in every set",
+  "ar": "اليوم: نفس الأوزان، وتكرار إضافي في كل مجموعة"
+ },
+ "היום, לפי סט": {
+  "en": "Today, set by set",
+  "ar": "اليوم، حسب المجموعة"
+ },
+ "מ-{0} ל-{1} זו קפיצה גדולה בתרגיל הזה. קודם מגיעים ל-{2} חזרות עם {0}, ואז עולים.": {
+  "en": "Going from {0} to {1} is a big jump on this exercise. First reach {2} reps with {0}, then go up.",
+  "ar": "الانتقال من {0} إلى {1} قفزة كبيرة في هذا التمرين. أولًا نصل إلى {2} تكرارًا مع {0}، ثم نرفع الوزن."
+ },
+ "כשתגיע ל-{0} חזרות בכל הסטים, עולים במשקל.": {
+  "en": "Once you hit {0} reps in every set, the weight goes up.",
+  "ar": "عندما تصل إلى {0} تكرارًا في كل المجموعات، نرفع الوزن."
+ },
+ "אין התקדמות ב-3 האימונים האחרונים. היום מכוונים לעוד חזרה בכל סט. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.": {
+  "en": "No progress in the last 3 workouts. Today, aim for one more rep in every set. If it continues, Repi will suggest a small step back at the end of the block to break through.",
+  "ar": "لا تقدم في آخر 3 تمارين. اليوم نستهدف تكرارًا إضافيًا في كل مجموعة. إذا استمر ذلك، سيقترح رابي في نهاية البلوك خطوة صغيرة للخلف لكسر الركود."
+ },
+ "המטרה היא כל יום בטווח. עוד יום אחד, וכבר יש לך שבוע שמזיז את המשקל.": {
+  "en": "The goal is every day in range. One more day, and you already have a week that moves the scale.",
+  "ar": "الهدف هو كل يوم ضمن النطاق. يوم واحد آخر، ويصبح لديك أسبوع يحرّك الوزن."
+ },
+ "המטרה היא כל יום בטווח. עוד {0} ימים, וכבר יש לך שבוע שמזיז את המשקל.": {
+  "en": "The goal is every day in range. {0} more days, and you already have a week that moves the scale.",
+  "ar": "الهدف هو كل يوم ضمن النطاق. {0} أيام أخرى، ويصبح لديك أسبوع يحرّك الوزن."
+ },
+ "{0} ימים בטווח, שבוע טוב. ממשיכים ככה עד סוף השבוע.": {
+  "en": "{0} days in range, a good week. Keep it going to the end of the week.",
+  "ar": "{0} أيام ضمن النطاق، أسبوع جيد. نستمر هكذا حتى نهاية الأسبوع."
+ },
+ "שבוע טוב: {0} ימים בטווח.": {
+  "en": "A good week: {0} days in range.",
+  "ar": "أسبوع جيد: {0} أيام ضمن النطاق."
+ },
+ "הוספה לארוחת בוקר": {
+  "en": "Add to breakfast",
+  "ar": "إضافة إلى الفطور"
+ },
+ "הוספה לארוחת צהריים": {
+  "en": "Add to lunch",
+  "ar": "إضافة إلى الغداء"
+ },
+ "הוספה לארוחת ערב": {
+  "en": "Add to dinner",
+  "ar": "إضافة إلى العشاء"
+ },
+ "חשב": {
+  "en": "Calculate",
+  "ar": "احسب"
+ },
+ "משקל היום": {
+  "en": "Today's weight",
+  "ar": "وزن اليوم"
+ },
+ "בשבוע האחרון": {
+  "en": "in the last week",
+  "ar": "في الأسبوع الأخير"
+ },
+ "השינוי בשבוע האחרון": {
+  "en": "Change in the last week",
+  "ar": "التغيّر في الأسبوع الأخير"
+ },
+ "המשקל קופץ מיום ליום בגלל מים ומלח. לכן ראפי משווה ממוצע של 7 שקילות לממוצע של השבוע שלפני, וככה רואים לאן המשקל באמת הולך.": {
+  "en": "Your weight jumps from day to day because of water and salt. So Repi compares the average of 7 weigh-ins with the week before, which shows where your weight is really heading.",
+  "ar": "يقفز الوزن من يوم لآخر بسبب الماء والملح. لذلك يقارن رابي متوسط 7 قياسات بمتوسط الأسبوع الذي قبله، وهكذا ترى إلى أين يتجه وزنك فعلًا."
  }
 }
