@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ee164a0f"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ee164a0f"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ee164a0f"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8a23052d"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8a23052d"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8a23052d"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1834,7 +1834,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.61';
+const APP_VERSION='13.3.63';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2287,7 +2287,7 @@ function persistActive(){
   clearTimeout(_aT);_aT=setTimeout(flushActive,800);
 }
 /* newer account-level settings, saved and restored with the rest (health questionnaire, sensitive exercises, nutrition notes, training level) */
-const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb','mv','calm','calmAsk'];
+const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb','mv','calm','calmAsk','restEx'];
 async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
@@ -4775,6 +4775,10 @@ function wInc(w,st,easy){ const pct=coachCfg().careful?0.02:(easy?0.05:0.025); r
 const bigJump=(w,st)=>w>0&&st/w>(coachCfg().careful?0.08:0.10);
 /* failure on these makes the next jump risky; isolation work to failure is normal */
 const heavyLift=n=>isCompound(n)&&!/משקולות|משקולת|קטלבל|גובלט/.test(n);
+/* rest after an exercise's last set, before the next exercise: time to change station and load the weight.
+   Automatic: 2 minutes, 3 before a heavy main lift; or the user's own choice in settings */
+function nextOpenEx(){ return (S.active?.ex||[]).find(x=>!exDone(x))||null; }
+function restBetween(nextE){ const v=+S.settings.restEx||0; if(v>0)return v; return nextE&&heavyLift(nextE.n)&&/מוט|סקוואט|דדליפט|לחיצת רגליים|היפ תראסט|סמית/.test(nextE.n)?180:120; }
 /* ===== something hurts: a 14-day "sensitive" mark per exercise (no weight increases), and only the body area is kept ===== */
 const PAIN_AREAS=[['shoulder','כתף'],['elbow','מרפק'],['wrist','שורש כף יד'],['neck','צוואר'],['back','גב'],['knee','ברך'],['other','אחר']];
 const painName=a=>(PAIN_AREAS.find(x=>x[0]===a)||[0,'אחר'])[1];
@@ -6556,6 +6560,9 @@ function openNotifSheet(){
     </div>
     <div class="label" style="margin:16px 0 6px">מנוחה בין סטים (ברירת מחדל)</div>
     <div class="row">${[60,90,120,180].map(x=>`<button class="chip num ${S.settings.rest===x?'on':''}" data-act="rest-set" data-s="${x}">${x<120?x+' שנ׳':(x/60)+' דק׳'}</button>`).join('')}</div>
+    <div class="label" style="margin:16px 0 6px">מנוחה בין תרגילים</div>
+    <div class="row">${[[0,'אוטומטי'],[60,'1 דק׳'],[90,'1.5 דק׳'],[120,'2 דק׳'],[180,'3 דק׳']].map(([x,l])=>`<button class="chip num ${(+S.settings.restEx||0)===x?'on':''}" data-act="restex-set" data-s="${x}">${l}</button>`).join('')}</div>
+    <div class="small muted" style="margin-top:6px;line-height:1.5">${(+S.settings.restEx||0)?'אחרי הסט האחרון של כל תרגיל, לפני שעוברים לבא.':'אוטומטי: 2 דקות, ו-3 דקות לפני תרגיל כבד כמו סקוואט, דדליפט או לחיצת חזה במוט.'}</div>
     <button class="btn" style="width:100%;margin-top:16px" data-act="rest-test">בדיקת התראת מנוחה (10 שניות)</button>
     <div class="small muted" style="margin-top:6px">לחץ, צא מהאפליקציה מיד, ובעוד 10 שניות אמורה להגיע התראה.</div>`);
 }
@@ -8753,8 +8760,8 @@ function handleAct(b,ev){
         const prev=bestMap()[e.n]?.w||0, sw=+s.w||0;
         if(prev>0&&sw>prev&&+s.r>0){ const pr=(S.active._pr=S.active._pr||{}); if((pr[e.n]||0)<sw){ pr[e.n]=sw; persistActive();
           setTimeout(()=>{ cheer('🏆','שיא אישי חדש!',`${e.n} · ${wL(sw)} ${LU()}`,true); confetti(90); vibrate([20,40,20]); },120); } } }
-      if(s.done){ const nx=e.sets[si2+1]&&!e.sets[si2+1].done?`${e.n} · סט ${si2+2}`:(S.active.ex[ei2+1]?S.active.ex[ei2+1].n:'');
-        startRest(e.rest||S.settings.rest,nx); restRir(ei2,si2);
+      if(s.done){ const nE=lastSet?nextOpenEx():null, nx=e.sets[si2+1]&&!e.sets[si2+1].done?`${e.n} · סט ${si2+2}`:(nE?nE.n:'');
+        startRest(lastSet&&nE?restBetween(nE):(e.rest||S.settings.rest),nx); restRir(ei2,si2);
         if(e.sets.every(x=>x.done)&&$('#np').hidden){ if(S.active.open)delete S.active.open[ei2];
           const card=document.querySelector(`.ex-card[data-ei="${ei2}"]`); if(card)card.classList.add('ex-finish');
           setTimeout(()=>{ if(S.active&&S.tab==='train')workoutAdvance(); },850); } } break; }
@@ -8765,7 +8772,7 @@ function handleAct(b,ev){
       for(const s of e.sets){ if(s.done)continue;
         if(!s.w&&s.pw)s.w=s.pw; if(!s.r&&s.pr)s.r=s.pr;
         if(+s.r>0)s.done=true; }
-      persistActive(); render(); startRest(e.rest||S.settings.rest,S.active.ex[+b.dataset.ei+1]?.n||''); break; }
+      persistActive(); render(); { const nE=nextOpenEx(); startRest(nE?restBetween(nE):(e.rest||S.settings.rest),nE?.n||''); } break; }
     case 'ex-info': { const e=S.active?.ex[+b.dataset.ei]; if(!e)break;
       openExSheet(e.n,{reps:e.reps,sets:e.sets?.length,rest:e.rest,how:e.how}); break; }
     case 'hist-ex': openExSheet(b.dataset.n,{}); break;
@@ -8787,6 +8794,7 @@ function handleAct(b,ev){
       if(j<0||j>=_tplDraft.ex.length)break;
       const ex=_tplDraft.ex; [ex[i],ex[j]]=[ex[j],ex[i]]; vibrate(10); renderTplReorder(); break; }
     case 'cardio-done': { const e=S.active.ex[+b.dataset.ei]; e.c.done=!e.c.done; persistActive(); render(); break; }
+    case 'restex-set': S.settings.restEx=+b.dataset.s; persistSettings(); if(!$('#sheet').hidden)openNotifSheet(); else render(); break;
     case 'rest-set': S.settings.rest=+b.dataset.s; persistSettings();
       if(!$('#sheet').hidden)openNotifSheet(); else render(); break;
     case 'settings': S.tab='me'; location.hash='me'; render(); window.scrollTo(0,0); break;
