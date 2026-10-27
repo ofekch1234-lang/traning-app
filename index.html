@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=2c816cd4"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=2c816cd4"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=2c816cd4"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d3919e82"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d3919e82"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d3919e82"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1371,9 +1371,12 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 /* the last set's "reps left?" lives on the rest bar: the exercise has already folded away */
 #restbar .rir2{width:100%;max-width:528px;box-sizing:border-box;background:#1E2220;border:1px solid #2E3430;border-radius:14px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px;box-shadow:var(--shadow)}
 #restbar .rir2[hidden]{display:none}
-#restbar .rir2>span:first-child{flex:1;min-width:0;line-height:1.35;display:flex;flex-direction:column}#restbar .rir2 small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#restbar .rir2 b{font-size:14.5px}
-#restbar .rir2 .chips2{display:flex;gap:6px;flex:none}
-#restbar .rir2 .chips2 button{min-width:40px;height:36px;padding:0 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:14px;font-weight:700}
+#restbar .rir2:not(.ok){flex-direction:column;align-items:stretch;gap:10px}
+#restbar .rir2 .rq-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+#restbar .rir2 .rq-top>span{flex:1;min-width:0;line-height:1.35;display:flex;flex-direction:column}#restbar .rir2 small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#restbar .rir2 b{font-size:14.5px}
+#restbar .rir2 .rq-top .ouch{flex:none;margin:1px 0 0;font-size:12.5px;border:0;padding:0;background:none;color:#FF8F84}
+#restbar .rir2 .chips2{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;direction:ltr}
+#restbar .rir2 .chips2 button{height:42px;padding:0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:16px;font-weight:800}
 #restbar .rir2.ok{justify-content:center;color:var(--accent);font-weight:600}
 #restbar .inner{
   width:100%;max-width:528px;background:#1E2220;color:var(--ink);border:1px solid #2E3430;
@@ -1385,7 +1388,10 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 #restbar button{color:var(--ink);border:1px solid rgba(255,255,255,.14);padding:6px 11px;font-size:13px}
 
 /* active workout */
-.ex-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.ex-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;transition:border-color .3s,box-shadow .3s}
+.ex-card.ex-finish{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.aw-head{view-transition-name:aw-head}
+::view-transition-group(*){animation-duration:.38s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
 .ex-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
 .ex-name{font-weight:700;font-size:16px}
 .prev{font-size:12.5px;color:var(--muted)}
@@ -2259,7 +2265,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.58';
+const APP_VERSION='13.3.60';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2852,7 +2858,7 @@ function tickRest(){
 function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;restRirHide();disarmServerRest();saveRestState();if(IS_NATIVE)setTimeout(liveSync,0);}
 /* the last set of an exercise: ask "reps left?" on the rest bar (optional; no answer changes nothing) */
 function restRir(ei,si){ const e=S.active?.ex?.[ei], el=$('#rest-rir'); if(!e||!el||!coachOn()||!coachCfg().rir)return;
-  el.classList.remove('ok'); el.innerHTML=`<span><small>${esc(e.n)} · סט אחרון</small><b>כמה חזרות נשארו?</b><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></span><span class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`; el.hidden=false; }
+  el.classList.remove('ok'); el.innerHTML=`<div class="rq-top"><span><b>${tt('כמה חזרות עוד היית מצליח?')}</b><small>${esc(e.n)} · ${si===(e.sets||[]).length-1?tt('סט אחרון'):`${tt('סט')} ${si+1}`}</small></span><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></div><div class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</div>`; el.hidden=false; }
 function restRirHide(){ const el=$('#rest-rir'); if(el){ el.hidden=true; el.innerHTML=''; } }
 
 /* ---------- rendering ---------- */
@@ -5750,6 +5756,13 @@ function clockText(){
   const h=Math.floor(s/3600),m=Math.floor(s%3600/60),ss=s%60;
   return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(ss).padStart(2,'0');
 }
+/* finishing an exercise: a short "done" moment on the card, then it folds into its row while the next exercise opens
+   and slides to the top under the header (a view transition where supported, a plain re-render elsewhere) */
+function workoutAdvance(){
+  const go=()=>{ render(); const c=document.querySelector('.ex-card.cur'), h=document.querySelector('.aw-head');
+    if(c){ const top=c.getBoundingClientRect().top+scrollY-((h?h.getBoundingClientRect().bottom:120)+10); window.scrollTo(0,Math.max(0,top)); } };
+  if(document.startViewTransition&&!matchMedia('(prefers-reduced-motion: reduce)').matches){ try{ document.startViewTransition(go); return; }catch(_){} }
+  go(); }
 /* v13: one exercise open at a time. Done exercises fold into a row, the rest wait in "הבאים". */
 function exDone(e){ return e.t==='c'?!!e.c?.done:(e.sets||[]).length>0&&e.sets.every(s=>s.done); }
 function exSummary(e){ if(e.t==='c')return e.c?.min?`${e.c.min} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`:'אירובי';
@@ -5763,7 +5776,7 @@ function vActive(){
   a.ex.forEach((e,ei)=>{
     if(isOpen(e,ei)){ rows.push(e.t==='c'?vCardio(e,ei,ei===cur):vStrength(e,ei,ei===cur)); return; }
     const tgt=e.t==='c'?'אירובי':`${(e.sets||[]).length} סטים${e.reps?` · ${esc(e.reps)} חזרות`:''}`;
-    const row=`<button class="ex-row" data-act="ex-open" data-ei="${ei}"><span class="lt"><b>${esc(e.n)}</b><small class="num">${exDone(e)?exSummary(e):tgt}</small></span>${exDone(e)?`<span class="ok">${ICON.ok}</span>`:ICON.chev}</button>`;
+    const row=`<button class="ex-row" data-act="ex-open" data-ei="${ei}" style="view-transition-name:ex-${ei}"><span class="lt"><b>${esc(e.n)}</b><small class="num">${exDone(e)?exSummary(e):tgt}</small></span>${exDone(e)?`<span class="ok">${ICON.ok}</span>`:ICON.chev}</button>`;
     (exDone(e)?done:next).push(row);
   });
   return `
@@ -6030,7 +6043,8 @@ function rirSet(ei,si,v){
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
     if(nw&&!nw.value)nw.placeholder=wL(nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
   else if(v===0&&rr&&r<rr.lo)msg='קרוב לכישלון ומתחת לטווח. אתחשב בזה בפעם הבאה.';
-  const el=document.getElementById('rirq-'+ei); if(el){ el.innerHTML=`<span>${msg}</span>`; setTimeout(()=>{ if(el.textContent.includes(msg))el.hidden=true; },2600); } }
+  const el=document.getElementById('rirq-'+ei); if(el){ el.innerHTML=`<span>${msg}</span>`; setTimeout(()=>{ if(el.textContent.includes(msg))el.hidden=true; },2600); }
+  return msg; }
 
 /* ===== המאמן החכם · תזונה =====
    Real expenditure from what you ate vs. how your weight trended (not a formula), then a small weekly step toward the goal pace. */
@@ -6127,7 +6141,7 @@ function vStrength(e,ei,cur){
   const target=e.reps?`${e.sets.length===1?tt('סט אחד'):`${e.sets.length} ${tt('סטים')}`} · <bdi dir="ltr">${esc(String(e.reps).replace(/\s*[-–—]\s*/,'–'))}</bdi> ${tt('חזרות')}`:''; // "3 סטים · 6–8 חזרות" instead of "יעד 3×6–8"
   const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
   const tip=e.sets.some(x=>x.done)||e.co?null:repTip(e), co=e.sets.some(x=>x.done)?null:e.co;
-  return `<div class="ex-card ${cur?'cur':''}">
+  return `<div class="ex-card ${cur?'cur':''}" data-ei="${ei}" style="view-transition-name:ex-${ei}">
     <div class="ex-head" style="align-items:flex-start">
       <div style="flex:1;min-width:0">
         <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
@@ -6176,7 +6190,7 @@ function openExMenu(ei){
 function vCardio(e,ei,cur){
   const prev=lastPerf(e.n);
   const c=e.c||(e.c={min:'',km:'',inc:''});
-  return `<div class="ex-card ${cur?'cur':''}">
+  return `<div class="ex-card ${cur?'cur':''}" data-ei="${ei}" style="view-transition-name:ex-${ei}">
     <div class="ex-head" style="align-items:flex-start">
       <div style="flex:1;min-width:0"><div class="ex-name" style="font-weight:700;font-size:18px">${esc(e.n)}</div><div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:'אירובי'}</div></div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">${INFO[e.n]?`<button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמה" style="color:var(--accent)">${ICON.play}</button>`:''}
@@ -9921,8 +9935,9 @@ function handleAct(b,ev){
     case 'ex-swap-go': doSwap(+b.dataset.ei,b.dataset.n); break;
     case 'ex-lock': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; const L=coachCfg().lock; if(L[e.n])delete L[e.n]; else L[e.n]=1; persistSettings(); closeSheet(); toast(L[e.n]?'התרגיל ננעל':'התרגיל שוחרר'); break; }
     case 'rir': rirSet(+b.dataset.ei,+b.dataset.si,+b.dataset.v); break;
-    case 'rir-last': { const s=S.active?.ex?.[+b.dataset.ei]?.sets?.[+b.dataset.si]; if(!s)break; s.rir=+b.dataset.v; persistActive(); vibrate(8);
-      const el=$('#rest-rir'); if(el){ el.classList.add('ok'); el.innerHTML='<span>נשמר. ראפי יתחשב בזה בפעם הבאה</span>'; setTimeout(()=>{ if(el.classList.contains('ok'))restRirHide(); },1600); } break; }
+    case 'rir-last': { const ei=+b.dataset.ei, si=+b.dataset.si, e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)break; vibrate(8);
+      const last=si===(e.sets||[]).length-1, msg=last?(s.rir=+b.dataset.v,persistActive(),'נשמר. ראפי יתחשב בזה בפעם הבאה'):rirSet(ei,si,+b.dataset.v); // a middle set also tunes the next set
+      const el=$('#rest-rir'); if(el){ el.classList.add('ok'); el.innerHTML=`<span>${esc(tt(msg||''))}</span>`; setTimeout(()=>{ if(el.classList.contains('ok'))restRirHide(); },last?1600:2600); } break; }
     case 'nc-apply': ncDone(true); break;
     case 'nc-keep': ncDone(false); break;
     case 'nc-wait': { ncCfg().wait=ymd(); persistSettings(); render(); break; }
@@ -9955,14 +9970,16 @@ function handleAct(b,ev){
       updateLive();
       if(s.done&&repCls(e,s)==='r-over'){ const o=(S.active._over=S.active._over||{}); if(!o[e.n]){ o[e.n]=1; setTimeout(()=>toast('מעל טווח החזרות, בפעם הבאה אפשר להעלות משקל'),700); } }
       const lastSet=s.done&&e.sets.every(x=>x.done);
-      if(s.done&&!lastSet)rirAsk(ei2,si2); else { const rq=document.getElementById('rirq-'+ei2); if(rq)rq.hidden=true; if(!s.done)restRirHide(); }
+      { const rq=document.getElementById('rirq-'+ei2); if(rq)rq.hidden=true; if(!s.done)restRirHide(); }
       if(s.done){ burst(b); vibrate(15);
         const prev=bestMap()[e.n]?.w||0, sw=+s.w||0;
         if(prev>0&&sw>prev&&+s.r>0){ const pr=(S.active._pr=S.active._pr||{}); if((pr[e.n]||0)<sw){ pr[e.n]=sw; persistActive();
           setTimeout(()=>{ cheer('🏆','שיא אישי חדש!',`${e.n} · ${wL(sw)} ${LU()}`,true); confetti(90); vibrate([20,40,20]); },120); } } }
       if(s.done){ const nx=e.sets[si2+1]&&!e.sets[si2+1].done?`${e.n} · סט ${si2+2}`:(S.active.ex[ei2+1]?S.active.ex[ei2+1].n:'');
-        startRest(e.rest||S.settings.rest,nx); if(lastSet)restRir(ei2,si2);
-        if(e.sets.every(x=>x.done)&&$('#np').hidden){ if(S.active.open)delete S.active.open[ei2]; setTimeout(()=>{ if(S.active&&S.tab==='train')render(); },420); } } break; }
+        startRest(e.rest||S.settings.rest,nx); restRir(ei2,si2);
+        if(e.sets.every(x=>x.done)&&$('#np').hidden){ if(S.active.open)delete S.active.open[ei2];
+          const card=document.querySelector(`.ex-card[data-ei="${ei2}"]`); if(card)card.classList.add('ex-finish');
+          setTimeout(()=>{ if(S.active&&S.tab==='train')workoutAdvance(); },850); } } break; }
     case 'done-all': { const e=S.active?.ex[+b.dataset.ei]; if(!e||e.t!=='s')break;
       if(!b.dataset.sure){ b.dataset.sure='1'; const t=b.querySelector('b')||b; t.textContent='בטוח? לחץ שוב';
         setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)t.textContent=b.querySelector('b')?'סמן את כל הסטים':'✓✓';},2200); break; }
