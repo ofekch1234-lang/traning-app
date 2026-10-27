@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=95707a04"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=95707a04"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=95707a04"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=af07763b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=af07763b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=af07763b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1836,7 +1836,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.65';
+const APP_VERSION='13.3.67';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2289,7 +2289,7 @@ function persistActive(){
   clearTimeout(_aT);_aT=setTimeout(flushActive,800);
 }
 /* newer account-level settings, saved and restored with the rest (health questionnaire, sensitive exercises, nutrition notes, training level) */
-const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb','mv','calm','calmAsk','restEx'];
+const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb','mv','calm','calmAsk','restEx','pgoal'];
 async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
@@ -4768,13 +4768,19 @@ const coachOn=()=>isPrem()&&coachCfg().mode!=='off';
 function exGroup(n){ for(const g in LIB)if(LIB[g].includes(n))return g; return null; }
 const COMPOUND=/לחיצ|סקוואט|דדליפט|חתירה|מתח|מקבילים|לאנג|ת׳ראסט|גובלט|פולי עליון|רומני|פרס|פוש|דיפ|היפ/;
 const isCompound=n=>COMPOUND.test(n);
-function wStep(n){ const c=coachCfg(), db=/משקולות|משקולת|קטלבל|גובלט/.test(n); if(uL()==='lb')return (db?(+c.incDbLb||5):(+c.incBbLb||5))/LB; return db?(+c.incDb||2):(+c.incBb||2.5); }
+function wStep(n){ const c=coachCfg(), db=eqGuess(n)==='db'; /* same gear guess as the weight picker (lateral raises are dumbbells) */ if(uL()==='lb')return (db?(+c.incDbLb||5):(+c.incBbLb||5))/LB; return db?(+c.incDb||2):(+c.incBb||2.5); }
 const roundTo=(v,st)=>Math.max(st,Math.round(v/st)*st);
 const DAY=864e5;
 /* how much weight to add: about 2.5% of the working weight (up to 5% after an easy session), never less than one plate step; careful pace stays at 2% */
 function wInc(w,st,easy){ const pct=coachCfg().careful?0.02:(easy?0.05:0.025); return Math.max(1,Math.floor(w*pct/st+1e-9))*st; }
 /* the smallest plate step is too big a jump for this weight (6 kg lateral raise → 8 kg is +33%): grow reps first */
-const bigJump=(w,st)=>w>0&&st/w>(coachCfg().careful?0.08:0.10);
+const bigJump=(w,st,iso)=>w>0&&st/w>(iso?0.08:0.10)-(coachCfg().careful?0.02:0);
+/* a jump too big to take: how many reps to add first. Strength work (a low range on a main lift) adds only 1-2,
+   so it stays heavy; fitness goals add 5; everything else 3. Never above 20 reps. */
+function stretchReps(e,rr){ const comp=isCompound(e.n);
+  const extra=comp&&rr.hi<=6?1:comp&&rr.hi<=8?2:S.settings.pgoal==='fit'?5:3;
+  return Math.min(20,rr.hi+extra); }
+const strengthEx=(e,rr)=>isCompound(e.n)&&rr.hi<=8;
 /* failure on these makes the next jump risky; isolation work to failure is normal */
 const heavyLift=n=>isCompound(n)&&!/משקולות|משקולת|קטלבל|גובלט/.test(n);
 /* rest after an exercise's last set, before the next exercise: time to change station and load the weight.
@@ -4819,7 +4825,7 @@ function coachRec(e,ctx){
   if(!hist.length)return {k:'new',sets:ctx.deload?half:n,r:rr.lo,why:`פעם ראשונה בתרגיל. תבחר משקל שאיתו ${rr.hi} חזרות יוצאות נקיות, ועוד 2 היית מצליח לעשות.`};
   const last=hist.find(h=>!h.dl)||hist[0], ls=last.sets, rs=ls.map(s=>+s.r||0), low=Math.min(...rs);
   const topW=Math.max(...ls.map(s=>+s.w||0)), st=wStep(e.n);
-  const big=bigJump(topW,st), top=big?rr.hi+3:rr.hi; // too big a plate jump: stretch the range by 3 reps before adding weight
+  const big=bigJump(topW,st,!isCompound(e.n)), top=big?Math.max(rr.hi,stretchReps(e,rr)):rr.hi; // too big a plate jump: stretch the range before adding weight
   const perSet=i=>Math.min(top,Math.max(rr.lo,(+ls[i]?.r||low)+1));
   if(topW<=0){ // bodyweight: progress by reps
     if(ctx.deload)return {k:'deload',sets:half,r:rr.lo,why:'שבוע קל: חצי מהסטים, בתחתית הטווח. זה השבוע שבו הגוף מתחזק.'};
@@ -4847,7 +4853,7 @@ function coachRec(e,ctx){
     const failI=ls.findIndex(s=>s.rir===0);
     if(heavyLift(e.n)&&failI>=0) // closed the range, but a set went to failure: one more session at this weight before the jump
       return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הקצה. היום עוד פעם ${wL(topW)}, הפעם עוצרים כשנשאר כוח לעוד חזרה אחת, ואז עולים ל-${wL(nw)}.`};
-    return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}, הגיע הזמן לעלות. היום ${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.`}; }
+    return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}, הגיע הזמן לעלות. היום ${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.${big&&strengthEx(e,rr)?' '+tt('אם בהתחלה יוצאות פחות חזרות, זה נורמלי בקפיצה כזו.'):''}`}; }
   if(!full&&atTop)return {k:'reps',w:topW,r:top,sets:n,why:`בפעם הקודמת ${ls.length} מתוך ${planned} סטים הגיעו ל-${top}. ${planned-ls.length===1?'כשגם הסט האחרון יגיע':'כשכל הסטים יגיעו'}, עולים ל-${wL(nw)}.`};
   if(big&&rs.every(r=>r>=rr.hi)){ const tr=perSet(0), bp=Math.round(st/topW*100);
     return {k:'reps',w:topW,r:tr,sets:n,ps:perSet,why:`מ-${wL(topW)} ל-${wL(topW+st)} זו קפיצה גדולה. נשארים על ${wL(topW)} ומוסיפים חזרות, היום ${tr}. כשתגיע ל-${top} בכל הסטים, עוברים ל-${wL(topW+st)}.`}; }
@@ -7939,7 +7945,7 @@ async function pbSave(){
   const base=rep?0:S.templates.length, now=Date.now(), ids=[];
   for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
     await saveTemplate({id,name:se.name,order:base+i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:e)}); }
-  if(A.level)S.settings.level=A.level;
+  if(A.level)S.settings.level=A.level; if(A.goal)S.settings.pgoal=A.goal;
   if(sch){ S.settings.schedule={}; PB_DAYS[A.days].forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; }); }
   persistSettings();
   const first=!S.workouts.length;
