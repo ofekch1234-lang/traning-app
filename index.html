@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=78d7f4cf"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=78d7f4cf"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=78d7f4cf"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e2b46a20"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e2b46a20"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e2b46a20"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2216,7 +2216,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.54';
+const APP_VERSION='13.3.56';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4187,9 +4187,9 @@ function weekPlan(i){ const now=new Date(), st=new Date(now); st.setHours(12,0,0
   const inR=days.filter(x=>x.st==='in').length, logged=days.filter(x=>x.st!=='none'&&x.st!=='fut').length; return {days,inR,logged}; }
 function week80HTML(){ const kT=+S.settings.kcalT||0; if(!kT)return ''; const W=weekPlan(0); if(!W.logged)return '';
   const left=W.days.filter(x=>x.fut||(x.ds===ymd()&&x.st!=='in')).length, need=Math.max(0,5-W.inR);
-  const msg=W.inR>=5?tt('שבוע מוצלח. 5 ימים בטווח מספיקים כדי להתקדם, גם בלי שבוע מושלם.')
-    :need<=left?(need===1?tt('עוד יום אחד בטווח, והשבוע מוצלח. לא צריך שבוע מושלם.'):tt('עוד {0} ימים בטווח, והשבוע מוצלח. לא צריך שבוע מושלם.').replace('{0}',need))
-    :tt('השבוע הזה פחות, וזה בסדר. מה שקובע הוא רוב השבועות.');
+  const msg=W.inR>=5?tt('שבוע מוצלח. 5 ימים בטווח, וזה מה שמזיז את המשקל.')
+    :need<=left?(need===1?tt('עוד יום אחד בטווח, והשבוע שלך מוצלח.'):tt('עוד {0} ימים בטווח, והשבוע שלך מוצלח.').replace('{0}',need))
+    :tt('שבוע פחות טוב, קורה. מה שקובע זה רוב השבועות, לא שבוע אחד.');
   const past=[6,5,4,3,2,1].map(weekPlan), wk=past.filter(w=>w.logged>=3), good=wk.filter(w=>w.inR>=5).length;
   return `<div class="card r20 w80">
     <div class="spread"><b>${tt('השבוע שלך')}</b><span class="w80n"><span class="num" dir="ltr">${W.inR}/7</span> ${tt('ימים בטווח')}</span></div>
@@ -5806,20 +5806,20 @@ function sessionsOf(name,k=4){ const out=[];
 function coachRec(e,ctx){
   const rr=repRange(e.reps)||{lo:8,hi:12}, n=Math.max(1,+e.s||3), hist=sessionsOf(e.n,4);
   const half=Math.max(1,Math.ceil(n/2));
-  if(!hist.length)return {k:'new',sets:ctx.deload?half:n,r:rr.lo,why:`פעם ראשונה בתרגיל: בחר משקל שאיתו אפשר ${rr.hi} חזרות טובות, ולהשאיר 2 חזרות בטנק.`};
+  if(!hist.length)return {k:'new',sets:ctx.deload?half:n,r:rr.lo,why:`פעם ראשונה בתרגיל. תבחר משקל שאיתו ${rr.hi} חזרות יוצאות נקיות, ועוד 2 היו נשארות בטנק.`};
   const last=hist.find(h=>!h.dl)||hist[0], ls=last.sets, rs=ls.map(s=>+s.r||0), low=Math.min(...rs);
   const topW=Math.max(...ls.map(s=>+s.w||0)), st=wStep(e.n);
   const big=bigJump(topW,st), top=big?rr.hi+3:rr.hi; // too big a plate jump: stretch the range by 3 reps before adding weight
   const perSet=i=>Math.min(top,Math.max(rr.lo,(+ls[i]?.r||low)+1));
   if(topW<=0){ // bodyweight: progress by reps
-    if(ctx.deload)return {k:'deload',sets:half,r:rr.lo,why:'שבוע קל: חצי סטים ובתחתית הטווח. הגוף מתאושש ומתחזק.'};
+    if(ctx.deload)return {k:'deload',sets:half,r:rr.lo,why:'שבוע קל: חצי מהסטים, בתחתית הטווח. זה השבוע שבו הגוף מתחזק.'};
     return {k:'reps',sets:n,r:Math.min(rr.hi+4,low+1),ps:i=>Math.min(rr.hi+4,(+ls[i]?.r||low)+1),why:`משקל גוף: נסה חזרה אחת יותר מהפעם הקודמת בכל סט.`}; }
   const sn=sensOf(e.n);
   if(sn){ const lowW=Math.min(...ls.map(s=>+s.w||0).filter(x=>x>0)), w=roundTo(lowW,st);
     return {k:'sens',w,r:rr.lo,sets:n,why:`מסומן כרגיש (${painName(sn.area)}) עד ${new Date(sn.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}: בלי עליות במשקל. אם עבר, אפשר לחזור לרגיל.`}; }
   const rs0=(coachCfg().reset||{})[e.n];
   if(rs0&&hist[0].ts<rs0.at){ const w=Math.min(topW,roundTo(topW*rs0.f,st));
-    return {k:'reset',w,r:rr.hi,sets:n,why:`צעד אחורה כדי לקפוץ: ${wL(w)} במקום ${wL(topW)}, עם יותר חזרות. מכאן בונים מחדש לשיא חדש.`}; }
+    return {k:'reset',w,r:rr.hi,sets:n,why:`נתקעת על ${wL(topW)} כמה אימונים. יורדים ל-${wL(w)} עם יותר חזרות, ובונים משם לשיא חדש.`}; }
   const R=ctx.ret;
   if(R){ // after a break: 3 workouts back to the old weight (e.g. 80% → 90% → 100%)
     const pre=hist.find(h=>h.ts<R.at), since=hist.filter(h=>h.ts>=R.at).length;
@@ -5827,29 +5827,29 @@ function coachRec(e,ctx){
       if(preW>0){ const f=[R.f,(1+R.f)/2,1][since], w=f>=0.999?preW:Math.min(preW,roundTo(preW*f,st));
         return {k:'back',w,r:rr.lo,sets:n,why:since===2?`אימון 3 מתוך 3 בדרך חזרה: חוזרים ל-${wL(preW)}. מכאן ממשיכים להתקדם כרגיל.`
           :`חוזרים אחרי הפסקה: אימון ${since+1} מתוך 3 בדרך חזרה ל-${wL(preW)}. היום ${wL(w)}, כדי לחזור חזק ובלי פציעה.`}; } } }
-  if(ctx.deload)return {k:'deload',w:topW,r:rr.lo,sets:half,why:'שבוע קל: אותו משקל, חצי סטים ובתחתית הטווח. הגוף מתאושש ומתחזק.'};
+  if(ctx.deload)return {k:'deload',w:topW,r:rr.lo,sets:half,why:'שבוע קל: אותו משקל, חצי מהסטים, בתחתית הטווח. זה השבוע שבו הגוף מתחזק.'};
   const rirs=ls.map(s=>s.rir).filter(x=>x!=null), easy=rirs.length>0&&rirs.every(x=>x>=3);
   const planned=last.dl?half:n, full=ls.length>=planned, atTop=rs.every(r=>r>=top);
   const nw=roundTo(topW+wInc(topW,st,easy),st), pct=Math.round((nw-topW)/topW*100);
   const mixed=Math.min(...ls.map(x=>+x.w||0).filter(x=>x>0))<topW*0.95; // some sets were lighter (e.g. lowered after discomfort): no raise yet
-  if(full&&atTop&&mixed)return {k:'reps',w:topW,r:rr.lo,sets:n,why:`בפעם הקודמת חלק מהסטים היו קלים יותר. היום כל הסטים ב-${wL(topW)}, ומשם ממשיכים לעלות.`};
+  if(full&&atTop&&mixed)return {k:'reps',w:topW,r:rr.lo,sets:n,why:`בפעם הקודמת חלק מהסטים היו במשקל נמוך יותר. היום כל הסטים על ${wL(topW)}.`};
   if(full&&atTop){
     const failI=ls.findIndex(s=>s.rir===0);
     if(heavyLift(e.n)&&failI>=0) // closed the range, but a set went to failure: one more session at this weight before the jump
-      return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`סגרת ${rr.hi} בכל הסטים, אבל ${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הסוף. היום שוב ${wL(topW)}, עם חזרה בטנק, ואז עולים ל-${wL(nw)}.`};
-    return {k:'up',w:nw,r:rr.lo,sets:n,why:`בפעם הקודמת סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}. היום עולים ל-${wL(nw)} (+${pct}%), ומתחילים מ-${rr.lo} חזרות.`}; }
-  if(!full&&atTop)return {k:'reps',w:topW,r:top,sets:n,why:`בפעם הקודמת עשית ${ls.length} מתוך ${planned} סטים ב-${top}. כשכל ${n} הסטים מגיעים ל-${top}, עולים ל-${wL(nw)}.`};
+      return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הקצה. היום עוד פעם ${wL(topW)}, הפעם עם חזרה אחת בטנק, ואז עולים ל-${wL(nw)}.`};
+    return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}, הגיע הזמן לעלות. היום ${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.`}; }
+  if(!full&&atTop)return {k:'reps',w:topW,r:top,sets:n,why:`בפעם הקודמת ${ls.length} מתוך ${planned} סטים הגיעו ל-${top}. ${planned-ls.length===1?'כשגם הסט האחרון יגיע':'כשכל הסטים יגיעו'}, עולים ל-${wL(nw)}.`};
   if(big&&rs.every(r=>r>=rr.hi)){ const tr=perSet(0), bp=Math.round(st/topW*100);
-    return {k:'reps',w:topW,r:tr,sets:n,ps:perSet,why:`המשקל הבא (${wL(topW+st)}) כבד ב-${bp}%, קפיצה גדולה מדי. נשארים ב-${wL(topW)} ומכוונים ל-${tr} חזרות. כשכל הסטים מגיעים ל-${top}, עולים.`}; }
+    return {k:'reps',w:topW,r:tr,sets:n,ps:perSet,why:`מ-${wL(topW)} ל-${wL(topW+st)} זו קפיצה גדולה. נשארים על ${wL(topW)} ומוסיפים חזרות, היום ${tr}. כשתגיע ל-${top} בכל הסטים, עוברים ל-${wL(topW+st)}.`}; }
   const prev=hist[1], prevLow=prev?Math.min(...prev.sets.map(s=>+s.r||0)):99, prevW=prev?Math.max(...prev.sets.map(s=>+s.w||0)):0;
   if(low<rr.lo&&prevLow<rr.lo&&prevW>=topW){ const nw=roundTo(topW*0.95,st);
-    return {k:'down',w:nw,r:rr.lo,sets:n,why:`פעמיים ברצף מתחת ל-${rr.lo} חזרות עם ${wL(topW)}. מורידים ל-${wL(nw)} כדי לחזור לטווח, ומשם ממשיכים לעלות.`}; }
+    return {k:'down',w:nw,r:rr.lo,sets:n,why:`פעמיים ברצף לא הגעת ל-${rr.lo} חזרות עם ${wL(topW)}. יורדים ל-${wL(nw)}, חוזרים לטווח ובונים משם.`}; }
   const e1=h=>Math.max(...h.sets.map(s=>e1rm(+s.w||0,+s.r||0)));
   const stuck=hist.length>=4&&!hist.slice(0,3).some(h=>h.dl)&&Math.max(e1(hist[0]),e1(hist[1]),e1(hist[2]))<=e1(hist[3])*1.01;
   const tr=perSet(0);
   return {k:stuck?'stuck':'reps',w:topW,r:tr,sets:n,ps:perSet,why:stuck
     ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-${tr} חזרות. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.`
-    :`אותו משקל (${wL(topW)}), והפעם חזרה אחת יותר. כשכל הסטים מגיעים ל-${rr.hi}, עולים במשקל.`};
+    :`נשארים על ${wL(topW)} ומנסים חזרה אחת יותר מהפעם הקודמת. ב-${rr.hi} חזרות בכל הסטים, עולים במשקל.`};
 }
 const RIR_WK={1:'משאירים 3 חזרות בטנק',2:'משאירים 2–3 חזרות בטנק',3:'משאירים 2 חזרות בטנק',4:'משאירים 1–2 חזרות בטנק',5:'משאירים חזרה אחת בטנק'};
 function coachWeekLine(bi){ if(bi.ended)return 'הבלוק הסתיים. בוא נראה מה התחזק ומה משתנה.';
@@ -6090,7 +6090,7 @@ function vStrength(e,ei,cur){
         <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
         <div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}
-        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':co.k==='hold'?'עוד אימון אחד במשקל הזה':co.k==='sens'?'אזור רגיש':co.k==='reset'?'צעד אחורה כדי לקפוץ':'ראפי'}${infoI('sug')}</b><span>${esc(co.why)}</span>${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}
+        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':co.k==='hold'?'עוד אימון אחד במשקל הזה':co.k==='sens'?'אזור רגיש':co.k==='reset'?'צעד אחורה כדי לקפוץ':'ראפי · המאמן החכם שלך'}${infoI('sug')}</b><span>${esc(co.why)}</span>${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}
         ${(()=>{ const c=e.sets.some(x=>x.done)?null:cueOf(e,co); return c?`<div class="rtip cue"><b>דגש טכניקה</b><span data-notr>${esc(c)}</span></div>`:''; })()}
         ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wL(tip.w)}</b> ${LU()}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wL(tip.w)}</span> ${LU()}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
@@ -6502,7 +6502,7 @@ function kcalBank(){
 function foodBankLine(){
   const b=kcalBank(); if(!b||calm())return '';
   const left=7-new Date().getDay(), per=Math.round(Math.min(b.kT*1.15,Math.max(b.kT*0.9,b.kT+b.bank/left))/10)*10, inB=Math.abs(b.bank)<=b.kT*0.1*b.n;
-  if(inB)return `<div class="fbank" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>השבוע בתקציב · ${left>1?`כ-${kcalN(per)} ליום עד סוף השבוע`:'ממשיכים ככה'}</span>${infoI('bank')}</span>${ICON.chev}</div>`;
+  if(inB)return `<div class="fbank" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>השבוע במסלול · ${left>1?`נשארו כ-${kcalN(per)} ליום עד שבת`:'ממשיכים ככה'}</span>${infoI('bank')}</span>${ICON.chev}</div>`;
   if(b.bank<0)return `<div class="fbank over" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>השבוע: ${kcalN(-b.bank)} קק״ל מעבר לתוכנית · ממשיכים רגיל, בלי לפצות</span>${infoI('bank')}</span>${ICON.chev}</div>`;
   return b.bank>0
     ?`<div class="fbank" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>בנק השבוע: עוד <b class="num">${kcalN(b.bank)}</b> קק״ל לנצל</span>${infoI('bank')}</span>${ICON.chev}</div>`
