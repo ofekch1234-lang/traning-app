@@ -2293,7 +2293,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.70';
+const APP_VERSION='13.3.72';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8488,7 +8488,7 @@ function socAct(act,b){
 }
 document.addEventListener('input',ev=>{ if(ev.target.id==='chat-in'&&S.tab==='social'){SOC.draft=ev.target.value; const t=ev.target; t.style.height='auto'; t.style.height=Math.min(120,t.scrollHeight)+'px';} });
 /* the Nutrition search bar: when the keyboard opens, bring the bar to the top so its results show above the keyboard */
-document.addEventListener('focusin',ev=>{ if(ev.target.id!=='ask-q')return; setTimeout(()=>{ const bar=ev.target.closest('.ask'); if(!bar)return; const y=bar.getBoundingClientRect().top+window.scrollY-12; window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); },280); });
+document.addEventListener('focusin',ev=>{ if(ev.target.id!=='ask-q')return; setTimeout(()=>{ const bar=ev.target.closest('.ask'); if(!bar)return; const hb=document.querySelector('header.top')?.getBoundingClientRect().bottom||0, y=bar.getBoundingClientRect().top+window.scrollY-Math.max(12,hb+10); /* keep the bar just under the sticky header */ window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); },280); });
 document.addEventListener('keydown',ev=>{ if(ev.target.id==='food-text'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault(); $('[data-act="food-ai"]')?.click(); return;}
   if(ev.target.id==='ask-q'&&ev.key==='Enter'&&!ev.isComposing){ ev.preventDefault(); ev.target.blur(); const v=ev.target.value.trim(); if(!v)return; const first=$('#ask-res .fs-row'); if(first&&!/\s/.test(v)){ first.click(); return; } S.askQ=''; foodAI({text:v}); return; }
   if(ev.target.id==='chat-in'&&S.tab==='social'&&ev.key==='Enter'&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();socSend();}
