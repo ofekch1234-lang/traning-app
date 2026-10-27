@@ -2207,7 +2207,9 @@ function natPlan(){
     add(new Date(until-DAYMS),'נשארו 24 שעות להצעה ⏳',pr+'. '+tt('אחרי זה המחיר המלא.'),'trial');
     add(new Date(until-3*36e5),'עוד 3 שעות ההצעה נגמרת',pr+'. '+tt('הפרימיום והנתונים שלך ממשיכים בלי הפסקה.'),'trial');
     add(new Date(until-36e5),'שעה אחרונה להצעה',pr+'. '+tt('בעוד שעה המחיר המלא.'),'trial'); }
-  /* the intro offer lives only inside the 7 free days (decided 2026-10-27): no second window after the lock */
+  if(ow||(until&&!storeOn&&!S.plan?.plan_months&&!(S.plan?.paid&&!S.plan?.gift)&&S.plan?.lock&&RC_KEYS[NATIVE_OS]&&until>Date.now())){ const s2=offerSecond(until);
+    add(new Date(s2),'ההצעה חזרה, ל-24 שעות בלבד',tt('חודש ראשון ב-₪9.90 במקום ₪29.90. כל האימונים והנתונים שלך מחכים.'),'trial');
+    add(new Date(s2+23*36e5),'שעה אחרונה להצעה',tt('חודש ראשון ב-₪9.90. אחרי זה המחיר המלא.'),'trial'); }
   if(!ofw&&until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם ראפי בלי הפסקה.'),'trial');
   return out.sort((a,b)=>a.at-b.at);
 }
@@ -2291,7 +2293,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.74';
+const APP_VERSION='13.3.72';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8511,15 +8513,15 @@ const rcIsAnnual=p=>p.packageType==='ANNUAL'||p.identifier==='$rc_annual';
 const rcIsMonthly=p=>p.packageType==='MONTHLY'||p.identifier==='$rc_monthly';
 /* Intro offer (decided 2026-10-23, timing updated 2026-10-25): during the free premium week the store shows the
    `lock_offer` offering (first month ₪9.90 / first year ₪149.90). It ends with the trial; the last 24 h show a live
-   countdown. Only inside the 7 free days (no second window since 2026-10-27). The window comes from the server's
+   countdown. Once, 7 days after the lock, the offer comes back for 24 h. Both windows come from the server's
    `until`, so they can't be reset on the device. Users who ever paid (store or web) never get it. */
 const OFFER_DAY=864e5;
-/* unused since 2026-10-27 (no second offer window) */
 function offerSecond(u){ const s=new Date(u+7*OFFER_DAY); s.setHours(12,0,0,0); return +s<u+7*OFFER_DAY?+s+OFFER_DAY:+s; }
 function offerWin(){ const p=S.plan; if(!IS_NATIVE||!p||p.admin||!p.lock||!RC_KEYS[NATIVE_OS])return null;
   if(p.store_until||p.plan_months||(p.paid&&!p.gift))return null;
   const u=p.until?+new Date(p.until):0, now=Date.now(); if(!u)return null;
   if(p.premium&&u>now)return {end:u,second:false};
+  const s=offerSecond(u); if(!p.premium&&now>=s&&now<s+OFFER_DAY)return {end:s+OFFER_DAY,second:true};
   return null; }
 function rcCheck(){ if(RC.ready&&RC.uid&&RC.offer!==!!offerWin())rcLoad(); }
 const ocdFmt=ms=>{ ms=Math.max(0,ms); const h=Math.floor(ms/36e5), m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
