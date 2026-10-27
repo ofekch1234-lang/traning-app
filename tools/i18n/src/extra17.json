@@ -1,0 +1,322 @@
+{
+ "עוד אימון אחד במשקל הזה": {
+  "en": "One more session at this weight",
+  "ar": "تمرين واحد إضافي بهذا الوزن"
+ },
+ "הרגיש בסדר, תעלה ל-{0}": {
+  "en": "Felt fine, go up to {0}",
+  "ar": "كان مريحًا، ارفع إلى {0}"
+ },
+ "חוזרים אחרי הפסקה: אימון {0} מתוך 3 בדרך חזרה ל-{1}. היום {2}, כדי לחזור חזק ובלי פציעה.": {
+  "en": "Coming back after a break: workout {0} of 3 on the way back to {1}. Today {2}, to come back strong and injury-free.",
+  "ar": "العودة بعد استراحة: التدريب {0} من 3 في طريق العودة إلى {1}. اليوم {2}، لتعود قويًا ودون إصابة."
+ },
+ "אימון 3 מתוך 3 בדרך חזרה: חוזרים ל-{0}. מכאן ממשיכים להתקדם כרגיל.": {
+  "en": "Workout 3 of 3 on the way back: back to {0}. From here you progress as usual.",
+  "ar": "التدريب 3 من 3 في طريق العودة: العودة إلى {0}. من هنا نواصل التقدم كالمعتاد."
+ },
+ "סגרת {0} בכל הסטים, אבל הסט האחרון היה עד הסוף. היום שוב {1}, עם חזרה בטנק, ואז עולים ל-{2}.": {
+  "en": "You hit {0} on every set, but the last set went to failure. Today {1} again, with a rep in the tank, then up to {2}.",
+  "ar": "أنهيت {0} في كل المجموعات، لكن المجموعة الأخيرة كانت حتى الفشل. اليوم {1} مرة أخرى مع تكرار احتياطي، ثم نرفع إلى {2}."
+ },
+ "סגרת {0} בכל הסטים, אבל סט {1} היה עד הסוף. היום שוב {2}, עם חזרה בטנק, ואז עולים ל-{3}.": {
+  "en": "You hit {0} on every set, but set {1} went to failure. Today {2} again, with a rep in the tank, then up to {3}.",
+  "ar": "أنهيت {0} في كل المجموعات، لكن المجموعة {1} كانت حتى الفشل. اليوم {2} مرة أخرى مع تكرار احتياطي، ثم نرفع إلى {3}."
+ },
+ "בפעם הקודמת סגרת {0} חזרות בכל הסטים עם {1}. היום עולים ל-{2} (+{3}%), ומתחילים מ-{4} חזרות.": {
+  "en": "Last time you hit {0} reps on every set with {1}. Today go up to {2} (+{3}%) and start from {4} reps.",
+  "ar": "في المرة السابقة أنهيت {0} تكرارات في كل المجموعات بـ{1}. اليوم نرفع إلى {2} (+{3}%) ونبدأ من {4} تكرارات."
+ },
+ "בפעם הקודמת עשית {0} מתוך {1} סטים ב-{2}. כשכל {3} הסטים מגיעים ל-{4}, עולים ל-{5}.": {
+  "en": "Last time you did {0} of {1} sets at {2}. When all {3} sets reach {4}, go up to {5}.",
+  "ar": "في المرة السابقة أنجزت {0} من {1} مجموعات بـ{2}. عندما تصل كل المجموعات الـ{3} إلى {4}، نرفع إلى {5}."
+ },
+ "המשקל הבא ({0}) כבד ב-{1}%, קפיצה גדולה מדי. נשארים ב-{2} ומכוונים ל-{3} חזרות. כשכל הסטים מגיעים ל-{4}, עולים.": {
+  "en": "The next weight ({0}) is {1}% heavier, too big a jump. Stay at {2} and aim for {3} reps. When every set reaches {4}, go up.",
+  "ar": "الوزن التالي ({0}) أثقل بـ{1}%، قفزة كبيرة جدًا. نبقى على {2} ونستهدف {3} تكرارات. عندما تصل كل المجموعات إلى {4}، نرفع."
+ },
+ "לפי הבחירה שלך: עולים ל-{0} ומתחילים מ-{1} חזרות. אם הסט הראשון כבד מדי, אפשר לחזור למשקל הקודם.": {
+  "en": "Your call: go up to {0} and start from {1} reps. If the first set feels too heavy, go back to the previous weight.",
+  "ar": "حسب اختيارك: نرفع إلى {0} ونبدأ من {1} تكرارات. إذا كانت المجموعة الأولى ثقيلة جدًا، يمكن العودة إلى الوزن السابق."
+ },
+ "ברוך השב": {
+  "en": "Welcome back",
+  "ar": "أهلًا بعودتك"
+ },
+ "עברו {0} שבועות מהאימון האחרון": {
+  "en": "{0} weeks since your last workout",
+  "ar": "مرّ {0} أسابيع منذ آخر تدريب"
+ },
+ "עברו שבועיים מהאימון האחרון": {
+  "en": "Two weeks since your last workout",
+  "ar": "مرّ أسبوعان منذ آخر تدريب"
+ },
+ "שאלה אחת, כדי לחזור בקצב הנכון:": {
+  "en": "One question, to come back at the right pace:",
+  "ar": "سؤال واحد، لنعود بالوتيرة المناسبة:"
+ },
+ "התאמנת בתקופה הזאת?": {
+  "en": "Did you train during this time?",
+  "ar": "هل تدربت خلال هذه الفترة؟"
+ },
+ "לא בכלל": {
+  "en": "Not at all",
+  "ar": "لا، إطلاقًا"
+ },
+ "מתחילים מ-{0}%, חוזרים תוך 3 אימונים": {
+  "en": "Start at {0}%, back to normal within 3 workouts",
+  "ar": "نبدأ من {0}%، ونعود خلال 3 تدريبات"
+ },
+ "קצת": {
+  "en": "A little",
+  "ar": "قليلًا"
+ },
+ "כן, כרגיל": {
+  "en": "Yes, as usual",
+  "ar": "نعم، كالمعتاد"
+ },
+ "ממשיכים מאיפה שהפסקת": {
+  "en": "Pick up where you left off",
+  "ar": "نكمل من حيث توقفت"
+ },
+ "קצב זהיר": {
+  "en": "Careful pace",
+  "ar": "وتيرة حذرة"
+ },
+ "קפיצות משקל קטנות יותר": {
+  "en": "Smaller weight jumps",
+  "ar": "قفزات وزن أصغر"
+ },
+ "שאלון בריאות": {
+  "en": "Health questionnaire",
+  "ar": "استبيان صحي"
+ },
+ "מולא · אפשר למלא שוב": {
+  "en": "Done · you can fill it in again",
+  "ar": "تمت التعبئة · يمكن تعبئته مجددًا"
+ },
+ "מולא": {
+  "en": "Done",
+  "ar": "تمت التعبئة"
+ },
+ "אפשר למלא שוב": {
+  "en": "You can fill it in again",
+  "ar": "يمكن تعبئته مجددًا"
+ },
+ "כמה שאלות קצרות, 20 שניות": {
+  "en": "A few short questions, 20 seconds",
+  "ar": "بضعة أسئلة قصيرة، 20 ثانية"
+ },
+ "תנאי השימוש": {
+  "en": "Terms of use",
+  "ar": "شروط الاستخدام"
+ },
+ "נשמר. ראפי יתקדם איתך בקצב זהיר": {
+  "en": "Saved. Repi will progress with you at a careful pace",
+  "ar": "تم الحفظ. سيتقدم رابي معك بوتيرة حذرة"
+ },
+ "תודה. אפשר להתאמן בראש שקט": {
+  "en": "Thanks. Train with peace of mind",
+  "ar": "شكرًا. يمكنك التدرب براحة بال"
+ },
+ "בטווח היום": {
+  "en": "In range today",
+  "ar": "ضمن النطاق اليوم"
+ },
+ "יום גדול": {
+  "en": "A big day",
+  "ar": "يوم كبير"
+ },
+ "בטווח": {
+  "en": "In range",
+  "ar": "ضمن النطاق"
+ },
+ "זה בסדר. מה שקובע הוא השבוע, והממוצע שלך {0} קק״ל ביום.": {
+  "en": "That's okay. The week is what counts, and your average is {0} kcal a day.",
+  "ar": "لا بأس. ما يهم هو الأسبوع، ومتوسطك {0} سعرة في اليوم."
+ },
+ "יום אחד לא משנה מגמה. מחר ממשיכים רגיל, בלי לפצות.": {
+  "en": "One day doesn't change the trend. Tomorrow carries on as usual, no making up for it.",
+  "ar": "يوم واحد لا يغيّر الاتجاه. غدًا نكمل كالمعتاد، دون تعويض."
+ },
+ "השבוע: {0} קק״ל מעבר לתוכנית": {
+  "en": "This week: {0} kcal over the plan",
+  "ar": "هذا الأسبوع: {0} سعرة فوق الخطة"
+ },
+ "ביום ראשון מתחיל שבוע חדש, בלי חוב": {
+  "en": "A new week starts Sunday, nothing carried over",
+  "ar": "يبدأ أسبوع جديد يوم الأحد، دون ديون"
+ },
+ "המשקל ממשיך לרדת יפה, גם עם ממוצע קצת מעל התוכנית.": {
+  "en": "Your weight keeps dropping nicely, even with an average a bit over the plan.",
+  "ar": "الوزن يستمر بالنزول بشكل جيد، حتى مع متوسط أعلى قليلًا من الخطة."
+ },
+ "הממוצע השבוע קצת מעל התוכנית. הצעד הכי קל: ארוחת ערב עם יותר חלבון וירק, משם מגיעה רוב התוספת.": {
+  "en": "This week's average is a bit over the plan. The easiest step: a dinner with more protein and vegetables, that's where most of the extra comes from.",
+  "ar": "متوسط هذا الأسبوع أعلى قليلًا من الخطة. أسهل خطوة: عشاء بمزيد من البروتين والخضار، فمن هناك تأتي معظم الزيادة."
+ },
+ "הממוצע השבוע קצת מעל התוכנית. הצעד הכי קל: חלבון בכל ארוחה, הוא משביע יותר.": {
+  "en": "This week's average is a bit over the plan. The easiest step: protein at every meal, it keeps you fuller.",
+  "ar": "متوسط هذا الأسبوع أعلى قليلًا من الخطة. أسهل خطوة: بروتين في كل وجبة، فهو يُشبع أكثر."
+ },
+ "שבוע בלי רישום. מספיקה ארוחה אחת ביום כדי שראפי יבין מגמה.": {
+  "en": "A week without logging. One meal a day is enough for Repi to see a trend.",
+  "ar": "أسبوع بدون تسجيل. تكفي وجبة واحدة في اليوم ليفهم رابي الاتجاه."
+ },
+ "האכילה ב-4 הימים האחרונים נמוכה מהתוכנית": {
+  "en": "Eating over the last 4 days is below the plan",
+  "ar": "الأكل في آخر 4 أيام أقل من الخطة"
+ },
+ "בערך {0} קק״ל ביום, מתוך {1}. חוסר גדול מדי פוגע בשריר, באנרגיה ובמצב הרוח, ובסוף גם בירידה.": {
+  "en": "About {0} kcal a day, out of {1}. Too big a deficit hurts muscle, energy and mood, and in the end the weight loss too.",
+  "ar": "حوالي {0} سعرة في اليوم، من أصل {1}. العجز الكبير جدًا يضر بالعضلات والطاقة والمزاج، وفي النهاية بالنزول أيضًا."
+ },
+ "אוכל יכול להיות נושא מורכב. אם זה מרגיש ככה, שווה לדבר עם איש מקצוע.": {
+  "en": "Food can be a complicated topic. If it feels that way, it's worth talking to a professional.",
+  "ar": "الطعام قد يكون موضوعًا معقدًا. إذا شعرت بذلك، فمن المفيد التحدث مع مختص."
+ },
+ "הבנתי, אוסיף ארוחה": {
+  "en": "Got it, I'll add a meal",
+  "ar": "فهمت، سأضيف وجبة"
+ },
+ "פשוט לא רשמתי הכל": {
+  "en": "I just didn't log everything",
+  "ar": "ببساطة لم أسجّل كل شيء"
+ },
+ "היעד נמוך מהרצפה הבטוחה": {
+  "en": "This target is below the safe floor",
+  "ar": "الهدف أقل من الحد الآمن"
+ },
+ "מתחת ל-{0} קק״ל ביום קשה לשמור על שריר ועל אנרגיה, והירידה נוטה להיעצר. מומלץ להישאר ברצפה או מעליה.": {
+  "en": "Below {0} kcal a day it's hard to keep muscle and energy, and weight loss tends to stall. Staying at the floor or above is recommended.",
+  "ar": "تحت {0} سعرة في اليوم يصعب الحفاظ على العضلات والطاقة، ويميل النزول إلى التوقف. يُنصح بالبقاء عند الحد أو فوقه."
+ },
+ "לשמור {0} קק״ל": {
+  "en": "Save {0} kcal",
+  "ar": "حفظ {0} سعرة"
+ },
+ "לשמור {0} בכל זאת": {
+  "en": "Save {0} anyway",
+  "ar": "حفظ {0} على أي حال"
+ },
+ "לא יורד מתחת לרצפה בטוחה": {
+  "en": "never below a safe floor",
+  "ar": "لا ينزل تحت الحد الآمن"
+ },
+ "לא": {
+  "en": "No",
+  "ar": "لا"
+ },
+ "כן": {
+  "en": "Yes",
+  "ar": "نعم"
+ },
+ "כמה שאלות בריאות": {
+  "en": "A few health questions",
+  "ar": "بعض الأسئلة الصحية"
+ },
+ "האם משהו מאלה נכון לגביך? התשובות לא נשמרות, רק הקצב שראפי בוחר.": {
+  "en": "Does any of this apply to you? Your answers aren't saved, only the pace Repi picks.",
+  "ar": "هل ينطبق عليك أي من هذا؟ لا تُحفظ الإجابات، فقط الوتيرة التي يختارها رابي."
+ },
+ "הכל תקין, אין אף אחד מאלה": {
+  "en": "All good, none of these",
+  "ar": "كل شيء بخير، لا شيء من هذه"
+ },
+ "רופא אבחן בעיה בלב או לחץ דם גבוה": {
+  "en": "A doctor diagnosed a heart condition or high blood pressure",
+  "ar": "شخّص طبيب مشكلة في القلب أو ضغط دم مرتفع"
+ },
+ "כאבים בחזה במנוחה, ביום-יום או במאמץ": {
+  "en": "Chest pain at rest, in daily life or during exercise",
+  "ar": "ألم في الصدر أثناء الراحة أو في الحياة اليومية أو أثناء المجهود"
+ },
+ "סחרחורת עם איבוד שיווי משקל, או התעלפות, בשנה האחרונה": {
+  "en": "Dizziness with loss of balance, or fainting, in the past year",
+  "ar": "دوخة مع فقدان التوازن، أو إغماء، خلال السنة الأخيرة"
+ },
+ "מחלה כרונית אחרת (למשל סוכרת או אסתמה)": {
+  "en": "Another chronic condition (e.g. diabetes or asthma)",
+  "ar": "مرض مزمن آخر (مثل السكري أو الربو)"
+ },
+ "תרופות קבועות למצב רפואי": {
+  "en": "Regular medication for a medical condition",
+  "ar": "أدوية منتظمة لحالة طبية"
+ },
+ "בעיה בעצמות, במפרקים או בגב שעלולה להחמיר מפעילות": {
+  "en": "A bone, joint or back problem that activity could make worse",
+  "ar": "مشكلة في العظام أو المفاصل أو الظهر قد يزيدها النشاط سوءًا"
+ },
+ "הוראה מרופא להתאמן רק בהשגחה רפואית": {
+  "en": "A doctor's instruction to exercise only under medical supervision",
+  "ar": "تعليمات من طبيب بالتدرب فقط تحت إشراف طبي"
+ },
+ "הריון, או לידה בשנה האחרונה": {
+  "en": "Pregnancy, or giving birth in the past year",
+  "ar": "حمل، أو ولادة خلال السنة الأخيرة"
+ },
+ "ראפי מתאים אימונים ותזונה לפי הנתונים שלך, ולא מחליף ייעוץ רפואי. כאב חד או חוזר: עוצרים ומתייעצים עם איש מקצוע.": {
+  "en": "Repi adapts training and nutrition to your data and doesn't replace medical advice. Sharp or recurring pain: stop and consult a professional.",
+  "ar": "يكيّف رابي التدريب والتغذية حسب بياناتك، ولا يحل محل الاستشارة الطبية. ألم حاد أو متكرر: توقف واستشر مختصًا."
+ },
+ "תודה ששיתפת. מומלץ לבדוק עם רופא לפני שמתחילים.": {
+  "en": "Thanks for sharing. It's best to check with a doctor before you start.",
+  "ar": "شكرًا لمشاركتك. يُنصح بمراجعة طبيب قبل البدء."
+ },
+ "זה לא אומר שאסור להתאמן. ככה כל מאמן אחראי עובד. בינתיים ראפי מתאים את עצמו:": {
+  "en": "It doesn't mean you can't train. It's how every responsible coach works. Meanwhile Repi adjusts:",
+  "ar": "هذا لا يعني أنه ممنوع التدرب. هكذا يعمل كل مدرب مسؤول. في هذه الأثناء يتكيّف رابي:"
+ },
+ "✓ קצב התקדמות זהיר: קפיצות משקל קטנות יותר": {
+  "en": "✓ Careful progression: smaller weight jumps",
+  "ar": "✓ تقدّم بوتيرة حذرة: قفزات وزن أصغر"
+ },
+ "✓ אפשר לשנות את זה בכל רגע בהגדרות של ראפי": {
+  "en": "✓ You can change this anytime in Repi's settings",
+  "ar": "✓ يمكن تغيير ذلك في أي وقت من إعدادات رابي"
+ },
+ "התייעצתי עם רופא, או שההחלטה להמשיך היא שלי ואקשיב לגוף": {
+  "en": "I consulted a doctor, or the choice to continue is mine and I'll listen to my body",
+  "ar": "استشرت طبيبًا، أو أن قرار المتابعة قراري وسأستمع لجسدي"
+ },
+ "ממשיכים": {
+  "en": "Continue",
+  "ar": "نتابع"
+ },
+ "שאלה קצרה מראפי": {
+  "en": "A quick question from Repi",
+  "ar": "سؤال قصير من رابي"
+ },
+ "כמה שאלות בריאות, כמו שכל מאמן שואל. 20 שניות.": {
+  "en": "A few health questions, like every coach asks. 20 seconds.",
+  "ar": "بعض الأسئلة الصحية، كما يسأل كل مدرب. 20 ثانية."
+ },
+ "למלא": {
+  "en": "Fill in",
+  "ar": "تعبئة"
+ },
+ "לתקן תשובה": {
+  "en": "Change an answer",
+  "ar": "تعديل إجابة"
+ },
+ "ושאלה אחרונה, כמו שכל מאמן שואל לפני אימון ראשון:": {
+  "en": "And one last question, like every coach asks before a first session:",
+  "ar": "وسؤال أخير، كما يسأل كل مدرب قبل أول تدريب:"
+ },
+ "האם משהו מאלה נכון לגביך?": {
+  "en": "Does any of this apply to you?",
+  "ar": "هل ينطبق عليك أي من هذا؟"
+ },
+ "התשובות לא נשמרות, רק הקצב שראפי בוחר.": {
+  "en": "Your answers aren't saved, only the pace Repi picks.",
+  "ar": "لا تُحفظ الإجابات، فقط الوتيرة التي يختارها رابي."
+ },
+ "9 שאלות קצרות · פחות מדקה וחצי": {
+  "en": "9 short questions · under a minute and a half",
+  "ar": "9 أسئلة قصيرة · أقل من دقيقة ونصف"
+ },
+ "מה הכי מפריע לך להתמיד?": {
+  "en": "What gets in the way of sticking with it?",
+  "ar": "ما الذي يمنعك من الاستمرار؟"
+ }
+}
