@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=acc883c7"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=acc883c7"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=acc883c7"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f8d9171d"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f8d9171d"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f8d9171d"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1135,6 +1135,20 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .hq-chk i{flex:none;width:22px;height:22px;border-radius:6px;border:2px solid var(--muted);display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:900;margin-top:1px}.hq-chk.on i{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .hq-sh .btn:disabled{opacity:.4}
 .hq-legal{font-size:12px;color:var(--muted);line-height:1.55;text-align:center;margin:12px 4px 0}.hq-legal a{color:var(--muted)}
+.rtip.cue{background:#122036}.rtip.cue>b{color:#9CC7FF}.rtip.cue span{color:#D6E6FF}
+.rirq .ouch,.rir2 .ouch{background:none;border:0;padding:0;color:#FF8F84;font-size:12.5px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.rirq .ouch{flex-basis:100%;text-align:start;margin-top:2px}.rir2 .ouch{align-self:flex-start;margin-top:3px}
+.wu{margin:2px 0 10px;border-radius:12px;background:#151915;border:1px dashed #333A35;overflow:hidden}
+.wu-h{width:100%;display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:none;border:0;color:var(--ink);font-size:13px;font-weight:700}
+.wu-h .wu-st{font-size:12px;color:var(--muted);font-weight:600}.wu-g{padding:0 8px 8px}
+.wu-v{display:flex;align-items:center;justify-content:center;height:34px;border-radius:10px;border:1px dashed #3A403C;color:var(--muted);font-size:14px;font-weight:600}.wu-v.d{border-style:solid;border-color:#4D5A33;color:var(--ink);background:#161B10}
+.done-btn.wu-b{height:34px;background:transparent;border-style:dashed}.done-btn.wu-b.d{background:#4D5A33;border:1px solid #4D5A33}.done-btn.wu-b.d svg{stroke:#DCE5D0}
+.pn .pn-l{font-size:13px;font-weight:700;color:var(--muted);margin:12px 0 6px}.pn .pn-c{gap:6px;flex-wrap:wrap}
+.pn-warn{margin-top:10px;padding:10px 12px;border-radius:12px;background:#2A1715;color:#FFB3AB;font-size:13.5px;line-height:1.5}
+.pn-sens{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:#2A1715;color:#FFB3AB;font-size:13px;margin:4px 0 2px}
+.pn-o.on{background:var(--accent-soft)}
+.ma{display:flex;gap:12px;align-items:flex-start;padding:14px;border-color:#3E5214}.ma>img{width:38px;height:38px;flex:none}.ma .lt{display:flex;flex-direction:column;gap:4px;min-width:0}.ma b{color:var(--accent)}.ma span{font-size:14.5px;line-height:1.5}.ma small{color:var(--muted);font-size:13px;line-height:1.5}.ma .btn{padding:8px 14px;font-size:14px}
+.ovw{padding:14px}.ovw span{font-size:14px;line-height:1.5}
 .brkq h3{margin:4px 0 2px}.brkq-k{font-size:12px;font-weight:800;color:var(--accent);letter-spacing:.04em}
 .rtip .co-ovr{align-self:flex-start;margin-top:8px;font-size:13px;padding:6px 12px;background:var(--surface2);color:var(--ink)}
 .setgrid input[data-sug]:placeholder-shown::placeholder{color:var(--accent);opacity:.95;font-weight:700}
@@ -1768,7 +1782,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.43';
+const APP_VERSION='13.3.45';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2343,7 +2357,7 @@ function tickRest(){
 function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;restRirHide();disarmServerRest();saveRestState();}
 /* the last set of an exercise: ask "reps left?" on the rest bar (optional; no answer changes nothing) */
 function restRir(ei,si){ const e=S.active?.ex?.[ei], el=$('#rest-rir'); if(!e||!el||!coachOn()||!coachCfg().rir)return;
-  el.classList.remove('ok'); el.innerHTML=`<span><small>${esc(e.n)} · סט אחרון</small><b>כמה חזרות נשארו?</b></span><span class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`; el.hidden=false; }
+  el.classList.remove('ok'); el.innerHTML=`<span><small>${esc(e.n)} · סט אחרון</small><b>כמה חזרות נשארו?</b><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></span><span class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`; el.hidden=false; }
 function restRirHide(){ const el=$('#rest-rir'); if(el){ el.hidden=true; el.innerHTML=''; } }
 
 /* ---------- rendering ---------- */
@@ -2998,7 +3012,7 @@ function vHome(){
       <div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div>
       <div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div>
     </div>
-    ${hqCardHTML()}
+    ${hqCardHTML()}${morningAfterHTML()}
     ${foodFirst?foodCard+`<div class="card r20 list"><button class="li" data-act="pb-open">${ICON.list}<span class="lt"><b>${G('רוצה גם תוכנית אימון?','רוצה גם תוכנית אימון?','גם תוכנית אימון?')}</b><small>8 שאלות קצרות, ויש לך תוכנית שמתאימה ליעד</small></span>${ICON.chev}</button></div>`:workCard+foodCard}
     <div class="card r20">
       <div class="spread"><b style="font-size:17px">השבוע</b>${streak>1?`<span class="small" style="color:#B45309;font-weight:600">🔥 ${streak} שבועות ברצף</span>`:`<span class="small muted">${wkSub}</span>`}</div>
@@ -3077,6 +3091,36 @@ function overTip(rate){
   if(rate!=null&&rate<=-0.2)return 'המשקל ממשיך לרדת יפה, גם עם ממוצע קצת מעל התוכנית.';
   return eveShare()>0.45?'הממוצע השבוע קצת מעל התוכנית. הצעד הכי קל: ארוחת ערב עם יותר חלבון וירק, משם מגיעה רוב התוספת.'
     :'הממוצע השבוע קצת מעל התוכנית. הצעד הכי קל: חלבון בכל ארוחה, הוא משביע יותר.'; }
+/* the morning after a big day (20%+ over): one supportive line from Rafi, at most once a week, no "making up for it" */
+function morningAfterHTML(){ const kT=+S.settings.kcalT||0; if(!kT)return ''; const y=new Date(); y.setDate(y.getDate()-1); const yd=ymd(y);
+  if(!mealsOf(yd).length||dayTotals(yd).kcal<=kcalFor(yd)*1.2)return '';
+  let last=''; try{ last=localStorage.getItem('nr-ma')||''; }catch(_){} if(last===ymd())return MA.open?maCard():''; if(last&&Date.now()-new Date(last+'T12:00:00')<6*864e5)return '';
+  try{ localStorage.setItem('nr-ma',ymd()); }catch(_){} MA.open=true; return maCard(); }
+const MA={open:false,why:false};
+function maCard(){ const a=avg7(), kT=+S.settings.kcalT||0, ok=a!=null&&Math.abs(a-kT)<=kT*0.1;
+  return `<div class="card r20 ma"><img src="img/kobi-happy.svg" alt=""><div class="lt"><b>ראפי</b>
+    <span>אתמול היה יום גדול, וזה חלק מהחיים. ${ok?'הממוצע השבועי שלך עדיין על המסלול.':'יום אחד לא משנה מגמה.'}</span>
+    <small>היום ממשיכים רגיל, בלי לפצות. ארוחת בוקר עם חלבון תעשה את רוב העבודה.</small>
+    ${MA.why?`<small class="ma-why">הגבלה חזקה אחרי יום גדול מגבירה רעב ויוצרת מעגל. מה שעובד הוא לחזור לשגרה.</small>`:''}
+    <div class="row" style="gap:8px;margin-top:8px"><button class="btn" data-act="ma-ok">תודה</button>${MA.why?'':`<button class="btn" data-act="ma-why">למה לא לפצות?</button>`}</div></div></div>`; }
+/* three weeks in a row well over the plan while cutting, and the weight isn't moving: the plan is too hard, so offer an easier one */
+function weekAvg(i){ const now=new Date(), st=new Date(now); st.setDate(now.getDate()-now.getDay()-7*i); let s=0,t=0,n=0;
+  for(let k=0;k<7;k++){ const d=new Date(st); d.setDate(st.getDate()+k); const ds=ymd(d); if(!mealsOf(ds).length)continue; s+=dayTotals(ds).kcal; t+=kcalFor(ds); n++; } return n>=3?{avg:s/n,t:t/n}:null; }
+function overWeeksHTML(){ const kT=+S.settings.kcalT||0, b=S.settings.body||{}; if(!kT)return '';
+  const cut=b.goal==='cut'||(+S.settings.goalKg&&S.weights?.length&&+S.settings.goalKg<S.weights[S.weights.length-1].kg); if(!cut)return '';
+  if(Date.now()-(+S.settings.ovrAt||0)<30*864e5)return '';
+  for(let i=1;i<=3;i++){ const w=weekAvg(i); if(!w||w.avg<=w.t*1.1)return ''; }
+  const d21=bwChange(21); if(d21==null||d21<=-0.3)return ''; // the weight is still going down: nothing to fix
+  const up=Math.round(Math.min(kT+200,kT*1.12)/50)*50;
+  return `<div class="card r20 ovw"><div class="row" style="gap:10px;align-items:flex-start;flex-wrap:nowrap"><img src="img/kobi-happy.svg" alt="" style="width:34px;height:34px;flex:none"><span><b style="color:var(--accent)">ראפי:</b> נראה שהתוכנית קשה כרגע. זה לא כישלון שלך, כנראה כיוונו גבוה מדי. בוא נתאים אותה:</span></div>
+    <div class="card list" style="margin-top:10px">
+      <button class="li" data-act="ovw" data-v="slow"><span class="lt"><b>קצב רגוע יותר</b><small>יעד ${kcalN(up)} במקום ${kcalN(kT)}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="ovw" data-v="maint"><span class="lt"><b>שבועיים באחזקה</b><small>מאפסים את הראש, ואז חוזרים</small></span>${ICON.chev}</button>
+      <button class="li" data-act="ovw" data-v="habit"><span class="lt"><b>הרגל אחד בלבד</b><small>רק חלבון בכל ארוחה, בשבועיים הקרובים</small></span>${ICON.chev}</button>
+    </div><button class="linkbtn small" style="margin-top:6px;color:var(--muted)" data-act="ovw" data-v="no">להשאיר כמו שזה</button></div>`; }
+/* the chosen habit, as one line with today's count */
+function habitHTML(d){ const h=S.settings.habit; if(!h||h.until<Date.now()||h.k!=='prot')return ''; const ms=mealsOf(d), ok=ms.filter(m=>(+m.protein||0)>=20).length;
+  return `<div class="fbank">${ICON.target}<span><span>השבועיים: חלבון בכל ארוחה · היום ${ok} מתוך ${ms.length} ארוחות</span></span></div>`; }
 /* 4 logged days in a row well under the plan: a gentle check (most of the time it's partial logging, so that is one tap away) */
 function lowIntake(){ const kT=+S.settings.kcalT||0; if(!kT)return null; const h=S.settings.lowH||[], now=Date.now();
   if(now-(+S.settings.lowAck||0)<7*864e5)return null;
@@ -3116,7 +3160,7 @@ function vFood(){
       </div>
     </div>
     ${a7!=null?`<div class="kbig-note"><img src="img/kobi-happy.svg" alt=""><span>${Math.abs(a7-kT)<=kT*0.1?`זה בסדר. מה שקובע הוא השבוע, והממוצע שלך ${kcalN(a7)} קק״ל ביום.`:'יום אחד לא משנה מגמה. מחר ממשיכים רגיל, בלי לפצות.'}</span></div>`:''}
-    ${d===today?foodBankLine()+lowIntakeHTML():''}
+    ${d===today?foodBankLine()+habitHTML(d)+lowIntakeHTML()+overWeeksHTML():''}
     ${d!==today?`<div class="pastnote">${ICON.cal||''}<span>מוסיף ארוחות ליום ${fmtDate(+dt)}</span><button class="linkbtn small" data-act="food-today">חזרה להיום</button></div>`:''}
     ${(S.ai.busy?`<div class="card r20 aiload" style="margin:0">
         ${S.ai.img?`<img src="${S.ai.img}" alt="">`:`<span class="ai-spark">✨</span>`}
@@ -4629,6 +4673,15 @@ function wInc(w,st,easy){ const pct=coachCfg().careful?0.02:(easy?0.05:0.025); r
 const bigJump=(w,st)=>w>0&&st/w>(coachCfg().careful?0.08:0.10);
 /* failure on these makes the next jump risky; isolation work to failure is normal */
 const heavyLift=n=>isCompound(n)&&!/משקולות|משקולת|קטלבל|גובלט/.test(n);
+/* ===== something hurts: a 14-day "sensitive" mark per exercise (no weight increases), and only the body area is kept ===== */
+const PAIN_AREAS=[['shoulder','כתף'],['elbow','מרפק'],['wrist','שורש כף יד'],['neck','צוואר'],['back','גב'],['knee','ברך'],['other','אחר']];
+const painName=a=>(PAIN_AREAS.find(x=>x[0]===a)||[0,'אחר'])[1];
+function sensOf(n){ const x=(S.settings.sens||{})[n]; return x&&x.until>Date.now()?x:null; }
+/* technique: the first sentence of the exercise's how-to, for the first 3 sessions of a compound lift (not for advanced lifters) */
+function cueOf(e,co){ if(!coachOn()||S.settings.level==='adv'||!isCompound(e.n)||!INFO[e.n])return null; if(co&&!['new','reps'].includes(co.k))return null;
+  if(sessionsOf(e.n,3).length>=3)return null; const t=tt(INFO[e.n]); return (t.match(/^[\s\S]*?[.!?](?=\s|$)/)||[t])[0]; }
+/* warm-up for the first heavy lift: 50% × 8 and 70% × 4 of today's weight. Kept in e.wu, so it never counts in sets, volume, records or history */
+function wuFor(n,w){ if(!heavyLift(n)||!(w>=30))return null; const st=wStep(n), a=roundTo(w*0.5,st), b=roundTo(w*0.7,st); const out=[{w:a,r:8,done:false}]; if(b>a&&b<w)out.push({w:b,r:4,done:false}); return out; }
 /* coming back after a break: how much of the old weight to start with */
 const retF=(gap,ans)=>{ let f=gap<21?0.9:gap<=42?0.8:0.7; if(ans==='yes')f=1; else if(ans==='some')f=Math.max(f,0.9); return f; };
 function blockInfo(){ const c=coachCfg(); if(!c.start)return null;
@@ -4663,6 +4716,12 @@ function coachRec(e,ctx){
   if(topW<=0){ // bodyweight: progress by reps
     if(ctx.deload)return {k:'deload',sets:half,r:rr.lo,why:'שבוע קל: חצי סטים ובתחתית הטווח. הגוף מתאושש ומתחזק.'};
     return {k:'reps',sets:n,r:Math.min(rr.hi+4,low+1),ps:i=>Math.min(rr.hi+4,(+ls[i]?.r||low)+1),why:`משקל גוף: נסה חזרה אחת יותר מהפעם הקודמת בכל סט.`}; }
+  const sn=sensOf(e.n);
+  if(sn){ const lowW=Math.min(...ls.map(s=>+s.w||0).filter(x=>x>0)), w=roundTo(lowW,st);
+    return {k:'sens',w,r:rr.lo,sets:n,why:`מסומן כרגיש (${painName(sn.area)}) עד ${new Date(sn.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}: בלי עליות במשקל. אם עבר, אפשר לחזור לרגיל.`}; }
+  const rs0=(coachCfg().reset||{})[e.n];
+  if(rs0&&hist[0].ts<rs0.at){ const w=Math.min(topW,roundTo(topW*rs0.f,st));
+    return {k:'reset',w,r:rr.hi,sets:n,why:`צעד אחורה כדי לקפוץ: ${wL(w)} במקום ${wL(topW)}, עם יותר חזרות. מכאן בונים מחדש לשיא חדש.`}; }
   const R=ctx.ret;
   if(R){ // after a break: 3 workouts back to the old weight (e.g. 80% → 90% → 100%)
     const pre=hist.find(h=>h.ts<R.at), since=hist.filter(h=>h.ts>=R.at).length;
@@ -4674,6 +4733,8 @@ function coachRec(e,ctx){
   const rirs=ls.map(s=>s.rir).filter(x=>x!=null), easy=rirs.length>0&&rirs.every(x=>x>=3);
   const planned=last.dl?half:n, full=ls.length>=planned, atTop=rs.every(r=>r>=top);
   const nw=roundTo(topW+wInc(topW,st,easy),st), pct=Math.round((nw-topW)/topW*100);
+  const mixed=Math.min(...ls.map(x=>+x.w||0).filter(x=>x>0))<topW*0.95; // some sets were lighter (e.g. lowered after discomfort): no raise yet
+  if(full&&atTop&&mixed)return {k:'reps',w:topW,r:rr.lo,sets:n,why:`בפעם הקודמת חלק מהסטים היו קלים יותר. היום כל הסטים ב-${wL(topW)}, ומשם ממשיכים לעלות.`};
   if(full&&atTop){
     const failI=ls.findIndex(s=>s.rir===0);
     if(heavyLift(e.n)&&failI>=0) // closed the range, but a set went to failure: one more session at this weight before the jump
@@ -4689,7 +4750,7 @@ function coachRec(e,ctx){
   const stuck=hist.length>=4&&!hist.slice(0,3).some(h=>h.dl)&&Math.max(e1(hist[0]),e1(hist[1]),e1(hist[2]))<=e1(hist[3])*1.01;
   const tr=perSet(0);
   return {k:stuck?'stuck':'reps',w:topW,r:tr,sets:n,ps:perSet,why:stuck
-    ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-${tr} חזרות; אם עדיין תקוע, בסוף הבלוק נחליף לווריאציה.`
+    ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-${tr} חזרות. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.`
     :`אותו משקל (${wL(topW)}), והפעם חזרה אחת יותר. כשכל הסטים מגיעים ל-${rr.hi}, עולים במשקל.`};
 }
 const RIR_WK={1:'משאירים 3 חזרות בטנק',2:'משאירים 2–3 חזרות בטנק',3:'משאירים 2 חזרות בטנק',4:'משאירים 1–2 חזרות בטנק',5:'משאירים חזרה אחת בטנק'};
@@ -4746,6 +4807,7 @@ function openCoachSettings(){
     <div class="card list" style="margin-bottom:12px">${M.map(([k,t,d])=>`<button class="li" data-act="coach-mode" data-v="${k}"><span class="tc-radio ${c.mode===k?'on':''}"></span><span class="lt"><b>${t}</b><small>${d}</small></span></button>`).join('')}</div>
     <div class="card list" style="margin-bottom:12px">
       <button class="li" data-act="coach-rir"><span class="lt"><b>שאלה אחרי סט</b><small>"כמה חזרות עוד היו לך?" עוזר לראפי לדייק. אפשר לדלג תמיד.</small></span><span class="tc-tog ${c.rir?'on':''}"></span></button>
+      <button class="li" data-act="coach-wu"><span class="lt"><b>סטי חימום</b><small>בתרגיל הכבד הראשון. לא נספרים</small></span><span class="tc-tog ${c.wu!==false?'on':''}"></span></button>
       <button class="li" data-act="coach-careful"><span class="lt"><b>קצב זהיר</b><small>קפיצות משקל קטנות יותר</small></span><span class="tc-tog ${c.careful?'on':''}"></span></button>
       <button class="li" data-act="hq-open"><span class="lt"><b>שאלון בריאות</b><small>${S.settings.hq?'מולא · אפשר למלא שוב':'כמה שאלות קצרות, 20 שניות'}</small></span>${ICON.chev}</button>
     </div>
@@ -4762,11 +4824,16 @@ function blockProposal(){
   const c=coachCfg(), n=(c.n||1)+1, used=new Set(S.templates.flatMap(t=>(t.ex||[]).map(e=>e.n))), out=[];
   for(const t of S.templates){ let swaps=0;
     (t.ex||[]).forEach((e,i)=>{ if(e.t==='c')return;
-      if(isCompound(e.n)){ const rr=repRange(e.reps); if(rr){ const nr=n%2===0?'6-10':'8-12'; if(e.reps!==nr)out.push({tid:t.id,i,kind:'reps',from:e.reps,to:nr,n:e.n}); } return; }
+      if(isCompound(e.n)){ if(blockStuck(e.n)&&!out.some(x=>x.kind==='reset'&&x.n===e.n)){ out.push({tid:t.id,i,kind:'reset',n:e.n}); return; }
+        const rr=repRange(e.reps); if(rr){ const nr=n%2===0?'6-10':'8-12'; if(e.reps!==nr)out.push({tid:t.id,i,kind:'reps',from:e.reps,to:nr,n:e.n}); } return; }
       if(c.lock[e.n]||swaps>=2)return; const g=exGroup(e.n); if(!g)return;
       const alts=LIB[g].filter(x=>!used.has(x)&&!isCompound(x)&&exHas(x)); if(!alts.length)return;
       const to=alts[(n+i)%alts.length]; used.add(to); swaps++; out.push({tid:t.id,i,kind:'swap',from:e.n,to,n:e.n}); }); }
   return out; }
+/* a main lift that did not get stronger over the block (estimated 1RM, 3+ sessions): offer a 10% step back */
+function blockStuck(n){ const c=coachCfg(), s=c.start||0; const e1=w=>Math.max(0,...(w.ex||[]).filter(x=>x.n===n&&x.t==='s').flatMap(x=>(x.sets||[]).map(y=>e1rm(+y.w||0,+y.r||0))));
+  const inB=S.workouts.filter(w=>w.start>=s&&(w.ex||[]).some(x=>x.n===n)).sort((a,b)=>a.start-b.start); if(inB.length<3)return false;
+  const first=e1(inB[0]), best=Math.max(...inB.slice(1).map(e1)); return first>0&&best<=first*1.01; }
 function blockStats(){ const c=coachCfg(), s=c.start||0, ws=S.workouts.filter(w=>w.start>=s), before=S.workouts.filter(w=>w.start<s);
   const best=(arr,n)=>Math.max(0,...arr.flatMap(w=>(w.ex||[]).filter(e=>e.n===n&&e.t==='s').flatMap(e=>(e.sets||[]).map(x=>e1rm(+x.w||0,+x.r||0)))));
   const names=[...new Set(ws.flatMap(w=>(w.ex||[]).filter(e=>e.t==='s').map(e=>e.n)))];
@@ -4774,7 +4841,7 @@ function blockStats(){ const c=coachCfg(), s=c.start||0, ws=S.workouts.filter(w=
   return {count:ws.length,prs}; }
 function openBlockSheet(){
   const c=coachCfg(), p=blockProposal(), st=blockStats(), full=c.mode==='full';
-  const row=(x,j)=>`<label class="li tc-ch"><input type="checkbox" data-co="${j}" ${full?'checked':''}><span class="lt"><b>${x.kind==='swap'?`${esc(x.from)} ← ${esc(x.to)}`:`${esc(x.n)}`}</b><small>${x.kind==='swap'?'החלפת תרגיל עזר, אותו שריר':`טווח חזרות ${esc(x.from||'')} ← ${x.to}`}</small></span></label>`;
+  const row=(x,j)=>`<label class="li tc-ch"><input type="checkbox" data-co="${j}" ${full?'checked':''}><span class="lt"><b>${x.kind==='swap'?`${esc(x.from)} ← ${esc(x.to)}`:`${esc(x.n)}`}</b><small>${x.kind==='swap'?'החלפת תרגיל עזר, אותו שריר':x.kind==='reset'?'לא התקדם בבלוק: 10% אחורה ובונים מחדש':`טווח חזרות ${esc(x.from||'')} ← ${x.to}`}</small></span></label>`;
   openSheet(`<h3>התוכנית החדשה שלך מוכנה</h3>
     <div class="small muted" style="margin-bottom:10px">בלוק ${c.n||1}: ${st.count} אימונים${st.prs.length?` · התקדמות ב-${st.prs.length} תרגילים`:''}.</div>
     ${st.prs.length?`<div class="rtip up" style="margin:0 0 12px"><b>התחזקת</b><span>${st.prs.slice(0,4).map(esc).join(' · ')}</span></div>`:''}
@@ -4788,7 +4855,7 @@ function startNextBlock(apply){
   const c=coachCfg(), p=openBlockSheet._p||[];
   if(apply){ const pick=new Set([...document.querySelectorAll('[data-co]')].filter(x=>x.checked).map(x=>+x.dataset.co));
     const touched=new Map();
-    p.forEach((x,j)=>{ if(!pick.has(j))return; const t=S.templates.find(t=>t.id===x.tid); if(!t)return; const t2=touched.get(t.id)||clone(t); const e=t2.ex[x.i]; if(!e)return;
+    p.forEach((x,j)=>{ if(!pick.has(j))return; if(x.kind==='reset'){ (c.reset||(c.reset={}))[x.n]={f:0.9,at:Date.now()}; return; } const t=S.templates.find(t=>t.id===x.tid); if(!t)return; const t2=touched.get(t.id)||clone(t); const e=t2.ex[x.i]; if(!e)return;
       if(x.kind==='swap')e.n=x.to; else e.reps=x.to; touched.set(t.id,t2); });
     touched.forEach(t=>saveTemplate(t)); }
   c.n=(c.n||1)+1; c.start=new Date().setHours(0,0,0,0); c.back=null; c.skipDl=null; persistSettings(); closeSheet(); render();
@@ -4811,7 +4878,7 @@ function doSwap(ei,to){
 /* after a set: "how many reps were left?" — tunes the next set right away */
 function rirAsk(ei,si){
   if(!coachOn()||!coachCfg().rir)return; const el=document.getElementById('rirq-'+ei); if(!el)return;
-  el.innerHTML=`<span>כמה חזרות עוד היו לך?${infoI('rir')}</span><span class="row" style="gap:6px;flex-wrap:nowrap">${[0,1,2,3].map(v=>`<button class="chip num" data-act="rir" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`;
+  el.innerHTML=`<span>כמה חזרות עוד היו לך?${infoI('rir')}</span><span class="row" style="gap:6px;flex-wrap:nowrap">${[0,1,2,3].map(v=>`<button class="chip num" dir="ltr" data-act="rir" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button>`;
   el.hidden=false; }
 function rirSet(ei,si,v){
   const e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)return; s.rir=v; persistActive();
@@ -4907,7 +4974,8 @@ function vStrength(e,ei,cur){
         <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
         <div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}
-        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':co.k==='hold'?'עוד אימון אחד במשקל הזה':'ראפי'}${infoI('sug')}</b><span>${esc(co.why)}</span>${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}</div>`:''}
+        ${co?`<div class="rtip tc ${co.k==='up'?'up':''}"><b>${co.k==='deload'?'שבוע קל':co.k==='back'?'חוזרים בהדרגה':co.k==='up'?'עולים במשקל':co.k==='hold'?'עוד אימון אחד במשקל הזה':co.k==='sens'?'אזור רגיש':co.k==='reset'?'צעד אחורה כדי לקפוץ':'ראפי'}${infoI('sug')}</b><span>${esc(co.why)}</span>${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}
+        ${(()=>{ const c=e.sets.some(x=>x.done)?null:cueOf(e,co); return c?`<div class="rtip cue"><b>דגש טכניקה</b><span data-notr>${esc(c)}</span></div>`:''; })()}
         ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wL(tip.w)}</b> ${LU()}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wL(tip.w)}</span> ${LU()}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">
@@ -4915,6 +4983,8 @@ function vStrength(e,ei,cur){
         <button class="ibtn" data-act="ex-menu" data-ei="${ei}" aria-label="אפשרויות תרגיל">${ICON.dots}</button>
       </div>
     </div>
+    ${e.wu?.length?`<div class="wu"><button class="wu-h" data-act="wu-tog" data-ei="${ei}" aria-expanded="${!!e.wuOpen}"><span>${ICON.fire||''}חימום · ${e.wu.length} סטים · לא נספר</span><span class="wu-st">${e.wu.every(x=>x.done)?'✓':e.wuOpen?'כווץ':'פתח'}</span></button>
+      ${e.wuOpen?`<div class="setgrid wu-g">${e.wu.map((x,wi)=>`<span class="setidx">ח</span><span class="wu-v ${x.done?'d':''}">${wL(x.w)}</span><span class="wu-v ${x.done?'d':''}">${x.r}</span><span><button class="done-btn wu-b ${x.done?'d':''}" data-act="wu-done" data-ei="${ei}" data-wi="${wi}" aria-label="סיום סט חימום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>`).join('')}</div>`:''}</div>`:''}
     <div class="setgrid">
       <span class="h">סט</span><span class="h">${LU()}</span><span class="h">חזרות${rr?` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===rr.hi?rr.lo:rr.lo+'–'+rr.hi}</bdi>`:''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
@@ -4937,6 +5007,7 @@ function openExMenu(ei){
       <button class="li" data-act="ex-close" data-ei="${ei}">${ICON.down}<span class="lt"><b>כווץ, אעשה אותו אחר כך</b></span></button>
       ${e.t==='s'&&exGroup(e.n)?`<button class="li" data-act="ex-swap" data-ei="${ei}">${ICON.list}<span class="lt"><b>אין לי את זה</b><small>להחליף לתרגיל אחר לאותו שריר</small></span></button>`:''}
       ${e.t==='s'&&coachOn()?`<button class="li" data-act="ex-lock" data-ei="${ei}">${ICON.ok.replace('<svg','<svg class="ic"')}<span class="lt"><b>${coachCfg().lock[e.n]?'שחרר את התרגיל':'נעל את התרגיל'}</b><small>${coachCfg().lock[e.n]?'ראפי יוכל להציע להחליף אותו':'ראפי לא יחליף אותו בבלוק הבא'}</small></span></button>`:''}
+      ${e.t==='s'?`<button class="li" data-act="pain-open" data-ei="${ei}">${ICON.shield.replace('class="ic"','class="ic" style="color:#FF8F84"')}<span class="lt"><b>משהו לא נוח</b><small>${sensOf(e.n)?'מסומן כרגיש · אפשר לבטל':'להוריד משקל, להחליף או לדלג'}</small></span></button>`:''}
       <button class="li" data-act="rm-ex" data-ei="${ei}" style="color:var(--danger)">${ICON.plus.replace('class="ic"','class="ic" style="transform:rotate(45deg)"')}<span class="lt"><b>הסר מהאימון</b></span></button>
     </div>
     <div class="label" style="margin:0 0 6px">מנוחה אחרי סט</div>
@@ -5275,7 +5346,10 @@ function kcalBank(){
 }
 /* the same bank, as one line on the Nutrition screen */
 function foodBankLine(){
-  const b=kcalBank(); if(!b||Math.abs(b.bank)<50)return '';
+  const b=kcalBank(); if(!b)return '';
+  const left=7-new Date().getDay(), per=Math.round(Math.min(b.kT*1.15,Math.max(b.kT*0.9,b.kT+b.bank/left))/10)*10, inB=Math.abs(b.bank)<=b.kT*0.1*b.n;
+  if(inB)return `<div class="fbank" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>השבוע בתקציב · ${left>1?`כ-${kcalN(per)} ליום עד סוף השבוע`:'ממשיכים ככה'}</span>${infoI('bank')}</span>${ICON.chev}</div>`;
+  if(b.bank<0)return `<div class="fbank over" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>השבוע: ${kcalN(-b.bank)} קק״ל מעבר לתוכנית · ממשיכים רגיל, בלי לפצות</span>${infoI('bank')}</span>${ICON.chev}</div>`;
   return b.bank>0
     ?`<div class="fbank" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>בנק השבוע: עוד <b class="num">${kcalN(b.bank)}</b> קק״ל לנצל</span>${infoI('bank')}</span>${ICON.chev}</div>`
     :`<div class="fbank over" role="button" tabindex="0" data-act="go" data-to="track" data-view="body">${ICON.food}<span><span>השבוע: ${kcalN(-b.bank)} קק״ל מעבר לתוכנית</span>${infoI('bank')}</span>${ICON.chev}</div>`;
@@ -5648,15 +5722,16 @@ function nutritionWeekHTML(){
   </div>`;
   const avgK=Math.round(logged.reduce((a,x)=>a+x.t.kcal,0)/logged.length);
   const avgP=Math.round(logged.reduce((a,x)=>a+x.t.protein,0)/logged.length);
-  const mx=Math.max(kT||0,...days.map(x=>x.t.kcal),1);
+  const mx=Math.max((kT||0)*1.12,...days.map(x=>x.t.kcal),1), inR=kT?logged.filter(x=>x.t.kcal>=kT*0.85&&x.t.kcal<=kT*1.1).length:0;
   return `<div class="sect">תזונה · 7 ימים</div>
   <div class="card">
     <div class="spread small" style="margin-bottom:10px">
       <span>ממוצע: <b class="num">${fmtNum(avgK)}</b> קק״ל · <b class="num">${avgP}</b> גר׳ חלבון</span>
       <span class="muted">${logged.length}/7 ימים נרשמו</span>
     </div>
+    ${kT?`<div class="small" style="margin:-4px 0 8px;color:var(--accent);font-weight:600">${inR} מתוך ${logged.length} ימים בטווח</div>`:''}
     <div style="display:flex;align-items:flex-end;gap:6px;height:96px;position:relative;direction:var(--dir)">
-      ${kT?`<div style="position:absolute;inset-inline:0;bottom:${kT/mx*86+10}px;border-top:1.5px dashed var(--muted)" aria-hidden="true"></div>`:''}
+      ${kT?`<div style="position:absolute;inset-inline:0;bottom:${kT*0.85/mx*86+16}px;height:${kT*0.25/mx*86}px;background:rgba(191,255,47,.09);border-top:1px dashed rgba(191,255,47,.45);border-bottom:1px dashed rgba(191,255,47,.45)" aria-hidden="true"></div>`:''}
       ${days.map(x=>{ const h=x.t.kcal/mx*86; const over=kState(x.t.kcal,kT)==='big';
         return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
           <div style="width:100%;max-width:26px;height:${Math.max(x.has?3:0,h)}px;border-radius:5px 5px 2px 2px;background:${over?'var(--kbig)':'var(--accent)'};opacity:${x.has?1:.25}"></div>
@@ -7653,7 +7728,9 @@ async function pbSave(){
   const base=rep?0:S.templates.length, now=Date.now(), ids=[];
   for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
     await saveTemplate({id,name:se.name,order:base+i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:e)}); }
-  if(sch){ S.settings.schedule={}; PB_DAYS[A.days].forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; }); persistSettings(); }
+  if(A.level)S.settings.level=A.level;
+  if(sch){ S.settings.schedule={}; PB_DAYS[A.days].forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; }); }
+  persistSettings();
   const first=!S.workouts.length;
   closeSheet(); S.tab='train'; S.trainView=first?null:'plans'; render(); window.scrollTo(0,0);
   if(first&&ids[0]){ logEv('start_plan_ready',{n:ids.length}); openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-cheer.svg" alt=""><div><b>התוכנית שלך מוכנה 🎉</b><span>${P.sessions.length} אימונים, בנויים לפי מה שסיפרת. האימון הראשון לוקח פחות ממה שנדמה.</span></div></div>
@@ -8285,10 +8362,34 @@ function startWorkout(name,tid,asked){
       :{w:'',r:'',pw:prev[i]?.w??prev[prev.length-1]?.w??'',pr:prev[i]?.r??prev[prev.length-1]?.r??'',done:false});
     return {n:e.n,m:e.m,t:'s',reps:e.reps||'',rest:+e.rest||0,how:e.how||'',sets,...(rc?{co:{k:rc.k,why:rc.why,...(rc.ovr?{ovr:rc.ovr}:{})}}:{}),...(co?.deload?{dl:1}:{})};
   });
+  if(co&&coachCfg().wu!==false){ const fi=ex.findIndex(e=>e.t==='s'&&heavyLift(e.n)); if(fi>=0){ const e=ex[fi], w=+e.sets[0]?.pw||0, wu=wuFor(e.n,w); if(wu){ e.wu=wu; e.wuOpen=true; } } }
   S.active={start:Date.now(),name,tid:tid||null,ex,...(co?.deload?{dl:1}:{})};
   persistActive(); S.tab='train'; location.hash='train'; render();
   startClock(); keepAwake(true);
 }
+/* "something hurts": where, how it feels, and one of three ways on. Nothing changes until the user picks */
+const PN={ei:-1,area:null,sharp:false,opt:'down'};
+function painSheet(){ const e=S.active?.ex?.[PN.ei]; if(!e)return; const sn=sensOf(e.n);
+  const ch=(k,v,l,on)=>`<button class="chip ${on?'on':''}" data-act="${k}" data-v="${v}">${l}</button>`;
+  const w=+(e.sets.filter(x=>x.done).slice(-1)[0]?.w||e.sets.find(x=>!x.done)?.pw||0), dw=w?roundTo(w*0.85,wStep(e.n)):0;
+  const O=[['down','להוריד משקל להמשך',dw?`${wL(dw)} במקום ${wL(w)}, ובלי עליות בשבועיים הקרובים`:'ובלי עליות בשבועיים הקרובים'],['swap','להחליף תרגיל','תרגיל אחר לאותו שריר'],['skip','לדלג על התרגיל היום','ממשיכים לתרגיל הבא']];
+  openSheet(`<div class="pn"><h3>משהו לא נוח ב${esc(e.n)}?</h3>
+    ${sn?`<div class="pn-sens"><span>מסומן כרגיש (${painName(sn.area)}) עד ${new Date(sn.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}</span><button class="chip" data-act="sens-clear" data-ei="${PN.ei}">עבר, אפשר לחזור</button></div>`:''}
+    <div class="pn-l">איפה?</div><div class="row pn-c">${PAIN_AREAS.map(([v,l])=>ch('pn-area',v,l,PN.area===v)).join('')}</div>
+    <div class="pn-l">איך זה מרגיש?</div><div class="row pn-c">${ch('pn-feel','0','אי נוחות קלה',!PN.sharp)}${ch('pn-feel','1','כאב חד',PN.sharp)}</div>
+    ${PN.sharp?`<div class="pn-warn">בכאב חד עדיף לעצור את התרגיל להיום. אם זה חוזר, שווה לבדוק עם איש מקצוע.</div>`:''}
+    <div class="pn-l">מה נעשה?</div><div class="card list">${O.map(([v,t,d])=>`<button class="li pn-o ${PN.opt===v?'on':''}" data-act="pn-opt" data-v="${v}"><span class="tc-radio ${PN.opt===v?'on':''}"></span><span class="lt"><b>${t}</b><small>${d}</small></span></button>`).join('')}</div>
+    <button class="btn primary big" style="width:100%;margin-top:12px" data-act="pn-go" ${PN.area?'':'disabled'}>אישור</button></div>`); }
+function painGo(){ const a=S.active, e=a?.ex?.[PN.ei]; if(!e||!PN.area)return; const now=Date.now();
+  const sens=S.settings.sens||(S.settings.sens={}); for(const k in sens)if(sens[k].until<now)delete sens[k];
+  sens[e.n]={until:now+14*864e5,area:PN.area,at:now};
+  const log=(S.settings.painLog||[]).filter(x=>now-x.at<60*864e5); log.push({at:now,area:PN.area}); S.settings.painLog=log; persistSettings();
+  const again=log.filter(x=>x.area===PN.area&&now-x.at<30*864e5).length>=3;
+  if(PN.opt==='down'){ const w=+(e.sets.filter(x=>x.done).slice(-1)[0]?.w||e.sets.find(x=>!x.done)?.pw||0), dw=w?roundTo(w*0.85,wStep(e.n)):0;
+    e.sets.forEach(x=>{ if(!x.done&&dw){ x.pw=dw; x.w=''; x.sug=1; } }); persistActive(); closeSheet(); render(); toast(dw?`להמשך: ${wL(dw)} ${LU()}. בלי עליות בשבועיים הקרובים`:'נרשם. בלי עליות בשבועיים הקרובים'); }
+  else if(PN.opt==='swap'){ persistActive(); openExSwap(PN.ei); }
+  else { const o=a.open||(a.open={}); o[PN.ei]=false; persistActive(); closeSheet(); render(); toast('דילגנו על התרגיל להיום. נרשם כרגיש לשבועיים'); }
+  if(again)setTimeout(()=>openSheet(`<h3>${painName(PN.area)}: פעם שלישית החודש</h3><p class="muted" style="line-height:1.6;margin:6px 0 14px">כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז ראפי ימשיך בזהירות.</p><button class="btn primary big" style="width:100%" data-act="sheet-close">הבנתי</button>`),PN.opt==='swap'?0:700); }
 /* a long break: one question decides how gently to start again (trained elsewhere → almost no drop) */
 function askBreak(name,tid,gap){ window.__brkGo={name,tid}; const wk=Math.round(gap/7), f=Math.round(retF(gap,null)*100);
   openSheet(`<div class="brkq"><div class="brkq-k">ברוך השב</div><h3>עברו ${wk<=1?'שבועיים':wk+' שבועות'} מהאימון האחרון</h3>
@@ -8310,7 +8411,8 @@ async function doSaveWorkout(){
   const w=clone(a); w.end=Date.now(); w.id='w'+a.start;
   w.ex=w.ex.map(e=>{ // strip placeholders, normalize numbers
     if(e.t==='c'){const c=e.c||{};return {n:e.n,m:e.m,t:'c',c:{min:+c.min||0,km:+c.km||0,inc:+c.inc||0}};}
-    return {n:e.n,m:e.m,t:'s',sets:(e.sets||[]).map(s=>({w:+s.w||0,r:+s.r||0})).filter(s=>s.r>0)};
+    // keep "reps left" (the coach reads it next time) and the light-week mark; warm-up sets (e.wu) are never saved
+    return {n:e.n,m:e.m,t:'s',...(e.dl?{dl:1}:{}),sets:(e.sets||[]).map(s=>({w:+s.w||0,r:+s.r||0,...(s.rir!=null&&s.rir!==''?{rir:+s.rir}:{})})).filter(s=>s.r>0)};
   }).filter(e=>e.t==='c'?(e.c.min>0||e.c.km>0):e.sets.length>0);
   if(!w.ex.length){toast('אין סטים מלאים לשמירה');return;}
   const bm=bestMap(); const newPRs=[];
@@ -8383,6 +8485,25 @@ function handleAct(b,ev){
     case 'hq-ok': HQS.ok=!HQS.ok; hqSheet(); break;
     case 'hq-done': if(hqMust(HQS.ans)&&!HQS.ok)break; hqSave(HQS.ans); closeSheet(); toast('נשמר. ראפי יתקדם איתך בקצב זהיר'); render(); break;
     case 'coach-careful': { const c=coachCfg(); c.careful=!c.careful; persistSettings(); openCoachSettings(); break; }
+    case 'ma-ok': MA.open=false; MA.why=false; render(); break;
+    case 'ma-why': MA.why=true; render(); break;
+    case 'ovw': { const v=b.dataset.v, kT=+S.settings.kcalT||0; S.settings.ovrAt=Date.now();
+      if(v==='slow'){ S.settings.kcalT=Math.round(Math.min(kT+200,kT*1.12)/50)*50; if(S.settings.body)S.settings.body.pace='slow'; toast('היעד עודכן. קצב רגוע יותר'); }
+      else if(v==='maint'){ const c=ncCfg(), td=ncCheck()?.tdee||tgCalc(Object.assign({},S.settings.body||{},{goal:'keep'}))?.tdee; c.brk={until:Date.now()+14*864e5,k:kT}; if(td)S.settings.kcalT=Math.round(td/10)*10; c.last=Date.now(); toast('שבועיים באחזקה. אחר כך חוזרים'); }
+      else if(v==='habit'){ S.settings.habit={k:'prot',until:Date.now()+14*864e5}; toast('מתמקדים בחלבון בכל ארוחה'); }
+      persistSettings(); render(); break; }
+    case 'pain-open': { const ei=+b.dataset.ei; if(!S.active?.ex?.[ei])break; PN.ei=ei; PN.area=null; PN.sharp=false; PN.opt='down'; painSheet(); break; }
+    case 'pn-area': PN.area=b.dataset.v; painSheet(); break;
+    case 'pn-feel': PN.sharp=b.dataset.v==='1'; if(PN.sharp)PN.opt='skip'; painSheet(); break;
+    case 'pn-opt': PN.opt=b.dataset.v; painSheet(); break;
+    case 'pn-go': painGo(); break;
+    case 'sens-clear': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; if(S.settings.sens)delete S.settings.sens[e.n]; persistSettings();
+      const rc=coachOn()?coachRec({n:e.n,s:e.sets.length,reps:e.reps},{deload:!!S.active.dl,back:false}):null;
+      if(rc){ e.co={k:rc.k,why:rc.why,...(rc.ovr?{ovr:rc.ovr}:{})}; e.sets.forEach((x,i)=>{ if(!x.done){ x.pw=rc.w??x.pw; x.pr=rc.ps?rc.ps(i):rc.r; x.sug=1; } }); } else e.co=null;
+      persistActive(); closeSheet(); render(); toast('חזרנו לרגיל'); break; }
+    case 'wu-tog': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e?.wu)break; e.wuOpen=!e.wuOpen; persistActive(); render(); break; }
+    case 'wu-done': { const e=S.active?.ex?.[+b.dataset.ei], x=e?.wu?.[+b.dataset.wi]; if(!x)break; x.done=!x.done; vibrate(8); if(e.wu.every(y=>y.done))e.wuOpen=false; persistActive(); render(); break; }
+    case 'coach-wu': { const c=coachCfg(); c.wu=c.wu===false; persistSettings(); openCoachSettings(); break; }
     case 'co-brkq': { const g=window.__brkGo, lw=lastWorkout(); if(!g)break; const c=coachCfg(); c.backAns={for:lw?.start||0,v:b.dataset.v}; persistSettings(); closeSheet(); window.__brkGo=null; startWorkout(g.name,g.tid,true); break; }
     case 'co-ovr': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e?.co?.ovr)break; const o=e.co.ovr;
       e.sets.forEach(x=>{ if(!x.done){ x.pw=o.w; x.pr=o.r; x.sug=1; } }); e.co={k:'up',why:`לפי הבחירה שלך: עולים ל-${wL(o.w)} ומתחילים מ-${o.r} חזרות. אם הסט הראשון כבד מדי, אפשר לחזור למשקל הקודם.`};
