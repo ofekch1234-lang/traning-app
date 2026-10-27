@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1a34262c"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1a34262c"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1a34262c"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=0ab3aa1b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=0ab3aa1b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=0ab3aa1b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -3202,7 +3202,7 @@ function vOnb(){
         <p class="ob-hint center">${tt('כל האפליקציה תדבר אליך ככה. בחירה ב״את״ מחליפה גם את הצבע לוורוד. אפשר לשנות בהגדרות.')}</p></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='goal'){
-    h=`${onbTop()}${onbSay('think',`<span data-notr>${nm}</span>, ${OG('מה הכי חשוב לך עכשיו?','מה הכי חשוב לך עכשיו?')}`)}
+    h=`${onbTop()}${onbSay('think',`${nm?`<span data-notr>${nm}</span>, `:''}${OG('מה הכי חשוב לך עכשיו?','מה הכי חשוב לך עכשיו?')}`)}
       <div class="ob-mid ob-list">${onbOpt('goal','cut',tt('לרדת במשקל'),OG(tt('ולשמור על השריר בדרך'),tt('ולהתחטב בדרך, בלי לאבד שריר')),OBI.fire)}${onbOpt('goal','mass',OG(tt('לבנות שריר'),tt('להתחטב ולבנות שריר')),OG(tt('לגדול ולהיראות חזק יותר'),tt('גוף מעוצב, ישבן ורגליים חזקים')),OBI.db)}${onbOpt('goal','strength',OG(tt('להיות חזק יותר'),tt('להיות חזקה יותר')),OG(tt('להעלות משקלים בתרגילים הגדולים'),tt('להרים יותר, ולהרגיש את זה ביום-יום')),OBI.bolt)}${onbOpt('goal','fit',tt('כושר ובריאות'),OG(tt('להרגיש טוב ולהתמיד'),tt('אנרגיה, ביטחון והתמדה')),OBI.heart)}</div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='memory'){
@@ -3283,7 +3283,7 @@ function vOnb(){
   }else if(st==='plan'){
     const P=onbPlan(), r=tgCalc(onbTG()), days=PB_DAYS[+a.days||3]||[], s0=P.sessions[0]||{ex:[]}, ex=s0.ex||[];
     let si=0; const wk=[0,1,2,3,4,5,6].map(d=>{ const on=days.includes(d); const L=on?'ABCDEF'[si++%P.sessions.length]:'–'; return `<div class="${on?'t':''}"><span>${DAY_LETTERS[d]}</span><b>${L}</b></div>`; }).join('');
-    h=`${onbTop()}<div class="ob-phd"><img src="${onbRafi('cheer')}" alt=""><div><div class="ob-kick acc">${tt('התוכנית שלך מוכנה')}</div><h1 class="ob-h3"><span data-notr>${nm}</span>, ${tt('ככה נראה השבוע שלך')}</h1></div></div>
+    h=`${onbTop()}<div class="ob-phd"><img src="${onbRafi('cheer')}" alt=""><div><div class="ob-kick acc">${tt('התוכנית שלך מוכנה')}</div><h1 class="ob-h3">${nm?`<span data-notr>${nm}</span>, `:''}${tt('ככה נראה השבוע שלך')}</h1></div></div>
       <div class="ob-wk">${wk}</div>
       <div class="ob-card"><div class="spread"><span><b>${esc(String(s0.name||'').replace(/^[A-F] — /,'A · '))}</b><small>${ex.length} ${tt('תרגילים')} · ${tt('כ-')}${s0.min||60} ${tt('דקות')}</small></span><span class="ob-tag acc" style="white-space:nowrap;flex:none">${tt('ראשון בתור')}</span></div>
         ${ex.slice(0,3).map((e,i)=>`<div class="ob-ex"><span class="n">${i+1}</span><span class="t">${esc(e.n)}</span><span class="r" dir="ltr">${e.t==='c'?e.min+' min':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}
@@ -3435,7 +3435,7 @@ function onbPost(step){
       <div class="ob-foot"><button class="ob-cta" data-act="onb-notif">${OBI.bell}${OG('הפעל התראות','הפעילי התראות')}</button><button class="ob-ghost" data-act="onb-ready">${tt('אחר כך')}</button></div></div>`;
   else el.innerHTML=`<div id="onb" class="obs-ready"><div class="ob-glow" aria-hidden="true"></div>
       <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('cheer')}" alt="">
-        <h1 class="ob-h1">${tt('יאללה')} <span data-notr>${nm}</span>,<br><em>${tt('מתחילים.')}</em></h1>
+        <h1 class="ob-h1">${tt('יאללה')}${nm?` <span data-notr>${nm}</span>`:''},<br><em>${tt('מתחילים.')}</em></h1>
         <p class="ob-sub">${tt('התוכנית שמורה, ואני איתך מהסט הראשון.')}</p>
         ${ONB.first?`<div class="ob-card row1"><span class="ob-a">A</span><span><b>${tt('האימון הראשון שלך')}</b><small>${esc(S.templates.find(t=>t.id===ONB.first)?.name||'')}</small></span></div>`:''}
         ${isPrem()?`<div class="ob-gift">${tt('שבוע ראשון בפרימיום, עלינו')}</div>`:''}</div>
@@ -6571,7 +6571,7 @@ function vPlans(){
       <div class="small muted" style="margin-top:10px">נגיעה ביום קובעת מה מתאמנים בו. התזכורת היומית (בהגדרות ⚙️) תודיע לך בבוקר של יום אימון.</div>
     </div>`;
   return `
-    <button class="pb-cta" data-act="pb-open"><span class="pb-ic">✨</span><span style="flex:1"><b>בנה לי תוכנית</b><small>8 שאלות קצרות ותקבל תוכנית מותאמת לרמה, למטרה ולזמן שלך</small></span><span class="btn primary" style="pointer-events:none">התחל</span></button>
+    <button class="pb-cta" data-act="pb-open"><span class="pb-ic">✨</span><span style="flex:1"><b>בנה לי תוכנית</b><small>${IS_NATIVE?tt('כמה שאלות קצרות עם ראפי, ותקבל תוכנית ויעד תזונה מותאמים לך'):'8 שאלות קצרות ותקבל תוכנית מותאמת לרמה, למטרה ולזמן שלך'}</small></span><span class="btn primary" style="pointer-events:none">התחל</span></button>
     ${sched}
     <div class="sect">התוכניות</div>
     <button class="btn primary big" data-act="tpl-new">+ תוכנית חדשה</button>
@@ -9542,7 +9542,7 @@ function startAct(act){
 }
 function pbAct(act,b){
   switch(act){
-    case 'pb-open': if(IS_NATIVE||window.NR_PB_RAFI){ pbChoose(); return true; }
+    case 'pb-open': if(IS_NATIVE||window.NR_PB_RAFI){ closeSheet(); onbRedoStart(); return true; }
     case 'pb-quick': PB.rafi=null; PB.step=0; PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]}; pbSheet(); return true;
     case 'pb-rafi': closeSheet(); onbRedoStart(); return true;
     case 'pb-pick': { const Q=PB_Q[PB.step]; let v=b.dataset.v; if(typeof Q.o[0][0]==='number')v=+v;
