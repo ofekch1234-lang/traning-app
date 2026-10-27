@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4b373528"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4b373528"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4b373528"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=94f9b134"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=94f9b134"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=94f9b134"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -507,6 +507,15 @@ body:not(.landing)>#lx-sticky{display:none}
 .mv-rb div{flex:1;background:var(--accent-soft);border-radius:14px;border-start-start-radius:4px;padding:9px 12px;font-size:13.5px;line-height:1.45}.mv-rb b{color:var(--accent)}
 .mv-acts{display:flex;gap:8px;margin-top:12px}.mv-acts .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px}
 .mv-acts .mv-ed{flex:none;min-width:48px;padding-inline:12px}.mv-acts .mv-ed.on{flex:1}
+.mv-adj{display:inline-block;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:1px 7px;margin-bottom:8px}
+.mv-g s{color:var(--muted);margin-inline-end:6px;font-weight:400}.mv-k s{display:block;color:var(--muted);font-size:12px;font-weight:500}
+.sl-sec{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:4px 14px;margin-bottom:10px}
+.sl-sec h4{display:flex;align-items:center;gap:8px;margin:10px 0 2px;font-size:13.5px;color:var(--muted)}
+.sl-i{display:flex;align-items:center;gap:10px;width:100%;padding:10px 0;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:15px;text-align:start}
+.sl-i:last-child{border-bottom:0}.sl-i span{flex:1;min-width:0}.sl-i em{font-style:normal;color:var(--muted);font-size:13px;white-space:nowrap}
+.sl-i i{width:21px;height:21px;border-radius:6px;border:1.8px solid var(--muted);flex:none;display:grid;place-items:center}
+.sl-i.ok i{background:var(--accent);border-color:var(--accent)}.sl-i.ok i::after{content:'';width:10px;height:5px;border-left:2.2px solid var(--accent-ink);border-bottom:2.2px solid var(--accent-ink);transform:translateY(-1px) rotate(-45deg)}
+.sl-i.ok span{text-decoration:line-through;color:var(--muted)}
 .mv-op{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:start;background:var(--surface2);border:1px solid var(--line);border-radius:18px;padding:13px 14px;margin-bottom:10px;color:var(--ink);font:inherit}
 .mv-op.best{border-color:var(--accent)}.mv-op .mv-nm b{white-space:normal}
 .mv-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -556,7 +565,7 @@ body:not(.landing)>#lx-sticky{display:none}
 .mc-feats span{font-size:12.5px;padding:5px 9px;border-radius:99px;background:var(--surface2);color:var(--ink)}
 .mc-go{width:100%}
 .mc-items{display:flex;flex-direction:column;gap:5px;margin:12px 0 2px;padding:10px 12px;border-radius:12px;background:var(--surface2);font-size:14px}
-.mc-items i{font-style:normal;color:var(--muted);font-size:13px;margin-inline-start:4px}
+.mc-items i{font-style:normal;color:var(--muted);font-size:13px;margin-inline-start:4px}.mc-items span{display:flex;align-items:center;gap:9px}.mc-items em{flex:1;min-width:0;font-style:normal}.mc-feats span{display:inline-flex;align-items:center;gap:5px}.mv-sh{display:flex;align-items:center;gap:10px}
 .mc-acts{display:flex;gap:8px;margin-top:10px}.mc-acts .btn{flex:1}.mc-acts .btn.primary{flex:1.3}
 .mn-wrap{position:relative}.mn-wrap .goalcta{padding-inline-end:44px;width:100%}
 .mn-x{position:absolute;top:6px;inset-inline-end:6px;width:30px;height:30px;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px}
@@ -584,7 +593,7 @@ body:not(.landing)>#lx-sticky{display:none}
 .sw-list{background:var(--surface2);border-radius:14px;overflow:hidden}
 .sw-row{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;text-align:var(--start);color:var(--ink);border-bottom:1px solid var(--line);background:none}
 .sw-row:last-child{border-bottom:0}.sw-row:active{background:var(--accent-soft)}
-.sw-e{font-size:20px;width:26px;text-align:center;flex-shrink:0}
+.sw-e{width:36px;display:grid;place-items:center;flex-shrink:0}
 .sw-n{flex:1;min-width:0;display:flex;flex-direction:column}.sw-n b{font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sw-n small{color:var(--muted);font-size:12.5px}
 .sw-a{flex-shrink:0;font-size:13px;font-weight:600;background:var(--bg);border-radius:8px;padding:5px 9px;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.25}
 .sw-a small{font-size:11px;font-weight:500;color:var(--muted)}
@@ -1976,7 +1985,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.81';
+const APP_VERSION='13.3.83';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3645,7 +3654,7 @@ function openQty(mi,ii){
 function renderQty(){
   const it=menuS().day.meals[QS.mi].items[QS.ii], f=miFood(it)||{}, U=qUnits(f,QS.zg), u=U.find(x=>x.k===QS.k)||U[0];
   const q=Math.round(QS.g/u.g/u.st)*u.st, v=miVals({...it,g:QS.g}), Z=szList(f), zu=f.szu==='hm'?'hm':'u';
-  openSheet(`<h3>${fEmoji(f)} ${esc(mfName(f))}</h3>
+  openSheet(`<h3 class="mv-sh">${niTile(fIco(f),18)} ${esc(mfName(f))}</h3>
     ${U.length>1?`<div class="row" style="gap:6px;margin:6px 0 12px;flex-wrap:wrap">${U.map(x=>`<button class="chip ${x.k===u.k?'on':''}" data-act="mn-qu" data-k="${x.k}">${x.k==='tb'?['כפות','tbsp','ملاعق'][MLI]:(x.n[MLI]||x.n[0])}</button>`).join('')}</div>`:''}
     <div class="mn-qty">
       <button class="tgw-pm" data-act="mn-qs" data-d="-1" aria-label="פחות">−</button>
@@ -4086,9 +4095,9 @@ function mnBar(lbl,v,t,unit,warn){ const pct=t?Math.min(100,Math.round(v/t*100))
   return `<div class="mn-bar ${over?'over':''} ${over&&warn==='soft'?'soft':''}"><div class="spread small"><span>${lbl}</span><span class="num"><b>${kcalN(Math.round(v))}</b>${t?` / ${kcalN(t)}`:''} ${unit}</span></div><div class="bar"><i style="width:${pct}%"></i></div></div>`; }
 function mnTreatHTML(){
   const f=mnFree();
-  if(!f)return `<button class="card mn-treat off" data-act="mn-free"><span class="mc-ic">🍫</span><span class="mc-t"><b>מקום לפינוק</b><small>להשאיר כל יום קלוריות לשוקולד, גלידה או יין</small></span><span class="mc-tog">הוסף</span></button>`;
+  if(!f)return `<button class="card mn-treat off" data-act="mn-free"><span class="mc-ic">${niSvg('choc',24,'line','#F5B53A')}</span><span class="mc-t"><b>מקום לפינוק</b><small>להשאיר כל יום קלוריות לשוקולד, גלידה או יין</small></span><span class="mc-tog">הוסף</span></button>`;
   return `<div class="card mn-treat">
-    <div class="mc-h"><span class="mc-ic">🍫</span><span class="mc-t"><b><span>פינוק יומי · <span class="num">${f}</span> קק״ל</span>${infoI('treat')}</b><small>שמור מחוץ לתפריט. נכנס בתקציב, למשל:</small></span><button class="mc-tog" data-act="mn-free">שינוי</button></div>
+    <div class="mc-h"><span class="mc-ic">${niSvg('choc',24,'line','#F5B53A')}</span><span class="mc-t"><b><span>פינוק יומי · <span class="num">${f}</span> קק״ל</span>${infoI('treat')}</b><small>שמור מחוץ לתפריט. נכנס בתקציב, למשל:</small></span><button class="mc-tog" data-act="mn-free">שינוי</button></div>
     <div class="mn-tr">${treatIdeas(f).map(t=>`<span>${t[0]} ${tt(t[1])} <i class="num">${t[2]}</i></span>`).join('')}</div>
   </div>`;
 }
@@ -4153,9 +4162,10 @@ function mnWhy(day,i){ const m=day.meals[i], t=mealTot(m), P=Math.round(t.p), r=
 function mnNext(day){ const today=ymd(); return day.meals.findIndex(m=>m.items.length&&m.done!==today); }
 function mnTotHTML(){
   const M=menuS(), day=M.day, kT=+S.settings.kcalT?mnKT():0, pT=+S.settings.protT||0, today=ymd();
-  const t=menuTot(day), has=day&&day.meals.some(m=>m.items.length), left=kT-t.k, pleft=pT-t.p;
+  const t=menuTot(day), has=day&&day.meals.some(m=>m.items.length), adj=mnAdjOn(); if(adj)t.k+=adj.extra;
+  const left=kT-t.k, pleft=pT-t.p;
   const over=has&&kT&&t.k>kT+30, fit=has&&!over&&left<=Math.max(80,kT*.05)&&(!pT||pleft<=10), free=mnFree();
-  const overMsg=!over?'':free&&t.k<=kT+free?`<div class="mn-over soft">${tt('חורג מהתפריט ב-')}<b class="num">${kcalN(Math.round(-left))}</b> ${tt('קק״ל. זה יורד מתקציב הפינוק')}</div>`
+  const overMsg=!over?'':adj?`<div class="mn-over soft"><b class="num">${kcalN(Math.round(t.k-kT))}</b> ${tt('קק״ל מעל היעד היום. לא נורא, נאזן במהלך השבוע.')}</div>`:free&&t.k<=kT+free?`<div class="mn-over soft">${tt('חורג מהתפריט ב-')}<b class="num">${kcalN(Math.round(-left))}</b> ${tt('קק״ל. זה יורד מתקציב הפינוק')}</div>`
     :`<div class="mn-over">${tt('חורג מהיעד ב-')}<b class="num">${kcalN(Math.round(t.k-(kT+free)))}</b> ${tt('קק״ל')}</div>`;
   const eaten=day?day.meals.filter(m=>m.done===today).reduce((a,m)=>a+mealTot(m).k,0):0;
   const pr=has?day.meals.map((m,i)=>({n:mnRole(day,i).n,p:Math.round(mealTot(m).p),d:m.done===today})):[];
@@ -4163,7 +4173,8 @@ function mnTotHTML(){
   return `${overMsg}<div class="mv-row"><span><b class="num">${kcalN(Math.round(t.k))}</b> / <span class="num">${kcalN(kT)}</span> ${tt('קק״ל')}</span><span>${tt('חלבון')} <b class="num mv-p">${Math.round(t.p)}</b> / <span class="num">${pT}</span> ${tt('גר׳')}</span></div>
     <div class="mv-bar"><i style="width:${kT?Math.min(100,Math.round(t.k/kT*100)):0}%"></i>${eaten?`<em style="width:${kT?Math.min(100,Math.round(eaten/kT*100)):0}%"></em>`:''}</div>
     ${pr.length?`<div class="mv-pl">${tt('חלבון לאורך היום')}</div><div class="mv-prot">${pr.map(x=>`<span class="${x.d?'ok':''}"><i style="--h:${Math.min(100,Math.round(x.p/45*100))}%"><b class="num">${x.p}</b></i>${tt(short(x.n))}</span>`).join('')}</div>`:''}
-    ${has?`<div class="mv-note ${fit?'fit':''}">${fit?tt('התפריט תואם ליעד שלך. 30–45 גרם חלבון בכל ארוחה עיקרית, ככה הגוף בונה שריר הכי טוב.'):left>0?`${tt('נשארו')} <b class="num">${kcalN(Math.round(left))}</b> ${tt('קק״ל')}${pleft>0?` · <b class="num">${Math.round(pleft)}</b> ${tt('גר׳ חלבון')}`:''}`:tt('אפשר להקטין כמות, להסיר פריט או לבקש תפריט אחר')}</div>`:''}`;
+    ${adj?`<div class="mv-note">${tt('כולל')} <b class="num">${kcalN(adj.extra)}</b> ${tt('קק״ל שאכלת מחוץ לתפריט')}</div>`:''}
+    ${has&&!(adj&&!fit)?`<div class="mv-note ${fit?'fit':''}">${fit?tt('התפריט תואם ליעד שלך. 30–45 גרם חלבון בכל ארוחה עיקרית, ככה הגוף בונה שריר הכי טוב.'):left>0?`${tt('נשארו')} <b class="num">${kcalN(Math.round(left))}</b> ${tt('קק״ל')}${pleft>0?` · <b class="num">${Math.round(pleft)}</b> ${tt('גר׳ חלבון')}`:''}`:tt('אפשר להקטין כמות, להסיר פריט או לבקש תפריט אחר')}</div>`:''}`;
 }
 function mealCardHTML(m,mi){ const M=menuS(), day=M.day, today=ymd(), done=m.done===today, mt=mealTot(m), r=mnRole(day,mi), nx=mnNext(day);
   const open=(S.mnX!=null?S.mnX===mi:nx===mi), ed=S.mnEd===mi, isNext=nx===mi;
@@ -4171,24 +4182,25 @@ function mealCardHTML(m,mi){ const M=menuS(), day=M.day, today=ymd(), done=m.don
   const head=`<button class="mv-h" data-act="mn-x" data-m="${mi}" aria-expanded="${open}">
       <span class="mv-ic ${done?'done':''}">${done?'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg>':niSvg(r.ic,26)}</span>
       <span class="mv-nm"><b>${tt(r.n)}</b><small>${sub}</small>${mnDots(m)}</span>
-      ${m.items.length?`<span class="mv-k"><b class="num">${kcalN(Math.round(mt.k))}</b><small><span class="num">${Math.round(mt.p)}</span> ${tt('גר׳ חלבון')}</small></span>`:''}</button>`;
+      ${m.items.length?`<span class="mv-k">${!done&&m.items.some(x=>x.g0!=null)?`<s class="num">${kcalN(Math.round(mealTot({items:m.items.map(x=>({...x,g:x.g0??x.g}))}).k))}</s>`:''}<b class="num">${kcalN(Math.round(mt.k))}</b><small><span class="num">${Math.round(mt.p)}</span> ${tt('גר׳ חלבון')}</small></span>`:''}</button>`;
   let body='';
   if(open){
     body=`<div class="mv-it">${m.items.map((it,ii)=>{ const f=miFood(it)||{};
-        return `<div class="mv-i">${niTile(fIco(f),18)}<span class="mv-in">${esc(mfName(f))}</span><button class="mv-g num" data-act="mn-g" data-m="${mi}" data-i="${ii}">${miAmt(it)}</button>${ed?`<button class="mn-ic" data-act="mn-swap" data-m="${mi}" data-i="${ii}" aria-label="${tt('החלפה')}">${niSvg('swap',18)}</button><button class="mn-ic x" data-act="mn-rm" data-m="${mi}" data-i="${ii}" aria-label="${tt('הסרה')}">✕</button>`:''}</div>`; }).join('')}
+        return `<div class="mv-i">${niTile(fIco(f),18)}<span class="mv-in">${esc(mfName(f))}</span><button class="mv-g num" data-act="mn-g" data-m="${mi}" data-i="${ii}">${it.g0!=null&&!done?`<s>${miAmt({...it,g:it.g0}).split(' · ')[0]}</s>${miAmt(it).split(' · ')[0]}`:miAmt(it)}</button>${ed?`<button class="mn-ic" data-act="mn-swap" data-m="${mi}" data-i="${ii}" aria-label="${tt('החלפה')}">${niSvg('swap',18)}</button><button class="mn-ic x" data-act="mn-rm" data-m="${mi}" data-i="${ii}" aria-label="${tt('הסרה')}">✕</button>`:''}</div>`; }).join('')}
       ${ed?`<div class="row" style="gap:8px;margin-top:4px"><button class="btn" style="flex:1" data-act="mn-add" data-m="${mi}">+ ${tt('הוסף פריט')}</button><button class="btn" data-act="mn-meal-rm" data-m="${mi}">${tt('מחק ארוחה')}</button></div>`:''}</div>
       ${!m.items.length?`<button class="btn" style="width:100%;margin-top:10px" data-act="mn-fill" data-m="${mi}">✨ ${tt('מלא לי לפי מה שנשאר מהיעד')}</button>`:''}
-      ${m.items.length&&!done&&!ed?`<div class="mv-rb"><img src="img/kobi-happy.svg" alt=""><div>${mnWhy(day,mi)}</div></div>`:''}
+      ${m.items.length&&!done&&!ed?`<div class="mv-rb"><img src="img/kobi-${isNext&&mnAdjOn()?'think':'happy'}.svg" alt=""><div>${isNext&&mnAdjOn()?mnAdjMsg(mnAdjOn()):mnWhy(day,mi)}</div></div>`:''}
       ${m.items.length?`<div class="mv-acts"><button class="btn mv-ed ${ed?'on':''}" data-act="mn-ed" data-m="${mi}" aria-label="${tt('עריכה')}">${ed?tt('סיום'):niSvg('edit',18)}</button>
         ${done?`<button class="btn" style="flex:1" disabled>✓ ${tt('נרשם ביומן')}</button>`:`<button class="btn" data-act="mn-mswap" data-m="${mi}">${niSvg('swap',18)}${tt('החלף')}</button><button class="btn primary" data-act="mn-log" data-m="${mi}">${tt('אכלתי')}</button>`}</div>`:''}`;
   }
   return `<div class="mv-m ${done?'done':''} ${isNext&&!done?'nx':''} ${open?'open':''} mn-meal" data-mi="${mi}"><div class="mv-t num">${mnTime(day,mi)}</div><div class="mv-c">
-    ${isNext&&!done?`<span class="mv-lbl">${tt('הבא בתור')}</span>`:''}${head}${body}</div></div>`; }
+    ${isNext&&!done?`<span class="mv-lbl">${tt('הבא בתור')}</span> `:''}${!done&&m.items.some(x=>x.g0!=null)?`<span class="mv-adj">${tt('עודכן אוטומטית')}</span>`:''}${head}${body}</div></div>`; }
 function vMenu(){
+  try{ mnAdapt(); }catch(e){ console.warn(e); }
   mnPatch._has=!!menuS().day&&menuS().day.meals.some(m=>m.items.length);
   const M=menuS(), day=M.day, has=day&&day.meals.some(m=>m.items.length), td=isTrainDay(ymd());
   return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="${tt('חזרה')}">→</button><h2>${tt('התפריט שלי')}</h2>
-      <button class="mv-ib" data-act="mn-prefs" aria-label="${tt('העדפות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg></button></div>
+      ${M.day&&M.day.meals.some(m=>m.items.length)?`<button class="mv-ib" data-act="mn-shop" aria-label="${tt('רשימת קניות')}">${niSvg('cart',22)}</button>`:''}<button class="mv-ib" data-act="mn-prefs" aria-label="${tt('העדפות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg></button></div>
     ${!day?`<div class="card mn-start">
         <button class="mn-big" data-act="mn-gen"><span>✨</span><b>${tt('תציע לי')}</b><small>${tt('תפריט מלא לפי היעד והטעם שלך')}</small></button>
         <button class="mn-big" data-act="mn-empty"><span>✍️</span><b>${tt('אבנה לבד')}</b><small>${tt('מוסיפים מזונות ורואים כמה נשאר')}</small></button>
@@ -4210,6 +4222,47 @@ function vMenu(){
     <button class="linkbtn small mn-del" data-act="mn-del">🗑 ${tt('מחק את התפריט')}</button>
     <div class="small muted" style="text-align:center;margin:6px 0 4px">${tt('הערכים מהמאגר הישראלי. הערכה כללית, לא ייעוץ תזונתי.')}</div>`}`;
 }
+
+/* התאמה אוטומטית: אכלת היום יותר ממה שתוכנן? ראפי מוריד את ההפרש מהארוחות שנשארו, בלי לגעת בחלבון, ומוסיף ירקות לנפח */
+function mnAdapt(){ const M=menuS(), day=M.day, today=ymd(); if(!day||!day.meals)return;
+  const eaten=mealsOf(today).reduce((a,x)=>a+(+x.kcal||0),0);
+  const key=today+':'+Math.round(eaten)+':'+day.meals.map(m=>m.done===today?1:0).join('');
+  if(day.adj&&day.adj.key===key)return;
+  let ch=!!day.adj;
+  for(const m of day.meals)for(const it of m.items)if(it.g0!=null){ if(m.done!==today)it.g=it.g0; delete it.g0; ch=true; }
+  day.adj=null;
+  const doneK=day.meals.filter(m=>m.done===today).reduce((a,m)=>a+mealTot(m).k,0), extra=eaten-doneK-mnFree();
+  const rest=day.meals.filter(m=>m.done!==today&&m.items.length);
+  if(extra>=120&&rest.length&&mealsOf(today).length){
+    const restK=rest.reduce((a,m)=>a+mealTot(m).k,0), goal=Math.min(extra,restK*.4); let need=goal;
+    const its=rest.flatMap(m=>m.items.map(it=>({it,m,f:miFood(it)}))).filter(x=>x.f&&x.it.id);
+    for(const x of its)x.it.g0=x.it.g;
+    for(let n=0;n<300&&need>15;n++){
+      const c=its.filter(x=>['C','F','X','L'].includes(x.f.r)&&x.it.g>x.f.mn).sort((a,b)=>((a.m.pw?1:0)-(b.m.pw?1:0))||(b.it.g*b.f.k-a.it.g*a.f.k))[0]; if(!c)break;
+      const g=mfClamp(c.f,c.it.g-mfStep(c.f)); if(g>=c.it.g)break; need-=(c.it.g-g)*c.f.k/100; c.it.g=g; }
+    const v=its.filter(x=>x.f.r==='V'&&x.it.g<x.f.mx).sort((a,b)=>(b.m.k!=='s')-(a.m.k!=='s'))[0]; if(v)v.it.g=Math.min(v.f.mx,v.it.g+100);
+    for(const x of its)if(x.it.g0===x.it.g)delete x.it.g0;
+    const cut=Math.round(goal-Math.max(0,need));
+    if(its.some(x=>x.it.g0!=null))day.adj={key,at:today,extra:Math.round(extra),cut,left:Math.max(0,Math.round(extra-cut))};
+    ch=true; }
+  if(!day.adj)day.adj={key,at:today,none:1};
+  if(ch)persistSettings(); }
+function mnAdjOn(){ const a=menuS().day?.adj; return a&&!a.none&&a.at===ymd()?a:null; }
+function mnAdjMsg(a){ return `${tt('אכלת היום')} <b>${kcalN(a.extra)} ${tt('קק״ל')}</b> ${tt('מעבר למתוכנן.')} ${tt('לא נוגעים בחלבון. הורדתי')} <b>${kcalN(a.cut)}</b> ${tt('מהפחמימה והשומן בארוחות שנשארו, והוספתי ירקות כדי שיהיה משביע.')}${a.left>60?` ${tt('את השאר נאזן במהלך השבוע.')}`:''}`; }
+/* רשימת קניות מהתפריט */
+const SL_RAW={ric:.35,brr:.35,pas:.4,wpa:.4,qui:.37,bul:.4,cus:.4,pti:.45,bkw:.4,len:.4,chp:.45,chk:1.33,thg:1.3,tky:1.3,bef:1.3,stk:1.3,sal:1.2,fsh:1.2,dns:1.2,sch:1};
+function slSec(f){ if(f.r==='P'&&!['cheese','yog','powder'].includes(f.gp)&&f.t!=='d')return 'p'; if(f.t==='d'||f.r==='L'||['cheese','yog'].includes(f.gp))return 'd'; if(f.r==='V'||f.r==='X')return 'v'; return 'c'; }
+function slAmt(f,g){ if(f.u&&f.ug&&!SL_RAW[f.id]){ const q=Math.ceil(g/f.ug-0.15); return `${q} ${q>1&&f.up?(f.up[MLI]||f.up[0]):(f.u[MLI]||f.u[0])}`; }
+  const r=g*(SL_RAW[f.id]||1); if(r>=1000)return `${(Math.round(r/100)/10)} ${tt('ק״ג')}`; const st=r<150?10:50; return `${Math.max(st,Math.round(r/st)*st)} ${['גר׳','g','غ'][MLI]}`; }
+function shopText(){ const M=menuS(), d=M.shop?.d||7, L=slItems(d); return `${tt('רשימת קניות')} · ${d} ${tt('ימים')}\n`+L.map(x=>`- ${mfName(x.f)}: ${slAmt(x.f,x.g)}`).join('\n'); }
+function slItems(d){ const acc={}; for(const m of menuS().day?.meals||[])for(const it of m.items){ const f=miFood(it); if(!f||!it.id)continue; (acc[f.id]=acc[f.id]||{f,g:0}).g+=(+(it.g0??it.g)||0)*d; } return Object.values(acc); }
+function openShop(){ const M=menuS(); M.shop=M.shop||{d:7,ok:[]}; const d=M.shop.d, L=slItems(d);
+  const SEC=[['p','gp','חלבון'],['d','gd','מקרר'],['v','salad','ירקות ופירות'],['c','gc','מזווה']];
+  openSheet(`<h3 class="mv-sh">${niSvg('cart',24)} ${tt('רשימת קניות')}</h3>
+    <div class="small muted" style="margin:-2px 0 12px">${tt('לפי התפריט של היום. אורז, פסטה ודגנים במשקל יבש, בשר ודגים במשקל נא.')}</div>
+    <div class="row" style="gap:6px;margin-bottom:12px">${[3,7].map(n=>`<button class="chip ${n===d?'on':''}" data-act="mn-sl-d" data-v="${n}">${n} ${tt('ימים')}</button>`).join('')}<span style="flex:1"></span><button class="chip" data-act="mn-sl-share">${tt('שיתוף')}</button></div>
+    ${SEC.map(([k,ic,lbl])=>{ const xs=L.filter(x=>slSec(x.f)===k); if(!xs.length)return '';
+      return `<div class="sl-sec"><h4>${niTile(ic,15,24)}${tt(lbl)}</h4>${xs.map(x=>{ const ok=M.shop.ok.includes(x.f.id); return `<button class="sl-i ${ok?'ok':''}" data-act="mn-sl-t" data-id="${x.f.id}"><i></i><span>${esc(mfName(x.f))}</span><em class="num">${slAmt(x.f,x.g)}</em></button>`; }).join('')}</div>`; }).join('')}`); }
 /* החלפת ארוחה שלמה: 3 אפשרויות עם אותם ערכים בערך */
 let MSW=null;
 function openMealSwap(mi){
@@ -4240,25 +4293,26 @@ function renderMealSwap(){ const M=menuS(), m=M.day.meals[MSW.mi], cur=mealTot(m
 
 /* כרטיס בטאב התזונה */
 function menuCardHTML(){
+  try{ mnAdapt(); }catch(e){}
   const M=menuS(), day=M.day, today=ymd(), has=day&&day.meals.some(m=>m.items.length);
   const next=has?day.meals.find(m=>m.done!==today&&m.items.length):null;
   const chev=up=>`<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="${up?'M6 15l6-6 6 6':'M6 9l6 6 6-6'}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   // מצב מכווץ: שורה אחת, עם כפתור "הצג" ברור
   if(M.min)return `<button class="card mc mc-min" data-act="mn-min" data-v="0">
-      <span class="mc-ic">🍽️</span>
+      <span class="mc-ic">${niSvg('ln',24)}</span>
       <span class="mc-t"><b>התפריט שלי</b><small>${next?`${tt('הבא בתור:')} ${tt(MSLOT[next.k]?.[1]||'')}`:has?tt('כל הארוחות של היום נרשמו ✓'):tt('תפריט יומי לפי היעד והטעם שלך')}</small></span>
       <span class="mc-tog">${tt('הצג')} ${chev(false)}</span></button>`;
-  const head=(sub,link)=>`<div class="mc-h"><span class="mc-ic">🍽️</span><span class="mc-t"><b>התפריט שלי</b><small>${sub}</small></span>
+  const head=(sub,link)=>`<div class="mc-h"><span class="mc-ic">${niSvg('ln',24)}</span><span class="mc-t"><b>התפריט שלי</b><small>${sub}</small></span>
       <button class="mc-tog" data-act="mn-min" data-v="1" aria-label="${tt('הסתר')}">${tt('הסתר')} ${chev(true)}</button></div>`;
   if(!has)return `<div class="card mc">
       ${head('תפריט יומי לפי היעד והטעם שלך')}
-      <div class="mc-feats"><span>🎯 מותאם ליעד</span><span>⚖️ גרמים מדויקים</span><span>🔄 החלפה בלחיצה</span></div>
+      <div class="mc-feats"><span>${niSvg('target',15)}${tt('מותאם ליעד')}</span><span>${niSvg('scale',15)}${tt('גרמים מדויקים')}</span><span>${niSvg('swap',15)}${tt('החלפה בלחיצה')}</span></div>
       <button class="btn primary mc-go" data-act="mn-open">${M.p?'✨ בנה לי תפריט':'✨ בואו נתחיל'}</button>
     </div>`;
   const ni=next?day.meals.indexOf(next):-1;
   return `<div class="card mc">
-      ${head(next?`${tt('הבא בתור:')} <b>${tt(MSLOT[next.k]?.[1]||'')}</b>`:'כל הארוחות של היום נרשמו ✓')}
-      ${next?`<div class="mc-items">${next.items.map(it=>{ const f=miFood(it)||{}; return `<span>${fEmoji(f)} ${esc(mfName(f))} <i>${miAmt(it)}</i></span>`; }).join('')}</div>`:''}
+      ${head(next?`${tt('הבא בתור:')} <b>${tt(mnRole(day,day.meals.indexOf(next)).n)}</b>${M.day.adj&&M.day.adj.at===today?` · ${tt('עודכן לפי מה שאכלת')}`:''}`:'כל הארוחות של היום נרשמו ✓')}
+      ${next?`<div class="mc-items">${next.items.map(it=>{ const f=miFood(it)||{}; return `<span>${niTile(fIco(f),15,24)}<em>${esc(mfName(f))}</em><i>${miAmt(it)}</i></span>`; }).join('')}</div>`:''}
       <div class="mc-acts">
         <button class="btn" data-act="mn-open">לתפריט המלא</button>
         ${next?`<button class="btn primary" data-act="mn-log" data-m="${ni}">✓ אכלתי, רשום</button>`:''}
@@ -4354,7 +4408,7 @@ function openSwap(mi,ii){
   const M=menuS(), it=M.day.meals[mi].items[ii], f=miFood(it); if(!f)return;
   const protRich=f.r?f.r==='P':(+f.p||0)*4/Math.max(+f.k||1,1)>.3;
   SWP={mi,ii,mode:protRich?'p':'k',q:'',db:[]};
-  openSheet(`<div class="sw-sticky"><div class="sw-top"><span class="sw-e">${fEmoji(f)}</span><span class="sw-n"><small>מחליפים את</small><b>${esc(mfName(f))}</b></span><span class="sw-a num">${miAmt(it)}<small>${(v=>`${kcalN(v.k)} קק״ל · ${Math.round(v.p)} גר׳ חלבון`)(miVals(it))}</small></span><button class="sw-close" data-act="sheet-close" aria-label="סגור">✕</button></div>
+  openSheet(`<div class="sw-sticky"><div class="sw-top"><span class="sw-e">${niTile(fIco(f),20,36)}</span><span class="sw-n"><small>מחליפים את</small><b>${esc(mfName(f))}</b></span><span class="sw-a num">${miAmt(it)}<small>${(v=>`${kcalN(v.k)} קק״ל · ${Math.round(v.p)} גר׳ חלבון`)(miVals(it))}</small></span><button class="sw-close" data-act="sheet-close" aria-label="סגור">✕</button></div>
     <div class="sw-search"><span>🔍</span><input id="mn-sq" type="search" enterkeyhint="search" autocomplete="off" placeholder="${tt('חיפוש מזון להחלפה…')}"></div>
     <div class="sw-seg"><span>כמות לפי</span><button class="${SWP.mode==='p'?'on':''}" data-act="mn-smode" data-v="p">חלבון</button><button class="${SWP.mode==='k'?'on':''}" data-act="mn-smode" data-v="k">קלוריות</button></div></div>
     <div id="mn-sres" class="sw-body">${swapList()}</div>
@@ -4380,7 +4434,7 @@ function swapG(food,isCat){
 }
 function swapRow(name,e,g,food,attrs,isCat){
   const vv={p:(+food.p||0)*g/100,k:(+food.k||0)*g/100}, amt=isCat?miAmt({id:food.id,g}):miAmt({n:name,k:food.k,p:food.p,g,tb:food.tb,u:food.u,up:food.up,ug:food.ug});
-  return `<button class="sw-row" ${attrs}><span class="sw-e">${e||foodEmoji(name)}</span><span class="sw-n"><b>${esc(name)}</b><small class="num">${Math.round(vv.p)} גר׳ חלבון · ${kcalN(vv.k)} קק״ל</small></span><span class="sw-a num">${amt}</span></button>`;
+  return `<button class="sw-row" ${attrs}><span class="sw-e">${niTile(fIco(isCat?food:{name}),20,36)}</span><span class="sw-n"><b>${esc(name)}</b><small class="num">${Math.round(vv.p)} גר׳ חלבון · ${kcalN(vv.k)} קק״ל</small></span><span class="sw-a num">${amt}</span></button>`;
 }
 function swapList(){
   if(!SWP)return '';
@@ -4517,6 +4571,10 @@ function menuAct(act,b){
     case 'mn-x': { const nx=mnNext(M.day), cur=S.mnX!=null?S.mnX:nx; S.mnX=cur===mi?-1:mi; if(S.mnEd!==S.mnX)S.mnEd=null; mnPatch(); return true; }
     case 'mn-ed': S.mnEd=S.mnEd===mi?null:mi; S.mnX=mi; mnPatch(); return true;
     case 'mn-mswap': openMealSwap(mi); return true;
+    case 'mn-shop': openShop(); return true;
+    case 'mn-sl-d': M.shop.d=+b.dataset.v; persistSettings(); openShop(); return true;
+    case 'mn-sl-t': { const id=b.dataset.id, a=M.shop.ok, i=a.indexOf(id); if(i>=0)a.splice(i,1); else a.push(id); b.classList.toggle('ok',i<0); persistSettings(); return true; }
+    case 'mn-sl-share': { const t=shopText(); try{ if(navigator.share){ navigator.share({text:t}).catch(()=>{}); } else { navigator.clipboard.writeText(t); toast(tt('הרשימה הועתקה ✓')); } }catch(_){} return true; }
     case 'mn-mswap-pick': { const o=MSW?.opts?.[+b.dataset.i]; if(!o)return true; const m=M.day.meals[MSW.mi], mm=o.c.mm;
       m.items=mm.items; if(mm.t){ m.t=mm.t; m.tm=mm.tm; } else { delete m.t; delete m.tm; } M.day.auto=false; MSW=null; persistSettings(); closeSheet(); mnPatch(); toast(tt('הארוחה הוחלפה ✓')); return true; }
     case 'mn-free': openFreeSheet(); return true;
