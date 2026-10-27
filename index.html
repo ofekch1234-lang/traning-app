@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d3919e82"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d3919e82"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d3919e82"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=df7ba9f9"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=df7ba9f9"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=df7ba9f9"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2265,7 +2265,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.60';
+const APP_VERSION='13.3.62';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4806,7 +4806,7 @@ const GLOSS={
   bank:['בנק קלוריות','היעד נספר לפי שבוע, מיום ראשון. אכלת פחות מהיעד ביום מסוים? ההפרש נשמר לימים הבאים. עברת? זה יורד מהבנק. נספרים רק ימים שרשמת בהם אוכל.'],
   block:['בלוק אימונים','תקופה של 6 שבועות: 5 שבועות שבהם העומס עולה בהדרגה, ושבוע קל בסוף. בסוף כל בלוק ראפי מראה מה התחזק ומרענן את התוכנית.'],
   deload:['שבוע קל','שבוע עם חצי מהסטים ואותו משקל. הגוף מתאושש מהעומס שנצבר ואחריו חוזרים חזקים יותר. זה חלק מהתוכנית, לא הפסקה.'],
-  rir:['חזרות בטנק','כמה חזרות עוד יכולת לעשות בסוף הסט. 0 = לא היית מצליח עוד אחת. ראפי משתמש בזה כדי לכוון את הסט הבא ואת האימון הבא.'],
+  rir:['חזרות שנשארו','כמה חזרות עוד יכולת לעשות בסוף הסט. 0 = לא היית מצליח עוד אחת. ראפי משתמש בזה כדי לכוון את הסט הבא ואת האימון הבא.'],
   sug:['המספרים בירוק','ההמלצה של ראפי לסט הזה: משקל וחזרות לפי מה שעשית בפעם הקודמת. לוחצים ✓ כדי לאשר, או משנים כרצונך.'],
   tdee:['איך ראפי מחשב','הוא משווה כמה אכלת לפי התיעוד מול מגמת המשקל בשבועיים האחרונים, ומזה מחשב כמה הגוף שלך באמת שורף. מגמה = השינוי הממוצע בשבוע, בלי הקפיצות היומיות של מים ומלח.'],
   dbreak:['הפסקת דיאטה','שבועיים של אכילה בשימור באמצע חיטוב ארוך. עוזר לשמור על אנרגיה ומוטיבציה, ואז ממשיכים לרדת.'],
@@ -5862,7 +5862,7 @@ function sessionsOf(name,k=4){ const out=[];
 function coachRec(e,ctx){
   const rr=repRange(e.reps)||{lo:8,hi:12}, n=Math.max(1,+e.s||3), hist=sessionsOf(e.n,4);
   const half=Math.max(1,Math.ceil(n/2));
-  if(!hist.length)return {k:'new',sets:ctx.deload?half:n,r:rr.lo,why:`פעם ראשונה בתרגיל. תבחר משקל שאיתו ${rr.hi} חזרות יוצאות נקיות, ועוד 2 היו נשארות בטנק.`};
+  if(!hist.length)return {k:'new',sets:ctx.deload?half:n,r:rr.lo,why:`פעם ראשונה בתרגיל. תבחר משקל שאיתו ${rr.hi} חזרות יוצאות נקיות, ועוד 2 היית מצליח לעשות.`};
   const last=hist.find(h=>!h.dl)||hist[0], ls=last.sets, rs=ls.map(s=>+s.r||0), low=Math.min(...rs);
   const topW=Math.max(...ls.map(s=>+s.w||0)), st=wStep(e.n);
   const big=bigJump(topW,st), top=big?rr.hi+3:rr.hi; // too big a plate jump: stretch the range by 3 reps before adding weight
@@ -5892,7 +5892,7 @@ function coachRec(e,ctx){
   if(full&&atTop){
     const failI=ls.findIndex(s=>s.rir===0);
     if(heavyLift(e.n)&&failI>=0) // closed the range, but a set went to failure: one more session at this weight before the jump
-      return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הקצה. היום עוד פעם ${wL(topW)}, הפעם עם חזרה אחת בטנק, ואז עולים ל-${wL(nw)}.`};
+      return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הקצה. היום עוד פעם ${wL(topW)}, הפעם עוצרים כשנשאר כוח לעוד חזרה אחת, ואז עולים ל-${wL(nw)}.`};
     return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}, הגיע הזמן לעלות. היום ${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.`}; }
   if(!full&&atTop)return {k:'reps',w:topW,r:top,sets:n,why:`בפעם הקודמת ${ls.length} מתוך ${planned} סטים הגיעו ל-${top}. ${planned-ls.length===1?'כשגם הסט האחרון יגיע':'כשכל הסטים יגיעו'}, עולים ל-${wL(nw)}.`};
   if(big&&rs.every(r=>r>=rr.hi)){ const tr=perSet(0), bp=Math.round(st/topW*100);
@@ -5907,7 +5907,7 @@ function coachRec(e,ctx){
     ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-${tr} חזרות. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.`
     :`נשארים על ${wL(topW)} ומנסים חזרה אחת יותר מהפעם הקודמת. ב-${rr.hi} חזרות בכל הסטים, עולים במשקל.`};
 }
-const RIR_WK={1:'משאירים 3 חזרות בטנק',2:'משאירים 2–3 חזרות בטנק',3:'משאירים 2 חזרות בטנק',4:'משאירים 1–2 חזרות בטנק',5:'משאירים חזרה אחת בטנק'};
+const RIR_WK={1:'עוצרים 3 חזרות לפני שאין כוח',2:'עוצרים 2–3 חזרות לפני שאין כוח',3:'עוצרים 2 חזרות לפני שאין כוח',4:'עוצרים 1–2 חזרות לפני שאין כוח',5:'עוצרים חזרה אחת לפני שאין כוח'};
 function coachWeekLine(bi){ if(bi.ended)return 'הבלוק הסתיים. בוא נראה מה התחזק ומה משתנה.';
   if(bi.deload)return 'שבוע קל: חצי סטים, אותו משקל. מתאוששים ומתחזקים.';
   const r=RIR_WK[Math.min(5,Math.max(1,bi.wk-(bi.weeks-6)))]||RIR_WK[3];
@@ -6038,7 +6038,7 @@ function rirSet(ei,si,v){
   const e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)return; s.rir=v; persistActive();
   const rr=repRange(e.reps), nx=e.sets[si+1], r=+s.r||0, w=+s.w||0; let msg='בדיוק בטווח. ממשיכים ככה.';
   if(nx&&!nx.done){
-    if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=r+2; msg='נשאר הרבה בטנק: בסט הבא נסה עוד 2 חזרות.'; }
+    if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=r+2; msg='נשאר לך עוד הרבה כוח. בסט הבא נסה עוד 2 חזרות.'; }
     else if(v===0&&rr&&r<rr.lo&&w>0){ nx.pw=roundTo(w*0.95,wStep(e.n)); msg=`קשה מדי: בסט הבא ${wL(nx.pw)} ${LU()}.`; }
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
     if(nw&&!nw.value)nw.placeholder=wL(nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
@@ -7121,10 +7121,21 @@ function gearSet(name,patch){ if(!name)return; const g=S.settings.gear||(S.setti
 function guessSub(name){
   const sg=gearOf(name)?.sub; if(sg)return sg;
   const saved=padModes()[name]; if(saved)return saved;
-  if(/משקולת|משקולות|פטיש|לאנג|גביע|קטלבל|חקלאי|ארנולד|בולגרי|בריכוז|קיקבק|שראג/.test(name))return 'db';
-  if(/מכונ|פולי|כבל|חבל|פק-דק|פשיטת ברכיים|כפיפת ברכיים|מוצלבים|פייס|האק/.test(name))return 'stack';
-  return 'bar';
+  return eqGuess(name);
 }
+/* which picker to open first: the gear named in the exercise wins ("…במוט", "…במשקולות", "…בכבל"),
+   then the library's own exercise (its English id says Dumbbell / Cable / Barbell…), then typical names */
+function eqGuess(name){ const n=String(name||'');
+  if(/במוט|מוט |\bEZ\b|סמית/.test(n))return 'bar';
+  if(/משקולת|משקולות|קטלבל/.test(n))return 'db';
+  if(/מכונ|פולי|כבל|חבל|פק-דק/.test(n))return 'stack';
+  const id=(typeof EXDB!=='undefined'&&EXDB[n])||'';
+  if(id){ if(/Dumbbell|Kettlebell|_DB_|Hammer|Side_Lateral|Front_.*Raise|Arnold|Goblet|Farmer|Concentration|Kickback/i.test(id))return 'db';
+    if(/Cable|Machine|Lever|Pulldown|Leg_Press|Leg_Extension|Leg_Curl|Pec_Deck|Butterfly|Thigh_A|Face_Pull|Pull_Through|Pulley|Seated_Row|Calf_Press/i.test(id))return 'stack';
+    if(/Barbell|EZ|Smith|Deadlift|Good_Morning|Rack_Pull|Pendlay|Hack_Squat|Bent.?Over/i.test(id))return 'bar'; }
+  if(/הרחק|הרמות? (צד|קדמי)|הרמה (צידית|קדמית)|פרפר|פטיש|לאנג|גביע|חקלאי|ארנולד|בולגרי|בריכוז|קיקבק|כפיפת מרפקים|פשיטת מרפק/.test(n))return 'db';
+  if(/פשיטת ברכיים|כפיפת ברכיים|מוצלבים|פייס|לחיצת רגליים|פולי|מקרבים|מרחיקים/.test(n))return 'stack';
+  return 'bar'; }
 const DB_RACK_KG=[1,2,3,4,5,6,7,8,9,10,11,12,12.5,14,15,16,17.5,18,20,22,22.5,24,25,26,27.5,28,30,32.5,35,37.5,40,42.5,45,47.5,50];
 const DB_RACK_LB=[2,3,5,8,10,12,15,17.5,20,22.5,25,27.5,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,120];
 const dbRack=()=>uL()==='lb'?DB_RACK_LB:DB_RACK_KG;
