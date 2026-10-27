@@ -1782,7 +1782,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.45';
+const APP_VERSION='13.3.47';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2233,11 +2233,13 @@ function persistActive(){
   saveLocalActive();
   clearTimeout(_aT);_aT=setTimeout(flushActive,800);
 }
+/* newer account-level settings, saved and restored with the rest (health questionnaire, sensitive exercises, nutrition notes, training level) */
+const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb'];
 async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,uL:S.settings.uL||null,uB:S.settings.uB||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null,saved:S.settings.saved||null}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,uL:S.settings.uL||null,uB:S.settings.uB||null,menu:S.settings.menu||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null,saved:S.settings.saved||null,...Object.fromEntries(PREF_X.map(k=>[k,S.settings[k]??null]))}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); return flushActive(); }
@@ -8996,7 +8998,7 @@ async function enterApp(user){
       S.settings.schedule=st.data.prefs?.schedule||{};
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.menu=st.data.prefs?.menu||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
-      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.uL=st.data.prefs?.uL||null; S.settings.uB=st.data.prefs?.uB||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null; S.settings.saved=st.data.prefs?.saved||null;
+      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.uL=st.data.prefs?.uL||null; S.settings.uB=st.data.prefs?.uB||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null; S.settings.saved=st.data.prefs?.saved||null; PREF_X.forEach(k=>{ S.settings[k]=st.data.prefs?.[k]??null; });
       try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1');
         if(!(src.t>new Date(S.user.created_at).getTime()+36e5))logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
