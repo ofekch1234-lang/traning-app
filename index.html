@@ -2063,7 +2063,7 @@ function natPlan(){
   //     A workout that was already moved in is not offered again.
   if(n.nudge!==false)for(let i=0;i<14;i++){ const d=day(i), t=schedOn(d); if(!t||mvInto(d))continue; if(i===0&&(trainedOn(d)||S.active))continue;
     const nx=new Date(d); nx.setDate(nx.getDate()+1); const len=out.length;
-    add(at(d,19),`${t.name} עוד מחכה להיום`,schedOn(nx)?'עוד אפשר להספיק היום, או להזיז ליום פנוי בלי לאבד כלום.':'עוד אפשר להספיק היום, או להזיז למחר בלי לאבד כלום.','miss');
+    add(at(d,19),tt('{0} עוד מחכה להיום').replace('{0}',tt(t.name)),schedOn(nx)?'עוד אפשר להספיק היום, או להזיז ליום פנוי בלי לאבד כלום.':'עוד אפשר להספיק היום, או להזיז למחר בלי לאבד כלום.','miss');
     if(out.length>len)out[out.length-1].act=schedOn(nx)?'NR_MISS2':'NR_MISS'; }
   // 2. weigh-in, 7:30, every morning without a weigh-in yet
   if(n.weigh!==false){ const today=ymd(); const wToday=(S.weights||[]).some(w=>w.d===today);
