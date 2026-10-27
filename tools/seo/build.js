@@ -222,7 +222,7 @@ const calc=require('./calc.js'); const calcUrls=[];
 for(const l of LANGS){ for(const [kind,p] of [['cal',''],['bmi','bmi'],['prot','protein']]){ const u=calcBase(l)+p; w(u||'/calc/',calc.page(HEAD,FOOT,l,kind,calcLinks)); calcUrls.push(u); } }
 // guides
 const guides=require('./guides.js'); const guideUrls=[];
-for(const l of LANGS){ const all=guides.load(l); if(!all.length)continue; for(const g of all){ w(g.path,guides.page(HEAD,FOOT,l,g,all)); guideUrls.push(g.path); } w(guides.base(l),guides.index(HEAD,FOOT,l,all)); guideUrls.push(guides.base(l)); }
+for(const l of LANGS){ const all=guides.load(l); if(!all.length)continue; for(const g of all){ w(g.path,guides.page(HEAD,FOOT,l,g,all,calcLinks)); guideUrls.push(g.path); } w(guides.base(l),guides.index(HEAD,FOOT,l,all)); guideUrls.push(guides.base(l)); }
 // sitemaps
 const sm=list=>`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${list.map(u=>`<url><loc>${SITE}${u}</loc></url>`).join('')}</urlset>`;
 for(const l of LANGS)w(`/sitemap-food-${l}.xml`,sm(urls[l]));

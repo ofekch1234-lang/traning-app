@@ -22,14 +22,15 @@ function render(md){
   flush(); closeList(); return out;
 }
 function load(l){ const dir=path.join(__dirname,'guides',l); if(!fs.existsSync(dir))return []; return fs.readdirSync(dir).filter(f=>f.endsWith('.md')).map(f=>{ const {meta,body}=parse(fs.readFileSync(path.join(dir,f),'utf8')); const words=body.split(/\s+/).length; return {...meta,body,min:Math.max(2,Math.round(words/180)),path:base(l)+meta.slug}; }).sort((a,b)=>a.date<b.date?1:-1); }
-function page(HEAD,FOOT,l,g,all){
+function page(HEAD,FOOT,l,g,all,links){
   const t=L[l], alts=[[l,g.path]];
   const others=all.filter(x=>x!==g).slice(0,4);
   const ld={"@context":"https://schema.org","@type":"Article","headline":g.title,"description":g.desc,"datePublished":g.date,"dateModified":g.date,"inLanguage":l,"author":{"@type":"Organization","name":"NextRep"},"publisher":{"@type":"Organization","name":"NextRep","logo":{"@type":"ImageObject","url":"https://www.nextrep.co.il/icon-512.png"}},"mainEntityOfPage":"https://www.nextrep.co.il"+g.path};
   return HEAD(l,g.title,g.desc,g.path,alts,`<script type="application/ld+json">${JSON.stringify(ld)}</script><style>.art{font-size:17px;line-height:1.7}.art h2{font-size:22px;margin:26px 0 8px}.art h3{font-size:18px;margin:18px 0 6px}.art p{margin:0 0 14px}.art ul,.art ol{padding-inline-start:22px;margin:0 0 14px}.art li{margin-bottom:6px}.art a{color:var(--acc)}</style>`)+
   `<div class="crumb"><a href="${base(l)}">${t.crumb}</a></div><h1>${esc(g.title)}</h1><div class="sub">${t.by} · ${g.date.slice(0,7).replace('-','/')} · ${g.min} ${t.min}</div><div class="art">${render(g.body)}</div>
 <div class="cta"><img src="/img/kobi-happy.svg" alt=""><div style="flex:1"><b>NextRep</b><span>${l==='he'?'זוכרת כל סט, מצלמים ארוחה ומקבלים קלוריות, ומאמן AI שמסתכל על המספרים שלך.':'يتذكر كل مجموعة، صوّر وجبتك واحصل على السعرات، ومدرب ذكاء اصطناعي ينظر إلى أرقامك.'}</span></div><a href="/?utm_source=seo&utm_medium=guide&utm_content=${g.slug}">${t.cta}</a></div>
-<h2 style="font-size:15px;color:var(--mut)">${t.more}</h2><div class="card list">${others.map(x=>`<a href="${x.path}"><span>${esc(x.title)}</span><b>›</b></a>`).join('')}</div>`+FOOT(l,alts);
+<h2 style="font-size:15px;color:var(--mut)">${t.more}</h2><div class="card list">${others.map(x=>`<a href="${x.path}"><span>${esc(x.title)}</span><b>›</b></a>`).join('')}</div>
+${links?`<div class="links" style="margin-top:14px">${links(l)}</div>`:''}`+FOOT(l,alts);
 }
 function index(HEAD,FOOT,l,all){
   const t=L[l], alts=[[l,base(l)]];
