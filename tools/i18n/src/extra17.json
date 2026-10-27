@@ -1262,5 +1262,105 @@
  "הממוצע השבועי הוא מה שקובע.": {
   "en": "The weekly average is what counts.",
   "ar": "المتوسط الأسبوعي هو ما يهم."
+ },
+ "ראפי · הסיכום השבועי": {
+  "en": "Repi · Weekly check-in",
+  "ar": "رابي · الملخص الأسبوعي"
+ },
+ "שבוע {0} בחיטוב: ככה זה בהתחלה": {
+  "en": "Week {0} of your cut: this is how it starts",
+  "ar": "الأسبوع {0} من التنشيف: هكذا تكون البداية"
+ },
+ "ירדת בערך": {
+  "en": "You dropped about",
+  "ar": "نزلت حوالي"
+ },
+ "בשבוע": {
+  "en": "a week",
+  "ar": "في الأسبوع"
+ },
+ "בשבועיים הראשונים רוב הירידה היא מים ומאגרי פחמימה, וזה צפוי. היעד נשאר": {
+  "en": "In the first two weeks most of the drop is water and stored carbs, and that's expected. Your target stays",
+  "ar": "في الأسبوعين الأولين معظم النزول ماء ومخزون كربوهيدرات، وهذا متوقع. هدفك يبقى"
+ },
+ "קק״ל, ונבדוק שוב בשבוע הבא.": {
+  "en": "kcal, and we'll check again next week.",
+  "ar": "سعرة، وسنفحص مجددًا الأسبوع القادم."
+ },
+ "המספרים השבוע לא מסתדרים": {
+  "en": "This week's numbers don't add up",
+  "ar": "أرقام هذا الأسبوع غير منطقية"
+ },
+ "לפי הרישום והמשקל יוצא שהגוף שורף הרבה יותר או הרבה פחות מהצפוי. כנראה חלק מהארוחות לא נרשמו. רישום מלא השבוע יעזור לי לכוון. היעד נשאר": {
+  "en": "Your log and weight suggest you burn far more or far less than expected. Some meals were probably not logged. A full log this week will help me tune it. Your target stays",
+  "ar": "يشير السجل والوزن إلى حرق أكثر أو أقل بكثير من المتوقع. على الأرجح لم تُسجَّل بعض الوجبات. التسجيل الكامل هذا الأسبوع سيساعدني. هدفك يبقى"
+ },
+ "והיעד": {
+  "en": "target",
+  "ar": "والهدف"
+ },
+ "יורדים מהר מהמתוכנן": {
+  "en": "Losing faster than planned",
+  "ar": "النزول أسرع من المخطط"
+ },
+ "הירידה איטית מהמתוכנן": {
+  "en": "Losing slower than planned",
+  "ar": "النزول أبطأ من المخطط"
+ },
+ "עולים מהר מהמתוכנן": {
+  "en": "Gaining faster than planned",
+  "ar": "الزيادة أسرع من المخطط"
+ },
+ "העלייה איטית מהמתוכנן": {
+  "en": "Gaining slower than planned",
+  "ar": "الزيادة أبطأ من المخطط"
+ },
+ "המשקל זז יותר מהמתוכנן": {
+  "en": "Your weight is moving more than planned",
+  "ar": "الوزن يتغير أكثر من المخطط"
+ },
+ "בדיוק בקצב": {
+  "en": "Right on pace",
+  "ar": "تمامًا على الوتيرة"
+ },
+ "היעד נשאר": {
+  "en": "Your target stays",
+  "ar": "هدفك يبقى"
+ },
+ "קק״ל ביום": {
+  "en": "kcal a day",
+  "ar": "سعرة في اليوم"
+ },
+ "אם זה יימשך גם בשבוע הבא, אציע לשנות את היעד. שבוע אחד עוד לא מספיק כדי להחליט.": {
+  "en": "If it continues next week too, I'll suggest changing the target. One week isn't enough to decide.",
+  "ar": "إذا استمر ذلك الأسبوع القادم أيضًا، سأقترح تغيير الهدف. أسبوع واحد لا يكفي للحكم."
+ },
+ "כדי לשמור על השריר והאנרגיה, כדאי לאכול קצת יותר.": {
+  "en": "To protect your muscle and energy, eat a little more.",
+  "ar": "للحفاظ على العضلات والطاقة، كُل أكثر قليلًا."
+ },
+ "כדי להגיע לקצב, כדאי לאכול קצת יותר.": {
+  "en": "To reach your pace, eat a little more.",
+  "ar": "للوصول إلى الوتيرة، كُل أكثر قليلًا."
+ },
+ "כדי לחזור לקצב, כדאי לאכול קצת פחות.": {
+  "en": "To get back on pace, eat a little less.",
+  "ar": "للعودة إلى الوتيرة، كُل أقل قليلًا."
+ },
+ "לפי מה שאכלת והמשקל, הגוף שלך שורף בערך": {
+  "en": "From what you ate and your weight, your body burns about",
+  "ar": "بحسب ما أكلت ووزنك، جسمك يحرق حوالي"
+ },
+ "לעדכן ל-": {
+  "en": "Update to ",
+  "ar": "تحديث إلى "
+ },
+ "להשאיר": {
+  "en": "Keep",
+  "ar": "إبقاء"
+ },
+ "מעולה": {
+  "en": "Great",
+  "ar": "ممتاز"
  }
 }
