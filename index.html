@@ -32,9 +32,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     var fi=q('link[rel="icon"]'); if(fi)fi.setAttribute('href','icon-f-192.png?v=1'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=68c6ba69"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=68c6ba69"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=68c6ba69"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9c95ee92"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9c95ee92"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9c95ee92"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1333,8 +1333,15 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 /* rest timer bar */
 #restbar{
   position:fixed;inset-inline:0;bottom:calc(var(--tbb) + 74px);z-index:29;
-  display:flex;justify-content:center;padding:0 16px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 16px;
 }
+/* the last set's "reps left?" lives on the rest bar: the exercise has already folded away */
+#restbar .rir2{width:100%;max-width:528px;box-sizing:border-box;background:#1E2220;border:1px solid #2E3430;border-radius:14px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px;box-shadow:var(--shadow)}
+#restbar .rir2[hidden]{display:none}
+#restbar .rir2>span:first-child{flex:1;min-width:0;line-height:1.35;display:flex;flex-direction:column}#restbar .rir2 small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#restbar .rir2 b{font-size:14.5px}
+#restbar .rir2 .chips2{display:flex;gap:6px;flex:none}
+#restbar .rir2 .chips2 button{min-width:40px;height:36px;padding:0 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:14px;font-weight:700}
+#restbar .rir2.ok{justify-content:center;color:var(--accent);font-weight:600}
 #restbar .inner{
   width:100%;max-width:528px;background:#1E2220;color:var(--ink);border:1px solid #2E3430;
   border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);
@@ -1848,6 +1855,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 </div>
 
 <div id="restbar" hidden>
+  <div class="rir2" id="rest-rir" hidden></div>
   <div class="inner">
     <span class="tl"><small>מנוחה</small><span class="t num" id="rest-t">0:00</span></span>
     <span class="bar"><i id="rest-fill" style="width:100%"></i></span>
@@ -2130,7 +2138,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.42';
+const APP_VERSION='13.3.44';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -2698,7 +2706,7 @@ function disarmServerRest(){
 }
 function startRest(sec,label){
   T.total=sec;T.end=Date.now()+sec*1000;T.label=label||'';
-  $('#restbar').hidden=false;
+  restRirHide(); $('#restbar').hidden=false;
   clearInterval(T.int);T.int=setInterval(tickRest,250);tickRest();
   ensureRestPush(); armServerRest(T.label); saveRestState();
 }
@@ -2717,7 +2725,11 @@ function tickRest(){
     toast('המנוחה נגמרה — סט הבא!');
   }
 }
-function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;disarmServerRest();saveRestState();}
+function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;restRirHide();disarmServerRest();saveRestState();}
+/* the last set of an exercise: ask "reps left?" on the rest bar (optional; no answer changes nothing) */
+function restRir(ei,si){ const e=S.active?.ex?.[ei], el=$('#rest-rir'); if(!e||!el||!coachOn()||!coachCfg().rir)return;
+  el.classList.remove('ok'); el.innerHTML=`<span><small>${esc(e.n)} · סט אחרון</small><b>כמה חזרות נשארו?</b></span><span class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</span>`; el.hidden=false; }
+function restRirHide(){ const el=$('#rest-rir'); if(el){ el.hidden=true; el.innerHTML=''; } }
 
 /* ---------- rendering ---------- */
 function render(){
@@ -9550,6 +9562,8 @@ function handleAct(b,ev){
     case 'ex-swap-go': doSwap(+b.dataset.ei,b.dataset.n); break;
     case 'ex-lock': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; const L=coachCfg().lock; if(L[e.n])delete L[e.n]; else L[e.n]=1; persistSettings(); closeSheet(); toast(L[e.n]?'התרגיל ננעל':'התרגיל שוחרר'); break; }
     case 'rir': rirSet(+b.dataset.ei,+b.dataset.si,+b.dataset.v); break;
+    case 'rir-last': { const s=S.active?.ex?.[+b.dataset.ei]?.sets?.[+b.dataset.si]; if(!s)break; s.rir=+b.dataset.v; persistActive(); vibrate(8);
+      const el=$('#rest-rir'); if(el){ el.classList.add('ok'); el.innerHTML='<span>נשמר. ראפי יתחשב בזה בפעם הבאה</span>'; setTimeout(()=>{ if(el.classList.contains('ok'))restRirHide(); },1600); } break; }
     case 'nc-apply': ncDone(true); break;
     case 'nc-keep': ncDone(false); break;
     case 'nc-wait': { ncCfg().wait=ymd(); persistSettings(); render(); break; }
@@ -9579,13 +9593,14 @@ function handleAct(b,ev){
       if(wi)wi.value=wL(s.w??''); if(ri)ri.value=s.r??'';
       updateLive();
       if(s.done&&repCls(e,s)==='r-over'){ const o=(S.active._over=S.active._over||{}); if(!o[e.n]){ o[e.n]=1; setTimeout(()=>toast('מעל טווח החזרות, בפעם הבאה אפשר להעלות משקל'),700); } }
-      if(s.done)rirAsk(ei2,si2); else { const rq=document.getElementById('rirq-'+ei2); if(rq)rq.hidden=true; }
+      const lastSet=s.done&&e.sets.every(x=>x.done);
+      if(s.done&&!lastSet)rirAsk(ei2,si2); else { const rq=document.getElementById('rirq-'+ei2); if(rq)rq.hidden=true; if(!s.done)restRirHide(); }
       if(s.done){ burst(b); vibrate(15);
         const prev=bestMap()[e.n]?.w||0, sw=+s.w||0;
         if(prev>0&&sw>prev&&+s.r>0){ const pr=(S.active._pr=S.active._pr||{}); if((pr[e.n]||0)<sw){ pr[e.n]=sw; persistActive();
           setTimeout(()=>{ cheer('🏆','שיא אישי חדש!',`${e.n} · ${wL(sw)} ${LU()}`,true); confetti(90); vibrate([20,40,20]); },120); } } }
       if(s.done){ const nx=e.sets[si2+1]&&!e.sets[si2+1].done?`${e.n} · סט ${si2+2}`:(S.active.ex[ei2+1]?S.active.ex[ei2+1].n:'');
-        startRest(e.rest||S.settings.rest,nx);
+        startRest(e.rest||S.settings.rest,nx); if(lastSet)restRir(ei2,si2);
         if(e.sets.every(x=>x.done)&&$('#np').hidden){ if(S.active.open)delete S.active.open[ei2]; setTimeout(()=>{ if(S.active&&S.tab==='train')render(); },420); } } break; }
     case 'done-all': { const e=S.active?.ex[+b.dataset.ei]; if(!e||e.t!=='s')break;
       if(!b.dataset.sure){ b.dataset.sure='1'; const t=b.querySelector('b')||b; t.textContent='בטוח? לחץ שוב';
