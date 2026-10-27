@@ -330,5 +330,305 @@
  "נשמר. ראפי יתחשב בזה בפעם הבאה": {
   "en": "Saved. Repi will factor it in next time",
   "ar": "تم الحفظ. سيأخذ رابي ذلك بالحسبان في المرة القادمة"
+ },
+ "מסומן כרגיש ({0}) עד {1}: בלי עליות במשקל. אם עבר, אפשר לחזור לרגיל.": {
+  "en": "Marked sensitive ({0}) until {1}: no weight increases. If it's gone, you can go back to normal.",
+  "ar": "مُعلَّم كحسّاس ({0}) حتى {1}: بدون زيادة في الوزن. إذا زال، يمكن العودة للطبيعي."
+ },
+ "צעד אחורה כדי לקפוץ: {0} במקום {1}, עם יותר חזרות. מכאן בונים מחדש לשיא חדש.": {
+  "en": "A step back to leap forward: {0} instead of {1}, with more reps. From here you build back up to a new best.",
+  "ar": "خطوة للوراء للقفز للأمام: {0} بدل {1}، مع تكرارات أكثر. من هنا نبني من جديد لرقم قياسي جديد."
+ },
+ "אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-{0} חזרות. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.": {
+  "en": "No progress in the last 3 workouts. Today aim for {0} reps. If it continues, at the end of the block Repi will suggest a small step back to break through.",
+  "ar": "لا تقدّم في آخر 3 تدريبات. اليوم نستهدف {0} تكرارات. إذا استمر ذلك، سيقترح رابي في نهاية الدورة خطوة صغيرة للوراء لكسر الجمود."
+ },
+ "בפעם הקודמת חלק מהסטים היו קלים יותר. היום כל הסטים ב-{0}, ומשם ממשיכים לעלות.": {
+  "en": "Last time some sets were lighter. Today all sets at {0}, and from there you keep going up.",
+  "ar": "في المرة السابقة كانت بعض المجموعات أخف. اليوم كل المجموعات بـ{0}، ومن هناك نواصل الصعود."
+ },
+ "אזור רגיש": {
+  "en": "Sensitive area",
+  "ar": "منطقة حساسة"
+ },
+ "צעד אחורה כדי לקפוץ": {
+  "en": "A step back to leap forward",
+  "ar": "خطوة للوراء للقفز"
+ },
+ "עבר, אפשר לחזור": {
+  "en": "It's gone, back to normal",
+  "ar": "زال، يمكن العودة"
+ },
+ "דגש טכניקה": {
+  "en": "Technique tip",
+  "ar": "نصيحة تقنية"
+ },
+ "חימום": {
+  "en": "Warm-up",
+  "ar": "إحماء"
+ },
+ "לא נספר": {
+  "en": "not counted",
+  "ar": "لا يُحتسب"
+ },
+ "כווץ": {
+  "en": "Collapse",
+  "ar": "طيّ"
+ },
+ "פתח": {
+  "en": "Open",
+  "ar": "افتح"
+ },
+ "ח": {
+  "en": "W",
+  "ar": "إ"
+ },
+ "משהו לא נוח?": {
+  "en": "Something not right?",
+  "ar": "شيء غير مريح؟"
+ },
+ "משהו לא נוח": {
+  "en": "Something not right",
+  "ar": "شيء غير مريح"
+ },
+ "מסומן כרגיש · אפשר לבטל": {
+  "en": "Marked sensitive · you can undo",
+  "ar": "مُعلَّم كحسّاس · يمكن الإلغاء"
+ },
+ "להוריד משקל, להחליף או לדלג": {
+  "en": "Lower the weight, swap or skip",
+  "ar": "تخفيف الوزن أو الاستبدال أو التخطي"
+ },
+ "משהו לא נוח ב{0}?": {
+  "en": "Something not right in {0}?",
+  "ar": "شيء غير مريح في {0}؟"
+ },
+ "מסומן כרגיש ({0}) עד {1}": {
+  "en": "Marked sensitive ({0}) until {1}",
+  "ar": "مُعلَّم كحسّاس ({0}) حتى {1}"
+ },
+ "איך זה מרגיש?": {
+  "en": "How does it feel?",
+  "ar": "كيف تشعر به؟"
+ },
+ "אי נוחות קלה": {
+  "en": "Mild discomfort",
+  "ar": "انزعاج خفيف"
+ },
+ "כאב חד": {
+  "en": "Sharp pain",
+  "ar": "ألم حاد"
+ },
+ "בכאב חד עדיף לעצור את התרגיל להיום. אם זה חוזר, שווה לבדוק עם איש מקצוע.": {
+  "en": "With sharp pain it's better to stop this exercise for today. If it comes back, it's worth getting it checked by a professional.",
+  "ar": "مع الألم الحاد من الأفضل إيقاف التمرين اليوم. إذا تكرر، من المفيد فحصه لدى مختص."
+ },
+ "מה נעשה?": {
+  "en": "What should we do?",
+  "ar": "ماذا نفعل؟"
+ },
+ "להוריד משקל להמשך": {
+  "en": "Lower the weight for the rest",
+  "ar": "تخفيف الوزن لما تبقّى"
+ },
+ "{0} במקום {1}, ובלי עליות בשבועיים הקרובים": {
+  "en": "{0} instead of {1}, and no increases for the next two weeks",
+  "ar": "{0} بدل {1}، وبدون زيادات في الأسبوعين القادمين"
+ },
+ "ובלי עליות בשבועיים הקרובים": {
+  "en": "and no increases for the next two weeks",
+  "ar": "وبدون زيادات في الأسبوعين القادمين"
+ },
+ "להחליף תרגיל": {
+  "en": "Swap the exercise",
+  "ar": "استبدال التمرين"
+ },
+ "תרגיל אחר לאותו שריר": {
+  "en": "Another exercise for the same muscle",
+  "ar": "تمرين آخر لنفس العضلة"
+ },
+ "לדלג על התרגיל היום": {
+  "en": "Skip this exercise today",
+  "ar": "تخطي التمرين اليوم"
+ },
+ "ממשיכים לתרגיל הבא": {
+  "en": "On to the next exercise",
+  "ar": "ننتقل للتمرين التالي"
+ },
+ "אישור": {
+  "en": "Confirm",
+  "ar": "تأكيد"
+ },
+ "כתף": {
+  "en": "Shoulder",
+  "ar": "الكتف"
+ },
+ "מרפק": {
+  "en": "Elbow",
+  "ar": "المرفق"
+ },
+ "שורש כף יד": {
+  "en": "Wrist",
+  "ar": "الرسغ"
+ },
+ "צוואר": {
+  "en": "Neck",
+  "ar": "الرقبة"
+ },
+ "גב": {
+  "en": "Back",
+  "ar": "الظهر"
+ },
+ "ברך": {
+  "en": "Knee",
+  "ar": "الركبة"
+ },
+ "אחר": {
+  "en": "Other",
+  "ar": "أخرى"
+ },
+ "להמשך: {0} {1}. בלי עליות בשבועיים הקרובים": {
+  "en": "For the rest: {0} {1}. No increases for the next two weeks",
+  "ar": "لما تبقّى: {0} {1}. بدون زيادات في الأسبوعين القادمين"
+ },
+ "נרשם. בלי עליות בשבועיים הקרובים": {
+  "en": "Noted. No increases for the next two weeks",
+  "ar": "تم التسجيل. بدون زيادات في الأسبوعين القادمين"
+ },
+ "דילגנו על התרגיל להיום. נרשם כרגיש לשבועיים": {
+  "en": "Skipped for today. Marked sensitive for two weeks",
+  "ar": "تخطّينا التمرين اليوم. مُعلَّم كحسّاس لأسبوعين"
+ },
+ "{0}: פעם שלישית החודש": {
+  "en": "{0}: third time this month",
+  "ar": "{0}: المرة الثالثة هذا الشهر"
+ },
+ "כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז ראפי ימשיך בזהירות.": {
+  "en": "When the same area keeps bothering you, it's worth having a physiotherapist or doctor check it. Until then Repi will go carefully.",
+  "ar": "عندما تزعجك المنطقة نفسها مرارًا، من المفيد فحصها لدى أخصائي علاج طبيعي أو طبيب. حتى ذلك الحين سيتابع رابي بحذر."
+ },
+ "הבנתי": {
+  "en": "Got it",
+  "ar": "فهمت"
+ },
+ "חזרנו לרגיל": {
+  "en": "Back to normal",
+  "ar": "عدنا للطبيعي"
+ },
+ "סטי חימום": {
+  "en": "Warm-up sets",
+  "ar": "مجموعات إحماء"
+ },
+ "בתרגיל הכבד הראשון. לא נספרים": {
+  "en": "On the first heavy lift. Not counted",
+  "ar": "في أول تمرين ثقيل. لا تُحتسب"
+ },
+ "לא התקדם בבלוק: 10% אחורה ובונים מחדש": {
+  "en": "No progress this block: 10% back and build again",
+  "ar": "لا تقدّم في هذه الدورة: 10% للوراء ونبني من جديد"
+ },
+ "{0} מתוך {1} ימים בטווח": {
+  "en": "{0} of {1} days in range",
+  "ar": "{0} من {1} أيام ضمن النطاق"
+ },
+ "השבוע בתקציב": {
+  "en": "On budget this week",
+  "ar": "ضمن الميزانية هذا الأسبوع"
+ },
+ "כ-{0} ליום עד סוף השבוע": {
+  "en": "about {0} a day until the end of the week",
+  "ar": "حوالي {0} يوميًا حتى نهاية الأسبوع"
+ },
+ "ממשיכים ככה": {
+  "en": "keep it up",
+  "ar": "نكمل هكذا"
+ },
+ "ממשיכים רגיל, בלי לפצות": {
+  "en": "carry on as usual, no making up",
+  "ar": "نكمل كالمعتاد، دون تعويض"
+ },
+ "אתמול היה יום גדול, וזה חלק מהחיים. הממוצע השבועי שלך עדיין על המסלול.": {
+  "en": "Yesterday was a big day, and that's part of life. Your weekly average is still on track.",
+  "ar": "كان الأمس يومًا كبيرًا، وهذا جزء من الحياة. متوسطك الأسبوعي ما زال على المسار."
+ },
+ "אתמול היה יום גדול, וזה חלק מהחיים. יום אחד לא משנה מגמה.": {
+  "en": "Yesterday was a big day, and that's part of life. One day doesn't change the trend.",
+  "ar": "كان الأمس يومًا كبيرًا، وهذا جزء من الحياة. يوم واحد لا يغيّر الاتجاه."
+ },
+ "היום ממשיכים רגיל, בלי לפצות. ארוחת בוקר עם חלבון תעשה את רוב העבודה.": {
+  "en": "Today carries on as usual, no making up for it. A breakfast with protein does most of the work.",
+  "ar": "اليوم نكمل كالمعتاد، دون تعويض. فطور فيه بروتين يقوم بمعظم العمل."
+ },
+ "הגבלה חזקה אחרי יום גדול מגבירה רעב ויוצרת מעגל. מה שעובד הוא לחזור לשגרה.": {
+  "en": "Cutting back hard after a big day increases hunger and creates a cycle. What works is getting back to routine.",
+  "ar": "التقييد الشديد بعد يوم كبير يزيد الجوع ويخلق حلقة. ما ينجح هو العودة للروتين."
+ },
+ "תודה": {
+  "en": "Thanks",
+  "ar": "شكرًا"
+ },
+ "למה לא לפצות?": {
+  "en": "Why not make up for it?",
+  "ar": "لماذا لا نعوّض؟"
+ },
+ "ראפי:": {
+  "en": "Repi:",
+  "ar": "رابي:"
+ },
+ "נראה שהתוכנית קשה כרגע. זה לא כישלון שלך, כנראה כיוונו גבוה מדי. בוא נתאים אותה:": {
+  "en": "Looks like the plan is hard right now. That's not your failure, we probably aimed too high. Let's adjust it:",
+  "ar": "يبدو أن الخطة صعبة الآن. هذا ليس فشلك، ربما رفعنا السقف كثيرًا. لنعدّلها:"
+ },
+ "קצב רגוע יותר": {
+  "en": "A calmer pace",
+  "ar": "وتيرة أهدأ"
+ },
+ "יעד {0} במקום {1}": {
+  "en": "Target {0} instead of {1}",
+  "ar": "هدف {0} بدل {1}"
+ },
+ "שבועיים באחזקה": {
+  "en": "Two weeks at maintenance",
+  "ar": "أسبوعان على الثبات"
+ },
+ "מאפסים את הראש, ואז חוזרים": {
+  "en": "Reset your head, then come back",
+  "ar": "نعيد ضبط الذهن، ثم نعود"
+ },
+ "הרגל אחד בלבד": {
+  "en": "Just one habit",
+  "ar": "عادة واحدة فقط"
+ },
+ "רק חלבון בכל ארוחה, בשבועיים הקרובים": {
+  "en": "Only protein at every meal, for the next two weeks",
+  "ar": "فقط بروتين في كل وجبة، في الأسبوعين القادمين"
+ },
+ "להשאיר כמו שזה": {
+  "en": "Keep it as is",
+  "ar": "إبقاؤها كما هي"
+ },
+ "היעד עודכן. קצב רגוע יותר": {
+  "en": "Target updated. A calmer pace",
+  "ar": "تم تحديث الهدف. وتيرة أهدأ"
+ },
+ "שבועיים באחזקה. אחר כך חוזרים": {
+  "en": "Two weeks at maintenance. Then back to it",
+  "ar": "أسبوعان على الثبات. ثم نعود"
+ },
+ "מתמקדים בחלבון בכל ארוחה": {
+  "en": "Focusing on protein at every meal",
+  "ar": "نركز على البروتين في كل وجبة"
+ },
+ "השבועיים: חלבון בכל ארוחה": {
+  "en": "These two weeks: protein at every meal",
+  "ar": "هذان الأسبوعان: بروتين في كل وجبة"
+ },
+ "היום {0} מתוך {1} ארוחות": {
+  "en": "today {0} of {1} meals",
+  "ar": "اليوم {0} من {1} وجبات"
+ },
+ "איפה?": {
+  "en": "Where?",
+  "ar": "أين؟"
  }
 }
