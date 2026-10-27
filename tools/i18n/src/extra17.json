@@ -630,5 +630,45 @@
  "איפה?": {
   "en": "Where?",
   "ar": "أين؟"
+ },
+ "למחר": {
+  "en": "to tomorrow",
+  "ar": "إلى الغد"
+ },
+ "ליום {0}": {
+  "en": "to {0}",
+  "ar": "إلى يوم {0}"
+ },
+ "עוד מחכה להיום. אפשר להספיק היום, או להזיז בלי לאבד כלום.": {
+  "en": "Still waiting for today. There's still time, or move it without losing anything.",
+  "ar": "ما زال بانتظارك اليوم. يمكنك إنجازه اليوم، أو نقله دون أن تخسر شيئًا."
+ },
+ "מתאמן היום": {
+  "en": "I'll train today",
+  "ar": "سأتمرّن اليوم"
+ },
+ "הזז": {
+  "en": "Move",
+  "ar": "انقل"
+ },
+ "הלו״ז הקבוע לא משתנה": {
+  "en": "Your weekly schedule stays the same",
+  "ar": "جدولك الأسبوعي لا يتغيّر"
+ },
+ "הוזז": {
+  "en": "moved",
+  "ar": "نُقل"
+ },
+ "הוזז מאתמול": {
+  "en": "moved from yesterday",
+  "ar": "نُقل من الأمس"
+ },
+ "הוזז מיום {0}": {
+  "en": "moved from {0}",
+  "ar": "نُقل من يوم {0}"
+ },
+ "כשאימון מהלו״ז עוד לא בוצע, כשלא התאמנת כמה ימים, או כשהרצף בסכנה": {
+  "en": "When a scheduled workout isn't done yet, after a few days without training, or when your streak is at risk",
+  "ar": "عندما لم يُنجز تمرين من الجدول بعد، أو بعد أيام بلا تدريب، أو عندما تكون سلسلتك في خطر"
  }
 }
