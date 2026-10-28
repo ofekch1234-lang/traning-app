@@ -2,7 +2,7 @@
 // the app computes every gram against the user's targets, so values always come from the food database.
 //  mode "week": 7 different dinners for this week, built around the user's questionnaire (2 per week)
 //  mode "req":  a free-text request ("dinner with friends on Thursday at an Italian place") → changes for one day (5 per day)
-//  mode "sq":   the simple "squares" menu (1 square = 100 kcal): choose one food per line of each meal (counts as "menu")
+//  mode "sq":   the simple "squares" menu (1 square = 100 kcal): choose the foods of each meal (counts as "menu")
 //  mode "sqreq": a free-text change for today on the squares menu (counts as "menu_req")
 // Premium only; a free user gets one taste of each.
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -23,11 +23,11 @@ HARD RULES:
 - Prefer foods the user said they love; keep it simple enough for the cooking time they gave.
 - Output ONE JSON object and nothing else.
 ${mode === "sq"
-    ? `TASK: the app planned the day in "squares" (1 square = 100 kcal). For every line of every meal choose ONE food id whose role equals the line group (g: P protein, C carb, X fruit, F fat, V vegetable) and whose slots fit the meal (breakfast b/w as given, lunch/dinner m, snack s). The app computes the amounts. Build meals that make sense together (a real dish), fit the user's taste text, vary the protein between lunch and dinner, keep breakfast salty or sweet as given.
-JSON: {"meals":[{"meal":0,"name":"short dish name","lines":[{"g":"P","id":"egg"}]}],"note":"one short personal sentence about the menu"}`
+    ? `TASK: the app planned the day: each meal has a size in kcal and a protein target, and the foods the app picked now. Replace the foods of each meal with 2–5 food ids that make a REAL dish people eat (main meals: one protein + one carb + a vegetable, optional fat; breakfast fits the given slots b/w; snack s: 1–2 foods), fitting the user's taste text. Vary the protein between lunch and dinner. Do not give amounts: the app sets them within normal portion sizes.
+JSON: {"meals":[{"meal":0,"name":"short dish name","items":["egg","brd","sld"]}],"note":"one short personal sentence about the menu"}`
     : mode === "sqreq"
-    ? `TASK: today's menu is given in squares (1 square = 100 kcal). The user asks for a change for TODAY. Keep each meal's squares. You may: replace foods of a meal that was not eaten ("lines": one food id per group you change, same groups as that meal), or mark a meal as eaten OUT ("out": true) and give a practical ordering tip. If the request is about another day, say they can ask on that day and return no changes.
-JSON: {"changes":[{"meal":1,"name":"short name","lines":[{"g":"P","id":"tun"}]},{"meal":3,"out":true}],"tip":"what to order when eating out (if any)","reply":"2–3 short sentences: what you changed"}`
+    ? `TASK: today's meals are given (kcal and foods). The user asks for a change for TODAY. Keep each meal's kcal (the app sets amounts). You may: replace the foods of a meal that was not eaten ("items": 2–5 food ids forming a real dish), or mark a meal as eaten OUT ("out": true) with a practical ordering tip. If the request is about another day, say they can ask on that day and return no changes.
+JSON: {"changes":[{"meal":1,"name":"short name","items":["tun","pit","sld"]},{"meal":3,"out":true}],"tip":"what to order when eating out (if any)","reply":"2–3 short sentences: what you changed"}`
     : mode === "week"
     ? `TASK: plan 7 DIFFERENT dinners for Sunday..Saturday (dow 0..6). Vary the main protein through the week, never the same main two days in a row, and fit each day's type (after a workout: protein + carbs; rest day: lighter on carbs; Friday out: dinner can be lighter). If they cook for a partner/family, make dinners that suit everyone.
 JSON: {"dinners":[{"dow":0,"name":"short dish name","items":["id","id"],"why":"one short sentence why this dinner, personal"}],"note":"one short sentence about the week"}`
@@ -85,7 +85,7 @@ Deno.serve(async (req) => {
   const catTxt = cat.map((c: any) => `${c.id}|${String(c.n).slice(0, 40)}|${c.r}|${c.s}|${c.t || ""}`).join("\n");
   let user_msg = `PROFILE: ${prof}\nCATALOG (id|name|role P/C/V/F/X/L|slots b=breakfast w=sweet breakfast m=main s=snack|type m=meat f=fish d=dairy e=egg v=plant):\n${catTxt}\n`;
   if (mode === "week") user_msg += `WEEK (dow: day type, dinner size):\n${JSON.stringify(body.week || []).slice(0, 1500)}`;
-  else if (mode === "sq") user_msg += `MEALS (index, kind b/l/s/d, breakfast style, lines with group and squares):\n${JSON.stringify(body.meals || []).slice(0, 3000)}`;
+  else if (mode === "sq") user_msg += `MEALS (index, kind b=breakfast l=lunch s=snack d=dinner, kcal, protein g, foods now):\n${JSON.stringify(body.meals || []).slice(0, 3000)}`;
   else if (mode === "sqreq") {
     const text = String(body.text || "").trim().slice(0, 400);
     if (!text) return J({ error: "bad_request" }, 400);
@@ -104,13 +104,14 @@ Deno.serve(async (req) => {
     if (!out) return J({ error: "ai_failed" }, 502);
     // keep only known ids
     const G = new Set(["P", "C", "X", "F", "V"]);
+    const idl = (a: any) => (Array.isArray(a) ? a : []).map(String).filter((x: string) => ids.has(x)).slice(0, 6);
     const lines = (a: any) => (Array.isArray(a) ? a : []).map((l: any) => ({ g: String(l?.g || ""), id: String(l?.id || "") })).filter((l: any) => G.has(l.g) && ids.has(l.id)).slice(0, 6);
     if (mode === "sq") {
-      const meals = (out.meals || []).map((m: any) => ({ meal: Number(m?.meal), name: String(m?.name || "").slice(0, 40), lines: lines(m?.lines) })).filter((m: any) => Number.isInteger(m.meal));
+      const meals = (out.meals || []).map((m: any) => ({ meal: Number(m?.meal), name: String(m?.name || "").slice(0, 40), items: idl(m?.items), lines: lines(m?.lines) })).filter((m: any) => Number.isInteger(m.meal));
       return J({ meals, note: String(out.note || "").slice(0, 200) });
     }
     if (mode === "sqreq") {
-      const changes = (out.changes || []).map((c: any) => ({ meal: Number(c?.meal), name: c?.name ? String(c.name).slice(0, 40) : "", out: !!c?.out, lines: lines(c?.lines) })).filter((c: any) => Number.isInteger(c.meal) && (c.out || c.lines.length));
+      const changes = (out.changes || []).map((c: any) => ({ meal: Number(c?.meal), name: c?.name ? String(c.name).slice(0, 40) : "", out: !!c?.out, items: idl(c?.items), lines: lines(c?.lines) })).filter((c: any) => Number.isInteger(c.meal) && (c.out || c.items.length || c.lines.length));
       return J({ changes, tip: String(out.tip || "").slice(0, 240), reply: String(out.reply || "").slice(0, 600) });
     }
     if (mode === "week") {
