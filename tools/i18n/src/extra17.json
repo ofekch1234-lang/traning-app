@@ -1802,5 +1802,445 @@
  "קצת יותר קל": {
   "en": "a bit lighter",
   "ar": "أخف قليلًا"
+ },
+ "ומה לגבי בישול?": {
+  "en": "And what about cooking?",
+  "ar": "وماذا عن الطبخ؟"
+ },
+ "מוכנים, הרכבה בלי בישול": {
+  "en": "Ready-made, no cooking",
+  "ar": "جاهز، تركيب بدون طبخ"
+ },
+ "מחבת אחת, תנור, אורז": {
+  "en": "One pan, oven, rice",
+  "ar": "مقلاة واحدة، فرن، أرز"
+ },
+ "אוהב לבשל": {
+  "en": "I love cooking",
+  "ar": "أحب الطبخ"
+ },
+ "אוהבת לבשל": {
+  "en": "I love cooking",
+  "ar": "أحب الطبخ"
+ },
+ "אוהבים לבשל": {
+  "en": "Love cooking",
+  "ar": "نحب الطبخ"
+ },
+ "גם מתכונים של חצי שעה ויותר": {
+  "en": "Even 30+ minute recipes",
+  "ar": "حتى وصفات تستغرق نصف ساعة وأكثر"
+ },
+ "אתה מבשל גם בשביל עוד מישהו?": {
+  "en": "Do you cook for someone else too?",
+  "ar": "هل تطبخ لشخص آخر أيضًا؟"
+ },
+ "את מבשלת גם בשביל עוד מישהו?": {
+  "en": "Do you cook for someone else too?",
+  "ar": "هل تطبخين لشخص آخر أيضًا؟"
+ },
+ "מבשלים גם בשביל עוד מישהו?": {
+  "en": "Cooking for someone else too?",
+  "ar": "هل تطبخ لشخص آخر أيضًا؟"
+ },
+ "רק לעצמי": {
+  "en": "Just for me",
+  "ar": "لنفسي فقط"
+ },
+ "לבת זוג": {
+  "en": "For my partner",
+  "ar": "لشريكتي"
+ },
+ "לבן זוג": {
+  "en": "For my partner",
+  "ar": "لشريكي"
+ },
+ "לבן/בת זוג": {
+  "en": "For my partner",
+  "ar": "للشريك/ة"
+ },
+ "משפחה עם ילדים": {
+  "en": "Family with kids",
+  "ar": "عائلة مع أطفال"
+ },
+ "כמה פעמים בשבוע אתה אוכל בחוץ?": {
+  "en": "How many times a week do you eat out?",
+  "ar": "كم مرة في الأسبوع تأكل خارج البيت؟"
+ },
+ "כמה פעמים בשבוע את אוכלת בחוץ?": {
+  "en": "How many times a week do you eat out?",
+  "ar": "كم مرة في الأسبوع تأكلين خارج البيت؟"
+ },
+ "כמה פעמים בשבוע אוכלים בחוץ?": {
+  "en": "How many times a week do you eat out?",
+  "ar": "كم مرة في الأسبوع تأكل خارج البيت؟"
+ },
+ "כמעט אף פעם": {
+  "en": "Almost never",
+  "ar": "تقريبًا أبدًا"
+ },
+ "3 ויותר": {
+  "en": "3 or more",
+  "ar": "3 أو أكثر"
+ },
+ "איך נראה יום רגיל שלך?": {
+  "en": "What does your typical day look like?",
+  "ar": "كيف يبدو يومك العادي؟"
+ },
+ "איך נראה יום רגיל?": {
+  "en": "What does a typical day look like?",
+  "ar": "كيف يبدو اليوم العادي؟"
+ },
+ "ככה התפריט יתאים לשעות שלך, לא להפך.": {
+  "en": "So the menu fits your schedule, not the other way around.",
+  "ar": "هكذا تتناسب القائمة مع مواعيدك، وليس العكس."
+ },
+ "מתי אתה קם?": {
+  "en": "When do you wake up?",
+  "ar": "متى تستيقظ؟"
+ },
+ "מתי את קמה?": {
+  "en": "When do you wake up?",
+  "ar": "متى تستيقظين؟"
+ },
+ "מתי קמים?": {
+  "en": "When do you wake up?",
+  "ar": "متى تستيقظ؟"
+ },
+ "9:00 ומאוחר": {
+  "en": "9:00 or later",
+  "ar": "9:00 أو لاحقًا"
+ },
+ "מה אתה עושה ביום?": {
+  "en": "What do you do during the day?",
+  "ar": "ماذا تفعل خلال اليوم؟"
+ },
+ "מה את עושה ביום?": {
+  "en": "What do you do during the day?",
+  "ar": "ماذا تفعلين خلال اليوم؟"
+ },
+ "מה עושים ביום?": {
+  "en": "What do you do during the day?",
+  "ar": "ماذا تفعل خلال اليوم؟"
+ },
+ "עבודה במשרד": {
+  "en": "Office work",
+  "ar": "عمل مكتبي"
+ },
+ "מהבית": {
+  "en": "From home",
+  "ar": "من البيت"
+ },
+ "משמרות": {
+  "en": "Shifts",
+  "ar": "ورديات"
+ },
+ "לימודים": {
+  "en": "Studies",
+  "ar": "دراسة"
+ },
+ "יש לך איפה לחמם אוכל ביום?": {
+  "en": "Can you heat up food during the day?",
+  "ar": "هل يمكنك تسخين الطعام خلال اليوم؟"
+ },
+ "כן, מטבחון": {
+  "en": "Yes, a kitchenette",
+  "ar": "نعم، مطبخ صغير"
+ },
+ "לא, רק דברים קרים": {
+  "en": "No, only cold food",
+  "ar": "لا، طعام بارد فقط"
+ },
+ "אני קונה בחוץ": {
+  "en": "I buy food out",
+  "ar": "أشتري من الخارج"
+ },
+ "קונים בחוץ": {
+  "en": "Buy food out",
+  "ar": "نشتري من الخارج"
+ },
+ "מתי אתה מתאמן?": {
+  "en": "When do you work out?",
+  "ar": "متى تتدرب؟"
+ },
+ "מתי את מתאמנת?": {
+  "en": "When do you work out?",
+  "ar": "متى تتدربين؟"
+ },
+ "מתי מתאמנים?": {
+  "en": "When do you work out?",
+  "ar": "متى تتدرب؟"
+ },
+ "מה אתה הכי אוהב לאכול? ומה לא תאכל אף פעם?": {
+  "en": "What do you love to eat? And what will you never eat?",
+  "ar": "ما أكثر ما تحب أكله؟ وما الذي لن تأكله أبدًا؟"
+ },
+ "מה את הכי אוהבת לאכול? ומה לא תאכלי אף פעם?": {
+  "en": "What do you love to eat? And what will you never eat?",
+  "ar": "ما أكثر ما تحبين أكله؟ وما الذي لن تأكليه أبدًا؟"
+ },
+ "מה הכי אוהבים לאכול? ומה לא אוכלים אף פעם?": {
+  "en": "What do you love to eat? And what will you never eat?",
+  "ar": "ما أكثر ما تحب أكله؟ وما الذي لن تأكله أبدًا؟"
+ },
+ "כותבים חופשי, כמו לתזונאית.": {
+  "en": "Write freely, like you would to a dietitian.",
+  "ar": "اكتب بحرية، كما تكتب لأخصائي تغذية."
+ },
+ "אוהב": {
+  "en": "Love",
+  "ar": "أحب"
+ },
+ "אוהבת": {
+  "en": "Love",
+  "ar": "أحب"
+ },
+ "אוהבים": {
+  "en": "Love",
+  "ar": "نحب"
+ },
+ "למשל: שקשוקה, פסטה, קערות פוקי, מתוק בערב": {
+  "en": "e.g. shakshuka, pasta, poke bowls, something sweet at night",
+  "ar": "مثلًا: شكشوكة، باستا، أوعية بوكي، حلو في المساء"
+ },
+ "לא אוכל": {
+  "en": "Won't eat",
+  "ar": "لا آكل"
+ },
+ "לא אוכלת": {
+  "en": "Won't eat",
+  "ar": "لا آكل"
+ },
+ "לא אוכלים": {
+  "en": "Won't eat",
+  "ar": "لا نأكل"
+ },
+ "למשל: דגים, פטריות": {
+  "en": "e.g. fish, mushrooms",
+  "ar": "مثلًا: سمك، فطر"
+ },
+ "מתי הכי קשה לך עם האוכל?": {
+  "en": "When is eating hardest for you?",
+  "ar": "متى يكون الأكل أصعب عليك؟"
+ },
+ "מתי הכי קשה עם האוכל?": {
+  "en": "When is eating hardest?",
+  "ar": "متى يكون الأكل أصعب؟"
+ },
+ "בערב, בא לי מתוק": {
+  "en": "Evenings, I crave sweets",
+  "ar": "في المساء، أشتهي الحلو"
+ },
+ "אשמור מקום לפינוק בתוך התוכנית": {
+  "en": "I'll save room for a treat in the plan",
+  "ar": "سأترك مكانًا لمكافأة ضمن البرنامج"
+ },
+ "אחר הצהריים": {
+  "en": "Afternoon",
+  "ar": "بعد الظهر"
+ },
+ "ארוחת ביניים משביעה יותר ב-16:00": {
+  "en": "A more filling snack at 4 PM",
+  "ar": "وجبة خفيفة أكثر إشباعًا في 16:00"
+ },
+ "בסופ״ש": {
+  "en": "Weekends",
+  "ar": "في نهاية الأسبوع"
+ },
+ "סופ״ש גמיש עם קצת יותר קלוריות": {
+  "en": "A flexible weekend with a few more calories",
+  "ar": "نهاية أسبوع مرنة مع سعرات أكثر قليلًا"
+ },
+ "אין לי בעיה כזו": {
+  "en": "No problem there",
+  "ar": "لا مشكلة لدي"
+ },
+ "אוכלים בחוץ": {
+  "en": "Eating out",
+  "ar": "أكل خارج البيت"
+ },
+ "אפשר להכין בערב הקודם ולחמם במטבחון.": {
+  "en": "Prep it the night before and heat it up at work.",
+  "ar": "يمكن تحضيرها في المساء السابق وتسخينها في المطبخ الصغير."
+ },
+ ", ככה לא מגיעים רעבים לערב.": {
+  "en": ", so you don't get to dinner starving.",
+  "ar": "، هكذا لا تصل إلى المساء جائعًا."
+ },
+ "ארוחה קרה, בלי לחמם:": {
+  "en": "A cold meal, no heating:",
+  "ar": "وجبة باردة، بدون تسخين:"
+ },
+ "ארוחה שמתאימה לכל המשפחה. לשאר פשוט מגישים יותר פחמימה.": {
+  "en": "A meal for the whole family. The others just get more carbs.",
+  "ar": "وجبة تناسب كل العائلة. للباقين نقدّم فقط كربوهيدرات أكثر."
+ },
+ "ארוחה שמתאימה גם לבן/בת הזוג, ולהם פשוט מגישים יותר פחמימה.": {
+  "en": "A meal that works for your partner too. They just get more carbs.",
+  "ar": "وجبة تناسب الشريك/ة أيضًا، ونقدّم له فقط كربوهيدرات أكثر."
+ },
+ "בחוץ": {
+  "en": "Out",
+  "ar": "خارج البيت"
+ },
+ "או:": {
+  "en": "Or:",
+  "ar": "أو:"
+ },
+ "שקשוקה או אומלט, פרוסת לחם אחת וסלט. מוותרים על הפוקאצ׳ה, והקפה ההפוך בסדר.": {
+  "en": "Shakshuka or an omelet, one slice of bread and a salad. Skip the focaccia; the latte is fine.",
+  "ar": "شكشوكة أو أومليت، شريحة خبز واحدة وسلطة. تخلَّ عن الفوكاتشا، والقهوة بالحليب لا بأس بها."
+ },
+ "שקשוקה או אומלט, פרוסת לחם אחת וסלט. מוותרות על הפוקאצ׳ה, והקפה ההפוך בסדר.": {
+  "en": "Shakshuka or an omelet, one slice of bread and a salad. Skip the focaccia; the latte is fine.",
+  "ar": "شكشوكة أو أومليت، شريحة خبز واحدة وسلطة. تخلَّي عن الفوكاتشا، والقهوة بالحليب لا بأس بها."
+ },
+ "שקשוקה או אומלט, פרוסת לחם אחת וסלט. בלי הפוקאצ׳ה, והקפה ההפוך בסדר.": {
+  "en": "Shakshuka or an omelet, one slice of bread and a salad. No focaccia; the latte is fine.",
+  "ar": "شكشوكة أو أومليت، شريحة خبز واحدة وسلطة. بدون فوكاتشا، والقهوة بالحليب لا بأس بها."
+ },
+ "שמרתי לך מקום בתוכנית": {
+  "en": "I saved room for it in your plan",
+  "ar": "تركت لك مكانًا في البرنامج"
+ },
+ "א׳": {
+  "en": "Sun",
+  "ar": "أحد"
+ },
+ "ב׳": {
+  "en": "Mon",
+  "ar": "إثنين"
+ },
+ "ד׳": {
+  "en": "Wed",
+  "ar": "أربعاء"
+ },
+ "ה׳": {
+  "en": "Thu",
+  "ar": "خميس"
+ },
+ "ו׳": {
+  "en": "Fri",
+  "ar": "جمعة"
+ },
+ "ש׳": {
+  "en": "Sat",
+  "ar": "سبت"
+ },
+ "ארוחות הערב השבוע": {
+  "en": "This week's dinners",
+  "ar": "وجبات العشاء هذا الأسبوع"
+ },
+ "ראפי בונה…": {
+  "en": "Repi is building…",
+  "ar": "رابي يبني…"
+ },
+ "ערבים חדשים": {
+  "en": "New dinners",
+  "ar": "عشاءات جديدة"
+ },
+ "ראפי יבנה לפי הטעם שלך": {
+  "en": "Repi will build to your taste",
+  "ar": "رابي سيبني حسب ذوقك"
+ },
+ "מה לשנות היום? \"ערב בלי בישול\"…": {
+  "en": "What should change today? \"No-cook dinner\"…",
+  "ar": "ماذا نغيّر اليوم؟ \"عشاء بدون طبخ\"…"
+ },
+ "תצוגה של יום אחר. אפשר לערוך, והשינויים יחולו בכל יום מהסוג הזה.": {
+  "en": "Viewing another day type. You can edit it, and changes apply to every day of this type.",
+  "ar": "عرض ليوم آخر. يمكنك التعديل، والتغييرات تنطبق على كل يوم من هذا النوع."
+ },
+ "בנינו כבר 2 תפריטים השבוע. שינויים אפשר לעשות בלחיצה על כל פריט": {
+  "en": "You've already built 2 menus this week. Tap any item to change it",
+  "ar": "بنينا قائمتين هذا الأسبوع. يمكنك التغيير بالنقر على أي عنصر"
+ },
+ "הגעת ל-5 בקשות היום. אפשר להמשיך עם החלופות שמתחת לכל פריט": {
+  "en": "You've reached 5 requests today. You can keep going with the alternatives under each item",
+  "ar": "وصلت إلى 5 طلبات اليوم. يمكنك المتابعة بالبدائل تحت كل عنصر"
+ },
+ "תפריט עם ראפי זמין בפרימיום": {
+  "en": "Menus with Repi are a Premium feature",
+  "ar": "القائمة مع رابي متاحة في بريميوم"
+ },
+ "ראפי בנה לך ערבים חדשים לשבוע ✓": {
+  "en": "Repi built new dinners for your week ✓",
+  "ar": "رابي بنى لك عشاءات جديدة للأسبوع ✓"
+ },
+ "ערב בלי בישול": {
+  "en": "No-cook dinner",
+  "ar": "عشاء بدون طبخ"
+ },
+ "אוכל בחוץ היום": {
+  "en": "Eating out today",
+  "ar": "آكل خارج البيت اليوم"
+ },
+ "אין לי זמן בבוקר": {
+  "en": "No time in the morning",
+  "ar": "ليس لدي وقت في الصباح"
+ },
+ "בא לי משהו אחר לצהריים": {
+  "en": "I want something else for lunch",
+  "ar": "أريد شيئًا آخر للغداء"
+ },
+ "מה לשנות?": {
+  "en": "What should change?",
+  "ar": "ماذا نغيّر؟"
+ },
+ "כותבים כמו לתזונאית. ראפי מעדכן רק את מה שצריך.": {
+  "en": "Write like you would to a dietitian. Repi only changes what's needed.",
+  "ar": "اكتب كما تكتب لأخصائي تغذية. رابي يغيّر فقط ما يلزم."
+ },
+ "כותבות כמו לתזונאית. ראפי מעדכן רק את מה שצריך.": {
+  "en": "Write like you would to a dietitian. Repi only changes what's needed.",
+  "ar": "اكتبي كما تكتبين لأخصائية تغذية. رابي يغيّر فقط ما يلزم."
+ },
+ "למשל: יש לי ארוחת ערב עם חברים ביום חמישי במסעדה איטלקית": {
+  "en": "e.g. I'm having dinner with friends on Thursday at an Italian place",
+  "ar": "مثلًا: لدي عشاء مع أصدقاء يوم الخميس في مطعم إيطالي"
+ },
+ "ראפי חושב…": {
+  "en": "Repi is thinking…",
+  "ar": "رابي يفكر…"
+ },
+ "עדכן את": {
+  "en": "Update",
+  "ar": "حدّث"
+ },
+ "נסה שוב": {
+  "en": "Try again",
+  "ar": "حاول مجددًا"
+ },
+ "שלח לראפי": {
+  "en": "Send to Repi",
+  "ar": "أرسل إلى رابي"
+ },
+ "התפריט עודכן ✓": {
+  "en": "Menu updated ✓",
+  "ar": "تم تحديث القائمة ✓"
+ },
+ "הקלטה קולית": {
+  "en": "Voice input",
+  "ar": "إدخال صوتي"
+ },
+ "מדברים, ואני כותב…": {
+  "en": "Talk, and I'll type…",
+  "ar": "تكلّم، وأنا أكتب…"
+ },
+ "סיום הקלטה": {
+  "en": "Finish recording",
+  "ar": "إنهاء التسجيل"
+ },
+ "צריך לאשר גישה למיקרופון בהגדרות של הטלפון": {
+  "en": "Allow microphone access in your phone's settings",
+  "ar": "يجب السماح بالوصول إلى الميكروفون في إعدادات الهاتف"
+ },
+ "ההקלטה לא זמינה כרגע": {
+  "en": "Voice input isn't available right now",
+  "ar": "التسجيل غير متاح حاليًا"
+ },
+ "צריך לאשר גישה למיקרופון": {
+  "en": "Allow microphone access",
+  "ar": "يجب السماح بالوصول إلى الميكروفون"
  }
 }
