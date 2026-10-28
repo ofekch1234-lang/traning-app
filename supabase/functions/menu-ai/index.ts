@@ -2,7 +2,7 @@
 // the app computes every gram against the user's targets, so values always come from the food database.
 //  mode "week": 7 different dinners for this week, built around the user's questionnaire (2 per week)
 //  mode "req":  a free-text request ("dinner with friends on Thursday at an Italian place") → changes for one day (5 per day)
-//  mode "sq":   the simple "squares" menu (1 square = 100 kcal): choose one food per line of each meal (counts as "menu")
+//  mode "sq":   the simple "squares" menu (1 square = 100 kcal): choose the foods of each meal (counts as "menu")
 //  mode "sqreq": a free-text change for today on the squares menu (counts as "menu_req")
 // Premium only; a free user gets one taste of each.
 import { createClient } from "npm:@supabase/supabase-js@2";
