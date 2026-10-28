@@ -3886,7 +3886,9 @@ function mfStep(f){ return f.ug?f.ug*(f.us||1):(f.st||10); }
 function mfClamp(f,g){ const s=mfStep(f); g=Math.round(g/s)*s; return Math.max(f.mn,Math.min(f.mx,Math.round(g*10)/10)); }
 /* the most this item may have in its meal: the food's range, and the meal cap (i.cap, e.g. one can of tuna at breakfast), on the food's own step */
 function mfMx(i){ const f=i.f; if(!(i.cap<f.mx))return f.mx; const s=mfStep(f); return Math.max(f.mn,Math.floor(i.cap/s+1e-6)*s); }
-function mfCl(i,g){ return Math.min(mfClamp(i.f,g),mfMx(i)); }
+/* the least it may have: i.lo, e.g. a real portion of chicken in lunch (not 100 g next to two pitas) */
+function mfLo(i){ if(!i.lo)return i.f.mn; const s=mfStep(i.f); return Math.min(mfMx(i),Math.max(i.f.mn,Math.ceil(i.lo/s-1e-6)*s)); }
+function mfCl(i,g){ return Math.max(mfLo(i),Math.min(mfClamp(i.f,g),mfMx(i))); }
 
 /* --- מבנה היום לפי השאלון --- */
 function menuSlots(p){
@@ -4089,13 +4091,14 @@ function menuBalance(meals,kT,pT){
     const mp=m=>m._it.reduce((a,i)=>a+i.f.p*i.g/100,0), mk0=m=>m._it.reduce((a,i)=>a+i.f.k*i.g/100,0), room=m=>!m._cap||mk0(m)<m._cap-50;
     if(pr<pT-8){ const c=meals.filter(m=>mp(m)<(m.k==='s'?20:50)&&room(m)).sort((a,b)=>(mp(a)-(a.k==='s'?0:12))-(mp(b)-(b.k==='s'?0:12))).map(m=>m._it.filter(i=>i.f.r==='P'&&i.g<mfMx(i)&&i.f.gp!=='egg').sort((a,b)=>b.f.p/b.f.k-a.f.p/a.f.k)[0]).find(Boolean)
         ||all().filter(i=>i.f.r==='P'&&i.g<mfMx(i)&&i.f.gp!=='egg').sort((a,b)=>b.f.p/b.f.k-a.f.p/a.f.k)[0]; if(c)moved=step(c,1)||moved; }
-    else if(pr>pT+25){ const c=[...meals].sort((a,b)=>mp(b)-mp(a)).map(m=>m._it.filter(i=>i.f.r==='P'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.p-a.g*a.f.p)[0]).find(Boolean); if(c)moved=step(c,-1)||moved; }
+    else if(pr>pT+25){ const c=[...meals].sort((a,b)=>mp(b)-mp(a)).map(m=>m._it.filter(i=>i.f.r==='P'&&i.g>mfLo(i)).sort((a,b)=>b.g*b.f.p-a.g*a.f.p)[0]).find(Boolean); if(c)moved=step(c,-1)||moved; }
     if(fp<.2&&k<kT+60){ const c=all().filter(i=>i.f.r==='F'&&i.g<mfMx(i)).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)moved=step(c,1)||moved; }
     else if(fp>.36){ const c=all().filter(i=>i.f.r==='F'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c)moved=step(c,-1)||moved; }
     // קלוריות: מוסיפים בארוחה שהכי רחוקה מהחלק שלה ביום, ומורידים מזו שהכי עברה אותו (ככה הצהריים לא יוצאים קטנים מביניים)
     const mk=m=>m._it.reduce((a,i)=>a+i.f.k*i.g/100,0), gap=m=>m._K?(mk(m)-m._K)/m._K:0;
     const shrink=m=>m._it.filter(i=>(i.f.r==='C'||(i.f.r==='F'&&fp>.25)||i.f.r==='X'||i.f.r==='L')&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0];
-    const grow=m=>{ for(const r of ['C','X','L','F']){ const c=m._it.filter(i=>i.f.r===r&&i.g<mfMx(i)).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)return c; } return null; };
+    const rk=(m,r)=>m._it.filter(i=>i.f.r===r).reduce((a,i)=>a+i.f.k*i.g/100,0);
+    const grow=m=>{ for(const r of ((m.k==='l'||m.k==='d')&&rk(m,'C')>2*rk(m,'P')?['P','C','X','L','F']:['C','X','L','F'])){ const c=m._it.filter(i=>i.f.r===r&&i.g<mfMx(i)).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)return c; } return null; };
     if(k>kT+60){ const c=[...meals].sort((a,b)=>gap(b)-gap(a)).map(shrink).find(Boolean); if(c)moved=step(c,-1)||moved; }
     else if(k<kT-60){ const c=[...meals].filter(room).sort((a,b)=>gap(a)-gap(b)).map(grow).find(Boolean); if(c)moved=step(c,1)||moved; }
     else if(meals.some(m=>m._K)){ const lo=[...meals].filter(m=>gap(m)<-.15&&room(m)).sort((a,b)=>gap(a)-gap(b)).find(m=>grow(m));
@@ -4131,6 +4134,8 @@ function genDay(seed,dt,kO){
   const meals=sl.map((x,i)=>{ const kind=mealKind(x.k,p,x.pw), K=kT*x.share, Pt=pT*pw[i]/pws;
     const b=buildMeal(kind,rnd,used,x.k==='l'&&['cold','buy'].includes(p.heat)?{...p,cook:'none'}:p,{Pt,K,pw:x.pw,usedT,slot:x.k}), tt=b._t; if(tt)usedT.push(tt.id);
     if(p.capFn)for(const i of b){ i.cap=p.capFn(x.k,i.f,b); if(i.g>mfMx(i))i.g=mfMx(i); }
+    // lunch and dinner: meat, fish or tofu as a real portion (the normal serving; ⅔ of it on a small plate) — the starch adjusts around it
+    if(p.capFn&&(x.k==='l'||x.k==='d'))for(const i of b)if(i.f.r==='P'&&!i.fix&&(['m','f'].includes(i.f.t)||i.f.gp==='tofu')){ i.lo=i.f.df*(K<450?.67:1); if(i.g<mfLo(i))i.g=mfLo(i); }
     const it=solveMeal(b,K,Pt);
     return {k:x.k,pw:x.pw,_it:it,t:tt,_K:K,_cap:p.capK?(p.capOf?p.capOf(x.k):(x.k==='s'?.65:1)*p.capK):0}; });
   // a snack without protein (fruit and nuts) gets a dairy protein that goes with it — yogurt or cottage, never tuna or edamame next to fruit
@@ -4162,11 +4167,11 @@ function genDay(seed,dt,kO){
       for(const m of [...meals].sort((a,b)=>({s:0,b:1,d:2,l:3}[a.k]??2)-({s:0,b:1,d:2,l:3}[b.k]??2))){ const j=m._it.findIndex(i=>(i.f.r==='X'||i.f.r==='F')&&!(i.req&&m.t)&&m._it.length>2); if(j>=0){ m._it.splice(j,1); done=true; break; } }
       // a big starch portion goes down before the protein does (a weight-loss day keeps its protein)
       if(!done){ const c=meals.flatMap(m=>m._it).filter(i=>i.f.r==='C'&&i.g>i.f.mn&&i.f.k*i.g/100>150).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c){ c.g=mfClamp(c.f,c.g-mfStep(c.f)); done=true; } }
-      if(!done){ const c=meals.map(m=>({m,pp:m._it.reduce((a,i)=>a+i.f.p*i.g/100,0)})).filter(x=>x.pp>32).sort((a,b)=>b.pp-a.pp).map(x=>x.m._it.find(i=>i.f.r==='P'&&i.g>i.f.mn)).find(Boolean);
-        if(c&&tp()>pT-10){ c.g=mfClamp(c.f,c.g-mfStep(c.f)*2); done=true; } }
+      if(!done){ const c=meals.map(m=>({m,pp:m._it.reduce((a,i)=>a+i.f.p*i.g/100,0)})).filter(x=>x.pp>32).sort((a,b)=>b.pp-a.pp).map(x=>x.m._it.find(i=>i.f.r==='P'&&i.g>mfLo(i))).find(Boolean);
+        if(c&&tp()>pT-10){ c.g=mfCl(c,c.g-mfStep(c.f)*2); done=true; } }
       if(!done){ const c=meals.flatMap(m=>m._it).filter(i=>i.f.r==='C'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c){ c.g=mfClamp(c.f,c.g-mfStep(c.f)); done=true; } }
       if(!done&&tk()>kT+100){ const m=meals.filter(m=>m.k==='s'&&m._it.length>=2).sort((a,b)=>b._it.length-a._it.length)[0]; const j=m?m._it.findIndex(i=>i.f.r!=='P'&&!(i.req&&m.t)):-1; if(j>=0){ m._it.splice(j,1); done=true; } }
-      if(!done){ const c=meals.flatMap(m=>m._it).filter(i=>i.f.r==='P'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c&&tp()>pT-15){ c.g=mfClamp(c.f,c.g-mfStep(c.f)); done=true; } }
+      if(!done){ const c=meals.flatMap(m=>m._it).filter(i=>i.f.r==='P'&&i.g>mfLo(i)).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c&&tp()>pT-15){ c.g=mfCl(c,c.g-mfStep(c.f)); done=true; } }
       if(!done)break; } }
   const out=meals.map(m=>({k:m.k,pw:m.pw,...(m.t?{t:m.t.id,tm:m.t.main}:{}),items:m._it.map(i=>({id:i.f.id,g:i.g}))}));
   if(outI>=0)out.splice(outI,0,{k:'l',out:1,ok:outK,items:[]});
@@ -4433,6 +4438,7 @@ function mqMx(m,f){ const kT=+S.settings.kcalT||2000, light=m.k==='b'||m.k==='s'
   if(f.r==='C'&&f.hm&&/^כוס/.test(f.hm[1])&&(m.items||[]).some(i=>i.id&&MFI(i.id)?.gp==='legume'))c=Math.min(c,Math.max(f.mn,f.hm[0]*(big?1.5:1)));
   if(f.gp==='legume'&&f.hm)c=Math.min(c,Math.max(f.mn,f.hm[0]*1.5)); // legumes: up to 1½ cups, and the grain beside them up to a cup — not a 2-litre bowl
   if(m.k==='s'&&f.r==='P')c=Math.min(c,Math.max(f.mn,9*kT/f.k)); // a snack's protein is a snack portion (≤ ~9% of the day): ½ tub of cottage, a cup of yogurt
+  if(!light&&f.gp==='bread'&&f.ug)c=Math.min(c,Math.max(f.mn,f.ug*(big?2:1.5))); // a pita sandwich: 1½ pitas (2 on a big day), not two pitas and 100 g of meat
   if(light&&!big&&f.gp==='bread'&&f.ug&&(f.us||1)>=1)c=Math.min(c,f.ug*(f.id==='rck'?5:3)); // 3 slices / 5 rice cakes (4 slices / 6 on a big day)
   if(light&&f.gp==='bread'&&f.ug&&(f.us||1)<1)c=Math.min(c,Math.max(f.mn,f.ug*(big?1.5:1))); // one pita / bagel at breakfast (1½ on a big day)
   if(f.r==='F')c=Math.min(c,Math.max(f.mn,f.df*2)); // fat: up to 2 normal servings (2 tbsp tahini, 2 tsp oil, a handful of nuts)
@@ -4462,8 +4468,10 @@ function mqTopUp(ms,kT,p,rnd){ rnd=rnd||Math.random; const tot=()=>ms.reduce((a,
       const g=Math.min(mfClamp(f,f.df),mqMx(m,f)), big=Math.max(...ms.filter(x=>x.k!=='s').map(mqK)); if(m.k==='s'&&mqK(m)+f.k*g/100>big*.8)continue; if(mqK(m)+f.k*g/100>mqCapOf(m.k))continue;
       m.items.push({r,id:f.id,g}); mqSort(m.items); } }
   const own=new Map(ms.flatMap(m=>m.items.map(i=>[i,m])));
+  // the starch of a lunch/dinner that already has twice the protein's kcal in starch waits; the protein grows first
+  const rk=(m,r)=>m.items.filter(i=>i.r===r).reduce((a,i)=>a+MFI(i.id).k*i.g/100,0), heavy=i=>{ const m=own.get(i); return i.r==='C'&&m.k!=='s'&&m.k!=='b'&&rk(m,'C')>2*rk(m,'P')?1:0; };
   for(let n=0;n<60&&tot()<kT-80;n++){ const c=ms.flatMap(m=>m.items).filter(i=>{ const f=MFI(i.id), ng=mfClamp(f,i.g+mfStep(f)); const m=own.get(i); return (i.r==='C'||i.r==='P')&&ng>i.g&&ng<=mqMx(m,f)+.01&&mqK(m)+f.k*(ng-i.g)/100<=mqCapOf(m.k); })
-      .sort((a,b)=>(a.r==='C'?0:1)-(b.r==='C'?0:1)||MFI(a.id).k*a.g-MFI(b.id).k*b.g)[0];
+      .sort((a,b)=>heavy(a)-heavy(b)||(a.r==='C'?0:1)-(b.r==='C'?0:1)||MFI(a.id).k*a.g-MFI(b.id).k*b.g)[0];
     if(!c)break; const f=MFI(c.id); c.g=mfClamp(f,c.g+mfStep(f)); }
   // still short on a very big day: the drink, the fat and the fruit go up to their normal maximum (2 tbsp tahini, a handful of nuts, 2 cups of milk)
   for(let n=0;n<40&&tot()<kT-80;n++){ const c=ms.flatMap(m=>m.items).filter(i=>{ const f=MFI(i.id), m=own.get(i), ng=mfClamp(f,i.g+mfStep(f)); return ['L','F','X'].includes(i.r)&&ng>i.g&&ng<=mqMx(m,f)+.01&&mqK(m)+f.k*(ng-i.g)/100<=mqCapOf(m.k); })

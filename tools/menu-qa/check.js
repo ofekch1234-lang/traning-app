@@ -39,6 +39,8 @@ const SBJS=process.env.SBJS||'/tmp/claude-0/-home-claude/c63db132-56fe-55ce-ab3d
      const t=m.tp&&MMI(m.tp); if(t&&mqName(m)===(t.n[MLI]||t.n[0])&&!t.c.every(c=>c[0]==='?'||c.split('|').some(id=>ids.includes(id))))H('name_mismatch',`${tag} ${t.id} ${ids}`);
      if(!mqName(m))W('meal_without_name',`${tag} ${m.k} ${ids}`);
      if(m.k==='s'&&m.items.length>3)W('snack_over_3_items',`${tag} ${ids}`);
+     { const P0=m.items.find(i=>i.r==='P'&&['m','f'].includes(MFI(i.id)?.t)&&!['tun','tuo','srd'].includes(i.id)); if((m.k==='l'||m.k==='d')&&P0){ const f=MFI(P0.id), ck=m.items.filter(i=>i.r==='C').reduce((a,i)=>a+kc(i),0);
+       if(P0.g<f.df*.66-.5)H('main_protein_too_small',`${tag} ${m.k} ${f.id} ${P0.g}g (normal ${f.df})`); if(ck>kc(P0)*2.2&&ck>350)W('starch_dominates',`${tag} ${m.k} ${f.id} ${P0.g}g, starch ${Math.round(ck)}kcal`); } }
      if((m.k==='l'||m.k==='d')&&roles.includes('X'))W('fruit_in_main',`${tag} ${m.k} ${ids}`);
      const leg=m.items.filter(i=>MFI(i.id)?.gp==='legume').reduce((a,i)=>a+i.g,0), stc=m.items.filter(i=>i.r==='C').reduce((a,i)=>a+i.g,0); if(leg&&leg+stc>(kT>=2800?650:520))W('legume_bowl_too_big',`${tag} ${ids} ${leg}+${stc}g`);
      if(m.k==='s'&&(mk<80||mk>Math.max(350,kT*.15)))W('snack_size',`${tag} ${Math.round(mk)}`);

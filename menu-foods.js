@@ -8,7 +8,7 @@ window.MENU_FOODS=[
 // חלבונים
 {id:'chk',gp:'poultry',c:900018,e:'🍗',n:['חזה עוף בגריל','Grilled chicken breast','صدر دجاج مشوي'],k:165,p:31,cb:0,ft:3.6,r:'P',s:'m',t:'m',x:'',ck:1,mn:100,mx:250,st:10,df:150,hm:[150,'מנה','מנות','serving','servings','حصة','حصص'],fav:1},
 {id:'thg',gp:'poultry',c:900020,e:'🍗',n:['פרגית בגריל','Grilled chicken thigh','فخذ دجاج مشوي'],k:209,p:26,cb:0,ft:11,r:'P',s:'m',t:'m',x:'',ck:1,mn:100,mx:230,st:10,df:150,hm:[100,'פרגית','פרגיות','thigh','thighs','فخذ','أفخاذ']},
-{id:'tky',gp:'poultry',c:944,e:'🦃',n:['חזה הודו','Turkey breast','صدر ديك رومي'],k:108,p:24.8,cb:0,ft:1,r:'P',s:'m',t:'m',x:'',ck:1,mn:100,mx:250,st:10,df:150,hm:[175,'מנה','מנות','serving','servings','حصة','حصص']},
+{id:'tky',gp:'poultry',c:944,e:'🦃',n:['חזה הודו','Turkey breast','صدر ديك رومي'],k:108,p:24.8,cb:0,ft:1,r:'P',s:'m',t:'m',x:'',ck:1,mn:100,mx:250,st:10,df:170,hm:[175,'מנה','מנות','serving','servings','حصة','حصص']},
 {id:'bef',gp:'red',c:900021,e:'🥩',n:['בקר טחון מבושל','Cooked ground beef','لحم بقري مفروم مطبوخ'],k:254,p:26,cb:0,ft:16,r:'P',s:'m',t:'m',x:'',ck:1,mn:80,mx:200,st:10,df:130,hm:[120,'מנה','מנות','serving','servings','حصة','حصص']},
 {id:'stk',gp:'red',c:609,e:'🥩',n:['סטייק בקר צלוי','Grilled beef steak','ستيك بقري مشوي'],k:164,p:28.9,cb:0,ft:5.3,r:'P',s:'m',t:'m',x:'',ck:1,mn:100,mx:250,st:10,df:150,hm:[150,'סטייק','סטייקים','steak','steaks','ستيك','ستيكات']},
 {id:'sal',gp:'fish',c:900023,e:'🐟',n:['סלמון אפוי','Baked salmon','سلمون مخبوز'],k:206,p:22,cb:0,ft:12,r:'P',s:'m',t:'f',x:'',ck:1,mn:100,mx:230,st:10,df:150,hm:[150,'פילה','פילות','fillet','fillets','فيليه','فيليهات']},
