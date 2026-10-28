@@ -2100,7 +2100,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.101';
+const APP_VERSION='13.3.103';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4493,7 +4493,9 @@ const mqSlot=(m,p)=>({b:p.bf==='sweet'?'w':'b',l:'m',d:'m',s:'s'})[m.k];
 function mqFitG(f,kcal,m){ if(f.r==='V')return f.df; let g=mfClamp(f,Math.max(1,kcal)/f.k*100); if(m){ const c=mqMx(m,f); if(g>c+.01){ const st=mfStep(f); g=Math.max(f.mn,Math.floor(c/st+1e-6)*st); } } return g; }
 /* the meal's name: the library name only while every required part of that meal is on the plate; otherwise a plain name from what is on it */
 function mqName(m){ if(m.name)return m.name; const t=m.tp&&MMI(m.tp), ids=m.items.map(i=>i.id);
-  if(t&&t.c.every(c=>c[0]==='?'||c.split('|').some(id=>ids.includes(id))))return t.n[MLI]||t.n[0];
+  if(t&&t.c.every(c=>c[0]==='?'||c.split('|').some(id=>ids.includes(id)))){ const n=t.n[MLI]||t.n[0]; if(!/ או | or | أو /.test(n))return n; // "X או Y" — שם עם חלופות: נותנים שם לפי מה שבאמת בצלחת
+    const sh=id=>mfName(MFI(id)).replace(/\s*\(.*\)$/,'').replace(/\s+(בגריל|מבושלת|מבושלים|מבושל|אפויה|אפוי|צלוי|קלוי|מאודה|מאודים)$/,''), P=m.items.find(i=>i.r==='P'), C=m.items.find(i=>i.r==='C'), V=m.items.some(i=>i.r==='V');
+    if(P&&C)return sh(P.id)+[' עם ',' with ',' مع '][MLI]+sh(C.id)+(V?[' וירקות',' & veggies',' وخضار'][MLI]:''); }
   return mqAutoName(m); }
 function mqAutoName(m){ const L=m.items.filter(i=>i.id&&i.r!=='V'&&MFI(i.id)).map(i=>mfName(MFI(i.id)).replace(/\s*\(.*\)$/,'')).slice(0,4); if(L.length<2)return L[0]||'';
   const last=L.pop(); return L.join(', ')+[' ו',' & ',' و'][MLI]+last; }
