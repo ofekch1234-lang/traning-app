@@ -14,6 +14,10 @@ on:
         description: 'Build a signed Android App Bundle (.aab) for Google Play'
         type: boolean
         default: false
+      ios_runner:
+        description: 'macOS runner for the TestFlight build (macos-15-intel when Apple Silicon runners are out of capacity)'
+        type: string
+        default: macos-26
   push:
     branches: [native]
     paths: ['app/**', 'index.html', 'i18n/**', 'img/**', 'menu-foods.js', '.github/workflows/native.yml']
@@ -61,7 +65,7 @@ jobs:
   # Secrets: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (contents of the .p8 file), APPLE_TEAM_ID.
   ios-testflight:
     if: github.event_name == 'workflow_dispatch' && inputs.testflight
-    runs-on: macos-26
+    runs-on: ${{ inputs.ios_runner || 'macos-26' }}
     defaults: { run: { working-directory: app } }
     env:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
