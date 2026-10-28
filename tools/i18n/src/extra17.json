@@ -1654,5 +1654,153 @@
  "עודכן לפי מה שאכלת": {
   "en": "adjusted to what you ate",
   "ar": "معدّل حسب ما أكلت"
+ },
+ "אין התקדמות ב-3 האימונים האחרונים, ול": {
+  "en": "No progress in the last 3 workouts, and",
+  "ar": "لا تقدم في آخر 3 تمارين، و"
+ },
+ "אמרת שנשאר לך הרבה כוח, אז הקפיצה כפולה.": {
+  "en": "You said you had plenty left, so it's a double jump.",
+  "ar": "قلت إنه بقيت لديك قوة كبيرة، لذا القفزة مضاعفة."
+ },
+ "במשקל.": {
+  "en": "in weight.",
+  "ar": "في الوزن."
+ },
+ "בסט": {
+  "en": "In set",
+  "ar": "في المجموعة"
+ },
+ "בסט האחרון יורדים ל-": {
+  "en": "On the last set we go down to",
+  "ar": "في المجموعة الأخيرة ننزل إلى"
+ },
+ "בסט האחרון ירדת מ-": {
+  "en": "On the last set you dropped from",
+  "ar": "في المجموعة الأخيرة نزلت من"
+ },
+ "בסטים": {
+  "en": "In sets",
+  "ar": "في المجموعات"
+ },
+ "בשאר הסטים עוד חזרה.": {
+  "en": "One more rep on the other sets.",
+  "ar": "تكرار إضافي في باقي المجموعات."
+ },
+ "בשאר עוד חזרה": {
+  "en": "+1 rep on the rest",
+  "ar": "+تكرار في الباقي"
+ },
+ "גם בפעם הקודמת החזרות צנחו": {
+  "en": "Last time the reps also dropped",
+  "ar": "في المرة السابقة أيضًا انخفضت التكرارات"
+ },
+ "הוא עולה": {
+  "en": "it goes up",
+  "ar": "ترتفع"
+ },
+ "היו רק": {
+  "en": "had only",
+  "ar": "كانت فقط"
+ },
+ "היום מכוונים ל-": {
+  "en": "Today aim for",
+  "ar": "اليوم نستهدف"
+ },
+ "הם עולים": {
+  "en": "they go up",
+  "ar": "ترتفع"
+ },
+ "הקדמנו את השבוע הקל: בשני האימונים האחרונים הביצועים ירדו ב-": {
+  "en": "We moved the light week up: in the last two workouts performance dropped in",
+  "ar": "قدّمنا الأسبوع الخفيف: في آخر تمرينين انخفض الأداء في"
+ },
+ "הקדמנו את השבוע הקל: הביצועים ירדו בכמה תרגילים. חצי סטים, אותו משקל, ואחריו חוזרים חזקים יותר.": {
+  "en": "We moved the light week up: performance dropped in several exercises. Half the sets, same weight, and you come back stronger.",
+  "ar": "قدّمنا الأسبوع الخفيف: انخفض الأداء في عدة تمارين. نصف المجموعات، نفس الوزن، وبعده تعود أقوى."
+ },
+ "ובסטים המאוחרים אותן מטרות כמו פעם שעברה.": {
+  "en": "and the later sets keep last time's targets.",
+  "ar": "والمجموعات المتأخرة بنفس أهداف المرة السابقة."
+ },
+ "ומכוונים ל-": {
+  "en": "and aim for",
+  "ar": "ونستهدف"
+ },
+ "זה סימן שהמנוחה קצרה מדי. היום נחים": {
+  "en": "That's a sign the rest was too short. Today rest",
+  "ar": "هذه علامة على أن الراحة كانت قصيرة. اليوم ارتح"
+ },
+ "זו עייפות שהצטברה, לא חולשה. אותו משקל, חצי מהסטים, ואחריו חוזרים חזקים יותר.": {
+  "en": "That's built-up fatigue, not weakness. Same weight, half the sets, and you come back stronger.",
+  "ar": "هذا تعب متراكم وليس ضعفًا. نفس الوزن، نصف المجموعات، وبعده تعود أقوى."
+ },
+ "חזרות, מתחת לטווח.": {
+  "en": "reps, below the range.",
+  "ar": "تكرارات، تحت النطاق."
+ },
+ "יש רק": {
+  "en": "has only",
+  "ar": "لديها فقط"
+ },
+ "כדי לסיים אותו בטווח.": {
+  "en": "so you finish it in range.",
+  "ar": "لتنهيها ضمن النطاق."
+ },
+ "כדי לשבור את התקיעות": {
+  "en": "to break the plateau",
+  "ar": "لكسر الثبات"
+ },
+ "כל הסטים": {
+  "en": "All sets",
+  "ar": "كل المجموعات"
+ },
+ "כל סט מתקדם לבד: עוד חזרה בכל סט, וכל סט שמגיע ל-": {
+  "en": "Each set progresses on its own: one more rep per set, and any set that reaches",
+  "ar": "كل مجموعة تتقدم وحدها: تكرار إضافي لكل مجموعة، وكل مجموعة تصل إلى"
+ },
+ "ל-": {
+  "en": "to",
+  "ar": "إلى"
+ },
+ "להגיע ל-": {
+  "en": "Reach",
+  "ar": "الوصول إلى"
+ },
+ "מוסיפים": {
+  "en": "Adding",
+  "ar": "نضيف"
+ },
+ "מכוונים לתחתית הטווח.": {
+  "en": "aims for the bottom of the range.",
+  "ar": "تستهدف أسفل النطاق."
+ },
+ "מנוחה ארוכה יותר:": {
+  "en": "Longer rest:",
+  "ar": "راحة أطول:"
+ },
+ "סטים בשבוע. מחקרים מראים שעוד סטים בשבוע מביאים עוד שריר, אז מוסיפים סט אחד לשבועיים הקרובים.": {
+  "en": "sets a week. Research shows more weekly sets bring more muscle, so we add one set for the next two weeks.",
+  "ar": "مجموعات في الأسبوع. تُظهر الأبحاث أن مجموعات أسبوعية أكثر تعني عضلًا أكثر، لذا نضيف مجموعة واحدة للأسبوعين القادمين."
+ },
+ "עברת את הטווח, אז": {
+  "en": "you went past the range, so",
+  "ar": "تجاوزت النطاق، لذا"
+ },
+ "עולה במשקל.": {
+  "en": "moves up in weight.",
+  "ar": "ترتفع في الوزن."
+ },
+ "עולה ל-": {
+  "en": "goes up to",
+  "ar": "ترتفع إلى"
+ },
+ "עם אותו משקל.": {
+  "en": "with the same weight.",
+  "ar": "بنفس الوزن."
+ },
+ "קצת יותר קל": {
+  "en": "a bit lighter",
+  "ar": "أخف قليلًا"
  }
 }
