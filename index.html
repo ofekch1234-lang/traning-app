@@ -4368,6 +4368,7 @@ const mqKos=(f,items,p)=>{ if((p||{}).style!=='kosher')return true; const ts=ite
 /* כמות ביתית + גרמים + קלוריות */
 function mqFr(q){ const w=Math.floor(q+1e-6), r=Math.round((q-w)*4)/4, s={0.25:'¼',0.5:'½',0.75:'¾'}[r]||''; return '⁦'+((w||'')+s||'0')+'⁩'; }
 function mqHH(f,g){ const L=MLI, u=(q,s,p)=>`${mqFr(q)} ${q>1?p:s}`;
+  if(f.r==='P'&&(f.t==='m'||f.t==='f')&&!['tun','tuo','srd','tps'].includes(f.id))return ''; // בשר ודגים: רק גרמים — "½ סטייק" מטעה, הגודל משתנה מאוד
   if(f.u&&f.ug){ const r=g/f.ug, st=r>=3?1:(f.us||1)>=1?.5:.25, q=Math.round(r/st)*st; if(q>=.25){ const up=f.up||f.u; return u(q,f.u[L]||f.u[0],up[L]||up[0]); } }
   if(f.tb&&!(f.hm&&g/f.hm[0]>=.5)){ const q=Math.round(g/f.tb*2)/2; if(q>=1&&q<=8)return u(q,tt('כף'),tt('כפות')); }
   if(f.hm&&f.hm[1]!=='מנה'){ const q=Math.round(g/f.hm[0]*4)/4; if(q>=.25)return u(q,f.hm[1+L*2]||f.hm[1],f.hm[2+L*2]||f.hm[2]); }
@@ -4517,7 +4518,7 @@ function mqAskRender(){ const r=MQA.res, day=mqDay()||[];
       :`<button class="btn primary" style="flex:1" data-act="mq-asend" ${MQA.busy?'disabled':''}>${tt(r?'נסה שוב':'שלח לראפי')}</button>`}</div>`); }
 async function mqAskSend(){ const t=$('#mq-q'); MQA.text=(t?.value||MQA.text).trim(); if(!MQA.text)return; MQA.busy=true; MQA.res=null; mqAskRender();
   const p=mqS().p||{}, today=ymd(), day=mqDay();
-  const r=await aiCall({mode:'sqreq',text:MQA.text,catalog:mqCat(p),profile:{sex:S.settings.g,style:MQ_STN[p.style||'any'],avoid:p.avoid||[],loves_text:p.love||''},
+  const r=await aiCall({mode:'sqreq',text:MQA.text,day:{target_kcal:+S.settings.kcalT||null,eaten_kcal:dayTotals(today).kcal},catalog:mqCat(p),profile:{sex:S.settings.g,style:MQ_STN[p.style||'any'],avoid:p.avoid||[],loves_text:p.love||''},
     meals:day.map((m,i)=>({meal:i,kind:m.k,kcal:Math.round(mqK(m)),eaten:m.done===today,out:!!m.out,foods:m.items.filter(x=>x.id).map(x=>mfName(MFI(x.id)))}))});
   if(!MQA)return; MQA.busy=false; if(r.error){ aiErr(r.error,'req'); mqAskRender(); return; }
   r.changes=(r.changes||[]).filter(c=>{ const m=day[c.meal]; return m&&m.done!==today&&(c.out||(c.items||[]).length); }); MQA.res=r; mqAskRender(); }

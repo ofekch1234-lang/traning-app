@@ -21,12 +21,14 @@ HARD RULES:
 - Respect the user's "avoid", dislikes and diet style (kosher = never meat with dairy in one meal; vegetarian/vegan as stated).
 - A meal is 2–5 foods: one protein ("P"), usually a carb ("C"), a vegetable ("V") and optionally a fat ("F"). Snacks may be 1–3 foods.
 - Prefer foods the user said they love; keep it simple enough for the cooking time they gave.
+- Apply the diet style, kosher rules and allergies SILENTLY: never mention kosher, vegetarian or allergies in any text unless the user asked about them.
+- Text: short, plain, natural ${LANG_NAME[lang] || "Hebrew"} only. No English or other foreign words, no brand names, no markdown.
 - Output ONE JSON object and nothing else.
 ${mode === "sq"
     ? `TASK: the app planned the day: each meal has a size in kcal and a protein target, and the foods the app picked now. Replace the foods of each meal with 2–5 food ids that make a REAL dish people eat (main meals: one protein + one carb + a vegetable, optional fat; breakfast fits the given slots b/w; snack s: 1–2 foods), fitting the user's taste text. Vary the protein between lunch and dinner. Do not give amounts: the app sets them within normal portion sizes.
 JSON: {"meals":[{"meal":0,"name":"short dish name","items":["egg","brd","sld"]}],"note":"one short personal sentence about the menu"}`
     : mode === "sqreq"
-    ? `TASK: today's meals are given (kcal and foods). The user asks for a change for TODAY. Keep each meal's kcal (the app sets amounts). You may: replace the foods of a meal that was not eaten ("items": 2–5 food ids forming a real dish), or mark a meal as eaten OUT ("out": true) with a practical ordering tip. If the request is about another day, say they can ask on that day and return no changes.
+    ? `TASK: today's meals are given (kcal and foods). The user asks for a change for TODAY. Keep each meal's kcal (the app sets amounts). You may: replace the foods of a meal that was not eaten ("items": 2–5 food ids forming a real dish), or mark a meal as eaten OUT ("out": true) with a practical ordering tip. The out meal keeps that meal's kcal budget (given). Restaurant dishes are usually bigger than the budget (a burger in a bun is ~700–900 kcal, fries ~350, a pasta dish ~800, pizza ~250 a slice): say honestly whether the likely order fits, and give 1–2 concrete ways to fit it (e.g. half the bun, salad instead of fries, share a starter). If it can't fit, say roughly how many kcal over it will be — and that it's fine, the rest of the day stays as planned. Use DAY (target and eaten so far) for context. If the request is about another day, say they can ask on that day and return no changes.
 JSON: {"changes":[{"meal":1,"name":"short name","items":["tun","pit","sld"]},{"meal":3,"out":true}],"tip":"what to order when eating out (if any)","reply":"2–3 short sentences: what you changed"}`
     : mode === "week"
     ? `TASK: plan 7 DIFFERENT dinners for Sunday..Saturday (dow 0..6). Vary the main protein through the week, never the same main two days in a row, and fit each day's type (after a workout: protein + carbs; rest day: lighter on carbs; Friday out: dinner can be lighter). If they cook for a partner/family, make dinners that suit everyone.
@@ -89,7 +91,7 @@ Deno.serve(async (req) => {
   else if (mode === "sqreq") {
     const text = String(body.text || "").trim().slice(0, 400);
     if (!text) return J({ error: "bad_request" }, 400);
-    user_msg += `TODAY'S MEALS:\n${JSON.stringify(body.meals || []).slice(0, 3000)}\nREQUEST: ${text}`;
+    user_msg += `DAY: ${JSON.stringify(body.day || {}).slice(0, 200)}\nTODAY'S MEALS:\n${JSON.stringify(body.meals || []).slice(0, 3000)}\nREQUEST: ${text}`;
   } else {
     const text = String(body.text || "").trim().slice(0, 400);
     if (!text) return J({ error: "bad_request" }, 400);
