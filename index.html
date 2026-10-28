@@ -3873,6 +3873,7 @@ function mfAllowed(f,p){
   if(st==='pesc'&&f.t==='m')return false;
   if(st==='vegan'&&(f.t==='d'||f.t==='e'))return false;
   for(const a of ['g','l','n','s'])if(av.includes(a)&&f.x.includes(a))return false;
+  if(f.gf&&!av.includes('g'))return false; // gluten-free bread is for people who avoid gluten
   if(av.includes('e')&&f.t==='e')return false;
   if(av.includes('f')&&f.t==='f')return false;
   if(p.cook==='none'&&f.ck>0)return false;
@@ -3914,7 +3915,7 @@ function mealKind(k,p,pw){ return k==='b'?(p.bf==='sweet'?'w':'b'):k==='l'?'m':k
 // אילו פחמימות הולכות טוב עם כל חלבון (ארוחה עיקרית / קלה)
 const MPAIR_C={chk:['ric','qui','swp','bul','pti','cus','bkw','brr','pas'],thg:['ric','pot','cus','bul','pti','swp'],tky:['ric','qui','swp','pas','bkw'],sch:['pot','ric','pti','pit'],
   bef:['pas','wpa','ric','bul','pot','pit'],stk:['pot','swp','ric','qui'],sal:['pot','swp','qui','ric','brr'],fsh:['pot','ric','qui','swp','cus'],dns:['pot','swp','ric'],
-  tun:['pas','wpa','ric','pot','crn','pit'],egg:['brd','pit','tor','rck'],oml:['brd','pit','tor','rck'],shk:['pit','brd'],cot:['brd','pit','rck','tor'],whc:['brd','pit','rck'],bgc:['brd','pit','rck'],ylc:['brd','pit','tor'],
+  tun:['pas','wpa','ric','pot','crn','pit'],egg:['brd','pit','tor','rck','gfb','ctr'],oml:['brd','pit','tor','rck','gfb','ctr'],shk:['pit','brd','gfb'],cot:['brd','pit','rck','tor','gfb'],whc:['brd','pit','rck','gfb'],bgc:['brd','pit','rck','gfb'],ylc:['brd','pit','tor','gfb'],
   tof:['ric','qui','bkw','brr'],len:['ric','bul'],chp:['pit','qui','ric','cus'],hum:['pit','brd'],eda:['ric','qui']};
 const MPAIR_V={poultry:['sld','grb','brc','zuc','cau','egp'],red:['sld','grb','egp','zuc'],fish:['brc','spn','sld','zuc','cau'],tuna:['sld','crn'],egg:['sld','cuc','tom','pep','egp'],cheese:['sld','cuc','tom','pep','egp'],
   tofu:['brc','spn','cau'],legume:['sld','egp'],spread:['sld','cuc','tom','pep']};
@@ -3929,6 +3930,8 @@ function diaryFreq(){
 }
 /* savoury foods (meat, fish, eggs, legumes, hummus, tofu, olives, oil, tahini): fruit, nuts and sweet spreads don't join them in one meal */
 const mSav=f=>!!f&&(['m','f','e'].includes(f.t)||['legume','spread','tofu'].includes(f.gp)||['oli','oil','thn','avo'].includes(f.id));
+/* a salty breakfast of eggs, cheese and veggies may take a fruit on the side (not next to tuna, meat or legumes; never dates) */
+const mFrSide=(k,fs)=>k==='b'&&fs.filter(mSav).every(f=>f.t==='e'||['oli','oil','avo'].includes(f.id));
 function mfW(f){ const p=menuS().p||{}, likes=p.likes||[], st=p.style, fr=diaryFreq()[f.id]||0;
   let w=(likes.includes(f.id)?5:1)*(f.w||1)*(1+Math.min(3,fr)*.6);
   if(f.r==='P'&&f.t==='v'&&!['veg','vegan','pesc'].includes(st))w*=f.gp==='tofu'?.2:.35;
@@ -4158,7 +4161,8 @@ function genDay(seed,dt,kO){
     const sav=m=>m._it.some(i=>mSav(i.f)), nofr=()=>meals.flatMap(m=>m._it).filter(i=>i.f.r==='X').length<3;
     const sOK=m=>m.k!=='s'||(m._it.length<3&&!hasR(m,'V'));
     let tgt=nofr()&&(meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&m._it.some(i=>['ygp','cot','why','ygt'].includes(i.f.id))&&!hasR(m,'X')&&!sav(m))||meals.find(m=>un(m)&&m.k==='b'&&!hasR(m,'X')&&!hasR(m,'V')&&!sav(m)&&m._it.length<5)), f=null;
-    if(tgt)f=mfPick(mfPool('X',tgt.k==='b'?'w':'s',p).filter(x=>!usedAll().includes(x.id)),rnd);
+    if(!tgt&&nofr()&&rnd()<.5)tgt=meals.find(m=>un(m)&&m.k==='b'&&!hasR(m,'X')&&sav(m)&&mFrSide('b',m._it.map(i=>i.f))&&m._it.length<5);
+    if(tgt)f=mfPick(mfPool('X',tgt.k==='b'?'w':'s',p).filter(x=>!usedAll().includes(x.id)&&!(x.id==='dat'&&sav(tgt))),rnd);
     if(!f){ tgt=meals.find(m=>un(m)&&m._it.some(i=>i.f.id==='sld')&&!hasR(m,'F')&&!hasR(m,'X')); const o=MFI('oil'); if(tgt&&o&&mfAllowed(o,p))f=o; }
     if(!f){ tgt=meals.find(m=>un(m)&&m.k!=='s'&&hasR(m,'V')&&!hasR(m,'F')&&!hasR(m,'X')); if(tgt)f=mfPick(MFid(tgt.k==='b'||tgt._it.some(i=>i.f.gp==='cheese')?['avo','oli','oil']:['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&tgt._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); }
     if(!f&&nofr()){ tgt=meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&!hasR(m,'X')&&!sav(m)); if(tgt)f=mfPick(mfPool('X','s',p).filter(x=>!usedAll().includes(x.id)),rnd); }
@@ -4402,6 +4406,7 @@ function mqOK(f,p){ p=p||mqS().p||{}; const st=p.style, av=p.avoid||[];
   if((st==='veg'||st==='vegan')&&f.t==='f')return false;
   if(st==='vegan'&&(f.t==='d'||f.t==='e'))return false;
   for(const a of ['g','l','n','s'])if(av.includes(a)&&f.x.includes(a))return false;
+  if(f.gf&&!av.includes('g'))return false; // gluten-free bread is for people who avoid gluten
   if(av.includes('e')&&f.t==='e')return false; if(av.includes('f')&&f.t==='f')return false;
   return true; }
 const mqKos=(f,items,p)=>{ if((p||{}).style!=='kosher')return true; const ts=items.filter(i=>i.id).map(i=>MFI(i.id)?.t); return !((f.t==='m'&&ts.includes('d'))||(f.t==='d'&&ts.includes('m'))); };
@@ -4409,7 +4414,7 @@ const mqKos=(f,items,p)=>{ if((p||{}).style!=='kosher')return true; const ts=ite
 function mqFr(q){ const w=Math.floor(q+1e-6), r=Math.round((q-w)*4)/4, s={0.25:'¼',0.5:'½',0.75:'¾'}[r]||''; return '⁦'+((w||'')+s||'0')+'⁩'; }
 function mqHH(f,g){ const L=MLI, u=(q,s,p)=>`${mqFr(q)} ${q>1?p:s}`;
   if(f.r==='P'&&(f.t==='m'||f.t==='f')&&!['tun','tuo','srd','tps'].includes(f.id))return ''; // בשר ודגים: רק גרמים — "½ סטייק" מטעה, הגודל משתנה מאוד
-  if(f.u&&f.ug){ const r=g/f.ug, st=r>=3?1:(f.us||1)>=1?.5:.25, q=Math.round(r/st)*st; if(q>=.25){ const up=f.up||f.u; return u(q,f.u[L]||f.u[0],up[L]||up[0]); } }
+  if(f.u&&f.ug){ const r=g/f.ug, st=r>=3?1:(f.us||1)>=1?.5:.25, q=Math.round(r/st)*st; if(q>=.25){ const up=f.up||f.u; return u(q,f.u[L]||f.u[0],up[L]||up[0])+(f.id==='shk'?[' ברוטב עגבניות',' in tomato sauce',' بصلصة الطماطم'][L]:''); } } // shakshuka: the eggs carry most of the calories, so the count is spelled out
   if(f.tb&&!(f.hm&&g/f.hm[0]>=.5)){ const q=Math.round(g/f.tb); if(q>=1&&q<=8)return u(q,tt('כף'),tt('כפות')); } // whole tablespoons — nobody measures 3½ tbsp
   if(f.hm&&f.hm[1]!=='מנה'){ const d=/^(כוס|קערה|אבוקדו)/.test(f.hm[1])?4:2, q=Math.round(g/f.hm[0]*d)/d; if(q>=.25)return u(q,f.hm[1+L*2]||f.hm[1],f.hm[2+L*2]||f.hm[2]); }
   return ''; }
@@ -4458,7 +4463,7 @@ const MQ_NUT=['alm','wal','pst','csh']; // pumpkin seeds in the shell are a nosh
 const mqSav=mSav;
 function mqFits(m,f,ms){ const fs=m.items.map(i=>i.id&&MFI(i.id)).filter(Boolean);
   if(m.k==='s'&&(fs.length>=3||fs.some(x=>x.r==='V')))return false; // a snack stays 2–3 things; cut veggies make it a savoury snack
-  if(f.r==='X')return ms.flatMap(x=>x.items).filter(i=>i.r==='X').length<3&&!fs.some(mqSav);
+  if(f.r==='X')return ms.flatMap(x=>x.items).filter(i=>i.r==='X').length<3&&(!fs.some(mqSav)||(f.id!=='dat'&&mFrSide(m.k,fs)));
   if(f.r==='F'){ if(m.k==='s'||fs.some(x=>x.r==='L'||x.gp==='cereal'))return MQ_NUT.includes(f.id)&&fs.some(x=>x.r==='X'||x.gp==='yog')&&!fs.some(mqSav);
     return ['oil','thn','avo','oli'].includes(f.id)&&fs.some(x=>x.r==='V')&&!fs.some(x=>x.r==='X')&&!(f.id==='thn'&&fs.some(x=>x.gp==='cheese')); }
   return true; }
@@ -4514,7 +4519,7 @@ async function mqBuild(mode){ const q=mqS(), p=q.p||{meals:4}; q.ovr=null; q.not
 /* מה ש-AI בחר לארוחה: רק מזונות מותרים, חייב חלבון, והכמויות מחושבות לגודל הארוחה */
 function mqAIMeal(m,am,p){ if(!m||!am)return false; const ids=[]; for(const id of am.items||[]){ const f=MFI(id); if(f&&mqOK(f,p)&&!ids.includes(id)&&mqKos(f,ids.map(x=>({id:x})),p))ids.push(id); }
   // never sweet with savoury on one plate, whatever the model chose: no peanut butter, dates, nuts or fruit next to tuna, eggs, meat or legumes
-  if(ids.some(id=>mSav(MFI(id))))for(let j=ids.length-1;j>=0;j--){ const f=MFI(ids[j]); if(['pnb','dat','grn','crf','chm'].includes(f.id)||MQ_NUT.includes(f.id)||f.id==='pmk'||f.r==='X')ids.splice(j,1); }
+  if(ids.some(id=>mSav(MFI(id))))for(let j=ids.length-1;j>=0;j--){ const f=MFI(ids[j]); if(['pnb','dat','grn','crf','chm'].includes(f.id)||MQ_NUT.includes(f.id)||f.id==='pmk'||(f.r==='X'&&!mFrSide(m.k,ids.map(MFI))))ids.splice(j,1); }
   if(ids.includes('pnb'))for(let j=ids.length-1;j>=0;j--)if(MFI(ids[j]).gp==='cheese')ids.splice(j,1);
   const fs=ids.map(MFI); if(ids.length<(m.k==='s'?1:2)||(m.k!=='s'&&!fs.some(f=>f.r==='P')))return false;
   const K=mqK(m)||m.items.reduce((a,i)=>a+(i.kt||0),0)||400, Pt=Math.max(8,mqPr(m)), it=solveIds(ids,K,Pt,f=>mqMx(m,f)); if(!it)return false;

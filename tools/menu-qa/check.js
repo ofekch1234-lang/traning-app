@@ -16,7 +16,7 @@ const SBJS=process.env.SBJS||'/tmp/claude-0/-home-claude/c63db132-56fe-55ce-ab3d
   const checkMeal=(m,tag,p,st,kT)=>{ const mk=mqK(m), roles=m.items.map(i=>i.r), fs=m.items.map(i=>MFI(i.id)).filter(Boolean), ids=fs.map(f=>f.id);
      // C. composition a dietitian would serve
      const sav=fs.filter(f=>['m','f','e'].includes(f.t)||['legume','spread','tofu'].includes(f.gp)||['oli','oil','thn'].includes(f.id)), cheese=fs.filter(f=>['cot','whc','bgc','ylc','tsf','lbn'].includes(f.id));
-     const sweet=fs.filter(f=>['pnb','dat','grn','oat','crf','chm','mlk','soy','why'].includes(f.id)||['alm','wal','pst','csh','pmk'].includes(f.id)||f.r==='X');
+     const sweet=fs.filter(f=>['pnb','dat','grn','oat','crf','chm','mlk','soy','why'].includes(f.id)||['alm','wal','pst','csh','pmk'].includes(f.id)||f.r==='X').filter(f=>!(f.r==='X'&&f.id!=='dat'&&m.k==='b'&&sav.every(s=>s.t==='e'||['oli','oil','avo'].includes(s.id))));
      if(sav.length&&sweet.length)H('odd_combo',`${tag} ${m.k} ${sav.map(f=>f.id)}+${sweet.map(f=>f.id)}`);
      if(ids.includes('thn')&&fs.some(f=>['cot','whc','lbn','ygp','ygt'].includes(f.id)))W('tahini_with_soft_cheese',`${tag} ${m.k} ${ids}`);
      if(ids.includes('pnb')&&cheese.length)H('odd_combo',`${tag} ${m.k} pnb+${cheese.map(f=>f.id)}`);
