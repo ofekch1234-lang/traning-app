@@ -18,6 +18,7 @@ const SBJS=process.env.SBJS||'/tmp/claude-0/-home-claude/c63db132-56fe-55ce-ab3d
      const sav=fs.filter(f=>['m','f','e'].includes(f.t)||['legume','spread','tofu'].includes(f.gp)||['oli','oil','thn'].includes(f.id)), cheese=fs.filter(f=>['cot','whc','bgc','ylc','tsf','lbn'].includes(f.id));
      const sweet=fs.filter(f=>['pnb','dat','grn','oat','crf','chm','mlk','soy','why'].includes(f.id)||['alm','wal','pst','csh','pmk'].includes(f.id)||f.r==='X');
      if(sav.length&&sweet.length)H('odd_combo',`${tag} ${m.k} ${sav.map(f=>f.id)}+${sweet.map(f=>f.id)}`);
+     if(ids.includes('thn')&&fs.some(f=>['cot','whc','lbn','ygp','ygt'].includes(f.id)))W('tahini_with_soft_cheese',`${tag} ${m.k} ${ids}`);
      if(ids.includes('pnb')&&cheese.length)H('odd_combo',`${tag} ${m.k} pnb+${cheese.map(f=>f.id)}`);
      const t=m.tp&&MMI(m.tp); if(t&&mqName(m)===(t.n[MLI]||t.n[0])&&!t.c.every(c=>c[0]==='?'||c.split('|').some(id=>ids.includes(id))))H('name_mismatch',`${tag} ${t.id} ${ids}`);
      if(!mqName(m))W('meal_without_name',`${tag} ${m.k} ${ids}`);

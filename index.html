@@ -4160,14 +4160,14 @@ function genDay(seed,dt,kO){
     let tgt=nofr()&&(meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&m._it.some(i=>['ygp','cot','why','ygt'].includes(i.f.id))&&!hasR(m,'X')&&!sav(m))||meals.find(m=>un(m)&&m.k==='b'&&!hasR(m,'X')&&!hasR(m,'V')&&!sav(m)&&m._it.length<5)), f=null;
     if(tgt)f=mfPick(mfPool('X',tgt.k==='b'?'w':'s',p).filter(x=>!usedAll().includes(x.id)),rnd);
     if(!f){ tgt=meals.find(m=>un(m)&&m._it.some(i=>i.f.id==='sld')&&!hasR(m,'F')&&!hasR(m,'X')); const o=MFI('oil'); if(tgt&&o&&mfAllowed(o,p))f=o; }
-    if(!f){ tgt=meals.find(m=>un(m)&&m.k!=='s'&&hasR(m,'V')&&!hasR(m,'F')&&!hasR(m,'X')); if(tgt)f=mfPick(MFid(tgt.k==='b'?['avo','oli']:['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&tgt._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); }
+    if(!f){ tgt=meals.find(m=>un(m)&&m.k!=='s'&&hasR(m,'V')&&!hasR(m,'F')&&!hasR(m,'X')); if(tgt)f=mfPick(MFid(tgt.k==='b'||tgt._it.some(i=>i.f.gp==='cheese')?['avo','oli','oil']:['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&tgt._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); }
     if(!f&&nofr()){ tgt=meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&!hasR(m,'X')&&!sav(m)); if(tgt)f=mfPick(mfPool('X','s',p).filter(x=>!usedAll().includes(x.id)),rnd); }
     if(!f){ tgt=meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&!hasR(m,'F')&&!sav(m)&&m._it.some(i=>i.f.r==='X'||i.f.gp==='yog')); if(tgt)f=mfPick(mfPool('F','s',p).filter(x=>x.id!=='pnb'&&x.id!=='pmk'),rnd); }
     if(!f||!tgt)break; tgt._it.push({f,g:f.df}); capAll(); menuBalance(meals,kT,pT);
   }
   // ארוחה עיקרית שיצאה קטנה מדי ואין בה מה להגדיל: מוסיפים שומן טוב (טחינה/שמן זית/אבוקדו) ומאזנים שוב
   for(const m of meals){ if(!(m.k==='l'||m.k==='d')||!m._K||m._it.some(i=>i.f.r==='F'))continue; const mk=m._it.reduce((x,i)=>x+i.f.k*i.g/100,0); if(mk>=m._K*.85)continue;
-    const f=mfPick(MFid(['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&m._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); if(f){ m._it.push({f,g:f.df}); capAll(); menuBalance(meals,kT,pT); } }
+    const f=mfPick(MFid(m._it.some(i=>i.f.gp==='cheese')?['oil','avo']:['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&m._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); if(f){ m._it.push({f,g:f.df}); capAll(); menuBalance(meals,kT,pT); } } // tahini goes with meat, legumes and pita — not on a cottage plate
   // still over (a low target and minimum portions): drop extras a dietitian would drop first — fruit or fat in snacks/breakfast — then trim protein in meals that have plenty
   { const tk=()=>meals.flatMap(m=>m._it).reduce((a,i)=>a+i.f.k*i.g/100,0), tp=()=>meals.flatMap(m=>m._it).reduce((a,i)=>a+i.f.p*i.g/100,0);
     for(let n=0;n<16&&tk()>kT+60;n++){ let done=false;
@@ -4460,7 +4460,7 @@ function mqFits(m,f,ms){ const fs=m.items.map(i=>i.id&&MFI(i.id)).filter(Boolean
   if(m.k==='s'&&(fs.length>=3||fs.some(x=>x.r==='V')))return false; // a snack stays 2–3 things; cut veggies make it a savoury snack
   if(f.r==='X')return ms.flatMap(x=>x.items).filter(i=>i.r==='X').length<3&&!fs.some(mqSav);
   if(f.r==='F'){ if(m.k==='s'||fs.some(x=>x.r==='L'||x.gp==='cereal'))return MQ_NUT.includes(f.id)&&fs.some(x=>x.r==='X'||x.gp==='yog')&&!fs.some(mqSav);
-    return ['oil','thn','avo','oli'].includes(f.id)&&fs.some(x=>x.r==='V')&&!fs.some(x=>x.r==='X'); }
+    return ['oil','thn','avo','oli'].includes(f.id)&&fs.some(x=>x.r==='V')&&!fs.some(x=>x.r==='X')&&!(f.id==='thn'&&fs.some(x=>x.gp==='cheese')); }
   return true; }
 /* a plate above the meal ceiling, or a snack bigger than lunch: trim it the way a dietitian would — starch first, then fat, then protein */
 function mqTrim(ms){ const lunch=()=>ms.find(m=>m.k==='l'), lim=m=>m.k==='s'?Math.min(mqCapOf('s'),lunch()?mqK(lunch())-20:1e9):MQ_CAPK+20;
