@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=440becbe"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=440becbe"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=440becbe"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=49868ae5"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=49868ae5"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=49868ae5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -629,6 +629,35 @@ body:not(.landing)>#lx-sticky{display:none}
 .sl-i i{width:21px;height:21px;border-radius:6px;border:1.8px solid var(--muted);flex:none;display:grid;place-items:center}
 .sl-i.ok i{background:var(--accent);border-color:var(--accent)}.sl-i.ok i::after{content:'';width:10px;height:5px;border-left:2.2px solid var(--accent-ink);border-bottom:2.2px solid var(--accent-ink);transform:translateY(-1px) rotate(-45deg)}
 .sl-i.ok span{text-decoration:line-through;color:var(--muted)}
+.mv-tabs{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px;gap:4px;margin-bottom:12px}
+.mv-tabs button{flex:1;position:relative;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 4px;border:0;border-radius:10px;background:none;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted)}
+.mv-tabs button.on{background:var(--surface2);color:var(--ink)}
+.mv-tabs button i{position:absolute;top:-7px;inset-inline-end:6px;font-style:normal;font-size:10px;font-weight:700;background:var(--accent);color:var(--accent-ink);border-radius:6px;padding:0 5px;line-height:15px}
+.mv-pv{font-size:12.5px;color:var(--muted);margin:-4px 2px 10px}
+.mv-alt{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:-2px 0 4px;padding-inline-start:39px}
+.mv-alt em{font-style:normal;font-size:12px;color:var(--muted)}
+.mv-alt button{font:inherit;font-size:12px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
+.mv-alt button span{color:var(--muted)}
+.mv-sec{font-size:13.5px;color:var(--muted);font-weight:600;margin:16px 2px 8px}
+.mv-week{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:2px 14px;margin-bottom:12px}
+.mv-week div{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.mv-week div:last-child{border:0}.mv-week b{width:28px;flex:none;color:var(--muted);font-weight:600}.mv-week span{flex:1;min-width:0}.mv-week small{color:var(--accent);font-weight:700}
+.mv-week div.on b,.mv-week div.on span{color:var(--ink);font-weight:700}
+.mw-in{width:100%;box-sizing:border-box;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font:inherit;font-size:15.5px;color:var(--ink);line-height:1.45;resize:none}
+.mw-in:focus{border-color:var(--accent);outline:0}
+.mw-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;min-height:4px}
+.mw-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-soft);color:var(--ink);border-radius:99px;padding:6px 11px;font-size:13.5px}
+.mw-tag i{font-style:normal;color:var(--accent)}.mw-tag.no{background:color-mix(in srgb,var(--danger) 15%,transparent)}.mw-tag.no i{color:var(--danger)}
+.mw-o{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:12px;text-align:start!important}.mw-o b,.mw-o small{text-align:start}.mw-o>span:last-child{display:flex;flex-direction:column}
+.mw-oi{width:42px;height:42px;flex:none;border-radius:12px;background:var(--surface2);display:grid;place-items:center;color:var(--ink)}
+.mw-o.on .mw-oi{background:var(--accent);color:var(--accent-ink)}.mw-o.on .mw-oi g{stroke:var(--accent-ink)}
+.mv-ask{display:flex;align-items:center;gap:10px;width:100%;background:var(--surface);border:1.5px solid var(--accent);border-radius:18px;padding:11px 14px;margin:0 0 12px;font:inherit;color:var(--muted);text-align:start}
+.mv-ask span{flex:1;font-size:14.5px}.mv-ask img{width:28px;height:28px;border-radius:50%}
+.mv-sech{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ai-busy{display:flex;align-items:center;gap:10px;margin-top:12px;color:var(--muted);font-size:14px}.ai-busy img{width:28px;height:28px;border-radius:50%;animation:rbIn 1s ease infinite alternate}
+.ai-res{background:var(--surface2);border-radius:16px;padding:12px 14px;margin-top:12px}
+.ai-ch{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.ai-ch div{display:flex;gap:8px;font-size:13.5px}.ai-ch b{flex:none}.ai-ch span{color:var(--muted)}
 .mv-op{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:start;background:var(--surface2);border:1px solid var(--line);border-radius:18px;padding:13px 14px;margin-bottom:10px;color:var(--ink);font:inherit}
 .mv-op.best{border-color:var(--accent)}.mv-op .mv-nm b{white-space:normal}
 .mv-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -1363,6 +1392,35 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .ask1.has~.qchips{display:none}
 .ask1 .aqgo{display:none;align-items:center;gap:4px;height:40px;padding:0 12px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);font:inherit;font-size:14.5px;font-weight:700;flex:none;cursor:pointer}.ask1.has .aqgo{display:flex}
 .ask1 .aq-sep{width:1px;height:22px;background:var(--line);flex:none}.ask1 .clr{display:none}.ask1.has .clr{display:grid}.ask1.has .aq,.ask1.has .aq-sep{display:none}
+/* תיבת "מה אכלת" כטקסט שגדל, והקלטה קולית */
+.ask1{height:auto;min-height:56px;flex-wrap:wrap;row-gap:2px}
+.ask1 .ask-in textarea{flex:1;min-width:0;border:0;background:none;padding:0;height:24px;line-height:24px;font:inherit;font-size:16px;color:var(--ink);outline:none;box-shadow:none;resize:none;overflow:hidden;display:block;transition:height .22s cubic-bezier(.2,.8,.2,1);-webkit-appearance:none;appearance:none}
+.ask1 .ask-in textarea::placeholder{color:var(--muted)}
+.ask1.has .aq.mic{display:grid;color:var(--muted)}
+.ask1.has .clr{order:1}.ask1.has .mic{order:2}.ask1.has .acnt{order:3}.ask1.has .aqgo{order:4}
+.ask1 .acnt{display:none;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ask1.ml{padding:12px 8px 8px 14px}
+.ask1.ml .ask-in{flex-basis:100%;height:auto;align-items:flex-start}
+.ask1.ml .ask-in>svg{display:none}
+.ask1.ml .ask-in textarea{line-height:1.5}
+.ask1.ml .aqgo{margin-inline-start:auto}
+.ask1.ml.long .acnt{display:block}
+.ask1.ml .ask-in.fade{-webkit-mask-image:linear-gradient(transparent,#000 22px);mask-image:linear-gradient(transparent,#000 22px)}
+.ask1.rec{border-color:#ff5a5f;box-shadow:0 0 0 4px rgba(255,90,95,.14);padding:12px 8px 8px 14px}
+.ask1.rec>*:not(.ask-rec){display:none!important}
+.ask-rec{width:100%;display:flex;flex-direction:column}
+.ask-rec .live{font-size:16px;line-height:1.5;color:var(--ink);min-height:48px;max-height:120px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.ask-rec .live:empty:before{content:attr(data-ph);color:var(--muted)}
+.ask-rec .rb{display:flex;align-items:center;gap:8px;margin-top:8px}
+.ask-rec .ib{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;border:0;background:none;color:var(--muted);padding:0;cursor:pointer;flex:none}
+.ask-rec .ib svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round}
+.ask-rec .dot{width:10px;height:10px;border-radius:50%;background:#ff5a5f;flex:none;animation:recp 1.2s ease-in-out infinite}
+@keyframes recp{50%{box-shadow:0 0 0 5px rgba(255,90,95,.25)}}
+.ask-rec .tm{font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;min-width:34px}
+.ask-rec .wave{flex:1;display:flex;align-items:center;justify-content:flex-end;gap:3px;height:32px;overflow:hidden;direction:ltr}
+.ask-rec .wave b{flex:none;width:3px;height:4px;border-radius:2px;background:var(--accent);transition:height .1s linear}
+.ask-rec .stop{width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;border:0;padding:0;cursor:pointer;flex:none}
+.ask-rec .stop svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .ask2{height:auto;padding:0;border:0;background:none;gap:8px}.ask2:focus-within{box-shadow:none}
 .ask2 .ask-go{flex:1;display:flex;align-items:center;gap:10px;height:54px;padding:0 16px;border-radius:16px;background:var(--accent);color:var(--accent-ink);border:0;font:inherit;font-size:16.5px;font-weight:700;text-align:var(--start);cursor:pointer}
 .ask2 .ask-go svg{width:20px;height:20px;color:inherit;flex:none}
@@ -2425,7 +2483,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.88';
+const APP_VERSION='13.3.90';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3021,6 +3079,55 @@ function restRir(ei,si){ const e=S.active?.ex?.[ei], el=$('#rest-rir'); if(!e||!
   el.classList.remove('ok'); el.innerHTML=`<div class="rq-top"><span><b>${tt('כמה חזרות עוד היית מצליח?')}</b><small>${esc(e.n)} · ${si===(e.sets||[]).length-1?tt('סט אחרון'):`${tt('סט')} ${si+1}`}</small></span><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></div><div class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</div>`; el.hidden=false; }
 function restRirHide(){ const el=$('#rest-rir'); if(el){ el.hidden=true; el.innerHTML=''; } }
 
+/* "מה אכלת?" — the box grows down smoothly as the text gets longer (up to 5 lines, then scrolls inside) */
+function askFit(t,now){ const box=t.closest('.ask1'); if(!box)return; const v=t.value;
+  if(!v){ box.classList.remove('ml','long'); t.style.height=''; t.style.overflowY=''; t.parentElement.classList.remove('fade'); return; }
+  const old=t.offsetHeight; t.style.transition='none'; t.style.height='0px';
+  if(!box.classList.contains('ml')&&t.scrollHeight>30){ box.classList.add('ml'); } // once open it stays open until the box is emptied, so it never jumps back and forth
+  const full=t.scrollHeight, lh=box.classList.contains('ml')?24:24, max=lh*5+2, h=box.classList.contains('ml')?Math.min(full,max):24;
+  t.style.height=old+'px'; void t.offsetHeight; t.style.transition=now?'none':''; t.style.height=h+'px';
+  t.style.overflowY=full>max?'auto':'hidden'; t.parentElement.classList.toggle('fade',full>max&&t.scrollTop>4);
+  box.classList.toggle('long',v.length>=250); const c=box.querySelector('.acnt'); if(c)c.textContent=v.length+'/400';
+  if(full>max&&t.selectionStart>=v.length-1)t.scrollTop=full; }
+document.addEventListener('scroll',e=>{ const t=e.target; if(t&&t.id==='ask-q')t.parentElement.classList.toggle('fade',t.scrollTop>4); },true);
+
+/* voice → text: the phone's own speech recognition (free, no AI call). The text lands in the box for a quick check, then "חשב" */
+const voNat=()=>{ const c=window.Capacitor; return c&&c.isNativePlatform&&c.isNativePlatform()&&c.Plugins&&c.Plugins.SpeechRecognition||null; };
+const voWeb=()=>window.SpeechRecognition||window.webkitSpeechRecognition||null;
+const voOK=()=>!!(voNat()||voWeb());
+const voLang=()=>({he:'he-IL',ar:'ar-SA',en:'en-US'})[LANG]||'he-IL';
+let VO=null;
+async function voStart(){ const q=$('#ask-q'), box=q?.closest('.ask1'); if(!box||VO)return;
+  const N=voNat(), W=voWeb(); if(!N&&!W)return;
+  if(N){ try{ const p=await N.requestPermissions(); if(p.speechRecognition!=='granted'){ toast(tt('צריך לאשר גישה למיקרופון בהגדרות של הטלפון')); return; } }catch(_){ toast(tt('ההקלטה לא זמינה כרגע')); return; } }
+  try{ q.blur(); }catch(_){}
+  VO={base:q.value.trim(),txt:'',t0:Date.now(),lvl:0,last:0,hs:[],subs:[],r:null};
+  const X='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>', UP='<svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+  const el=document.createElement('div'); el.className='ask-rec';
+  el.innerHTML=`<div class="live" data-ph="${esc(tt('מדברים, ואני כותב…'))}"></div><div class="rb"><button class="ib" data-act="vo-cancel" aria-label="${esc(tt('ביטול'))}">${X}</button><span class="dot"></span><span class="tm num">0:00</span><div class="wave">${'<b></b>'.repeat(40)}</div><button class="stop" data-act="vo-stop" aria-label="${esc(tt('סיום הקלטה'))}">${UP}</button></div>`;
+  box.appendChild(el); box.classList.add('rec'); try{ navigator.vibrate?.(8); }catch(_){}
+  const live=el.querySelector('.live'), tm=el.querySelector('.tm'), bars=[...el.querySelectorAll('.wave b')];
+  const show=t=>{ if(!VO)return; VO.txt=t; VO.last=Date.now(); live.textContent=t; };
+  VO.iv=setInterval(()=>{ if(!VO)return; const s=Math.floor((Date.now()-VO.t0)/1000); tm.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+    // native gives the real mic level; the web has none, so the wave follows when words arrive
+    const l=N?VO.lvl:(Date.now()-VO.last<700?.35+Math.random()*.6:.06+Math.random()*.12);
+    VO.hs.push(l); if(VO.hs.length>bars.length)VO.hs.shift(); bars.forEach((b,i)=>{ const v=VO.hs[i-(bars.length-VO.hs.length)]; b.style.height=(v==null?4:Math.max(4,Math.round(4+v*28)))+'px'; });
+    if(s>=60)voStop(true); },100);
+  try{
+    if(N){ VO.subs.push(await N.addListener('partialResults',e=>show(e.accumulatedText||e.matches?.[0]||VO.txt)));
+      VO.subs.push(await N.addListener('audioLevel',e=>{ if(VO)VO.lvl=Math.min(1,Math.max(0,+e.level||0)); }));
+      VO.subs.push(await N.addListener('listeningState',e=>{ if(VO&&!VO.stopping&&(e.state||e.status)==='stopped')voStop(true); })); // Android ends by itself after a pause
+      await N.start({language:voLang(),partialResults:true,popup:false,addPunctuation:true,maxResults:1}); }
+    else { const r=new W(); VO.r=r; r.lang=voLang(); r.continuous=true; r.interimResults=true;
+      r.onresult=e=>{ let t=''; for(const x of e.results)t+=x[0].transcript; show(t.trim()); };
+      r.onerror=e=>{ if(e.error==='not-allowed'||e.error==='service-not-allowed')toast(tt('צריך לאשר גישה למיקרופון')); };
+      r.onend=()=>{ if(VO&&!VO.stopping)voStop(true); }; r.start(); }
+  }catch(err){ console.warn('voice',err); voStop(false); toast(tt('ההקלטה לא זמינה כרגע')); } }
+async function voStop(apply){ const v=VO; if(!v||v.stopping)return; v.stopping=true; clearInterval(v.iv);
+  const N=voNat(); try{ if(N)await N.stop(); else v.r?.stop(); }catch(_){}
+  for(const s of v.subs)try{ s.remove(); }catch(_){}
+  VO=null; const box=$('.ask1'); box?.querySelector('.ask-rec')?.remove(); box?.classList.remove('rec');
+  const q=$('#ask-q'); if(apply&&q&&v.txt){ q.value=(v.base?v.base+' ':'')+v.txt; q.dispatchEvent(new Event('input',{bubbles:true})); } }
 /* ---------- rendering ---------- */
 function render(){
   if(IS_NATIVE)requestAnimationFrame(natStatusBar);
@@ -3029,6 +3136,7 @@ function render(){
   try{ render_(); }catch(err){ console.error(err); toast('שגיאת תצוגה: '+(err?.message||err)); }
   // a focused field removed by the re-render (e.g. the login code box) never fires focusout → don't leave the tab bar hidden
   try{ if(!isTextEl(document.activeElement))document.body.classList.remove('typing'); }catch(_){}
+  try{ const q0=$('#ask-q'); if(q0&&q0.value)askFit(q0,true); }catch(_){}
   if(askFocus){ const q=$('#ask-q'); if(q){ try{ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length,q.value.length); }catch(_){} if(q.value.trim().length>=2)foodSearch(q.value,'ask-res'); } } }
 function render_(){
   if(S.tab==='plans'){S.tab='train';S.trainView='plans';}
@@ -4193,6 +4301,7 @@ const ICON={star:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d
   chev:'<span class="chev" aria-hidden="true">›</span>',
   plus:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
   search:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>',
   cam:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 8h2.2l1.4-2.2A1.5 1.5 0 0 1 8.9 5h6.2a1.5 1.5 0 0 1 1.3.8L17.8 8H20a1.5 1.5 0 0 1 1.5 1.5V18A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8Z"/><circle cx="12" cy="13.2" r="3.4"/></svg>',
   bar:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 7V5.5A1.5 1.5 0 0 1 5.5 4H7M17 4h1.5A1.5 1.5 0 0 1 20 5.5V7M20 17v1.5a1.5 1.5 0 0 1-1.5 1.5H17M7 20H5.5A1.5 1.5 0 0 1 4 18.5V17M8 8v8M11 8v8M14 8v8M16.5 8v8"/></svg>',
   pen:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17 4 20ZM13.5 6l3 3"/></svg>',
@@ -4513,7 +4622,7 @@ function vFood(){
           <div class="small muted" id="ai-step">${AI_STEPS[0]}</div>
           <div class="ai-track"><i id="ai-bar"></i></div></div>
       </div>`
-      :`${d===today?ncCardHTML():''}<div class="ask ask1 ${S.askQ?'has':''}"><label for="ask-q" class="ask-in">${ICON.search}<input id="ask-q" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200" data-bind="askq" placeholder="${tt('מה אכלת?')}" value="${esc(S.askQ||'')}"></label><button class="sq clr" data-act="ask-clear" aria-label="${tt('ניקוי')}">✕</button><button class="aqgo" data-act="food-ai"><span aria-hidden="true">✨</span>${tt('חשב')}</button><label class="aq" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label><i class="aq-sep" aria-hidden="true"></i><button class="aq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button></div>
+      :`${d===today?ncCardHTML():''}<div class="ask ask1 ${S.askQ?'has':''}"><label for="ask-q" class="ask-in">${ICON.search}<textarea id="ask-q" rows="1" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="400" data-bind="askq" placeholder="${tt('מה אכלת?')}">${esc(S.askQ||'')}</textarea></label><button class="sq clr" data-act="ask-clear" aria-label="${tt('ניקוי')}">✕</button><span class="acnt num" aria-hidden="true"></span><button class="aqgo" data-act="food-ai"><span aria-hidden="true">✨</span>${tt('חשב')}</button>${voOK()?`<button class="aq mic" data-act="vo-start" aria-label="${tt('הקלטה קולית')}">${ICON.mic}</button><i class="aq-sep" aria-hidden="true"></i>`:''}<label class="aq" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label><i class="aq-sep" aria-hidden="true"></i><button class="aq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button></div>
       <div id="ask-res" class="card r20 ask-res" hidden></div>
       ${!S.basket.length?quickChips():''}
       ${S.basket.length?`<div class="card r20 basket" style="margin:0">
@@ -4686,7 +4795,18 @@ function applySz(L,st){ const P=szPref();
 const MF=()=>{ const L=window.MENU_FOODS||[]; if(L.length){ const st=JSON.stringify(szPref()); if(L._sz!==st)applySz(L,st); } return L; };
 function szList(f){ return f.sz||f.szs||null; }
 const MFI=id=>MF().find(f=>f.id===id);
-function menuS(){ const m=S.settings.menu; if(m&&typeof m==='object'){ m.tpl=m.tpl||[]; m.no=m.no||[]; return m; } return (S.settings.menu={p:null,day:null,tpl:[],no:[]}); }
+/* the menu has a day per day type (training / rest / Friday out), and M.day always points at the one being viewed (today's by default) */
+function mnHasFri(){ const p=S.settings.menu?.p||{}; return (+p.out||0)>0; }
+function dayType(dt){ dt=dt||new Date(); if(mnHasFri()&&dt.getDay()===5)return 'fri'; return isTrainDay(ymd(dt))?'train':'rest'; }
+function mnView(){ return S.mnDT||dayType(); }
+const mnIsToday=()=>mnView()===dayType();
+function menuS(){ let m=S.settings.menu; if(!m||typeof m!=='object')m=S.settings.menu={p:null,days:{},tpl:[],no:[]};
+  m.tpl=m.tpl||[]; m.no=m.no||[]; if(!m.days||typeof m.days!=='object')m.days={};
+  const d=Object.getOwnPropertyDescriptor(m,'day');
+  if(!d||!d.get){ const old=d?d.value:null; if(d)delete m.day; if(old&&!m.days.train&&!m.days.rest){ m.days.train=old; m.days.rest=JSON.parse(JSON.stringify(old)); }
+    Object.defineProperty(m,'day',{get(){ const o=!S.mnDT&&m.ovr&&m.ovr[ymd()]; return o||m.days[mnView()]||null; },set(v){ if(!S.mnDT&&m.ovr&&m.ovr[ymd()])m.ovr[ymd()]=v; else m.days[mnView()]=v; },enumerable:false,configurable:true}); }
+  if(m.ovr){ const t=ymd(); for(const k in m.ovr)if(k<t)delete m.ovr[k]; }
+  return m; }
 function mfName(f){ if(!f)return ''; if(Array.isArray(f.n))return f.n[MLI]||f.n[0]; return f.n||f.name||''; }
 function miFood(it){ return it.id?MFI(it.id):it; }
 function miVals(it){ const f=miFood(it)||{}, r=(+it.g||0)/100; return {k:(+f.k||0)*r,p:(+f.p||0)*r,cb:(+f.cb||0)*r,ft:(+f.ft||0)*r}; }
@@ -4745,7 +4865,7 @@ function qtyAct(act,b){
     QS=null; M.day.auto=false; persistSettings(); closeSheet(); for(const i of ch)mnPatch(i); }
   return true;
 }
-function mealTot(m){ const t={k:0,p:0,cb:0,ft:0}; for(const it of m.items||[]){ const v=miVals(it); for(const k in t)t[k]+=v[k]; } return t; }
+function mealTot(m){ const t={k:m.out?(+m.ok||0):0,p:0,cb:0,ft:0}; for(const it of m.items||[]){ const v=miVals(it); for(const k in t)t[k]+=v[k]; } return t; }
 function menuTot(day){ const t={k:0,p:0,cb:0,ft:0}; for(const m of day?.meals||[]){ const v=mealTot(m); for(const k in t)t[k]+=v[k]; } return t; }
 const MSLOT={b:['☀️','ארוחת בוקר'],l:['🌤️','ארוחת צהריים'],d:['🌙','ארוחת ערב'],s:['🍎','ארוחת ביניים']};
 function mealLabel(m){ return `${MSLOT[m.k]?.[0]||'🍽️'} <span>${MSLOT[m.k]?.[1]||'ארוחה'}</span>`; }
@@ -4778,8 +4898,8 @@ function menuSlots(p){
   if(p.train==='am')pw=a.findIndex(k=>k==='b'||k==='l');
   else if(p.train==='noon')pw=a.indexOf('l');
   else if(p.train==='pm')pw=a.lastIndexOf('d');
-  const base={b:24,l:35,d:26,s:11};
-  const w=a.map((k,i)=>base[k]+(i===pw?8:0)), sum=w.reduce((x,y)=>x+y,0);
+  const base={b:24,l:35,d:26,s:11}, li=a.indexOf('l'), pmS=p.hard==='pm'?a.findIndex((k,i)=>k==='s'&&i>li):-1; // "hard in the afternoon": a more filling 4 pm snack
+  const w=a.map((k,i)=>base[k]+(i===pw?8:0)+(i===pmS?6:0)), sum=w.reduce((x,y)=>x+y,0);
   return a.map((k,i)=>({k,pw:i===pw,share:w[i]/sum}));
 }
 function mealKind(k,p,pw){ return k==='b'?(p.bf==='sweet'?'w':'b'):k==='l'?'m':k==='d'?(p.dinner==='light'&&!pw?'b':'m'):'s'; }
@@ -4827,7 +4947,7 @@ function addSecondP(items){ return items; } // הוחלף בתבניות (נשא
 /* ארוחות מהספרייה: בוחרים ארוחה שאנשים באמת אוכלים, מתאימה לשאלון, ורק אז מכווננים כמויות */
 const MMEALS=()=>window.MENU_MEALS||[];
 const MMI=id=>MMEALS().find(t=>t.id===id);
-function mealName(m){ const t=m&&m.t&&MMI(m.t); if(!t||!m.items.some(i=>i.id===m.tm))return ''; return t.n[MLI]||t.n[0]; }
+function mealName(m){ if(m&&m.ai&&m.ai.n)return m.ai.n; const t=m&&m.t&&MMI(m.t); if(!t||!m.items.some(i=>i.id===m.tm))return ''; return t.n[MLI]||t.n[0]; }
 function tplBuild(kind,rnd,used,p,ctx){
   const kosherMix=(a,b)=>a&&b&&((a.t==='m'&&b.t==='d')||(a.t==='d'&&b.t==='m'));
   const usedG=new Set(used.map(id=>MFI(id)?.gp).filter(Boolean)), usedT=ctx.usedT||[];
@@ -4845,7 +4965,7 @@ function tplBuild(kind,rnd,used,p,ctx){
     if(usedT.includes(t.id))w*=.05;
     // תבנית שלא יכולה להגיע לגודל שהארוחה צריכה (למשל קוטג׳ וסלט כארוחת צהריים גדולה) כמעט לא נבחרת
     // צהריים הם הארוחה הגדולה: ארוחה "קלה" על בסיס גבינה או ביצים מתאימה פחות
-    if(ctx.slot==='l'&&main.every(f=>['cheese','egg','yog'].includes(f.gp)))w*=.15;
+    if((ctx.slot==='l'||(ctx.slot==='d'&&p.dinner!=='light'))&&main.every(f=>['cheese','egg','yog'].includes(f.gp)))w*=.15;
     if(ctx.K){ const cap=comps.reduce((a,c)=>a+Math.max(...c.L.map(f=>(+f.k||0)*(+f.mx||0)/100)),0); if(cap<ctx.K*.9)w*=.02; }
     cands.push({t,comps,w});
   }
@@ -4979,13 +5099,21 @@ function menuBalance(meals,kT,pT){
   for(const i of all().filter(i=>i.f.r==='V').sort((a,b)=>a.g-b.g)){ if(vg>=300)break; const g=Math.min(i.f.mx,i.g+100); vg+=g-i.g; i.g=g; }
 }
 /* חלוקת חלבון: ארוחות עיקריות מקבלות 25-45 גרם, ביניים פחות */
-function menuGenerate(seed){
-  const M=menuS(), p=M.p||{}, kT=mnKT(), pT=+S.settings.protT||Math.round((+S.settings.kcalT||2000)*0.25/4);
-  seed=seed||((Date.now()%1e9)|0); const rnd=mRand(seed), used=[];
-  const sl=menuSlots(p), pw=sl.map(x=>({b:.85,l:1.15,d:1,s:.45}[x.k]||1)+(x.pw?.2:0)), pws=pw.reduce((a,b)=>a+b,0);
+function menuTypes(){ return ['train','rest',...(mnHasFri()?['fri']:[])]; }
+function menuGenerate(seed){ seed=seed||((Date.now()%1e9)|0); const M=menuS();
+  menuTypes().forEach((dt,i)=>genDay(seed+i*7919,dt)); for(const k in M.days)if(!menuTypes().includes(k))delete M.days[k];
+  M.din=null; mnDinGen(seed+31); persistSettings(); }
+function genDay(seed,dt){
+  const M=menuS(), p0=M.p||{}, p=dt==='rest'?{...p0,train:'none'}:p0, kT0=mnKT(dt), pT=+S.settings.protT||Math.round((+S.settings.kcalT||2000)*0.25/4);
+  const rnd=mRand(seed), used=[];
+  let sl=menuSlots(p), outI=-1, outK=0;
+  if(dt==='fri'){ outI=sl.findIndex(x=>x.k==='l'); if(outI<0)outI=sl.findIndex(x=>x.k!=='s'); outK=Math.round(kT0*sl[outI].share/10)*10;
+    const rest=sl.filter((_,i)=>i!==outI), sh=rest.reduce((a,x)=>a+x.share,0); sl=rest.map(x=>({...x,share:x.share/sh})); }
+  const kT=kT0-outK;
+  const pw=sl.map(x=>({b:.85,l:1.15,d:1,s:.45}[x.k]||1)+(x.pw?.2:0)), pws=pw.reduce((a,b)=>a+b,0);
   const usedT=[];
   const meals=sl.map((x,i)=>{ const kind=mealKind(x.k,p,x.pw), K=kT*x.share, Pt=pT*pw[i]/pws;
-    const b=buildMeal(kind,rnd,used,p,{Pt,K,pw:x.pw,usedT,slot:x.k}), tt=b._t; if(tt)usedT.push(tt.id);
+    const b=buildMeal(kind,rnd,used,x.k==='l'&&['cold','buy'].includes(p.heat)?{...p,cook:'none'}:p,{Pt,K,pw:x.pw,usedT,slot:x.k}), tt=b._t; if(tt)usedT.push(tt.id);
     const it=solveMeal(b,K,Pt);
     return {k:x.k,pw:x.pw,_it:it,t:tt,_K:K}; });
   for(const m of meals){ if(m.k!=='s'||m._it.some(i=>i.f.r==='P'))continue; const L=mfPool('P','s',p), f=mfPick(L.filter(x=>['ygp','cot'].includes(x.id)),rnd)||mfPick(L.filter(x=>x.id!=='why'&&x.id!=='tun'),rnd); if(f){ m._it.unshift({f,g:f.mn||f.df}); m.t=null; } }
@@ -5006,15 +5134,44 @@ function menuGenerate(seed){
   // ארוחה עיקרית שיצאה קטנה מדי ואין בה מה להגדיל: מוסיפים שומן טוב (טחינה/שמן זית/אבוקדו) ומאזנים שוב
   for(const m of meals){ if(!(m.k==='l'||m.k==='d')||!m._K||m._it.some(i=>i.f.r==='F'))continue; const mk=m._it.reduce((x,i)=>x+i.f.k*i.g/100,0); if(mk>=m._K*.85)continue;
     const f=mfPick(MFid(['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&m._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); if(f){ m._it.push({f,g:f.df}); menuBalance(meals,kT,pT); } }
-  M.day={seed,auto:true,meals:meals.map(m=>({k:m.k,pw:m.pw,...(m.t?{t:m.t.id,tm:m.t.main}:{}),items:m._it.map(i=>({id:i.f.id,g:i.g}))}))};
-  persistSettings();
+  // still over (a low target and minimum portions): drop extras a dietitian would drop first — fruit or fat in snacks/breakfast — then trim protein in meals that have plenty
+  { const tk=()=>meals.flatMap(m=>m._it).reduce((a,i)=>a+i.f.k*i.g/100,0), tp=()=>meals.flatMap(m=>m._it).reduce((a,i)=>a+i.f.p*i.g/100,0);
+    for(let n=0;n<16&&tk()>kT+60;n++){ let done=false;
+      for(const m of [...meals].sort((a,b)=>({s:0,b:1,d:2,l:3}[a.k]??2)-({s:0,b:1,d:2,l:3}[b.k]??2))){ const j=m._it.findIndex(i=>(i.f.r==='X'||i.f.r==='F')&&m._it.length>2); if(j>=0){ m._it.splice(j,1); done=true; break; } }
+      if(!done){ const c=meals.map(m=>({m,pp:m._it.reduce((a,i)=>a+i.f.p*i.g/100,0)})).filter(x=>x.pp>32).sort((a,b)=>b.pp-a.pp).map(x=>x.m._it.find(i=>i.f.r==='P'&&i.g>i.f.mn)).find(Boolean);
+        if(c&&tp()>pT-10){ c.g=mfClamp(c.f,c.g-mfStep(c.f)*2); done=true; } }
+      if(!done){ const c=meals.flatMap(m=>m._it).filter(i=>i.f.r==='C'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c){ c.g=mfClamp(c.f,c.g-mfStep(c.f)); done=true; } }
+      if(!done&&tk()>kT+100){ const m=meals.filter(m=>m.k==='s'&&m._it.length>=2).sort((a,b)=>b._it.length-a._it.length)[0]; const j=m?m._it.findIndex(i=>i.f.r!=='P'):-1; if(j>=0){ m._it.splice(j,1); done=true; } }
+      if(!done){ const c=meals.flatMap(m=>m._it).filter(i=>i.f.r==='P'&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c&&tp()>pT-15){ c.g=mfClamp(c.f,c.g-mfStep(c.f)); done=true; } }
+      if(!done)break; } }
+  const out=meals.map(m=>({k:m.k,pw:m.pw,...(m.t?{t:m.t.id,tm:m.t.main}:{}),items:m._it.map(i=>({id:i.f.id,g:i.g}))}));
+  if(outI>=0)out.splice(outI,0,{k:'l',out:1,ok:outK,items:[]});
+  M.days[dt]={seed,auto:true,dt,meals:out};
 }
+/* a different dinner every day of the week: same size as that day's dinner, templates don't repeat, the main protein changes from day to day */
+function weekKey(){ const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-d.getDay()); return ymd(d); }
+function mnDinGen(seed){ const M=menuS(), p0=M.p||{}, rnd=mRand(seed||((Date.now()%1e9)|0)), usedT=[], list=[]; const mains=[];
+  const sun=new Date(); sun.setHours(12,0,0,0); sun.setDate(sun.getDate()-sun.getDay());
+  for(let i=0;i<7;i++){ const dt=new Date(sun); dt.setDate(sun.getDate()+i); const t=dayType(dt), day=M.days[t]; if(!day){ list.push(null); continue; }
+    const di=day.meals.map(m=>m.k).lastIndexOf('d'); if(di<0){ list.push(null); continue; } const dm=day.meals[di], v=mealTot(dm);
+    const p=t==='rest'?{...p0,train:'none'}:p0, kind=mealKind('d',p,dm.pw), others=day.meals.flatMap((m,j)=>j===di?[]:m.items.map(x=>x.id)).filter(id=>id&&MFI(id)?.r!=='P');
+    let best=null; for(let tries=0;tries<6&&!best;tries++){ const b=buildMeal(kind,rnd,[...others,...mains.slice(-2)],p,{Pt:v.p,K:v.k,pw:dm.pw,usedT,slot:'d'}); if(!b||!b.length)continue;
+      const it=solveMeal(b,v.k,v.p), k=it.reduce((a,x)=>a+x.f.k*x.g/100,0); if(Math.abs(k-v.k)<=v.k*.25||tries===5)best={b,it}; }
+    if(!best){ list.push(null); continue; }
+    if(best.b._t)usedT.push(best.b._t.id); { const mn=(best.it.find(x=>x.f.r==='P')||{}).f?.id; if(mn)mains.push(mn); }
+    list.push({k:'d',pw:dm.pw,...(best.b._t?{t:best.b._t.id,tm:best.b._t.main}:{}),items:best.it.map(x=>({id:x.f.id,g:x.g}))}); }
+  M.din={wk:weekKey(),list}; }
+/* today's dinner comes from the weekly rotation (once a day, unless already eaten or edited today) */
+function mnDinSync(){ const M=menuS(); if(!M.day||!mnIsToday())return; if(!M.din||M.din.wk!==weekKey())mnDinGen((Date.now()%1e9)|0);
+  const day=M.day, di=day.meals.map(m=>m.k).lastIndexOf('d'), today=ymd(); if(di<0||day.ovr)return; const m=day.meals[di], src=M.din.list[new Date().getDay()];
+  if(!src||m.done===today||m.rot===today)return;
+  m.items=JSON.parse(JSON.stringify(src.items)); if(src.t){ m.t=src.t; m.tm=src.tm; } else { delete m.t; delete m.tm; } if(src.ai)m.ai=src.ai; else delete m.ai; m.rot=today; persistSettings(); }
 function menuEmpty(){ const M=menuS(), p=M.p||{meals:3,bf:'salty'};
-  M.day={auto:false,meals:menuSlots(p).map(sl=>({k:sl.k,pw:sl.pw,items:[]}))}; persistSettings(); }
+  M.day={auto:false,dt:mnView(),meals:menuSlots(mnView()==='rest'?{...p,train:'none'}:p).map(sl=>({k:sl.k,pw:sl.pw,items:[]}))}; persistSettings(); }
 
 /* --- שאלון טעם --- */
 let MW=null;
-const MW_STEPS=['style','avoid','meals','bf','dinner','train','likes','cook','free'];
+const MW_STEPS=['style','avoid','day','meals','bf','dinner','cook','loves','hard'];
 /* מקום לפינוק: קלוריות "חופשיות" ביום (כלל 80/20). התפריט נבנה על היעד פחות הפינוק */
 /* הסבר קצר למונחים שלא כולם מכירים: כפתור i קטן שפותח בועה */
 const GLOSS={
@@ -5074,14 +5231,29 @@ document.addEventListener('pointermove',ev=>{ const svg=ev.target.closest?.('.bw
 document.addEventListener('pointerdown',ev=>{ if($('#ipop')&&!ev.target.closest?.('#ipop,.ii'))hideInfo(); },true);
 addEventListener('scroll',hideInfo,{passive:true,capture:true});
 function mnFree(){ const f=+(menuS().p?.free)||0; return Math.max(0,Math.min(400,f)); }
-function mnKT(){ return Math.max(1000,(kcalFor(ymd())||2000)-mnFree()); }
+function mnKT(dt){ dt=dt||mnView(); let k=dt===dayType()?kcalFor(ymd()):(+S.settings.kcalT||0);
+  if(dt!==dayType()&&cycOn()){ const c=cycInfo(); k=dt==='rest'?c.rest:c.train; }
+  return Math.max(1000,(k||2000)-mnFree()); }
 const TREATS=[['🍫','4 קוביות שוקולד מריר',85],['🍦','כדור גלידה',140],['🥜','שקית במבה קטנה',135],['🍿','3 כוסות פופקורן',95],['🍷','כוס יין',125],['🍺','בקבוק בירה',140],['🧁','קרמבו',105],['🍪','2 עוגיות',180]];
 function treatIdeas(b){ return TREATS.filter(t=>t[2]<=b+15).sort((x,y)=>y[2]-x[2]).slice(0,4); }
 const MW_LIKE_GROUPS=[['חלבון','P'],['פחמימות','C'],['פירות','X'],['תוספות','F']];
+/* free text → foods we know: "שקשוקה, פסטה, פוקי" → likes; "דגים" → avoid fish. Names in Hebrew/English/Arabic plus a few everyday words */
+const MW_WORDS=[['דג','avoid:f'],['fish','avoid:f'],['ביצ','avoid:e'],['egg','avoid:e'],['גלוטן','avoid:g'],['לקטוז','avoid:l'],['אגוז','avoid:n'],['בוטנ','avoid:n'],['סויה','avoid:s'],
+  ['עוף','chk'],['פרגי','thg'],['הודו','tky'],['בקר','bef'],['סטייק','stk'],['שניצל','sch'],['סלמון','sal'],['טונה','tun'],['שקשוקה','shk'],['חביתה','oml'],['קוטג','cot'],['בולגרית','bgc'],['גבינה לבנה','whc'],['צהובה','ylc'],['יוגורט','ygp'],['טופו','tof'],['עדשים','len'],['חומוס','hum'],['אדממה','eda'],
+  ['אורז','ric'],['פסטה','pas'],['קינואה','qui'],['בטטה','swp'],['תפוח אדמה','pot'],['בורגול','bul'],['קוסקוס','cus'],['פתיתים','pti'],['פיתה','pit'],['לחם','brd'],['טורטי','tor'],['שיבולת','oat'],['גרנולה','grn'],
+  ['בננה','ban'],['תפוח','apl'],['תות','str'],['ענב','grp'],['תמר','dat'],['אבוקדו','avo'],['טחינה','thn'],['שקדים','alm'],['חמאת בוטנים','pnb'],['מנגו','mng'],['ברוקולי','brc'],['כרובית','cau'],['חציל','egp'],['תירס','crn']];
+function mwParse(txt){ const t=String(txt||'').toLowerCase(), ids=[], avoid=[], names=[]; if(!t.trim())return {ids,avoid,names};
+  for(const [w,v] of MW_WORDS)if(t.includes(w)){ if(v.startsWith('avoid:')){ const a=v.slice(6); if(!avoid.includes(a)){ avoid.push(a); names.push(w==='דג'?'דגים':w); } } else if(!ids.includes(v)&&MFI(v)){ ids.push(v); names.push(mfName(MFI(v))); } }
+  for(const f of MF())for(const n of f.n)if(n&&n.length>3&&t.includes(n.toLowerCase())&&!ids.includes(f.id)){ ids.push(f.id); names.push(mfName(f)); }
+  if(/מתוק|sweet|שוקולד/.test(t))names.push(tt('מתוק'));
+  return {ids,avoid,names}; }
+document.addEventListener('input',e=>{ const id=e.target?.id; if(id!=='mw-love'&&id!=='mw-hate')return; const box=$(id==='mw-love'?'#mw-lt':'#mw-ht'); if(box)box.innerHTML=mwTags(mwParse(e.target.value),id==='mw-hate'); });
+function mwTags(r,no){ return r.names.map(n=>`<span class="mw-tag ${no?'no':''}">${esc(n)} <i>${no?'✕':'✓'}</i></span>`).join(''); }
 function openMenuWizard(){
   const p=menuS().p||{};
   MW={step:0,p:{style:p.style||null,avoid:[...(p.avoid||[])],meals:p.meals||null,bf:p.bf||null,dinner:p.dinner||null,train:p.train||null,
-    likes:p.likes?[...p.likes]:MF().filter(f=>f.fav).map(f=>f.id),cook:p.cook||null,free:p.free??null}};
+    likes:p.likes?[...p.likes]:MF().filter(f=>f.fav).map(f=>f.id),cook:p.cook||null,free:p.free??null,
+    wake:p.wake||'7',work:p.work||null,heat:p.heat||null,cfor:p.cfor||null,out:p.out??null,love:p.love||'',hate:p.hate||'',hard:p.hard||null}};
   mwRender();
 }
 function mwRender(){
@@ -5090,6 +5262,9 @@ function mwRender(){
     <div class="pb-prog" style="flex:1"><i style="width:${Math.round((t.step+1)/n*100)}%"></i></div><span class="small muted num">${t.step+1}/${n}</span></div>`;
   const kobi=(q,k,img='happy')=>`<div class="tgw-q"><img src="img/kobi-${img}.svg" alt=""><div><b>${q}</b>${k?`<span>${k}</span>`:''}</div></div>`;
   const opts=(k,list)=>`<div class="pb-list">${list.map(([v,e,l,d])=>`<button class="pb-opt ${String(p[k])===String(v)?'on':''}" data-act="mw-pick" data-k="${k}" data-v="${v}"><b>${e} ${l}</b>${d?`<small>${d}</small>`:''}</button>`).join('')}</div>`;
+  const opts2=(k,list)=>`<div class="pb-list">${list.map(([v,ic,l,d])=>`<button class="pb-opt mw-o ${String(p[k])===String(v)?'on':''}" data-act="mw-pick" data-k="${k}" data-v="${v}"><span class="mw-oi">${niSvg(ic,24)}</span><span><b>${tt(l)}</b>${d?`<small>${tt(d)}</small>`:''}</span></button>`).join('')}</div>`;
+  const sec=t=>`<div class="label" style="margin:14px 0 7px">${tt(t)}</div>`;
+  const chips=(k,list)=>`<div class="mw-chips">${list.map(([v,l])=>`<button class="chip ${String(p[k])===String(v)?'on':''}" data-act="mw-set" data-k="${k}" data-v="${v}">${tt(l)}</button>`).join('')}</div>`;
   let body='';
   if(key==='style')body=kobi('בוא נבנה תפריט שבאמת מתאים לך 🍽️',G('8 שאלות קצרות. קודם כל, איך אתה אוכל?','8 שאלות קצרות. קודם כל, איך את אוכלת?','8 שאלות קצרות. קודם כל, איך את/ה אוכל/ת?'))
     +opts('style',[['any','🍗','הכל','בשר, דגים, חלב וביצים'],['kosher','✡️','כשר','בלי בשר וחלב באותה ארוחה'],['veg','🥚','צמחוני','בלי בשר ודגים'],['pesc','🐟','צמחוני + דגים','בלי בשר, כן דגים'],['vegan','🌱','טבעוני','רק מהצומח']]);
@@ -5114,27 +5289,49 @@ function mwRender(){
   else if(key==='free'){ const ten=Math.round((+S.settings.kcalT||2000)*.1/10)*10;
     body=kobi('ושאלה אחרונה: להשאיר מקום לפינוק? 🍫','שוקולד, גלידה או כוס יין. תזונאים ממליצים על בערך 10% מהקלוריות, זה עוזר להתמיד. התפריט ייבנה על השאר.','wink')
       +opts('free',[['0','🙅','בלי','רק מה שבתפריט'],['100','🍫','קטן · 100 קק״ל','כמו 4 קוביות שוקולד מריר'],['150','🍦','בינוני · 150 קק״ל','כמו כדור גלידה או כוס יין'],[String(ten),'⭐',`10% · ${ten} קק״ל`,'ההמלצה של רוב התזונאים']]); }
-  else if(key==='cook')body=kobi('כמה זמן יש לך לבשל?','')
-    +opts('cook',[['none','🥪','אין לי זמן בכלל','רק דברים מוכנים: טונה, ביצים, גבינות, פיתה'],['short','⏱️','עד 20 דקות','עוף, אורז, פסטה, ירקות מאודים'],['any','👨‍🍳','אין בעיה','כולל בטטה, אורז מלא ותנור']]);
+  else if(key==='cook')body=kobi('ומה לגבי בישול?','')
+    +opts2('cook',[['none','fast','אין לי זמן בכלל','מוכנים, הרכבה בלי בישול'],['short','shak','עד 20 דקות','מחבת אחת, תנור, אורז'],['any','chef',G('אוהב לבשל','אוהבת לבשל','אוהבים לבשל'),'גם מתכונים של חצי שעה ויותר']])
+    +sec(G('אתה מבשל גם בשביל עוד מישהו?','את מבשלת גם בשביל עוד מישהו?','מבשלים גם בשביל עוד מישהו?'))+chips('cfor',[['me','רק לעצמי'],['two',G('לבת זוג','לבן זוג','לבן/בת זוג')],['fam','משפחה עם ילדים']])
+    +sec(G('כמה פעמים בשבוע אתה אוכל בחוץ?','כמה פעמים בשבוע את אוכלת בחוץ?','כמה פעמים בשבוע אוכלים בחוץ?'))+chips('out',[['0','כמעט אף פעם'],['1','1–2'],['3','3 ויותר']])
+    +`<button class="btn primary big" data-act="mw-next" style="width:100%;margin-top:16px" ${p.cook?'':'disabled'}>${tt('המשך')}</button>`;
+  else if(key==='day')body=kobi(G('איך נראה יום רגיל שלך?','איך נראה יום רגיל שלך?','איך נראה יום רגיל?'),'ככה התפריט יתאים לשעות שלך, לא להפך.','think')
+    +sec(G('מתי אתה קם?','מתי את קמה?','מתי קמים?'))+chips('wake',[['6','6:00'],['7','7:00'],['8','8:00'],['9','9:00 ומאוחר']])
+    +sec(G('מה אתה עושה ביום?','מה את עושה ביום?','מה עושים ביום?'))+chips('work',[['office','עבודה במשרד'],['home','מהבית'],['shift','משמרות'],['study','לימודים']])
+    +sec('יש לך איפה לחמם אוכל ביום?')+chips('heat',[['yes','כן, מטבחון'],['cold','לא, רק דברים קרים'],['buy',G('אני קונה בחוץ','אני קונה בחוץ','קונים בחוץ')]])
+    +sec(G('מתי אתה מתאמן?','מתי את מתאמנת?','מתי מתאמנים?'))+chips('train',[['am','בוקר'],['noon','צהריים'],['pm','ערב'],['none','משתנה']])
+    +`<button class="btn primary big" data-act="mw-next" style="width:100%;margin-top:16px">${tt('המשך')}</button>`;
+  else if(key==='loves'){ const tags=mwParse(p.love), no=mwParse(p.hate);
+    body=kobi(G('מה אתה הכי אוהב לאכול? ומה לא תאכל אף פעם?','מה את הכי אוהבת לאכול? ומה לא תאכלי אף פעם?','מה הכי אוהבים לאכול? ומה לא אוכלים אף פעם?'),'כותבים חופשי, כמו לתזונאית.','wink')
+      +sec(G('אוהב','אוהבת','אוהבים'))+`<textarea id="mw-love" class="mw-in" rows="2" placeholder="${tt('למשל: שקשוקה, פסטה, קערות פוקי, מתוק בערב')}">${esc(p.love||'')}</textarea><div class="mw-tags" id="mw-lt">${mwTags(tags,false)}</div>`
+      +sec(G('לא אוכל','לא אוכלת','לא אוכלים'))+`<textarea id="mw-hate" class="mw-in" rows="2" placeholder="${tt('למשל: דגים, פטריות')}">${esc(p.hate||'')}</textarea><div class="mw-tags" id="mw-ht">${mwTags(no,true)}</div>`
+      +`<button class="btn primary big" data-act="mw-next" style="width:100%;margin-top:16px">${tt('המשך')}</button>`; }
+  else if(key==='hard')body=kobi(G('מתי הכי קשה לך עם האוכל?','מתי הכי קשה לך עם האוכל?','מתי הכי קשה עם האוכל?'),'','think')
+    +opts2('hard',[['eve','choc','בערב, בא לי מתוק','אשמור מקום לפינוק בתוך התוכנית'],['pm','window','אחר הצהריים','ארוחת ביניים משביעה יותר ב-16:00'],['wkd','out','בסופ״ש','סופ״ש גמיש עם קצת יותר קלוריות'],['none','bal','אין לי בעיה כזו','']]);
   openSheet(top+`<div class="tgw-body">${body}</div>`);
 }
 function mwAct(act,b){
   const t=MW; if(!t)return true;
   if(act==='mw-back'){ t.step=Math.max(0,t.step-1); return mwRender(),true; }
-  if(act==='mw-next'){ t.step++; if(t.step>=MW_STEPS.length)return mwFinish(),true; return mwRender(),true; }
+  if(act==='mw-set'){ const k=b.dataset.k; t.p[k]=k==='out'?+b.dataset.v:b.dataset.v; b.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b)); return true; }
+  if(act==='mw-next'){ const lv=$('#mw-love'), ht=$('#mw-hate'); if(lv)t.p.love=lv.value.trim(); if(ht)t.p.hate=ht.value.trim();
+    if(MW_STEPS[t.step]==='loves'){ const L=mwParse(t.p.love), H=mwParse(t.p.hate); for(const x of L.ids)if(!t.p.likes.includes(x))t.p.likes.push(x); t.p.likes=t.p.likes.filter(x=>!H.ids.includes(x)); t.p.no=H.ids; for(const a of H.avoid)if(!t.p.avoid.includes(a))t.p.avoid.push(a); }
+    t.step++; if(t.step>=MW_STEPS.length)return mwFinish(),true; return mwRender(),true; }
   if(act==='mw-tog'){ const k=b.dataset.k, v=b.dataset.v, a=t.p[k]; const i=a.indexOf(v); if(i>=0)a.splice(i,1); else a.push(v); b.classList.toggle('on',i<0);
     if(k==='avoid'){ const nb=document.querySelector('[data-act="mw-next"]'); if(nb)nb.textContent=tt(a.length?'המשך':'אין, אני אוכל הכל'); } return true; }
   if(act==='mw-pick'){ const k=b.dataset.k; t.p[k]=k==='meals'||k==='free'?+b.dataset.v:b.dataset.v;
     document.querySelectorAll('[data-act="mw-pick"]').forEach(x=>x.classList.toggle('on',x===b));
     if(k==='style'){ if(t.p.style==='vegan')t.p.avoid=t.p.avoid.filter(x=>!'efl'.includes(x)); if(t.p.style==='veg')t.p.avoid=t.p.avoid.filter(x=>x!=='f'); }
+    if(k==='cook'){ const nb=document.querySelector('[data-act="mw-next"]'); if(nb)nb.disabled=false; return true; }
+    if(k==='hard'){ if(t.p.hard==='eve'&&!t.p.free)t.p.free=Math.max(100,Math.round((+S.settings.kcalT||2000)*0.07/10)*10); }
     setTimeout(()=>{ t.step++; if(t.step>=MW_STEPS.length)mwFinish(); else mwRender(); },220); return true; }
   return false;
 }
 function mwFinish(){
-  const M=menuS(), first=!M.p; M.p={...MW.p}; MW=null;
+  const M=menuS(), first=!M.p, no=MW.p.no||[]; M.p={...MW.p}; delete M.p.no; for(const id of no)if(!M.no.includes(id))M.no.push(id); MW=null;
   M.p.likes=M.p.likes.filter(id=>{ const f=MFI(id); return f&&mfAllowed(f,{...M.p,cook:'any'}); });
   closeSheet(); logEv('menu_prefs');
   if(first||!M.day||M.day.auto)menuGenerate(); else persistSettings();
+  if(isPrem()&&(M.p.love||M.p.hate))setTimeout(()=>aiWeek(true),300);
   S.tab='food'; S.menuOpen=true; render(); window.scrollTo(0,0);
   toast(first?'התפריט שלך מוכן 🍽️':'ההעדפות עודכנו ✓');
 }
@@ -5200,11 +5397,12 @@ const MN_DOT={P:'#BFFF2F',C:'#F5B53A',V:'#4FD98B',F:'#9BD15A',X:'#FF9F43',L:'#E9
 function mnDots(m){ const rs=[...new Set((m.items||[]).map(i=>miFood(i)?.r).filter(r=>MN_DOT[r]))].sort((a,b)=>'PCVFXL'.indexOf(a)-'PCVFXL'.indexOf(b));
   return rs.length?`<span class="mv-dots">${rs.map(r=>`<i style="background:${MN_DOT[r]}"></i>`).join('')}</span>`:''; }
 /* איזו ארוחה זו ומתי בערך: לפי הסדר ביום */
-function mnRole(day,i){ const m=day.meals[i], td=isTrainDay(ymd()), last=i===day.meals.length-1, di=day.meals.findIndex(x=>x.k==='d');
+function mnRole(day,i){ const m=day.meals[i], td=day.dt?day.dt!=='rest':isTrainDay(ymd()), last=i===day.meals.length-1, di=day.meals.findIndex(x=>x.k==='d');
+  if(m.out)return {ic:'out',n:'אוכלים בחוץ'};
   if(m.pw&&td)return {ic:'post',n:'אחרי האימון'};
   if(m.k==='s'&&last&&di>=0&&di<i)return {ic:'nt',n:'לפני השינה'};
   return {ic:{b:'bf',l:'ln',d:'dn',s:'sn'}[m.k]||'ln',n:MSLOT[m.k]?.[1]||'ארוחה'}; }
-function mnTime(day,i){ const base={b:8*60,l:13*60,d:19*60+30}, ms=day.meals, at=j=>ms[j]&&base[ms[j].k];
+function mnTime(day,i){ const wk=+(menuS().p?.wake)||7, base={b:wk*60+30,l:(wk>=9?14:13)*60,d:19*60+30}, ms=day.meals, at=j=>ms[j]&&base[ms[j].k];
   let t=base[ms[i].k];
   if(t==null){ let a=null,b=null; for(let j=i-1;j>=0;j--)if(at(j)!=null){ a=at(j); break; } for(let j=i+1;j<ms.length;j++)if(at(j)!=null){ b=at(j); break; }
     t=a!=null&&b!=null?(a+b)/2:a!=null?a+150:b!=null?b-150:10*60; }
@@ -5214,6 +5412,11 @@ function mnWhy(day,i){ const m=day.meals[i], t=mealTot(m), P=Math.round(t.p), r=
   const big=day.meals.every((x,j)=>j===i||mealTot(x).k<=t.k), veg=m.items.filter(x=>miFood(x)?.r==='V').reduce((a,x)=>a+(+x.g||0),0);
   if(r.ic==='post')return `${tt('אחרי האימון')}: <b>${P} ${tt('גר׳ חלבון')}</b> ${tt('ופחמימה, כדי שהשריר יתאושש ויתמלא מחדש באנרגיה.')}`;
   if(r.ic==='nt')return `${tt('ארוחה קטנה עם')} <b>${P} ${tt('גר׳ חלבון')}</b>. ${tt('חלבון לפני השינה ממשיך לעבוד על השריר גם בלילה.')}`;
+  const P0=menuS().p||{};
+  if(m.ai&&m.ai.why)return esc(m.ai.why);
+  if(m.k==='l'&&!m.pw&&P0.heat==='yes'&&!big)return `${tt('אפשר להכין בערב הקודם ולחמם במטבחון.')} <b>${P} ${tt('גר׳ חלבון')}</b>${tt(', ככה לא מגיעים רעבים לערב.')}`;
+  if(m.k==='l'&&['cold','buy'].includes(P0.heat))return `${tt('ארוחה קרה, בלי לחמם:')} <b>${P} ${tt('גר׳ חלבון')}</b>${tt(', ככה לא מגיעים רעבים לערב.')}`;
+  if(m.k==='d'&&['two','fam'].includes(P0.cfor)&&!m.pw)return `${tt(P0.cfor==='fam'?'ארוחה שמתאימה לכל המשפחה. לשאר פשוט מגישים יותר פחמימה.':'ארוחה שמתאימה גם לבן/בת הזוג, ולהם פשוט מגישים יותר פחמימה.')}`;
   if(m.k==='b')return `${tt('פותחים את היום עם')} <b>${P} ${tt('גר׳ חלבון')}</b>. ${tt('ככה מגיעים פחות רעבים לצהריים.')}`;
   if(m.k==='s')return P>=10?`${tt('ביניים עם')} <b>${P} ${tt('גר׳ חלבון')}</b> ${tt('שומר על שובע עד הארוחה הבאה, בלי לנשנש.')}`:`${tt('ביניים קטן')} ${tt('כדי לא להגיע רעבים לארוחה הבאה.')}`;
   if(big&&td)return `${tt('הארוחה הגדולה של היום')}. <b>${tt('יום אימון')}</b>, ${tt('אז יש בה יותר פחמימה לאנרגיה.')}`;
@@ -5230,14 +5433,40 @@ function mnTotHTML(){
     :`<div class="mn-over">${tt('חורג מהיעד ב-')}<b class="num">${kcalN(Math.round(t.k-(kT+free)))}</b> ${tt('קק״ל')}</div>`;
   const eaten=day?day.meals.filter(m=>m.done===today).reduce((a,m)=>a+mealTot(m).k,0):0;
   const pr=has?day.meals.map((m,i)=>({n:mnRole(day,i).n,p:Math.round(mealTot(m).p),d:m.done===today})):[];
-  const short=n=>({'ארוחת בוקר':'בוקר','ארוחת צהריים':'צהריים','ארוחת ערב':'ערב','ארוחת ביניים':'ביניים','אחרי האימון':'אחרי אימון','לפני השינה':'לילה'}[n]||n);
+  const short=n=>({'אוכלים בחוץ':'בחוץ','ארוחת בוקר':'בוקר','ארוחת צהריים':'צהריים','ארוחת ערב':'ערב','ארוחת ביניים':'ביניים','אחרי האימון':'אחרי אימון','לפני השינה':'לילה'}[n]||n);
   return `${overMsg}<div class="mv-row"><span><b class="num">${kcalN(Math.round(t.k))}</b> / <span class="num">${kcalN(kT)}</span> ${tt('קק״ל')}</span><span>${tt('חלבון')} <b class="num mv-p">${Math.round(t.p)}</b> / <span class="num">${pT}</span> ${tt('גר׳')}</span></div>
     <div class="mv-bar"><i style="width:${kT?Math.min(100,Math.round(t.k/kT*100)):0}%"></i>${eaten?`<em style="width:${kT?Math.min(100,Math.round(eaten/kT*100)):0}%"></em>`:''}</div>
     ${pr.length?`<div class="mv-pl">${tt('חלבון לאורך היום')}</div><div class="mv-prot">${pr.map(x=>`<span class="${x.d?'ok':''}"><i style="--h:${Math.min(100,Math.round(x.p/45*100))}%"><b class="num">${x.p}</b></i>${tt(short(x.n))}</span>`).join('')}</div>`:''}
     ${adj?`<div class="mv-note">${tt('כולל')} <b class="num">${kcalN(adj.extra)}</b> ${tt('קק״ל שאכלת מחוץ לתפריט')}</div>`:''}
     ${has&&!(adj&&!fit)?`<div class="mv-note ${fit?'fit':''}">${fit?tt('התפריט תואם ליעד שלך. 30–45 גרם חלבון בכל ארוחה עיקרית, ככה הגוף בונה שריר הכי טוב.'):left>0?`${tt('נשארו')} <b class="num">${kcalN(Math.round(left))}</b> ${tt('קק״ל')}${pleft>0?` · <b class="num">${Math.round(pleft)}</b> ${tt('גר׳ חלבון')}`:''}`:tt('אפשר להקטין כמות, להסיר פריט או לבקש תפריט אחר')}</div>`:''}`;
 }
-function mealCardHTML(m,mi){ const M=menuS(), day=M.day, today=ymd(), done=m.done===today, mt=mealTot(m), r=mnRole(day,mi), nx=mnNext(day);
+/* ready alternatives for an item: same role, fits the meal, grams solved to the same protein (protein foods) or calories (the rest) */
+function mnAltList(m,it){ const M=menuS(), p=M.p||{}, cur=miFood(it); if(!cur||!it.id||!['P','C','F','X'].includes(cur.r))return [];
+  const kind=mealKind(m.k,p,m.pw), v=miVals(it), byP=cur.r==='P', fr=diaryFreq(), main=m.items.map(miFood).find(f=>f&&f.r==='P'&&f.id!==cur.id);
+  const meat=m.items.some(x=>x!==it&&miFood(x)?.t==='m'), dairy=m.items.some(x=>x!==it&&miFood(x)?.t==='d');
+  return MF().filter(x=>x.id!==cur.id&&x.r===cur.r&&!m.items.some(y=>y.id===x.id)&&mfAllowed(x,p)&&x.s.includes(kind)
+      &&!(p.style==='kosher'&&((meat&&x.t==='d')||(dairy&&x.t==='m'))))
+    .map(x=>{ const per=byP&&x.p>=3?x.p:x.k, tg=byP&&x.p>=3?v.p:v.k; if(!(per>0))return null; const g=mfClamp(x,tg/per*100), k=x.k*g/100;
+      const pair=cur.r==='C'&&main&&MPAIR_C[main.id]?(MPAIR_C[main.id].includes(x.id)?0:.8):0;
+      return {f:x,g,sc:((p.likes||[]).includes(x.id)?0:.6)+pair+Math.abs(k-v.k)/250-Math.min(3,fr[x.id]||0)*.15+(x.s.includes(kind)?0:.3)}; })
+    .filter(Boolean).sort((a,b)=>a.sc-b.sc).slice(0,2); }
+function mnAltHTML(m,mi,it,ii){ const A=mnAltList(m,it); if(!A.length)return '';
+  return `<div class="mv-alt"><em>${tt('או:')}</em>${A.map(a=>`<button data-act="mn-alt" data-m="${mi}" data-i="${ii}" data-id="${a.f.id}" data-g="${a.g}">${esc(mfName(a.f))} <span class="num">${miAmt({id:a.f.id,g:a.g}).split(' · ')[0]}</span></button>`).join('')}</div>`; }
+/* a meal out (Friday brunch): calories kept for it, and how to order */
+function mnOutHTML(m,mi,day){ const tips=G('שקשוקה או אומלט, פרוסת לחם אחת וסלט. מוותרים על הפוקאצ׳ה, והקפה ההפוך בסדר.','שקשוקה או אומלט, פרוסת לחם אחת וסלט. מוותרות על הפוקאצ׳ה, והקפה ההפוך בסדר.','שקשוקה או אומלט, פרוסת לחם אחת וסלט. בלי הפוקאצ׳ה, והקפה ההפוך בסדר.');
+  return `<div class="mv-m mn-meal" data-mi="${mi}"><div class="mv-t num">${mnTime(day,mi)}</div><div class="mv-c">
+    <div class="mv-h"><span class="mv-ic">${niSvg('out',26)}</span><span class="mv-nm"><b>${tt('אוכלים בחוץ')}</b><small>${tt('שמרתי לך מקום בתוכנית')}</small></span><span class="mv-k"><b class="num">${kcalN(+m.ok||0)}</b><small>${tt('קק״ל')}</small></span></div>
+    <div class="mv-rb"><img src="img/kobi-wink.svg" alt=""><div>${tips}</div></div></div></div>`; }
+/* the three day types, as tabs; today's is marked */
+function mnTabsHTML(){ const T=menuTypes(), td=dayType(), v=mnView(), L={train:['pre','יום אימון'],rest:['nt','יום מנוחה'],fri:['out','שישי']};
+  return `<div class="mv-tabs">${T.map(t=>`<button class="${t===v?'on':''}" data-act="mn-dt" data-v="${t}">${niSvg(L[t][0],18)}${tt(L[t][1])}${t===td?`<i>${tt('היום')}</i>`:''}</button>`).join('')}</div>`; }
+/* this week's dinners at a glance */
+function mnWeekHTML(){ const M=menuS(); if(!M.din||!M.din.list)return ''; const dow=new Date().getDay(), DL=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+  const rows=M.din.list.map((d,i)=>{ if(!d)return ''; const nm=mealName(d)||d.items.slice(0,2).map(x=>mfName(miFood(x)||{})).join(', ');
+    return `<div class="${i===dow?'on':''}"><b>${tt(DL[i])}</b><span>${esc(nm)}</span>${i===dow?`<small>${tt('היום')}</small>`:''}</div>`; }).join('');
+  return rows?`<div class="mv-sec mv-sech"><span>${tt('ארוחות הערב השבוע')}</span><button class="linkbtn small" data-act="mn-aiweek" ${AIW?'disabled':''}>${AIW?tt('ראפי בונה…'):`✨ ${tt(M.din.ai?'ערבים חדשים':'ראפי יבנה לפי הטעם שלך')}`}</button></div>${M.din.ai?.note?`<div class="mv-note" style="margin:-2px 2px 8px">${esc(M.din.ai.note)}</div>`:''}<div class="mv-week">${rows}</div>`:''; }
+function mealCardHTML(m,mi){ const M=menuS(), day=M.day, today=ymd(), now=mnIsToday(), done=now&&m.done===today, mt=mealTot(m), r=mnRole(day,mi), nx=now?mnNext(day):-1;
+  if(m.out)return mnOutHTML(m,mi,day);
   const open=(S.mnX!=null?S.mnX===mi:nx===mi), ed=S.mnEd===mi, isNext=nx===mi;
   const sub=m.items.length?esc(mealName(m)||m.items.slice(0,3).map(it=>mfName(miFood(it)||{})).join(', ')):tt('ריקה');
   const head=`<button class="mv-h" data-act="mn-x" data-m="${mi}" aria-expanded="${open}">
@@ -5247,17 +5476,19 @@ function mealCardHTML(m,mi){ const M=menuS(), day=M.day, today=ymd(), done=m.don
   let body='';
   if(open){
     body=`<div class="mv-it">${m.items.map((it,ii)=>{ const f=miFood(it)||{};
-        return `<div class="mv-i">${niTile(fIco(f),18)}<span class="mv-in">${esc(mfName(f))}</span><button class="mv-g num" data-act="mn-g" data-m="${mi}" data-i="${ii}">${it.g0!=null&&!done?`<s>${miAmt({...it,g:it.g0}).split(' · ')[0]}</s>${miAmt(it).split(' · ')[0]}`:miAmt(it)}</button>${ed?`<button class="mn-ic" data-act="mn-swap" data-m="${mi}" data-i="${ii}" aria-label="${tt('החלפה')}">${niSvg('swap',18)}</button><button class="mn-ic x" data-act="mn-rm" data-m="${mi}" data-i="${ii}" aria-label="${tt('הסרה')}">✕</button>`:''}</div>`; }).join('')}
+        return `<div class="mv-i">${niTile(fIco(f),18)}<span class="mv-in">${esc(mfName(f))}</span><button class="mv-g num" data-act="mn-g" data-m="${mi}" data-i="${ii}">${it.g0!=null&&!done?`<s>${miAmt({...it,g:it.g0}).split(' · ')[0]}</s>${miAmt(it).split(' · ')[0]}`:miAmt(it)}</button>${ed?`<button class="mn-ic" data-act="mn-swap" data-m="${mi}" data-i="${ii}" aria-label="${tt('החלפה')}">${niSvg('swap',18)}</button><button class="mn-ic x" data-act="mn-rm" data-m="${mi}" data-i="${ii}" aria-label="${tt('הסרה')}">✕</button>`:''}</div>${!ed&&!done?mnAltHTML(m,mi,it,ii):''}`; }).join('')}
       ${ed?`<div class="row" style="gap:8px;margin-top:4px"><button class="btn" style="flex:1" data-act="mn-add" data-m="${mi}">+ ${tt('הוסף פריט')}</button><button class="btn" data-act="mn-meal-rm" data-m="${mi}">${tt('מחק ארוחה')}</button></div>`:''}</div>
       ${!m.items.length?`<button class="btn" style="width:100%;margin-top:10px" data-act="mn-fill" data-m="${mi}">✨ ${tt('מלא לי לפי מה שנשאר מהיעד')}</button>`:''}
       ${m.items.length&&!done&&!ed?`<div class="mv-rb"><img src="img/kobi-${isNext&&mnAdjOn()?'think':'happy'}.svg" alt=""><div>${isNext&&mnAdjOn()?mnAdjMsg(mnAdjOn()):mnWhy(day,mi)}</div></div>`:''}
       ${m.items.length?`<div class="mv-acts"><button class="btn mv-ed ${ed?'on':''}" data-act="mn-ed" data-m="${mi}" aria-label="${tt('עריכה')}">${ed?tt('סיום'):niSvg('edit',18)}</button>
-        ${done?`<button class="btn" style="flex:1" disabled>✓ ${tt('נרשם ביומן')}</button>`:`<button class="btn" data-act="mn-mswap" data-m="${mi}">${niSvg('swap',18)}${tt('החלף')}</button><button class="btn primary" data-act="mn-log" data-m="${mi}">${tt('אכלתי')}</button>`}</div>`:''}`;
+        ${done?`<button class="btn" style="flex:1" disabled>✓ ${tt('נרשם ביומן')}</button>`:`<button class="btn" data-act="mn-mswap" data-m="${mi}">${niSvg('swap',18)}${tt('החלף')}</button>${now?`<button class="btn primary" data-act="mn-log" data-m="${mi}">${tt('אכלתי')}</button>`:''}`}</div>`:''}`;
   }
   return `<div class="mv-m ${done?'done':''} ${isNext&&!done?'nx':''} ${open?'open':''} mn-meal" data-mi="${mi}"><div class="mv-t num">${mnTime(day,mi)}</div><div class="mv-c">
     ${isNext&&!done?`<span class="mv-lbl">${tt('הבא בתור')}</span> `:''}${!done&&m.items.some(x=>x.g0!=null)?`<span class="mv-adj">${tt('עודכן אוטומטית')}</span>`:''}${head}${body}</div></div>`; }
 function vMenu(){
-  try{ mnAdapt(); }catch(e){ console.warn(e); }
+  { const M0=menuS(); if(!M0.day&&M0.p&&Object.keys(M0.days).length&&menuTypes().includes(mnView())){ genDay((Date.now()%1e9)|0,mnView()); persistSettings(); } }
+  try{ mnDinSync(); }catch(e){ console.warn(e); }
+  try{ if(mnIsToday())mnAdapt(); }catch(e){ console.warn(e); }
   mnPatch._has=!!menuS().day&&menuS().day.meals.some(m=>m.items.length);
   const M=menuS(), day=M.day, has=day&&day.meals.some(m=>m.items.length), td=isTrainDay(ymd());
   return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="${tt('חזרה')}">→</button><h2>${tt('התפריט שלי')}</h2>
@@ -5266,10 +5497,11 @@ function vMenu(){
         <button class="mn-big" data-act="mn-gen"><span>✨</span><b>${tt('תציע לי')}</b><small>${tt('תפריט מלא לפי היעד והטעם שלך')}</small></button>
         <button class="mn-big" data-act="mn-empty"><span>✍️</span><b>${tt('אבנה לבד')}</b><small>${tt('מוסיפים מזונות ורואים כמה נשאר')}</small></button>
       </div>`:`
-    <div class="mv-day">${niSvg(td?'pre':'nt',20)}<b>${tt(td?'יום אימון':'יום מנוחה')}</b><span>${tt(td?(day.meals.some(m=>m.pw)?'הארוחה שאחרי האימון מקבלת יותר':'חלבון ופחמימה לאורך היום'):'אותו חלבון, בלי ארוחת אימון')}</span></div>
+    ${mnTabsHTML()}${mnIsToday()?`<button class="mv-ask" data-act="mn-ask"><img src="img/kobi-happy.svg" alt=""><span>${tt('מה לשנות היום? "ערב בלי בישול"…')}</span>${niSvg('tip',20)}</button>`:''}${!mnIsToday()?`<div class="mv-pv">${tt('תצוגה של יום אחר. אפשר לערוך, והשינויים יחולו בכל יום מהסוג הזה.')}</div>`:''}
     <div class="card mv-tot" id="mn-tot">${mnTotHTML()}</div>
     <div class="mv-tl">${day.meals.map((m,mi)=>mealCardHTML(m,mi)).join('')}</div>
     <button class="btn mn-addmeal" data-act="mn-meal-add">+ ${tt('הוסף ארוחה')}</button>
+    ${mnWeekHTML()}
     ${mnTreatHTML()}
     <div class="row" style="gap:8px;margin:4px 0 10px">
       <button class="btn" style="flex:1" data-act="mn-gen">✨ ${tt(has?'תפריט אחר':'תציע לי')}</button>
@@ -5285,7 +5517,7 @@ function vMenu(){
 }
 
 /* התאמה אוטומטית: אכלת היום יותר ממה שתוכנן? ראפי מוריד את ההפרש מהארוחות שנשארו, בלי לגעת בחלבון, ומוסיף ירקות לנפח */
-function mnAdapt(){ const M=menuS(), day=M.day, today=ymd(); if(!day||!day.meals)return;
+function mnAdapt(){ const M=menuS(), day=M.day, today=ymd(); if(!day||!day.meals||!mnIsToday())return;
   const eaten=mealsOf(today).reduce((a,x)=>a+(+x.kcal||0),0);
   const key=today+':'+Math.round(eaten)+':'+day.meals.map(m=>m.done===today?1:0).join('');
   if(day.adj&&day.adj.key===key)return;
@@ -5316,7 +5548,11 @@ function slSec(f){ if(f.r==='P'&&!['cheese','yog','powder'].includes(f.gp)&&f.t!
 function slAmt(f,g){ if(f.u&&f.ug&&!SL_RAW[f.id]){ const q=Math.ceil(g/f.ug-0.15); return `${q} ${q>1&&f.up?(f.up[MLI]||f.up[0]):(f.u[MLI]||f.u[0])}`; }
   const r=g*(SL_RAW[f.id]||1); if(r>=1000)return `${(Math.round(r/100)/10)} ${tt('ק״ג')}`; const st=r<150?10:50; return `${Math.max(st,Math.round(r/st)*st)} ${['גר׳','g','غ'][MLI]}`; }
 function shopText(){ const M=menuS(), d=M.shop?.d||7, L=slItems(d); return `${tt('רשימת קניות')} · ${d} ${tt('ימים')}\n`+L.map(x=>`- ${mfName(x.f)}: ${slAmt(x.f,x.g)}`).join('\n'); }
-function slItems(d){ const acc={}; for(const m of menuS().day?.meals||[])for(const it of m.items){ const f=miFood(it); if(!f||!it.id)continue; (acc[f.id]=acc[f.id]||{f,g:0}).g+=(+(it.g0??it.g)||0)*d; } return Object.values(acc); }
+function slItems(d){ const M=menuS(), acc={}, add=it=>{ const f=miFood(it); if(!f||!it.id)return; (acc[f.id]=acc[f.id]||{f,g:0}).g+=(+(it.g0??it.g)||0); };
+  for(let i=0;i<d;i++){ const dt=new Date(); dt.setDate(dt.getDate()+i); const day=M.days[dayType(dt)]||M.day; if(!day)continue;
+    const di=day.meals.map(m=>m.k).lastIndexOf('d'), rot=M.din&&M.din.wk===weekKey()&&dt.getDay()>=new Date().getDay()?M.din.list[dt.getDay()]:null;
+    day.meals.forEach((m,j)=>{ (j===di&&rot?rot.items:m.items).forEach(add); }); }
+  return Object.values(acc); }
 function openShop(){ const M=menuS(); M.shop=M.shop||{d:7,ok:[]}; const d=M.shop.d, L=slItems(d);
   const SEC=[['p','gp','חלבון'],['d','gd','מקרר'],['v','salad','ירקות ופירות'],['c','gc','מזווה']];
   openSheet(`<h3 class="mv-sh">${niSvg('cart',24)} ${tt('רשימת קניות')}</h3>
@@ -5324,6 +5560,70 @@ function openShop(){ const M=menuS(); M.shop=M.shop||{d:7,ok:[]}; const d=M.shop
     <div class="row" style="gap:6px;margin-bottom:12px">${[3,7].map(n=>`<button class="chip ${n===d?'on':''}" data-act="mn-sl-d" data-v="${n}">${n} ${tt('ימים')}</button>`).join('')}<span style="flex:1"></span><button class="chip" data-act="mn-sl-share">${tt('שיתוף')}</button></div>
     ${SEC.map(([k,ic,lbl])=>{ const xs=L.filter(x=>slSec(x.f)===k); if(!xs.length)return '';
       return `<div class="sl-sec"><h4>${niTile(ic,15,24)}${tt(lbl)}</h4>${xs.map(x=>{ const ok=M.shop.ok.includes(x.f.id); return `<button class="sl-i ${ok?'ok':''}" data-act="mn-sl-t" data-id="${x.f.id}"><i></i><span>${esc(mfName(x.f))}</span><em class="num">${slAmt(x.f,x.g)}</em></button>`; }).join('')}</div>`; }).join('')}`); }
+/* ===== Repi with AI: picks foods from our catalog by the questionnaire, the engine computes every gram ===== */
+function aiCatalog(){ const p=menuS().p||{}; return MF().filter(f=>mfAllowed(f,{...p,cook:'any'})).map(f=>({id:f.id,n:f.n[0],r:f.r,s:f.s,t:f.t})); }
+function aiProfile(){ const M=menuS(), p=M.p||{}, nm=id=>MFI(id)?.n[0];
+  return {sex:S.settings.g,kcal:+S.settings.kcalT||null,protein:+S.settings.protT||null,goal:S.settings.pgoal||null,style:p.style,avoid:p.avoid,likes:(p.likes||[]).map(nm).filter(Boolean),dislikes:M.no.map(nm).filter(Boolean),
+    loves_text:p.love||'',hates_text:p.hate||'',wake:p.wake,work:p.work,lunch_heating:p.heat,training_time:p.train,cooking:p.cook,cooks_for:p.cfor,eats_out_per_week:p.out,hardest:p.hard,dinner_style:p.dinner,breakfast:p.bf,meals_per_day:p.meals}; }
+async function aiCall(body){ try{ const {data,error}=await sb.functions.invoke('menu-ai',{body:{...body,lang:LANG,g:S.settings.g}});
+    if(error){ let j=null; try{ j=await error.context?.json?.(); }catch(_){} return j||{error:'ai_failed'}; } return data||{error:'ai_failed'}; }catch(e){ return {error:'ai_failed'}; } }
+function aiErr(code,kind){ if(code==='quota')toast(kind==='week'?tt('בנינו כבר 2 תפריטים השבוע. שינויים אפשר לעשות בלחיצה על כל פריט'):tt('הגעת ל-5 בקשות היום. אפשר להמשיך עם החלופות שמתחת לכל פריט'));
+  else if(code==='premium')toast(tt('תפריט עם ראפי זמין בפרימיום')); else toast(tt('ראפי לא זמין כרגע. נסה שוב בעוד רגע')); }
+const solveIds=(ids,K,P)=>{ const L=ids.map(MFI).filter(Boolean).map(f=>({f,g:f.df})); if(!L.length)return null; let R=solveMeal(L,K,P);
+  // מנה שהמינימום שלה גדול מהיעד: מקטינים קודם פחמימה/שומן ואז את החלבון, עד שמתקרבים ליעד
+  const kc=()=>R.reduce((a,x)=>a+x.f.k*x.g/100,0);
+  for(let n=0;n<60&&kc()>K+40;n++){ const c=['C','F','X','L','P'].map(r=>R.filter(x=>x.f.r===r&&mfClamp(x.f,x.g-mfStep(x.f))<x.g).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]).find(Boolean); if(!c)break; c.g=mfClamp(c.f,c.g-mfStep(c.f)); }
+  if(kc()>K*1.25&&R.length>2){ const c=R.filter(x=>x.f.r==='C').sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0]; if(c)R=R.filter(x=>x!==c); }
+  return R.map(x=>({id:x.f.id,g:x.g})); };
+let AIW=false;
+async function aiWeek(silent){ const M=menuS(); if(AIW||!M.p)return; if(!M.din||M.din.wk!==weekKey())mnDinGen((Date.now()%1e9)|0);
+  const sun=new Date(); sun.setHours(12,0,0,0); sun.setDate(sun.getDate()-sun.getDay());
+  const week=[...Array(7)].map((_,i)=>{ const dt=new Date(sun); dt.setDate(sun.getDate()+i); const t=dayType(dt), day=M.days[t], di=day?day.meals.map(m=>m.k).lastIndexOf('d'):-1, v=di>=0?mealTot(day.meals[di]):{k:0,p:0};
+    return {dow:i,type:t,dinner_kcal:Math.round(v.k),dinner_protein:Math.round(v.p),after_workout:!!(di>=0&&day.meals[di].pw&&t!=='rest')}; });
+  AIW=true; if(!silent)render();
+  const r=await aiCall({mode:'week',catalog:aiCatalog(),profile:aiProfile(),week}); AIW=false;
+  if(r.error){ if(!silent||r.error!=='premium')aiErr(r.error,'week'); render(); return; }
+  for(const d of r.dinners||[]){ const w=week[d.dow]; if(!w||!w.dinner_kcal)continue; const items=solveIds(d.items,w.dinner_kcal,w.dinner_protein); if(!items)continue;
+    M.din.list[d.dow]={k:'d',pw:w.after_workout,ai:{n:d.name,why:d.why},items}; }
+  M.din.ai={note:r.note||'',at:Date.now()};
+  const day=M.day; if(day){ const di=day.meals.map(m=>m.k).lastIndexOf('d'); if(di>=0&&day.meals[di].done!==ymd())day.meals[di].rot=null; }
+  persistSettings(); render(); if(!silent)toast(tt('ראפי בנה לך ערבים חדשים לשבוע ✓')); }
+/* free-text request → a dated change, shown first and applied only on confirm */
+let AIR=null;
+function openAsk(t){ AIR={text:t||'',busy:false,res:null}; renderAsk(); }
+function renderAsk(){ const r=AIR.res, DN=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+  const chips=['ערב בלי בישול','אוכל בחוץ היום','אין לי זמן בבוקר','בא לי משהו אחר לצהריים'];
+  openSheet(`<h3 style="margin:0 0 4px">${tt('מה לשנות?')}</h3><div class="small muted" style="margin-bottom:12px">${G('כותבים כמו לתזונאית. ראפי מעדכן רק את מה שצריך.','כותבות כמו לתזונאית. ראפי מעדכן רק את מה שצריך.','כותבים כמו לתזונאית. ראפי מעדכן רק את מה שצריך.')}</div>
+    <textarea id="ai-q" class="mw-in" rows="2" placeholder="${tt('למשל: יש לי ארוחת ערב עם חברים ביום חמישי במסעדה איטלקית')}">${esc(AIR.text)}</textarea>
+    ${r?'':`<div class="mw-chips" style="margin-top:10px">${chips.map(c=>`<button class="chip" data-act="mn-ai-chip" data-v="${esc(c)}">${tt(c)}</button>`).join('')}</div>`}
+    ${AIR.busy?`<div class="ai-busy"><img src="img/kobi-think.svg" alt=""><span>${tt('ראפי חושב…')}</span></div>`:''}
+    ${r?`<div class="ai-res"><div class="mv-rb" style="margin:0"><img src="img/kobi-wink.svg" alt=""><div>${esc(r.reply||'')}</div></div>
+      ${r.changes.length?`<div class="ai-ch">${r.changes.map(c=>{ const day=aiDayFor(r.dow), m=day?.meals[c.meal]; return `<div><b>${tt(DN[r.dow])} · ${tt(m?mnRole(day,c.meal).n:'ארוחה')}</b><span>${c.out_kcal?`${tt('בחוץ')} · <span class="num">${kcalN(c.out_kcal)}</span> ${tt('קק״ל')}`:esc(c.name||c.items.map(id=>mfName(MFI(id)||{})).join(', '))}</span></div>`; }).join('')}</div>`:''}</div>`:''}
+    <div class="row" style="gap:8px;margin-top:12px">${r&&r.changes.length?`<button class="btn" style="flex:1" data-act="mn-ai-cancel">${tt('בטל')}</button><button class="btn primary" style="flex:2" data-act="mn-ai-ok">${tt('עדכן את')} ${tt(DN[r.dow])}</button>`
+      :`<button class="btn primary" style="flex:1" data-act="mn-ai-send" ${AIR.busy?'disabled':''}>${tt(r?'נסה שוב':'שלח לראפי')}</button>`}</div>`); }
+function aiDateOf(dow){ const i=((dow-new Date().getDay())%7+7)%7, dt=new Date(); dt.setHours(12,0,0,0); dt.setDate(dt.getDate()+i); return dt; }
+function aiDayFor(dow){ const M=menuS(), dt=aiDateOf(dow), key=ymd(dt); if(M.ovr&&M.ovr[key])return M.ovr[key]; if(key===ymd()&&!S.mnDT&&M.day)return M.day; return M.days[dayType(dt)]||null; }
+async function aiSend(){ const q=$('#ai-q'); AIR.text=(q?.value||AIR.text).trim(); if(!AIR.text)return; AIR.busy=true; AIR.res=null; renderAsk();
+  const days=[...Array(7)].map((_,i)=>{ const dt=new Date(); dt.setDate(dt.getDate()+i); const day=aiDayFor(dt.getDay()); if(!day)return null;
+    return {dow:dt.getDay(),type:dayType(dt),meals:day.meals.map((m,j)=>({meal:j,slot:m.out?'out':m.k,foods:m.items.map(x=>x.id),kcal:Math.round(mealTot(m).k),eaten:i===0&&m.done===ymd()}))}; }).filter(Boolean);
+  const r=await aiCall({mode:'req',text:AIR.text,dow:new Date().getDay(),days,catalog:aiCatalog(),profile:aiProfile()});
+  if(!AIR)return; AIR.busy=false; if(r.error){ aiErr(r.error,'req'); renderAsk(); return; } AIR.res=r; renderAsk(); }
+function aiApply(){ const r=AIR?.res; if(!r)return; const M=menuS(), dt=aiDateOf(r.dow), key=ymd(dt), t=dayType(dt), today=key===ymd();
+  const base=JSON.parse(JSON.stringify(aiDayFor(r.dow)||M.days[t])); base.ovr=1; base.auto=false;
+  for(const c of r.changes){ const m=base.meals[c.meal]; if(!m||(today&&m.done===ymd()))continue; const v=mealTot(m);
+    if(c.out_kcal){ m.out=1; m.ok=Math.round(c.out_kcal/10)*10; m.items=[]; delete m.t; delete m.tm; delete m.ai; }
+    else if(c.items){ const it=solveIds(c.items,Math.max(150,v.k),Math.max(8,v.p)); if(it){ m.items=it; m.ai={n:c.name||''}; delete m.t; delete m.tm; delete m.out; } } }
+  // keep the day on target: the meals that weren't eaten or changed absorb the difference
+  const kT=mnKT(t), pT=+S.settings.protT||120, fixedK=base.meals.filter(m=>m.out||(today&&m.done===ymd())).reduce((a,m)=>a+mealTot(m).k,0);
+  const ch=new Set(r.changes.map(c=>c.meal)), isFlex=m=>!m.out&&!(today&&m.done===ymd()), budget=Math.max(300,kT-fixedK);
+  // ארוחה גדולה בחוץ: כמו תזונאית, קודם מוותרים על ביניים (הגדולה ביותר שלא שונתה), ורק אז מקטינים את השאר
+  const fsum=()=>base.meals.filter(isFlex).reduce((a,m)=>a+mealTot(m).k,0);
+  while(fsum()>budget*1.25){ const sn=base.meals.map((m,j)=>({m,j})).filter(x=>isFlex(x.m)&&x.m.k==='s'&&!ch.has(x.j)).sort((a,b)=>mealTot(b.m).k-mealTot(a.m).k)[0]; if(!sn)break;
+    base.meals.splice(sn.j,1); for(const c of [...ch]){ if(c>sn.j){ ch.delete(c); ch.add(c-1); } } }
+  const outP=base.meals.filter(m=>m.out).reduce((a,m)=>a+(m.ok||0)*.05,0), sc=budget/Math.max(1,fsum());
+  const ms=base.meals.filter(isFlex).map(m=>({k:m.k,_K:mealTot(m).k*sc,_it:m.items.filter(i=>i.id&&MFI(i.id)).map(i=>({f:MFI(i.id),g:i.g,ref:i}))}));
+  if(ms.length){ for(let n=0;n<4;n++)menuBalance(ms,budget,Math.max(40,pT-outP)); for(const m of ms)for(const i of m._it)i.ref.g=i.g; }
+  M.ovr=M.ovr||{}; M.ovr[key]=base; persistSettings(); AIR=null; closeSheet(); render(); toast(tt('התפריט עודכן ✓')); }
 /* החלפת ארוחה שלמה: 3 אפשרויות עם אותם ערכים בערך */
 let MSW=null;
 function openMealSwap(mi){
@@ -5632,6 +5932,14 @@ function menuAct(act,b){
     case 'mn-x': { const nx=mnNext(M.day), cur=S.mnX!=null?S.mnX:nx; S.mnX=cur===mi?-1:mi; if(S.mnEd!==S.mnX)S.mnEd=null; mnPatch(); return true; }
     case 'mn-ed': S.mnEd=S.mnEd===mi?null:mi; S.mnX=mi; mnPatch(); return true;
     case 'mn-mswap': openMealSwap(mi); return true;
+    case 'mn-ask': openAsk(); return true;
+    case 'mn-ai-chip': AIR.text=b.dataset.v; renderAsk(); return true;
+    case 'mn-ai-send': aiSend(); return true;
+    case 'mn-ai-cancel': AIR.res=null; renderAsk(); return true;
+    case 'mn-ai-ok': aiApply(); return true;
+    case 'mn-aiweek': aiWeek(false); return true;
+    case 'mn-dt': S.mnDT=b.dataset.v===dayType()?null:b.dataset.v; S.mnX=null; S.mnEd=null; render(); return true;
+    case 'mn-alt': { const it=M.day.meals[mi]?.items[ii]; if(!it)return true; for(const k of Object.keys(it))delete it[k]; it.id=b.dataset.id; it.g=+b.dataset.g; M.day.auto=false; persistSettings(); mnPatch(); return true; }
     case 'mn-shop': openShop(); return true;
     case 'mn-sl-d': M.shop.d=+b.dataset.v; persistSettings(); openShop(); return true;
     case 'mn-sl-t': { const id=b.dataset.id, a=M.shop.ok, i=a.indexOf(id); if(i>=0)a.splice(i,1); else a.push(id); b.classList.toggle('ok',i<0); persistSettings(); return true; }
@@ -5998,7 +6306,7 @@ function addPortionToBasket(silent){
   _portion=null; closeSheet();
   if(silent)return;
   render(); toast(tt('נוסף לארוחה. אפשר לחפש את הפריט הבא'));
-  setTimeout(()=>{ const q=$('#ask-q'); if(q){ q.value=''; S.askQ=''; q.closest('.ask1')?.classList.remove('has'); const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } try{ q.focus({preventScroll:true}); }catch(_){} } },60);
+  setTimeout(()=>{ const q=$('#ask-q'); if(q){ q.value=''; S.askQ=''; askFit(q); q.closest('.ask1')?.classList.remove('has'); const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } try{ q.focus({preventScroll:true}); }catch(_){} } },60);
 }
 function saveBasket(){
   if(!S.basket.length)return;
@@ -10649,7 +10957,10 @@ function handleAct(b,ev){
     case 'food-nav': { const dt=new Date(S.foodDate+'T12:00:00'); dt.setDate(dt.getDate()+(+b.dataset.dir));
       const nd=ymd(dt), today=ymd();
       if(nd<=today){S.foodDate=nd;render();} break; }
-    case 'ask-clear': { S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; q.focus(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } if(b.closest('.ask1'))b.closest('.ask1').classList.remove('has'); else b.remove(); break; }
+    case 'ask-clear': { S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; askFit(q); q.focus(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } if(b.closest('.ask1'))b.closest('.ask1').classList.remove('has'); else b.remove(); break; }
+    case 'vo-start': voStart(); break;
+    case 'vo-stop': voStop(true); break;
+    case 'vo-cancel': voStop(false); break;
     case 'food-ai': { const txt=(($('#sheet')?.hidden===false&&$('#food-text')?$('#food-text').value:'')||$('#ask-q')?.value||$('#food-text')?.value||'').trim();
       if(txt&&$('#ask-q')?.value){ S.askQ=''; }
       if(!txt){toast('כתוב מה אכלת');break;} foodAI({text:txt}); break; }
@@ -10674,7 +10985,7 @@ function handleAct(b,ev){
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
     case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': case 'mc-cm': case 'mc-cp': mcAct(act,b); break;
-    case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
+    case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; askFit(q); q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'bc-fix': openBcFix(); break;
     case 'bc-unit': openSheet(`<h3>כמה שוקלת יחידה אחת?</h3><div class="muted small" style="margin:-4px 0 12px">חטיף, פרוסה, בקבוק או גביע. בדרך כלל כתוב על האריזה ("משקל נטו" או "מנה"). נשמר לכל המשתמשים.</div>
@@ -10913,7 +11224,7 @@ document.addEventListener('input',ev=>{
   if(k==='w'||k==='r'){ const s=S.active?.ex[+i.dataset.ei]?.sets[+i.dataset.si]; if(s){s[k]=i.value; persistActive();} }
   else if(k==='cmin'||k==='ckm'||k==='cinc'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc'}[k]]=i.value; persistActive();} }
   else if(k==='libq'){ S.lib.q=i.value; renderLibrary(); }
-  else if(k==='askq'){ S.askQ=i.value; const bar1=i.closest('.ask1'); if(bar1)bar1.classList.toggle('has',!!i.value); const clr=bar1?true:i.closest('.ask')?.querySelector('.clr');
+  else if(k==='askq'){ S.askQ=i.value; askFit(i); const bar1=i.closest('.ask1'); if(bar1)bar1.classList.toggle('has',!!i.value); const clr=bar1?true:i.closest('.ask')?.querySelector('.clr');
     if(!bar1&&!!i.value!==!!clr){ const bar=i.closest('.ask'); if(i.value&&bar&&!clr){ const c=document.createElement('button'); c.className='sq clr'; c.dataset.act='ask-clear'; c.setAttribute('aria-label','ניקוי'); c.textContent='✕'; bar.insertBefore(c,bar.querySelector('[data-act="scan-open"]')); } else if(!i.value&&clr)clr.remove(); }
     clearTimeout(foodSearch._t); foodSearch._t=setTimeout(()=>foodSearch(i.value,'ask-res'),220); }
   else if(k==='foodq'){ i.style.height='auto'; i.style.height=Math.min(132,i.scrollHeight+2)+'px'; i.closest('.fsearch')?.classList.toggle('has',i.value.trim().length>=2); clearTimeout(foodSearch._t); foodSearch._t=setTimeout(()=>foodSearch(i.value),220); }

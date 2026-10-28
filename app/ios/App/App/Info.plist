@@ -16,6 +16,10 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>NextRep משתמשת במצלמה כדי לצלם ארוחות, תוויות מזון וברקודים ולחשב את הערכים התזונתיים.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>NextRep משתמשת במיקרופון רק כשלוחצים על כפתור ההקלטה, כדי לרשום ארוחה בדיבור.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>NextRep הופכת את מה שאמרת לטקסט כדי לרשום את הארוחה ולחשב את הערכים התזונתיים.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>NextRep ניגשת לתמונות שבחרת כדי לנתח ארוחות ותוויות מזון, או לשמור תמונות התקדמות.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
