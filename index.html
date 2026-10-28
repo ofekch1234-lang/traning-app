@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=94f9b134"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=94f9b134"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=94f9b134"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=70df95af"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=70df95af"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=70df95af"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1985,7 +1985,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.85';
+const APP_VERSION='13.3.87';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5171,7 +5171,7 @@ function wStep(n){ const c=coachCfg(), db=eqGuess(n)==='db'; /* same gear guess 
 const roundTo=(v,st)=>Math.max(st,Math.round(v/st)*st);
 const DAY=864e5;
 /* how much weight to add: about 2.5% of the working weight (up to 5% after an easy session), never less than one plate step; careful pace stays at 2% */
-function wInc(w,st,easy){ const pct=coachCfg().careful?0.02:(easy?0.05:0.025); return Math.max(1,Math.floor(w*pct/st+1e-9))*st; }
+function wInc(w,st,easy){ const c=coachCfg().careful; if(easy&&!c)return Math.max(2,Math.round(w*0.05/st))*st; const pct=c?0.02:0.025; return Math.max(1,Math.floor(w*pct/st+1e-9))*st; }
 /* the smallest plate step is too big a jump for this weight (6 kg lateral raise → 8 kg is +33%): grow reps first */
 const bigJump=(w,st,iso)=>w>0&&st/w>(iso?0.08:0.10)-(coachCfg().careful?0.02:0);
 /* a jump too big to take: how many reps to add first. Strength work (a low range on a main lift) adds only 1-2,
@@ -5202,6 +5202,11 @@ function blockInfo(){ const c=coachCfg(); if(!c.start)return null;
   return {n:c.n||1,wk,weeks,deload:wk===weeks,ended:wk>weeks}; }
 function lastWorkout(){ return [...S.workouts].sort((a,b)=>b.start-a.start)[0]||null; }
 /* called when a workout starts: opens block 1, pauses the block over a long break, decides light week / re-entry */
+/* exercises whose best estimated 1RM fell more than 3% from the session before, in the last two workouts */
+function perfDrops(){ const out=new Set(), b=h=>Math.max(...h.sets.map(x=>e1rm(+x.w||0,+x.r||0)));
+  for(const w of [...S.workouts].sort((a,b2)=>b2.start-a.start).slice(0,2))for(const x of w.ex||[]){ if(x.t!=='s'||x.dl)continue;
+    const hs=sessionsOf(x.n,8), i=hs.findIndex(h=>h.ts===w.start); if(i<0||!hs[i+1]||hs[i+1].dl)continue; if(b(hs[i])<b(hs[i+1])*0.97)out.add(x.n); }
+  return [...out]; }
 function coachCtx(){
   const c=coachCfg(), now=Date.now(), lw=lastWorkout(), gap=lw?(now-lw.start)/DAY:0;
   if(!c.start){ c.start=new Date().setHours(0,0,0,0); c.n=c.n||1; }
@@ -5209,6 +5214,9 @@ function coachCtx(){
   // a break opens a 3-workout ramp back to the old weights; how deep it starts depends on how long the break was (and whether you trained during it)
   if(lw&&gap>=10&&(!c.ret||c.ret.at<=lw.start)){ const ans=c.backAns?.for===lw.start?c.backAns.v:null; c.ret={at:now,f:retF(gap,ans)}; }
   if(c.back&&(!c.ret||c.ret.at<c.back))c.ret={at:c.back,f:0.9}; // "I was sick / on vacation"
+  // fatigue built up: performance fell in 3+ exercises over the last two workouts → bring the light week forward (deload when needed, Bell 2023)
+  { const b0=blockInfo(); if(b0&&!b0.deload&&!b0.ended&&b0.wk>=3&&gap<7&&!(c.ret&&now-c.ret.at<21*DAY)){ const d=perfDrops();
+    if(d.length>=3){ c.start=now-(b0.weeks-1)*7*DAY; c.dlE={at:now,ex:d.slice(0,3)}; } } }
   const ret=c.ret&&c.ret.f<1&&now-c.ret.at<42*DAY?c.ret:null;
   const bi=blockInfo(); persistSettings();
   return {deload:!!bi&&bi.deload&&!c.skipDl,back:!!ret,ret,wk:bi?.wk||1,n:bi?.n||1};
@@ -5218,6 +5226,45 @@ function sessionsOf(name,k=4){ const out=[];
     const ss=(e.sets||[]).filter(s=>+s.r>0); if(ss.length)out.push({ts:w.start,sets:ss,dl:!!e.dl}); if(out.length>=k)break; }
   return out; }
 /* the recommendation for one exercise: weight, reps per set, number of sets, and why */
+const HSP=LANG==='he'?'':' '; // after a Hebrew "ל-" the number sticks, in other languages it needs a space
+/* ---- per-set progression (research-based) ----
+   Each set progresses on its own: a set that reached the top of the range moves up in weight (reps re-estimated from that set's e1RM),
+   a set inside the range gets one more rep (two when the user said 3+ reps were left: people underestimate by ~1 rep, Halperin 2022),
+   a set under the range stays on its weight and aims for the bottom of the range, or drops 5% if it was far below.
+   Big rep drop from first to last set (>25%) = fatigue: longer rest and the same targets as last time on the late sets. */
+function fatigued(ls,rr){ if(ls.length<2)return false; const ws=ls.map(x=>+x.w||0), r0=+ls[0].r||0, rl=+ls[ls.length-1].r||0;
+  return Math.max(...ws)<=Math.min(...ws)*1.04&&r0-rl>=3&&(r0-rl)/r0>0.25; }
+function setPlan(e,rr,ls,n,top,st,hist){
+  const ws=ls.map(x=>+x.w||0), pyr=Math.max(...ws)>Math.min(...ws.filter(x=>x>0))*1.04;
+  const iso=!isCompound(e.n), fat=fatigued(ls,rr), prevFat=hist[1]&&fatigued(hist[1].sets,rr), rl=ls.length, plan=[], ups=[], unders=[];
+  for(let i=0;i<n;i++){ const s=ls[Math.min(i,rl-1)], w=+s.w||0, r=+s.r||0, rir=s.rir, easy=rir!=null&&rir>=3;
+    const tp=bigJump(w,st,iso)?Math.max(top,stretchReps(e,rr)):top;
+    if(r>=tp&&pyr&&!bigJump(w,st,iso)){ let nw=roundTo(w+wInc(w,st,easy),st); const nx=+ls[i+1]?.w||0; if(nx>w&&Math.abs(nw-nx)<st)nw=nx; let nr=Math.floor(30*(e1rm(w,r)/nw-1))-1; nr=Math.max(rr.lo,Math.min(tp-1,nr)); plan.push({w:nw,r:nr}); ups.push(i); }
+    else if(r>=tp)plan.push({w,r:pyr?Math.min(tp,r+1):r});
+    else if(r<rr.lo){ if(r>=rr.lo-2||(fat&&!prevFat&&i>0))plan.push({w,r:fat&&i>0?r:rr.lo}); else { plan.push({w:roundTo(w*0.95,st),r:rr.lo}); } unders.push(i); }
+    else plan.push({w,r:fat&&i>0?r:Math.min(tp,r+(easy?2:1))}); }
+  // the same fatigue twice in a row even with a longer rest: lighten the last set
+  if(fat&&prevFat){ const L=plan[n-1]; L.w=roundTo((+ls[rl-1].w||L.w)*0.95,st); L.r=rr.lo; }
+  const SN=i=>`${tt('סט')} ${i+1}`, lst=a=>a.map(i=>i+1).join(a.length>2?', ':' ו-');
+  const restX=fat?Math.min(240,Math.max(restFor(e),+e.rest||0)+30):0;
+  let why='', h='';
+  if(fat){ const r0=+ls[0].r, r1=+ls[rl-1].r;
+    if(prevFat){ why=`${tt('גם בפעם הקודמת החזרות צנחו')} (${r0} → ${r1}). ${tt('בסט האחרון יורדים ל-')+HSP}${wL(plan[n-1].w)} ${LU()}, ${tt('כדי לסיים אותו בטווח.')}`; h=`${tt('הסט האחרון')} <em>${tt('קצת יותר קל')}</em>`; }
+    else { why=`${tt('בסט האחרון ירדת מ-')+HSP}${r0} ${tt('ל-')+HSP}${r1}. ${tt('זה סימן שהמנוחה קצרה מדי. היום נחים')} ${fmtRest(restX)}, ${tt('ובסטים המאוחרים אותן מטרות כמו פעם שעברה.')}`; h=`${tt('מנוחה ארוכה יותר:')} <em class="num">${fmtRest(restX)}</em>`; } }
+  else if(ups.length){ const up=plan[ups[0]];
+    why=`${ups.length===1?`${tt('בסט')} ${ups[0]+1}`:`${tt('בסטים')} ${lst(ups)}`} ${tt('עברת את הטווח, אז')} ${ups.length===1?tt('הוא עולה'):tt('הם עולים')} ${tt('במשקל.')}${unders.length?` ${tt('בסט')} ${lst(unders)} ${tt('מכוונים לתחתית הטווח.')}`:ups.length<n?` ${tt('בשאר הסטים עוד חזרה.')}`:''}`;
+    h=ups.length===n?`${tt('כל הסטים')} <em>${tt('עולים במשקל')}</em>`:`${SN(ups[0])} ${tt('עולה ל-')+HSP}<em class="num">${wL(up.w)}</em>${ups.length<n?`, ${tt('בשאר עוד חזרה')}`:''}`; }
+  else if(unders.length){ const u=plan[unders[0]], lr=+ls[Math.min(unders[0],rl-1)].r;
+    why=`${tt('בסט')} ${lst(unders)} ${tt('היו רק')} ${lr} ${tt('חזרות, מתחת לטווח.')} ${u.w<+ls[Math.min(unders[0],rl-1)].w?`${tt('היום')} ${wL(u.w)} ${LU()} ${tt('ומכוונים ל-')+HSP}${rr.lo}.`:`${tt('היום מכוונים ל-')+HSP}${rr.lo} ${tt('עם אותו משקל.')}`}`;
+    h=`${tt('להגיע ל-')+HSP}<em class="num">${rr.lo}</em> ${tt('ב')}${SN(unders[0])}, ${tt('בשאר עוד חזרה')}`; }
+  else { why=`${tt('כל סט מתקדם לבד: עוד חזרה בכל סט, וכל סט שמגיע ל-')+HSP}${top} ${tt('עולה במשקל.')}`; h=`${tt('אותם משקלים')}, <em>${tt('ועוד חזרה')}</em> ${tt('בכל סט')}`; }
+  return {k:fat?'fat':'sets',w:plan[0].w,r:plan[0].r,sets:n,ps:i=>plan[Math.min(i,n-1)].r,pws:i=>plan[Math.min(i,n-1)].w,top,h,why,...(restX?{rest:restX}:{})}; }
+/* rest by exercise type (Singer 2024: under 60 s hurts growth; heavy compounds need longer) — a floor on the plan's rest */
+function restFor(e){ const n=e.n||'', heavy=heavyLift(n)&&/מוט|סקוואט|דדליפט|לחיצת רגליים|היפ תראסט|סמית/.test(n);
+  return heavy?150:isCompound(n)?120:60; }
+function smartRest(e){ const r=+e.rest||+S.settings.rest||90; if(!coachOn())return r; return Math.max(r,restFor(e)); }
+/* direct sets per muscle in the last 7 days */
+function weekSets(m){ const since=Date.now()-7*DAY; let k=0; for(const w of S.workouts||[]){ if(w.start<since)continue; for(const x of w.ex||[])if(x.t==='s'&&x.m===m)k+=(x.sets||[]).filter(s=>+s.r>0).length; } return k; }
 function coachRec(e,ctx){
   const rr=repRange(e.reps)||{lo:8,hi:12}, n=Math.max(1,+e.s||3), hist=sessionsOf(e.n,4);
   const half=Math.max(1,Math.ceil(n/2));
@@ -5243,26 +5290,34 @@ function coachRec(e,ctx){
       if(preW>0){ const f=[R.f,(1+R.f)/2,1][since], w=f>=0.999?preW:Math.min(preW,roundTo(preW*f,st));
         return {k:'back',w,r:rr.lo,sets:n,why:since===2?`אימון 3 מתוך 3 בדרך חזרה: חוזרים ל-${wL(preW)}. מכאן ממשיכים להתקדם כרגיל.`
           :`חוזרים אחרי הפסקה: אימון ${since+1} מתוך 3 בדרך חזרה ל-${wL(preW)}. היום ${wL(w)}, כדי לחזור חזק ובלי פציעה.`}; } } }
-  if(ctx.deload)return {k:'deload',w:topW,r:rr.lo,sets:half,why:'שבוע קל: אותו משקל, חצי מהסטים, בתחתית הטווח. זה השבוע שבו הגוף מתחזק.'};
-  const rirs=ls.map(s=>s.rir).filter(x=>x!=null), easy=rirs.length>0&&rirs.every(x=>x>=3);
+  if(ctx.deload){ const dE=coachCfg().dlE, early=dE&&Date.now()-dE.at<9*DAY;
+    return {k:'deload',w:topW,r:rr.lo,sets:half,why:early?`${tt('הקדמנו את השבוע הקל: בשני האימונים האחרונים הביצועים ירדו ב-')+HSP}${dE.ex.length} ${tt('תרגילים')} (${dE.ex.map(esc).join(', ')}). ${tt('זו עייפות שהצטברה, לא חולשה. אותו משקל, חצי מהסטים, ואחריו חוזרים חזקים יותר.')}`:'שבוע קל: אותו משקל, חצי מהסטים, בתחתית הטווח. זה השבוע שבו הגוף מתחזק.'}; }
+  const rirs=ls.map(s=>s.rir).filter(x=>x!=null), lastRir=ls[ls.length-1]?.rir, easy=(rirs.length>0&&rirs.every(x=>x>=3))||(lastRir!=null&&lastRir>=3);
   const planned=last.dl?half:n, full=ls.length>=planned, atTop=rs.every(r=>r>=top);
   const nw=roundTo(topW+wInc(topW,st,easy),st), pct=Math.round((nw-topW)/topW*100);
   const mixed=Math.min(...ls.map(x=>+x.w||0).filter(x=>x>0))<topW*0.95; // some sets were lighter (e.g. lowered after discomfort): no raise yet
-  if(full&&atTop&&mixed)return {k:'reps',w:topW,r:rr.lo,sets:n,why:`בפעם הקודמת חלק מהסטים היו במשקל נמוך יותר. היום כל הסטים על ${wL(topW)}.`};
+  const pyr=ls.length>1&&Math.max(...ls.map(x=>+x.w||0))>Math.min(...ls.map(x=>+x.w||0).filter(x=>x>0))*1.04; // weights change from set to set (a pyramid)
+  const anyTop=rs.some(r=>r>=top), anyUnder=rs.some(r=>r<rr.lo);
+  if(pyr&&!(full&&atTop&&!mixed))return setPlan(e,rr,ls,n,top,st,hist);
   if(full&&atTop){
     const failI=ls.findIndex(s=>s.rir===0);
     if(heavyLift(e.n)&&failI>=0) // closed the range, but a set went to failure: one more session at this weight before the jump
       return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הקצה. היום עוד פעם ${wL(topW)}, הפעם עוצרים כשנשאר כוח לעוד חזרה אחת, ואז עולים ל-${wL(nw)}.`};
-    return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}, הגיע הזמן לעלות. היום ${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.${big&&strengthEx(e,rr)?' '+tt('אם בהתחלה יוצאות פחות חזרות, זה נורמלי בקפיצה כזו.'):''}`}; }
+    return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}, הגיע הזמן לעלות. היום ${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.${easy&&!coachCfg().careful&&nw-topW>=2*st?' '+tt('אמרת שנשאר לך הרבה כוח, אז הקפיצה כפולה.'):''}${big&&strengthEx(e,rr)?' '+tt('אם בהתחלה יוצאות פחות חזרות, זה נורמלי בקפיצה כזו.'):''}`}; }
   if(!full&&atTop)return {k:'reps',w:topW,r:top,sets:n,why:`בפעם הקודמת ${ls.length} מתוך ${planned} סטים הגיעו ל-${top}. ${planned-ls.length===1?'כשגם הסט האחרון יגיע':'כשכל הסטים יגיעו'}, עולים ל-${wL(nw)}.`};
   if(big&&rs.every(r=>r>=rr.hi)){ const tr=perSet(0), bp=Math.round(st/topW*100);
     return {k:'reps',w:topW,r:tr,sets:n,ps:perSet,top,why:`מ-${wL(topW)} ל-${wL(topW+st)} זו קפיצה גדולה בתרגיל הזה. קודם מגיעים ל-${top} חזרות עם ${wL(topW)}, ואז עולים.`}; }
+  if(fatigued(ls,rr))return setPlan(e,rr,ls,n,top,st,hist);
   const prev=hist[1], prevLow=prev?Math.min(...prev.sets.map(s=>+s.r||0)):99, prevW=prev?Math.max(...prev.sets.map(s=>+s.w||0)):0;
   if(low<rr.lo&&prevLow<rr.lo&&prevW>=topW){ const nw=roundTo(topW*0.95,st);
     return {k:'down',w:nw,r:rr.lo,sets:n,why:`פעמיים ברצף לא הגעת ל-${rr.lo} חזרות עם ${wL(topW)}. יורדים ל-${wL(nw)}, חוזרים לטווח ובונים משם.`}; }
   const e1=h=>Math.max(...h.sets.map(s=>e1rm(+s.w||0,+s.r||0)));
   const stuck=hist.length>=4&&!hist.slice(0,3).some(h=>h.dl)&&Math.max(e1(hist[0]),e1(hist[1]),e1(hist[2]))<=e1(hist[3])*1.01;
   const tr=perSet(0), lowW=Math.min(...ls.map(s=>+s.w||0).filter(x=>x>0)), wv=lowW<topW;
+  if(stuck&&e.m&&!ctx.deload){ const wk=weekSets(e.m), ses=ctx.tplSets?.[e.m]||0;
+    if(wk<10&&ses<10&&n<5)return {k:'vol',w:wv?wAt(0):topW,r:tr,sets:n+1,ps:i=>perSet(Math.min(i,n-1)),...(wv?{pws:i=>wAt(Math.min(i,n-1))}:{}),top,
+      h:`${tt('מוסיפים')} <em>${tt('סט')} <span class="num">${n+1}</span></em> ${tt('כדי לשבור את התקיעות')}`,
+      why:`${tt('אין התקדמות ב-3 האימונים האחרונים, ול')}${esc(e.m)} ${tt('יש רק')} ${Math.round(wk)} ${tt('סטים בשבוע. מחקרים מראים שעוד סטים בשבוע מביאים עוד שריר, אז מוסיפים סט אחד לשבועיים הקרובים.')}`}; }
   return {k:stuck?'stuck':'reps',w:wv?wAt(0):topW,r:tr,sets:n,ps:perSet,...(wv?{pws:wAt}:{}),top,why:stuck
     ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים לעוד חזרה בכל סט. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.`
     :big?`מ-${wL(lowW)} ל-${wL(lowW+st)} זו קפיצה גדולה בתרגיל הזה. קודם מגיעים ל-${top} חזרות עם ${wL(lowW)}, ואז עולים.`
@@ -5270,7 +5325,7 @@ function coachRec(e,ctx){
 }
 const RIR_WK={1:'עוצרים 3 חזרות לפני שאין כוח',2:'עוצרים 2–3 חזרות לפני שאין כוח',3:'עוצרים 2 חזרות לפני שאין כוח',4:'עוצרים 1–2 חזרות לפני שאין כוח',5:'עוצרים חזרה אחת לפני שאין כוח'};
 function coachWeekLine(bi){ if(bi.ended)return 'הבלוק הסתיים. בוא נראה מה התחזק ומה משתנה.';
-  if(bi.deload)return 'שבוע קל: חצי סטים, אותו משקל. מתאוששים ומתחזקים.';
+  if(bi.deload){ const dE=coachCfg().dlE; return dE&&Date.now()-dE.at<9*DAY?tt('הקדמנו את השבוע הקל: הביצועים ירדו בכמה תרגילים. חצי סטים, אותו משקל, ואחריו חוזרים חזקים יותר.'):'שבוע קל: חצי סטים, אותו משקל. מתאוששים ומתחזקים.'; }
   const r=RIR_WK[Math.min(5,Math.max(1,bi.wk-(bi.weeks-6)))]||RIR_WK[3];
   return bi.wk===1?`שבוע פתיחה: ${r}. המשקלים כבר ממולאים בכל סט.`:bi.wk>=bi.weeks-1?`שבוע שיא: ${r}.`:`השבוע: ${r}.`; }
 /* train tab card: where you are in the block */
@@ -5387,7 +5442,7 @@ function doSwap(ei,to){
   const tpl=a.tid&&S.templates.find(t=>t.id===a.tid);
   if(tpl){ const t2=clone(tpl), te=t2.ex.find(x=>x.n===from); if(te){ te.n=to; saveTemplate(t2); } }
   const base={n:to,s:e.sets.length,reps:e.reps}, rc=coachOn()?coachRec(base,{deload:!!a.dl,back:false}):null, prev=lastSetsOf(to)||[];
-  e.n=to; e.co=rc?{k:rc.k,why:rc.why,...(rc.ovr?{ovr:rc.ovr}:{})}:null;
+  e.n=to; e.co=rc?{k:rc.k,why:rc.why,...(rc.h?{h:rc.h}:{}),...(rc.ovr?{ovr:rc.ovr}:{})}:null;
   e.sets=e.sets.map((s,i)=>s.done?s:{w:'',r:'',pw:(rc?.pws?rc.pws(i):rc?.w)??prev[i]?.w??'',pr:rc?(rc.ps?rc.ps(i):rc.r):(prev[i]?.r??''),done:false,sug:rc?1:0});
   persistActive(); closeSheet(); render(); toast(`הוחלף ל${to}`); }
 /* after a set: "how many reps were left?" — tunes the next set right away */
@@ -5585,7 +5640,7 @@ function vFocus(e,ei){
     <button class="linkbtn fx-all" data-act="fx-tbl" data-ei="${ei}">${tt('כל הסטים בטבלה')}</button>
   </div>`; }
 /* Repi in one line; a tap opens the reason, the technique cue and the override buttons */
-function coHead(e,co){ const k=co.k, em=x=>`<em>${x}</em>`;
+function coHead(e,co){ const k=co.k, em=x=>`<em>${x}</em>`; if(co.h)return co.h;
   if(k==='reps'||k==='stuck')return (e.sets.some((x,i)=>i&&+x.pw!==+e.sets[0].pw)||co.ps)?`${tt('אותם משקלים')}, ${em(tt('ועוד חזרה'))} ${tt('בכל סט')}`:`${tt('היום כל הסטים על')} ${em(`<span class="num">${wL(co.w)}</span> ${LU()}`)}`;
   if(k==='up')return `${tt('עולים היום ל-')}${em(`<span class="num">${wL(co.w)}</span> ${LU()}`)}`;
   if(k==='hold')return `${em(tt('עוד אימון אחד'))} ${tt('במשקל הזה')}`;
@@ -5648,7 +5703,7 @@ function openExMenu(ei){
       <button class="li" data-act="rm-ex" data-ei="${ei}" style="color:var(--danger)">${ICON.plus.replace('class="ic"','class="ic" style="transform:rotate(45deg)"')}<span class="lt"><b>הסר מהאימון</b></span></button>
     </div>
     <div class="label" style="margin:0 0 6px">מנוחה אחרי סט</div>
-    <div class="row">${[60,90,120,180].map(x=>`<button class="chip num ${(e.rest||S.settings.rest)===x?'on':''}" data-act="ex-rest" data-ei="${ei}" data-s="${x}">${x<120?x+' שנ׳':(x/60)+' דק׳'}</button>`).join('')}</div>
+    <div class="row">${[60,90,120,150,180].map(x=>`<button class="chip num ${(e.rest||S.settings.rest)===x?'on':''}" data-act="ex-rest" data-ei="${ei}" data-s="${x}">${x<120?x+' שנ׳':(x/60)+' דק׳'}</button>`).join('')}</div>
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>`);
 }
 function vCardio(e,ei,cur){
@@ -8378,12 +8433,12 @@ function pbBuild(){
       const comp=!!def.c&&vi!=='f'; const first=comp&&compIdx===0; if(comp)compIdx++;
       let sets,reps,rest;
       if(A.goal==='strength'){ if(first){sets=5;reps='3–5';rest=180;} else if(comp){sets=4;reps='5–8';rest=150;} else {sets=3;reps='8–12';rest=90;} }
-      else if(A.goal==='cut'){ if(comp){sets=3;reps='8–12';rest=90;} else {sets=3;reps='12–15';rest=50;} }
+      else if(A.goal==='cut'){ if(comp){sets=3;reps='8–12';rest=120;} else {sets=3;reps='12–15';rest=60;} }
       else if(A.goal==='fit'){ if(comp){sets=3;reps='8–12';rest=90;} else {sets=2;reps='12–15';rest=60;} }
       else { if(comp){sets=first?4:3;reps=first?'6–10':'8–12';rest=first?150:120;} else {sets=3;reps='10–15';rest=75;} }
       if(A.level==='beg')sets=Math.max(2,sets-1);
       // נשים מתאוששות מהר יותר בין סטים: מנוחה קצרה יותר ומעט יותר חזרות בבידוד
-      if(A.sex==='f'){ rest=Math.max(45,rest-(comp?30:15)); if(!comp&&A.goal!=='strength')reps='12–15'; }
+      if(A.sex==='f'){ rest=Math.max(60,rest-(comp?30:15)); if(!comp&&A.goal!=='strength')reps='12–15'; }
       if(A.level==='adv'&&compIdx<=2&&comp)sets+=1;
       const g=pbMuscle(n);
       if(A.focus.some(f=>({chest:'חזה',back:'גב',legs:'רגליים',glutes:'רגליים',shoulders:'כתפיים',arms:g==='יד קדמית'?'יד קדמית':'יד אחורית',core:'בטן וליבה'}[f]===g)))sets+=vi==='f'?0:1;
@@ -9069,13 +9124,14 @@ function startWorkout(name,tid,asked){
   if(!asked&&coachOn()&&tpl){ const c=coachCfg(), lw=lastWorkout(), gap=lw?(Date.now()-lw.start)/DAY:0;
     if(lw&&gap>=21&&c.backAns?.for!==lw.start&&(!c.ret||c.ret.at<=lw.start)){ askBreak(name,tid,gap); return; } }
   const co=coachOn()&&tpl?coachCtx():null;
+  if(co){ co.tplSets={}; for(const x of tpl.ex||[])if(x.t==='s'&&x.m)co.tplSets[x.m]=(co.tplSets[x.m]||0)+(+x.s||3); }
   const ex=(tpl?.ex||[]).map(e=>{
     if(e.t==='c')return {n:e.n,m:e.m,t:'c',rest:e.rest||0,c:{min:'',km:'',inc:'',done:false}};
     const prev=lastSetsOf(e.n)||[], rc=co?coachRec(e,co):null;
     const nSets=rc?rc.sets:Math.max(1,+e.s||3);
     const sets=Array.from({length:nSets},(_,i)=>rc?{w:'',r:'',pw:(rc.pws?rc.pws(i):rc.w)??prev[i]?.w??'',pr:rc.ps?rc.ps(i):rc.r,done:false,sug:1}
       :{w:'',r:'',pw:prev[i]?.w??prev[prev.length-1]?.w??'',pr:prev[i]?.r??prev[prev.length-1]?.r??'',done:false});
-    return {n:e.n,m:e.m,t:'s',reps:e.reps||'',rest:+e.rest||0,how:e.how||'',sets,...(rc?{co:{k:rc.k,why:rc.why,...(rc.r?{w:rc.w||0,r:rc.r}:{}),...(rc.top?{top:rc.top}:{}),...(rc.ovr?{ovr:rc.ovr}:{})}}:{}),...(co?.deload?{dl:1}:{})};
+    return {n:e.n,m:e.m,t:'s',reps:e.reps||'',rest:rc?.rest||(co?smartRest(e):+e.rest||0),how:e.how||'',sets,...(rc?{co:{k:rc.k,why:rc.why,...(rc.h?{h:rc.h}:{}),...(rc.r?{w:rc.w||0,r:rc.r}:{}),...(rc.top?{top:rc.top}:{}),...(rc.ovr?{ovr:rc.ovr}:{})}}:{}),...(co?.deload?{dl:1}:{})};
   });
   if(co&&coachCfg().wu!==false){ const fi=ex.findIndex(e=>e.t==='s'&&heavyLift(e.n)); if(fi>=0){ const e=ex[fi], w=+e.sets[0]?.pw||0, wu=wuFor(e.n,w); if(wu){ e.wu=wu; e.wuOpen=false; } } }
   S.active={start:Date.now(),name,tid:tid||null,ex,...(co?.deload?{dl:1}:{})};
