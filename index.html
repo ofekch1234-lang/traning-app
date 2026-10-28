@@ -3886,6 +3886,11 @@ function mfStep(f){ return f.ug?f.ug*(f.us||1):(f.st||10); }
 function mfClamp(f,g){ const s=mfStep(f); g=Math.round(g/s)*s; return Math.max(f.mn,Math.min(f.mx,Math.round(g*10)/10)); }
 /* the most this item may have in its meal: the food's range, and the meal cap (i.cap, e.g. one can of tuna at breakfast), on the food's own step */
 function mfMx(i){ const f=i.f; if(!(i.cap<f.mx))return f.mx; const s=mfStep(f); return Math.max(f.mn,Math.floor(i.cap/s+1e-6)*s); }
+/* the smallest real portion of a meal's main protein: lunch/dinner meat, fish or tofu at its normal serving (⅔ on a small plate); a breakfast's tuna is a whole can, its cheese at least half a serving */
+function mqLo(k,i,K){ const f=i.f; if(f.r!=='P'||i.fix)return 0;
+  if((k==='l'||k==='d')&&(['m','f'].includes(f.t)||f.gp==='tofu'))return f.df*(K<450&&!f.ug?.67:1);
+  if(k==='b'&&['tun','tuo','srd'].includes(f.id))return f.ug;
+  if(k==='b'&&f.gp!=='egg')return f.df*.5; return 0; }
 /* the least it may have: i.lo, e.g. a real portion of chicken in lunch (not 100 g next to two pitas) */
 function mfLo(i){ if(!i.lo)return i.f.mn; const s=mfStep(i.f); return Math.min(mfMx(i),Math.max(i.f.mn,Math.ceil(i.lo/s-1e-6)*s)); }
 function mfCl(i,g){ return Math.max(mfLo(i),Math.min(mfClamp(i.f,g),mfMx(i))); }
@@ -3926,7 +3931,7 @@ function diaryFreq(){
 const mSav=f=>!!f&&(['m','f','e'].includes(f.t)||['legume','spread','tofu'].includes(f.gp)||['oli','oil','thn','avo'].includes(f.id));
 function mfW(f){ const p=menuS().p||{}, likes=p.likes||[], st=p.style, fr=diaryFreq()[f.id]||0;
   let w=(likes.includes(f.id)?5:1)*(f.w||1)*(1+Math.min(3,fr)*.6);
-  if(f.r==='P'&&f.t==='v'&&!['veg','vegan','pesc'].includes(st))w*=.35;
+  if(f.r==='P'&&f.t==='v'&&!['veg','vegan','pesc'].includes(st))w*=f.gp==='tofu'?.2:.35;
   if(f.r==='P'&&f.t==='v'&&st==='pesc')w*=.6;
   return w; }
 function mfPick(list,rnd,avoid,prefer){
@@ -4098,7 +4103,7 @@ function menuBalance(meals,kT,pT){
     const mk=m=>m._it.reduce((a,i)=>a+i.f.k*i.g/100,0), gap=m=>m._K?(mk(m)-m._K)/m._K:0;
     const shrink=m=>m._it.filter(i=>(i.f.r==='C'||(i.f.r==='F'&&fp>.25)||i.f.r==='X'||i.f.r==='L')&&i.g>i.f.mn).sort((a,b)=>b.g*b.f.k-a.g*a.f.k)[0];
     const rk=(m,r)=>m._it.filter(i=>i.f.r===r).reduce((a,i)=>a+i.f.k*i.g/100,0);
-    const grow=m=>{ for(const r of ((m.k==='l'||m.k==='d')&&rk(m,'C')>2*rk(m,'P')?['P','C','X','L','F']:['C','X','L','F'])){ const c=m._it.filter(i=>i.f.r===r&&i.g<mfMx(i)).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)return c; } return null; };
+    const grow=m=>{ for(const r of (m.k!=='s'&&rk(m,'C')>2*rk(m,'P')?['P','C','X','L','F']:['C','X','L','F'])){ const c=m._it.filter(i=>i.f.r===r&&i.g<mfMx(i)).sort((a,b)=>a.g*a.f.k-b.g*b.f.k)[0]; if(c)return c; } return null; };
     if(k>kT+60){ const c=[...meals].sort((a,b)=>gap(b)-gap(a)).map(shrink).find(Boolean); if(c)moved=step(c,-1)||moved; }
     else if(k<kT-60){ const c=[...meals].filter(room).sort((a,b)=>gap(a)-gap(b)).map(grow).find(Boolean); if(c)moved=step(c,1)||moved; }
     else if(meals.some(m=>m._K)){ const lo=[...meals].filter(m=>gap(m)<-.15&&room(m)).sort((a,b)=>gap(a)-gap(b)).find(m=>grow(m));
@@ -4135,7 +4140,9 @@ function genDay(seed,dt,kO){
     const b=buildMeal(kind,rnd,used,x.k==='l'&&['cold','buy'].includes(p.heat)?{...p,cook:'none'}:p,{Pt,K,pw:x.pw,usedT,slot:x.k}), tt=b._t; if(tt)usedT.push(tt.id);
     if(p.capFn)for(const i of b){ i.cap=p.capFn(x.k,i.f,b); if(i.g>mfMx(i))i.g=mfMx(i); }
     // lunch and dinner: meat, fish or tofu as a real portion (the normal serving; ⅔ of it on a small plate) — the starch adjusts around it
-    if(p.capFn&&(x.k==='l'||x.k==='d'))for(const i of b)if(i.f.r==='P'&&!i.fix&&(['m','f'].includes(i.f.t)||i.f.gp==='tofu')){ i.lo=i.f.df*(K<450?.67:1); if(i.g<mfLo(i))i.g=mfLo(i); }
+    if(p.capFn)for(const i of b){ const lo=mqLo(x.k,i,K); if(lo){ i.lo=lo; if(i.g<mfLo(i))i.g=mfLo(i); } }
+    // a legume plate (mujadara, chickpea bowl): the grain is a real part of it, at least ⅔ of a cup
+    if(p.capFn&&b.some(i=>i.f.gp==='legume'))for(const i of b)if(i.f.r==='C'&&i.f.hm&&/^כוס/.test(i.f.hm[1])){ i.lo=i.f.hm[0]*.6; if(i.g<mfLo(i))i.g=mfLo(i); }
     const it=solveMeal(b,K,Pt);
     return {k:x.k,pw:x.pw,_it:it,t:tt,_K:K,_cap:p.capK?(p.capOf?p.capOf(x.k):(x.k==='s'?.65:1)*p.capK):0}; });
   // a snack without protein (fruit and nuts) gets a dairy protein that goes with it — yogurt or cottage, never tuna or edamame next to fruit
@@ -4155,7 +4162,7 @@ function genDay(seed,dt,kO){
     if(!f){ tgt=meals.find(m=>un(m)&&m._it.some(i=>i.f.id==='sld')&&!hasR(m,'F')&&!hasR(m,'X')); const o=MFI('oil'); if(tgt&&o&&mfAllowed(o,p))f=o; }
     if(!f){ tgt=meals.find(m=>un(m)&&m.k!=='s'&&hasR(m,'V')&&!hasR(m,'F')&&!hasR(m,'X')); if(tgt)f=mfPick(MFid(tgt.k==='b'?['avo','oli']:['thn','oil','avo'],p).filter(x=>!(p.style==='kosher'&&tgt._it.some(i=>i.f.t==='m')&&x.t==='d')),rnd); }
     if(!f&&nofr()){ tgt=meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&!hasR(m,'X')&&!sav(m)); if(tgt)f=mfPick(mfPool('X','s',p).filter(x=>!usedAll().includes(x.id)),rnd); }
-    if(!f){ tgt=meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&!hasR(m,'F')&&!sav(m)&&m._it.some(i=>i.f.r==='X'||i.f.gp==='yog')); if(tgt)f=mfPick(mfPool('F','s',p).filter(x=>x.id!=='pnb'),rnd); }
+    if(!f){ tgt=meals.find(m=>un(m)&&m.k==='s'&&sOK(m)&&!hasR(m,'F')&&!sav(m)&&m._it.some(i=>i.f.r==='X'||i.f.gp==='yog')); if(tgt)f=mfPick(mfPool('F','s',p).filter(x=>x.id!=='pnb'&&x.id!=='pmk'),rnd); }
     if(!f||!tgt)break; tgt._it.push({f,g:f.df}); capAll(); menuBalance(meals,kT,pT);
   }
   // ארוחה עיקרית שיצאה קטנה מדי ואין בה מה להגדיל: מוסיפים שומן טוב (טחינה/שמן זית/אבוקדו) ומאזנים שוב
@@ -4446,7 +4453,7 @@ function mqMx(m,f){ const kT=+S.settings.kcalT||2000, light=m.k==='b'||m.k==='s'
   return c; }
 function mqCapAll(ms){ for(const m of ms)for(const i of m.items){ const f=MFI(i.id); if(!f)continue; const c=mqMx(m,f); if(i.g>c+.01){ const st=mfStep(f); i.g=Math.max(f.mn,Math.floor(c/st+1e-6)*st); } } }
 /* יעד גבוה: כשהמנות כבר בגודל המקסימלי הסביר, מוסיפים כמו תזונאית — אגוזים או פרי לביניים, פרי לבוקר/ערב, שומן טוב לארוחה — ורק אז מגדילים פחמימה */
-const MQ_NUT=['alm','wal','pst','csh','pmk'];
+const MQ_NUT=['alm','wal','pst','csh']; // pumpkin seeds in the shell are a nosh on their own, not a topping
 /* savoury foods: fruit, nuts and sweet spreads don't go in the same meal (no tuna with peanut butter, no eggs with dates) */
 const mqSav=mSav;
 function mqFits(m,f,ms){ const fs=m.items.map(i=>i.id&&MFI(i.id)).filter(Boolean);
@@ -4469,7 +4476,7 @@ function mqTopUp(ms,kT,p,rnd){ rnd=rnd||Math.random; const tot=()=>ms.reduce((a,
       m.items.push({r,id:f.id,g}); mqSort(m.items); } }
   const own=new Map(ms.flatMap(m=>m.items.map(i=>[i,m])));
   // the starch of a lunch/dinner that already has twice the protein's kcal in starch waits; the protein grows first
-  const rk=(m,r)=>m.items.filter(i=>i.r===r).reduce((a,i)=>a+MFI(i.id).k*i.g/100,0), heavy=i=>{ const m=own.get(i); return i.r==='C'&&m.k!=='s'&&m.k!=='b'&&rk(m,'C')>2*rk(m,'P')?1:0; };
+  const rk=(m,r)=>m.items.filter(i=>i.r===r).reduce((a,i)=>a+MFI(i.id).k*i.g/100,0), heavy=i=>{ const m=own.get(i); return i.r==='C'&&m.k!=='s'&&rk(m,'C')>2*rk(m,'P')?1:0; };
   for(let n=0;n<60&&tot()<kT-80;n++){ const c=ms.flatMap(m=>m.items).filter(i=>{ const f=MFI(i.id), ng=mfClamp(f,i.g+mfStep(f)); const m=own.get(i); return (i.r==='C'||i.r==='P')&&ng>i.g&&ng<=mqMx(m,f)+.01&&mqK(m)+f.k*(ng-i.g)/100<=mqCapOf(m.k); })
       .sort((a,b)=>heavy(a)-heavy(b)||(a.r==='C'?0:1)-(b.r==='C'?0:1)||MFI(a.id).k*a.g-MFI(b.id).k*b.g)[0];
     if(!c)break; const f=MFI(c.id); c.g=mfClamp(f,c.g+mfStep(f)); }
@@ -4504,12 +4511,15 @@ async function mqBuild(mode){ const q=mqS(), p=q.p||{meals:4}; q.ovr=null; q.not
   q.meals=meals; persistSettings(); logEv('menu_prefs'); render(); window.scrollTo(0,0); }
 /* מה ש-AI בחר לארוחה: רק מזונות מותרים, חייב חלבון, והכמויות מחושבות לגודל הארוחה */
 function mqAIMeal(m,am,p){ if(!m||!am)return false; const ids=[]; for(const id of am.items||[]){ const f=MFI(id); if(f&&mqOK(f,p)&&!ids.includes(id)&&mqKos(f,ids.map(x=>({id:x})),p))ids.push(id); }
+  // never sweet with savoury on one plate, whatever the model chose: no peanut butter, dates, nuts or fruit next to tuna, eggs, meat or legumes
+  if(ids.some(id=>mSav(MFI(id))))for(let j=ids.length-1;j>=0;j--){ const f=MFI(ids[j]); if(['pnb','dat','grn','crf','chm'].includes(f.id)||MQ_NUT.includes(f.id)||f.id==='pmk'||f.r==='X')ids.splice(j,1); }
+  if(ids.includes('pnb'))for(let j=ids.length-1;j>=0;j--)if(MFI(ids[j]).gp==='cheese')ids.splice(j,1);
   const fs=ids.map(MFI); if(ids.length<(m.k==='s'?1:2)||(m.k!=='s'&&!fs.some(f=>f.r==='P')))return false;
   const K=mqK(m)||m.items.reduce((a,i)=>a+(i.kt||0),0)||400, Pt=Math.max(8,mqPr(m)), it=solveIds(ids,K,Pt,f=>mqMx(m,f)); if(!it)return false;
   m.items=mqSort(it.map(x=>({r:MFI(x.id).r,id:x.id,g:x.g}))); mqCapAll([m]); m.name=String(am.name||'').slice(0,40)||null; m.tp=null; return true; }
 function mqRefit(){ const q=mqS(), f=(+S.settings.kcalT||2000)/(q.kT||+S.settings.kcalT||2000);
-  for(const m of q.meals){ if(!m.items.some(i=>i.id))continue; const L=m.items.filter(i=>i.id).map(i=>({f:MFI(i.id),g:i.g,ref:i})); solveMeal(L,mqK(m)*f,mqPr(m)*f); for(const x of L)x.ref.g=x.g; for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); }
-  q.kT=+S.settings.kcalT||2000; q.ovr=null; persistSettings(); render(); }
+  for(const m of q.meals){ if(!m.items.some(i=>i.id))continue; const L=m.items.filter(i=>i.id).map(i=>({f:MFI(i.id),g:i.g,ref:i,cap:mqMx(m,MFI(i.id))})); solveMeal(L,mqK(m)*f,mqPr(m)*f); for(const x of L)x.ref.g=x.g; mqCapAll([m]); for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); }
+  mqTrim(q.meals); q.kT=+S.settings.kcalT||2000; q.ovr=null; persistSettings(); render(); }
 
 /* ---------- מסכים ---------- */
 function mqBar(n,on){ return `<div class="mq-bar">${[...Array(n)].map((_,i)=>`<i class="${i<on?'on':''}"></i>`).join('')}</div>`; }
@@ -4553,7 +4563,7 @@ function mqPickOpen(mi,li){ const day=mqDay(), m=day&&day[mi], x=m&&m.items[li];
   const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100), oth=m.items.filter(y=>y!==x), ok=f=>mqOK(f,p)&&mqKos(f,oth,p)&&!oth.some(y=>y.id===f.id);
   let L=MF().filter(f=>f.r===x.r&&f.s.includes(sl)&&ok(f)); if(L.length<5)L=MF().filter(f=>f.r===x.r&&ok(f));
   const lk=p.likes||[]; L.sort((a,b)=>(b.id===x.id)-(a.id===x.id)||lk.includes(b.id)-lk.includes(a.id)||(b.fav||0)-(a.fav||0));
-  openSheet(`<h3 style="margin:0 0 4px">${tt(MQ_G[x.r]||'')} · ${tt(MQ_K[m.k])}</h3><div class="small muted" style="margin-bottom:8px">${x.r==='V'?tt('כמה שרוצים'):`${tt('בערך')} ${Math.round(kc)} ${tt('קק״ל')}. ${G('בחר אחד:','בחרי אחד:')}`}</div>
+  openSheet(`<h3 style="margin:0 0 4px">${tt(MQ_G[x.r]||'')} · ${tt(MQ_K[m.k])}</h3><div class="small muted" style="margin-bottom:8px">${x.r==='V'?tt('כמה שרוצים'):`${tt('בערך')} ${Math.round(kc)} ${tt('קק״ל')}. ${tt(G('בחר אחד:','בחרי אחד:'))}`}</div>
     <div class="mq-list">${L.map(f=>{ const g=mqFitG(f,kc,m), h=mqHH(f,g); return `<button class="mq-row ${f.id===x.id?'on':''}" data-act="mq-setf" data-m="${mi}" data-l="${li}" data-id="${f.id}">${niTile(fIco(f),18,36)}<span class="f">${esc(mfName(f))}${x.r!=='V'?`<small>100 ${tt('קק״ל')} = ${mqOne(f)}</small>`:''}</span><span class="q"><b>${h||`${Math.round(g)} ${tt('גר׳')}`}</b><small class="num">${h?`${Math.round(g)} ${tt('גר׳')} · `:''}${Math.round(f.k*g/100)} ${tt('קק״ל')}</small></span></button>`; }).join('')}</div>`); }
 /* שאלון קצר עם ראפי */
 const MQ_ST=[['any','אוכל הכל','בלי הגבלות'],['kosher','כשר','בלי בשר וחלב באותה ארוחה'],['pesc','צמחוני + דגים','בלי בשר ועוף. כן דגים, ביצים וחלב'],['veg','צמחוני','בלי בשר, עוף ודגים. כן ביצים וחלב'],['vegan','טבעוני','בלי מוצרים מן החי']];
@@ -4610,10 +4620,23 @@ async function mqEat(i){ const day=mqDay(), m=day&&day[i], today=ymd(); if(!m||m
   m.done=today; persistSettings(); logEv('menu_log');
   const keep=S.foodDate; S.foodDate=today; _mealDraft={name:MSLOT[m.k]?.[1]||'ארוחה',items,...tot}; await saveMealDraft(); S.foodDate=keep; render(); }
 /* ארוחה אחרת: ארוחה אמיתית אחרת מהספרייה, באותו גודל */
-function mqReroll(m,day){ const p=mqS().p||{}; mqWith(p,p0=>{ const rnd=mRand((Date.now()%1e9)|0), used=day.flatMap(x=>x===m?[]:x.items.map(i=>i.id)).filter(Boolean).concat(m.items.map(i=>i.id).filter(Boolean));
+/* "another meal": a different real meal from the library, the same size, with the same caps and portions as the generated day.
+   First it avoids everything on today's menu and in this meal; if that leaves nothing sensible (a vegan, gluten-free day) it may reuse the day's foods; it never hands back a plate without protein */
+function mqReroll(m,day){ const p=mqS().p||{}; mqWith(p,p0=>{ const rnd=mRand((Date.now()%1e9)|0), others=day.flatMap(x=>x===m?[]:x.items.map(i=>i.id)).filter(Boolean), mine=m.items.map(i=>i.id).filter(Boolean);
   const K=mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)||400, Pt=Math.max(8,mqPr(m)||K*.075), kind=mealKind(m.k,p0,false);
-  const b=buildMeal(kind,rnd,used,p0,{Pt,K,usedT:[m.tp].filter(Boolean),slot:m.k}), tp=b&&b._t; if(!b||!b.length)return;
-  for(const i of b){ i.cap=mqMx(m,i.f); if(i.g>mfMx(i))i.g=mfMx(i); } const it=solveMeal(b,K,Pt); m.items=mqSort(it.map(i=>({r:i.f.r,id:i.f.id,g:i.g}))); mqCapAll([m]); m.tp=tp?tp.id:null; m.name=null; }); }
+  for(let t=0;t<4;t++){ const used=t<2?others.concat(mine):others.slice();
+    const b=buildMeal(kind,rnd,used,p0,{Pt,K,usedT:[m.tp].filter(Boolean),slot:m.k}), tp=b&&b._t; if(!b||!b.length)continue;
+    if(m.k!=='s'&&!b.some(i=>i.f.r==='P'&&i.f.p>=7))continue;
+    const its=b.map(i=>({id:i.f.id}));
+    for(const i of b){ i.cap=mqMx({k:m.k,items:its},i.f); if(i.g>mfMx(i))i.g=mfMx(i);
+      const lo=mqLo(m.k,i,K); if(lo){ i.lo=lo; if(i.g<mfLo(i))i.g=mfLo(i); } }
+    const it=solveMeal(b,K,Pt);
+    // lunch/dinner balance: when the starch is more than twice the protein's kcal, a step of starch becomes a step of protein
+    if(m.k!=='s')for(let n=0;n<8;n++){ const P=it.find(i=>i.f.r==='P'&&!i.fix), C=it.filter(i=>i.f.r==='C').sort((a,c)=>c.g*c.f.k-a.g*a.f.k)[0], ck=x=>x.f.k*x.g/100;
+      if(!P||!C||ck(C)<=2*ck(P))break; const pg=mfCl(P,P.g+mfStep(P.f)), cg=mfCl(C,C.g-mfStep(C.f)); if(pg===P.g&&cg===C.g)break; P.g=pg; C.g=cg; }
+    const nm={k:m.k,items:mqSort(it.map(i=>({r:i.f.r,id:i.f.id,g:i.g})))}; mqCapAll([nm]); mqTrim([nm]);
+    if(t<3&&nm.items.map(i=>i.id).sort().join()===mine.slice().sort().join())continue;
+    m.items=nm.items; m.tp=tp?tp.id:null; m.name=null; return; } }); }
 function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
   switch(act){
     case 'mq-w': mqWizStart(b.dataset.v); return true;
