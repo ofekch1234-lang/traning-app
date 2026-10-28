@@ -4468,7 +4468,9 @@ function mqFits(m,f,ms){ const fs=m.items.map(i=>i.id&&MFI(i.id)).filter(Boolean
     return ['oil','thn','avo','oli'].includes(f.id)&&fs.some(x=>x.r==='V')&&!fs.some(x=>x.r==='X')&&!(f.id==='thn'&&fs.some(x=>x.gp==='cheese')); }
   return true; }
 /* a plate above the meal ceiling, or a snack bigger than lunch: trim it the way a dietitian would — starch first, then fat, then protein */
-function mqTrim(ms){ const lunch=()=>ms.find(m=>m.k==='l'), lim=m=>m.k==='s'?Math.min(mqCapOf('s'),lunch()?mqK(lunch())-20:1e9):MQ_CAPK+20;
+/* breakfast stays a breakfast: about 30% of the day at most (600 kcal on a 2,000 day) */
+const mqBfCap=()=>Math.min(MQ_CAPK,Math.round((+S.settings.kcalT||mqS().kT||2000)*((+mqS().p?.meals||4)<=3?.33:.3)));
+function mqTrim(ms){ const lunch=()=>ms.find(m=>m.k==='l'), lim=m=>m.k==='s'?Math.min(mqCapOf('s'),lunch()?mqK(lunch())-20:1e9):m.k==='b'?mqBfCap()+20:MQ_CAPK+20;
   for(const m of ms)for(let n=0;n<30&&mqK(m)>lim(m);n++){ const c=['C','X','F','L','P'].map(r=>m.items.filter(i=>{ const f=MFI(i.id); return i.r===r&&f&&mfClamp(f,i.g-mfStep(f))<i.g; }).sort((a,b)=>MFI(b.id).k*b.g-MFI(a.id).k*a.g)[0]).find(Boolean);
     if(!c)break; const f=MFI(c.id); c.g=mfClamp(f,c.g-mfStep(f)); } }
 function mqTopUp(ms,kT,p,rnd){ rnd=rnd||Math.random; const tot=()=>ms.reduce((a,m)=>a+mqK(m),0), used=()=>ms.flatMap(m=>m.items.map(i=>i.id)); mqCapAll(ms); mqTrim(ms);
@@ -4477,7 +4479,7 @@ function mqTopUp(ms,kT,p,rnd){ rnd=rnd||Math.random; const tot=()=>ms.reduce((a,
     for(const m of ms.filter(m=>m.k===k)){ if(tot()>=kT-120)break; if(m.items.some(i=>i.r===r))continue;
       const L=MF().filter(f=>f.r===r&&f.s.includes(sl)&&mqOK(f,p)&&mqKos(f,m.items,p)&&!used().includes(f.id)&&mqFits(m,f,ms)); if(!L.length)continue;
       const lk=p.likes||[], f=L.find(x=>lk.includes(x.id))||L[Math.floor(rnd()*L.length)];
-      const g=Math.min(mfClamp(f,f.df),mqMx(m,f)), big=Math.max(...ms.filter(x=>x.k!=='s').map(mqK)); if(m.k==='s'&&mqK(m)+f.k*g/100>big*.8)continue; if(mqK(m)+f.k*g/100>mqCapOf(m.k))continue;
+      const g=Math.min(mfClamp(f,f.df),mqMx(m,f)), big=Math.max(...ms.filter(x=>x.k!=='s').map(mqK)); if(m.k==='s'&&mqK(m)+f.k*g/100>big*.8)continue; if(mqK(m)+f.k*g/100>mqCapOf(m.k))continue; if(m.k==='b'&&(m.items.length>=5||mqK(m)+f.k*g/100>mqBfCap()))continue;
       m.items.push({r,id:f.id,g}); mqSort(m.items); } }
   const own=new Map(ms.flatMap(m=>m.items.map(i=>[i,m])));
   // the starch of a lunch/dinner that already has twice the protein's kcal in starch waits; the protein grows first

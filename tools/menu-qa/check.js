@@ -59,7 +59,8 @@ const SBJS=process.env.SBJS||'/tmp/claude-0/-home-claude/c63db132-56fe-55ce-ab3d
    const fruit=ms.flatMap(m=>m.items).filter(i=>i.r==='X').length; if(fruit>3)W('fruit_over_3',`${tag} ${fruit}`);
    const mainsP=ms.filter(m=>m.k==='l'||m.k==='d').map(m=>m.items.find(i=>i.r==='P')?.id).filter(Boolean); if(mainsP.length>1&&new Set(mainsP).size<mainsP.length)W('same_protein_lunch_dinner',`${tag} ${mainsP}`);
    const lunch=ms.find(m=>m.k==='l'); for(const s of ms.filter(m=>m.k==='s'))if(lunch&&mqK(s)>mqK(lunch))H('snack_bigger_than_lunch',tag);
-   const bf=ms.find(m=>m.k==='b'); if(bf&&(mqK(bf)<kT*.15||mqK(bf)>kT*.35))W('breakfast_share',`${tag} ${Math.round(mqK(bf))}`);
+   const bf=ms.find(m=>m.k==='b'); const bs=ms.length<=3?.33:.3; if(bf&&mqK(bf)>Math.min(920,kT*bs+40))H('breakfast_too_heavy',`${tag} ${Math.round(mqK(bf))}/${kT}`); else if(bf&&(mqK(bf)<kT*.15||mqK(bf)>kT*bs))W('breakfast_share',`${tag} ${Math.round(mqK(bf))}`);
+     if(bf&&bf.items.length>6)H('breakfast_too_many_items',`${tag} ${bf.items.length}`);
    { const cnt={}; for(const m of ms)for(const id of new Set(m.items.filter(i=>i.r!=='V'&&!['oil','thn'].includes(i.id)).map(i=>i.id)))cnt[id]=(cnt[id]||0)+1; const rep3=Object.keys(cnt).filter(id=>cnt[id]>=3); if(rep3.length)W('same_food_3_meals',`${tag} ${rep3}`); }
    const eggs3=ms.flatMap(m=>m.items).filter(i=>MFI(i.id)?.gp==='egg'&&MFI(i.id).ug&&i.g/MFI(i.id).ug>2.99); if(eggs3.length)W('three_eggs',tag);
    for(const m of ms)checkMeal(m,tag,p,st,kT);
