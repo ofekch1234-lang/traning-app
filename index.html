@@ -2131,6 +2131,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   @keyframes glowP{50%{box-shadow:0 0 0 4px rgba(226,176,28,.16),0 0 16px rgba(232,89,12,.35)}}
   @keyframes todayP{50%{box-shadow:0 0 0 5px var(--accent-soft)}}
 }
+.mc-photo{margin:-2px 0 12px;border-radius:18px;overflow:hidden;height:150px;background:var(--surface2);box-shadow:inset 0 0 0 1px var(--line)}.mc-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.mc-photo+h3{margin-top:0}.mc-photo~.mc-list{max-height:36vh}
 .mc-list{display:grid;gap:8px;max-height:46vh;overflow-y:auto;overscroll-behavior:contain}
 .mc-it{border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:var(--surface)}
 .mc-top{display:flex;gap:6px;align-items:center}
@@ -2527,7 +2529,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.94';
+const APP_VERSION='13.3.96';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6348,7 +6350,7 @@ async function foodAI(payload){
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
     if(data._left&&data._left.kind==='photo'){AIQ.photo=data._left.n; AIQ.loaded=Date.now();}
     if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); AIQ.loaded=Date.now(); }
-    S.ai.keep=false; openMealConfirm(data);
+    S.ai.keep=false; openMealConfirm(data,S.ai.img);
   }catch(e){
     console.error(e);
     S.ai.keep=true; const st=e?.context?.status;
@@ -6372,7 +6374,7 @@ function aiTicker(on){
 /* meal result before saving: every item is editable — name (with suggestions from the Israeli database, which
    replaces the nutrition values), grams, ½ / ×2, remove. Values scale from each item's base. */
 const MC={base:[],sugg:{},t:null};
-function openMealConfirm(data){
+function openMealConfirm(data,img){
   const items=data.items.map(it=>{ const c=Math.round(+it.count||0); return {name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,
     cnt:c>0&&c<=30&&it.unit?c:0,unit:String(it.unit||'').slice(0,24),ask:it.sure===false}; });
   MC.base=items.map(i=>({g:i.g||100,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat,noG:!i.g,cnt:i.cnt}));
@@ -6380,6 +6382,7 @@ function openMealConfirm(data){
   MC.sugg={};
   _mealDraft={name:String(data.name||'ארוחה'),items,mc:1,kcal:0,protein:0,carbs:0,fat:0};
   openSheet(`
+    ${img?`<div class="mc-photo"><img src="${img}" alt="${esc(tt('התמונה שצילמת'))}"></div>`:''}
     <h3 style="margin-bottom:8px">${esc(_mealDraft.name)}</h3>
     <div class="summary-grid" id="mc-tot" style="grid-template-columns:repeat(4,1fr)"></div>
     <div class="small muted" style="margin:10px 0 6px">💡 הערכת AI. אפשר לשנות כל פריט: שם, כמות, או למחוק.</div>
