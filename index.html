@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=26075ccf"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=26075ccf"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=26075ccf"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=86cc82b8"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=86cc82b8"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=86cc82b8"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1109,6 +1109,12 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .mq-mt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.mq-mt .t{font-size:12.5px;color:var(--muted)}
 .mq-ln .f .g{display:flex;align-items:center;gap:6px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:2px}.mq-ln .f .g .sq{display:inline-flex;gap:2px}.mq-ln .f .g .sq b{width:7px;height:7px;border-radius:2px;background:var(--accent)}
 .mq-ln .k{display:flex;flex-direction:column;align-items:flex-end;flex:none;line-height:1.2}.mq-ln .k b{font-size:16px;font-weight:800}.mq-ln .k small{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.mq-what{display:flex;align-items:center;gap:7px;margin-top:9px;padding:0;border:0;background:none;color:var(--muted);font:inherit;font-size:13.5px;cursor:pointer}.mq-what b{color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.sqi{display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--accent);flex:none}.sqi.big{width:34px;height:34px;border-radius:9px}
+.mq-h1{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}.mq-h1 b{font-size:16.5px}.mq-h1>div>span{display:block;color:var(--muted);font-size:14px;margin-top:3px}.mq-h1>div>span b{color:var(--ink);font-size:14px}
+.mq-hs{font-size:14px;font-weight:700;margin:16px 0 8px}
+.mq-hx{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mq-hx>div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:var(--surface);border:1px solid var(--line);text-align:center}.mq-hx b{font-size:14px}.mq-hx span{font-size:12px;color:var(--muted)}
+.mq-hl{display:flex;flex-direction:column;gap:10px;margin-top:16px}.mq-hl>div{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.45}.mq-hl b{width:24px;height:24px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-size:13px;flex:none}
 .mq-dn{font-size:13.5px;color:var(--muted);margin:-2px 0 4px}
 .mq-row .q{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}.mq-row .q small{font-size:12px;color:var(--muted)}
 .mq-done{display:flex;align-items:center;gap:10px;width:100%;margin-top:14px;padding:14px 16px;border-radius:18px;background:var(--surface);border:1px solid var(--line);color:var(--ink);font:inherit;text-align:start}
@@ -2089,7 +2095,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.95';
+const APP_VERSION='13.3.97';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4357,7 +4363,7 @@ const mqKos=(f,items,p)=>{ if((p||{}).style!=='kosher')return true; const ts=ite
 /* כמות ביתית + גרמים + קלוריות */
 function mqFr(q){ const w=Math.floor(q+1e-6), r=Math.round((q-w)*4)/4, s={0.25:'¼',0.5:'½',0.75:'¾'}[r]||''; return '⁦'+((w||'')+s||'0')+'⁩'; }
 function mqHH(f,g){ const L=MLI, u=(q,s,p)=>`${mqFr(q)} ${q>1?p:s}`;
-  if(f.u&&f.ug){ const q=Math.round(g/f.ug*4)/4; if(q>=.25){ const up=f.up||f.u; return u(q,f.u[L]||f.u[0],up[L]||up[0]); } }
+  if(f.u&&f.ug){ const r=g/f.ug, st=r>=3?1:(f.us||1)>=1?.5:.25, q=Math.round(r/st)*st; if(q>=.25){ const up=f.up||f.u; return u(q,f.u[L]||f.u[0],up[L]||up[0]); } }
   if(f.tb&&!(f.hm&&g/f.hm[0]>=.5)){ const q=Math.round(g/f.tb*2)/2; if(q>=1&&q<=8)return u(q,tt('כף'),tt('כפות')); }
   if(f.hm&&f.hm[1]!=='מנה'){ const q=Math.round(g/f.hm[0]*4)/4; if(q>=.25)return u(q,f.hm[1+L*2]||f.hm[1],f.hm[2+L*2]||f.hm[2]); }
   return ''; }
@@ -4419,6 +4425,16 @@ function mqRefit(){ const q=mqS(), f=(+S.settings.kcalT||2000)/(q.kT||+S.setting
 
 /* ---------- מסכים ---------- */
 function mqBar(n,on){ return `<div class="mq-bar">${[...Array(n)].map((_,i)=>`<i class="${i<on?'on':''}"></i>`).join('')}</div>`; }
+/* "מה זה ריבוע?" — הסבר פשוט עם דוגמאות אמיתיות מהמאגר */
+function mqHelp(){ const N=mqN(), ex=['egg','brd','ric','ban','thn','oil'].map(MFI).filter(Boolean);
+  openSheet(`<div class="mq-help"><div class="mq-rp" style="margin:0 0 14px"><img src="img/kobi-happy.svg" alt=""><div class="bb">${tt('מה זה ריבוע?')}<span>${tt('במקום לספור קלוריות, סופרים ריבועים.')}</span></div></div>
+    <div class="mq-h1"><span class="sqi big"></span><div><b>${tt('ריבוע אחד = 100 קלוריות')}</b><span>${tt('היום יש לך')} <b class="num">${N}</b> ${tt('ריבועים, כלומר')} <b class="num">${kcalN(N*100)}</b> ${tt('קק״ל')}.</span></div></div>
+    <div class="mq-hs">${tt('ריבוע אחד זה בערך:')}</div>
+    <div class="mq-hx">${ex.map(f=>`<div>${niTile(fIco(f),18,34)}<b>${mqOne(f)}</b><span>${esc(mfName(f))}</span></div>`).join('')}</div>
+    <div class="mq-hl"><div><b>1</b><span>${tt('בכל ארוחה רואים כמה ריבועים יש בה, וליד כל מאכל כמה קלוריות וגרם.')}</span></div>
+      <div><b>2</b><span>${tt('לא בא לך משהו? לוחצים עליו ובוחרים אחר. הכמות מתעדכנת לבד.')}</span></div>
+      <div><b>3</b><span>${tt('אכלת? לוחצים "אכלתי", והריבועים למעלה נצבעים.')}</span></div></div>
+    <button class="btn primary big" style="width:100%;margin-top:14px" data-act="sheet-close">${tt('הבנתי')}</button></div>`); }
 function mqTop(){ return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="${tt('חזרה')}">→</button><h2>${tt('התפריט שלי')}</h2>${mqS().meals&&!S.mqW?`<button class="mv-ib" data-act="mq-set" aria-label="${tt('הגדרות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>`:''}</div>`; }
 function vMenuQ(){ const q=mqS(), N=mqN();
   if(S.mqW)return mqTop()+mqWizHTML();
@@ -4427,7 +4443,9 @@ function vMenuQ(){ const q=mqS(), N=mqN();
   if(!q.meals)return mqTop()+`<div class="mq-hero"><div class="n num">${N}</div><div class="u">${tt('ריבועים ביום')}</div><div class="s">${tt('כל ריבוע הוא 100 קק״ל.')}<br>${tt('למשל 3 כפות אורז, או ביצה אחת.')}</div>${mqBar(N,0)}</div>
     <button class="mq-cta a" data-act="mq-w" data-v="repi">${tt('ראפי יבנה לי')}</button><button class="mq-cta" data-act="mq-w" data-v="self">${tt('אבנה לבד')}</button>`;
   const today=ymd(), day=mqDay(), eaten=Math.round(dayTotals(today).kcal/100), left=Math.max(0,N-eaten), nx=day.findIndex(m=>m.done!==today);
+  if(!q.help){ q.help=1; persistSettings(); setTimeout(mqHelp,350); }
   return mqTop()+`<div class="mq-left"><b class="num">${left}</b><span>${tt(left===1?'ריבוע נשאר היום':'ריבועים נשארו היום')}</span></div>${mqBar(N,Math.min(N,eaten))}
+    <button class="mq-what" data-act="mq-help"><span class="sqi"></span>${tt('ריבוע = 100 קק״ל')}<b>${tt('מה זה?')}</b></button>
     ${Math.abs((q.kT||0)-(+S.settings.kcalT||0))>60?`<button class="mq-fit" data-act="mq-fit">${tt('היעד היומי השתנה.')} <b>${tt('עדכן את התפריט')}</b></button>`:''}
     ${q.note?`<div class="mq-note"><img src="img/kobi-wink.svg" alt=""><span>${esc(q.note)}</span></div>`:''}
     ${day.map((m,i)=>mqMealHTML(m,i,today,i===nx||i===S.mqOpenI)).join('')}
@@ -4448,7 +4466,7 @@ function mqPickOpen(mi,li){ const day=mqDay(), m=day&&day[mi], x=m&&m.items[li];
   let L=MF().filter(f=>f.r===x.r&&f.s.includes(sl)&&ok(f)); if(L.length<5)L=MF().filter(f=>f.r===x.r&&ok(f));
   const lk=p.likes||[]; L.sort((a,b)=>(b.id===x.id)-(a.id===x.id)||lk.includes(b.id)-lk.includes(a.id)||(b.fav||0)-(a.fav||0));
   openSheet(`<h3 style="margin:0 0 4px">${tt(MQ_G[x.r]||'')} · ${tt(MQ_K[m.k])}</h3><div class="small muted" style="margin-bottom:8px">${x.r==='V'?tt('כמה שרוצים'):`${tt('בערך')} ${Math.round(kc)} ${tt('קק״ל')}. ${G('בחר אחד:','בחרי אחד:')}`}</div>
-    <div class="mq-list">${L.map(f=>{ const g=mqFitG(f,kc), h=mqHH(f,g); return `<button class="mq-row ${f.id===x.id?'on':''}" data-act="mq-setf" data-m="${mi}" data-l="${li}" data-id="${f.id}">${niTile(fIco(f),18,36)}<span class="f">${esc(mfName(f))}${x.r!=='V'?`<small>${tt('ריבוע')} = ${mqOne(f)}</small>`:''}</span><span class="q"><b>${h||`${Math.round(g)} ${tt('גר׳')}`}</b><small class="num">${h?`${Math.round(g)} ${tt('גר׳')} · `:''}${Math.round(f.k*g/100)} ${tt('קק״ל')}</small></span></button>`; }).join('')}</div>`); }
+    <div class="mq-list">${L.map(f=>{ const g=mqFitG(f,kc), h=mqHH(f,g); return `<button class="mq-row ${f.id===x.id?'on':''}" data-act="mq-setf" data-m="${mi}" data-l="${li}" data-id="${f.id}">${niTile(fIco(f),18,36)}<span class="f">${esc(mfName(f))}${x.r!=='V'?`<small>100 ${tt('קק״ל')} = ${mqOne(f)}</small>`:''}</span><span class="q"><b>${h||`${Math.round(g)} ${tt('גר׳')}`}</b><small class="num">${h?`${Math.round(g)} ${tt('גר׳')} · `:''}${Math.round(f.k*g/100)} ${tt('קק״ל')}</small></span></button>`; }).join('')}</div>`); }
 /* שאלון קצר עם ראפי */
 const MQ_ST=[['any','אוכל הכל','בלי הגבלות'],['kosher','כשר','בלי בשר וחלב באותה ארוחה'],['pesc','צמחוני + דגים','בלי בשר ועוף. כן דגים, ביצים וחלב'],['veg','צמחוני','בלי בשר, עוף ודגים. כן ביצים וחלב'],['vegan','טבעוני','בלי מוצרים מן החי']];
 const MQ_AV=[['l','לקטוז'],['g','גלוטן'],['n','אגוזים'],['e','ביצים'],['f','דגים'],['s','סויה']];
@@ -4517,6 +4535,7 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-setf': { const m=day&&day[mi], x=m&&m.items[+b.dataset.l], f=MFI(b.dataset.id); if(x&&f){ const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100); x.id=f.id; x.r=f.r; x.g=mqFitG(f,kc); delete x.kt; m.name=null; persistSettings(); } closeSheet(); render(); return true; }
     case 'mq-re': { const m=day&&day[mi]; if(m){ mqReroll(m,day); persistSettings(); } render(); return true; }
     case 'mq-open': S.mqOpenI=mi; render(); return true;
+    case 'mq-help': mqHelp(); return true;
     case 'mq-eat': mqEat(mi); return true;
     case 'mq-fit': mqRefit(); return true;
     case 'mq-ask': mqAskOpen(); return true;
@@ -4573,7 +4592,8 @@ function niTile(k,sz,box){ const o=NI_I[k]||NI_I.bal; return '<span class="ni-t"
 const MN_ICO={chk:'gp',thg:'gp',tky:'gp',sch:'schn',bef:'meat',stk:'meat',sal:'fish',fsh:'fish',dns:'fish',tun:'tuna',egg:'egg',oml:'egg',shk:'shak',cot:'cheese',whc:'cheese',bgc:'cheese',ylc:'cheese',ygp:'yog',why:'post',tof:'vegan',len:'humus',chp:'humus',eda:'humus',hum:'humus',
   ric:'rice',brr:'rice',qui:'rice',bul:'rice',cus:'rice',pti:'rice',bkw:'rice',pas:'pasta',wpa:'pasta',swp:'potato',pot:'potato',crn:'gc',pit:'pita',tor:'pita',brd:'gc',rck:'gc',oat:'oats',grn:'oats',
   ban:'banana',apl:'sn',str:'straw',blu:'straw',grp:'grapes',dat:'date',org:'gr',clm:'gr',kiw:'gr',mng:'gr',per:'gr',sld:'salad',brc:'gv',cau:'gv',grb:'gv',zuc:'gv',spn:'gv',egp:'gv',pep:'gv',car:'veg',cuc:'cucum',tom:'tomato',
-  oil:'oil',oli:'oil',thn:'tahini',avo:'gf',alm:'nuts',wal:'nuts',pst:'nuts',pnb:'nuts',chm:'gd',mlk:'gd',soy:'gd'};
+  oil:'oil',oli:'oil',thn:'tahini',avo:'gf',alm:'nuts',wal:'nuts',pst:'nuts',pnb:'nuts',chm:'gd',mlk:'gd',soy:'gd',
+  tuo:'tuna',srd:'fish',cod:'fish',tps:'meat',tsf:'cheese',lbn:'cheese',ygt:'yog',ful:'humus',wbn:'humus',wbr:'gc',chl:'gc',wpt:'pita',bgl:'gc',rnd:'pasta',mpt:'potato',crf:'oats',wtm:'gr',mel:'gr',pch:'gr',plm:'gr',pin:'gr',csh:'nuts',pmk:'nuts',let:'salad',msh:'gv',bet:'gv',cab:'gv'};
 const MN_RG={P:'gp',C:'gc',V:'gv',F:'gf',X:'gr',L:'gd'};
 function fIco(f){ if(!f)return 'bal'; if(MN_ICO[f.id])return MN_ICO[f.id]; if(MN_RG[f.r])return MN_RG[f.r];
   const n=String(mfName(f)||f.name||''); for(const [w,k] of [['ביצ','egg'],['חביתה','egg'],['שקשוקה','shak'],['עוף','gp'],['הודו','gp'],['שניצל','schn'],['בקר','meat'],['סטייק','meat'],['דג','fish'],['סלמון','fish'],['טונה','tuna'],['גבינ','cheese'],['קוטג','cheese'],['יוגורט','yog'],['אורז','rice'],['פסטה','pasta'],['תפוח אדמה','potato'],['בטטה','potato'],['פיתה','pita'],['לחם','gc'],['חומוס','humus'],['סלט','salad'],['בננה','banana'],['תפוח','sn'],['שוקולד','choc'],['קפה','coffee'],['פיצה','pizza'],['המבורגר','burger']])if(n.includes(w))return k;
