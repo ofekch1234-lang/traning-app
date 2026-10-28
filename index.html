@@ -1985,7 +1985,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.83';
+const APP_VERSION='13.3.85';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3634,7 +3634,7 @@ function miAmt(it,fo){ const f=fo||miFood(it)||{};
     const u=q>1&&f.up?(f.up[MLI]||f.up[0]):(f.u[MLI]||f.u[0]); const zt=(f.sk==='egg'||f.szt)&&(f.szk||it.szk)?` ${f.szk||it.szk}`:''; return `${fracQ(q)} ${u}${zt}`; }
   const g=Math.round(+it.g||0), GL=['גר׳','g','غ'][MLI]; let s=`${g} ${GL}`;
   const tbn=f.tb?Math.round(g/f.tb):0;
-  if(f.tb&&tbn>=1&&(tbn<=12||!f.hm)){ const TB=[['כף','כפות'],['tbsp','tbsp'],['ملعقة','ملاعق']][MLI]; s+=` · ${tbn} ${tbn>1?TB[1]:TB[0]}`; }
+  if(f.tb&&tbn>=1&&!f.hm){ const TB=[['כף','כפות'],['tbsp','tbsp'],['ملعقة','ملاعق']][MLI]; s+=` · ${tbn} ${tbn>1?TB[1]:TB[0]}`; }
   else if(f.hm){ const step=['כוס','מנה','קערה'].includes(f.hm[1])?4:2, q=Math.round(g/f.hm[0]*step)/step; if(q>=.25)s+=` · ${fracQ(q)} ${q>1?f.hm[2+MLI*2]:f.hm[1+MLI*2]}`; }
   return s; }
 function fracQ(q){ const w=Math.floor(q+1e-9), r=Math.round((q-w)*4)/4; if(r>=1)return String(w+1); const fr=r===.25?'¼':r===.5?'½':r===.75?'¾':''; const t=(w?String(w):'')+fr||'0'; return fr?'\u2066'+t+'\u2069':t; }
@@ -3647,7 +3647,7 @@ function qUnits(f,zg){ const L=[{k:'g',n:['גרם','grams','غرام'],g:1,st:10
   return L; }
 function openQty(mi,ii){
   const it=menuS().day.meals[mi].items[ii], f=miFood(it)||{}, U=qUnits(f);
-  const def=U.find(x=>x.k==='u')||U.find(x=>x.k==='tb')||U.find(x=>x.k==='hm')||U[0];
+  const def=U.find(x=>x.k==='u')||U.find(x=>x.k==='hm')||U.find(x=>x.k==='tb')||U[0];
   const Z=szList(f), zk=f.szk||it.szk, z=Z&&(Z.find(x=>x[0]===zk)||Z[0]);
   QS={mi,ii,g:+it.g||0,k:def.k,z:z?z[0]:null,zg:z?z[1]:0}; renderQty();
 }
