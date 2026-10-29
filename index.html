@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cbfbb8f4"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cbfbb8f4"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cbfbb8f4"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4e1504ee"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4e1504ee"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4e1504ee"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1037,6 +1037,21 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .card.r20{border-radius:20px}
 .bar2{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}.bar2 i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .5s}
 .bar2 i.p{background:#2563EB}.bar2 i.cb{background:#D99A00}.bar2 i.ft{background:#E8590C}
+.pv{padding:14px}.pv-hd{display:flex;align-items:center;gap:11px;width:100%;text-align:var(--start);color:inherit;background:none;padding:0;font-size:15.5px}
+.pv-hd .lt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.pv-hd .lt small{font-size:12.5px;color:var(--muted)}
+.pv-ib{width:36px;height:36px;border-radius:12px;background:rgba(191,255,47,.12);color:var(--accent);display:grid;place-items:center;flex:none}.pv-ib svg.ic{width:20px;height:20px}
+.pv-more{font-size:13px;font-weight:600;color:var(--accent);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}.pv-more .chev{color:var(--accent);display:inline-block;transition:transform .2s}
+button.pv.pv-hd{border:1px solid var(--line)}
+.pv-strip{display:flex;gap:6px;margin-top:12px}.pv-d{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10.5px;color:var(--muted);background:none;padding:0}
+.pv-d i{display:grid;place-items:center;width:100%;height:32px;border-radius:9px;background:var(--surface2);font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted)}.pv-d i.y{background:rgba(191,255,47,.14);color:var(--accent)}.pv-d i.t{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.pv-phs{display:flex;gap:7px;margin-top:12px}.pv-ph{flex:1;min-width:0;height:84px;border-radius:12px;background:linear-gradient(160deg,#30362f,#1c201d);position:relative;overflow:hidden;padding:0}
+.pv-ph img{width:100%;height:100%;object-fit:cover;display:block}.pv-ph span{position:absolute;bottom:5px;inset-inline-start:7px;font-size:10.5px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.pv-ph.add{background:rgba(191,255,47,.08);border:1.5px dashed rgba(191,255,47,.5);color:var(--accent);font-size:12.5px;font-weight:700}.pv-ph.empty{background:var(--surface2);opacity:.45}
+.pv.due .pv-ph.add{background:var(--accent);color:var(--accent-ink);border:0}
+.pv-bars{display:flex;gap:6px;align-items:flex-end;height:64px;margin-top:12px;position:relative;padding-bottom:16px}.pv-bars>span{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.pv-bars>span i{width:100%;max-width:30px;border-radius:5px 5px 2px 2px;background:var(--accent)}.pv-bars small{position:absolute;bottom:-16px;font-size:10.5px;color:var(--muted)}
+.pv-tl{position:absolute;inset-inline:0;border-top:1.5px dashed rgba(255,255,255,.28);pointer-events:none}
+.pv-open{margin-top:12px}.pv-open.cal>.sect,.pv-open.nut>.sect{display:none}.pv-open.cal>.card,.pv-open.nut>.card{background:none;border:0;padding:0;box-shadow:none}.pv-open.ph>.sect:first-child>span:first-child{visibility:hidden}
 .li{display:flex;align-items:center;gap:12px;padding:13px 14px;min-height:48px;width:100%;text-align:var(--start);color:inherit;border-radius:0;font-size:15.5px;text-decoration:none}
 .li+.li{border-top:1px solid var(--line)}
 .li>svg.ic{width:22px;height:22px;flex-shrink:0;color:var(--muted)}
@@ -2141,7 +2156,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.121';
+const APP_VERSION='13.3.123';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6988,8 +7003,6 @@ function vBody(){
   }
   const bl=balanceLine();
   const o=S.bodyOpen||(S.bodyOpen={});
-  const row=(k,icon,title,sub)=>`<button class="li" data-act="body-tog" data-k="${k}" aria-expanded="${!!o[k]}">${icon}<span class="lt"><b>${title}</b><small>${sub}</small></span><span class="chev" style="transform:rotate(${o[k]?'90deg':'0'})">›</span></button>${o[k]?`<div style="padding:0 14px 14px">${k==='cal'?bwCalendarHTML():k==='ph'?photosHTML():nutritionWeekHTML()}</div>`:''}`;
-  const nPh=(PH.sets||[]).length;
   return `
     <div class="card r20 stack" style="gap:12px">
       <div class="spread" style="align-items:flex-end">
@@ -7004,13 +7017,42 @@ function vBody(){
     </div>
     ${bwJumpHTML()}
     ${bl.proj||bl.tip?`<div class="card r20 kobi-row" style="padding:12px 14px;align-items:flex-start"><img src="img/kobi-think.svg" alt=""><span class="lt">${bl.proj?`<b>${bl.proj}</b>`:''}${bl.tip?`<span>${bl.tip}</span>`:''}</span></div>`:''}
-    <div class="card r20 list">
-      ${row('cal',ICON.scale,'לוח שקילות',ws.length?`${ws.filter(x=>x.d.slice(0,7)===today.slice(0,7)).length} שקילות החודש`:'עוד לא נשקלת')}
-      ${row('ph',ICON.photo,'תמונות התקדמות',S.settings.photoDay!=null?`יום צילום: ${DAY_NAMES[S.settings.photoDay]} · מוצפנות, רק אתה רואה`:'בחר יום צילום קבוע · מוצפנות, רק אתה רואה')}
-      <button class="li" data-act="food-targets-open">${ICON.target}<span class="lt"><b>היעדים שלי</b><small>${kT?`${kcalN(kT)} קק״ל · ${pT||'—'} ג׳ חלבון${goal?` · ${wB(goal)} ${BU()}`:''}`:'קלוריות, חלבון ומשקל יעד'}</small></span>${ICON.chev}</button>
-      ${row('nut',ICON.food,'תזונה · 7 ימים','ממוצע יומי מול היעד')}
-    </div>
+    ${progCardsHTML(ws,today,goal,kT,pT)}
   `;
+}
+/* progress screen: one card per area with a live preview (last 7 weigh-ins, latest photos, 7 days of food), tap the link to open it in place */
+function progCardsHTML(ws,today,goal,kT,pT){
+  const o=S.bodyOpen||(S.bodyOpen={});
+  const hd=(k,icon,title,sub,more)=>`<button class="pv-hd" data-act="body-tog" data-k="${k}" aria-expanded="${!!o[k]}"><span class="pv-ib">${icon}</span><span class="lt"><b>${title}</b><small>${sub}</small></span><span class="pv-more">${o[k]?tt('סגירה'):more} <span class="chev" style="transform:rotate(${o[k]?'90deg':'0'})">›</span></span></button>`;
+  const body=(k,html)=>o[k]?`<div class="pv-open ${k}">${html}</div>`:'';
+  /* weigh-ins: the last 7 days, today first (on the start side) */
+  const byDay={}; for(const p of ws)byDay[p.d]=p.kg;
+  const strip=[...Array(7)].map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-i); const k=ymd(d), v=byDay[k];
+    return `<button class="pv-d" data-act="cal-day" data-d="${k}"><i class="${v!=null?'y':''} ${i===0?'t':''} num">${v!=null?w1(v):'—'}</i>${i===0?tt('היום'):DAY_LETTERS[d.getDay()]}</button>`; }).join('');
+  const nMon=ws.filter(x=>x.d.slice(0,7)===today.slice(0,7)).length;
+  const cal=`<div class="card r20 pv">${hd('cal',ICON.scale,tt('לוח שקילות'),ws.length?`${nMon} ${tt('שקילות החודש')}`:tt('עוד לא נשקלת'),tt('כל החודש'))}
+    ${o.cal?'':`<div class="pv-strip">${strip}</div>`}${body('cal',bwCalendarHTML())}</div>`;
+  /* photos: today's add tile + the 3 latest sets */
+  if(!PH.loaded)loadPhotos();
+  const pd=S.settings.photoDay, isDay=pd!=null&&new Date().getDay()===+pd, hasToday=PH.sets.some(x=>x.d===today);
+  const lastSets=PH.sets.filter(x=>x.d!==today).slice(0,hasToday?2:3); const tsets=hasToday?[PH.sets.find(x=>x.d===today),...lastSets]:lastSets;
+  ensureVisible(tsets);
+  const th=tsets.map(x=>{ const k=['front','side','back'].find(a=>x[a]), u=k&&PH.urls[x[k]];
+    return `<button class="pv-ph" data-act="photo-open" data-d="${x.d}">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}<span>${x.d===today?tt('היום'):new Date(x.d+'T12:00:00').toLocaleDateString(LOC,{day:'numeric',month:'short'})}</span></button>`; }).join('');
+  const phSub=pd==null?tt('בחר יום צילום קבוע · מוצפנות, רק אתה רואה'):isDay&&!hasToday?tt('היום יום צילום · מוצפנות, רק אתה רואה'):`${tt('יום צילום')}: ${DAY_NAMES[pd]} · ${tt('מוצפנות, רק אתה רואה')}`;
+  const ph=`<div class="card r20 pv ${isDay&&!hasToday?'due':''}">${hd('ph',ICON.photo,tt('תמונות התקדמות'),phSub,tt('הכל'))}
+    ${o.ph?'':`<div class="pv-phs">${hasToday?'':`<button class="pv-ph add" data-act="photo-open" data-d="${today}">+ ${tt('צילום היום')}</button>`}${th}${[...Array(Math.max(0,(hasToday?4:3)-tsets.length))].map(()=>'<span class="pv-ph empty"></span>').join('')}</div>`}${body('ph',photosHTML())}</div>`;
+  /* food: 7 bars against the target */
+  const days=[]; for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=ymd(d); days.push({dow:d.getDay(),t:dayTotals(ds),has:mealsOf(ds).length>0}); }
+  const lg=days.filter(x=>x.has), cm=calm(), val=x=>cm?x.t.protein:x.t.kcal, tgt=cm?pT:kT;
+  const avg=lg.length?Math.round(lg.reduce((a,x)=>a+val(x),0)/lg.length):0;
+  const mx=Math.max((tgt||0)*1.15,...days.map(val),1);
+  const nSub=!lg.length?tt('עוד לא נרשמו ארוחות השבוע'):cm?`${tt('ממוצע')} ${avg}${pT?` ${tt('מתוך')} ${pT}`:''} ${tt('גר׳ חלבון')}`:`${tt('ממוצע')} ${kcalN(avg)}${kT?` ${tt('מתוך')} ${kcalN(kT)}`:''} ${tt('קק״ל')}`;
+  const bars=`<div class="pv-bars">${tgt?`<i class="pv-tl" style="bottom:calc(16px + (100% - 16px) * ${(tgt/mx).toFixed(3)})"></i>`:''}${days.map(x=>{ const big=!cm&&kState(x.t.kcal,kT)==='big';
+    return `<span><i style="height:${x.has?Math.max(6,val(x)/mx*100):6}%;${x.has?'':'opacity:.25;'}${big?'background:var(--kbig)':''}"></i><small>${DAY_LETTERS[x.dow]}</small></span>`; }).join('')}</div>`;
+  const nut=`<div class="card r20 pv">${hd('nut',ICON.food,tt('תזונה · 7 ימים'),nSub,tt('פירוט'))}${o.nut?'':bars}${body('nut',nutritionWeekHTML())}</div>`;
+  const goals=`<button class="card r20 pv pv-hd pv-g" data-act="food-targets-open"><span class="pv-ib">${ICON.target}</span><span class="lt"><b>${tt('היעדים שלי')}</b><small>${kT?`${kcalN(kT)} ${tt('קק״ל')} · ${pT||'—'} ${tt('ג׳ חלבון')}${goal?` · ${wB(goal)} ${BU()}`:''}`:tt('קלוריות, חלבון ומשקל יעד')}</small></span><span class="pv-more">${tt('עריכה')} <span class="chev">›</span></span></button>`;
+  return cal+ph+nut+goals;
 }
 function bwChartHTML(goal,compact){
   const ws=(S.weights||[]).slice(-90).map(p=>({d:p.d,kg:+wB(p.kg)})); goal=goal?+wB(goal):goal;
