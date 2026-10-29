@@ -3478,7 +3478,7 @@ function savedMeals(){ return Array.isArray(S.settings.saved)?S.settings.saved:(
 function mealKey(n){ return String(n||'').trim().replace(/\s+/g,' '); }
 function isSavedMeal(m){ const k=mealKey(m?.name); return !!k&&savedMeals().some(x=>mealKey(x.name)===k); }
 function saveAsFixed(m){ const L=savedMeals(), k=mealKey(m.name)||'ארוחה', i=L.findIndex(x=>mealKey(x.name)===k);
-  const row={id:i>=0?L[i].id:'s'+Date.now(),name:k,kcal:Math.round(+m.kcal||0),protein:Math.round(+m.protein||0),carbs:Math.round(+m.carbs||0),fat:Math.round(+m.fat||0),items:clone(m.items||[]).map(({_f,...x})=>x)};
+  const row={id:i>=0?L[i].id:'s'+Date.now(),name:k,kcal:Math.round(+m.kcal||0),protein:Math.round(+m.protein||0),carbs:Math.round(+m.carbs||0),fat:Math.round(+m.fat||0),items:clone(m.items||[]).map(({_f,ai,...x})=>x)};
   if(i>=0)L[i]=row; else L.unshift(row); if(L.length>40)L.length=40; persistSettings(); return row; }
 function unsaveFixed(name){ const k=mealKey(name); S.settings.saved=savedMeals().filter(x=>mealKey(x.name)!==k); persistSettings(); }
 function savedChips(){ const L=savedMeals(); if(!L.length)return '';
@@ -5441,7 +5441,9 @@ async function foodAI(payload){
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
     if(data._left&&data._left.kind==='photo'){AIQ.photo=data._left.n; AIQ.loaded=Date.now();}
     if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); AIQ.loaded=Date.now(); }
-    S.ai.keep=false; openMealConfirm(data,S.ai.img);
+    S.ai.keep=false; const its=data.items.map(mcFromAI);
+    const ref=await Promise.race([mcRefine(its).catch(()=>null),new Promise(r=>setTimeout(r,2500))]);
+    openMealConfirm(data,S.ai.img,ref||its);
   }catch(e){
     console.error(e);
     S.ai.keep=true; const st=e?.context?.status;
@@ -5467,11 +5469,58 @@ function aiTicker(on){
    Items the AI wasn't sure about are flagged, and a likely alternative ("tuna in oil?") is one tap away. */
 const MC={open:-1,sugg:[],t:null,img:null,busy:false};
 function mcFromAI(it){ const g=Math.round(+it.grams||0), c=Math.round(+it.count||0), unit=String(it.unit||'').slice(0,24), r1=v=>Math.round(v*1000)/1000;
-  const o={name:String(it.name||''),kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,ask:it.sure===false,alt:String(it.alt||'').slice(0,40)};
+  const o={name:String(it.name||''),kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,ask:it.sure===false,alt:String(it.alt||'').slice(0,40),
+    ai0:{n:String(it.name||'').slice(0,60),g,k:Math.round(+it.kcal||0)}};
+  mcSane(o,g,c,unit);
+  if(o.alt&&it.altk!=null&&+it.altk>=0&&g>0)o.altd=r1(+it.altk/g*100);
   if(g>0){ const units=c>0&&c<=30&&unit?[{u:unit,g:Math.round(g/c)}]:[];
     o.q={per:{kcal:r1(o.kcal/g*100),protein:r1(o.protein/g*100),carbs:r1(o.carbs/g*100),fat:r1(o.fat/g*100)},units,u:units[0]?unit:null,n:units[0]?c:g,g,ai:1}; }
   else o.q={mult:1,base:{kcal:o.kcal,protein:o.protein,carbs:o.carbs,fat:o.fat}};
   return o; }
+/* data quality behind the AI result, at no AI cost. Sanity: kcal must agree with 4/4/9 macros (alcohol aside; when they
+   disagree neither is known to be right, so both meet halfway) and stay under pure fat; amounts far outside a normal portion or unit weight are flagged for the user to check. */
+const FD_ALC=/בירה|יין|וודקה|ויסקי|וויסקי|ערק|רום|ג'ין|טקילה|קוקטייל|ליקר|אלכוהול|beer|wine|vodka|whisk|rum\b|gin\b|tequila|cocktail|liqueur|arak|alcohol|بيرة|نبيذ|كحول|عرق/i;
+const FD_UG=[[/^(כפית|כפיו|tsp|teaspoon)/i,1,15],[/^(כפ|tbsp|spoon|ملعق)/i,4,45],[/^(פרוס|slice|شريح)/i,8,60],[/^(ביצ|egg|بيض)/i,35,75],[/^(פית|pita)/i,40,130],[/^(תמר|date|تمر)/i,5,30],[/^(כדור|ball)/i,10,40]];
+function mcSane(o,g,c,unit){ const m=4*o.protein+4*o.carbs+9*o.fat, alc=FD_ALC.test(o.name);
+  if(m>0&&(!(o.kcal>0)||g>0&&o.kcal/g>9.2&&m/g<=9.2))o.kcal=Math.round(m);
+  else if(m>0&&!alc&&Math.abs(o.kcal-m)>Math.max(25,.3*o.kcal)&&!(g>0&&o.kcal/g>9.2)){ const k=Math.round((o.kcal+m)/2), f=k/m; o.kcal=k; for(const x of ['protein','carbs','fat'])o[x]=Math.round(o[x]*f*10)/10; }
+  if(g>0&&o.kcal/g>9.2)o.kcal=Math.round(g*9);
+  const ug=c>0?g/c:0, b=ug&&FD_UG.find(([rx])=>rx.test(unit));
+  if(b&&(ug<b[1]||ug>b[2])||o.kcal>1500||g>(isLiquid(o)?2500:1500))o.ask=true; }
+/* match an AI item to the Israeli food database: only an exact name (after dropping words that don't change the values),
+   and only when its kcal per 100 g agrees with the AI's estimate, so raw vs prepared tahini or oil vs water never cross */
+const fdNorm=s=>String(s||'').toLowerCase().replace(/[׳`´’]/g,"'").replace(/[״”“]/g,'"').replace(/\([^)]*\)/g,' ').replace(/([\u05D5\u05D9])\1/g,'$1').replace(/[.,;:!?]/g,' ').replace(/\s+/g,' ').trim();
+const fdKey=s=>String(s||'').replace(/[׳`´’]/g,"'").replace(/[״”“]/g,'"').replace(/\([^)]*\)/g,' ').replace(/(^|\s)(טרי|טרייה|טריה|ביתי|ביתית|קצוץ|קצוצה|קצוצים|פרוס|פרוסים|חתוך|חתוכה|חתוכים|רגיל|רגילה|fresh|homemade|chopped|sliced|plain|regular)(?=\s|$)/gi,' ').replace(/\s+/g,' ').trim();
+const fdStem=s=>String(s||'').replace(/[\u05DA\u05DD\u05DF\u05E3\u05E5]/g,c=>String.fromCharCode(c.charCodeAt(0)+1)).replace(/(ות|ים|ה)$/,'').slice(0,3);
+const fdNear=(a,b,abs)=>Math.abs(a-b)<=Math.max(abs,.45*Math.max(a,b));
+async function mcGround(o){ const q=o.q; if(!q||q.mult!=null||!(q.g>0)||!o.name)return;
+  const key=fdKey(o.name); if(key.length<2)return; const K=fdNorm(key);
+  const f=(await mcFind(key)).find(x=>fdNorm(x.name)===K); if(!f||!fdNear(o.kcal/q.g*100,+f.kcal||0,60))return;
+  const {units,liq}=foodUnits(f), U=units.map(u=>({u:u.u,g:u.g})), r1=v=>Math.round(v*1000)/1000;
+  let u=null, n=q.g;
+  if(q.u){ const ug=q.g/q.n, st=fdStem(q.u), cl=L=>L.sort((a,b)=>Math.abs(Math.log(a.g/ug))-Math.abs(Math.log(b.g/ug)))[0];
+    const m=cl(U.filter(x=>fdStem(x.u)===st))||cl(U.filter(x=>/^(יחידה|unit|piece|حبة)/i.test(x.u)));
+    if(m&&m.g/ug<=2&&ug/m.g<=2)m.u=q.u; else U.unshift({u:q.u,g:Math.round(ug)});
+    u=q.u; n=q.n; }
+  o.q={per:{kcal:r1(+f.kcal||0),protein:r1(+f.protein||0),carbs:r1(+f.carbs||0),fat:r1(+f.fat||0)},units:U,u,n,g:q.g,liq,ai:1};
+  o.src='db'; o.code=f.code; meApply(o); }
+/* the look-alike variant ("tuna in oil?"): the database food with that name, or one close to the AI's kcal for it;
+   without one, the AI's own kcal for the variant (the difference goes to fat, or to sugar in a non-dairy drink) */
+async function mcAltSwap(it){ const alt=it.alt, d=it.altd, q=it.q, prev={n:it.name,d:q&&q.per?q.per.kcal:null}; if(!alt)return prev;
+  const r=await mcFind(fdKey(alt)), A=fdNorm(fdKey(alt)), ok=f=>d==null||fdNear(+f.kcal||0,d,25);
+  const f=r.find(x=>fdNorm(x.name)===A&&ok(x))||(d!=null?r.find(ok):r[0]);
+  if(f){ mcSwap(it,f); return prev; }
+  if(d!=null&&q&&q.per){ const P=q.per, dk=d-P.kcal, sug=isLiquid({name:it.name})&&!/חלב|יוגורט|לבן|קפה|milk|yog|coffee|حليب|لبن/i.test(it.name), k=sug?'carbs':'fat';
+    P[k]=Math.max(0,Math.round((P[k]+dk/(sug?4:9))*1000)/1000); P.kcal=d; meApply(it); }
+  it.name=alt; it.alt=''; it.ask=false; return prev; }
+/* how often the user logged each name: a look-alike they usually eat ("טונה בשמן") becomes the default, with the AI's pick one tap away */
+function mcUsual(){ const c={}; for(const m of (S.meals||[]).slice(-300))for(const i of (m.items||[]))if(i&&i.name){ const k=fdNorm(i.name); c[k]=(c[k]||0)+1; } return c; }
+function mcPrefers(c,a,b){ const A=fdNorm(a), B=fdNorm(b); let na=0, nb=0; if(!A||!B)return false;
+  for(const k in c){ if(k.includes(A))na+=c[k]; else if(k.includes(B))nb+=c[k]; } return na>=2&&na>2*nb; }
+async function mcRefine(items){ const its=clone(items), usual=mcUsual();
+  await Promise.all(its.map(async o=>{ try{ await mcGround(o);
+    if(o.alt&&mcPrefers(usual,o.alt,o.name)){ const ask=o.ask, p=await mcAltSwap(o); o.alt=p.n; o.altd=p.d; o.ask=ask; o.src='usual'; } }catch(_){} }));
+  return its; }
 /* a database food's units, the way the portion sheet offers them, and the unit it would start with */
 function foodUnits(f){ const liq=isLiquid(f);
   const units=(f.units||[]).map(u=>({u:u.u,g:+u.g,d:!!u.d})).filter(u=>u.g>0);
@@ -5489,9 +5538,9 @@ function mcSwap(it,f){ const {units,def,liq}=foodUnits(f), q0=it.q||{}, g0=q0.mu
   else if(def){ q.u=def.u; q.n=1; }
   else q.n=g0||100;
   it.name=f.name; it.q=q; it.ask=false; it.alt=''; meApply(it); }
-function openMealConfirm(data,img){
+function openMealConfirm(data,img,built){
   MC.open=-1; MC.sugg=[]; MC.img=img||null;
-  _mealDraft={name:String(data.name||'ארוחה'),items:data.items.map(mcFromAI),mc:1,kcal:0,protein:0,carbs:0,fat:0};
+  _mealDraft={name:String(data.name||'ארוחה'),items:built||data.items.map(mcFromAI),mc:1,kcal:0,protein:0,carbs:0,fat:0};
   _mealDraft.items.forEach(meApply);
   openSheet(`
     <div class="mc-head">${img?`<button class="mc-thumb" data-act="mc-photo" aria-label="${esc(tt('התמונה שצילמת'))}"><img src="${img}" alt=""></button>`:''}
@@ -5557,8 +5606,7 @@ async function mcAct(act,b){
   if(!it)return;
   if(act==='mc-del'){ m.items.splice(n,1); MC.open=-1; MC.sugg=[]; mcRender(); return; }
   if(act==='mc-alt'){ if(MC.busy)return; MC.busy=true; b.disabled=true;
-    const r=await mcFind(it.alt); MC.busy=false; const f=r[0];
-    if(f){ mcSwap(it,f); MC.open=n; MC.sugg=[]; } else { it.name=it.alt; it.alt=''; }
+    await mcAltSwap(it); MC.busy=false; MC.open=n; MC.sugg=[];
     mcRender(); return; }
   const q=it.q; if(!q)return;
   if(act==='mc-step'){ const d=+b.dataset.d;
@@ -5772,7 +5820,7 @@ async function saveMealDraft(){
   if(!m.items.length)return;
   const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
   if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
-  const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט'}))};
+  const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,altd,ai0,src,code,ai,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט',...(m.mc&&ai0?{ai:{...ai0,...(src?{s:src}:{}),...(code?{c:code}:{})}}:{})}))};
   S.meals.push({...row}); saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
@@ -10430,7 +10478,7 @@ document.addEventListener('change',ev=>{
     const f=ev.target.files[0]; ev.target.value='';
     toast('מעבד תמונה…');
     const hint=($('#food-text')?.value||'').trim().slice(0,200);
-    shrinkImage(f).then(b64=>foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
+    shrinkImage(f,1024).then(b64=>foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
     return;
   }
   const i=ev.target.closest('[data-bind]'); if(!i)return;
