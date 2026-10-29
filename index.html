@@ -1856,6 +1856,11 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-rm{display:inline-flex;align-items:center;gap:6px;color:var(--danger,#ef5350);font-size:13.5px;font-weight:600;padding:6px 2px}.mc-rm svg{width:16px;height:16px}
 .mc-addrow{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:16px;border:1px dashed var(--line);color:var(--muted);font-weight:600;font-size:14px}.mc-addrow svg{width:18px;height:18px}
 .mc-foot{margin-top:12px}
+.sw-sc{width:100%;margin-bottom:12px}.sw-sc button{flex:1}.sw-l{display:grid;gap:8px}
+.sw-c{display:flex;align-items:center;gap:10px;width:100%;padding:13px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);text-align:start;color:inherit}.sw-c:active{border-color:var(--accent)}
+.sw-c>svg{width:16px;height:16px;color:var(--muted);flex:none}.sw-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}.sw-t b{font-size:15.5px}.sw-t small{font-size:12.5px}
+.sw-why{display:flex;flex-wrap:wrap;gap:5px}.sw-why i{font-style:normal;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--surface2);color:var(--muted)}.sw-why i:first-child{background:var(--accent-soft);color:var(--accent)}
+.pn-wait{opacity:.55}
 .me-nm{font-size:17px;font-weight:700;margin-top:4px}.mc-man{margin-top:6px;border-radius:12px;background:var(--surface2);padding:8px 10px}.mc-man summary{font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}.mc-mn{width:100%;margin-top:8px}
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
 .mc-name::-webkit-search-cancel-button{display:none}
@@ -6210,20 +6215,58 @@ function startNextBlock(apply){
   c.n=(c.n||1)+1; c.start=new Date().setHours(0,0,0,0); c.back=null; c.skipDl=null; persistSettings(); closeSheet(); render();
   toast(`בלוק ${c.n} התחיל. בהצלחה!`); }
 /* "I don't have this machine": same muscle, remembered for the next workouts */
-function openExSwap(ei){
-  const e=S.active?.ex?.[ei]; if(!e)return; const g=exGroup(e.n), used=new Set(S.active.ex.map(x=>x.n));
-  const alts=g?LIB[g].filter(x=>x!==e.n&&!used.has(x)&&libVis(x)).slice(0,8):[];
-  openSheet(`<h3>במקום ${esc(e.n)}</h3><div class="small muted" style="margin-bottom:10px">אותו שריר. נעדכן גם את התוכנית, כדי שבפעם הבאה זה יופיע מראש.</div>
-    <div class="card list" style="margin-bottom:12px">${alts.map(x=>`<button class="li" data-act="ex-swap-go" data-ei="${ei}" data-n="${esc(x)}"><span class="lt"><b>${esc(x)}</b></span>${ICON.chev}</button>`).join('')||'<div class="li small muted">אין חלופה במאגר לתרגיל הזה</div>'}</div>
-    <button class="btn big" data-act="sheet-close">ביטול</button>`); }
-function doSwap(ei,to){
+/* smart swap: alternatives ranked like a coach would — the same movement first, the same role (compound / isolation),
+   equipment this user trains with, nothing already in today's workout, and gentler on an area marked sensitive */
+const SW={ei:-1,scope:'plan',area:null,more:false};
+const swSlot=n=>{ for(const k in PB_SLOTS){ const s=PB_SLOTS[k]; if(['gym','home','bw'].some(q=>(s[q]||[]).includes(n)))return k; } return null; };
+const swEq=n=>/מכונ|סמית׳|פק-דק|לחיצת רגליים|האק/.test(n)?'machine':/כבל|פולי|פייס פול|חבל/.test(n)?'cable':/מתח|שכיבות|מקבילים|פלאנק|משקל גוף|גשר|דד באג|סופרמן|הרמות רגליים|על הברכיים/.test(n)?'bw':/במוט|^סקוואט$|^סקוואט קדמי$|^דדליפט|חתירת T|כומר/.test(n)?'bar':/משקול|גביע|פטישים|ארנולד|צרפתית|קיקבק במשקולת/.test(n)?'db':'other';
+const SW_EQ={machine:'מכונה',cable:'כבל',bw:'משקל גוף',bar:'מוט',db:'משקולות'};
+const SW_AREA={shoulder:'shoulders',knee:'knees',back:'lowback'};
+// besides the plan builder's lists: movements that load the joint too (overhead work, front raises, dips for a shoulder)
+const SW_HARD={shoulder:/לחיצת כתפיים|ארנולד|פוש פרס|מעל הראש|הרמות קדמיות|מקבילים|לחיצה צרפתית/,knee:/סקוואט|לאנג׳|קפיצ|פשיטת ברכיים|עליות על/,back:/דדליפט|חתיר|בוקר טוב|סופרמן/};
+function swCands(ei,area){
+  const a=S.active, e=a?.ex?.[ei]; if(!e)return [];
+  const g=exGroup(e.n), slot=swSlot(e.n), comp=!!(slot&&PB_SLOTS[slot].c), others=a.ex.filter((_,i)=>i!==ei);
+  const used=new Set(a.ex.map(x=>x.n)), oSlots=new Set(others.map(x=>swSlot(x.n)).filter(Boolean));
+  const gym=a.ex.some(x=>['machine','cable','bar'].includes(swEq(x.n))), bars=others.filter(x=>swEq(x.n)==='bar').length;
+  const ban=new Set(PB_BAN[SW_AREA[area]]||[]), joint=area==='elbow'||area==='wrist';
+  const pool=new Set([...(g?LIB[g]:[]),...(slot?['gym','home','bw'].flatMap(q=>PB_SLOTS[slot][q]||[]):[])]);
+  return [...pool].filter(n=>n!==e.n&&libVis(n)&&!used.has(n)).map(n=>{ const s=swSlot(n), eq=swEq(n), why=[]; let sc=0;
+    if(slot&&s===slot){ sc+=50; why.push('אותה תנועה'); }
+    else if(s&&!!PB_SLOTS[s].c===comp)sc+=15;
+    if(s&&s!==slot&&oSlots.has(s))sc-=30; // that movement is already in today's workout
+    if(!gym&&['machine','cable','bar'].includes(eq))sc-=80; // no gym gear in this workout
+    if(bars>=2&&eq!=='bar')sc+=8;
+    if(area){ if(ban.has(n)||SW_HARD[area]?.test(n))sc-=60; else if(joint&&eq==='bar')sc-=25; else if(ban.size||joint){ sc+=10; why.unshift('עדין ל'+painName(area)); } }
+    const h=lastSetsOf(n); if(h){ sc+=8; why.push('עשית בעבר'); }
+    if(SW_EQ[eq])why.push(SW_EQ[eq]);
+    return {n,sc,why,eq,h}; }).sort((x,y)=>y.sc-x.sc); }
+/* a first weight for the new exercise: its own history, or a careful conversion from the current lift */
+function swW(e,c){ if(c.h){ const top=Math.max(...c.h.map(s=>+s.w||0)); return top>0?top:null; }
+  const w=+(e.sets.filter(x=>x.done).slice(-1)[0]?.w||e.sets.find(x=>!x.done)?.pw||0), from=swEq(e.n); if(!w)return null;
+  const f=from==='bar'&&c.eq==='db'?.4:from==='db'&&c.eq==='bar'?2:from===c.eq&&swSlot(e.n)===swSlot(c.n)?.9:0;
+  return f?roundTo(w*f,wStep(c.n)):null; }
+function openExSwap(ei,area){
+  const e=S.active?.ex?.[ei]; if(!e)return; if(SW.ei!==ei){ SW.more=false; } SW.ei=ei; SW.area=area!==undefined?area:(sensOf(e.n)?.area||null);
+  if(area!==undefined)SW.scope=area?'today':'plan';
+  const C=swCands(ei,SW.area), top=C.slice(0,3), rest=C.slice(3,14);
+  const card=c=>{ const w=swW(e,c); return `<button class="sw-c" data-act="ex-swap-go" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>
+      <span class="sw-t"><b>${esc(c.n)}</b><span class="sw-why">${c.why.map(x=>`<i>${tt(x)}</i>`).join('')}</span>${w?`<small class="muted num">${tt('להתחיל ב')}${wL(w)} ${LU()}</small>`:`<small class="muted">${tt('מתחילים קל ומכוונים לפי הסט הראשון')}</small>`}</span>${ICON.chev}</button>`; };
+  openSheet(`<h3>${tt('במקום')} ${esc(e.n)}</h3>
+    <div class="small muted" style="margin:-4px 0 12px">${SW.area?`${tt('מתאים לשאר האימון, ועדין יותר ל')}${painName(SW.area)}`:tt('אותו שריר, ומתאים לשאר האימון')}</div>
+    <div class="seg2 sw-sc">${[['today','רק לאימון הזה'],['plan','גם בתוכנית מעכשיו']].map(([k,l])=>`<button class="${SW.scope===k?'on':''}" data-act="sw-scope" data-v="${k}">${tt(l)}</button>`).join('')}</div>
+    <div class="sw-l">${top.map(card).join('')||`<div class="small muted" style="padding:12px">${tt('אין חלופה במאגר לתרגיל הזה')}</div>`}</div>
+    ${rest.length?(SW.more?`<div class="pn-l">${tt('עוד לאותו שריר')}</div><div class="sw-l">${rest.map(card).join('')}</div>`:`<button class="linkbtn" style="margin:8px 0" data-act="sw-more">${tt('עוד')} ${rest.length} ${tt('תרגילים לאותו שריר')}</button>`):''}
+    <button class="btn big" style="width:100%;margin-top:10px" data-act="sheet-close">${tt('ביטול')}</button>`); }
+function doSwap(ei,to,w0){
   const a=S.active, e=a?.ex?.[ei]; if(!e)return; const from=e.n;
-  const tpl=a.tid&&S.templates.find(t=>t.id===a.tid);
+  const tpl=SW.scope==='plan'&&a.tid&&S.templates.find(t=>t.id===a.tid);
   if(tpl){ const t2=clone(tpl), te=t2.ex.find(x=>x.n===from); if(te){ te.n=to; saveTemplate(t2); } }
   const base={n:to,s:e.sets.length,reps:e.reps}, rc=coachOn()?coachRec(base,{deload:!!a.dl,back:false}):null, prev=lastSetsOf(to)||[];
   e.n=to; e.co=rc?{k:rc.k,why:rc.why,...(rc.h?{h:rc.h}:{}),...(rc.ovr?{ovr:rc.ovr}:{})}:null;
-  e.sets=e.sets.map((s,i)=>s.done?s:{w:'',r:'',pw:(rc?.pws?rc.pws(i):rc?.w)??prev[i]?.w??'',pr:rc?(rc.ps?rc.ps(i):rc.r):(prev[i]?.r??''),done:false,sug:rc?1:0});
-  persistActive(); closeSheet(); render(); toast(`הוחלף ל${to}`); }
+  e.sets=e.sets.map((s,i)=>s.done?s:{w:'',r:'',pw:(rc?.pws?rc.pws(i):rc?.w)??prev[i]?.w??w0??'',pr:rc?(rc.ps?rc.ps(i):rc.r):(prev[i]?.r??''),done:false,sug:rc||w0?1:0});
+  persistActive(); closeSheet(); render(); if(SW.again){ const ar=SW.again; SW.again=null; setTimeout(()=>openSheet(`<h3>${painName(ar)}: ${tt('פעם שלישית החודש')}</h3><p class="muted" style="line-height:1.6;margin:6px 0 14px">${tt('כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז ראפי ימשיך בזהירות.')}</p><button class="btn primary big" style="width:100%" data-act="sheet-close">${tt('הבנתי')}</button>`),900); }
+  toast(tpl?`${tt('הוחלף ל')}${to}. ${tt('עודכן גם בתוכנית')}`:`${tt('הוחלף ל')}${to} ${tt('לאימון הזה')}`); }
 /* after a set: "how many reps were left?" — tunes the next set right away */
 function rirAsk(ei,si){
   if(!coachOn()||!coachCfg().rir)return; const el=document.getElementById('rirq-'+ei); if(!el)return;
@@ -6476,7 +6519,7 @@ function openExMenu(ei){
       ${e.t==='s'?`<button class="li" data-act="done-all" data-ei="${ei}">${ICON.ok.replace('<svg','<svg class="ic"')}<span class="lt"><b>סמן את כל הסטים</b><small>לפי המשקל והחזרות מהפעם הקודמת</small></span></button>`:''}
       <button class="li" data-act="ex-info" data-ei="${ei}">${ICON.play.replace('width="16" height="16"','class="ic"')}<span class="lt"><b>הדגמה וטכניקה</b></span></button>
       <button class="li" data-act="ex-close" data-ei="${ei}">${ICON.down}<span class="lt"><b>כווץ, אעשה אותו אחר כך</b></span></button>
-      ${e.t==='s'&&exGroup(e.n)?`<button class="li" data-act="ex-swap" data-ei="${ei}">${ICON.list}<span class="lt"><b>אין לי את זה</b><small>להחליף לתרגיל אחר לאותו שריר</small></span></button>`:''}
+      ${e.t==='s'?`<button class="li" data-act="ex-swap" data-ei="${ei}">${ICON.list}<span class="lt"><b>${tt('החלפת תרגיל')}</b><small>${tt('חלופה לאותו שריר שמתאימה לשאר האימון')}</small></span></button>`:''}
       ${e.t==='s'&&coachOn()?`<button class="li" data-act="ex-lock" data-ei="${ei}">${ICON.ok.replace('<svg','<svg class="ic"')}<span class="lt"><b>${coachCfg().lock[e.n]?'שחרר את התרגיל':'נעל את התרגיל'}</b><small>${coachCfg().lock[e.n]?'ראפי יוכל להציע להחליף אותו':'ראפי לא יחליף אותו בבלוק הבא'}</small></span></button>`:''}
       ${e.t==='s'?`<button class="li" data-act="pain-open" data-ei="${ei}">${ICON.shield.replace('class="ic"','class="ic" style="color:#FF8F84"')}<span class="lt"><b>משהו לא נוח</b><small>${sensOf(e.n)?'מסומן כרגיש · אפשר לבטל':'להוריד משקל, להחליף או לדלג'}</small></span></button>`:''}
       <button class="li" data-act="rm-ex" data-ei="${ei}" style="color:var(--danger)">${ICON.plus.replace('class="ic"','class="ic" style="transform:rotate(45deg)"')}<span class="lt"><b>הסר מהאימון</b></span></button>
@@ -9929,17 +9972,18 @@ function painSheet(){ const e=S.active?.ex?.[PN.ei]; if(!e)return; const sn=sens
     <div class="pn-l">איך זה מרגיש?</div><div class="row pn-c">${ch('pn-feel','0','אי נוחות קלה',!PN.sharp)}${ch('pn-feel','1','כאב חד',PN.sharp)}</div>
     ${PN.sharp?`<div class="pn-warn">בכאב חד עדיף לעצור את התרגיל להיום. אם זה חוזר, שווה לבדוק עם איש מקצוע.</div>`:''}
     <div class="pn-l">מה נעשה?</div><div class="card list">${O.map(([v,t,d])=>`<button class="li pn-o ${PN.opt===v?'on':''}" data-act="pn-opt" data-v="${v}"><span class="tc-radio ${PN.opt===v?'on':''}"></span><span class="lt"><b>${t}</b><small>${d}</small></span></button>`).join('')}</div>
-    <button class="btn primary big" style="width:100%;margin-top:12px" data-act="pn-go" ${PN.area?'':'disabled'}>אישור</button></div>`); }
-function painGo(){ const a=S.active, e=a?.ex?.[PN.ei]; if(!e||!PN.area)return; const now=Date.now();
+    ${PN.opt==='down'&&!PN.area?`<button class="btn big pn-wait" style="width:100%;margin-top:12px" disabled>${tt('בחר איפה זה לא נוח')}</button>`:`<button class="btn primary big" style="width:100%;margin-top:12px" data-act="pn-go">${PN.opt==='swap'?tt('לבחירת תרגיל חלופי'):tt('אישור')}</button>`}</div>`); }
+function painGo(){ const a=S.active, e=a?.ex?.[PN.ei]; if(!e||(!PN.area&&PN.opt==='down'))return; const now=Date.now();
   const sens=S.settings.sens||(S.settings.sens={}); for(const k in sens)if(sens[k].until<now)delete sens[k];
-  sens[e.n]={until:now+14*864e5,area:PN.area,at:now};
-  const log=(S.settings.painLog||[]).filter(x=>now-x.at<60*864e5); log.push({at:now,area:PN.area}); S.settings.painLog=log; persistSettings();
-  const again=log.filter(x=>x.area===PN.area&&now-x.at<30*864e5).length>=3;
+  let again=false;
+  if(PN.area){ sens[e.n]={until:now+14*864e5,area:PN.area,at:now};
+    const log=(S.settings.painLog||[]).filter(x=>now-x.at<60*864e5); log.push({at:now,area:PN.area}); S.settings.painLog=log; persistSettings();
+    again=log.filter(x=>x.area===PN.area&&now-x.at<30*864e5).length>=3; }
   if(PN.opt==='down'){ const w=+(e.sets.filter(x=>x.done).slice(-1)[0]?.w||e.sets.find(x=>!x.done)?.pw||0), dw=w?roundTo(w*0.85,wStep(e.n)):0;
     e.sets.forEach(x=>{ if(!x.done&&dw){ x.pw=dw; x.w=''; x.sug=1; } }); persistActive(); closeSheet(); render(); toast(dw?`להמשך: ${wL(dw)} ${LU()}. בלי עליות בשבועיים הקרובים`:'נרשם. בלי עליות בשבועיים הקרובים'); }
-  else if(PN.opt==='swap'){ persistActive(); openExSwap(PN.ei); }
-  else { const o=a.open||(a.open={}); o[PN.ei]=false; persistActive(); closeSheet(); render(); toast('דילגנו על התרגיל להיום. נרשם כרגיש לשבועיים'); }
-  if(again)setTimeout(()=>openSheet(`<h3>${painName(PN.area)}: פעם שלישית החודש</h3><p class="muted" style="line-height:1.6;margin:6px 0 14px">כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז ראפי ימשיך בזהירות.</p><button class="btn primary big" style="width:100%" data-act="sheet-close">הבנתי</button>`),PN.opt==='swap'?0:700); }
+  else if(PN.opt==='swap'){ persistActive(); openExSwap(PN.ei,PN.area); SW.again=again?PN.area:null; return; }
+  else { const o=a.open||(a.open={}); o[PN.ei]=false; persistActive(); closeSheet(); render(); toast(PN.area?'דילגנו על התרגיל להיום. נרשם כרגיש לשבועיים':'דילגנו על התרגיל להיום'); }
+  if(again)setTimeout(()=>openSheet(`<h3>${painName(PN.area)}: פעם שלישית החודש</h3><p class="muted" style="line-height:1.6;margin:6px 0 14px">כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז ראפי ימשיך בזהירות.</p><button class="btn primary big" style="width:100%" data-act="sheet-close">הבנתי</button>`),700); }
 /* a long break: one question decides how gently to start again (trained elsewhere → almost no drop) */
 function askBreak(name,tid,gap){ window.__brkGo={name,tid}; const wk=Math.round(gap/7), f=Math.round(retF(gap,null)*100);
   openSheet(`<div class="brkq"><div class="brkq-k">ברוך השב</div><h3>עברו ${wk<=1?'שבועיים':wk+' שבועות'} מהאימון האחרון</h3>
@@ -10064,8 +10108,10 @@ function handleAct(b,ev){
       e.sets.forEach(x=>{ if(!x.done){ x.pw=o.w; x.pr=o.r; x.sug=1; } }); e.co={k:'up',why:`לפי הבחירה שלך: עולים ל-${wL(o.w)} ומתחילים מ-${o.r} חזרות. אם הסט הראשון כבד מדי, אפשר לחזור למשקל הקודם.`};
       persistActive(); render(); break; }
     case 'coach-back': { const c=coachCfg(); c.back=Date.now(); persistSettings(); render(); toast('מעולה שחזרת. השבוע מתחילים קצת יותר קל'); break; }
-    case 'ex-swap': openExSwap(+b.dataset.ei); break;
-    case 'ex-swap-go': doSwap(+b.dataset.ei,b.dataset.n); break;
+    case 'ex-swap': SW.scope='plan'; openExSwap(+b.dataset.ei); break;
+    case 'ex-swap-go': doSwap(+b.dataset.ei,b.dataset.n,b.dataset.w?+b.dataset.w:undefined); break;
+    case 'sw-scope': SW.scope=b.dataset.v; openExSwap(SW.ei); break;
+    case 'sw-more': SW.more=true; openExSwap(SW.ei); break;
     case 'ex-lock': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; const L=coachCfg().lock; if(L[e.n])delete L[e.n]; else L[e.n]=1; persistSettings(); closeSheet(); toast(L[e.n]?'התרגיל ננעל':'התרגיל שוחרר'); break; }
     case 'rir': rirSet(+b.dataset.ei,+b.dataset.si,+b.dataset.v); break;
     case 'rir-last': { const ei=+b.dataset.ei, si=+b.dataset.si, e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)break; vibrate(8);
