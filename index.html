@@ -2615,7 +2615,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.134';
+const APP_VERSION='13.3.136';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -11188,7 +11188,11 @@ async function coachSend(text){
     else if(error||!data?.reply)throw error||new Error('empty');
     else{ CO.msgs.push({id:'r'+Date.now(),role:'assistant',body:data.reply,created_at:new Date().toISOString()}); CO.left=data.left; }
   }catch(e){ console.error(e); CO.msgs.pop(); CO.draft=text; toast('ראפי לא זמין כרגע. נסה שוב בעוד רגע'); }
-  CO.busy=false; CO.toBottom=true; render(); setTimeout(()=>$('#chat-in')?.focus(),50);
+  CO.busy=false; CO.toBottom=true; const ok=CO.msgs?.[CO.msgs.length-1]?.role==='assistant';
+  if(ok)document.activeElement?.blur?.(); render();
+  /* the keyboard stays closed after Repi answers; scroll so the start of a long answer is in view */
+  if(ok)setTimeout(()=>{ const l=$('#chatlist'), rows=l?.querySelectorAll('.co-row'), r=rows?.[rows.length-1]; if(l&&r){ const off=r.getBoundingClientRect().top-l.getBoundingClientRect().top; if(off<12)l.scrollTop+=off-12; } },120);
+  else setTimeout(()=>$('#chat-in')?.focus(),50);
 }
 function coachAct(act,b){
   switch(act){
