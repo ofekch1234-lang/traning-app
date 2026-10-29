@@ -47,7 +47,8 @@ async function digest(sb: SupabaseClient, uid: string) {
   const now = Date.now(), wk = (ts: number) => Math.floor((now - ts) / (7 * 864e5)); // 0 = last 7 days
   const lines: string[] = [];
   const g = prefs.g === "f" ? "female" : prefs.g === "m" ? "male" : (prefs.body?.sex === "f" ? "female" : prefs.body?.sex === "m" ? "male" : "");
-  lines.push(`Today (Israel): ${ilYmd(new Date())}. User first name: ${name || "unknown"}.` + (g ? ` The user is ${g}: in Hebrew and Arabic always address them with ${g} grammatical forms (verbs, adjectives, pronouns).` : ""));
+  const hhmm = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Jerusalem", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
+  lines.push(`Today (Israel): ${ilYmd(new Date())}, local time now ${hhmm}. User first name: ${name || "unknown"}.` + (g ? ` The user is ${g}: in Hebrew and Arabic always address them with ${g} grammatical forms (verbs, adjectives, pronouns).` : ""));
   // workouts per week
   const per = [0, 0, 0, 0], sets = [0, 0, 0, 0], vol = [0, 0, 0, 0];
   const exMap = new Map<string, { n: number; byWeek: number[]; last: string }>();
@@ -94,11 +95,16 @@ async function digest(sb: SupabaseClient, uid: string) {
     const lowP = prefs.protT ? arr.filter((d) => d.p < prefs.protT * 0.9).length : 0;
     lines.push(`Nutrition last 7 days: logged ${days.size}/7 days, avg ${ak} kcal and ${ap} g protein per logged day${prefs.kcalT ? `; kcal target ${prefs.kcalT}` : ""}${prefs.protT ? `; protein target ${prefs.protT} g (below target on ${lowP} days)` : ""}.`);
   } else lines.push(`Nutrition: no meals logged in the last 7 days${prefs.kcalT ? ` (kcal target ${prefs.kcalT}, protein target ${prefs.protT || "?"} g)` : ""}.`);
+  // today so far: what is left for the rest of the day
+  const td = days.get(ilYmd(new Date())) || { k: 0, p: 0 };
+  const kLeft = prefs.kcalT ? Math.round(prefs.kcalT - td.k) : null, pLeft = prefs.protT ? Math.round(prefs.protT - td.p) : null;
+  lines.push(`TODAY so far: ${Math.round(td.k)} kcal and ${Math.round(td.p)} g protein logged` + (kLeft != null ? `; LEFT for today: ${kLeft} kcal` : "") + (pLeft != null ? ` and ${pLeft} g protein` : "") + ".");
   // body weight
   const B = (bw.data || []) as any[];
   if (B.length) {
     const first = B[0], last = B[B.length - 1];
     const wkAgo = [...B].reverse().find((x) => x.d <= ilYmd(new Date(Date.now() - 6 * 864e5)));
+    if (prefs.goalKg) lines.push(`Goal direction: ${+prefs.goalKg < +last.kg - 0.5 ? "fat loss (cutting)" : +prefs.goalKg > +last.kg + 0.5 ? "weight gain (bulking)" : "maintenance"}.`);
     lines.push(`Body weight: ${last.kg} kg on ${last.d}${wkAgo ? `; ${wkAgo.kg} kg a week before` : ""}; ${first.kg} kg on ${first.d}${prefs.goalKg ? `; goal ${prefs.goalKg} kg` : ""}.`);
   } else lines.push(`Body weight: not logged recently${prefs.goalKg ? ` (goal ${prefs.goalKg} kg)` : ""}.`);
   return { text: lines.join("\n"), name, hasData: W.length > 0 || M.length > 0 || B.length > 0 };
@@ -110,6 +116,8 @@ Write ONLY in ${LANG_NAME[lang] || "Hebrew"}. Exercise names in the data are Heb
 Base everything on the user's data digest below — cite concrete numbers. Never invent data that is not in the digest; if something is missing, say so briefly and suggest logging it.
 Tone: warm, direct, motivating, like a good personal trainer texting. Address the user in the second person singular (in Hebrew and Arabic: singular in the user's gender from the digest — male "שב", "משוך"; female "שבי", "משכי"; masculine if unknown — never plural forms like "שבו", "משכו"). Plain text only: no markdown, no ** or #. Short lines; you may use a few emoji bullets.
 Safety: you are not a doctor. For pain, injury, illness or medication questions give only general safety advice and recommend a physician or physiotherapist. Never recommend extreme diets (below ~1200 kcal/day for women or ~1500 for men), dehydration, or performance-enhancing drugs.
+Food questions (what to eat, how to fit a food into the plan, portions): start from TODAY's LEFT kcal/protein in the digest and the local time; recommend a concrete portion in grams with its kcal and protein (use the FOOD REFERENCE below, cooked weight), say if it fits what is left, and name the one thing that usually breaks it (sides, sauces, oil, bread). Never call a fatty food lean. The action step must be something to do in the app, e.g. "after the meal, log 200 g cooked beef fillet" (the app logs cooked weight).
+FOOD REFERENCE (per 100 g cooked, kcal / protein g): beef fillet 200/30 · sirloin trimmed (שייטל) 185/30 · sinta trimmed (סינטה) 220/28 · entrecote (אנטריקוט, FATTY) 290/25 · beef ribs/asado (FATTY) 330/24 · lean ground beef 5% 175/26 · ground beef 15-20% 260/26 · hamburger patty 270/24 · chicken breast 165/31 · chicken thigh/pargit (פרגית) 210/26 · turkey breast 150/30 · salmon 210/24 · tilapia/white fish 130/26 · tuna in water 115/26 · tuna in oil drained 190/27 · egg (1 large) 75/6.5 · cottage 5% 95/11 · white rice 130/2.7 · pasta 155/5.5 · potato 85/2 · sweet potato 90/2 · fries 310/3.5 · bread slice (30 g) 75/2.7 · pita 270 per pita/9 · olive oil 1 tbsp 120/0 · tahini 1 tbsp 90/3 · hummus 1 tbsp 40/1.5.
 Exercises: prefer exercises from the app's EXERCISE LIBRARY below. When asked how to perform an exercise, give 3–4 short technique cues and one common mistake to avoid.
 Demo videos: the app shows a demo video card for every library exercise you put in a final tag line. Whenever your reply recommends, lists or explains specific exercises, end the reply with ONE extra line in exactly this format: [[demo: name | name | name]] — up to 3 names copied EXACTLY (in Hebrew, character for character) from the library, in the order you mentioned them. Never say you cannot show demos, examples or videos; say the demos are right below. Omit the tag line only when no exercise is discussed.
 
@@ -176,6 +184,15 @@ Deno.serve(async (req: Request) => {
     try { const r = await claudeText(system(body.lang || "he", "chat") + "\n\nUSER DATA DIGEST:\n(no data)", [{ role: "user", content: String(body.text || "איך עושים סקוואט?") }], 1500);
       return J({ ok: true, text: r.text, in: r.it, out: r.ot, usd: r.usd, stop: r.stop }); }
     catch (e) { return J({ ok: false, error: String(e).slice(0, 300) }, 502); }
+  }
+
+  // ----- lab (cron key): answer a question against a real user's digest, nothing stored — for testing prompt changes -----
+  if (body.mode === "lab") {
+    const { data: ck } = await admin.from("app_config").select("value").eq("key", "cron_key").maybeSingle();
+    if (typeof ck?.value !== "string" || req.headers.get("x-cron-key") !== ck.value) return J({ error: "forbidden" }, 403);
+    const d = await digest(admin, String(body.uid || ""));
+    const r = await claudeText(system(body.lang || "he", "chat") + "\n\nUSER DATA DIGEST:\n" + d.text, [{ role: "user", content: String(body.text || "") }], 1500);
+    return J({ text: r.text, digest: body.showDigest ? d.text : undefined, usd: r.usd });
   }
 
   // ----- cron: weekly summaries for active users -----
