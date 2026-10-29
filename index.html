@@ -895,7 +895,9 @@ header.top{
   display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 }
 .brand{font-family:var(--brand);font-weight:800;font-size:25px;letter-spacing:-.045em;line-height:1}
-.brand b{color:var(--acc-t);font-weight:inherit}
+.brand b{color:var(--accent);font-weight:inherit}
+/* light: the lime stays the brand color as a marker behind "Rep", black letters on it */
+:root[data-theme="light"] .brand b{background:var(--accent);color:var(--accent-ink);padding:.06em .2em .12em;border-radius:.26em;margin-inline-start:.06em}
 .date-chip{color:var(--muted);font-size:13px}
 
 /* cards & general */
