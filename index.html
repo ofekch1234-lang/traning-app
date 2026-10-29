@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=7dfb57a0"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7dfb57a0"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=7dfb57a0"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=7647fbf3"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7647fbf3"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=7647fbf3"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1841,9 +1841,12 @@ svg text{font-family:var(--body)}
 .npbars button{font-size:11.5px;color:#a9b4ae;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:4px 10px}
 .npbars button b{color:#cfd8d3;font-weight:700}
 .npbars button.on{background:#f1f4f2;color:#111;border-color:#f1f4f2}.npbars button.on b{color:#111}
-.nptot{display:flex;justify-content:center;gap:6px;margin-top:2px;flex-wrap:wrap}
-.nptot span{font-size:11.5px;color:#cfd8d3;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:3px 10px}
-.nptot b{color:#fff;font-variant-numeric:tabular-nums}
+.nptot{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:2px}
+.nps{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.nps-l{font-size:12.5px;font-weight:700;color:#cfd8d3;margin-inline-end:2px}.nps-p{display:inline-flex;align-items:center;gap:3px}.nps-p em{font-style:normal;font-size:13px;font-weight:800;color:#fff}
+.nps-p i{font-style:normal;min-width:30px;height:30px;padding:0 5px;border-radius:99px;display:grid;place-items:center;font-size:12.5px;font-weight:800;box-shadow:inset 0 0 0 2px rgba(0,0,0,.25)}
+.nps-plus{color:#9aa39c;font-weight:700}.nps-eq{font-size:12.5px;color:#aeb7b0}.nps-eq b{color:#fff;font-size:14px}
+.pbtn{position:relative}.pbtn.on{border-color:var(--accent)}.pbtn s{position:absolute;top:-6px;inset-inline-end:-4px;text-decoration:none;font-size:11px;font-weight:800;background:var(--accent);color:var(--accent-ink);border-radius:99px;padding:1px 6px}
 .pbtns{display:flex;justify-content:center;gap:6px;margin-top:10px;direction:ltr}
 .pbtn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;max-width:66px;padding:8px 0 6px;border-radius:15px;background:var(--surface2);border:1px solid var(--line);color:var(--ink);-webkit-tap-highlight-color:transparent;transition:transform .12s}
 .pbtn:active{transform:scale(.93)}
@@ -2572,7 +2575,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.118';
+const APP_VERSION='13.3.120';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8619,6 +8622,7 @@ function npPlate(w0,size){ const w=plKey(w0), light=w===5||w===1.25, tc=light?'#
   <circle cx="50" cy="50" r="12.4" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width=".5"/>
   <circle cx="50" cy="50" r="7.2" fill="#0b0c0e"/>
   <ellipse cx="38" cy="28" rx="30" ry="18" fill="url(#np-hl)" transform="rotate(-25 38 28)"/></svg>`; }
+const npBtns=()=>{ const {L}=barSplit(NP.val); return plSet().map(v=>{ const n=L.filter(x=>x===v).length; return `<button class="pbtn${n?' on':''}" data-nppair="${v}" aria-label="${v}"><span>${npPlate(v,38)}</span><b>${v}</b>${n?`<s class="num">${n}×</s>`:''}</button>`; }).join(''); };
 /* פירוק המשקל לפלטות בכל צד (לפי הפלטות שבכפתורים) */
 function barSplit(v){ const bk=NP.bar??barDef(); let side=Math.max(0,(v-bk)/2); const L=[];
   for(const p of plSet()){ while(side>=p-1e-9&&L.length<12){ L.push(p); side=Math.round((side-p)*1000)/1000; } }
@@ -8638,8 +8642,14 @@ function npBarSVG(v){ const {L}=barSplit(v), H={20:112,10:88,5:66,2.5:52,1.25:44
   <rect x="14" y="${cy-7.5}" width="98" height="15" rx="3" fill="url(#np-ch)"/><rect x="268" y="${cy-7.5}" width="98" height="15" rx="3" fill="url(#np-ch)"/>
   <rect x="110" y="${cy-12}" width="10" height="24" rx="2.5" fill="url(#np-ch)"/><rect x="260" y="${cy-12}" width="10" height="24" rx="2.5" fill="url(#np-ch)"/>
   ${Lf}${R}${col(xl-11)}${col(x)}</svg>`; }
-function npBarTot(v){ const {L,rest}=barSplit(v), side=L.reduce((a,b)=>a+b,0), bk=NP.bar??barDef();
-  return v<bk?`<span>${tt('סה״כ')} <b>${npFmt(v)}</b></span>`:`${bk?`<span>${tt('מוט')} <b>${bk}</b></span>`:''}<span>${tt('בכל צד')} <b>${npFmt(side)}</b></span>${rest?`<span>+<b>${npFmt(rest)}</b></span>`:''}`; }
+/* what goes on the bar, in words a person loads by: "on each side: 20 + 5" (the plates themselves, in their colours),
+   and the sum underneath: bar 10 + 2 × 25 = 60 */
+function npBarTot(v){ const {L,rest}=barSplit(v), side=L.reduce((a,b)=>a+b,0), bk=NP.bar??barDef(), U=LU();
+  if(v<bk||!L.length)return `<div class="nps-eq num">${v<bk?`${tt('סה״כ')} <b>${npFmt(v)}</b> ${U}`:bk?`${tt('רק המוט')}: <b>${npFmt(bk)}</b> ${U}`:''}</div>`;
+  const g=[]; for(const w of L){ const x=g.find(y=>y.w===w); if(x)x.n++; else g.push({w,n:1}); }
+  const chip=({w,n})=>{ const k=plKey(w), lt=k===5||k===1.25; return `<span class="nps-p">${n>1?`<em class="num">${n}×</em>`:''}<i class="num" style="background:${PLC[k][0]};color:${lt?'#1b1d1c':'#fff'}">${w}</i></span>`; };
+  return `<div class="nps"><span class="nps-l">${tt('בכל צד')}</span>${g.map(chip).join('<span class="nps-plus">+</span>')}</div>
+    <div class="nps-eq num" dir="ltr">${bk?`${tt('מוט')} ${npFmt(bk)} + `:''}2 × ${npFmt(side)}${rest?` + ${npFmt(rest)}`:''} = <b>${npFmt(v)}</b> ${U}</div>`; }
 function npDB(v){ const vk=uL()==='lb'?v/LB:v, hh=Math.round(40+Math.min(vk,50)*1.05), hw=Math.round(13+Math.min(vk,50)*.3), gw=hw*2+44;
   return `<svg width="${gw}" height="${hh+4}" viewBox="0 0 ${gw} ${hh+4}" aria-hidden="true">
   <rect x="2" y="2" width="${hw}" height="${hh}" rx="${hw*.42}" fill="url(#np-dh)"/>
@@ -8674,7 +8684,7 @@ function renderNumpad(){
     let picker='';
     if(NP.sub==='bar'){
       picker=`<div class="npstage"><div class="npbars">${bars().map(([k,l])=>`<button class="${(NP.bar??barDef())===k?'on':''}" data-npbar="${k}">${tt(l)}${k?` <b class="num">${k}</b>`:''}</button>`).join('')}</div><div class="npbar" id="npbar">${npBarSVG(NP.val)}</div><div class="nptot" id="nptot">${npBarTot(NP.val)}</div></div>
-      <div class="pbtns">${plSet().map(v=>`<button class="pbtn" data-nppair="${v}" aria-label="${v}"><span>${npPlate(v,38)}</span><b>${v}</b></button>`).join('')}</div>
+      <div class="pbtns" id="pbtns">${npBtns()}</div>
       <div class="pbcap">${tt('לחיצה מוסיפה פלטה לכל צד')}</div>
       <div class="npstep">
         <button data-npc="undo" aria-label="${tt('הורד פלטה')}">↶</button>
@@ -8786,7 +8796,7 @@ function npUpdate(){ if(NP.cfg.mode==='range'){ renderNumpad(); return; } const 
   else if(NP.cfg.mode==='weight'&&NP.sub==='db'){ // +/- and "same as last time": the rack follows, so the pick stays in the middle
     centerRack(true); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='stack'){ const k=$('#npstk'); if(k)k.innerHTML=npStackHTML(); }
-  else if(NP.cfg.mode==='weight'&&NP.sub==='bar'){ const b=$('#npbar'), t=$('#nptot'); if(b)b.innerHTML=npBarSVG(NP.val); if(t)t.innerHTML=npBarTot(NP.val); } }
+  else if(NP.cfg.mode==='weight'&&NP.sub==='bar'){ const b=$('#npbar'), t=$('#nptot'); if(b)b.innerHTML=npBarSVG(NP.val); if(t)t.innerHTML=npBarTot(NP.val); const pb=$('#pbtns'); if(pb)pb.innerHTML=npBtns(); } }
 document.addEventListener('click',ev=>{
   const t=ev.target.closest('[data-npbar],[data-npadd],[data-nppair],[data-npset],[data-npd],[data-npc],[data-npsub],[data-rackv],[data-stackv],[data-nprange],[data-nplo],[data-nphi]'); if(!t||!NP.cfg)return;
   vibrate(10);
