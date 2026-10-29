@@ -5965,7 +5965,7 @@ function stepLearn(n){ if(uL()==='lb')return 0; const k=n+'|'+(S.workouts||[]).l
   const ws=[]; for(const w of [...(S.workouts||[])].sort((a,b)=>b.start-a.start).slice(0,40)){ const e=(w.ex||[]).find(x=>x.n===n); if(e)for(const s of e.sets||[])if(s.done!==false&&+s.w>0&&+s.r>0)ws.push(+s.w); if(ws.length>=12)break; }
   const m=(w,s)=>Math.abs(w/s-Math.round(w/s))<1e-6, eq=eqGuess(n);
   // a weight between the 5s (57.5) shows this machine has 2.5 plates; only 5s over several sessions shows it moves in 5s
-  const v=eq==='stack'&&ws.some(w=>!m(w,5)&&m(w,2.5))?2.5:eq==='stack'&&ws.length>=4&&new Set(ws).size>=2&&ws.every(w=>m(w,5))?5:0; // a bar or dumbbells keep their small plates (stepLearn._c||(stepLearn._c={}))[k]=v; return v; }
+  const v=eq==='stack'&&ws.some(w=>!m(w,5)&&m(w,2.5))?2.5:eq==='stack'&&ws.length>=4&&new Set(ws).size>=2&&ws.every(w=>m(w,5))?5:0; /* a bar or dumbbells keep their small plates */ (stepLearn._c||(stepLearn._c={}))[k]=v; return v; }
 const roundTo=(v,st)=>Math.max(st,Math.round(v/st)*st);
 const DAY=864e5;
 /* how much weight to add: about 2.5% of the working weight (up to 5% after an easy session), never less than one plate step; careful pace stays at 2% */
