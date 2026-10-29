@@ -1856,6 +1856,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-rm{display:inline-flex;align-items:center;gap:6px;color:var(--danger,#ef5350);font-size:13.5px;font-weight:600;padding:6px 2px}.mc-rm svg{width:16px;height:16px}
 .mc-addrow{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:16px;border:1px dashed var(--line);color:var(--muted);font-weight:600;font-size:14px}.mc-addrow svg{width:18px;height:18px}
 .mc-foot{margin-top:12px}
+.me-nm{font-size:17px;font-weight:700;margin-top:4px}.mc-man{margin-top:6px;border-radius:12px;background:var(--surface2);padding:8px 10px}.mc-man summary{font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}.mc-mn{width:100%;margin-top:8px}
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
 .mc-name::-webkit-search-cancel-button{display:none}
 /* landing: cinematic. Pure black, one big centered headline per chapter, the phone only in the hero; every other visual is a small piece of the app's own UI */
@@ -5467,7 +5468,8 @@ function aiTicker(on){
 /* meal result before saving: a short list — name, amount, kcal. Tapping an item opens its editor: the amount in the item's
    own units (or grams), a swap for a database food (whose units follow, so the user picks "1 can" again), or removal.
    Items the AI wasn't sure about are flagged, and a likely alternative ("tuna in oil?") is one tap away. */
-const MC={open:-1,sugg:[],t:null,img:null,busy:false};
+const MC={open:-1,sugg:[],t:null,img:null,busy:false,ctx:'draft'};
+const mcM=()=>MC.ctx==='edit'?_mealEdit:_mealDraft; // the confirm sheet (new meal) and the edit sheet (saved meal) share one item editor
 function mcFromAI(it){ const g=Math.round(+it.grams||0), c=Math.round(+it.count||0), unit=String(it.unit||'').slice(0,24), r1=v=>Math.round(v*1000)/1000;
   const o={name:String(it.name||''),kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,ask:it.sure===false,alt:String(it.alt||'').slice(0,40),
     ai0:{n:String(it.name||'').slice(0,60),g,k:Math.round(+it.kcal||0)}};
@@ -5539,7 +5541,7 @@ function mcSwap(it,f){ const {units,def,liq}=foodUnits(f), q0=it.q||{}, g0=q0.mu
   else q.n=g0||100;
   it.name=f.name; it.q=q; it.ask=false; it.alt=''; meApply(it); }
 function openMealConfirm(data,img,built){
-  MC.open=-1; MC.sugg=[]; MC.img=img||null;
+  MC.open=-1; MC.sugg=[]; MC.img=img||null; MC.ctx='draft';
   _mealDraft={name:String(data.name||'ארוחה'),items:built||data.items.map(mcFromAI),mc:1,kcal:0,protein:0,carbs:0,fat:0};
   _mealDraft.items.forEach(meApply);
   openSheet(`
@@ -5557,11 +5559,11 @@ function openMealConfirm(data,img,built){
 }
 const mcUnitG=q=>q.liq?'מ״ל':tt('גר׳');
 function mcAmt(it){ const q=it.q||{}; if(q.mult!=null)return `${tt('מנה')} ×${q.mult}`; return q.u?`${q.n} ${esc(q.u)} · ${q.g} ${mcUnitG(q)}`:`${q.g} ${mcUnitG(q)}`; }
-function mcTotals(){
-  ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=Math.round(_mealDraft.items.reduce((a,x)=>a+(+x[k]||0),0)*(k==='kcal'?1:10))/(k==='kcal'?1:10));
-  const m=_mealDraft, el=$('#mc-tot');
+function mcTotals(){ const m=mcM(); if(!m)return;
+  ['kcal','protein','carbs','fat'].forEach(k=>m[k]=Math.round(m.items.reduce((a,x)=>a+(+x[k]||0),0)*(k==='kcal'?1:10))/(k==='kcal'?1:10));
+  const el=$('#mc-tot');
   if(el)el.innerHTML=`<div class="mc-k"><b class="num">${m.kcal}</b><span>${tt('קק״ל')}</span></div><div class="mc-mac num"><span><b>${Math.round(m.protein)}</b> ${tt('חלבון')}</span><span><b>${Math.round(m.carbs)}</b> ${tt('פחמימה')}</span><span><b>${Math.round(m.fat)}</b> ${tt('שומן')}</span></div>`;
-  const sv=$('#mc-save'); if(sv){ sv.disabled=!m.items.length; sv.innerHTML=`${tt('הוסף ליום')} · <span class="num">${m.kcal}</span> ${tt('קק״ל')}`; }
+  const sv=$('#mc-save'); if(sv){ sv.disabled=MC.ctx!=='edit'&&!m.items.length; sv.innerHTML=`${tt(MC.ctx==='edit'?'שמירה':'הוסף ליום')} · <span class="num">${m.kcal}</span> ${tt('קק״ל')}`; }
 }
 function mcSuggHTML(n){ return MC.sugg.map((f,j)=>{ const {def}=foodUnits(f);
   return `<button data-act="mc-pick" data-mi="${n}" data-j="${j}"><span>${esc(f.name)}</span><span class="muted num">${def?`${esc(def.u)} · ${Math.round((+f.kcal||0)*def.g/100)} ${tt('קק״ל')}`:`100 ${tt('גר׳')} · ${Math.round(+f.kcal||0)} ${tt('קק״ל')}`}</span></button>`; }).join(''); }
@@ -5575,10 +5577,14 @@ function mcEd(it,n){ const q=it.q;
     ${it.alt?`<button class="mc-alt big" data-act="mc-alt" data-mi="${n}">${tt('אולי זה')} ${esc(it.alt)}?</button>`:''}
     <div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="${n}" placeholder="${tt('חיפוש במאגר, למשל טונה בשמן')}" autocomplete="off" autocorrect="off" spellcheck="false"></div>
     <div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML(n)}</div>
+    ${MC.ctx==='edit'?`<details class="mc-man"${it._man?' open':''}><summary>${tt('עריכה ידנית של השם והערכים')}</summary>
+      <input class="mc-mn" value="${esc(it.name)}" placeholder="${tt('שם הפריט')}" data-bind="mif" data-mi="${n}" data-mf="name">
+      <div class="setgrid" style="grid-template-columns:repeat(4,1fr);margin-top:8px"><span class="h">${tt('קק״ל')}</span><span class="h">${tt('חלבון')}</span><span class="h">${tt('פחמימה')}</span><span class="h">${tt('שומן')}</span>
+      ${['kcal','protein','carbs','fat'].map(f=>`<input class="num" type="text" readonly data-np="num" data-unit="${f==='kcal'?tt('קק״ל'):tt('גר׳')}" value="${+it[f]||0}" data-bind="mif" data-mi="${n}" data-mf="${f}">`).join('')}</div></details>`:''}
     <div class="mc-edf"><button class="mc-rm" data-act="mc-del" data-mi="${n}">${ICON.trash}<span>${tt('הסרת הפריט')}</span></button><button class="btn small" data-act="mc-open" data-mi="${n}">${tt('סיום')}</button></div>
   </div>`; }
 function mcRender(){
-  const L=$('#mc-list'); if(!L)return; const its=_mealDraft.items;
+  const L=$('#mc-list'), m=mcM(); if(!L||!m)return; const its=m.items;
   L.innerHTML=its.map((it,n)=>{ const op=MC.open===n;
     return `<div class="mc-it${op?' open':''}${it.ask?' unsure':''}">
       <button class="mc-row" data-act="mc-open" data-mi="${n}" aria-expanded="${op}">
@@ -5588,14 +5594,15 @@ function mcRender(){
       ${!op&&(it.ask||it.alt)?`<div class="mc-flags">${it.ask?`<span class="mc-flag">${tt('כדאי לבדוק את הכמות')}</span>`:''}${it.alt?`<button class="mc-alt" data-act="mc-alt" data-mi="${n}">${tt('אולי זה')} ${esc(it.alt)}?</button>`:''}</div>`:''}
       ${op?mcEd(it,n):''}
     </div>`; }).join('')
-    +(MC.open==='add'?`<div class="mc-it open"><div class="mc-ed"><div class="mc-lb">${tt('מה עוד היה בצלחת?')}</div><div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="add" placeholder="${tt('חיפוש במאגר')}" autocomplete="off" autocorrect="off" spellcheck="false"></div><div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML('add')}</div><div class="mc-edf"><span></span><button class="btn small" data-act="mc-add">${tt('ביטול')}</button></div></div></div>`
+    +(MC.open==='add'?`<div class="mc-it open"><div class="mc-ed"><div class="mc-lb">${tt('מה עוד היה בצלחת?')}</div><div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="add" placeholder="${tt('חיפוש במאגר')}" autocomplete="off" autocorrect="off" spellcheck="false"></div><div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML('add')}</div><div class="mc-edf">${MC.ctx==='edit'?`<button class="linkbtn" data-act="mc-manual">${tt('הוספה ידנית')}</button>`:'<span></span>'}<button class="btn small" data-act="mc-add">${tt('ביטול')}</button></div></div></div>`
       :`<button class="mc-addrow" data-act="mc-add">${ICON.plus}<span>${tt('הוספת פריט שחסר')}</span></button>`);
   mcTotals();
   if(MC.open==='add')setTimeout(()=>$('#mc-list .mc-find')?.focus(),30);
 }
 async function mcFind(q){ try{ const {data}=await sb.rpc('search_foods',LANG==='he'?{q,lim:6}:{q,lim:6,lang:LANG}); return data||[]; }catch(_){ return []; } }
 async function mcAct(act,b){
-  const m=_mealDraft; if(!m)return; const raw=b.dataset.mi, n=raw==='add'?'add':+raw, it=m.items[n];
+  const m=mcM(); if(!m)return; const raw=b.dataset.mi, n=raw==='add'?'add':+raw, it=m.items[n];
+  if(act==='mc-manual'){ m.items.push({name:'',kcal:0,protein:0,carbs:0,fat:0,q:{mult:1,base:{kcal:0,protein:0,carbs:0,fat:0}},_man:1}); MC.open=m.items.length-1; MC.sugg=[]; mcRender(); setTimeout(()=>$('#mc-list .mc-mn')?.focus(),40); return; }
   if(act==='mc-photo'){ b.classList.toggle('big'); return; }
   if(act==='mc-add'){ MC.open=MC.open==='add'?-1:'add'; MC.sugg=[]; mcRender(); return; }
   if(act==='mc-open'){ MC.open=MC.open===n?-1:n; MC.sugg=[]; mcRender(); if(MC.open===n)b.closest('.mc-it')?.scrollIntoView({block:'nearest',behavior:'smooth'}); return; }
@@ -5618,14 +5625,14 @@ async function mcAct(act,b){
     meApply(it); mcRender(); return; }
 }
 document.addEventListener('input',ev=>{
-  const t=ev.target; if(!_mealDraft||!t.dataset||t.dataset.mi==null)return;
-  if(t.classList.contains('mc-qn')){ const it=_mealDraft.items[+t.dataset.mi], q=it?.q; if(!q||q.mult!=null)return;
+  const t=ev.target, M=mcM(); if(!M||!t.dataset||t.dataset.mi==null)return;
+  if(t.classList.contains('mc-qn')){ const it=M.items[+t.dataset.mi], q=it?.q; if(!q||q.mult!=null)return;
     const v=+String(t.value).replace(',','.'); if(!(v>0)||v>(q.u?50:3000))return; q.n=v; it.ask=false; meApply(it);
     const row=t.closest('.mc-it'); if(row){ const a=row.querySelector('.mc-rt .muted'); if(a)a.innerHTML=mcAmt(it); const k=row.querySelector('.mc-kc b'); if(k)k.textContent=it.kcal; } mcTotals(); return; }
   if(t.classList.contains('mc-find')){ const q=t.value.trim(), key=t.dataset.mi; clearTimeout(MC.t);
     const paint=()=>{ const s=$('#mc-s'); if(!s)return; s.hidden=!MC.sugg.length; s.innerHTML=mcSuggHTML(key); };
     if(q.length<2){ MC.sugg=[]; paint(); return; }
-    MC.t=setTimeout(async()=>{ const r=await mcFind(q); if(!_mealDraft||t.value.trim()!==q)return; MC.sugg=r; paint(); },300); }
+    MC.t=setTimeout(async()=>{ const r=await mcFind(q); if(!mcM()||t.value.trim()!==q)return; MC.sugg=r; paint(); },300); }
 });
 let _mealDraft=null;
 /* ----- מאגר התזונה הלאומי (משרד הבריאות) — חיפוש חינמי, בלי AI ----- */
@@ -5757,48 +5764,32 @@ function openMealEdit(id){
   _mealEdit=clone(m);
   if(!Array.isArray(_mealEdit.items)||!_mealEdit.items.length)
     _mealEdit.items=[{name:m.name,kcal:+m.kcal||0,protein:+m.protein||0,carbs:+m.carbs||0,fat:+m.fat||0}];
+  _mealEdit.items.forEach(meQ); MC.ctx='edit'; MC.open=-1; MC.sugg=[];
   renderMealEdit();
 }
 function renderMealEdit(){
-  const m=_mealEdit;
-  const tot=m.items.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0)}),{kcal:0,protein:0});
+  const m=_mealEdit; MC.ctx='edit';
   openSheet(`
-    <h3>עריכת ארוחה</h3>
-    <div class="label">שם הארוחה</div>
-    <input id="me-name" value="${esc(m.name)}" data-bind="mif" data-mf="mealname">
+    <h3>${tt('עריכת ארוחה')}</h3>
+    <input id="me-name" class="me-nm" value="${esc(m.name)}" placeholder="${tt('שם הארוחה')}" aria-label="${tt('שם הארוחה')}" data-bind="mif" data-mf="mealname">
     <div class="me-when">
-      <label class="me-date"><span class="label" style="margin:0">תאריך</span><input type="date" value="${esc(m.d)}" max="${ymd()}" min="${ymd(new Date(Date.now()-59*864e5))}" data-bind="mif" data-mf="date" onclick="try{this.showPicker()}catch(_){}"></label>
-      <div class="seg me-slot">${[['b','בוקר'],['l','צהריים'],['d','ערב']].map(([k,l])=>`<button class="${mealSlot(m)===k?'on':''}" data-act="meal-slot" data-v="${k}">${l}</button>`).join('')}</div>
+      <label class="me-date"><input type="date" value="${esc(m.d)}" max="${ymd()}" min="${ymd(new Date(Date.now()-59*864e5))}" aria-label="${tt('תאריך')}" data-bind="mif" data-mf="date" onclick="try{this.showPicker()}catch(_){}"></label>
+      <div class="seg me-slot">${[['b','בוקר'],['l','צהריים'],['d','ערב']].map(([k,l])=>`<button class="${mealSlot(m)===k?'on':''}" data-act="meal-slot" data-v="${k}">${tt(l)}</button>`).join('')}</div>
     </div>
-    <div class="label" style="margin:14px 0 6px">מרכיבים (${m.items.length}) · <span class="num">${Math.round(tot.kcal)} קק״ל · ${Math.round(tot.protein)} גר׳ חלבון</span></div>
-    <div class="stack" style="gap:8px">
-      ${m.items.map((it,i)=>`<div style="border:1px solid var(--line);border-radius:10px;padding:10px">
-        <div class="row" style="flex-wrap:nowrap">
-          <input value="${esc(it.name)}" placeholder="שם הפריט" data-bind="mif" data-mi="${i}" data-mf="name" style="flex:1;min-width:0">
-          <button class="btn danger" data-act="meal-item-del" data-i="${i}" style="padding:6px 9px">✕</button>
-        </div>
-        ${meAmtHTML(it,i)}
-        <div class="setgrid" style="grid-template-columns:1fr 1fr 1fr 1fr;margin-top:8px">
-          <span class="h">קק״ל</span><span class="h">חלבון</span><span class="h">פחמימה</span><span class="h">שומן</span>
-          <input class="num" type="text" readonly data-np="num" data-unit="קק״ל" aria-label="קלוריות" value="${+it.kcal||0}" data-bind="mif" data-mi="${i}" data-mf="kcal">
-          <input class="num" type="text" readonly data-np="num" data-unit="גר׳" aria-label="חלבון" value="${+it.protein||0}" data-bind="mif" data-mi="${i}" data-mf="protein">
-          <input class="num" type="text" readonly data-np="num" data-unit="גר׳" aria-label="פחמימה" value="${+it.carbs||0}" data-bind="mif" data-mi="${i}" data-mf="carbs">
-          <input class="num" type="text" readonly data-np="num" data-unit="גר׳" aria-label="שומן" value="${+it.fat||0}" data-bind="mif" data-mi="${i}" data-mf="fat">
-        </div>
-      </div>`).join('')}
-    </div>
-    <button class="btn ghost" style="margin-top:10px" data-act="meal-item-add">+ פריט</button>
-    <div class="row" style="margin-top:14px">
-      <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
-      <button class="btn primary" style="flex:2" data-act="meal-edit-save">שמור שינויים ✓</button>
+    <div class="mc-sum" id="mc-tot" style="margin-top:12px"></div>
+    <div id="mc-list" class="mc-list"></div>
+    <div class="row mc-foot">
+      <button class="btn" style="flex:1" data-act="sheet-close">${tt('בטל')}</button>
+      <button class="btn primary" style="flex:2.2" data-act="meal-edit-save" id="mc-save">${tt('שמירה')}</button>
     </div>
     <button class="me-fix ${isSavedMeal(m)?'on':''}" data-act="meal-fix">${ICON.star||''}<span class="lt"><b>${isSavedMeal(m)?'שמורה כארוחה קבועה':'שמירה כארוחה קבועה'}</b><small>${isSavedMeal(m)?'לחיצה מסירה מהרשימה':'תופיע במסך התזונה, לרישום בלחיצה אחת'}</small></span></button>
     <button class="linkbtn me-del" data-act="meal-del-ask">${ICON.trash||''}<span>מחיקת הארוחה</span></button>
   `);
+  mcRender();
 }
 async function saveMealEdit(){
   const m=_mealEdit; if(!m)return;
-  m.items=m.items.filter(i=>(i.name||'').trim()||+i.kcal>0);
+  m.items=m.items.filter(i=>(i.name||'').trim()||+i.kcal>0).map(({_man,ask,alt,altk,...x})=>x);
   const tot=m.items.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0),carbs:a.carbs+(+i.carbs||0),fat:a.fat+(+i.fat||0)}),{kcal:0,protein:0,carbs:0,fat:0});
   const row={id:m.id,user_id:S.user.id,d:m.d,ts:m.ts,name:(m.name||'ארוחה').trim()||'ארוחה',
     kcal:Math.round(tot.kcal),protein:Math.round(tot.protein),carbs:Math.round(tot.carbs),fat:Math.round(tot.fat),items:m.items};
@@ -10213,7 +10204,7 @@ function handleAct(b,ev){
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
-    case 'mc-del': case 'mc-pick': case 'mc-open': case 'mc-alt': case 'mc-step': case 'mc-unit': case 'mc-add': case 'mc-photo': mcAct(act,b); break;
+    case 'mc-del': case 'mc-pick': case 'mc-open': case 'mc-alt': case 'mc-step': case 'mc-unit': case 'mc-add': case 'mc-photo': case 'mc-manual': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; askFit(q); q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'bc-fix': openBcFix(); break;
@@ -10459,6 +10450,8 @@ document.addEventListener('input',ev=>{
     const it=_mealEdit.items[+i.dataset.mi]; if(!it)return;
     const f=i.dataset.mf;
     it[f]=f==='name'?i.value:(+String(i.value).replace(',','.')||0);
+    if(f!=='name'){ it.q={mult:1,base:{kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0}}; mcTotals(); }
+    const row=i.closest('.mc-it'); if(row){ const nb=row.querySelector('.mc-rt b'); if(nb&&f==='name')nb.textContent=it.name||tt('פריט'); const k=row.querySelector('.mc-kc b'); if(k)k.textContent=+it.kcal||0; const a=row.querySelector('.mc-rt .muted'); if(a)a.innerHTML=mcAmt(it); }
   }
   else if(k==='tplf'){ const e=_tplDraft?.ex[+i.dataset.i]; if(e){const f=i.dataset.f; e[f]=f==='reps'?i.value:(+i.value||0);} }
 });
