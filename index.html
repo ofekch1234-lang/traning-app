@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f8902112"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f8902112"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f8902112"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4becd6c9"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4becd6c9"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4becd6c9"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1829,24 +1829,33 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   @keyframes glowP{50%{box-shadow:0 0 0 4px rgba(226,176,28,.16),0 0 16px rgba(232,89,12,.35)}}
   @keyframes todayP{50%{box-shadow:0 0 0 5px var(--accent-soft)}}
 }
-.mc-photo{margin:-2px 0 12px;border-radius:18px;overflow:hidden;height:150px;background:var(--surface2);box-shadow:inset 0 0 0 1px var(--line)}.mc-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.mc-photo+h3{margin-top:0}.mc-photo~.mc-list{max-height:36vh}
-.mc-list{display:grid;gap:8px;max-height:46vh;overflow-y:auto;overscroll-behavior:contain}
-.mc-it{border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:var(--surface)}
-.mc-top{display:flex;gap:6px;align-items:center}
-.mc-name{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-weight:600;font-size:16px;padding:4px 2px;color:inherit;-webkit-appearance:none;appearance:none;border-bottom:1px dashed var(--line);border-radius:0}
-.mc-name:focus{outline:none;border-bottom-color:var(--accent)}
-.mc-x{width:30px;height:30px;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px;flex-shrink:0}
-.mc-bot{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
-.mc-q{min-width:34px;height:30px;padding:0 8px;border-radius:9px;background:var(--surface2);font-weight:700;font-size:13.5px;color:var(--ink)}
-.mc-r{margin-inline-start:auto;font-size:13px}
-.mc-cnt{display:flex;align-items:center;gap:8px;margin-top:6px;padding:4px 6px 4px 4px;border-radius:11px;flex-wrap:wrap}
-.mc-cnt .mc-cl{font-size:13.5px;color:var(--muted);min-width:44px}.mc-cnt b{min-width:22px;text-align:center;font-size:16px}
-.mc-cnt.ask{background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}.mc-ask{font-size:12.5px;font-weight:700;color:var(--accent);margin-inline-start:auto}
-.mc-sugg{display:grid;gap:2px;margin-top:6px;border-top:1px solid var(--line);padding-top:6px}
-.mc-sugg button{display:flex;justify-content:space-between;gap:8px;padding:7px 6px;border-radius:8px;text-align:start;font-size:14px;color:inherit}
+.mc-head{display:flex;align-items:center;gap:12px;margin:-2px 0 12px}.mc-hd{flex:1;min-width:0}.mc-hd h3{margin:0 0 2px;font-size:19px;line-height:1.25}
+.mc-thumb{width:64px;height:64px;border-radius:16px;overflow:hidden;flex:none;padding:0;background:var(--surface2);box-shadow:inset 0 0 0 1px var(--line);transition:width .25s,height .25s}
+.mc-thumb img{width:100%;height:100%;object-fit:cover;display:block}.mc-thumb.big{width:100%;height:190px}.mc-head:has(.mc-thumb.big){flex-wrap:wrap}
+.mc-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface2);margin-bottom:12px}
+.mc-k{display:flex;align-items:baseline;gap:6px}.mc-k b{font-family:var(--disp);font-size:30px;font-weight:800;color:var(--accent);line-height:1}.mc-k span{color:var(--muted);font-size:13.5px}
+.mc-mac{display:flex;gap:12px;font-size:13px;color:var(--muted)}.mc-mac b{color:var(--ink);font-weight:700}
+.mc-list{display:grid;gap:8px;max-height:52vh;overflow-y:auto;overscroll-behavior:contain;padding-bottom:2px}
+.mc-it{border:1px solid var(--line);border-radius:16px;background:var(--surface)}.mc-it.unsure{border-color:color-mix(in srgb,var(--gold,#e2b01c) 55%,transparent)}
+.mc-it.open{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.mc-row{display:flex;align-items:center;gap:10px;width:100%;padding:12px 12px;text-align:start;color:inherit}
+.mc-rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.mc-rt b{font-size:15.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mc-rt .muted{font-size:13px}
+.mc-kc{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}.mc-kc b{font-size:17px;font-weight:800}.mc-kc small{font-size:11px;color:var(--muted)}
+.mc-chev{display:grid;place-items:center;color:var(--muted);transition:transform .2s}.mc-chev svg{width:18px;height:18px}.mc-it.open .mc-chev{transform:rotate(180deg)}
+.mc-flags{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 11px}
+.mc-flag{font-size:12px;font-weight:700;color:var(--gold,#e2b01c);background:color-mix(in srgb,var(--gold,#e2b01c) 14%,transparent);padding:4px 9px;border-radius:99px}
+.mc-alt{font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:99px}.mc-alt.big{display:block;width:100%;padding:10px 12px;border-radius:12px;font-size:14px;text-align:start;margin-bottom:8px}
+.mc-ed{padding:2px 12px 12px;display:grid;gap:8px;border-top:1px solid var(--line)}.mc-lb{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:8px}
+.mc-ed .me-units{flex-wrap:wrap;overflow:visible}.mc-unl{min-width:44px}
+.mc-fs{position:relative}.mc-fs svg{position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted);pointer-events:none}
+.mc-find{width:100%;padding-inline-start:38px!important;height:44px;border-radius:12px}.mc-find::-webkit-search-cancel-button{display:none}
+.mc-sugg{display:grid;gap:2px;border-radius:12px;background:var(--surface2);padding:4px}
+.mc-sugg button{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 10px;border-radius:9px;text-align:start;font-size:14px;color:inherit}.mc-sugg button span:first-child{flex:1;min-width:0}.mc-sugg button .muted{font-size:12.5px;white-space:nowrap}
 .mc-sugg button:active{background:var(--accent-soft)}
-.mc-g{display:inline-flex;align-items:center;gap:4px;margin-inline-start:6px;white-space:nowrap}.mc-gin{width:64px;padding:4px 6px;border:1px solid var(--line,#ddd);border-radius:8px;font:inherit;font-size:14px;text-align:center;background:var(--card,#fff);color:inherit}
+.mc-edf{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.mc-rm{display:inline-flex;align-items:center;gap:6px;color:var(--danger,#ef5350);font-size:13.5px;font-weight:600;padding:6px 2px}.mc-rm svg{width:16px;height:16px}
+.mc-addrow{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:16px;border:1px dashed var(--line);color:var(--muted);font-weight:600;font-size:14px}.mc-addrow svg{width:18px;height:18px}
+.mc-foot{margin-top:12px}
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
 .mc-name::-webkit-search-cancel-button{display:none}
 /* landing: cinematic. Pure black, one big centered headline per chapter, the phone only in the hero; every other visual is a small piece of the app's own UI */
@@ -5453,85 +5462,122 @@ function aiTicker(on){
     i=Math.min(AI_STEPS.length-1,Math.floor((Date.now()-t0)/(i<3?1800:6000))); el.textContent=AI_STEPS[i];
     if(bar)bar.style.width=Math.min(92,8+(Date.now()-t0)/90)+'%'; },300);
 }
-/* meal result before saving: every item is editable — name (with suggestions from the Israeli database, which
-   replaces the nutrition values), grams, ½ / ×2, remove. Values scale from each item's base. */
-const MC={base:[],sugg:{},t:null};
+/* meal result before saving: a short list — name, amount, kcal. Tapping an item opens its editor: the amount in the item's
+   own units (or grams), a swap for a database food (whose units follow, so the user picks "1 can" again), or removal.
+   Items the AI wasn't sure about are flagged, and a likely alternative ("tuna in oil?") is one tap away. */
+const MC={open:-1,sugg:[],t:null,img:null,busy:false};
+function mcFromAI(it){ const g=Math.round(+it.grams||0), c=Math.round(+it.count||0), unit=String(it.unit||'').slice(0,24), r1=v=>Math.round(v*1000)/1000;
+  const o={name:String(it.name||''),kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,ask:it.sure===false,alt:String(it.alt||'').slice(0,40)};
+  if(g>0){ const units=c>0&&c<=30&&unit?[{u:unit,g:Math.round(g/c)}]:[];
+    o.q={per:{kcal:r1(o.kcal/g*100),protein:r1(o.protein/g*100),carbs:r1(o.carbs/g*100),fat:r1(o.fat/g*100)},units,u:units[0]?unit:null,n:units[0]?c:g,g,ai:1}; }
+  else o.q={mult:1,base:{kcal:o.kcal,protein:o.protein,carbs:o.carbs,fat:o.fat}};
+  return o; }
+/* a database food's units, the way the portion sheet offers them, and the unit it would start with */
+function foodUnits(f){ const liq=isLiquid(f);
+  const units=(f.units||[]).map(u=>({u:u.u,g:+u.g,d:!!u.d})).filter(u=>u.g>0);
+  if(liq&&!units.some(u=>/כוס|ספל|שוט|בקבוק|פחית|קרטון|shot|cup|mug|كوب|شوت/i.test(u.u)))units.push({u:'כוס',g:200,d:!units.some(u=>u.d)});
+  const pref=['יחידה בינונית','מנה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
+  const def=units.find(u=>u.d)||pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
+  return {units,def,liq}; }
+/* swap an item for a database food, keeping the amount the user meant: the same unit if the food has it ("can" → "can"),
+   otherwise the same weight shown in the food's own unit, otherwise one of its usual unit */
+function mcSwap(it,f){ const {units,def,liq}=foodUnits(f), q0=it.q||{}, g0=q0.mult!=null?0:(+q0.g||0), r1=v=>Math.round(v*1000)/1000;
+  const stem=s=>String(s||'').replace(/(ות|ים|ה)$/,'').slice(0,3), same=q0.u&&units.find(u=>stem(u.u)===stem(q0.u));
+  const q={per:{kcal:r1(+f.kcal||0),protein:r1(+f.protein||0),carbs:r1(+f.carbs||0),fat:r1(+f.fat||0)},units:units.map(u=>({u:u.u,g:u.g})),u:null,n:0,g:0,liq};
+  if(same){ q.u=same.u; q.n=+q0.n||1; }
+  else if(def&&g0){ const n=Math.round(g0/def.g*2)/2; if(n>=.5&&n<=12){ q.u=def.u; q.n=n; } else q.n=g0; }
+  else if(def){ q.u=def.u; q.n=1; }
+  else q.n=g0||100;
+  it.name=f.name; it.q=q; it.ask=false; it.alt=''; meApply(it); }
 function openMealConfirm(data,img){
-  const items=data.items.map(it=>{ const c=Math.round(+it.count||0); return {name:String(it.name||''),g:Math.round(+it.grams||0)||undefined,kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,
-    cnt:c>0&&c<=30&&it.unit?c:0,unit:String(it.unit||'').slice(0,24),ask:it.sure===false}; });
-  MC.base=items.map(i=>({g:i.g||100,kcal:i.kcal,protein:i.protein,carbs:i.carbs,fat:i.fat,noG:!i.g,cnt:i.cnt}));
-  items.forEach((i,n)=>{ if(!i.g)i.g=100; i._f=1; });
-  MC.sugg={};
-  _mealDraft={name:String(data.name||'ארוחה'),items,mc:1,kcal:0,protein:0,carbs:0,fat:0};
+  MC.open=-1; MC.sugg=[]; MC.img=img||null;
+  _mealDraft={name:String(data.name||'ארוחה'),items:data.items.map(mcFromAI),mc:1,kcal:0,protein:0,carbs:0,fat:0};
+  _mealDraft.items.forEach(meApply);
   openSheet(`
-    ${img?`<div class="mc-photo"><img src="${img}" alt="${esc(tt('התמונה שצילמת'))}"></div>`:''}
-    <h3 style="margin-bottom:8px">${esc(_mealDraft.name)}</h3>
-    <div class="summary-grid" id="mc-tot" style="grid-template-columns:repeat(4,1fr)"></div>
-    <div class="small muted" style="margin:10px 0 6px">💡 הערכת AI. אפשר לשנות כל פריט: שם, כמות, או למחוק.</div>
+    <div class="mc-head">${img?`<button class="mc-thumb" data-act="mc-photo" aria-label="${esc(tt('התמונה שצילמת'))}"><img src="${img}" alt=""></button>`:''}
+      <div class="mc-hd"><h3>${esc(_mealDraft.name)}</h3><div class="small muted">${tt('הערכת AI · לחיצה על פריט כדי לשנות')}</div></div></div>
+    <div class="mc-sum" id="mc-tot"></div>
     <div id="mc-list" class="mc-list"></div>
-    <div class="row" style="margin-top:12px">
-      <button class="btn" style="flex:1" data-act="sheet-close">בטל</button>
-      <button class="btn primary" style="flex:2" data-act="meal-save" id="mc-save">הוסף ליום ✓</button>
+    <div class="row mc-foot">
+      <button class="btn" style="flex:1" data-act="sheet-close">${tt('בטל')}</button>
+      <button class="btn primary" style="flex:2.2" data-act="meal-save" id="mc-save">${tt('הוסף ליום')}</button>
     </div>
-    <div class="small muted" style="text-align:center;margin-top:8px">הערכה בלבד, לא ייעוץ תזונתי.</div>
+    <div class="small muted" style="text-align:center;margin-top:8px">${tt('הערכה בלבד, לא ייעוץ תזונתי.')}</div>
   `);
   mcRender();
 }
-/* AI item → what the meal editor needs to change its amount later: grams (+ a unit when it was counted), or a portion multiplier */
-function mcQ(it,b){ const k=v=>Math.round(v*1000)/1000;
-  if(b.noG)return {mult:+it._f||1,base:{kcal:k(b.kcal),protein:k(b.protein),carbs:k(b.carbs),fat:k(b.fat)}};
-  const per={kcal:k(b.kcal/b.g*100),protein:k(b.protein/b.g*100),carbs:k(b.carbs/b.g*100),fat:k(b.fat/b.g*100)};
-  const ug=b.cnt&&it.unit?Math.round(b.g/b.cnt):0;
-  return {per,units:ug?[{u:it.unit,g:ug}]:[],u:ug&&it.cnt?it.unit:null,n:ug&&it.cnt?+it.cnt:+it.g,g:+it.g,ai:1}; }
-function mcCalc(n){ const it=_mealDraft.items[n], b=MC.base[n]; if(!it||!b)return;
-  const f=b.noG?it._f:(it.g/b.g);
-  const m=v=>Math.round(v*f*10)/10; Object.assign(it,{kcal:Math.round(b.kcal*f),protein:m(b.protein),carbs:m(b.carbs),fat:m(b.fat)});
-  if(b.cnt)it.cnt=Math.max(.5,Math.round(b.cnt*f*2)/2); }
+const mcUnitG=q=>q.liq?'מ״ל':tt('גר׳');
+function mcAmt(it){ const q=it.q||{}; if(q.mult!=null)return `${tt('מנה')} ×${q.mult}`; return q.u?`${q.n} ${esc(q.u)} · ${q.g} ${mcUnitG(q)}`:`${q.g} ${mcUnitG(q)}`; }
 function mcTotals(){
-  ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=Math.round(_mealDraft.items.reduce((a,x)=>a+x[k],0)*(k==='kcal'?1:10))/(k==='kcal'?1:10));
-  const el=$('#mc-tot'); if(el)el.innerHTML=[['kcal','קק״ל'],['protein','חלבון'],['carbs','פחמימה'],['fat','שומן']].map(([k,l])=>`<div class="tile"><div class="v num" style="font-size:24px">${_mealDraft[k]}</div><div class="k">${tt(l)}</div></div>`).join('');
-  const sv=$('#mc-save'); if(sv)sv.disabled=!_mealDraft.items.length;
+  ['kcal','protein','carbs','fat'].forEach(k=>_mealDraft[k]=Math.round(_mealDraft.items.reduce((a,x)=>a+(+x[k]||0),0)*(k==='kcal'?1:10))/(k==='kcal'?1:10));
+  const m=_mealDraft, el=$('#mc-tot');
+  if(el)el.innerHTML=`<div class="mc-k"><b class="num">${m.kcal}</b><span>${tt('קק״ל')}</span></div><div class="mc-mac num"><span><b>${Math.round(m.protein)}</b> ${tt('חלבון')}</span><span><b>${Math.round(m.carbs)}</b> ${tt('פחמימה')}</span><span><b>${Math.round(m.fat)}</b> ${tt('שומן')}</span></div>`;
+  const sv=$('#mc-save'); if(sv){ sv.disabled=!m.items.length; sv.innerHTML=`${tt('הוסף ליום')} · <span class="num">${m.kcal}</span> ${tt('קק״ל')}`; }
 }
-function mcRowVals(n){ const it=_mealDraft.items[n]; return `${it.kcal} ${tt('קק״ל')} · ${it.protein} ${tt('ח׳')}`; }
+function mcSuggHTML(n){ return MC.sugg.map((f,j)=>{ const {def}=foodUnits(f);
+  return `<button data-act="mc-pick" data-mi="${n}" data-j="${j}"><span>${esc(f.name)}</span><span class="muted num">${def?`${esc(def.u)} · ${Math.round((+f.kcal||0)*def.g/100)} ${tt('קק״ל')}`:`100 ${tt('גר׳')} · ${Math.round(+f.kcal||0)} ${tt('קק״ל')}`}</span></button>`; }).join(''); }
+function mcEd(it,n){ const q=it.q;
+  const amt=q.mult!=null?`<div class="me-st"><button class="rarrow" data-act="mc-step" data-mi="${n}" data-d="-1" aria-label="${tt('פחות')}">−</button><span class="me-mult num">×${q.mult}</span><button class="rarrow" data-act="mc-step" data-mi="${n}" data-d="1" aria-label="${tt('יותר')}">+</button></div>`
+    :`${q.units.length?`<div class="me-units">${q.units.map(u=>`<button class="chip ${q.u===u.u?'on':''}" data-act="mc-unit" data-mi="${n}" data-u="${esc(u.u)}">${esc(u.u)} <span class="muted num">(${u.g}${q.liq?' מ״ל':'ג׳'})</span></button>`).join('')}<button class="chip ${!q.u?'on':''}" data-act="mc-unit" data-mi="${n}" data-u="">${q.liq?'מ״ל':tt('גרמים')}</button></div>`:''}
+      <div class="me-st"><button class="rarrow" data-act="mc-step" data-mi="${n}" data-d="-1" aria-label="${tt('פחות')}">−</button><input class="num me-qn mc-qn" type="text" readonly data-np="num" data-unit="${q.u?esc(q.u):q.liq?'מ״ל':tt('גרם')}" value="${q.n}" data-mi="${n}" aria-label="${tt('כמות')}"><button class="rarrow" data-act="mc-step" data-mi="${n}" data-d="1" aria-label="${tt('יותר')}">+</button><span class="small muted mc-unl">${q.u?esc(q.u):q.liq?'מ״ל':tt('גרם')}</span></div>`;
+  return `<div class="mc-ed">
+    <div class="mc-lb">${tt('כמות')}</div>${amt}
+    <div class="mc-lb">${tt('להחליף במאכל אחר')}</div>
+    ${it.alt?`<button class="mc-alt big" data-act="mc-alt" data-mi="${n}">${tt('אולי זה')} ${esc(it.alt)}?</button>`:''}
+    <div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="${n}" placeholder="${tt('חיפוש במאגר, למשל טונה בשמן')}" autocomplete="off" autocorrect="off" spellcheck="false"></div>
+    <div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML(n)}</div>
+    <div class="mc-edf"><button class="mc-rm" data-act="mc-del" data-mi="${n}">${ICON.trash}<span>${tt('הסרת הפריט')}</span></button><button class="btn small" data-act="mc-open" data-mi="${n}">${tt('סיום')}</button></div>
+  </div>`; }
 function mcRender(){
-  const L=$('#mc-list'); if(!L)return;
-  _mealDraft.items.forEach((_,n)=>mcCalc(n));
-  L.innerHTML=_mealDraft.items.map((it,n)=>{ const b=MC.base[n];
-    return `<div class="mc-it">
-      <div class="mc-top"><input class="mc-name" type="search" enterkeyhint="search" name="nr-food-${n}" data-mi="${n}" value="${esc(it.name)}" aria-label="${tt('מאכל')}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button class="mc-x" data-act="mc-del" data-mi="${n}" aria-label="${tt('הסר')}">✕</button></div>
-      ${b.cnt?`<div class="mc-cnt${it.ask?' ask':''}"><span class="mc-cl">${esc(it.unit)}</span><button class="mc-q" data-act="mc-cm" data-mi="${n}" aria-label="−">−</button><b class="num" id="mc-c${n}">${it.cnt}</b><button class="mc-q" data-act="mc-cp" data-mi="${n}" aria-label="+">+</button>${it.ask?`<span class="mc-ask">${tt('בדוק את הכמות')}</span>`:''}</div>`:''}
-      <div class="mc-bot">
-        ${b.noG?`<span class="small muted">${tt('מנה')} ×${it._f}</span>`:`<label class="mc-g muted small"><input type="text" readonly data-np="num" data-unit="${tt('גר׳')}" aria-label="${tt('גרמים')}" class="mc-gin num" data-mi="${n}" value="${it.g}"> ${tt('גר׳')}</label>`}
-        <button class="mc-q" data-act="mc-half" data-mi="${n}">½</button><button class="mc-q" data-act="mc-dbl" data-mi="${n}" dir="ltr">×2</button>
-        <span class="num muted mc-r" id="mc-r${n}">${mcRowVals(n)}</span>
-      </div>
-      <div class="mc-sugg" id="mc-s${n}"${MC.sugg[n]&&MC.sugg[n].length?'':' hidden'}>${(MC.sugg[n]||[]).map((f,j)=>`<button data-act="mc-pick" data-mi="${n}" data-j="${j}"><span>${esc(f.name)}</span><span class="muted num">${Math.round(+f.kcal||0)} ${tt('קק״ל/100ג׳')}</span></button>`).join('')}</div>
-    </div>`; }).join('')||`<div class="small muted" style="text-align:center;padding:10px">${tt('אין פריטים')}</div>`;
+  const L=$('#mc-list'); if(!L)return; const its=_mealDraft.items;
+  L.innerHTML=its.map((it,n)=>{ const op=MC.open===n;
+    return `<div class="mc-it${op?' open':''}${it.ask?' unsure':''}">
+      <button class="mc-row" data-act="mc-open" data-mi="${n}" aria-expanded="${op}">
+        <span class="mc-rt"><b>${esc(it.name||tt('פריט'))}</b><span class="muted num">${mcAmt(it)}</span></span>
+        <span class="mc-kc num"><b>${it.kcal}</b><small>${tt('קק״ל')}</small></span><span class="mc-chev">${ICON.down}</span>
+      </button>
+      ${!op&&(it.ask||it.alt)?`<div class="mc-flags">${it.ask?`<span class="mc-flag">${tt('כדאי לבדוק את הכמות')}</span>`:''}${it.alt?`<button class="mc-alt" data-act="mc-alt" data-mi="${n}">${tt('אולי זה')} ${esc(it.alt)}?</button>`:''}</div>`:''}
+      ${op?mcEd(it,n):''}
+    </div>`; }).join('')
+    +(MC.open==='add'?`<div class="mc-it open"><div class="mc-ed"><div class="mc-lb">${tt('מה עוד היה בצלחת?')}</div><div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="add" placeholder="${tt('חיפוש במאגר')}" autocomplete="off" autocorrect="off" spellcheck="false"></div><div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML('add')}</div><div class="mc-edf"><span></span><button class="btn small" data-act="mc-add">${tt('ביטול')}</button></div></div></div>`
+      :`<button class="mc-addrow" data-act="mc-add">${ICON.plus}<span>${tt('הוספת פריט שחסר')}</span></button>`);
   mcTotals();
+  if(MC.open==='add')setTimeout(()=>$('#mc-list .mc-find')?.focus(),30);
 }
-function mcAct(act,b){
-  const n=+b.dataset.mi, it=_mealDraft?.items[n], base=MC.base[n]; if(!it)return;
-  if(act==='mc-del'){ _mealDraft.items.splice(n,1); MC.base.splice(n,1); MC.sugg={}; mcRender(); return; }
-  if(act==='mc-half'||act==='mc-dbl'){ const k=act==='mc-half'?.5:2;
-    if(base.noG)it._f=Math.max(.25,Math.round(it._f*k*4)/4); else it.g=Math.max(1,Math.min(3000,Math.round(it.g*k))); mcRender(); return; }
-  if(act==='mc-cm'||act==='mc-cp'){ if(!base.cnt)return; const c=Math.max(1,Math.min(30,Math.round(it.cnt||base.cnt)+(act==='mc-cp'?1:-1))), f=c/base.cnt;
-    if(base.noG)it._f=f; else it.g=Math.max(1,Math.round(base.g*f)); it.ask=false; mcRender(); return; }
-  if(act==='mc-pick'){ const f=(MC.sugg[n]||[])[+b.dataset.j]; if(!f)return;
-    it.name=f.name; it.cnt=0; it.ask=false; MC.base[n]={g:100,kcal:+f.kcal||0,protein:+f.protein||0,carbs:+f.carbs||0,fat:+f.fat||0,noG:false};
-    if(base.noG){ it.g=100; } MC.sugg[n]=[]; mcRender(); return; }
+async function mcFind(q){ try{ const {data}=await sb.rpc('search_foods',LANG==='he'?{q,lim:6}:{q,lim:6,lang:LANG}); return data||[]; }catch(_){ return []; } }
+async function mcAct(act,b){
+  const m=_mealDraft; if(!m)return; const raw=b.dataset.mi, n=raw==='add'?'add':+raw, it=m.items[n];
+  if(act==='mc-photo'){ b.classList.toggle('big'); return; }
+  if(act==='mc-add'){ MC.open=MC.open==='add'?-1:'add'; MC.sugg=[]; mcRender(); return; }
+  if(act==='mc-open'){ MC.open=MC.open===n?-1:n; MC.sugg=[]; mcRender(); if(MC.open===n)b.closest('.mc-it')?.scrollIntoView({block:'nearest',behavior:'smooth'}); return; }
+  if(act==='mc-pick'){ const f=MC.sugg[+b.dataset.j]; if(!f)return;
+    if(n==='add'){ const x={name:'',kcal:0,protein:0,carbs:0,fat:0,q:{mult:0}}; mcSwap(x,f); m.items.push(x); MC.open=m.items.length-1; }
+    else if(it){ mcSwap(it,f); MC.open=n; }
+    MC.sugg=[]; mcRender(); return; }
+  if(!it)return;
+  if(act==='mc-del'){ m.items.splice(n,1); MC.open=-1; MC.sugg=[]; mcRender(); return; }
+  if(act==='mc-alt'){ if(MC.busy)return; MC.busy=true; b.disabled=true;
+    const r=await mcFind(it.alt); MC.busy=false; const f=r[0];
+    if(f){ mcSwap(it,f); MC.open=n; MC.sugg=[]; } else { it.name=it.alt; it.alt=''; }
+    mcRender(); return; }
+  const q=it.q; if(!q)return;
+  if(act==='mc-step'){ const d=+b.dataset.d;
+    if(q.mult!=null)q.mult=Math.max(.5,Math.round((q.mult+d*.5)*2)/2);
+    else { const st=q.u?(q.n<2&&d<0||q.n<1?.5:1):(q.n>=200?10:5); q.n=Math.max(q.u?.5:5,Math.round((q.n+d*st)*2)/2); }
+    it.ask=false; meApply(it); mcRender(); return; }
+  if(act==='mc-unit'){ if(q.mult!=null)return; const u=b.dataset.u||null; if(u===q.u)return; const g=q.g||0;
+    if(u){ const ug=q.units.find(x=>x.u===u)?.g||1; q.u=u; q.n=Math.max(.5,Math.round(g/ug*2)/2); } else { q.u=null; q.n=Math.max(1,Math.round(g)); }
+    meApply(it); mcRender(); return; }
 }
 document.addEventListener('input',ev=>{
   const t=ev.target; if(!_mealDraft||!t.dataset||t.dataset.mi==null)return;
-  const n=+t.dataset.mi, it=_mealDraft.items[n]; if(!it)return;
-  if(t.classList.contains('mc-gin')){ const g=+String(t.value).replace(',','.'); if(!(g>0)||g>3000)return; it.g=Math.round(g); mcCalc(n);
-    const r=$('#mc-r'+n); if(r)r.textContent=mcRowVals(n); const c=$('#mc-c'+n); if(c)c.textContent=it.cnt; mcTotals(); return; }
-  if(t.classList.contains('mc-name')){ it.name=t.value; const q=t.value.trim(); clearTimeout(MC.t);
-    if(q.length<2){ MC.sugg[n]=[]; const s=$('#mc-s'+n); if(s)s.hidden=true; return; }
-    MC.t=setTimeout(async()=>{ try{ const {data}=await sb.rpc('search_foods',LANG==='he'?{q,lim:5}:{q,lim:5,lang:LANG});
-      if(!_mealDraft||_mealDraft.items[n]!==it)return; MC.sugg[n]=data||[];
-      const s=$('#mc-s'+n); if(!s)return; s.hidden=!MC.sugg[n].length;
-      s.innerHTML=MC.sugg[n].map((f,j)=>`<button data-act="mc-pick" data-mi="${n}" data-j="${j}"><span>${esc(f.name)}</span><span class="muted num">${Math.round(+f.kcal||0)} ${tt('קק״ל/100ג׳')}</span></button>`).join('');
-    }catch(_){} },350); }
+  if(t.classList.contains('mc-qn')){ const it=_mealDraft.items[+t.dataset.mi], q=it?.q; if(!q||q.mult!=null)return;
+    const v=+String(t.value).replace(',','.'); if(!(v>0)||v>(q.u?50:3000))return; q.n=v; it.ask=false; meApply(it);
+    const row=t.closest('.mc-it'); if(row){ const a=row.querySelector('.mc-rt .muted'); if(a)a.innerHTML=mcAmt(it); const k=row.querySelector('.mc-kc b'); if(k)k.textContent=it.kcal; } mcTotals(); return; }
+  if(t.classList.contains('mc-find')){ const q=t.value.trim(), key=t.dataset.mi; clearTimeout(MC.t);
+    const paint=()=>{ const s=$('#mc-s'); if(!s)return; s.hidden=!MC.sugg.length; s.innerHTML=mcSuggHTML(key); };
+    if(q.length<2){ MC.sugg=[]; paint(); return; }
+    MC.t=setTimeout(async()=>{ const r=await mcFind(q); if(!_mealDraft||t.value.trim()!==q)return; MC.sugg=r; paint(); },300); }
 });
 let _mealDraft=null;
 /* ----- מאגר התזונה הלאומי (משרד הבריאות) — חיפוש חינמי, בלי AI ----- */
@@ -5576,11 +5622,7 @@ async function loadFoodSrc(f){
     FSRC[f.code]=data||{kind:'estimate',src:''}; const el=$('#portion-src'); if(el&&_portion&&_portion.f===f)el.textContent=foodSrcText(f); }catch(_){}
 }
 function openPortion(f){
-  const liq=isLiquid(f);
-  const units=(f.units||[]).map(u=>({u:u.u,g:+u.g,d:!!u.d})).filter(u=>u.g>0);
-  if(liq&&!units.some(u=>/כוס|ספל|שוט|בקבוק|פחית|קרטון|shot|cup|mug|كوب|شوت/i.test(u.u)))units.push({u:'כוס',g:200,d:!units.some(u=>u.d)});
-  const pref=['יחידה בינונית','מנה בינונית','יחידה','מנה','פרוסה בינונית','פרוסה','גביע','כוס','ספל','כף'];
-  const def=units.find(u=>u.d)||pref.map(n=>units.find(u=>u.u===n)).find(Boolean)||units.find(u=>u.g>=20)||units[0]||null;
+  const {units,def,liq}=foodUnits(f);
   _portion={f,units,unit:def,qty:def?1:100,liq};
   renderPortion(); loadFoodSrc(f);
 }
@@ -5730,7 +5772,7 @@ async function saveMealDraft(){
   if(!m.items.length)return;
   const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
   if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
-  const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,...x},i)=>({...x,...(m.mc&&MC.base[i]&&!x.q?{q:mcQ(x,MC.base[i])}:{}),name:String(x.name||'').trim()||'פריט'}))};
+  const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט'}))};
   S.meals.push({...row}); saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
@@ -10123,7 +10165,7 @@ function handleAct(b,ev){
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
-    case 'mc-del': case 'mc-half': case 'mc-dbl': case 'mc-pick': case 'mc-cm': case 'mc-cp': mcAct(act,b); break;
+    case 'mc-del': case 'mc-pick': case 'mc-open': case 'mc-alt': case 'mc-step': case 'mc-unit': case 'mc-add': case 'mc-photo': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; askFit(q); q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
     case 'bc-fix': openBcFix(); break;
