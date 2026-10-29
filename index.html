@@ -5956,14 +5956,16 @@ const coachOn=()=>isPrem()&&coachCfg().mode!=='off';
 function exGroup(n){ for(const g in LIB)if(LIB[g].includes(n))return g; return null; }
 const COMPOUND=/לחיצ|סקוואט|דדליפט|חתירה|מתח|מקבילים|לאנג|ת׳ראסט|גובלט|פולי עליון|רומני|פרס|פוש|דיפ|היפ/;
 const isCompound=n=>COMPOUND.test(n);
-/* the weight jump of an exercise: the user's choice for this exercise, else what their logged weights show (a stack
-   that only ever saw 50/55/60 moves in 5s), else the default for its gear (bar / dumbbells / machine and cable stack) */
+/* the weight jump of an exercise: the user's choice for this exercise, else what their logged weights show on it
+   (only 50/55/60 → 5s; a 57.5 on a machine → 2.5s), else the default for its gear (bar / dumbbells / machine and cable stack) */
 function wStep(n){ const c=coachCfg(), o=+(c.stepEx||{})[n]; if(o>0)return o;
   const eq=eqGuess(n), lb=uL()==='lb', def=lb?(eq==='db'?(+c.incDbLb||5):eq==='stack'?(+c.incStLb||10):(+c.incBbLb||5))/LB:(eq==='db'?(+c.incDb||2):eq==='stack'?(+c.incSt||5):(+c.incBb||2.5));
-  const l=stepLearn(n); return l&&l>def?l:def; }
+  const l=stepLearn(n); return l||def; }
 function stepLearn(n){ if(uL()==='lb')return 0; const k=n+'|'+(S.workouts||[]).length; if(stepLearn._c?.[k]!==undefined)return stepLearn._c[k];
   const ws=[]; for(const w of [...(S.workouts||[])].sort((a,b)=>b.start-a.start).slice(0,40)){ const e=(w.ex||[]).find(x=>x.n===n); if(e)for(const s of e.sets||[])if(s.done!==false&&+s.w>0&&+s.r>0)ws.push(+s.w); if(ws.length>=12)break; }
-  const v=ws.length>=4&&new Set(ws).size>=2&&ws.every(w=>Math.abs(w/5-Math.round(w/5))<1e-6)?5:0; (stepLearn._c||(stepLearn._c={}))[k]=v; return v; }
+  const m=(w,s)=>Math.abs(w/s-Math.round(w/s))<1e-6, eq=eqGuess(n);
+  // a weight between the 5s (57.5) shows this machine has 2.5 plates; only 5s over several sessions shows it moves in 5s
+  const v=eq==='stack'&&ws.some(w=>!m(w,5)&&m(w,2.5))?2.5:eq==='stack'&&ws.length>=4&&new Set(ws).size>=2&&ws.every(w=>m(w,5))?5:0; // a bar or dumbbells keep their small plates (stepLearn._c||(stepLearn._c={}))[k]=v; return v; }
 const roundTo=(v,st)=>Math.max(st,Math.round(v/st)*st);
 const DAY=864e5;
 /* how much weight to add: about 2.5% of the working weight (up to 5% after an easy session), never less than one plate step; careful pace stays at 2% */
