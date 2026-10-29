@@ -2141,7 +2141,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.117';
+const APP_VERSION='13.3.119';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -10035,7 +10035,7 @@ function startWorkout(name,tid,asked){
   });
   if(co&&coachCfg().wu!==false){ const fi=ex.findIndex(e=>e.t==='s'&&heavyLift(e.n)); if(fi>=0){ const e=ex[fi], w=+e.sets[0]?.pw||0, wu=wuFor(e.n,w); if(wu){ e.wu=wu; e.wuOpen=false; } } }
   S.active={start:Date.now(),name,tid:tid||null,ex,...(co?.deload?{dl:1}:{})};
-  persistActive(); S.tab='train'; location.hash='train'; render();
+  persistActive(); S.tab='train'; location.hash='train'; render(); window.scrollTo(0,0);
   startClock(); keepAwake(true);
 }
 /* "something hurts": where, how it feels, and one of three ways on. Nothing changes until the user picks */
