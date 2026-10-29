@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e7aff9ae"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e7aff9ae"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e7aff9ae"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=904979bd"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=904979bd"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=904979bd"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -5956,7 +5956,14 @@ const coachOn=()=>isPrem()&&coachCfg().mode!=='off';
 function exGroup(n){ for(const g in LIB)if(LIB[g].includes(n))return g; return null; }
 const COMPOUND=/לחיצ|סקוואט|דדליפט|חתירה|מתח|מקבילים|לאנג|ת׳ראסט|גובלט|פולי עליון|רומני|פרס|פוש|דיפ|היפ/;
 const isCompound=n=>COMPOUND.test(n);
-function wStep(n){ const c=coachCfg(), db=eqGuess(n)==='db'; /* same gear guess as the weight picker (lateral raises are dumbbells) */ if(uL()==='lb')return (db?(+c.incDbLb||5):(+c.incBbLb||5))/LB; return db?(+c.incDb||2):(+c.incBb||2.5); }
+/* the weight jump of an exercise: the user's choice for this exercise, else what their logged weights show (a stack
+   that only ever saw 50/55/60 moves in 5s), else the default for its gear (bar / dumbbells / machine and cable stack) */
+function wStep(n){ const c=coachCfg(), o=+(c.stepEx||{})[n]; if(o>0)return o;
+  const eq=eqGuess(n), lb=uL()==='lb', def=lb?(eq==='db'?(+c.incDbLb||5):eq==='stack'?(+c.incStLb||10):(+c.incBbLb||5))/LB:(eq==='db'?(+c.incDb||2):eq==='stack'?(+c.incSt||5):(+c.incBb||2.5));
+  const l=stepLearn(n); return l&&l>def?l:def; }
+function stepLearn(n){ if(uL()==='lb')return 0; const k=n+'|'+(S.workouts||[]).length; if(stepLearn._c?.[k]!==undefined)return stepLearn._c[k];
+  const ws=[]; for(const w of [...(S.workouts||[])].sort((a,b)=>b.start-a.start).slice(0,40)){ const e=(w.ex||[]).find(x=>x.n===n); if(e)for(const s of e.sets||[])if(s.done!==false&&+s.w>0&&+s.r>0)ws.push(+s.w); if(ws.length>=12)break; }
+  const v=ws.length>=4&&new Set(ws).size>=2&&ws.every(w=>Math.abs(w/5-Math.round(w/5))<1e-6)?5:0; (stepLearn._c||(stepLearn._c={}))[k]=v; return v; }
 const roundTo=(v,st)=>Math.max(st,Math.round(v/st)*st);
 const DAY=864e5;
 /* how much weight to add: about 2.5% of the working weight (up to 5% after an easy session), never less than one plate step; careful pace stays at 2% */
@@ -6170,8 +6177,10 @@ function openCoachSettings(){
       <button class="li" data-act="coach-careful"><span class="lt"><b>קצב זהיר</b><small>קפיצות משקל קטנות יותר</small></span><span class="tc-tog ${c.careful?'on':''}"></span></button>
       <button class="li" data-act="hq-open"><span class="lt"><b>שאלון בריאות</b><small>${S.settings.hq?'מולא · אפשר למלא שוב':'כמה שאלות קצרות, 20 שניות'}</small></span>${ICON.chev}</button>
     </div>
-    <div class="label" style="margin:0 0 6px">קפיצת משקל במוט ובמכונות</div>
+    <div class="label" style="margin:0 0 6px">${tt('קפיצת משקל במוט')}</div>
     <div class="row" style="margin-bottom:10px">${uL()==='lb'?[2.5,5,10].map(x=>`<button class="chip num ${(+c.incBbLb||5)===x?'on':''}" data-act="coach-inc" data-k="incBbLb" data-v="${x}">${x} lb</button>`).join(''):[1.25,2.5,5].map(x=>`<button class="chip num ${+c.incBb===x?'on':''}" data-act="coach-inc" data-k="incBb" data-v="${x}">${x} ק״ג</button>`).join('')}</div>
+    <div class="label" style="margin:0 0 6px">${tt('קפיצת משקל במכונות ובכבלים')}</div>
+    <div class="row" style="margin-bottom:10px">${uL()==='lb'?[5,10,15].map(x=>`<button class="chip num ${(+c.incStLb||10)===x?'on':''}" data-act="coach-inc" data-k="incStLb" data-v="${x}">${x} lb</button>`).join(''):[2.5,5,7.5,10].map(x=>`<button class="chip num ${(+c.incSt||5)===x?'on':''}" data-act="coach-inc" data-k="incSt" data-v="${x}">${x} ${tt('ק״ג')}</button>`).join('')}</div>
     <div class="label" style="margin:0 0 6px">קפיצת משקל במשקולות יד</div>
     <div class="row" style="margin-bottom:14px">${uL()==='lb'?[2.5,5,10].map(x=>`<button class="chip num ${(+c.incDbLb||5)===x?'on':''}" data-act="coach-inc" data-k="incDbLb" data-v="${x}">${x} lb</button>`).join(''):[1,2,2.5].map(x=>`<button class="chip num ${+c.incDb===x?'on':''}" data-act="coach-inc" data-k="incDb" data-v="${x}">${x} ק״ג</button>`).join('')}</div>
     ${c.start?`<button class="linkbtn small" style="color:var(--muted)" data-act="coach-reset">להתחיל בלוק חדש מהיום</button>`:''}
@@ -6538,6 +6547,10 @@ function openExMenu(ei){
       ${e.t==='s'?`<button class="li" data-act="pain-open" data-ei="${ei}">${ICON.shield.replace('class="ic"','class="ic" style="color:#FF8F84"')}<span class="lt"><b>משהו לא נוח</b><small>${sensOf(e.n)?'מסומן כרגיש · אפשר לבטל':'להוריד משקל, להחליף או לדלג'}</small></span></button>`:''}
       <button class="li" data-act="rm-ex" data-ei="${ei}" style="color:var(--danger)">${ICON.plus.replace('class="ic"','class="ic" style="transform:rotate(45deg)"')}<span class="lt"><b>הסר מהאימון</b></span></button>
     </div>
+    ${e.t==='s'?(()=>{ const c=coachCfg(), o=+(c.stepEx||{})[e.n]||0, lb=uL()==='lb', opts=lb?[2.5,5,10]:[1,2,2.5,5,10], cur=wStep(e.n);
+      return `<div class="label" style="margin:0 0 6px">${tt('קפיצת משקל בתרגיל הזה')}</div><div class="row" style="margin-bottom:12px">
+        <button class="chip ${!o?'on':''}" data-act="ex-step" data-ei="${ei}" data-v="0">${tt('אוטומטי')}${!o?` <span class="muted num">(${wL(cur)})</span>`:''}</button>
+        ${opts.map(x=>{ const kg=lb?x/LB:x; return `<button class="chip num ${o&&Math.abs(o-kg)<1e-6?'on':''}" data-act="ex-step" data-ei="${ei}" data-v="${kg}">${x} ${LU()}</button>`; }).join('')}</div>`; })():''}
     <div class="label" style="margin:0 0 6px">מנוחה אחרי סט</div>
     <div class="row">${[60,90,120,150,180].map(x=>`<button class="chip num ${(e.rest||S.settings.rest)===x?'on':''}" data-act="ex-rest" data-ei="${ei}" data-s="${x}">${x<120?x+' שנ׳':(x/60)+' דק׳'}</button>`).join('')}</div>
     <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>`);
@@ -10083,6 +10096,13 @@ function handleAct(b,ev){
     case 'coach-mode': { coachCfg().mode=b.dataset.v; persistSettings(); openCoachSettings(); render(); break; }
     case 'coach-rir': { const c=coachCfg(); c.rir=!c.rir; persistSettings(); openCoachSettings(); break; }
     case 'coach-inc': { coachCfg()[b.dataset.k]=+b.dataset.v; persistSettings(); openCoachSettings(); break; }
+    case 'ex-step': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; const c=coachCfg(), m=c.stepEx||(c.stepEx={}), v=+b.dataset.v;
+      if(v>0)m[e.n]=v; else delete m[e.n]; persistSettings();
+      // Rafi re-plans this exercise with the new jump (only sets not done yet change)
+      const st=wStep(e.n), co=coachOn()?coachCtx():null, rc=co&&!e.sets.some(s=>s.done)?coachRec({n:e.n,m:e.m,s:e.sets.length,reps:e.reps},co):null;
+      if(rc){ e.sets=e.sets.map((s,i)=>s.done?s:{...s,pw:(rc.pws?rc.pws(i):rc.w)??s.pw,pr:rc.ps?rc.ps(i):rc.r,sug:1}); e.co={...(e.co||{}),k:rc.k,why:rc.why,...(rc.h?{h:rc.h}:{})}; }
+      else for(const s of e.sets||[])if(!s.done&&+s.pw>0)s.pw=roundTo(+s.pw,st);
+      persistActive(); openExMenu(+b.dataset.ei); render(); toast(`${tt('קפיצת משקל')}: ${wL(st)} ${LU()}`); break; }
     case 'coach-reset': { const c=coachCfg(); c.start=new Date().setHours(0,0,0,0); c.back=null; persistSettings(); closeSheet(); render(); toast('בלוק חדש מתחיל היום'); break; }
     case 'coach-block': openBlockSheet(); break;
     case 'coach-block-go': startNextBlock(true); break;
