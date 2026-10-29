@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4e1504ee"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4e1504ee"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4e1504ee"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c34e3993"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c34e3993"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c34e3993"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1718,6 +1718,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .phthumbs img{width:100%;height:100%;object-fit:cover;display:block}
 .cmpgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cmpgrid figure{margin:0}
+.cmp-z{display:block;width:100%;padding:0;background:none;position:relative;border-radius:10px;overflow:hidden}.cmp-zi{position:absolute;bottom:7px;inset-inline-end:7px;width:30px;height:30px;border-radius:10px;background:rgba(10,11,10,.6);color:#fff;display:grid;place-items:center}.cmp-zi svg.ic{width:16px;height:16px}
+.tg{width:46px;height:28px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:background .2s}.tg:after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:inset-inline-start .2s}.tg.on{background:var(--accent)}.tg.on:after{inset-inline-start:21px}
 .cmpgrid img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block;background:var(--surface2)}
 .cmpgrid figcaption{text-align:center;font-size:12px;color:var(--muted);margin-top:4px}
 .cmpgrid label select{margin-top:3px;padding:7px 8px;font-size:14px}
@@ -7259,7 +7261,7 @@ function openPhotoCompare(angle,a,b){
   const lbl=ANGLES.find(a=>a[0]===angle)[1];
   const wOf=d=>{ const w=(S.weights||[]).filter(x=>x.d<=d).pop(); return w?` · ${wB(w.kg)} ${BU()}`:''; };
   const opts=sel=>withA.map(s=>`<option value="${s.d}" ${s.d===sel?'selected':''}>${fmtDate(+new Date(s.d+'T12:00:00'))}${wOf(s.d)}</option>`).join('');
-  const fig=(set,cap)=>`<figure>${PH.urls[set[angle]]?`<img src="${esc(PH.urls[set[angle]])}" alt="${lbl} ${cap}">`:'<div class="cmpph"><span>טוען…</span></div>'}<figcaption>${fmtDate(+new Date(set.d+'T12:00:00'))}${wOf(set.d)}</figcaption></figure>`;
+  const fig=(set,cap)=>`<figure>${PH.urls[set[angle]]?`<button class="cmp-z" data-act="cmp-zoom" data-d="${set.d}" data-a="${angle}" aria-label="${tt('הגדלה')}"><img src="${esc(PH.urls[set[angle]])}" alt="${lbl} ${cap}"><span class="cmp-zi" aria-hidden="true"><svg viewBox="0 0 24 24" class="ic"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span></button>`:'<div class="cmpph"><span>טוען…</span></div>'}<figcaption>${fmtDate(+new Date(set.d+'T12:00:00'))}${wOf(set.d)}</figcaption></figure>`;
   const wAt=d=>+wB(((S.weights||[]).filter(x=>x.d<=d).pop()||{}).kg||0), dw=first&&last?Math.round((wAt(last.d)-wAt(first.d))*10)/10:0;
   const days=first&&last?Math.round((new Date(last.d)-new Date(first.d))/864e5):0;
   openSheet(`
@@ -7272,11 +7274,65 @@ function openPhotoCompare(angle,a,b){
       <label class="small muted">אחרי<select id="cmp-b" data-cmp="b">${opts(last.d)}</select></label>
       ${fig(first,'לפני')}${fig(last,'אחרי')}
     </div>
-    ${days>0?`<div class="small muted" style="text-align:center;margin-top:8px">${days} ימים${dw?` · ${dw>0?'+':''}${dw} ${BU()}`:''}</div>`:''}`
+    ${days>0?`<div class="small muted" style="text-align:center;margin-top:8px">${days} ימים${dw?` · ${dw>0?'+':''}${dw} ${BU()}`:''}</div>`:''}
+    <div class="small muted" style="text-align:center;margin-top:4px">${tt('לחיצה על תמונה מגדילה אותה')}</div>
+    ${need.length===2&&need.every(p=>PH.urls[p])?`<button class="btn primary big" style="margin-top:14px" data-act="cmp-share"><svg viewBox="0 0 24 24" class="ic" style="width:20px;height:20px;vertical-align:-4px"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg> ${tt('שיתוף לפני / אחרי')}</button>`:''}`
     :`<div class="empty">צריך לפחות שתי תמונות ${lbl} מתאריכים שונים כדי להשוות.</div>`}
-    <button class="btn big" style="margin-top:14px" data-act="sheet-close">סגור</button>
+    <button class="btn big" style="margin-top:${withA.length>=2?8:14}px" data-act="sheet-close">סגור</button>
   `);
 }
+/* before/after share card: dark brand background, logo, the two photos, days and (optionally) the weight change. Built only on the phone, from the already-decrypted photos */
+const CS={w:true,url:null,busy:false};
+function cmpImg(src){ return new Promise((ok,no)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=src; }); }
+async function composeCmp(){
+  await stFonts(); const c0=PH.cmp; if(!c0)return null; const A=PH.sets.find(s=>s.d===c0.a), B=PH.sets.find(s=>s.d===c0.b); if(!A||!B)return null;
+  const [ia,ib]=await Promise.all([cmpImg(PH.urls[A[c0.angle]]),cmpImg(PH.urls[B[c0.angle]])]); const logo=await cmpImg('img/logo.svg').catch(()=>null);
+  const W=1080,H=1350,c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  const AC='#BFFF2F', MU='#9AA39C', rr=(X,Y,w,h,r)=>{ x.beginPath(); if(x.roundRect)x.roundRect(X,Y,w,h,r); else x.rect(X,Y,w,h); };
+  x.fillStyle='#0A0B0A'; x.fillRect(0,0,W,H);
+  for(const [gx,gy,gr,ga] of [[W*.9,40,620,.16],[W*.05,H-40,560,.10]]){ const g=x.createRadialGradient(gx,gy,0,gx,gy,gr); g.addColorStop(0,`rgba(191,255,47,${ga})`); g.addColorStop(1,'rgba(191,255,47,0)'); x.fillStyle=g; x.fillRect(0,0,W,H); }
+  /* logo: mark + wordmark, centered */
+  x.font=stF(800,64,'"Inter Tight"'); const wN=x.measureText('Next').width, wR=x.measureText('Rep').width, lw=logo?76:0, gap=logo?20:0, tot=lw+gap+wN+wR, lx=(W-tot)/2;
+  if(logo){ x.save(); rr(lx,62,76,76,20); x.clip(); x.drawImage(logo,lx,62,76,76); x.restore(); }
+  stLtr(x,()=>{ x.textAlign='left'; x.textBaseline='middle'; x.fillStyle='#F2F5F1'; x.fillText('Next',lx+lw+gap,102); x.fillStyle=AC; x.fillText('Rep',lx+lw+gap+wN,102); });
+  x.textBaseline='alphabetic'; x.textAlign='center'; stDir(x);
+  const lbl=ANGLES.find(a=>a[0]===c0.angle)?.[1]||''; x.font=stF(500,36); x.fillStyle=MU; x.fillText(`${tt('לפני · אחרי')} · ${lbl}`,W/2,205);
+  /* photos */
+  const pw=468,ph=624,py=250, rtl=LANG!=='en', bx=rtl?W-60-pw:60, axx=rtl?60:W-60-pw;
+  const fmtD=d=>new Date(d+'T12:00:00').toLocaleDateString(LOC,{day:'numeric',month:'short',year:'numeric'});
+  for(const [img,X,lab,d,on] of [[ia,bx,tt('לפני'),A.d,false],[ib,axx,tt('אחרי'),B.d,true]]){
+    x.save(); rr(X,py,pw,ph,36); x.clip(); drawCover(x,img,pw,ph,false,X,py); x.restore();
+    if(on){ x.save(); x.strokeStyle=AC; x.lineWidth=5; rr(X+2.5,py+2.5,pw-5,ph-5,34); x.stroke(); x.restore(); }
+    x.font=stF(700,34); const tw=x.measureText(lab).width+52, tx=rtl?X+pw-24-tw:X+24;
+    x.fillStyle=on?AC:'rgba(10,11,10,.72)'; rr(tx,py+24,tw,62,31); x.fill(); x.fillStyle=on?'#0A0B0A':'#fff'; x.fillText(lab,tx+tw/2,py+67);
+    x.font=stF(500,32); x.fillStyle=MU; x.fillText(fmtD(d),X+pw/2,py+ph+56); }
+  /* stats */
+  const days=Math.round((new Date(B.d)-new Date(A.d))/864e5), wAt=d=>+wB(((S.weights||[]).filter(q=>q.d<=d).pop()||{}).kg||0);
+  const dw=wAt(A.d)&&wAt(B.d)?Math.round((wAt(B.d)-wAt(A.d))*10)/10:0;
+  const st=[[String(days),tt('ימים'),'#F2F5F1']]; if(CS.w&&dw)st.push([`${dw>0?'+':'−'}${Math.abs(dw)}`,BU(),AC]);
+  const sy=980, sh=200, n=st.length, sw=n===1?440:(W-120-24)/2;
+  st.forEach(([v,k,col],i)=>{ const X=n===1?(W-sw)/2:(rtl?W-60-sw-i*(sw+24):60+i*(sw+24));
+    x.fillStyle='#141715'; rr(X,sy,sw,sh,32); x.fill(); x.strokeStyle='#262B28'; x.lineWidth=2; x.stroke();
+    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(400,122,'Karantina'); x.fillText(v,X+sw/2,sy+118); });
+    x.font=stF(500,32); x.fillStyle=MU; x.textAlign='center'; x.fillText(k,X+sw/2,sy+168); });
+  x.font=stF(600,30); x.fillStyle=MU; stLtr(x,()=>{ x.textAlign='center'; x.fillText('nextrep.co.il',W/2,H-58); });
+  return c;
+}
+async function openCmpShare(){
+  openSheet(`<h3>${tt('שיתוף לפני / אחרי')}</h3>
+    <div style="display:flex;justify-content:center;margin-bottom:12px"><img id="cs-prev" alt="" style="width:86%;aspect-ratio:4/5;object-fit:cover;border-radius:18px;background:var(--surface2);box-shadow:0 14px 34px -14px rgba(0,0,0,.6);transition:opacity .2s" ${CS.url?`src="${CS.url}"`:''}></div>
+    <button class="btn ${CS.w?'on':''}" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center" data-act="cs-w"><span>${tt('להציג את השינוי במשקל')}</span><span class="tg ${CS.w?'on':''}" aria-hidden="true"></span></button>
+    <div class="small muted" style="text-align:center;margin-bottom:10px">${tt('רק אתה מחליט אם לשתף. התמונה נוצרת בטלפון בלבד.')}</div>
+    <button class="btn primary big" data-act="cs-go">${tt('שתף')}</button>
+    <button class="btn big" style="margin-top:8px" data-act="photo-cmp" data-a="${PH.cmp?.angle||'front'}">${tt('חזרה')}</button>`);
+  cmpPreview(); }
+async function cmpPreview(){ const el=$('#cs-prev'); if(el)el.style.opacity=.5; const c=await composeCmp(); if(!c)return; const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.92));
+  if(CS.url)URL.revokeObjectURL(CS.url); CS.url=URL.createObjectURL(blob); CS.blob=blob; const e2=$('#cs-prev'); if(e2){ e2.src=CS.url; e2.style.opacity=1; } }
+async function cmpShareGo(){ if(CS.busy)return; CS.busy=true;
+  try{ if(!CS.blob)await cmpPreview(); const file=new File([CS.blob],'nextrep-before-after.jpg',{type:'image/jpeg'});
+    try{ if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],text:tt('ההתקדמות שלי ב-NextRep')}); return; } }catch(e){ if(e&&e.name==='AbortError')return; }
+    const a=document.createElement('a'); a.href=URL.createObjectURL(CS.blob); a.download='nextrep-before-after.jpg'; document.body.appendChild(a); a.click(); a.remove(); toast(tt('התמונה נשמרה'));
+  }finally{ CS.busy=false; } }
 function homePhotosCard(urgentOnly){
   if(!PH.loaded)loadPhotos();
   const today=ymd(), pd=S.settings.photoDay, isDay=pd!=null&&new Date().getDay()===+pd, has=PH.sets.some(s=>s.d===today);
@@ -9606,9 +9662,9 @@ function drawGreen(x,W,H,o){
       x.font=stF(500,34); x.globalAlpha=.9; x.fillText(tt(k),bx+bw/2,1070,bw-20); x.globalAlpha=1; }); }
   x.font=stF(500,34); x.globalAlpha=.75; x.fillText(location.host,W/2,H-60); x.globalAlpha=1;
 }
-function drawCover(x,img,W,H,mirror){
+function drawCover(x,img,W,H,mirror,ox=0,oy=0){
   const iw=img.videoWidth||img.width, ih=img.videoHeight||img.height; const sc=Math.max(W/iw,H/ih); const dw=iw*sc, dh=ih*sc;
-  x.save(); if(mirror){ x.translate(W,0); x.scale(-1,1); } x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh); x.restore();
+  x.save(); x.translate(ox,oy); if(mirror){ x.translate(W,0); x.scale(-1,1); } x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh); x.restore();
 }
 async function composeShare(){
   await stFonts(); const o=STD.opts;
@@ -10577,6 +10633,10 @@ function handleAct(b,ev){
     case 'photo-day-change': S.settings.photoDay=null; render(); break;
     case 'photo-del': deletePhoto(b.dataset.d,b.dataset.a); break;
     case 'photo-cmp': openPhotoCompare(b.dataset.a); break;
+    case 'cmp-zoom': openPhotoView(b.dataset.d,b.dataset.a); break;
+    case 'cmp-share': CS.blob=null; openCmpShare(); break;
+    case 'cs-w': CS.w=!CS.w; b.classList.toggle('on',CS.w); b.querySelector('.tg')?.classList.toggle('on',CS.w); cmpPreview(); break;
+    case 'cs-go': cmpShareGo(); break;
     case 'photo-more': PH.show+=12; render(); break;
     case 'photo-day': { const d=+b.dataset.d; S.settings.photoDay=(S.settings.photoDay!=null&&+S.settings.photoDay===d)?null:d;
       persistSettings(); render();
