@@ -1870,16 +1870,13 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-head{display:flex;align-items:center;gap:12px;margin:-2px 0 12px}.mc-hd{flex:1;min-width:0}.mc-hd h3{margin:0 0 2px;font-size:19px;line-height:1.25}
 .mc-thumb{width:64px;height:64px;border-radius:16px;overflow:hidden;flex:none;padding:0;background:var(--surface2);box-shadow:inset 0 0 0 1px var(--line);transition:width .25s,height .25s}
 .mc-thumb img{width:100%;height:100%;object-fit:cover;display:block}.mc-thumb.big{width:100%;height:190px}.mc-head:has(.mc-thumb.big){flex-wrap:wrap}
-.paper{--surface:#F5F1E8;--surface2:#EAE5D9;--line:rgba(60,50,30,.13);--ink:#1A1813;--text:#1A1813;--muted:#6B6558;--accent-soft:#E6EDC4;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(180deg,#F8F5EE,#F1ECE1)!important;color:var(--ink);border-color:rgba(255,250,235,.6)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(60,50,30,.08)}
-.paper .muted,.paper small,.paper .small{color:var(--muted)}
-.meals-paper{box-shadow:0 14px 34px -12px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.8)}
-.meals-paper button.spread{border-top-color:rgba(60,50,30,.18)!important;color:var(--ink)}
-.meals-paper .sbtn{background:#1A1813;color:var(--accent);border-color:#111512}
-.ms-ic{width:34px;height:34px;border-radius:11px;background:#1A1813;color:var(--accent);display:grid;place-items:center;flex:none}.ms-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.mc-it.paper.open{border-color:#111512!important;box-shadow:0 0 0 1px #111512 inset}
-.mc-it.paper .mc-alt{color:#3B4F00}.mc-it.paper .mc-flag{color:#8A5A00;background:rgba(226,176,28,.22)}
-.mc-it.paper.unsure{border-color:rgba(226,176,28,.85)!important}
-.mc-it.paper input,.mc-it.paper select{color:var(--ink)}
+.paper{--surface:#1C211E;--surface2:#262C28;background:#1C211E!important}
+.meals-paper{border-color:rgba(191,255,47,.28)!important;box-shadow:0 12px 30px -14px rgba(0,0,0,.8)}
+.meals-paper button.spread{color:var(--ink)}
+.meals-paper .li>div>.lt>b{color:var(--accent)}
+.meals-paper .sbtn{background:var(--accent);color:var(--accent-ink,#0A0B0A);border-color:var(--accent)}
+.ms-ic{width:34px;height:34px;border-radius:11px;background:rgba(191,255,47,.12);color:var(--accent);display:grid;place-items:center;flex:none}.ms-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.mc-it.paper{border-color:rgba(191,255,47,.16)}
 .mc-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface2);margin-bottom:12px}
 .mc-k{display:flex;align-items:baseline;gap:6px}.mc-k b{font-family:var(--disp);font-size:30px;font-weight:800;color:var(--accent);line-height:1}.mc-k span{color:var(--muted);font-size:13.5px}
 .mc-mac{display:flex;gap:12px;font-size:13px;color:var(--muted)}.mc-mac b{color:var(--ink);font-weight:700}
@@ -2171,7 +2168,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.133';
+const APP_VERSION='13.3.135';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
