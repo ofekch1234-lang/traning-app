@@ -10478,7 +10478,7 @@ document.addEventListener('change',ev=>{
     const f=ev.target.files[0]; ev.target.value='';
     toast('מעבד תמונה…');
     const hint=($('#food-text')?.value||'').trim().slice(0,200);
-    shrinkImage(f,1024).then(b64=>foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
+    shrinkImage(f,1280).then(b64=>foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
     return;
   }
   const i=ev.target.closest('[data-bind]'); if(!i)return;
