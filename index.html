@@ -2357,7 +2357,7 @@ async function natPermAsk(){ try{ NAT.perm=natPermMap(await capP('LocalNotificat
    The rest timer follows the "צליל" / "רטט" switches in settings; every other notification always rings. */
 const NAT_SND={rest:'nr_bell.wav',train:'nr_watch.wav',daily:'nr_marimba.wav',coach:'nr_pop.wav',success:'nr_success.wav'};
 const NAT_CH={rest:'nr_rest_v1',train:'nr_train_v1',daily:'nr_daily_v1',coach:'nr_coach_v1',success:'nr_success_v1',restVib:'nr_rest_vib_v1',restQuiet:'nr_rest_quiet_v1'};
-const NAT_GRP={miss:'train',remind:'train',nudge3:'train',nudge7:'train',meal:'daily',weigh:'daily',trial:'daily',coach:'coach',pr:'success'};
+const NAT_GRP={miss:'train',remind:'train',nudge3:'train',nudge7:'train',meal:'daily',weigh:'daily',photo:'daily',trial:'daily',coach:'coach',pr:'success'};
 let _natChP=null;
 function natChannels(){
   if(NATIVE_OS!=='android')return Promise.resolve();
@@ -2442,18 +2442,21 @@ function natPlan(){
   const at=(d,h,m)=>{ const x=new Date(d); x.setHours(h,m||0,0,0); return x; };
   const day=i=>{ const x=new Date(now); x.setHours(12,0,0,0); x.setDate(x.getDate()+i); return x; };
   const add=(when,title,body,kind)=>{ if(+when>Date.now()+60e3&&out.length<60)out.push({at:+when,title:tt(title),body:tt(body),kind}); };
-  // 1. workout reminder on scheduled days, 8:00 (opt-in like on the web)
-  if(n.remind===true)for(let i=0;i<21;i++){ const d=day(i), t=schedOn(d); if(!t)continue; if(i===0&&trainedOn(d))continue;
-    add(at(d,8),`היום: ${t.name} 💪`,Gx('האימון מחכה לך. בוא נשבור עוד שיא.','האימון מחכה לך. בואי נשבור עוד שיא.'),'remind'); }
+  // 1. one morning message per day: weigh-in (7:30, until weighed), the weekly photo day, and the scheduled workout together.
+  //    Weigh-in on: 7:30 with whatever applies. Only the workout reminder on (weighed / weigh-in off): 8:00 as before.
+  { const today=ymd(), wToday=(S.weights||[]).some(w=>w.d===today), pd=S.settings.photoDay!=null?+S.settings.photoDay:null, phToday=(PH.sets||[]).some(s=>s.d===today);
+    for(let i=0;i<21;i++){ const d=day(i); let t=n.remind===true?schedOn(d):null; if(t&&i===0&&trainedOn(d))t=null;
+      const weigh=n.weigh!==false&&i<14&&!(i===0&&wToday), photo=n.weigh!==false&&pd!=null&&d.getDay()===pd&&!(i===0&&phToday);
+      if(photo)add(at(d,7,30),t?'בוקר טוב ☀️ היום יום צילום':'בוקר טוב, היום יום צילום 📸',t?Gx(`שקילה, 3 תמונות ו${t.name} 💪 קודם התמונות, לפני האוכל.`,`שקילה, 3 תמונות ו${t.name} 💪 קודם התמונות, לפני האוכל.`):'שקילה ו-3 תמונות (חזית, גב וצד), לפני האוכל. לוקח 2 דקות.','photo');
+      else if(weigh&&t)add(at(d,7,30),`היום: ${t.name} 💪`,Gx('קודם עלה על המשקל לפני האוכל, ואז ניפגש באימון.','קודם עלי על המשקל לפני האוכל, ואז ניפגש באימון.'),'weigh');
+      else if(weigh)add(at(d,7,30),'בוקר טוב ☀️',Gx('עלה על המשקל לפני האוכל, לוקח 5 שניות.','עלי על המשקל לפני האוכל, לוקח 5 שניות.'),'weigh');
+      else if(t)add(at(d,8),`היום: ${t.name} 💪`,Gx('האימון מחכה לך. בוא נשבור עוד שיא.','האימון מחכה לך. בואי נשבור עוד שיא.'),'remind'); } }
   // 1b. a scheduled workout still not done at 19:00: train today or move it (part of the smart reminders, on by default).
   //     A workout that was already moved in is not offered again.
   if(n.nudge!==false)for(let i=0;i<14;i++){ const d=day(i), t=schedOn(d); if(!t||mvInto(d))continue; if(i===0&&(trainedOn(d)||S.active))continue;
     const nx=new Date(d); nx.setDate(nx.getDate()+1); const len=out.length;
     add(at(d,19),tt('{0} עוד מחכה להיום').replace('{0}',tt(t.name)),schedOn(nx)?'עוד אפשר להספיק היום, או להזיז ליום פנוי בלי לאבד כלום.':'עוד אפשר להספיק היום, או להזיז למחר בלי לאבד כלום.','miss');
     if(out.length>len)out[out.length-1].act=schedOn(nx)?'NR_MISS2':'NR_MISS'; }
-  // 2. weigh-in, 7:30, every morning without a weigh-in yet
-  if(n.weigh!==false){ const today=ymd(); const wToday=(S.weights||[]).some(w=>w.d===today);
-    for(let i=0;i<14;i++){ if(i===0&&wToday)continue; add(at(day(i),7,30),'בוקר טוב ☀️',Gx('עלה על המשקל לפני האוכל, לוקח 5 שניות.','עלי על המשקל לפני האוכל, לוקח 5 שניות.'),'weigh'); } }
   // 3. Rafi's weekly summary, Sunday 9:00
   if(n.coach!==false&&isPrem())for(let i=0;i<21;i++){ const d=day(i); if(d.getDay()===0)add(at(d,9),'ראפי: הסיכום השבועי שלך מוכן 💬','מה הלך טוב השבוע ועל מה להתמקד עכשיו','coach'); }
   // 4. no workout for a while: 3 and 7 days after the last one, 18:00
@@ -2532,7 +2535,8 @@ function natMvRun(a,tries){ if(!S.user||S.mode!=='app'){ if((tries||0)<30)setTim
   S.tab='train'; render(); window.scrollTo(0,0); }
 if(IS_NATIVE)capP('LocalNotifications')?.addListener?.('localNotificationActionPerformed',({actionId,notification})=>{
   if(notification?.extra?.kind==='miss'){ natMvRun(actionId==='move'?'move':actionId==='today'?'today':'tap'); logEv('notif_open',{k:'miss',a:actionId||'tap'}); return; }
-  const k=notification?.extra?.kind, to={remind:'train',nudge3:'train',nudge7:'train',weigh:'track',meal:'food'}[k];
+  const k=notification?.extra?.kind, to={remind:'train',nudge3:'train',nudge7:'train',weigh:'track',photo:'track',meal:'food'}[k];
+  if(k==='photo'&&S.user){ S.trackView='body'; (S.bodyOpen||(S.bodyOpen={})).ph=true; }
   if(k==='trial'&&S.user&&S.mode==='app'){ setTimeout(()=>{ try{ handleAct({dataset:{act:'plans-open',why:'notif'}}); }catch(_){} },300); }
   if(to&&S.user&&S.mode==='app'){ S.tab=to; if(to==='food')S.foodDate=ymd(); render(); window.scrollTo(0,0); }
   logEv('notif_open',{k:k||'other'}); });
@@ -2560,7 +2564,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.110';
+const APP_VERSION='13.3.112';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
