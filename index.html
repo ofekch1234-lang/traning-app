@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c34e3993"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c34e3993"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c34e3993"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=046e71d7"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=046e71d7"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=046e71d7"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -7282,23 +7282,24 @@ function openPhotoCompare(angle,a,b){
   `);
 }
 /* before/after share card: dark brand background, logo, the two photos, days and (optionally) the weight change. Built only on the phone, from the already-decrypted photos */
-const CS={w:true,url:null,busy:false};
+const CS={w:true,url:null,busy:false,fmt:'post'};
 function cmpImg(src){ return new Promise((ok,no)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=src; }); }
 async function composeCmp(){
   await stFonts(); const c0=PH.cmp; if(!c0)return null; const A=PH.sets.find(s=>s.d===c0.a), B=PH.sets.find(s=>s.d===c0.b); if(!A||!B)return null;
   const [ia,ib]=await Promise.all([cmpImg(PH.urls[A[c0.angle]]),cmpImg(PH.urls[B[c0.angle]])]); const logo=await cmpImg('img/logo.svg').catch(()=>null);
-  const W=1080,H=1350,c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  const st9=CS.fmt==='story', W=1080,H=st9?1920:1350,c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  const L=st9?{ly:250,sub:385,py:450,ph:780,sy:1310,sh:230,ft:1660}:{ly:62,sub:205,py:250,ph:624,sy:980,sh:200,ft:H-58};
   const AC='#BFFF2F', MU='#9AA39C', rr=(X,Y,w,h,r)=>{ x.beginPath(); if(x.roundRect)x.roundRect(X,Y,w,h,r); else x.rect(X,Y,w,h); };
   x.fillStyle='#0A0B0A'; x.fillRect(0,0,W,H);
   for(const [gx,gy,gr,ga] of [[W*.9,40,620,.16],[W*.05,H-40,560,.10]]){ const g=x.createRadialGradient(gx,gy,0,gx,gy,gr); g.addColorStop(0,`rgba(191,255,47,${ga})`); g.addColorStop(1,'rgba(191,255,47,0)'); x.fillStyle=g; x.fillRect(0,0,W,H); }
   /* logo: mark + wordmark, centered */
   x.font=stF(800,64,'"Inter Tight"'); const wN=x.measureText('Next').width, wR=x.measureText('Rep').width, lw=logo?76:0, gap=logo?20:0, tot=lw+gap+wN+wR, lx=(W-tot)/2;
-  if(logo){ x.save(); rr(lx,62,76,76,20); x.clip(); x.drawImage(logo,lx,62,76,76); x.restore(); }
-  stLtr(x,()=>{ x.textAlign='left'; x.textBaseline='middle'; x.fillStyle='#F2F5F1'; x.fillText('Next',lx+lw+gap,102); x.fillStyle=AC; x.fillText('Rep',lx+lw+gap+wN,102); });
+  if(logo){ x.save(); rr(lx,L.ly,76,76,20); x.clip(); x.drawImage(logo,lx,L.ly,76,76); x.restore(); }
+  stLtr(x,()=>{ x.textAlign='left'; x.textBaseline='middle'; x.fillStyle='#F2F5F1'; x.fillText('Next',lx+lw+gap,L.ly+40); x.fillStyle=AC; x.fillText('Rep',lx+lw+gap+wN,L.ly+40); });
   x.textBaseline='alphabetic'; x.textAlign='center'; stDir(x);
-  const lbl=ANGLES.find(a=>a[0]===c0.angle)?.[1]||''; x.font=stF(500,36); x.fillStyle=MU; x.fillText(`${tt('לפני · אחרי')} · ${lbl}`,W/2,205);
+  const lbl=ANGLES.find(a=>a[0]===c0.angle)?.[1]||''; x.font=stF(500,36); x.fillStyle=MU; x.fillText(`${tt('לפני · אחרי')} · ${lbl}`,W/2,L.sub);
   /* photos */
-  const pw=468,ph=624,py=250, rtl=LANG!=='en', bx=rtl?W-60-pw:60, axx=rtl?60:W-60-pw;
+  const pw=468,ph=L.ph,py=L.py, rtl=LANG!=='en', bx=rtl?W-60-pw:60, axx=rtl?60:W-60-pw;
   const fmtD=d=>new Date(d+'T12:00:00').toLocaleDateString(LOC,{day:'numeric',month:'short',year:'numeric'});
   for(const [img,X,lab,d,on] of [[ia,bx,tt('לפני'),A.d,false],[ib,axx,tt('אחרי'),B.d,true]]){
     x.save(); rr(X,py,pw,ph,36); x.clip(); drawCover(x,img,pw,ph,false,X,py); x.restore();
@@ -7310,17 +7311,18 @@ async function composeCmp(){
   const days=Math.round((new Date(B.d)-new Date(A.d))/864e5), wAt=d=>+wB(((S.weights||[]).filter(q=>q.d<=d).pop()||{}).kg||0);
   const dw=wAt(A.d)&&wAt(B.d)?Math.round((wAt(B.d)-wAt(A.d))*10)/10:0;
   const st=[[String(days),tt('ימים'),'#F2F5F1']]; if(CS.w&&dw)st.push([`${dw>0?'+':'−'}${Math.abs(dw)}`,BU(),AC]);
-  const sy=980, sh=200, n=st.length, sw=n===1?440:(W-120-24)/2;
+  const sy=L.sy, sh=L.sh, n=st.length, sw=n===1?440:(W-120-24)/2;
   st.forEach(([v,k,col],i)=>{ const X=n===1?(W-sw)/2:(rtl?W-60-sw-i*(sw+24):60+i*(sw+24));
     x.fillStyle='#141715'; rr(X,sy,sw,sh,32); x.fill(); x.strokeStyle='#262B28'; x.lineWidth=2; x.stroke();
-    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(400,168,'Karantina'); x.fillText(v,X+sw/2,sy+128); });
-    x.font=stF(500,32); x.fillStyle=MU; x.textAlign='center'; x.fillText(k,X+sw/2,sy+168); });
-  x.font=stF(600,30); x.fillStyle=MU; stLtr(x,()=>{ x.textAlign='center'; x.fillText('nextrep.co.il',W/2,H-58); });
+    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(400,168,'Karantina'); x.fillText(v,X+sw/2,sy+128+(sh-200)/2); });
+    x.font=stF(500,32); x.fillStyle=MU; x.textAlign='center'; x.fillText(k,X+sw/2,sy+168+(sh-200)/2); });
+  x.font=stF(600,30); x.fillStyle=MU; stLtr(x,()=>{ x.textAlign='center'; x.fillText('nextrep.co.il',W/2,L.ft); });
   return c;
 }
 async function openCmpShare(){
   openSheet(`<h3>${tt('שיתוף לפני / אחרי')}</h3>
-    <div style="display:flex;justify-content:center;margin-bottom:12px"><img id="cs-prev" alt="" style="width:86%;aspect-ratio:4/5;object-fit:cover;border-radius:18px;background:var(--surface2);box-shadow:0 14px 34px -14px rgba(0,0,0,.6);transition:opacity .2s" ${CS.url?`src="${CS.url}"`:''}></div>
+    <div class="seg2" style="display:flex;gap:6px;margin-bottom:12px">${[['post',tt('פוסט'),'4:5'],['story',tt('סטורי'),'9:16']].map(([k,l,r])=>`<button class="btn ${CS.fmt===k?'primary':''}" style="flex:1;padding:10px 4px" data-act="cs-fmt" data-f="${k}">${l} <span class="num" style="opacity:.6;font-size:12px">${r}</span></button>`).join('')}</div>
+    <div style="display:flex;justify-content:center;margin-bottom:12px"><img id="cs-prev" alt="" style="width:${CS.fmt==='story'?'58%':'86%'};aspect-ratio:${CS.fmt==='story'?'9/16':'4/5'};object-fit:cover;border-radius:18px;background:var(--surface2);box-shadow:0 14px 34px -14px rgba(0,0,0,.6);transition:opacity .2s" ${CS.url?`src="${CS.url}"`:''}></div>
     <button class="btn ${CS.w?'on':''}" style="width:100%;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center" data-act="cs-w"><span>${tt('להציג את השינוי במשקל')}</span><span class="tg ${CS.w?'on':''}" aria-hidden="true"></span></button>
     <div class="small muted" style="text-align:center;margin-bottom:10px">${tt('רק אתה מחליט אם לשתף. התמונה נוצרת בטלפון בלבד.')}</div>
     <button class="btn primary big" data-act="cs-go">${tt('שתף')}</button>
@@ -10637,6 +10639,7 @@ function handleAct(b,ev){
     case 'cmp-share': CS.blob=null; openCmpShare(); break;
     case 'cs-w': CS.w=!CS.w; b.classList.toggle('on',CS.w); b.querySelector('.tg')?.classList.toggle('on',CS.w); cmpPreview(); break;
     case 'cs-go': cmpShareGo(); break;
+    case 'cs-fmt': if(CS.fmt!==b.dataset.f){ CS.fmt=b.dataset.f; CS.blob=null; openCmpShare(); } break;
     case 'photo-more': PH.show+=12; render(); break;
     case 'photo-day': { const d=+b.dataset.d; S.settings.photoDay=(S.settings.photoDay!=null&&+S.settings.photoDay===d)?null:d;
       persistSettings(); render();
