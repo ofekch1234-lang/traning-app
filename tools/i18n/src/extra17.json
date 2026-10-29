@@ -2586,5 +2586,117 @@
  "התמונה שצילמת": {
   "en": "Your photo",
   "ar": "الصورة التي التقطتها"
+ },
+ "החלפת תרגיל": {
+  "en": "Swap exercise",
+  "ar": "استبدال التمرين"
+ },
+ "חלופה לאותו שריר שמתאימה לשאר האימון": {
+  "en": "An alternative for the same muscle that fits the rest of the workout",
+  "ar": "بديل لنفس العضلة يناسب بقية التمرين"
+ },
+ "בחר איפה זה לא נוח": {
+  "en": "Choose where it hurts",
+  "ar": "اختر مكان الانزعاج"
+ },
+ "לבחירת תרגיל חלופי": {
+  "en": "Choose an alternative",
+  "ar": "اختيار تمرين بديل"
+ },
+ "במקום": {
+  "en": "Instead of",
+  "ar": "بدلًا من"
+ },
+ "מתאים לשאר האימון, ועדין יותר ל": {
+  "en": "Fits the rest of the workout and is gentler on the ",
+  "ar": "يناسب بقية التمرين وألطف على "
+ },
+ "אותו שריר, ומתאים לשאר האימון": {
+  "en": "Same muscle, fits the rest of the workout",
+  "ar": "نفس العضلة، ويناسب بقية التمرين"
+ },
+ "רק לאימון הזה": {
+  "en": "Just this workout",
+  "ar": "لهذا التمرين فقط"
+ },
+ "גם בתוכנית מעכשיו": {
+  "en": "In my plan from now on",
+  "ar": "في خطتي من الآن"
+ },
+ "עוד לאותו שריר": {
+  "en": "More for the same muscle",
+  "ar": "المزيد لنفس العضلة"
+ },
+ "תרגילים לאותו שריר": {
+  "en": "exercises for the same muscle",
+  "ar": "تمارين لنفس العضلة"
+ },
+ "להתחיל ב": {
+  "en": "Start at ",
+  "ar": "ابدأ بـ "
+ },
+ "מתחילים קל ומכוונים לפי הסט הראשון": {
+  "en": "Start light and adjust after the first set",
+  "ar": "ابدأ بوزن خفيف وعدّل بعد المجموعة الأولى"
+ },
+ "הוחלף ל": {
+  "en": "Swapped to ",
+  "ar": "تم الاستبدال إلى "
+ },
+ "עודכן גם בתוכנית": {
+  "en": "Updated in your plan too",
+  "ar": "تم التحديث في الخطة أيضًا"
+ },
+ "לאימון הזה": {
+  "en": "for this workout",
+  "ar": "لهذا التمرين"
+ },
+ "פעם שלישית החודש": {
+  "en": "third time this month",
+  "ar": "للمرة الثالثة هذا الشهر"
+ },
+ "אותה תנועה": {
+  "en": "Same movement",
+  "ar": "نفس الحركة"
+ },
+ "עשית בעבר": {
+  "en": "Done before",
+  "ar": "قمت به سابقًا"
+ },
+ "כבל": {
+  "en": "Cable",
+  "ar": "كابل"
+ },
+ "עריכה ידנית של השם והערכים": {
+  "en": "Edit the name and values by hand",
+  "ar": "تعديل الاسم والقيم يدويًا"
+ },
+ "עדין לכתף": {
+  "en": "Easy on the shoulder",
+  "ar": "لطيف على الكتف"
+ },
+ "עדין למרפק": {
+  "en": "Easy on the elbow",
+  "ar": "لطيف على المرفق"
+ },
+ "עדין לשורש כף יד": {
+  "en": "Easy on the wrist",
+  "ar": "لطيف على الرسغ"
+ },
+ "עדין לצוואר": {
+  "en": "Easy on the neck",
+  "ar": "لطيف على الرقبة"
+ },
+ "עדין לגב": {
+  "en": "Easy on the back",
+  "ar": "لطيف على الظهر"
+ },
+ "עדין לברך": {
+  "en": "Easy on the knee",
+  "ar": "لطيف على الركبة"
+ },
+ "עדין לאחר": {
+  "en": "Gentler",
+  "ar": "ألطف"
  }
 }
