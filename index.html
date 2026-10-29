@@ -1673,8 +1673,8 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .fdate input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:0;padding:0}
 .pastnote{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;background:var(--accent-soft,rgba(52,199,89,.12));color:var(--text);font-size:14px;font-weight:600}
 .pastnote .linkbtn{text-decoration:none;font-weight:700}.pastnote .ic{width:18px;height:18px;color:var(--accent);flex:none}.pastnote span{flex:1;min-width:0}
-.me-when{display:flex;gap:10px;align-items:flex-end;margin-top:12px;flex-wrap:wrap}
-.me-date{display:flex;flex-direction:column;gap:6px;flex:1;min-width:140px}.me-date input{width:100%}
+.me-when{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch;margin-top:12px}
+.me-date{display:flex;min-width:0}.me-date input{width:100%;min-width:0;-webkit-appearance:none;appearance:none;height:100%;min-height:44px;text-align:center}
 .me-slot{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
 .me-slot button{border:0;background:none;padding:9px 12px;border-radius:9px;font:inherit;font-size:14px;color:var(--muted)}
 .me-slot button.on{background:var(--surface);color:var(--text);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -2186,7 +2186,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface2);margin-bottom:12px}
 .mc-k{display:flex;align-items:baseline;gap:6px}.mc-k b{font-family:var(--disp);font-size:30px;font-weight:800;color:var(--accent);line-height:1}.mc-k span{color:var(--muted);font-size:13.5px}
 .mc-mac{display:flex;gap:12px;font-size:13px;color:var(--muted)}.mc-mac b{color:var(--ink);font-weight:700}
-.mc-list{display:grid;gap:8px;max-height:52vh;overflow-y:auto;overscroll-behavior:contain;padding-bottom:2px}
+.mc-list{display:grid;gap:8px;padding-bottom:2px}
 .mc-it{border:1px solid var(--line);border-radius:16px;background:var(--surface)}.mc-it.unsure{border-color:color-mix(in srgb,var(--gold,#e2b01c) 55%,transparent)}
 .mc-it.open{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
 .mc-row{display:flex;align-items:center;gap:10px;width:100%;padding:12px 12px;text-align:start;color:inherit}
@@ -2206,7 +2206,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-edf{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .mc-rm{display:inline-flex;align-items:center;gap:6px;color:var(--danger,#ef5350);font-size:13.5px;font-weight:600;padding:6px 2px}.mc-rm svg{width:16px;height:16px}
 .mc-addrow{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:16px;border:1px dashed var(--line);color:var(--muted);font-weight:600;font-size:14px}.mc-addrow svg{width:18px;height:18px}
-.mc-foot{margin-top:12px}
+.mc-foot{margin-top:12px;position:sticky;bottom:calc(-18px - env(safe-area-inset-bottom,0px));z-index:3;margin-inline:-16px;padding:14px 16px calc(18px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--surface) 80%,rgba(20,23,21,0))}
+.mc-foot~*{position:relative;z-index:1}
 .sw-sc{width:100%}.sw-sc button{flex:1}.sw-l{display:grid;gap:8px}
 .sw-c{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden}.sw-c.open{border-color:var(--accent)}
 .sw-h{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;text-align:start;color:inherit}
@@ -2604,7 +2605,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.130';
+const APP_VERSION='13.3.132';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
