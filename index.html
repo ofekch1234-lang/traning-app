@@ -58,11 +58,13 @@
   if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=28579fed"><\/script>');
 })();
 </script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=Sora:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="menu-foods.js?v=16"></script>
 <style>
 /* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
+/* numbers: Sora digits only (subset, ~3KB per weight); letters stay Heebo */
+@font-face{font-family:'NRNum';font-weight:400;font-display:swap;src:url(img/fonts/nrnum-400.woff2) format('woff2');unicode-range:U+0030-0039,U+002B-002E,U+003A,U+0025,U+2212,U+00D7}@font-face{font-family:'NRNum';font-weight:500;font-display:swap;src:url(img/fonts/nrnum-500.woff2) format('woff2');unicode-range:U+0030-0039,U+002B-002E,U+003A,U+0025,U+2212,U+00D7}@font-face{font-family:'NRNum';font-weight:600;font-display:swap;src:url(img/fonts/nrnum-600.woff2) format('woff2');unicode-range:U+0030-0039,U+002B-002E,U+003A,U+0025,U+2212,U+00D7}@font-face{font-family:'NRNum';font-weight:700;font-display:swap;src:url(img/fonts/nrnum-700.woff2) format('woff2');unicode-range:U+0030-0039,U+002B-002E,U+003A,U+0025,U+2212,U+00D7}@font-face{font-family:'NRNum';font-weight:800;font-display:swap;src:url(img/fonts/nrnum-800.woff2) format('woff2');unicode-range:U+0030-0039,U+002B-002E,U+003A,U+0025,U+2212,U+00D7}
 :root{
   /* dark only — near-black surfaces, neon lime brand (#BFFF2F) with black text on it */
   --bg:#0A0B0A;
@@ -80,13 +82,13 @@
   --kbig:#AEB7B0;
   --shadow:none;
   --overlay-shadow:0 -8px 30px rgba(0,0,0,.55);
-  --disp:'Heebo',system-ui,-apple-system,sans-serif;--brand:'Inter Tight',system-ui,-apple-system,sans-serif;
-  --body:'Heebo',system-ui,-apple-system,sans-serif;
+  --disp:'NRNum','Heebo',system-ui,-apple-system,sans-serif;--brand:'Inter Tight',system-ui,-apple-system,sans-serif;
+  --body:'NRNum','Heebo',system-ui,-apple-system,sans-serif;
   --dir:rtl; --start:right; --end:left;
   color-scheme: dark;
 }
 :root[dir="ltr"]{--dir:ltr;--start:left;--end:right}
-:root[lang="ar"]{--body:'Heebo','IBM Plex Sans Arabic',system-ui,sans-serif;--disp:'Heebo','IBM Plex Sans Arabic',system-ui,sans-serif}
+:root[lang="ar"]{--body:'NRNum','Heebo','IBM Plex Sans Arabic',system-ui,sans-serif;--disp:'NRNum','Heebo','IBM Plex Sans Arabic',system-ui,sans-serif}
 :root[dir="ltr"] .flipx{transform:none!important}
 :root[data-accent="rose"]{--accent:#FF4FA3;--accent-soft:#3A1428;--accent-ink:#0A0B0A}
 :root[data-accent="violet"]{--accent:#A78BFA;--accent-soft:#2A1F47;--accent-ink:#0A0B0A}
@@ -1173,7 +1175,7 @@ button{font-family:var(--body);font-size:15px;border:none;cursor:pointer;color:v
 button:focus-visible, input:focus-visible, a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 input,select{font-family:var(--body);font-size:16px;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%}
 h1,h2,h3{margin:0;text-wrap:balance}
-.num{font-variant-numeric:tabular-nums;font-family:'Sora',var(--body);letter-spacing:-.02em}
+.num{font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 
 /* header */
 header.top{
@@ -1380,7 +1382,7 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .ring-row{display:flex;align-items:center;gap:16px}
 .ring-row .rg{position:relative;width:112px;height:112px;flex-shrink:0}
 .ring-row .rg>div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring-row .rg b{font-family:var(--disp);font-weight:800;font-size:25px;line-height:1.1}
+.ring-row .rg b{font-family:var(--disp);font-weight:800;font-size:22px;line-height:1.1}
 .ring-row .rg span{font-size:12px;color:var(--muted)}
 .ring-row .rg .rg-st{font-size:11px;font-weight:800;color:var(--accent);margin-bottom:1px}.ring-row .rg .rg-st.big{color:var(--kbig)}
 .lowk{display:flex;flex-direction:column;gap:8px;border-color:#23406B;background:#0F1A2B}.lowk>b{font-size:15.5px;color:#D6E6FF}.lowk>span{font-size:13.5px;line-height:1.55;color:#C9DAF2}.lowk .lowk-x{font-size:12.5px;color:#9CB5D6}.lowk .btn{flex:1;font-size:14px}
@@ -2602,7 +2604,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.128';
+const APP_VERSION='13.3.130';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8379,7 +8381,7 @@ async function composeCmp(){
   const sy=L.sy, sh=L.sh, n=st.length, sw=n===1?440:(W-120-24)/2;
   st.forEach(([v,k,col],i)=>{ const X=n===1?(W-sw)/2:(rtl?W-60-sw-i*(sw+24):60+i*(sw+24));
     x.fillStyle='#141715'; rr(X,sy,sw,sh,32); x.fill(); x.strokeStyle='#262B28'; x.lineWidth=2; x.stroke();
-    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(700,104,'Sora'); x.fillText(v,X+sw/2,sy+120+(sh-200)/2); });
+    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(700,104,'NRNum'); x.fillText(v,X+sw/2,sy+120+(sh-200)/2); });
     x.font=stF(500,32); x.fillStyle=MU; x.textAlign='center'; x.fillText(k,X+sw/2,sy+168+(sh-200)/2); });
   x.font=stF(600,30); x.fillStyle=MU; stLtr(x,()=>{ x.textAlign='center'; x.fillText('nextrep.co.il',W/2,L.ft); });
   return c;
@@ -10872,9 +10874,9 @@ function checkNewBadges(){
 /* כרטיס לשיתוף (תמונה) */
 /* ----- סטודיו שיתוף: תצוגה מקדימה, רקע ירוק / צילום מהמצלמה / תמונה מהגלריה, עם "מדבקה" (כמו Nike Run Club) ----- */
 const STD={opts:null,bg:null,style:0,pos:2,face:'environment',stream:null,url:null,busy:false};
-const stF=(w,s,fam='Heebo')=>`${w} ${s}px ${fam}, "IBM Plex Sans Arabic", system-ui, sans-serif`;
+const stF=(w,s,fam='NRNum, Heebo')=>`${w} ${s}px ${fam}, "IBM Plex Sans Arabic", system-ui, sans-serif`;
 let _stFonts=null;
-function stFonts(){ return _stFonts||(_stFonts=Promise.all(['700 80px Heebo','500 40px Heebo','400 120px Karantina','800 80px "Inter Tight"','700 80px Sora','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f).catch(()=>{})))); }
+function stFonts(){ return _stFonts||(_stFonts=Promise.all(['700 80px Heebo','500 40px Heebo','400 120px Karantina','800 80px "Inter Tight"','700 80px NRNum','500 40px NRNum','700 80px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f).catch(()=>{})))); }
 function stDir(x){ x.direction=LANG==='en'?'ltr':'rtl'; }
 function stLtr(x,fn){ const d=x.direction; x.direction='ltr'; fn(); x.direction=d; }
 /* המדבקה עצמה — טקסט לבן עם צל, בלי רקע */
