@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=7ad3cf1d"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7ad3cf1d"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=7ad3cf1d"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e7aff9ae"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e7aff9ae"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e7aff9ae"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -6254,7 +6254,7 @@ function swW(e,c){ if(c.h){ const top=Math.max(...c.h.map(s=>+s.w||0)); return t
 function openExSwap(ei,area){
   const e=S.active?.ex?.[ei]; if(!e)return; if(SW.ei!==ei){ SW.more=false; SW.pv=null; } SW.ei=ei; SW.area=area!==undefined?area:(sensOf(e.n)?.area||null);
   if(area!==undefined)SW.scope=area?'today':'plan';
-  const C=swCands(ei,SW.area), top=C.slice(0,3), rest=C.slice(3,14);
+  const C=swCands(ei,SW.area), top=C.slice(0,3), rest=C.slice(3,14), tplOn=!!(S.active.tid&&S.templates.find(t=>t.id===S.active.tid));
   const card=c=>{ const w=swW(e,c), open=SW.pv===c.n, img=exImg(c.n), how=(INFO[c.n]||'').split(/(?<=\.)\s/)[0];
     return `<div class="sw-c${open?' open':''}">
       <button class="sw-h" data-act="sw-pv" data-n="${esc(c.n)}" aria-expanded="${open}">
@@ -6263,14 +6263,13 @@ function openExSwap(ei,area){
         <span class="sw-ch">${ICON.down}</span></button>
       ${open?`<div class="sw-pv">${demoHTML(c.n)}${how?`<p class="small muted">${esc(how)}</p>`:''}
         <div class="small sw-w">${w?`${tt('משקל מוצע להתחלה:')} <b class="num">${wL(w)} ${LU()}</b>`:tt('מתחילים קל ומכוונים לפי הסט הראשון')}</div>
-        <button class="btn primary big" style="width:100%" data-act="ex-swap-go" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>${tt('להחליף לתרגיל הזה')}</button></div>`:''}
+        <button class="btn primary big" style="width:100%" data-act="ex-swap-go" data-sc="today" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>${tt('להחליף באימון הזה')}</button>
+        ${tplOn?`<button class="btn big" style="width:100%" data-act="ex-swap-go" data-sc="plan" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>${tt('להחליף גם בתוכנית מעכשיו')}</button>`:''}</div>`:''}
     </div>`; };
   openSheet(`<h3>${tt('במקום')} ${esc(e.n)}</h3>
     <div class="small muted" style="margin:-4px 0 12px">${SW.area?`${tt('מתאים לשאר האימון, ועדין יותר ל')}${painName(SW.area)}`:tt('לחיצה על תרגיל מציגה אותו לפני שמחליפים')}</div>
     <div class="sw-l">${top.map(card).join('')||`<div class="small muted" style="padding:12px">${tt('אין חלופה במאגר לתרגיל הזה')}</div>`}</div>
     ${rest.length?(SW.more?`<div class="sw-sub">${tt('עוד אפשרויות')}</div><div class="sw-l">${rest.map(card).join('')}</div>`:`<button class="sw-more" data-act="sw-more">${tt('עוד')} ${rest.length} ${tt('אפשרויות')}</button>`):''}
-    <div class="sw-sub">${tt('לשמור את ההחלפה')}</div>
-    <div class="seg2 sw-sc">${[['today','רק באימון הזה'],['plan','גם בתוכנית']].map(([k,l])=>`<button class="${SW.scope===k?'on':''}" data-act="sw-scope" data-v="${k}">${tt(l)}</button>`).join('')}</div>
     <button class="btn big" style="width:100%;margin-top:10px" data-act="sheet-close">${tt('ביטול')}</button>`);
   if(SW.pv)setTimeout(()=>$('#sheet .sw-c.open')?.scrollIntoView({block:'nearest',behavior:'smooth'}),40); }
 function doSwap(ei,to,w0){
@@ -10124,7 +10123,7 @@ function handleAct(b,ev){
       persistActive(); render(); break; }
     case 'coach-back': { const c=coachCfg(); c.back=Date.now(); persistSettings(); render(); toast('מעולה שחזרת. השבוע מתחילים קצת יותר קל'); break; }
     case 'ex-swap': SW.scope='plan'; openExSwap(+b.dataset.ei); break;
-    case 'ex-swap-go': doSwap(+b.dataset.ei,b.dataset.n,b.dataset.w?+b.dataset.w:undefined); break;
+    case 'ex-swap-go': if(b.dataset.sc)SW.scope=b.dataset.sc; doSwap(+b.dataset.ei,b.dataset.n,b.dataset.w?+b.dataset.w:undefined); break;
     case 'sw-scope': SW.scope=b.dataset.v; openExSwap(SW.ei); break;
     case 'sw-more': SW.more=true; openExSwap(SW.ei); break;
     case 'sw-pv': SW.pv=SW.pv===b.dataset.n?null:b.dataset.n; openExSwap(SW.ei); break;
