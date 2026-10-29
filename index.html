@@ -1298,6 +1298,11 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 #restbar .rir2 .chips2{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;direction:ltr}
 #restbar .rir2 .chips2 button{height:42px;padding:0;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:16px;font-weight:800}
 #restbar .rir2.ok{justify-content:center;color:var(--accent);font-weight:600}
+/* the question after a set stands out from the dark workout: a milky card */
+#restbar .rir2:not(.ok){background:rgba(243,246,241,.97);border-color:rgba(255,255,255,.7);color:#101411;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+#restbar .rir2:not(.ok) b{color:#101411}#restbar .rir2:not(.ok) small{color:#5D6760}
+#restbar .rir2:not(.ok) .chips2 button{background:#fff;border-color:#D9DFD5;color:#101411}#restbar .rir2:not(.ok) .chips2 button:active{background:var(--accent)}
+#restbar .rir2:not(.ok) .rq-top .ouch{color:#D9443A}
 #restbar .inner{
   width:100%;max-width:528px;background:#1E2220;color:var(--ink);border:1px solid #2E3430;
   border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);
@@ -1335,7 +1340,8 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .done-btn svg{width:18px;height:18px;fill:none;stroke:var(--muted);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .set-done input{background:var(--accent-soft);border-color:var(--accent)}
 .set-done.r-over input{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:700}
-.set-done.r-under input{background:var(--surface2);border-color:var(--line)}
+.set-done.r-under input{background:rgba(255,143,132,.10);border-color:#FF8F84;color:#FFB0A7;font-weight:700}
+.set-done.r-under[data-rcell]{position:relative}.set-done.r-under[data-rcell]::after{content:'↓';position:absolute;top:5px;inset-inline-end:9px;font-size:12px;font-weight:800;color:#FF8F84;pointer-events:none}
 .setgrid .h .tgt{display:inline-block;margin-inline-start:3px;padding:1px 6px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:11px}
 .tc-card{display:flex;flex-direction:column;gap:12px;text-align:start}
 .tc-card .tc-h{display:flex;gap:12px;align-items:flex-start}.tc-card .tc-h .tc-t{flex:1}
@@ -1397,7 +1403,7 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 .rtip.cue{background:#122036}.rtip.cue>b{color:#9CC7FF}.rtip.cue span{color:#D6E6FF}
 .rirq .ouch,.rir2 .ouch{background:none;border:0;padding:0;color:#FF8F84;font-size:12.5px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .rirq .ouch{flex-basis:100%;text-align:start;margin-top:2px}.rir2 .ouch{align-self:flex-start;margin-top:3px}
-.wu{margin:2px 0 10px;border-radius:12px;background:#151915;border:1px dashed #333A35;overflow:hidden}
+.wu{margin:2px 0 10px;border-radius:12px;background:#151915;border:1px dashed rgba(245,181,58,.4);overflow:hidden}
 .wu-h{width:100%;display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:none;border:0;color:var(--ink);font-size:13px;font-weight:700}
 .wu-h .wu-st{font-size:12px;color:var(--muted);font-weight:600}.wu-g{padding:0 8px 8px}
 .wu-v{display:flex;align-items:center;justify-content:center;height:34px;border-radius:10px;border:1px dashed #3A403C;color:var(--muted);font-size:14px;font-weight:600}.wu-v.d{border-style:solid;border-color:#4D5A33;color:var(--ink);background:#161B10}
@@ -1436,7 +1442,9 @@ body.resting .rm-pan{display:none}
 .rb-h{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:9px 12px;font:inherit;color:var(--ink);text-align:start;cursor:pointer}
 .rb-t{flex:1;min-width:0;font-size:14.5px;font-weight:600;line-height:1.4;color:var(--ink)}.rb-t em{font-style:normal;color:var(--accent)}
 .rb-why{flex:none;font-size:12.5px;font-weight:600;color:var(--muted)}
-.wu:not(:has(.wu-g)){background:none;border:0;margin:2px 0 6px}.wu:not(:has(.wu-g)) .wu-h{padding:4px 2px;font-weight:600;color:var(--muted)}.wu:not(:has(.wu-g)) .wu-st{color:var(--muted);font-weight:600}
+.wu:not(:has(.wu-g)){background:rgba(245,181,58,.06);border:1px solid rgba(245,181,58,.30);margin:2px 0 8px}.wu:not(:has(.wu-g)) .wu-h{padding:8px 10px;font-weight:600;color:var(--muted)}
+.wu-l{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-weight:600}.wu-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;background:rgba(245,181,58,.16);color:var(--gold);font-style:normal;font-weight:800;font-size:12.5px}.wu-tag svg{width:13px;height:13px}
+.wu .wu-st{color:var(--gold);font-weight:700}.wu .wu-st.ok{color:var(--acc-t,var(--accent))}
 .rb-x{padding:0 12px 12px;display:flex;flex-direction:column;gap:8px;animation:rbIn .3s ease}.rb-x p{margin:0;font-size:13.5px;line-height:1.6;color:var(--muted)}
 .rb-cue{display:flex;flex-direction:column;gap:2px;background:var(--surface);border-radius:12px;padding:9px 12px}.rb-cue b{font-size:12px;font-weight:700;color:var(--accent)}.rb-cue span{color:var(--ink);font-size:13.5px;line-height:1.5}
 .rb-x .chip{align-self:flex-start}
@@ -6522,7 +6530,7 @@ function vStrength(e,ei,cur){
       </div>
     </div>
     ${co?coCompactHTML(e,ei,co):''}
-    ${e.wu?.length?`<div class="wu"><button class="wu-h" data-act="wu-tog" data-ei="${ei}" aria-expanded="${!!e.wuOpen}"><span>${ICON.fire||''}חימום · ${e.wu.length} סטים · לא נספר</span><span class="wu-st">${e.wu.every(x=>x.done)?'✓':e.wuOpen?'כווץ':'פתח'}</span></button>
+    ${e.wu?.length?`<div class="wu"><button class="wu-h" data-act="wu-tog" data-ei="${ei}" aria-expanded="${!!e.wuOpen}"><span class="wu-l"><i class="wu-tag">${ICON.fire||''}${tt('חימום')}</i>${e.wu.length} ${tt('סטים')} · ${tt('לא נספר')}</span><span class="wu-st${e.wu.every(x=>x.done)?' ok':''}">${e.wu.every(x=>x.done)?'✓':e.wuOpen?tt('כווץ'):tt('פתח')}</span></button>
       ${e.wuOpen?`<div class="setgrid wu-g">${e.wu.map((x,wi)=>`<span class="setidx">ח</span><span class="wu-v ${x.done?'d':''}">${wL(x.w)}</span><span class="wu-v ${x.done?'d':''}">${x.r}</span><span><button class="done-btn wu-b ${x.done?'d':''}" data-act="wu-done" data-ei="${ei}" data-wi="${wi}" aria-label="סיום סט חימום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>`).join('')}</div>`:''}</div>`:''}
     <div class="setgrid">
       <span class="h">סט</span><span class="h">${LU()}</span><span class="h">חזרות${rr?(()=>{ const hi=co&&+co.top>rr.hi?+co.top:rr.hi; return ` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===hi?rr.lo:rr.lo+'–'+hi}</bdi>`; })():''}</span><span class="h"></span>
