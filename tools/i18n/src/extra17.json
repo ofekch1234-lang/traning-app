@@ -2850,5 +2850,49 @@
  "משך": {
   "en": "Duration",
   "ar": "المدة"
+ },
+ "שקילות החודש": {
+  "en": "weigh-ins this month",
+  "ar": "أوزان هذا الشهر"
+ },
+ "הגדלה": {
+  "en": "Enlarge",
+  "ar": "تكبير"
+ },
+ "לחיצה על תמונה מגדילה אותה": {
+  "en": "Tap a photo to enlarge it",
+  "ar": "اضغط على الصورة لتكبيرها"
+ },
+ "שיתוף לפני / אחרי": {
+  "en": "Share before / after",
+  "ar": "مشاركة قبل / بعد"
+ },
+ "לפני · אחרי": {
+  "en": "Before · After",
+  "ar": "قبل · بعد"
+ },
+ "להציג את השינוי במשקל": {
+  "en": "Show weight change",
+  "ar": "إظهار تغيّر الوزن"
+ },
+ "רק אתה מחליט אם לשתף. התמונה נוצרת בטלפון בלבד.": {
+  "en": "Only you decide whether to share. The image is created on your phone only.",
+  "ar": "أنت وحدك تقرر المشاركة. تُنشأ الصورة على هاتفك فقط."
+ },
+ "שתף": {
+  "en": "Share",
+  "ar": "مشاركة"
+ },
+ "ההתקדמות שלי ב-NextRep": {
+  "en": "My progress with NextRep",
+  "ar": "تقدّمي مع NextRep"
+ },
+ "פוסט": {
+  "en": "Post",
+  "ar": "منشور"
+ },
+ "סטורי": {
+  "en": "Story",
+  "ar": "ستوري"
  }
 }
