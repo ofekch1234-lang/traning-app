@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8c655972"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8c655972"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8c655972"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=74e85fed"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=74e85fed"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=74e85fed"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1878,6 +1878,8 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .sw-sub{font-size:13px;font-weight:700;color:var(--muted);margin:16px 2px 8px}
 .sw-more{width:100%;margin-top:8px;padding:12px;border-radius:14px;border:1px dashed var(--line);color:var(--muted);font-weight:600;font-size:14px}
 .pn-wait{opacity:.55}
+.aw-end{display:grid;gap:6px;justify-items:center;text-align:center;padding:18px 16px;border-radius:20px;background:linear-gradient(160deg,var(--accent-soft),var(--surface) 70%);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.aw-end b{font-size:18px}.aw-end span{font-size:13px;color:var(--muted)}.aw-end .btn{width:100%;margin-top:6px}
 .me-nm{font-size:17px;font-weight:700;margin-top:4px}.mc-man{margin-top:6px;border-radius:12px;background:var(--surface2);padding:8px 10px}.mc-man summary{font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}.mc-mn{width:100%;margin-top:8px}
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
 .mc-name::-webkit-search-cancel-button{display:none}
@@ -2492,7 +2494,7 @@ function toU(kg,u){ if(kg===''||kg==null)return ''; const x=+kg; if(!isFinite(x)
 function fromU(v,u){ if(v===''||v==null)return ''; const x=+v; if(!x)return x; return u==='lb'?Math.round(x/LB*10000)/10000:x; }
 const wL=kg=>toU(kg,uL()), wLk=v=>fromU(v,uL()), LU=()=>uTxt(uL());
 const wB=kg=>toU(kg,uB()), wBk=v=>fromU(v,uB()), BU=()=>uTxt(uB());
-const wLs=s=>`${wL(+s.w||0)}×${+s.r||0}`; // "60×10" בסט, ביחידת האימון
+const wLs=s=>+s.w>0?`${wL(+s.w)}×${+s.r||0}`:`${+s.r||0} ${tt('חז׳')}`; // "60×10" בסט, ביחידת האימון
 function workoutVol(w){let v=0;for(const e of w.ex||[])if(e.t==='s')for(const s of e.sets||[])v+=(+s.w||0)*(+s.r||0);return v;}
 function workoutSets(w){let n=0;for(const e of w.ex||[])if(e.t==='s')n+=(e.sets||[]).filter(s=>+s.r>0).length;return n;}
 
@@ -5907,7 +5909,7 @@ function clockText(){
 /* finishing an exercise: a short "done" moment on the card, then it folds into its row while the next exercise opens
    and slides to the top under the header (a view transition where supported, a plain re-render elsewhere) */
 function workoutAdvance(){
-  const go=()=>{ render(); const c=document.querySelector('.ex-card.cur'), h=document.querySelector('.aw-head');
+  const go=()=>{ render(); const c=document.querySelector('.ex-card.cur')||document.querySelector('.aw-end'), h=document.querySelector('.aw-head');
     if(c){ const top=c.getBoundingClientRect().top+scrollY-((h?h.getBoundingClientRect().bottom:120)+10); window.scrollTo(0,Math.max(0,top)); } };
   if(document.startViewTransition&&!matchMedia('(prefers-reduced-motion: reduce)').matches){ try{ document.startViewTransition(go); return; }catch(_){} }
   go(); }
@@ -5943,7 +5945,9 @@ function vActive(){
     ${rows.join('')}`}
     ${next.length?`<div class="small muted" style="font-weight:600;padding:0 4px;margin-bottom:-4px">הבאים</div><div class="card r20 list">${next.join('')}</div>`:''}
     ${!a.ex.length?`<div class="empty"><div class="big">אימון חופשי</div>הוסף תרגיל ראשון, המשקל מהפעם הקודמת כבר ימולא.</div>`:''}
-    <button class="btn big" style="background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px" data-act="add-ex">${ICON.plus} הוסף תרגיל</button>
+    ${a.ex.length&&a.ex.every(exDone)?`<div class="aw-end"><b>${tt('כל התרגילים בוצעו')} 💪</b><span class="num">${st.done} ${tt('סטים')} · ${Math.max(1,Math.round((Date.now()-a.start)/60e3))} ${tt('דק׳')}</span>
+      <button class="btn primary big" data-act="finish-w">${tt('סיום האימון')}</button></div>`:''}
+    <button class="btn big" style="background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px" data-act="add-ex">${ICON.plus} ${tt(a.ex.length&&a.ex.every(exDone)?'עוד תרגיל':'הוסף תרגיל')}</button>
     <button class="linkbtn" style="color:var(--muted);text-decoration:none;align-self:center" data-act="aw-del">מחיקת האימון</button>`;
 }
 /* target reps "8-12" / "10" → {lo,hi}; null for timed ranges (plank seconds) or none */
