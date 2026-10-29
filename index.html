@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=74e85fed"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=74e85fed"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=74e85fed"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=cbfbb8f4"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=cbfbb8f4"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=cbfbb8f4"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1762,6 +1762,13 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .empty .big{font-family:var(--disp);font-weight:800;font-size:16px;color:var(--ink);margin-bottom:4px}
 
 .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.fin2-hero{display:flex;align-items:center;gap:14px;margin:2px 0 14px}.fin2-hero img{width:64px;height:64px;flex:none;animation:pop .6s cubic-bezier(.3,1.6,.4,1) both}.fin2-hero b{display:block;font-size:22px;line-height:1.2}.fin2-hero span{font-size:14px;color:var(--muted)}
+.fin2-st{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.fin2-st>div{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 6px;border-radius:16px;background:var(--surface2);text-align:center}
+.fin2-st b{font-family:var(--disp);font-size:22px;font-weight:800;color:var(--accent);line-height:1.1}.fin2-st span{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:3px}.fin2-st em{font-style:normal;font-size:11px;font-weight:700}.fin2-st em.up{color:var(--accent)}.fin2-st em.dn{color:var(--muted)}
+.fin2-l{display:grid;border-radius:16px;background:var(--surface);border:1px solid var(--line);padding:2px 12px;max-height:40vh;overflow-y:auto}
+.fx-r{display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:10px 0;border-bottom:1px solid var(--line)}.fx-r:last-child{border-bottom:0}.fx-r.skip{opacity:.55}
+.fx-n{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:14.5px;font-weight:600;min-width:0}.fx-v{font-size:13px;color:var(--muted);text-align:var(--start)}
+.fx-c{font-style:normal;font-size:11px;font-weight:800;padding:2px 8px;border-radius:99px;background:var(--surface2);color:var(--muted)}.fx-c.up{background:var(--accent-soft);color:var(--accent)}.fx-c.pr{background:rgba(245,181,58,.16);color:var(--gold)}
 .fin-ex{display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
 
 /* splash — מסך כניסה ממותג */
@@ -9966,31 +9973,46 @@ function checkDayGoals(){
   if(t.protein>=pT&&k!==d){ try{ localStorage.setItem('nr-pgoal',d); }catch(_){}
     setTimeout(()=>{ cheer('🎯','סגרת את יעד החלבון היום!',`${t.protein} / ${pT} ${tt('גר׳')}`); confetti(70); vibrate([15,40,15]); },450); }
 }
+/* the summary before saving: what you did, and what moved compared with last time */
+/* a workout still open hours after its last set (the app was closed without "finish"): save what was done, go on, or delete */
+function staleCheck(){ const a=S.active; if(!a||S.mode!=='app'||staleCheck._for===a.start)return; const l=lastActT(a); if(Date.now()-l<3*3600e3)return;
+  staleCheck._for=a.start; const done=(a.ex||[]).some(e=>(e.sets||[]).some(s=>s.done)||e.c?.done);
+  openSheet(`<div class="fin2-hero"><img src="img/kobi-think${S.settings.g==='f'?'-f':''}.svg" alt=""><div><b>${tt('נשאר אימון פתוח')}</b><span>${esc(a.name)} · ${new Date(+a.start).toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'numeric'})}</span></div></div>
+    <p class="muted" style="margin:0 0 14px;line-height:1.55">${done?tt('שומרים אותו עם הסטים שסימנת, והמשך נחשב עד הסט האחרון.'):tt('לא סומן בו אף סט.')}</p>
+    ${done?`<button class="btn primary big" style="width:100%" data-act="finish-w">${tt('לסיים ולשמור')}</button>`:''}
+    <div class="row" style="margin-top:8px;gap:8px"><button class="btn" style="flex:1" data-act="sheet-close">${tt('להמשיך אותו')}</button><button class="btn" style="flex:1;color:var(--danger)" data-act="aw-del">${tt('למחוק')}</button></div>`); }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible')setTimeout(()=>{ try{ staleCheck(); }catch(_){} },800); });
 function renderFinish(){
   const a=S.active; if(!a)return;
-  const w={...a,end:Date.now()};
+  const w={...a,end:wkEnd(a)};
   const vol=workoutVol(w), sets=workoutSets(w);
   const best=bestMap(); const prs=[];
   for(const e of w.ex)if(e.t==='s'){
     const top=Math.max(0,...(e.sets||[]).filter(s=>+s.r>0).map(s=>+s.w||0));
     if(top>0&&top>(best[e.n]?.w||0))prs.push({n:e.n,w:top});
   }
+  const prevW=[...(S.workouts||[])].filter(x=>(a.tid&&x.tid===a.tid)||x.name===a.name).sort((x,y)=>y.start-x.start)[0], pv=prevW?workoutVol(prevW):0, dv=pv>0?Math.round((vol-pv)/pv*100):null;
+  const fem=S.settings.g==='f'?'-f':'';
+  const row=e=>{ if(e.t==='c')return `<div class="fx-r"><span class="fx-n">${esc(e.n)}</span><span class="fx-v num">${e.c?.min||0} ${tt('דק׳')}</span></div>`;
+    const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)return `<div class="fx-r skip"><span class="fx-n">${esc(e.n)}</span><span class="fx-v">${tt('דילגת')}</span></div>`;
+    const top=ss.reduce((m,s)=>(+s.w>+m.w||(+s.w===+m.w&&+s.r>+m.r))?s:m,ss[0]), prev=lastSetsOf(e.n)||[];
+    // set by set against last time: a heavier set shows the jump, otherwise extra reps at the same weight
+    let dw=0, dr=0; ss.forEach((s,i)=>{ const p=prev[i]; if(!p)return; const d=(+s.w||0)-(+p.w||0); if(d>0)dw=Math.max(dw,d); else if(!d)dr+=Math.max(0,(+s.r||0)-(+p.r||0)); });
+    const pr=prs.find(p=>p.n===e.n);
+    const chip=pr?`<i class="fx-c pr">🏆 ${tt('שיא')}</i>`:dw?`<i class="fx-c up num">+${wL(dw)} ${LU()}</i>`:dr>0?`<i class="fx-c up num">+${dr} ${tt('חזרות')}</i>`:!prev.length?`<i class="fx-c">${tt('חדש')}</i>`:'';
+    return `<div class="fx-r"><span class="fx-n"><span>${esc(e.n)}</span>${chip}</span><span class="fx-v num">${ss.map(wLs).join(' · ')}</span></div>`; };
   openSheet(`
-    <div class="fin-hero"><span>${prs.length?'🏆':'💪'}</span><b>${prs.length?tt('אימון עם שיא!'):tt('עבודה טובה!')}</b></div>
-    <h3>סיכום אימון · ${esc(a.name)}</h3>
-    <div class="summary-grid">
-      <div class="tile"><div class="v num">${fmtDur(w.end-a.start)}</div><div class="k">משך</div></div>
-      <div class="tile"><div class="v num">${sets}</div><div class="k">סטים</div></div>
-      <div class="tile"><div class="v num">${fmtNum(wL(vol))}</div><div class="k"><span>${uL()==='lb'?'נפח (lb)':'נפח (ק״ג)'}</span>${infoI('vol')}</div></div>
+    <div class="fin2-hero"><img src="img/kobi-${prs.length?'cheer':'happy'}${fem}.svg" alt=""><div><b>${prs.length?tt('אימון עם שיא!'):tt('עבודה טובה!')}</b><span>${esc(a.name)}</span></div></div>
+    <div class="fin2-st">
+      <div><b class="num">${fmtDur(w.end-a.start)}</b><span>${tt('משך')}</span></div>
+      <div><b class="num">${sets}</b><span>${tt('סטים')}</span></div>
+      <div><b class="num">${fmtNum(wL(vol))}</b><span>${uL()==='lb'?tt('נפח (lb)'):tt('נפח (ק״ג)')}${infoI('vol')}</span>${dv!=null&&Math.abs(dv)>=1?`<em class="num ${dv>0?'up':'dn'}">${dv>0?'+':''}${dv}% ${tt('מהפעם הקודמת')}</em>`:''}</div>
     </div>
-    ${prs.length?`<div class="row" style="margin-bottom:10px">${prs.map(p=>`<span class="pill pr num">🏅 שיא חדש · ${esc(p.n)} ${wL(p.w)} ${LU()}</span>`).join('')}</div>`:''}
-    <div>${w.ex.map(e=>`<div class="fin-ex"><span>${esc(e.n)}</span><span class="num muted">${
-      e.t==='c'?`${e.c?.min||0} דק׳`:(e.sets||[]).filter(s=>+s.r>0).map(wLs).join(' · ')||'—'
-    }</span></div>`).join('')}</div>
-    <div class="row" style="margin-top:16px">
-      <button class="btn" data-act="share-active">שתף 📤</button>
-      <button class="btn" style="flex:1" data-act="sheet-close">חזרה לאימון</button>
-      <button class="btn primary" style="flex:2" data-act="save-w">שמור אימון ✓</button>
+    <div class="fin2-l">${w.ex.map(row).join('')}</div>
+    <button class="btn primary big" style="width:100%;margin-top:14px" data-act="save-w">${tt('שמור אימון')} ✓</button>
+    <div class="row" style="margin-top:8px;gap:8px">
+      <button class="btn" style="flex:1" data-act="sheet-close">${tt('חזרה לאימון')}</button>
+      <button class="btn" style="flex:1" data-act="share-active">${tt('שיתוף')} 📤</button>
     </div>
   `);
   requestAnimationFrame(()=>liven($('#sheet'))); if(prs.length)setTimeout(()=>confetti(120),280);
@@ -10058,9 +10080,12 @@ function startClock(){ // live workout stopwatch — updates the clock element o
     const hr=document.getElementById('hrest'); if(hr){ const s=Math.max(0,Math.ceil((T.end-Date.now())/1000)); hr.textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; if(s<=0&&S.tab==='home')render(); }
   },1000);
 }
+/* when the workout really ended: now, or — for one left open for hours — a few minutes after the last set */
+const lastActT=a=>Math.max(+a.start||0,...(a.ex||[]).flatMap(e=>(e.sets||[]).map(s=>+s.t||0)));
+const wkEnd=a=>{ const l=lastActT(a); return Date.now()-l>2*3600e3&&l>+a.start?l+3*60e3:Date.now(); };
 async function doSaveWorkout(){
   const a=S.active; if(!a)return;
-  const w=clone(a); w.end=Date.now(); w.id='w'+a.start;
+  const w=clone(a); w.end=wkEnd(a); w.id='w'+a.start;
   w.ex=w.ex.map(e=>{ // strip placeholders, normalize numbers
     if(e.t==='c'){const c=e.c||{};return {n:e.n,m:e.m,t:'c',c:{min:+c.min||0,km:+c.km||0,inc:+c.inc||0}};}
     // keep "reps left" (the coach reads it next time) and the light-week mark; warm-up sets (e.wu) are never saved
@@ -10204,7 +10229,7 @@ function handleAct(b,ev){
     case 'fx-tbl': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; e.fullTbl=!e.fullTbl; persistActive(); render(); break; }
     case 'set-done': { const e=S.active?.ex?.[+b.dataset.ei], s=e?.sets?.[+b.dataset.si]; if(!s)break;
       if(!s.w&&s.pw)s.w=s.pw; if(!s.r&&s.pr)s.r=s.pr;
-      s.done=!s.done;
+      s.done=!s.done; if(s.done)s.t=Date.now(); else delete s.t;
       const ei2=+b.dataset.ei, si2=+b.dataset.si;
       // סט שהושלם מציע את המשקל והחזרות שלו לסט הבא
       if(s.done){ const nx=e.sets[si2+1];
@@ -10707,6 +10732,7 @@ async function enterApp(user){
   }
   const localA=loadLocalActive();
   if(localA&&(!S.active||((localA.start===S.active.start)&&JSON.stringify(localA).length>=JSON.stringify(S.active).length)))S.active=localA;
+  setTimeout(()=>{ try{ staleCheck(); }catch(_){} },1500);
   S.mode='app'; render(); updateSyncBadge(); trySync(); loadPhotos(); restoreRest(); setTimeout(syncPush,1500);
   sb.rpc('is_admin').then(({data})=>{S.isAdmin=data===true;}).catch(()=>{});
   socLoad(); socSubscribe(); socPendingJoin();
