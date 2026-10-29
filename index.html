@@ -1870,6 +1870,16 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-head{display:flex;align-items:center;gap:12px;margin:-2px 0 12px}.mc-hd{flex:1;min-width:0}.mc-hd h3{margin:0 0 2px;font-size:19px;line-height:1.25}
 .mc-thumb{width:64px;height:64px;border-radius:16px;overflow:hidden;flex:none;padding:0;background:var(--surface2);box-shadow:inset 0 0 0 1px var(--line);transition:width .25s,height .25s}
 .mc-thumb img{width:100%;height:100%;object-fit:cover;display:block}.mc-thumb.big{width:100%;height:190px}.mc-head:has(.mc-thumb.big){flex-wrap:wrap}
+.paper{--surface:#F1F4EE;--surface2:#E3E8E0;--line:rgba(17,21,18,.11);--ink:#111512;--text:#111512;--muted:#5C665E;--accent-soft:#E2F0B8;background:var(--surface)!important;color:var(--ink);border-color:rgba(255,255,255,.55)!important}
+.paper .muted,.paper small,.paper .small{color:var(--muted)}
+.meals-paper{box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
+.meals-paper button.spread{border-top-color:rgba(17,21,18,.14)!important;color:var(--ink)}
+.meals-paper .sbtn{background:#111512;color:var(--accent);border-color:#111512}
+.ms-ic{width:34px;height:34px;border-radius:11px;background:#111512;color:var(--accent);display:grid;place-items:center;flex:none}.ms-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.mc-it.paper.open{border-color:#111512!important;box-shadow:0 0 0 1px #111512 inset}
+.mc-it.paper .mc-alt{color:#3B4F00}.mc-it.paper .mc-flag{color:#8A5A00;background:rgba(226,176,28,.22)}
+.mc-it.paper.unsure{border-color:rgba(226,176,28,.85)!important}
+.mc-it.paper input,.mc-it.paper select{color:var(--ink)}
 .mc-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface2);margin-bottom:12px}
 .mc-k{display:flex;align-items:baseline;gap:6px}.mc-k b{font-family:var(--disp);font-size:30px;font-weight:800;color:var(--accent);line-height:1}.mc-k span{color:var(--muted);font-size:13.5px}
 .mc-mac{display:flex;gap:12px;font-size:13px;color:var(--muted)}.mc-mac b{color:var(--ink);font-weight:700}
@@ -2161,7 +2171,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.129';
+const APP_VERSION='13.3.131';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3644,6 +3654,7 @@ function foodCoachHTML(d,a7,kT){
   const wk=week80HTML(), ln=foodBankLine()+habitHTML(d);
   if(!big&&!sp&&!wk&&!ln)return '';
   return `<div class="card r20 fcoach"><span class="fc-k">${tt('ראפי · המאמן החכם שלך')}</span>${big}${sp}${wk}${ln}</div>`; }
+const SLOT_IC={b:'<svg viewBox="0 0 24 24"><path d="M3 18h18M6.5 18a5.5 5.5 0 0 1 11 0M12 6v2.5M4.9 10.9l1.7 1.2M19.1 10.9l-1.7 1.2M8 21h8"/></svg>',l:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>',d:'<svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>'};
 function mealSlot(m){ const h=new Date(m.ts).getHours(); return h<11?'b':h<16?'l':'d'; }
 function vFood(){
   if(S.menuOpen)return vMenuQ();
@@ -3687,11 +3698,11 @@ function vFood(){
         ${S.basket.map((it,i)=>`<div class="bitem"><span>${esc(it.name)} <span class="muted small">· ${esc(it.portion)}</span></span><span class="num">${it.kcal}</span><button class="linkbtn small" data-act="basket-rm" data-i="${i}" aria-label="הסר" style="color:var(--danger)">✕</button></div>`).join('')}
         <div class="row" style="margin-top:6px"><button class="btn" data-act="basket-clear">נקה</button><button class="btn primary" style="flex:1.3" data-act="basket-save">✓ ${tt('לרשום את הארוחה')}</button></div>
       </div>`:''}`)}
-    <div class="card r20 list">
+    <div class="card r20 list meals-paper paper">
       ${slots.map(([k,label])=>{ const ms=meals.filter(m=>mealSlot(m)===k); const kc=ms.reduce((a,m)=>a+(+m.kcal||0),0);
         return `<div class="li" style="align-items:flex-start;${ms.length?'flex-direction:column;gap:6px':''}">
-          <div style="display:flex;align-items:center;gap:12px;width:100%"><span class="lt"><b>${label}</b>${ms.length?'':'<small>עוד לא נרשם</small>'}</span>${ms.length?(calm()?`<span class="num" style="font-weight:600">${Math.round(ms.reduce((a,m)=>a+(+m.protein||0),0))} <small class="muted" style="font-weight:400">${tt('גר׳ חלבון')}</small></span>`:`<span class="num" style="font-weight:600">${kcalN(kc)} <small class="muted" style="font-weight:400">${tt('קק״ל')}</small></span>`):''}${d===today?`<button class="sbtn" data-act="food-add-open" aria-label="הוסף ל${label}">${ICON.plus}</button>`:''}</div>
-          ${ms.map(m=>`<button class="spread" style="width:100%;text-align:var(--start);padding:6px 0 0;border-top:1px dashed var(--line);border-radius:0" data-act="meal-open" data-id="${esc(m.id)}"><span style="min-width:0"><span data-notr style="font-size:14.5px">${esc(m.name)}</span><span class="small muted" style="display:block">${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${Math.round(m.protein||0)} גר׳ חלבון</span></span><span class="num muted small">${calm()?'':m.kcal} ›</span></button>`).join('')}
+          <div style="display:flex;align-items:center;gap:12px;width:100%"><span class="ms-ic" aria-hidden="true">${SLOT_IC[k]}</span><span class="lt"><b>${label}</b>${ms.length?'':'<small>עוד לא נרשם</small>'}</span>${ms.length?(calm()?`<span class="num" style="font-weight:600">${Math.round(ms.reduce((a,m)=>a+(+m.protein||0),0))} <small class="muted" style="font-weight:400">${tt('גר׳ חלבון')}</small></span>`:`<span class="num" style="font-weight:600">${kcalN(kc)} <small class="muted" style="font-weight:400">${tt('קק״ל')}</small></span>`):''}${d===today?`<button class="sbtn" data-act="food-add-open" aria-label="הוסף ל${label}">${ICON.plus}</button>`:''}</div>
+          ${ms.map(m=>`<button class="spread" style="width:100%;text-align:var(--start);padding:6px 0 0;border-top:1px dashed var(--line);border-radius:0" data-act="meal-open" data-id="${esc(m.id)}"><span style="min-width:0"><span data-notr style="font-size:14.5px">${esc(m.name)}</span><span class="small muted" style="display:block">${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${Math.round(m.protein||0)} גר׳ חלבון</span></span><span class="num muted small" style="white-space:nowrap;flex:none">${calm()?'':m.kcal} ›</span></button>`).join('')}
         </div>`; }).join('')}
     </div>
     ${d===today?foodCoachHTML(d,a7,kT):''}
@@ -5637,7 +5648,7 @@ function mcEd(it,n){ const q=it.q;
 function mcRender(){
   const L=$('#mc-list'), m=mcM(); if(!L||!m)return; const its=m.items;
   L.innerHTML=its.map((it,n)=>{ const op=MC.open===n;
-    return `<div class="mc-it${op?' open':''}${it.ask?' unsure':''}">
+    return `<div class="mc-it paper${op?' open':''}${it.ask?' unsure':''}">
       <button class="mc-row" data-act="mc-open" data-mi="${n}" aria-expanded="${op}">
         <span class="mc-rt"><b>${esc(it.name||tt('פריט'))}</b><span class="muted num">${mcAmt(it)}</span></span>
         <span class="mc-kc num"><b>${it.kcal}</b><small>${tt('קק״ל')}</small></span><span class="mc-chev">${ICON.down}</span>
@@ -5645,7 +5656,7 @@ function mcRender(){
       ${!op&&(it.ask||it.alt)?`<div class="mc-flags">${it.ask?`<span class="mc-flag">${tt('כדאי לבדוק את הכמות')}</span>`:''}${it.alt?`<button class="mc-alt" data-act="mc-alt" data-mi="${n}">${tt('אולי זה')} ${esc(it.alt)}?</button>`:''}</div>`:''}
       ${op?mcEd(it,n):''}
     </div>`; }).join('')
-    +(MC.open==='add'?`<div class="mc-it open"><div class="mc-ed"><div class="mc-lb">${tt('מה עוד היה בצלחת?')}</div><div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="add" placeholder="${tt('חיפוש במאגר')}" autocomplete="off" autocorrect="off" spellcheck="false"></div><div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML('add')}</div><div class="mc-edf">${MC.ctx==='edit'?`<button class="linkbtn" data-act="mc-manual">${tt('הוספה ידנית')}</button>`:'<span></span>'}<button class="btn small" data-act="mc-add">${tt('ביטול')}</button></div></div></div>`
+    +(MC.open==='add'?`<div class="mc-it paper open"><div class="mc-ed"><div class="mc-lb">${tt('מה עוד היה בצלחת?')}</div><div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="add" placeholder="${tt('חיפוש במאגר')}" autocomplete="off" autocorrect="off" spellcheck="false"></div><div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML('add')}</div><div class="mc-edf">${MC.ctx==='edit'?`<button class="linkbtn" data-act="mc-manual">${tt('הוספה ידנית')}</button>`:'<span></span>'}<button class="btn small" data-act="mc-add">${tt('ביטול')}</button></div></div></div>`
       :`<button class="mc-addrow" data-act="mc-add">${ICON.plus}<span>${tt('הוספת פריט שחסר')}</span></button>`);
   mcTotals();
   if(MC.open==='add')setTimeout(()=>$('#mc-list .mc-find')?.focus(),30);
