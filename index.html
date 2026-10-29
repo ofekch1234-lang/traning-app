@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=28579fed"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=28579fed"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=28579fed"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f7f3e3c7"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f7f3e3c7"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f7f3e3c7"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1300,6 +1300,12 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .hd-btn{position:relative;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);color:var(--ink);display:grid;place-items:center;padding:0;flex-shrink:0}
 .hd-btn svg{width:21px;height:21px}
 .hd-btn.me{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700;font-size:16px}
+.hd-btn.repi{width:44px;height:44px;background:none;border:0}.hd-btn.repi img{position:absolute;inset:5px;width:34px;height:34px;border-radius:50%}
+.rp-ring{position:absolute;inset:0;width:44px!important;height:44px!important;transform:rotate(-90deg)}.rp-ring circle{fill:none;stroke-width:3}.rp-ring .rr-bg{stroke:var(--line)}.rp-ring .rr-fg{stroke:var(--accent);stroke-linecap:round;stroke-dasharray:125.7;stroke-dashoffset:125.7;transition:stroke-dashoffset .6s ease}
+#hdr-repi .hd-dot{top:0;inset-inline-end:0;background:#FF5A5A}
+#rp-bub{position:fixed;z-index:30;top:calc(env(safe-area-inset-top,0px) + 62px);inset-inline-end:14px;max-width:260px;background:#F2F5F1;color:#0A0B0A;border-radius:18px;border-start-end-radius:6px;padding:11px 14px;font:inherit;font-size:14px;font-weight:600;line-height:1.38;text-align:start;box-shadow:0 12px 30px rgba(0,0,0,.55);animation:rpIn .35s cubic-bezier(.2,.8,.3,1)}
+#rp-bub[hidden]{display:none}#rp-bub small{display:block;font-weight:700;color:#3B4F00;margin-top:4px;font-size:12.5px}
+@keyframes rpIn{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
 .hd-dot{position:absolute;top:2px;inset-inline-end:2px;width:10px;height:10px;border-radius:50%;background:#E8590C;border:2px solid var(--bg)}
 .ttl{font-family:var(--disp);font-weight:800;font-size:27px;line-height:1.12;margin:2px 0 0}
 .hcard{background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 12%,#141715) 0%,#141715 62%);border:1px solid color-mix(in srgb,var(--accent) 30%,#141715);color:var(--ink);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
@@ -2252,12 +2258,14 @@ input[data-np]{caret-color:transparent;cursor:pointer}
     <div class="row" style="gap:8px;flex-wrap:nowrap">
       <span class="pill num" id="syncbadge" hidden></span>
       <button class="pill" data-act="land-login" id="landlogin" hidden style="cursor:pointer">התחברות</button>
+      <button class="hd-btn repi" data-act="coach-repi" id="hdr-repi" hidden aria-label="ראפי, המאמן האישי שלך"><svg class="rp-ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="20" class="rr-bg"/><circle cx="22" cy="22" r="20" class="rr-fg" id="rr-fg"/></svg><img src="img/kobi-happy.svg" alt=""><i class="hd-dot" id="rp-dot" hidden></i></button>
       <button class="hd-btn" data-act="go" data-to="social" id="hdr-groups" hidden aria-label="קבוצות"><svg viewBox="0 0 24 24" class="ic"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3 3-4.8 6-4.8s5.4 1.8 6 4.8"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.5c1.6.6 2.7 2.2 3 4.5"/></svg><i class="hd-dot" hidden></i></button>
       <button class="hd-btn me" data-act="go" data-to="me" id="hdr-me" hidden aria-label="הפרופיל וההגדרות שלי"><span id="hdr-ini" data-notr></span></button>
     </div>
   </header>
   <main id="view" class="stack"></main>
 </div>
+<button id="rp-bub" hidden data-act="coach-repi-bub"></button>
 
 <div id="restbar" hidden>
   <div class="rir2" id="rest-rir" hidden></div>
@@ -2612,7 +2620,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.138';
+const APP_VERSION='13.3.140';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3271,7 +3279,7 @@ function render_(){
   if(S.tab==='plans'){S.tab='train';S.trainView='plans';}
   for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.tab===S.tab);
   requestAnimationFrame(tbPill);
-  { const inApp=S.mode==='app'; $('#hdr-groups').hidden=!inApp; $('#hdr-me').hidden=!inApp; const ini=$('#hdr-ini'); if(ini)ini.textContent=(firstName()||S.user?.email||'?').trim().charAt(0).toUpperCase(); document.body.classList.toggle('active-w',inApp&&S.tab==='train'&&!!S.active); }
+  { const inApp=S.mode==='app'; $('#hdr-groups').hidden=!inApp; $('#hdr-me').hidden=!inApp; repiHdr(inApp); const ini=$('#hdr-ini'); if(ini)ini.textContent=(firstName()||S.user?.email||'?').trim().charAt(0).toUpperCase(); document.body.classList.toggle('active-w',inApp&&S.tab==='train'&&!!S.active); }
   if(S.locked&&S.mode==='app'&&S.tab!=='track'){ S.tab='track'; S.trackView='history'; }
   $('#tabs').hidden=S.mode!=='app'||!!S.locked;
   document.body.classList.toggle('locked',!!S.locked&&S.mode==='app');
@@ -4717,6 +4725,39 @@ function foodCoachHTML(d,a7,kT){
   if(!big&&!sp&&!wk&&!ln)return '';
   return `<div class="card r20 fcoach"><span class="fc-k">${tt('ראפי · המאמן החכם שלך')}</span>${big}${sp}${wk}${ln}</div>`; }
 const SLOT_IC={b:'<svg viewBox="0 0 24 24"><path d="M3 18h18M6.5 18a5.5 5.5 0 0 1 11 0M12 6v2.5M4.9 10.9l1.7 1.2M19.1 10.9l-1.7 1.2M8 21h8"/></svg>',l:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>',d:'<svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>'};
+/* Repi in the header: a ring that fills with today's goals, a dot when he has something to say, and a short bubble once per message per day */
+function repiDay(){
+  const today=ymd(), now=new Date(), h=now.getHours(), ms=mealsOf(today), t=dayTotals(today), pT=+S.settings.protT||0, kT=+S.settings.kcalT||0;
+  const planned=!!schedOn(now), trained=trainedOn(now), weighed=(S.weights||[]).some(w=>w.d===today), g=[];
+  if(kT)g.push(ms.length>0); if(pT)g.push(t.protein>=pT*0.9); if(planned||trained)g.push(trained); if((S.weights||[]).length)g.push(weighed);
+  const done=g.filter(Boolean).length, tot=g.length; let m=null;
+  if(planned&&!trained&&!S.active){ const n=nextTpl(); m={k:'wk',t:`${tt('היום יום אימון')}${n?`: ${n.name}`:''}.`,a:tt('לחיצה לטיפ לאימון'),q:tt('מה חשוב לי לזכור באימון של היום?')}; }
+  else if((S.weights||[]).length&&!weighed&&h<13)m={k:'wg',t:tt('עוד לא נשקלת היום. שקילת בוקר לוקחת 10 שניות.'),a:tt('לחיצה לשקילה'),act:'weigh'};
+  else if(pT&&h>=16&&ms.length&&t.protein<pT*0.9){ const left=Math.round(pT-t.protein); m={k:'pr'+(left>40?'b':'s'),t:`${tt('חסרים לך')} ${left} ${tt('גר׳ חלבון היום.')}`,a:tt('לחיצה לרעיון מראפי'),q:`${tt('חסרים לי')} ${left} ${tt('גר׳ חלבון היום. מה כדאי לאכול?')}`}; }
+  else if(tot&&done===tot)m={k:'all',t:tt('כל היעדים של היום הושלמו ✓ יום מצוין.'),a:tt('לחיצה לשיחה עם ראפי')};
+  return {pct:tot?done/tot:0,m};
+}
+function rpSeen(){ try{ return JSON.parse(localStorage.getItem('nr-rpb')||'{}'); }catch(_){ return {}; } }
+function rpMark(k){ const o=rpSeen(), d=ymd(); for(const x in o)if(!x.startsWith(d))delete o[x]; o[d+':'+k]=1; try{localStorage.setItem('nr-rpb',JSON.stringify(o));}catch(_){} }
+let _rpT=null;
+function repiHdr(inApp){
+  const b=$('#hdr-repi'), bub=$('#rp-bub'); if(!b)return;
+  const show=inApp&&!!S.user&&!S.locked; b.hidden=!show; if(!show||!$('#sheet').hidden||CO.open||S.active){ if(bub)bub.hidden=true; if(!show)return; }
+  const r=repiDay(); $('#rr-fg').style.strokeDashoffset=String(125.7*(1-r.pct));
+  const key=r.m?ymd()+':'+r.m.k:'', seen=!key||!!rpSeen()[key];
+  $('#rp-dot').hidden=seen; S._rpm=r.m;
+  b.setAttribute('aria-label',`${tt('ראפי, המאמן האישי שלך')} · ${Math.round(r.pct*100)}%`);
+  if(!seen&&bub&&bub.hidden&&!S.active&&$('#sheet').hidden&&!CO.open&&!S._rpShown?.[key]){
+    (S._rpShown=S._rpShown||{})[key]=1;
+    bub.innerHTML=`${esc(r.m.t)}<small>${esc(r.m.a)}</small>`; bub.hidden=false;
+    clearTimeout(_rpT); _rpT=setTimeout(()=>{ bub.hidden=true; },8000);
+  }
+}
+function repiOpen(q){
+  const m=S._rpm; if(m)rpMark(m.k); const bub=$('#rp-bub'); if(bub)bub.hidden=true;
+  if(m&&m.act==='weigh'&&q===undefined){ S.tab='track'; S.trackView='body'; location.hash='track'; render(); setTimeout(()=>document.querySelector('[data-act="bw-quick"]')?.click(),60); return; }
+  S.tab='home'; location.hash='home'; CO.open=true; CO.toBottom=true; if(q)CO.draft=q; render(); window.scrollTo(0,0); coachLoadMsgs();
+}
 function mealSlot(m){ const h=new Date(m.ts).getHours(); return h<11?'b':h<16?'l':'d'; }
 function vFood(){
   if(S.menuOpen)return vMenuQ();
@@ -9016,7 +9057,7 @@ document.addEventListener('click',ev=>{
     if(e.cancelable)e.preventDefault();
   },{passive:false});
 })();
-function openSheet(html){ try{ const ae=document.activeElement; if(ae&&ae!==document.body&&$('#sheet').contains(ae))ae.blur(); }catch(_){} $('#sheet').classList.remove('libmode','swsheet','fa');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
+function openSheet(html){ { const rb=document.getElementById('rp-bub'); if(rb)rb.hidden=true; } try{ const ae=document.activeElement; if(ae&&ae!==document.body&&$('#sheet').contains(ae))ae.blur(); }catch(_){} $('#sheet').classList.remove('libmode','swsheet','fa');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
 function closeSheet(){try{$('#sheet').classList.remove('swsheet');$('#sheet').style.bottom='';$('#sheet').style.height='';}catch(_){} try{if(SCAN.stream||SCAN.reader)stopScan();}catch(_){} $('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
 
 function openLibrary(target){ // target: 'active' | 'tpl'
@@ -11196,6 +11237,8 @@ function coachAct(act,b){
     case 'coach-card-tog': { CO.cardOpen=!CO.cardOpen; try{localStorage.setItem('nr-co-card',CO.cardOpen?'1':'0');}catch(_){}
       const el=document.querySelector('.coach-card'); if(el){ const t=document.createElement('div'); t.innerHTML=coachCardHTML(); const n=t.firstElementChild; if(n){n.classList.add('co-swap'); el.replaceWith(n);} else render(); } else render(); return true; }
     case 'coach-open': CO.open=true; CO.toBottom=true; render(); coachLoadMsgs(); return true;
+    case 'coach-repi': repiOpen(S._rpm?.q||''); return true;
+    case 'coach-repi-bub': repiOpen(S._rpm?.act?undefined:(S._rpm?.q||'')); return true;
     case 'coach-back': CO.open=false; render(); window.scrollTo(0,0); return true;
     case 'coach-chip': coachSend(tt(b.dataset.q)); return true;
     case 'coach-demo': openExSheet(b.dataset.n,{}); return true;

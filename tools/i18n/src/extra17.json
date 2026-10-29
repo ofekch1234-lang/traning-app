@@ -2894,5 +2894,81 @@
  "סטורי": {
   "en": "Story",
   "ar": "ستوري"
+ },
+ "היום יום אימון": {
+  "en": "Today is a workout day",
+  "ar": "اليوم يوم تمرين"
+ },
+ "לחיצה לטיפ לאימון": {
+  "en": "Tap for a workout tip",
+  "ar": "اضغط لنصيحة للتمرين"
+ },
+ "מה חשוב לי לזכור באימון של היום?": {
+  "en": "What should I keep in mind in today's workout?",
+  "ar": "ما الذي يجب أن أتذكره في تمرين اليوم؟"
+ },
+ "עוד לא נשקלת היום. שקילת בוקר לוקחת 10 שניות.": {
+  "en": "You haven't weighed in today. A morning weigh-in takes 10 seconds.",
+  "ar": "لم تزن نفسك اليوم. الوزن الصباحي يستغرق 10 ثوانٍ."
+ },
+ "לחיצה לשקילה": {
+  "en": "Tap to weigh in",
+  "ar": "اضغط للوزن"
+ },
+ "גר׳ חלבון היום.": {
+  "en": "g of protein to go today.",
+  "ar": "غ بروتين متبقية اليوم."
+ },
+ "לחיצה לרעיון מראפי": {
+  "en": "Tap for an idea from Repi",
+  "ar": "اضغط لفكرة من ريبي"
+ },
+ "חסרים לי": {
+  "en": "I'm missing",
+  "ar": "ينقصني"
+ },
+ "גר׳ חלבון היום. מה כדאי לאכול?": {
+  "en": "g of protein today. What should I eat?",
+  "ar": "غ بروتين اليوم. ماذا آكل؟"
+ },
+ "כל היעדים של היום הושלמו ✓ יום מצוין.": {
+  "en": "All of today's goals are done ✓ Great day.",
+  "ar": "تم تحقيق كل أهداف اليوم ✓ يوم رائع."
+ },
+ "לחיצה לשיחה עם ראפי": {
+  "en": "Tap to chat with Repi",
+  "ar": "اضغط للحديث مع ريبي"
+ },
+ "לא מצאתי את זה במאגר, אבל אני יכול לחשב": {
+  "en": "Not in the database, but I can calculate it",
+  "ar": "لم أجده في القاعدة، لكن يمكنني حسابه"
+ },
+ "אפרק לרכיבים ואחשב קלוריות וחלבון. אפשר לכתוב גם כמות, למשל ״משולש בינוני״.": {
+  "en": "I'll break it into ingredients and calculate calories and protein. You can add an amount too, e.g. \"a medium slice\".",
+  "ar": "سأقسمه إلى مكونات وأحسب السعرات والبروتين. يمكنك كتابة الكمية أيضًا، مثل \"قطعة متوسطة\"."
+ },
+ "ראפי, תחשב": {
+  "en": "Repi, calculate",
+  "ar": "ريبي، احسب"
+ },
+ "ראפי יחשב את כל המנה": {
+  "en": "Repi will calculate the whole dish",
+  "ar": "ريبي سيحسب الطبق كاملًا"
+ },
+ "לא בדיוק מה שאכלת?": {
+  "en": "Not exactly what you ate?",
+  "ar": "ليس بالضبط ما أكلته؟"
+ },
+ "ראפי יחשב לפי התיאור": {
+  "en": "Repi will calculate from your description",
+  "ar": "ريبي سيحسب حسب وصفك"
+ },
+ "אפשר להוסיף פרטים, למשל ״חצי מנה בלי צ׳יפס״": {
+  "en": "Add details, e.g. \"half a portion, no fries\"",
+  "ar": "أضف تفاصيل، مثل \"نصف وجبة بدون بطاطا\""
+ },
+ "ראפי חישב לפי התיאור · לחיצה על פריט כדי לשנות": {
+  "en": "Repi calculated from your description · tap an item to change it",
+  "ar": "ريبي حسب حسب وصفك · اضغط على عنصر لتغييره"
  }
 }
