@@ -7313,7 +7313,7 @@ async function composeCmp(){
   const sy=980, sh=200, n=st.length, sw=n===1?440:(W-120-24)/2;
   st.forEach(([v,k,col],i)=>{ const X=n===1?(W-sw)/2:(rtl?W-60-sw-i*(sw+24):60+i*(sw+24));
     x.fillStyle='#141715'; rr(X,sy,sw,sh,32); x.fill(); x.strokeStyle='#262B28'; x.lineWidth=2; x.stroke();
-    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(400,122,'Karantina'); x.fillText(v,X+sw/2,sy+118); });
+    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(400,168,'Karantina'); x.fillText(v,X+sw/2,sy+128); });
     x.font=stF(500,32); x.fillStyle=MU; x.textAlign='center'; x.fillText(k,X+sw/2,sy+168); });
   x.font=stF(600,30); x.fillStyle=MU; stLtr(x,()=>{ x.textAlign='center'; x.fillText('nextrep.co.il',W/2,H-58); });
   return c;
