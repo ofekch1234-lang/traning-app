@@ -51,7 +51,8 @@
             android:progressDrawable="@drawable/widget_bar_f" />
     </LinearLayout>
 
-    <View
+    <!-- a widget can only hold layouts and views RemoteViews supports: a plain View makes Android show "can't load widget" -->
+    <FrameLayout
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginStart="14dp"
