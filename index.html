@@ -2158,7 +2158,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.123';
+const APP_VERSION='13.3.125';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7314,7 +7314,7 @@ async function composeCmp(){
   const sy=L.sy, sh=L.sh, n=st.length, sw=n===1?440:(W-120-24)/2;
   st.forEach(([v,k,col],i)=>{ const X=n===1?(W-sw)/2:(rtl?W-60-sw-i*(sw+24):60+i*(sw+24));
     x.fillStyle='#141715'; rr(X,sy,sw,sh,32); x.fill(); x.strokeStyle='#262B28'; x.lineWidth=2; x.stroke();
-    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(400,168,'Karantina'); x.fillText(v,X+sw/2,sy+128+(sh-200)/2); });
+    x.fillStyle=col; stLtr(x,()=>{ x.textAlign='center'; x.font=stF(800,112); x.fillText(v,X+sw/2,sy+118+(sh-200)/2); });
     x.font=stF(500,32); x.fillStyle=MU; x.textAlign='center'; x.fillText(k,X+sw/2,sy+168+(sh-200)/2); });
   x.font=stF(600,30); x.fillStyle=MU; stLtr(x,()=>{ x.textAlign='center'; x.fillText('nextrep.co.il',W/2,L.ft); });
   return c;
