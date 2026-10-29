@@ -713,8 +713,6 @@ body:not(.landing)>#lx-sticky{display:none}
 :root[lang="en"] .fsearch #food-text{padding-inline-start:120px}
 .fs-go{position:absolute;inset-inline-start:6px;bottom:7px;padding:8px 12px;border-radius:9px;background:var(--surface2);color:var(--muted);font-weight:700;font-size:14px;transition:background .15s,color .15s}
 .fsearch.has .fs-go,.fsearch.busy .fs-go{background:var(--accent);color:var(--accent-ink)}
-.fs-repi{display:flex;gap:12px;margin:8px 0 4px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#1B2410,var(--surface) 70%);border:1px solid rgba(191,255,47,.4)}.fs-repi img{width:44px;height:44px;flex:none}.fs-repi b{display:block;font-size:15px}.fs-repi span{display:block;font-size:13px;color:var(--muted);margin:3px 0 10px;line-height:1.4}.fs-repi .btn{width:100%}
-.fs-repi-row{display:flex;gap:10px;align-items:center;width:100%;margin-top:10px;padding:10px 12px;border-radius:14px;border:1px dashed rgba(191,255,47,.45);text-align:start;color:var(--ink);font-size:13.5px}.fs-repi-row.top{margin:6px 0 8px;border-style:solid;background:rgba(191,255,47,.06)}.fs-repi-row img{width:30px;height:30px;flex:none}.fs-repi-row b{color:var(--accent)}.fs-repi-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 .fs-ai{display:flex;gap:10px;align-items:center;width:100%;text-align:var(--start);padding:11px 12px;background:var(--accent-soft);border-bottom:1px solid var(--line)}
 .fs-ai .fs-ai-ic{font-size:20px}.fs-ai b{display:block;font-size:14.5px}.fs-ai small{color:var(--muted);font-size:12px}
 .fsugg .fs-ai:last-child{border-bottom:0;border-top:1px solid var(--line)}
@@ -1885,7 +1883,6 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .meals-paper .sbtn{background:var(--accent);color:var(--accent-ink,#0A0B0A);border-color:var(--accent)}
 .ms-ic{width:34px;height:34px;border-radius:11px;background:rgba(191,255,47,.12);color:var(--accent);display:grid;place-items:center;flex:none}.ms-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .mc-it.paper{border-color:rgba(191,255,47,.16)}
-.mc-repi{width:46px;height:46px;flex:none}
 .mc-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface2);margin-bottom:12px}
 .mc-k{display:flex;align-items:baseline;gap:6px}.mc-k b{font-family:var(--disp);font-size:30px;font-weight:800;color:var(--accent);line-height:1}.mc-k span{color:var(--muted);font-size:13.5px}
 .mc-mac{display:flex;gap:12px;font-size:13px;color:var(--muted)}.mc-mac b{color:var(--ink);font-weight:700}
@@ -5648,8 +5645,8 @@ function openMealConfirm(data,img,built){
   _mealDraft={name:String(data.name||'ארוחה'),items:built||data.items.map(mcFromAI),mc:1,kcal:0,protein:0,carbs:0,fat:0};
   _mealDraft.items.forEach(meApply);
   openSheet(`
-    <div class="mc-head">${img?`<button class="mc-thumb" data-act="mc-photo" aria-label="${esc(tt('התמונה שצילמת'))}"><img src="${img}" alt=""></button>`:'<img class="mc-repi" src="img/kobi-happy.svg" alt="">'}
-      <div class="mc-hd"><h3>${esc(_mealDraft.name)}</h3><div class="small muted">${img?tt('הערכת AI · לחיצה על פריט כדי לשנות'):tt('ראפי חישב לפי התיאור · לחיצה על פריט כדי לשנות')}</div></div></div>
+    <div class="mc-head">${img?`<button class="mc-thumb" data-act="mc-photo" aria-label="${esc(tt('התמונה שצילמת'))}"><img src="${img}" alt=""></button>`:''}
+      <div class="mc-hd"><h3>${esc(_mealDraft.name)}</h3><div class="small muted">${tt('הערכת AI · לחיצה על פריט כדי לשנות')}</div></div></div>
     <div class="mc-sum" id="mc-tot"></div>
     <div id="mc-list" class="mc-list"></div>
     <div class="row mc-foot">
@@ -5749,11 +5746,8 @@ async function foodSearch(q,boxId){
     const {data,error}=await sb.rpc('search_foods',LANG==='he'?{q,lim:7}:{q,lim:7,lang:LANG});
     if(my!==foodSearch._seq)return; if(error)throw error;
     S.foodSugg=data||[];
-    const qs=esc(q.length>40?q.slice(0,40)+'…':q), multi=/\s/.test(q);
-    /* Repi: no match -> he offers to calculate; a whole meal -> he calculates the dish; matches -> a quiet "not exactly?" row at the end */
-    const ai=!S.foodSugg.length?`<div class="fs-repi"><img src="img/kobi-happy.svg" alt=""><div><b>${tt('לא מצאתי את זה במאגר, אבל אני יכול לחשב')}</b><span>${tt('אפרק לרכיבים ואחשב קלוריות וחלבון. אפשר לכתוב גם כמות, למשל ״משולש בינוני״.')}</span><button class="btn primary" data-act="food-ai">✨ ${tt('ראפי, תחשב')}</button></div></div>`
-      :multi?`<button class="fs-repi-row top" data-act="food-ai"><img src="img/kobi-happy.svg" alt=""><span><b>${tt('ראפי יחשב את כל המנה')}: ״${qs}״</b><small>${tt('מתאים לארוחה שלמה או לתיאור חופשי')}</small></span></button>`
-      :`<button class="fs-repi-row" data-act="food-ai"><img src="img/kobi-happy.svg" alt=""><span>${tt('לא בדיוק מה שאכלת?')} <b>${tt('ראפי יחשב לפי התיאור')}</b><small>${tt('אפשר להוסיף פרטים, למשל ״חצי מנה בלי צ׳יפס״')}</small></span></button>`;
+    const ai=`<button class="fs-ai" data-act="food-ai"><span class="fs-ai-ic">✨</span><span><b>חשב עם AI: ״${esc(q.length>40?q.slice(0,40)+'…':q)}״</b><small>מתאים לארוחה שלמה או לתיאור חופשי</small></span></button>`;
+    const multi=/\s/.test(q);
     if(inline&&S.foodSugg.length){ box.innerHTML=`<div class="fs-head small muted">מהמאגר הישראלי</div>`+S.foodSugg.map((f,i)=>`<button class="fs-row" data-act="food-pick" data-i="${i}"><span class="fs-name">${esc(f.name)}</span><span class="fs-val num">${Math.round(+f.kcal||0)} <small>קק״ל/100ג׳</small></span></button>`).join(''); box.hidden=false; return; } // the inline bar has its own "חשב" button
     box.innerHTML=(multi||!S.foodSugg.length?ai:'')
       +(S.foodSugg.length?`<div class="fs-head small muted">מהמאגר הישראלי</div>`+S.foodSugg.map((f,i)=>`<button class="fs-row" data-act="food-pick" data-i="${i}">
