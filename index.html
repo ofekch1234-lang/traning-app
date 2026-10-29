@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8bb1a67b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8bb1a67b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8bb1a67b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d00f6897"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d00f6897"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d00f6897"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2169,10 +2169,15 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .mc-rm{display:inline-flex;align-items:center;gap:6px;color:var(--danger,#ef5350);font-size:13.5px;font-weight:600;padding:6px 2px}.mc-rm svg{width:16px;height:16px}
 .mc-addrow{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:16px;border:1px dashed var(--line);color:var(--muted);font-weight:600;font-size:14px}.mc-addrow svg{width:18px;height:18px}
 .mc-foot{margin-top:12px}
-.sw-sc{width:100%;margin-bottom:12px}.sw-sc button{flex:1}.sw-l{display:grid;gap:8px}
-.sw-c{display:flex;align-items:center;gap:10px;width:100%;padding:13px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);text-align:start;color:inherit}.sw-c:active{border-color:var(--accent)}
-.sw-c>svg{width:16px;height:16px;color:var(--muted);flex:none}.sw-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}.sw-t b{font-size:15.5px}.sw-t small{font-size:12.5px}
-.sw-why{display:flex;flex-wrap:wrap;gap:5px}.sw-why i{font-style:normal;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--surface2);color:var(--muted)}.sw-why i:first-child{background:var(--accent-soft);color:var(--accent)}
+.sw-sc{width:100%}.sw-sc button{flex:1}.sw-l{display:grid;gap:8px}
+.sw-c{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden}.sw-c.open{border-color:var(--accent)}
+.sw-h{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;text-align:start;color:inherit}
+.sw-im{width:52px;height:52px;border-radius:12px;overflow:hidden;flex:none;background:var(--surface2);display:grid;place-items:center;color:var(--accent)}.sw-im img{width:100%;height:100%;object-fit:cover}.sw-im{position:relative}.sw-im img{position:absolute;inset:0}.sw-im svg{width:18px;height:18px}
+.sw-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.sw-t b{font-size:15.5px}.sw-t small{font-size:12.5px}
+.sw-ch{color:var(--muted);transition:transform .2s;display:grid}.sw-ch svg{width:18px;height:18px}.sw-c.open .sw-ch{transform:rotate(180deg)}
+.sw-pv{padding:0 12px 12px;display:grid;gap:10px}.sw-pv .demo{margin:0}.sw-pv p{margin:0;line-height:1.55}.sw-w b{color:var(--accent)}
+.sw-sub{font-size:13px;font-weight:700;color:var(--muted);margin:16px 2px 8px}
+.sw-more{width:100%;margin-top:8px;padding:12px;border-radius:14px;border:1px dashed var(--line);color:var(--muted);font-weight:600;font-size:14px}
 .pn-wait{opacity:.55}
 .me-nm{font-size:17px;font-weight:700;margin-top:4px}.mc-man{margin-top:6px;border-radius:12px;background:var(--surface2);padding:8px 10px}.mc-man summary{font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}.mc-mn{width:100%;margin-top:8px}
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
@@ -2555,7 +2560,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.108';
+const APP_VERSION='13.3.110';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7278,7 +7283,7 @@ function startNextBlock(apply){
 /* "I don't have this machine": same muscle, remembered for the next workouts */
 /* smart swap: alternatives ranked like a coach would — the same movement first, the same role (compound / isolation),
    equipment this user trains with, nothing already in today's workout, and gentler on an area marked sensitive */
-const SW={ei:-1,scope:'plan',area:null,more:false};
+const SW={ei:-1,scope:'plan',area:null,more:false,pv:null};
 const swSlot=n=>{ for(const k in PB_SLOTS){ const s=PB_SLOTS[k]; if(['gym','home','bw'].some(q=>(s[q]||[]).includes(n)))return k; } return null; };
 const swEq=n=>/מכונ|סמית׳|פק-דק|לחיצת רגליים|האק/.test(n)?'machine':/כבל|פולי|פייס פול|חבל/.test(n)?'cable':/מתח|שכיבות|מקבילים|פלאנק|משקל גוף|גשר|דד באג|סופרמן|הרמות רגליים|על הברכיים/.test(n)?'bw':/במוט|^סקוואט$|^סקוואט קדמי$|^דדליפט|חתירת T|כומר/.test(n)?'bar':/משקול|גביע|פטישים|ארנולד|צרפתית|קיקבק במשקולת/.test(n)?'db':'other';
 const SW_EQ={machine:'מכונה',cable:'כבל',bw:'משקל גוף',bar:'מוט',db:'משקולות'};
@@ -7292,7 +7297,7 @@ function swCands(ei,area){
   const gym=a.ex.some(x=>['machine','cable','bar'].includes(swEq(x.n))), bars=others.filter(x=>swEq(x.n)==='bar').length;
   const ban=new Set(PB_BAN[SW_AREA[area]]||[]), joint=area==='elbow'||area==='wrist';
   const pool=new Set([...(g?LIB[g]:[]),...(slot?['gym','home','bw'].flatMap(q=>PB_SLOTS[slot][q]||[]):[])]);
-  return [...pool].filter(n=>n!==e.n&&libVis(n)&&!used.has(n)).map(n=>{ const s=swSlot(n), eq=swEq(n), why=[]; let sc=0;
+  return [...pool].filter(n=>{ if(n===e.n||!libVis(n)||used.has(n))return false; const s=swSlot(n); return !(slot&&s&&s!==slot&&PB_SLOTS[s].c); }).map(n=>{ const s=swSlot(n), eq=swEq(n), why=[]; let sc=0;
     if(slot&&s===slot){ sc+=50; why.push('אותה תנועה'); }
     else if(s&&!!PB_SLOTS[s].c===comp)sc+=15;
     if(s&&s!==slot&&oSlots.has(s))sc-=30; // that movement is already in today's workout
@@ -7308,17 +7313,26 @@ function swW(e,c){ if(c.h){ const top=Math.max(...c.h.map(s=>+s.w||0)); return t
   const f=from==='bar'&&c.eq==='db'?.4:from==='db'&&c.eq==='bar'?2:from===c.eq&&swSlot(e.n)===swSlot(c.n)?.9:0;
   return f?roundTo(w*f,wStep(c.n)):null; }
 function openExSwap(ei,area){
-  const e=S.active?.ex?.[ei]; if(!e)return; if(SW.ei!==ei){ SW.more=false; } SW.ei=ei; SW.area=area!==undefined?area:(sensOf(e.n)?.area||null);
+  const e=S.active?.ex?.[ei]; if(!e)return; if(SW.ei!==ei){ SW.more=false; SW.pv=null; } SW.ei=ei; SW.area=area!==undefined?area:(sensOf(e.n)?.area||null);
   if(area!==undefined)SW.scope=area?'today':'plan';
-  const C=swCands(ei,SW.area), top=C.slice(0,3), rest=C.slice(3,14);
-  const card=c=>{ const w=swW(e,c); return `<button class="sw-c" data-act="ex-swap-go" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>
-      <span class="sw-t"><b>${esc(c.n)}</b><span class="sw-why">${c.why.map(x=>`<i>${tt(x)}</i>`).join('')}</span>${w?`<small class="muted num">${tt('להתחיל ב')}${wL(w)} ${LU()}</small>`:`<small class="muted">${tt('מתחילים קל ומכוונים לפי הסט הראשון')}</small>`}</span>${ICON.chev}</button>`; };
+  const C=swCands(ei,SW.area), top=C.slice(0,3), rest=C.slice(3,14), tplOn=!!(S.active.tid&&S.templates.find(t=>t.id===S.active.tid));
+  const card=c=>{ const w=swW(e,c), open=SW.pv===c.n, img=exImg(c.n), how=(INFO[c.n]||'').split(/(?<=\.)\s/)[0];
+    return `<div class="sw-c${open?' open':''}">
+      <button class="sw-h" data-act="sw-pv" data-n="${esc(c.n)}" aria-expanded="${open}">
+        <span class="sw-im">${img?`<img ${img} alt="" loading="lazy" onerror="this.remove()">`:''}${ICON.play}</span>
+        <span class="sw-t"><b>${esc(c.n)}</b><small class="muted">${c.why.map(x=>tt(x)).join(' · ')}</small></span>
+        <span class="sw-ch">${ICON.down}</span></button>
+      ${open?`<div class="sw-pv">${demoHTML(c.n)}${how?`<p class="small muted">${esc(how)}</p>`:''}
+        <div class="small sw-w">${w?`${tt('משקל מוצע להתחלה:')} <b class="num">${wL(w)} ${LU()}</b>`:tt('מתחילים קל ומכוונים לפי הסט הראשון')}</div>
+        <button class="btn primary big" style="width:100%" data-act="ex-swap-go" data-sc="today" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>${tt('להחליף באימון הזה')}</button>
+        ${tplOn?`<button class="btn big" style="width:100%" data-act="ex-swap-go" data-sc="plan" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>${tt('להחליף גם בתוכנית מעכשיו')}</button>`:''}</div>`:''}
+    </div>`; };
   openSheet(`<h3>${tt('במקום')} ${esc(e.n)}</h3>
-    <div class="small muted" style="margin:-4px 0 12px">${SW.area?`${tt('מתאים לשאר האימון, ועדין יותר ל')}${painName(SW.area)}`:tt('אותו שריר, ומתאים לשאר האימון')}</div>
-    <div class="seg2 sw-sc">${[['today','רק לאימון הזה'],['plan','גם בתוכנית מעכשיו']].map(([k,l])=>`<button class="${SW.scope===k?'on':''}" data-act="sw-scope" data-v="${k}">${tt(l)}</button>`).join('')}</div>
+    <div class="small muted" style="margin:-4px 0 12px">${SW.area?`${tt('מתאים לשאר האימון, ועדין יותר ל')}${painName(SW.area)}`:tt('לחיצה על תרגיל מציגה אותו לפני שמחליפים')}</div>
     <div class="sw-l">${top.map(card).join('')||`<div class="small muted" style="padding:12px">${tt('אין חלופה במאגר לתרגיל הזה')}</div>`}</div>
-    ${rest.length?(SW.more?`<div class="pn-l">${tt('עוד לאותו שריר')}</div><div class="sw-l">${rest.map(card).join('')}</div>`:`<button class="linkbtn" style="margin:8px 0" data-act="sw-more">${tt('עוד')} ${rest.length} ${tt('תרגילים לאותו שריר')}</button>`):''}
-    <button class="btn big" style="width:100%;margin-top:10px" data-act="sheet-close">${tt('ביטול')}</button>`); }
+    ${rest.length?(SW.more?`<div class="sw-sub">${tt('עוד אפשרויות')}</div><div class="sw-l">${rest.map(card).join('')}</div>`:`<button class="sw-more" data-act="sw-more">${tt('עוד')} ${rest.length} ${tt('אפשרויות')}</button>`):''}
+    <button class="btn big" style="width:100%;margin-top:10px" data-act="sheet-close">${tt('ביטול')}</button>`);
+  if(SW.pv)setTimeout(()=>$('#sheet .sw-c.open')?.scrollIntoView({block:'nearest',behavior:'smooth'}),40); }
 function doSwap(ei,to,w0){
   const a=S.active, e=a?.ex?.[ei]; if(!e)return; const from=e.n;
   const tpl=SW.scope==='plan'&&a.tid&&S.templates.find(t=>t.id===a.tid);
@@ -11361,9 +11375,10 @@ function handleAct(b,ev){
       persistActive(); render(); break; }
     case 'coach-back': { const c=coachCfg(); c.back=Date.now(); persistSettings(); render(); toast('מעולה שחזרת. השבוע מתחילים קצת יותר קל'); break; }
     case 'ex-swap': SW.scope='plan'; openExSwap(+b.dataset.ei); break;
-    case 'ex-swap-go': doSwap(+b.dataset.ei,b.dataset.n,b.dataset.w?+b.dataset.w:undefined); break;
+    case 'ex-swap-go': if(b.dataset.sc)SW.scope=b.dataset.sc; doSwap(+b.dataset.ei,b.dataset.n,b.dataset.w?+b.dataset.w:undefined); break;
     case 'sw-scope': SW.scope=b.dataset.v; openExSwap(SW.ei); break;
     case 'sw-more': SW.more=true; openExSwap(SW.ei); break;
+    case 'sw-pv': SW.pv=SW.pv===b.dataset.n?null:b.dataset.n; openExSwap(SW.ei); break;
     case 'ex-lock': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; const L=coachCfg().lock; if(L[e.n])delete L[e.n]; else L[e.n]=1; persistSettings(); closeSheet(); toast(L[e.n]?'התרגיל ננעל':'התרגיל שוחרר'); break; }
     case 'rir': rirSet(+b.dataset.ei,+b.dataset.si,+b.dataset.v); break;
     case 'rir-last': { const ei=+b.dataset.ei, si=+b.dataset.si, e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)break; vibrate(8);
