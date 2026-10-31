@@ -389,6 +389,7 @@ body:not(.landing)>#lx-sticky{display:none}
 .hp-th small{font-size:10.5px;color:var(--muted)}
 /* admin: v13.1 */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.adm-per{margin-bottom:10px}.adm-per button{font-size:13px;padding-inline:0}.adm-ld b.num{opacity:.4}.adm-cnt{margin-top:10px}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:start;color:inherit;font:inherit;min-width:0}
 .kpi .kl{font-size:13px;color:var(--muted)}
 .kpi b{font-family:var(--disp);font-size:27px;font-weight:800;line-height:1.15}
@@ -2200,7 +2201,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.143';
+const APP_VERSION='13.3.145';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8323,10 +8324,10 @@ function userState(u){
 const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
 async function loadAdmin(){
   A.err=null; S.adminLoading=true; if(S.tab==='admin')render();
-  const [ov,cfg,ev,fn,ai]=await Promise.all([sb.rpc('admin_overview'),sb.rpc('admin_config'),sb.rpc('admin_events'),sb.rpc('admin_funnel'),sb.rpc('admin_ai_top',{p_limit:10})]);
+  const [ov,cfg,ev,fn,ai,pd]=await Promise.all([sb.rpc('admin_overview'),sb.rpc('admin_config'),sb.rpc('admin_events'),sb.rpc('admin_funnel'),sb.rpc('admin_ai_top',{p_limit:10}),sb.rpc('admin_period',{p:A.per||'t'})]);
   S.adminLoading=false;
   if(ov.error){A.err=ov.error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+ov.error.message;}
-  else{A.ov=ov.data; A.cfg=cfg.data||A.cfg; A.events=ev.data||[]; A.funnel=fn.data||A.funnel; A.aiTop=ai.data||[];}
+  else{A.ov=ov.data; A.cfg=cfg.data||A.cfg; A.events=ev.data||[]; A.funnel=fn.data||A.funnel; A.aiTop=ai.data||[]; A.pd=pd.data||A.pd;}
   if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs();
   if(S.tab==='admin')render();
 }
@@ -8408,16 +8409,18 @@ function admOverviewHTML(){
   const free=O.expired||0;
   const mix=[['#94A3B8','חינמיים',free,'data-t="users" data-f="expired"'],['#2563EB','פרימיום מתנה',(O.trial||0)+(O.gifted||0),'data-t="users" data-f="trial"'],['var(--accent)','משלמים',O.paying||0,'data-t="users" data-f="paying"']].concat(O.pending?[['#D97706','ממתינים',O.pending,'data-t="users" data-f="pending"']]:[]);
   const tot=Math.max(1,mix.reduce((a,x)=>a+x[2],0));
-  const perUser=O.active30?money((+O.ai_usd_month||0)/O.active30):'—';
+  const per=A.per||'t', P=A.pd;
   return `
     ${admTasksHTML()}
-    <div class="sect2"><span>החודש במספרים</span></div>
-    <div class="kpi-grid">
-      ${kpi('משתמשים',fmtNum(O.users||0),O.new7?`+${O.new7} השבוע`:'אין חדשים השבוע',!!O.new7,'data-t="users" data-f="all"')}
-      ${kpi('פעילים 7 ימים',fmtNum(O.active7||0),`${pctS(O.active7,O.users)} מהמשתמשים · היום ${O.active1||0}`,false,'')}
-      ${kpi('הכנסות החודש','₪'+fmtNum(Math.round(O.rev_month||0)),`${O.pay_month||0} תשלומים · סה״כ ₪${fmtNum(Math.round(O.rev_total||0))}`,false,'data-t="pay"')}
-      ${kpi('עלות AI החודש',money(O.ai_usd_month),`${perUser} למשתמש פעיל`,false,'')}
+    <div class="sect2"><span>במספרים</span></div>
+    <div class="seg2 adm-per">${[['d','היום'],['w','7 ימים'],['m','החודש'],['t','30 יום'],['a','הכל']].map(([k,t])=>`<button class="${per===k?'on':''}" data-act="adm-per" data-p="${k}">${t}</button>`).join('')}</div>
+    <div class="kpi-grid${P?'':' adm-ld'}">
+      ${kpi('משתמשים',fmtNum(O.users||0),per==='a'?`היום ${O.active1||0} פעילים`:P?(P.new?`+${P.new} בתקופה`:'אין חדשים בתקופה'):'…',!!(P&&P.new&&per!=='a'),'data-t="users" data-f="all"')}
+      ${kpi('פעילים',P?fmtNum(P.active):'…',P?`${pctS(P.active,O.users)} מהמשתמשים`:'',false,'')}
+      ${kpi('הכנסות',P?'₪'+fmtNum(Math.round(P.rev||0)):'…',P?`${P.pays||0} תשלומים`:'',false,'data-t="pay"')}
+      ${kpi('עלות AI',P?money(P.ai_usd):'…',P&&P.active?`${money((+P.ai_usd||0)/P.active)} למשתמש פעיל`:'',false,'')}
     </div>
+    <div class="card r20 stat3 num adm-cnt"><div><b>${P?fmtNum(P.workouts):'…'}</b><span>אימונים</span></div><div><b>${P?fmtNum(P.meals):'…'}</b><span>ארוחות</span></div><div><b>${P?fmtNum(P.scans):'…'}</b><span>סריקות AI</span></div></div>
     <div class="card r20" style="padding:16px">
       <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">חלוקת המשתמשים</b><span class="small muted num">${fmtNum(O.users||0)}</span></div>
       <div class="mix">${mix.filter(x=>x[2]).map(([c,,n])=>`<i style="--c:${c};width:${n/tot*100}%"></i>`).join('')}</div>
@@ -8600,6 +8603,7 @@ function admAct(act,b){
     case 'admin-open': closeSheet(); S.tab='admin'; render(); loadAdmin(); window.scrollTo(0,0); return true;
     case 'adm-back': S.tab='me'; location.hash='me'; render(); window.scrollTo(0,0); return true;
     case 'adm-refresh': loadAdmin(); return true;
+    case 'adm-per': A.per=b.dataset.p; A.pd=null; render(); sb.rpc('admin_period',{p:A.per}).then(({data})=>{ if(A.per===b.dataset.p){A.pd=data; if(S.tab==='admin')render();} }); return true;
     case 'adm-tab': A.tab=b.dataset.t; render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); if(A.tab==='prods')admLoadProds(); return true;
     case 'adm-prod-open': admProdOpen(b.dataset.code); return true;
     case 'adm-prod-ok': case 'adm-prod-unok': { const c=b.dataset.code, okk=act==='adm-prod-ok'; b.disabled=true;
