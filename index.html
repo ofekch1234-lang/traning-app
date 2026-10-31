@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a1e3d78c"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a1e3d78c"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a1e3d78c"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=36cf6b9c"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=36cf6b9c"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=36cf6b9c"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1891,6 +1891,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 #pcam .pc-bar{position:absolute;left:0;right:0;bottom:0;padding:26px 24px calc(env(safe-area-inset-bottom,0px) + 26px);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.85) 45%)}
 #pcam .pc-b{display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:600;width:64px}#pcam .pc-b svg.ic{width:26px;height:26px;padding:12px;box-sizing:content-box;border-radius:50%;background:rgba(255,255,255,.16)}
 #pcam .pc-shot{width:76px;height:76px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.35)}#pcam .pc-shot:active{transform:scale(.94)}
+html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on body>*:not(#pcam){visibility:hidden!important}#pcam.native{background:transparent}
 #pscan{position:fixed;inset:0;z-index:150;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 40px) 18px 30px;text-align:center}
 #pscan .ps-ph{position:relative;width:100%;max-width:420px;aspect-ratio:4/5;max-height:52vh;border-radius:24px;overflow:hidden}#pscan .ps-ph img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.8)}
 #pscan .ps-line{position:absolute;left:0;right:0;top:0;height:3px;background:var(--accent);box-shadow:0 0 18px 6px rgba(191,255,47,.55);animation:psLine 2.2s ease-in-out infinite alternate}
@@ -2199,7 +2200,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.141';
+const APP_VERSION='13.3.143';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5582,7 +5583,9 @@ async function foodAI(payload){
   if(S.ai.keep){ const t=$('#food-text'); if(t){t.value=S.ai.q; t.closest('.fsearch')?.classList.add('has'); t.style.height=Math.min(132,t.scrollHeight+2)+'px';} }
 }
 /* plate camera (web): live viewfinder with a frame and a short tip, gallery and barcode one tap away. The native app keeps the system camera picker. */
-const pcamOK=()=>!!navigator.mediaDevices?.getUserMedia&&!window.Capacitor?.isNativePlatform?.();
+/* native app: the real camera behind a transparent page (CameraPreview plugin), asked for once like any app. For now only for admins, until it has been tested on phones */
+const NCam=()=>window.Capacitor?.isNativePlatform?.()&&S.plan?.admin?window.Capacitor?.Plugins?.CameraPreview:null;
+const pcamOK=()=>!!NCam()||!!navigator.mediaDevices?.getUserMedia&&!window.Capacitor?.isNativePlatform?.();
 let _pcam=null;
 async function pcamOpen(){
   if(aiFreeLeft()===0){ aiUpsell(); return; }
@@ -5598,14 +5601,20 @@ async function pcamOpen(){
       <button class="pc-b" data-act="scan-open">${ICON.bar}<span>${tt('ברקוד')}</span></button>
     </div>`;
   document.body.appendChild(el);
+  const nc=NCam(); if(nc){ el.classList.add('native'); el.querySelector('video')?.remove(); document.documentElement.classList.add('pcam-on');
+    try{ await nc.start({position:'rear',toBack:true,disableAudio:true,enableHighResolution:true,lockAndroidOrientation:true}); _pcam='native'; if(!document.getElementById('pcam')){ nc.stop().catch(()=>{}); _pcam=null; } }
+    catch(e){ console.error(e); pcamClose(); pcamPick(); }
+    return; }
   try{ _pcam=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1440}},audio:false});
     if(!document.getElementById('pcam')){ _pcam.getTracks().forEach(t=>t.stop()); _pcam=null; return; }
     $('#pcam-v').srcObject=_pcam; }
   catch(e){ pcamClose(); pcamPick(); }
 }
 function pcamPick(){ let f=document.getElementById('food-photo'); if(!f){ f=document.createElement('input'); f.type='file'; f.accept='image/*'; f.id='food-photo'; f.hidden=true; document.body.appendChild(f); } f.click(); }
-function pcamClose(){ try{ _pcam?.getTracks().forEach(t=>t.stop()); }catch(_){} _pcam=null; document.getElementById('pcam')?.remove(); }
-function pcamShot(){ const v=$('#pcam-v'); if(!v||!v.videoWidth)return;
+function pcamClose(){ try{ if(_pcam==='native')NCam()?.stop().catch(()=>{}); else _pcam?.getTracks().forEach(t=>t.stop()); }catch(_){} _pcam=null; document.documentElement.classList.remove('pcam-on'); document.getElementById('pcam')?.remove(); }
+async function pcamShot(){
+  if(_pcam==='native'){ try{ const r=await NCam().capture({quality:85,width:1280}); vibrate(10); pcamClose(); if(r?.value)foodAI({image:r.value,media:'image/jpeg'}); }catch(e){ console.error(e); toast(tt('הצילום נכשל, נסה שוב')); } return; }
+  const v=$('#pcam-v'); if(!v||!v.videoWidth)return;
   const sc=Math.min(1,1280/Math.max(v.videoWidth,v.videoHeight)), c=document.createElement('canvas'); c.width=Math.round(v.videoWidth*sc); c.height=Math.round(v.videoHeight*sc);
   c.getContext('2d').drawImage(v,0,0,c.width,c.height); const b64=c.toDataURL('image/jpeg',.85).split(',')[1]; vibrate(10); pcamClose();
   const hint=($('#food-text')?.value||$('#ask-q')?.value||'').trim().slice(0,200);
