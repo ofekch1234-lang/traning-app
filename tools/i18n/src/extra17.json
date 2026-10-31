@@ -2970,5 +2970,109 @@
  "ראפי חישב לפי התיאור · לחיצה על פריט כדי לשנות": {
   "en": "Repi calculated from your description · tap an item to change it",
   "ar": "ريبي حسب حسب وصفك · اضغط على عنصر لتغييره"
+ },
+ "אחרי הארוחה נשארים לך": {
+  "en": "Left for today after this meal",
+  "ar": "المتبقي لك بعد هذه الوجبة"
+ },
+ "בודק שמן ורטבים": {
+  "en": "Checking oil and sauces",
+  "ar": "يفحص الزيت والصلصات"
+ },
+ "בושל בשמן?": {
+  "en": "Cooked with oil?",
+  "ar": "مطبوخ بالزيت؟"
+ },
+ "בלי שמן": {
+  "en": "No oil",
+  "ar": "بدون زيت"
+ },
+ "גלריה": {
+  "en": "Gallery",
+  "ar": "المعرض"
+ },
+ "הגעת למכסת ניתוחי ה-AI. אפשר לתקן פריט ביד": {
+  "en": "You've reached your AI limit. You can fix an item by hand",
+  "ar": "وصلت إلى حد تحليلات الذكاء الاصطناعي. يمكنك تعديل عنصر يدويًا"
+ },
+ "הרבה": {
+  "en": "A lot",
+  "ar": "كثير"
+ },
+ "התיקון לא הצליח. אפשר לתקן פריט ביד": {
+  "en": "The fix didn't work. You can fix an item by hand",
+  "ar": "لم ينجح التصحيح. يمكنك تعديل عنصر يدويًا"
+ },
+ "זה לוקח כמה שניות": {
+  "en": "This takes a few seconds",
+  "ar": "يستغرق ذلك بضع ثوانٍ"
+ },
+ "חישבתי כמות רגילה של שמן. שמן לא נראה בתמונה, אז זה הכי משנה.": {
+  "en": "I counted a regular amount of oil. Oil doesn't show in a photo, so this matters most.",
+  "ar": "حسبت كمية زيت عادية. الزيت لا يظهر في الصورة، لذا هذا الأهم."
+ },
+ "כדאי שכל הצלחת תיכנס למסגרת": {
+  "en": "Fit the whole plate in the frame",
+  "ar": "اجعل الطبق كله داخل الإطار"
+ },
+ "כפי שחישבתי": {
+  "en": "As I calculated",
+  "ar": "كما حسبت"
+ },
+ "מזהה": {
+  "en": "Identifying",
+  "ar": "يتعرّف"
+ },
+ "מסתכל על הצלחת": {
+  "en": "is looking at your plate",
+  "ar": "ينظر إلى طبقك"
+ },
+ "מעל": {
+  "en": "over",
+  "ar": "زيادة"
+ },
+ "משהו לא מדויק? ספר לי, למשל ״היה עליו כף טחינה״": {
+  "en": "Something off? Tell me, e.g. \"it had a spoon of tahini\"",
+  "ar": "هناك خطأ؟ أخبرني، مثل \"كان عليه ملعقة طحينة\""
+ },
+ "עודכן לפי מה שכתבת ✓": {
+  "en": "Updated from what you wrote ✓",
+  "ar": "تم التحديث حسب ما كتبت ✓"
+ },
+ "צלם מלמעלה, באור טוב": {
+  "en": "Shoot from above, in good light",
+  "ar": "صوّر من الأعلى بإضاءة جيدة"
+ },
+ "שוקל כמויות": {
+  "en": "Weighing portions",
+  "ar": "يقدّر الكميات"
+ },
+ "תיקון": {
+  "en": "Correction",
+  "ar": "تصحيح"
+ },
+ "תקן": {
+  "en": "Fix",
+  "ar": "تصحيح"
+ },
+ "שמן בבישול (תוספת)": {
+  "en": "Cooking oil (extra)",
+  "ar": "زيت الطهي (إضافي)"
+ },
+ "בלי שמן בבישול (הפחתה)": {
+  "en": "No cooking oil (less)",
+  "ar": "بدون زيت طهي (تخفيض)"
+ },
+ "צילום מחדש": {
+  "en": "Retake",
+  "ar": "إعادة التصوير"
+ },
+ "ברקוד": {
+  "en": "Barcode",
+  "ar": "باركود"
+ },
+ "צלם": {
+  "en": "Take photo",
+  "ar": "التقط"
  }
 }
