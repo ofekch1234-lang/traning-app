@@ -3598,5 +3598,53 @@
  "גשר ישבן וכפיפת ברכיים ב-TRX": {
   "en": "TRX Glute Bridge Leg Curl",
   "ar": "جسر الأرداف وثني الركبتين على TRX"
+ },
+ "אין תרגיל חלופי עם הציוד שבחרת": {
+  "en": "No alternative exercise with your equipment",
+  "ar": "لا يوجد تمرين بديل بالمعدات التي اخترتها"
+ },
+ "לכל תרגיל יש סרטון הדגמה. לחיצה על החץ מחליפה תרגיל בתרגיל אחר לאותו שריר.": {
+  "en": "Every exercise has a demo video. Tap the arrows to swap an exercise for another one for the same muscle.",
+  "ar": "لكل تمرين فيديو توضيحي. اضغط على السهمين لاستبدال التمرين بآخر لنفس العضلة."
+ },
+ "התוכנית שלך מוכנה": {
+  "en": "Your plan is ready",
+  "ar": "خطتك جاهزة"
+ },
+ "תן לי וריאציה אחרת": {
+  "en": "Give me another variation",
+  "ar": "أعطني نسخة أخرى"
+ },
+ "מה יש לך בבית?": {
+  "en": "What do you have at home?",
+  "ar": "ماذا لديك في البيت؟"
+ },
+ "נבנה את התוכנית רק ממה שיש. משקל גוף תמיד בפנים": {
+  "en": "We'll build the plan only from what you have. Bodyweight is always included",
+  "ar": "سنبني الخطة مما لديك فقط. وزن الجسم دائمًا ضمنها"
+ },
+ "🏋️ משקולות יד": {
+  "en": "🏋️ Dumbbells",
+  "ar": "🏋️ دمبلز"
+ },
+ "🪑 ספסל": {
+  "en": "🪑 Bench",
+  "ar": "🪑 مقعد"
+ },
+ "➖ מוט ומשקולות": {
+  "en": "➖ Barbell and plates",
+  "ar": "➖ بار وأوزان"
+ },
+ "🔔 קטלבל": {
+  "en": "🔔 Kettlebell",
+  "ar": "🔔 كيتلبل"
+ },
+ "🎗️ גומיות": {
+  "en": "🎗️ Resistance bands",
+  "ar": "🎗️ أشرطة مطاطية"
+ },
+ "🧗 מוט מתח": {
+  "en": "🧗 Pull-up bar",
+  "ar": "🧗 بار عقلة"
  }
 }
