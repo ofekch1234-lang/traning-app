@@ -3286,5 +3286,13 @@
  "חבר צעדים באפליקציה": {
   "en": "Connect steps in the app",
   "ar": "اربط الخطوات في التطبيق"
+ },
+ "אחרי הצילום הבא תוכל ליצור תמונת לפני ואחרי ולשתף את השינוי": {
+  "en": "After your next photo you can create a before / after and share your change",
+  "ar": "بعد الصورة القادمة يمكنك إنشاء قبل / بعد ومشاركة تغيّرك"
+ },
+ "ראה את השינוי שלך ושתף אותו": {
+  "en": "See your change and share it",
+  "ar": "شاهد تغيّرك وشاركه"
  }
 }
