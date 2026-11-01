@@ -5,4 +5,5 @@
     <string name="package_name">il.co.nextrep.app</string>
     <string name="custom_url_scheme">il.co.nextrep.app</string>
     <string name="widget_desc">קלוריות, חלבון והאימון הבא שלך</string>
+    <string name="health_connect_privacy_policy_url">https://www.nextrep.co.il/privacy.html#health</string>
 </resources>

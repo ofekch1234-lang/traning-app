@@ -41,4 +41,5 @@ async function ensureBundle(identifier, name) {
   };
   await add('APPLE_ID_AUTH', 'Sign in with Apple', [{ key: 'APPLE_ID_AUTH_APP_CONSENT', options: [{ key: 'PRIMARY_APP_CONSENT' }] }]);
   await add('PUSH_NOTIFICATIONS', 'Push notifications');
+  await add('HEALTHKIT', 'HealthKit');
 })().catch(e => { console.log('::error::' + e.message); process.exit(1); });
