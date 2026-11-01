@@ -402,6 +402,8 @@ body:not(.landing)>#lx-sticky{display:none}
 .pbx-mr{display:flex;gap:8px;margin-top:8px;overflow-x:auto;scrollbar-width:none}.pbx-mr::-webkit-scrollbar{display:none}
 .pbx-mi{flex:0 0 31%;display:flex;flex-direction:column;gap:4px;background:none;border:0;padding:0;font:inherit;color:var(--ink);text-align:start}.pbx-mt{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--surface)}.pbx-mt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}.pbx-mi small{font-size:11.5px;line-height:1.3}
 .mob-card{padding:14px}.mob-card.done{opacity:.7}.mob-ok{color:var(--accent);font-weight:700;font-size:13px;display:inline-flex;gap:4px;align-items:center}.mob-ok svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.6}
+.st-l{display:flex;flex-direction:column;margin-top:8px}.st-l button{display:flex;align-items:center;gap:12px;padding:8px 0;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);font:inherit;text-align:start}.st-l button:first-child{border-top:0}.st-l .nm{flex:1;font-weight:600;font-size:15px}.st-l i{font-style:normal;color:var(--muted);font-size:13px}.st-l .pbx-th{width:52px;height:40px}
+.pbx-st{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px 14px;border-radius:16px;background:var(--surface2);border:1.5px solid transparent;cursor:pointer}.pbx-st.on{border-color:var(--accent)}.pbx-st .i{font-size:24px}.pbx-st .t{flex:1}.pbx-st .t b{display:block;font-size:15.5px}.pbx-st .t small{display:block;font-size:13px;color:var(--muted);margin-top:2px;line-height:1.35}
 .mob-row{display:flex;gap:8px;margin-top:10px}.mob-row button{flex:1;display:flex;flex-direction:column;gap:4px;background:none;border:0;padding:0;font:inherit;color:var(--ink);text-align:start;min-width:0}.mob-row small{font-size:11.5px;line-height:1.3}.mob-row i{font-style:normal;font-size:11px;color:var(--muted)}
 .mob-th{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--surface2)}.mob-th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
 .mg{text-align:center}.mg-demo{margin:8px 0 10px;border-radius:16px;overflow:hidden}.mg-n{margin:0 0 6px;font-size:20px}.mg-ring{position:relative;width:104px;height:104px;margin:6px auto 0}.mg-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--disp);font-size:30px;font-weight:700}
@@ -3424,7 +3426,10 @@ function nextTpl(){
   const i=ts.findIndex(t=>t.id===lastT.tid);
   return ts[(i+1)%ts.length]||ts[0];
 }
+const tplSt=t=>t&&S.settings.mob?.[t.id]?.st?S.settings.mob[t.id]:null;
+const tplSub=t=>{ const st=tplSt(t); return st?`${st.post.length} ${tt('מתיחות')} · ${tt('כ-')}${tplMinutes(t)} ${tt('דק׳')}`:`${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳`; };
 function tplMinutes(t){
+  const st=tplSt(t); if(st)return stMin(st.post.map(([n,sec])=>({sec})));
   let m=0;
   for(const e of t.ex||[]){ if(e.t==='c'){m+=15;continue;} const n=+e.s||3; m+=n*((+e.rest||90)+45)/60; }
   return Math.max(10,Math.round(m/5)*5);
@@ -6319,7 +6324,7 @@ function vTrainStart(){
       <button class="btn primary big" style="display:flex;align-items:center;justify-content:center;gap:8px" data-act="start-tpl" data-id="${esc(nw.t.id)}">${ICON.play} התחל אימון</button>
     </div>`:''}
     ${S.templates.length?`<div class="sect2"><span>התוכנית שלי</span><button class="linkbtn" data-act="train-view" data-v="plans">עריכה</button></div>
-    <div class="card r20 list">${list.map(t=>`<div class="li"><button class="lt tv-open" data-act="tpl-view" data-id="${esc(t.id)}"><b>${esc(t.name)}</b><small>${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳ · <span class="tv-more">${tt('פרטים')} ›</span></small></button><button class="sbtn" data-act="start-tpl" data-id="${esc(t.id)}" aria-label="התחל ${esc(t.name)}">${ICON.play}</button></div>`).join('')||`<div class="li small muted">כל התוכנית למעלה. אפשר להוסיף עוד אימונים בעריכה.</div>`}</div>`
+    <div class="card r20 list">${list.map(t=>`<div class="li"><button class="lt tv-open" data-act="tpl-view" data-id="${esc(t.id)}"><b>${esc(t.name)}</b><small>${tplSub(t)} · <span class="tv-more">${tt('פרטים')} ›</span></small></button><button class="sbtn" data-act="start-tpl" data-id="${esc(t.id)}" aria-label="התחל ${esc(t.name)}">${ICON.play}</button></div>`).join('')||`<div class="li small muted">כל התוכנית למעלה. אפשר להוסיף עוד אימונים בעריכה.</div>`}</div>`
     :''}
     ${!S.templates.length?`<div class="card r20 stack" style="gap:12px"><b style="font-family:var(--disp);font-size:22px;line-height:1.15">עוד אין לך תוכנית</b><span class="small muted">הכי קל להתחיל מתוכנית שבנויה בשבילך. לוקח 2 דקות.</span><button class="btn primary big" data-act="pb-open">בנה לי תוכנית</button></div>`:''}
     <div class="two">
@@ -6367,6 +6372,13 @@ function mobCard(ph){ const a=S.active, M=a?.mob, L=M&&M[ph]; if(!L||!L.length)r
   return `<div class="card r20 mob-card ${done?'done':''}"><div class="spread"><span><b>${ph==='pre'?'🔥 '+tt('חימום'):'🧘 '+tt('מתיחות לסיום')}</b><small class="muted num"> · ${min} ${tt('דק׳')}</small></span>${done?`<span class="mob-ok">${ICON.ok} ${tt('בוצע')}</span>`:`<button class="linkbtn small" data-act="mob-skip" data-ph="${ph}">${tt('דלג')}</button>`}</div>
     ${done?'':`<div class="mob-row">${L.map(m=>`<button data-act="mob-demo" data-n="${esc(m.n)}">${th(m.n)}<small>${esc(m.n)}</small><i class="num">${m.sec} ${tt('שנ׳')}</i></button>`).join('')}</div>
     <button class="btn ${ph==='pre'?'primary':''} big" data-act="mob-go" data-ph="${ph}" style="width:100%;margin-top:10px">${ICON.play} ${ph==='pre'?tt('התחל חימום מודרך'):tt('התחל מתיחות מודרכות')}</button>`}</div>`; }
+/* the weekly stretching session: the whole list, one guided run, then finish */
+function stCard(){ const a=S.active, L=a.mob.post||[], done=a.mob.postDone;
+  const th=n=>{ const c=exClip(n); return `<span class="pbx-th"><span class="pbx-ph">${ICON.play}</span>${c?`<img src="${esc(c.poster)}" alt="" onerror="this.remove()">`:''}</span>`; };
+  return `<div class="card r20 st-card"><div class="spread"><b>🧘 ${tt('מתיחות וגמישות')}</b><small class="muted num">${L.length} ${tt('מתיחות')} · ${stMin(L)} ${tt('דק׳')}</small></div>
+    <div class="st-l">${L.map(m=>`<button data-act="mob-demo" data-n="${esc(m.n)}">${th(m.n)}<span class="nm">${esc(m.n)}</span><i class="num">${m.sec} ${tt('שנ׳')}</i></button>`).join('')}</div>
+    ${done?`<div class="aw-end" style="margin-top:12px"><b>${tt('כל המתיחות בוצעו')} 🧘</b><button class="btn primary big" data-act="finish-w">${tt('סיום האימון')}</button></div>`
+      :`<button class="btn primary big" data-act="mob-go" data-ph="post" style="width:100%;margin-top:12px">${ICON.play} ${tt('התחל מתיחות מודרכות')}</button>`}</div>`; }
 const MG={ph:null,i:0,t:0,iv:null};
 function mobGuide(){ const L=S.active?.mob?.[MG.ph]; if(!L)return; const m=L[MG.i], R=44, C=2*Math.PI*R, p=MG.t/m.sec;
   openSheet(`<div class="mg"><div class="spread"><span class="small muted num">${MG.i+1} ${tt('מתוך')} ${L.length}</span><button class="hd-btn" data-act="mob-stop" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
@@ -6404,17 +6416,17 @@ function vActive(){
         <button class="aw-fin" data-act="finish-w">סיום</button>
       </div>
       ${focusOn()?`<div class="fx-seg">${a.ex.map((e,i)=>`<i class="${exDone(e)?'d':i===cur?'c':''}"></i>`).join('')}</div>`:''}
-      <div class="aw-prog" ${focusOn()?'hidden':''}><div class="bar2"><i id="live-bar" style="width:${st.total?Math.round(st.done/st.total*100):0}%"></i></div><span class="small muted num" id="live-sets">${st.done} מתוך ${st.total} סטים</span><span id="live-vol" hidden>${fmtNum(st.vol)}</span></div>
+      <div class="aw-prog" ${focusOn()||a.mob?.st?'hidden':''}><div class="bar2"><i id="live-bar" style="width:${st.total?Math.round(st.done/st.total*100):0}%"></i></div><span class="small muted num" id="live-sets">${st.done} מתוך ${st.total} סטים</span><span id="live-vol" hidden>${fmtNum(st.vol)}</span></div>
     </div>
-    ${mobCard('pre')}
-    ${fxMode()==='remote'?`<div class="card r20 rm-list">${rows.join('')}</div>${rmPanel(rmCur(cur))}`:`${done.length?`<div class="card r20 list">${done.join('')}</div>`:''}
+    ${mobCard('pre')}${a.mob?.st?stCard():''}
+    ${a.mob?.st?'':fxMode()==='remote'?`<div class="card r20 rm-list">${rows.join('')}</div>${rmPanel(rmCur(cur))}`:`${done.length?`<div class="card r20 list">${done.join('')}</div>`:''}
     ${rows.join('')}`}
     ${next.length?`<div class="small muted" style="font-weight:600;padding:0 4px;margin-bottom:-4px">הבאים</div><div class="card r20 list">${next.join('')}</div>`:''}
-    ${mobCard('post')}
-    ${!a.ex.length?`<div class="empty"><div class="big">אימון חופשי</div>הוסף תרגיל ראשון, המשקל מהפעם הקודמת כבר ימולא.</div>`:''}
+    ${a.mob?.st?'':mobCard('post')}
+    ${!a.ex.length&&!a.mob?.st?`<div class="empty"><div class="big">אימון חופשי</div>הוסף תרגיל ראשון, המשקל מהפעם הקודמת כבר ימולא.</div>`:''}
     ${a.ex.length&&a.ex.every(exDone)?`<div class="aw-end"><b>${tt('כל התרגילים בוצעו')} 💪</b><span class="num">${st.done} ${tt('סטים')} · ${Math.max(1,Math.round((Date.now()-a.start)/60e3))} ${tt('דק׳')}</span>
       <button class="btn primary big" data-act="finish-w">${tt('סיום האימון')}</button></div>`:''}
-    <button class="btn big" style="background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px" data-act="add-ex">${ICON.plus} ${tt(a.ex.length&&a.ex.every(exDone)?'עוד תרגיל':'הוסף תרגיל')}</button>
+    ${a.mob?.st?'':`<button class="btn big" style="background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px" data-act="add-ex">${ICON.plus} ${tt(a.ex.length&&a.ex.every(exDone)?'עוד תרגיל':'הוסף תרגיל')}</button>`}
     <button class="linkbtn" style="color:var(--muted);text-decoration:none;align-self:center" data-act="aw-del">מחיקת האימון</button>`;
 }
 /* target reps "8-12" / "10" → {lo,hi}; null for timed ranges (plank seconds) or none */
@@ -7089,7 +7101,7 @@ function mvSheet(){ if(!S.user||S.mode!=='app'||!mvCan())return; const t=schedOn
   openSheet(`<div class="brkq"><div class="brkq-k">${tt('ראפי')}</div><h3>${esc(t.name)}</h3>
     <p class="small muted">${tt('עוד מחכה להיום. אפשר להספיק היום, או להזיז בלי לאבד כלום.')}</p>
     <div class="card list" style="margin-top:8px">
-      <button class="li" data-act="mv-today"><span class="lt"><b>${tt('מתאמן היום')}</b><small>${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳</small></span></button>
+      <button class="li" data-act="mv-today"><span class="lt"><b>${tt('מתאמן היום')}</b><small>${tplSub(t)}</small></span></button>
       <button class="li" data-act="mv-go"><span class="lt"><b>${tt('הזז')} ${mvLabel(to)}</b><small>${tt('הלו״ז הקבוע לא משתנה')}</small></span></button>
     </div></div>`); }
 function trainedOn(date){ const k=date.toDateString(); return S.workouts.some(w=>new Date(w.start).toDateString()===k); }
@@ -9895,6 +9907,11 @@ const MOB={up:{pre:['סיבובי כתפיים','הנפות ידיים לרוח�
   full:{pre:['חתול-פרה','סיבובי כתפיים','סיבובי ירכיים','חימום סקוואט וגוד מורנינג'],post:['כלב מביט מטה','מתיחת מכופפי ירך בכריעה','מתיחת כתף לרוחב הגוף','תנוחת ילד']}};
 function pbMob(kind,si){ const M=MOB[kind]||MOB.full, ok=n=>exHas(n); const rot=(L,k)=>L.filter(ok).slice(k%2).concat(L.filter(ok).slice(0,k%2));
   return {pre:rot(M.pre,si).slice(0,3).map(n=>({n,sec:30})),post:rot(M.post,si).slice(0,3).map(n=>({n,sec:30}))}; }
+/* an extra weekly stretching session on a rest day — whole body, each hold 45 s, guided like the warm-up */
+const PB_ST=['חתול-פרה','סיבוב גב עליון','מתיחת כתף לרוחב הגוף','מתיחת שחרור לפלג גוף עליון','כלב מביט מטה','לאנג׳ פתיחת ירך','מתיחת מכופפי ירך בכריעה','מתיחת ארבע ראשי בעמידה','סיבוב 90-90','כפיפה קדימה בישיבה','פיתול עמוד שדרה בישיבה','תנוחת ילד'];
+function pbStretch(){ const L=PB_ST.filter(n=>exHas(n)).map(n=>({n,sec:45})); return {name:'מתיחות וגמישות',L,min:Math.round(L.length*55/60)}; }
+const stMin=L=>Math.max(5,Math.round(L.reduce((a,m)=>a+(+m.sec||45)+10,0)/60));
+function stDay(days){ const free=[0,1,2,3,4,5,6].filter(d=>!days.includes(d)); return free.includes(6)?6:free[free.length-1]??null; }
 function pbBuild(){
   const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[]));
   const prog=A.goal==='strength'?'כוח':A.goal==='cut'?'חיטוב':A.goal==='fit'?'כושר':'מסה';
@@ -9951,10 +9968,10 @@ function pbBuild(){
     if(mt){ const L=mt[1]==='דחיפה'?['חזה','כתפיים','יד אחורית']:['גב','יד קדמית'], have=L.filter(g=>ex.some(e=>e.m===g));
       if(have.length&&have.length<L.length)ttl=`${mt[1]}: ${have.length>1?have.slice(0,-1).join(', ')+' ו'+have[have.length-1]:have[0]}`; }
     const kind=/רגליים|תחתון|ישבן/.test(title)&&!/עליון|גוף מלא/.test(title)?'lo':/גוף מלא/.test(title)?'full':'up';
-    const mob=A.mob!==false?pbMob(kind,si):null;
+    const mob=A.equip!=='gym'&&A.mob!==false?pbMob(kind,si):null; // gym plans keep the warm-up sets; the moves are for home and bodyweight
     return {name:`${letter} — ${ttl}`,ex,min:Math.round(mins(ex))+(mob?Math.round((mob.pre.length+mob.post.length)*0.6):0),mob};
   });
-  PB.plan={prog,split:PB_SPLIT_NAME(A.days,A.level,A.sex),sessions};
+  PB.plan={prog,split:PB_SPLIT_NAME(A.days,A.level,A.sex),sessions,...(A.st?{st:pbStretch()}:{})};
 }
 function pbSheet(){
   while(PB_Q[PB.step]&&PB_Q[PB.step].when&&!PB_Q[PB.step].when(PB.a))PB.step=Math.max(0,PB.step+(PB.dir||1)); PB.dir=1;
@@ -9974,7 +9991,11 @@ function pbPreview(){
   const thumb=n=>{ const c=exClip(n); return `<span class="pbx-ph">${ICON.play}</span>${c?`<img src="${esc(c.poster)}" alt="" loading="lazy" onerror="this.remove()">`:''}`; };
   const nEx=P.sessions.reduce((a,x)=>a+x.ex.length,0);
   openSheet(`<div class="pbx-hd"><img src="img/kobi-cheer.svg" alt=""><div><b>${tt('התוכנית שלך מוכנה')}</b><span>${A.days} ${tt('ימים')} · ${P.prog} · ${esc(P.split)}</span></div></div>
-    <div class="pbx-tabs">${P.sessions.map((x,i)=>`<button class="${i===vs?'on':''}" data-act="pb-vs" data-i="${i}"><b>${'ABCDEF'[i]}</b><small>${esc(x.name.replace(/^[A-F] — /,'').split(':')[0])}</small></button>`).join('')}</div>
+    <div class="pbx-tabs">${P.sessions.map((x,i)=>`<button class="${i===vs&&!PB.vst?'on':''}" data-act="pb-vs" data-i="${i}"><b>${'ABCDEF'[i]}</b><small>${esc(x.name.replace(/^[A-F] — /,'').split(':')[0])}</small></button>`).join('')}${P.st?`<button class="${PB.vst?'on':''}" data-act="pb-vst"><b>🧘</b><small>${tt('מתיחות')}</small></button>`:''}</div>
+    ${PB.vst&&P.st?`<div class="pbx-sess"><div class="spread"><b>${tt('מתיחות וגמישות')}</b><span class="small muted num">~${stMin(P.st.L)} ${tt('דק׳')} · ${P.st.L.length} ${tt('מתיחות')}</span></div>
+      <div class="small muted" style="margin:4px 2px 6px">${tt('יום מנוחה')} (${DAY_LETTERS[stDay(PB_DAYS[A.days])]??''}) · ${tt('מודרך: 45 שניות לכל מתיחה')}</div>
+      ${P.st.L.map(m=>`<div class="pbx-ex"><button class="pbx-th" data-act="pb-demo" data-n="${esc(m.n)}">${thumb(m.n)}</button><span class="lt"><b>${esc(m.n)}</b><small class="num">${m.sec} ${tt('שנ׳')}</small></span></div>${PB.demo===m.n?`<div class="pbx-demo">${demoHTML(m.n)}</div>`:''}`).join('')}</div>`:''}
+    <div ${PB.vst&&P.st?'hidden':''}>
     <div class="pbx-sess"><div class="spread"><b>${esc(se.name.replace(/^[A-F] — /,''))}</b><span class="small muted num">~${se.min} ${tt('דק׳')} · ${se.ex.length} ${tt('תרגילים')}</span></div>
       ${se.mob?.pre?.length?`<div class="pbx-mob"><span class="pbx-mh">🔥 ${tt('חימום')} · <span class="num">${Math.round(se.mob.pre.length*0.6)||2}</span> ${tt('דק׳')}</span><div class="pbx-mr">${se.mob.pre.map(m=>`<button class="pbx-mi" data-act="pb-demo" data-n="${esc(m.n)}"><span class="pbx-mt">${thumb(m.n)}</span><small>${esc(m.n)}</small></button>`).join('')}</div></div>`:''}
       <div class="pbx-mh" style="margin:10px 2px 2px">💪 ${tt('האימון')}</div>
@@ -9983,7 +10004,9 @@ function pbPreview(){
         ${e.t==='c'?'':`<button class="pbx-sw" data-act="pb-swap" data-s="${vs}" data-e="${i}" aria-label="${tt('החלפת תרגיל')}"><svg viewBox="0 0 24 24" class="ic"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></button>`}</div>${PB.demo===e.n?`<div class="pbx-demo">${demoHTML(e.n)}</div>`:''}`).join('')}
       ${se.mob?.post?.length?`<div class="pbx-mob" style="margin-top:10px"><span class="pbx-mh">🧘 ${tt('מתיחות')} · <span class="num">${Math.round(se.mob.post.length*0.6)||2}</span> ${tt('דק׳')}</span><div class="pbx-mr">${se.mob.post.map(m=>`<button class="pbx-mi" data-act="pb-demo" data-n="${esc(m.n)}"><span class="pbx-mt">${thumb(m.n)}</span><small>${esc(m.n)}</small></button>`).join('')}</div></div>`:''}
     </div>
-    <label class="setrow" style="padding:10px 0 2px"><span>${tt('חימום ומתיחות בכל אימון')}</span><input type="checkbox" class="sw" data-act="pb-mob" ${PB.a.mob!==false?'checked':''}></label>
+    </div>
+    ${A.equip!=='gym'?`<label class="setrow" style="padding:10px 0 2px"><span>${tt('חימום ומתיחות בכל אימון')}</span><input type="checkbox" class="sw" data-act="pb-mob" ${PB.a.mob!==false?'checked':''}></label>`:''}
+    <label class="pbx-st ${A.st?'on':''}"><span class="i">🧘</span><span class="t"><b>${tt('אימון מתיחות שבועי')}</b><small>${tt('בנוסף ל־')}${A.days} ${tt('האימונים, ביום מנוחה')} · <span class="num">~${stMin(PB_ST.map(n=>({sec:45})))}</span> ${tt('דק׳')}. ${tt('משפר טווח תנועה והתאוששות')}</small></span><input type="checkbox" class="sw" data-act="pb-st" ${A.st?'checked':''}></label>
     <button class="pbx-re" data-act="pb-reroll"><svg viewBox="0 0 24 24" class="ic"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>${tt('תן לי וריאציה אחרת')}</button>
     <div class="small muted" style="margin:12px 2px">${tt('לכל תרגיל יש סרטון הדגמה. לחיצה על החץ מחליפה תרגיל בתרגיל אחר לאותו שריר.')}</div>
     <label class="setrow" style="padding:6px 0"><span>${tt('החלף את התוכניות הקיימות')}</span><input type="checkbox" class="sw" id="pb-rep" ${PB.replace?'checked':''}></label>
@@ -9997,9 +10020,11 @@ async function pbSave(){
   for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
     await saveTemplate({id,name:se.name,order:base+i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:(({_k,_seen,...x})=>x)(e))});
     const M=S.settings.mob=Object.assign({},S.settings.mob||{}); if(se.mob&&(se.mob.pre.length||se.mob.post.length))M[id]={pre:se.mob.pre.map(m=>[m.n,m.sec]),post:se.mob.post.map(m=>[m.n,m.sec])}; }
+  S.settings.mob=S.settings.mob||{};
+  let stId=null; if(P.st){ stId='t'+now+'s'; await saveTemplate({id:stId,name:P.st.name,order:base+P.sessions.length+1,ex:[]}); S.settings.mob[stId]={pre:[],post:P.st.L.map(m=>[m.n,m.sec]),st:1}; }
   if(S.settings.mob){ const ok=new Set(S.templates.map(t=>t.id)); for(const k of Object.keys(S.settings.mob))if(!ok.has(k))delete S.settings.mob[k]; }
   if(A.level)S.settings.level=A.level; if(A.goal)S.settings.pgoal=A.goal;
-  if(sch){ S.settings.schedule={}; PB_DAYS[A.days].forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; }); }
+  if(sch){ S.settings.schedule={}; PB_DAYS[A.days].forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; }); const sd=stId&&stDay(PB_DAYS[A.days]); if(stId&&sd!=null)S.settings.schedule[sd]=stId; }
   persistSettings();
   const first=!S.workouts.length;
   closeSheet(); S.tab='train'; S.trainView=first?null:'plans'; render(); window.scrollTo(0,0);
@@ -10087,9 +10112,11 @@ function pbAct(act,b){
     case 'pb-next': PB.step++; pbSheet(); return true;
     case 'pb-back': PB.dir=-1; PB.step=Math.max(0,PB.step-1); pbSheet(); return true;
     case 'pb-restart': PB.step=0; PB.vs=0; pbSheet(); return true;
+    case 'pb-st': PB.a.st=!PB.a.st; if(!PB.a.st)PB.vst=0; PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; pbBuild(); pbPreview(); return true;
+    case 'pb-vst': PB.vst=1; PB.demo=null; pbPreview(); return true;
     case 'pb-mob': PB.a.mob=!(PB.a.mob!==false); PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; pbBuild(); pbPreview(); return true;
     case 'pb-demo': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.demo=PB.demo===b.dataset.n?null:b.dataset.n; pbPreview(); return true;
-    case 'pb-vs': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.vs=+b.dataset.i; pbPreview(); return true;
+    case 'pb-vs': PB.vst=0; PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.vs=+b.dataset.i; pbPreview(); return true;
     case 'pb-reroll': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.seed++; pbBuild(); pbPreview(); logEv('pb_reroll'); return true;
     case 'pb-swap': { PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; const se=PB.plan.sessions[+b.dataset.s], e=se&&se.ex[+b.dataset.e]; if(!e)return true;
       const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[])), used=new Set(se.ex.map(x=>x.n)); (e._seen=e._seen||[]).push(e.n);
@@ -10568,7 +10595,7 @@ function openTplView(id){
     const meta=e.t==='c'?'אירובי':[`${+e.s||3} סטים`,e.reps?`${esc(e.reps)} חזרות`:'',e.rest?`מנוחה ${fmtRest(e.rest)}`:''].filter(Boolean).join(' · ');
     return `<button class="li tv-ex" data-act="tv-ex" data-tid="${esc(t.id)}" data-i="${i}"><span class="tv-n num">${i+1}</span>${exHas(e.n)?`<img class="libthumb" ${exImg(e.n)} alt="" loading="lazy">`:''}<span class="lt"><b>${esc(e.n)}</b><small class="num">${meta}</small>${lt?`<small class="tv-last num">בפעם הקודמת: <span dir="ltr">${lt}</span></small>`:''}</span>${ICON.chev}</button>`; }).join('');
   openSheet(`<div class="spread" style="align-items:flex-start;gap:10px"><h3 style="margin:0 0 4px">${esc(t.name)}</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px;flex-shrink:0">✕</button></div>
-    <div class="small muted num" style="margin-bottom:12px">${(t.ex||[]).length} תרגילים · כ-${tplMinutes(t)} דק׳${last?` · בפעם הקודמת: ${agoShort(last.start)}`:''}</div>
+    <div class="small muted num" style="margin-bottom:12px">${tplSub(t)}${last?` · בפעם הקודמת: ${agoShort(last.start)}`:''}</div>
     <div class="card r20 list tv-list">${rows||'<div class="li small muted">אין תרגילים באימון הזה</div>'}</div>
     ${S.active?'':`<button class="btn primary big" data-act="start-tpl" data-id="${esc(t.id)}" style="width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px">${ICON.play} התחל אימון</button>`}
     <button class="btn big" data-act="tpl-edit" data-id="${esc(t.id)}" style="width:100%;margin-top:8px">עריכת האימון</button>`);
@@ -10691,7 +10718,9 @@ function startWorkout(name,tid,asked){
     return {n:e.n,m:e.m,t:'s',reps:e.reps||'',rest:rc?.rest||(co?smartRest(e):+e.rest||0),how:e.how||'',sets,...(rc?{co:{k:rc.k,why:rc.why,...(rc.h?{h:rc.h}:{}),...(rc.r?{w:rc.w||0,r:rc.r}:{}),...(rc.top?{top:rc.top}:{}),...(rc.ovr?{ovr:rc.ovr}:{})}}:{}),...(co?.deload?{dl:1}:{})};
   });
   if(co&&coachCfg().wu!==false){ const fi=ex.findIndex(e=>e.t==='s'&&heavyLift(e.n)); if(fi>=0){ const e=ex[fi], w=+e.sets[0]?.pw||0, wu=wuFor(e.n,w); if(wu){ e.wu=wu; e.wuOpen=false; } } }
-  const mb=tid&&S.settings.mob?.[tid], mob=mb?{pre:(mb.pre||[]).filter(x=>exHas(x[0])).map(([n,sec])=>({n,sec:+sec||30})),post:(mb.post||[]).filter(x=>exHas(x[0])).map(([n,sec])=>({n,sec:+sec||30}))}:null;
+  // gym plans built in 13.3.167–169 carried warm-up moves and stretches; a gym session (machines or cables) keeps only its warm-up sets
+  const gymT=(tpl?.ex||[]).some(e=>['m','c'].includes(EXEQ[e.n]));
+  const mb0=tid&&S.settings.mob?.[tid], mb=mb0&&(mb0.st||!gymT)?mb0:null, mob=mb?{...(mb.st?{st:1}:{}),pre:(mb.pre||[]).filter(x=>exHas(x[0])).map(([n,sec])=>({n,sec:+sec||30})),post:(mb.post||[]).filter(x=>exHas(x[0])).map(([n,sec])=>({n,sec:+sec||30}))}:null;
   S.active={start:Date.now(),name,tid:tid||null,ex,...(co?.deload?{dl:1}:{}),...(mob&&(mob.pre.length||mob.post.length)?{mob}:{})};
   persistActive(); S.tab='train'; location.hash='train'; render(); window.scrollTo(0,0);
   startClock(); keepAwake(true);
