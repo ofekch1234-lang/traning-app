@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4419980f"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4419980f"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4419980f"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=bdff3306"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=bdff3306"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=bdff3306"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -393,7 +393,8 @@ body:not(.landing)>#lx-sticky{display:none}
 .hl-sect{margin-top:6px}.fy-row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}.fy-row::-webkit-scrollbar{display:none}
 .fy{flex:0 0 78%;scroll-snap-align:start;border-radius:20px;background:var(--surface);border:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;gap:12px;text-align:start;font:inherit;color:inherit;min-height:84px}.fy.wrap-card{flex-direction:column;align-items:stretch;justify-content:center}.fy .lt small,.fy .lt span{display:block}
 .hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.hl-tile{display:flex;flex-direction:column;gap:8px;text-align:start;padding:14px;font:inherit;color:inherit;margin:0;min-height:132px}.hl-tt{font-size:13px;color:var(--muted);font-weight:600}
-.hl-tr{display:flex;align-items:center;gap:10px}.hl-big{font-family:var(--disp);font-size:22px;font-weight:700;display:block;line-height:1.1}.hl-sub{font-size:12px;color:var(--muted)}.hl-sub b{color:var(--ink)}
+.hl-tr{display:flex;align-items:center;gap:10px}.hl-big{font-family:var(--disp);font-size:22px;font-weight:700;display:block;line-height:1.1}.hl-of{display:block;font-size:12px}.hl-u{display:block;font-size:12px;color:var(--accent);font-weight:600;margin-top:1px}
+.hl-sub{font-size:12px;color:var(--muted)}.hl-sub b{color:var(--ink)}
 .hl-wide{grid-column:1/-1;display:flex;align-items:center;gap:12px;text-align:start;padding:12px 14px;margin:0;font:inherit;color:inherit}.hl-wide .lt small{display:block}
 .hl-plus{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}.hl-plus .ic{width:24px;height:24px}
 .wk-mini{gap:3px!important;margin-top:auto}.wk-mini>div>span{display:none}.wk-mini>div>i{width:14px!important;height:14px!important}
@@ -404,6 +405,8 @@ body:not(.landing)>#lx-sticky{display:none}
 .act-line{margin-top:12px;font-size:13px;color:var(--muted)}.act-line.ok{color:var(--accent);font-weight:600}
 .act-chart{position:relative;display:flex;align-items:flex-end;gap:6px;height:150px;padding-top:6px;border-bottom:1px solid var(--line)}.act-chart.dense{gap:2px}
 .act-b{flex:1;height:100%;display:flex;align-items:flex-end}.act-b i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--accent);opacity:.32}.act-b i.hit{opacity:1}.act-chart.dense .act-b i{border-radius:3px 3px 1px 1px}
+.act-chart{touch-action:pan-y}.act-chart.scr .act-b i{opacity:.18}.act-chart.scr .act-b i.hit{opacity:.4}.act-chart .act-b.sel i{opacity:1!important;outline:2px solid var(--ink);outline-offset:1px}
+.act-ro{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-height:62px;margin-bottom:8px}.act-ro-d{font-size:12px;color:var(--muted)}.act-ro-v{font-size:13px;color:var(--muted)}.act-ro-v b{font-family:var(--disp);font-size:24px;font-weight:700;color:var(--ink)}.act-ro-x{font-size:12px;color:var(--muted)}
 .act-gl{position:absolute;inset-inline:0;border-top:1.5px dashed var(--accent);pointer-events:none}.act-gl span{position:absolute;inset-inline-end:0;top:-18px;font-size:11px;color:var(--accent);font-weight:600}
 .act-lbls{display:flex;gap:6px;margin-top:6px}.act-lbls.dense{gap:2px}.act-lbls span{flex:1;text-align:center;font-size:11px;color:var(--muted);white-space:nowrap;overflow:visible}
 .act-intro{text-align:center;padding:6px 6px 14px}.act-intro h3{margin:12px 0 6px}.act-intro p{margin:0;font-size:14px;line-height:1.6}
@@ -2221,7 +2224,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.151';
+const APP_VERSION='13.3.153';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3615,15 +3618,29 @@ function actCardHTML(){
     <div class="act-line${left<=0?' ok':''}">${line}</div></button>`; }
 function actSeries(p){ const out=[]; const t=new Date();
   if(p==='q'){ for(let w=12;w>=0;w--){ let s=0,km=0,n=0; for(let k=0;k<7;k++){ const x=new Date(t); x.setDate(t.getDate()-w*7-k); const a=actDay(ymd(x)); if(a){s+=a.s;km+=+a.km||0;n++;} }
-      const x=new Date(t); x.setDate(t.getDate()-w*7); out.push({lbl:w===0?tt('השבוע'):(w%4===0?x.toLocaleDateString(LOC,{day:'numeric',month:'numeric'}):''),s:n?Math.round(s/n):0,km,has:n>0}); } return out; }
+      const x=new Date(t); x.setDate(t.getDate()-w*7-6); out.push({lbl:w===0?tt('השבוע'):(w%4===0?x.toLocaleDateString(LOC,{day:'numeric',month:'numeric'}):''),full:w===0?tt('השבוע'):`${tt('שבוע מ-')}${x.toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}`,s:n?Math.round(s/n):0,km,kc:null,has:n>0,wk:1}); } return out; }
   const N=p==='m'?30:7; for(let i=N-1;i>=0;i--){ const x=new Date(t); x.setDate(t.getDate()-i); const a=actDay(ymd(x));
-    out.push({lbl:i===0?tt('היום'):p==='w'?x.toLocaleDateString(LOC,{weekday:'narrow'}):(i%7===0?x.toLocaleDateString(LOC,{day:'numeric',month:'numeric'}):''),s:a?a.s:0,km:a?+a.km||0:0,has:!!a}); } return out; }
+    out.push({lbl:i===0?tt('היום'):p==='w'?x.toLocaleDateString(LOC,{weekday:'narrow'}):(i%7===0?x.toLocaleDateString(LOC,{day:'numeric',month:'numeric'}):''),full:i===0?tt('היום'):i===1?tt('אתמול'):x.toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'numeric'}),s:a?a.s:0,km:a?+a.km||0:0,kc:a?Math.round(+a.kc||0):0,has:!!a}); } return out; }
+function actRO(x){ if(!x)return ''; const r=x.f!=null?x:{f:x.full,s:x.s,km:Math.round(x.km*10)/10,kc:x.kc,wk:x.wk,has:x.has};
+  return `<span class="act-ro-d">${esc(r.f||'')}</span><span class="act-ro-v"><b class="num">${r.has?fmtSt(r.s):'—'}</b> ${r.wk?tt('צעדים ביום בממוצע'):tt('צעדים')}</span><span class="act-ro-x num">${r.has?`${fmtKm(r.km)} ${tt('ק״מ')}${r.kc!=null?` · ${fmtSt(r.kc)} ${tt('קל׳')}`:''}`:tt('אין נתונים')}</span>`; }
+/* touch and slide over the bars to read each day */
+function actScrub(ch,clientX){ const B=[...ch.querySelectorAll('.act-b')]; if(!B.length)return; let bi=0,bd=1e9;
+  B.forEach((b,i)=>{ const r=b.getBoundingClientRect(), d=Math.abs(r.left+r.width/2-clientX); if(d<bd){bd=d;bi=i;} });
+  if(ch._i===bi)return; ch._i=bi; try{ navigator.vibrate?.(4); }catch(_){}
+  B.forEach((b,i)=>b.classList.toggle('sel',i===bi)); ch.classList.add('scr'); let r; try{ r=JSON.parse(B[bi].dataset.r); }catch(_){ return; }
+  const ro=$('#act-ro'); if(ro)ro.innerHTML=actRO(r); }
+function actScrubEnd(ch){ ch._i=null; ch.classList.remove('scr'); ch.querySelectorAll('.act-b.sel').forEach(b=>b.classList.remove('sel'));
+  const B=ch.querySelectorAll('.act-b'); const ro=$('#act-ro'); if(ro&&B.length){ try{ ro.innerHTML=actRO(JSON.parse(B[B.length-1].dataset.r)); }catch(_){} } }
+document.addEventListener('pointerdown',ev=>{ const ch=ev.target.closest?.('#act-chart'); if(!ch)return; ch._pid=ev.pointerId; try{ ch.setPointerCapture(ev.pointerId); }catch(_){} actScrub(ch,ev.clientX); });
+document.addEventListener('pointermove',ev=>{ const ch=ev.target.closest?.('#act-chart'); if(ch&&ch._pid===ev.pointerId)actScrub(ch,ev.clientX); });
+['pointerup','pointercancel'].forEach(t=>document.addEventListener(t,ev=>{ const ch=ev.target.closest?.('#act-chart'); if(ch&&ch._pid===ev.pointerId){ ch._pid=null; setTimeout(()=>{ if(ch._pid==null)actScrubEnd(ch); },1600); } }));
 function openActSheet(){
   const g=stepsGoal(), L=actSeries(ACT.p), mx=Math.max(g*1.15,...L.map(x=>x.s)), has=L.filter(x=>x.has);
   const avg=has.length?Math.round(has.reduce((a,x)=>a+x.s,0)/has.length):0, hit=L.filter(x=>x.s>=g).length, km=L.reduce((a,x)=>a+x.km,0);
   const best=L.reduce((a,x)=>x.s>a.s?x:a,{s:0});
   let streak=0; for(let i=0;i<365;i++){ const x=new Date(); x.setDate(x.getDate()-i); const a=actDay(ymd(x)); if(a&&a.s>=g)streak++; else if(i>0)break; }
-  const bars=`<div class="act-chart${L.length>14?' dense':''}"><i class="act-gl" style="bottom:${g/mx*100}%"><span class="num">${fmtSt(g)}</span></i>${L.map(x=>`<div class="act-b"><i class="${x.s>=g?'hit':''}" style="height:${Math.max(x.has?3:0,x.s/mx*100)}%"></i></div>`).join('')}</div>
+  const last=L[L.length-1];
+  const bars=`<div class="act-ro" id="act-ro">${actRO(last)}</div><div class="act-chart${L.length>14?' dense':''}" id="act-chart"><i class="act-gl" style="bottom:${g/mx*100}%"><span class="num">${fmtSt(g)}</span></i>${L.map(x=>`<div class="act-b" data-r='${esc(JSON.stringify({f:x.full,s:x.s,km:Math.round(x.km*10)/10,kc:x.kc,wk:x.wk||0,has:x.has}))}'><i class="${x.s>=g?'hit':''}" style="height:${Math.max(x.has?3:0,x.s/mx*100)}%"></i></div>`).join('')}</div>
     <div class="act-lbls${L.length>14?' dense':''}">${L.map(x=>`<span>${x.lbl}</span>`).join('')}</div>`;
   const per=ACT.p==='q'?tt('ממוצע שבועי'):tt('ממוצע יומי');
   openSheet(`<div class="spread"><h3 style="margin:0">${tt('צעדים ופעילות')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
@@ -3682,10 +3699,10 @@ function hlWork(D){ return S.active?liveHomeCard():D.nw?nextCardHTML(D.nw):`<div
 /* B: the workout first, then a 2x2 grid of small tiles */
 function vHomeB(){ const D=hlData();
   const tile=(act,ttl,body,extra='')=>`<button class="card r20 hl-tile" data-act="${act}" ${extra}><span class="hl-tt">${ttl}</span>${body}</button>`;
-  const food=!D.kT?tile('food-targets-open',tt('תזונה'),`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.target}</span><small class="hl-sub">${tt('הגדר יעד יומי')}</small>`):tile('go',tt('תזונה'),`<div class="hl-tr">${miniRing(D.t.kcal/D.kT,`<div class="mr-c"><b class="num">${Math.round(D.t.kcal/D.kT*100)}%</b></div>`,KCOL[kState(D.t.kcal,D.kT)],54)}<div><b class="num hl-big">${fmtSt(D.t.kcal)}</b><small class="muted num">${tt('מתוך')} ${fmtSt(D.kT)}</small></div></div><small class="hl-sub">${tt('חלבון')} <b class="num">${D.t.protein}</b>/<span class="num">${D.pT||'—'}</span></small>`,'data-to="food"');
+  const food=!D.kT?tile('food-targets-open',tt('תזונה'),`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.target}</span><small class="hl-sub">${tt('הגדר יעד יומי')}</small>`):tile('go',tt('תזונה'),`<div class="hl-tr">${miniRing(D.t.kcal/D.kT,`<div class="mr-c"><b class="num">${Math.round(D.t.kcal/D.kT*100)}%</b></div>`,KCOL[kState(D.t.kcal,D.kT)],54)}<div><b class="num hl-big">${fmtSt(D.t.kcal)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${tt('קלוריות')}</small></div></div><small class="hl-sub">${tt('חלבון')} <b class="num">${D.t.protein}</b>/<span class="num">${D.pT||'—'}</span> ${tt('ג׳')}</small>`,'data-to="food"');
   const conn=!D.steps&&actNat()&&!actLater()&&HP()?tile('act-intro',tt('צעדים ופעילות'),`<span class="hl-plus" style="background:var(--accent-soft);color:var(--accent)">${ICO_WALK}</span><small class="hl-sub">${tt('חיבור ל-')}${actSrc()}</small>`):'';
-  const steps=D.steps?tile('act-open',tt('פעילות'),`<div class="hl-tr">${miniRing(D.a?D.a.s/D.sg:0,`<div class="mr-c"><b class="num">${D.a?Math.round(D.a.s/D.sg*100):0}%</b></div>`,'#5AC8FA',54)}<div><b class="num hl-big">${fmtSt(D.a?.s||0)}</b><small class="muted num">${tt('מתוך')} ${fmtSt(D.sg)}</small></div></div><small class="hl-sub"><b class="num">${fmtKm(D.a?.km||0)}</b> ${tt('ק״מ')} · <b class="num">${fmtSt(D.a?.kc||0)}</b> ${tt('קל׳')}</small>`):conn;
-  const week=tile('go',tt('השבוע'),`<b class="num hl-big">${D.done}<small class="muted">/${D.plan||'—'}</small></b><small class="hl-sub">${tt('אימונים')}</small>${weekRowHTML().replace('wk-row','wk-row wk-mini')}`,'data-to="progress"');
+  const steps=D.steps?tile('act-open',tt('פעילות'),`<div class="hl-tr">${miniRing(D.a?D.a.s/D.sg:0,`<div class="mr-c"><b class="num">${D.a?Math.round(D.a.s/D.sg*100):0}%</b></div>`,'#5AC8FA',54)}<div><b class="num hl-big">${fmtSt(D.a?.s||0)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.sg)}</small><small class="hl-u" style="color:#5AC8FA">${tt('צעדים')}</small></div></div><small class="hl-sub"><b class="num">${fmtKm(D.a?.km||0)}</b> ${tt('ק״מ')} · <b class="num">${fmtSt(D.a?.kc||0)}</b> ${tt('קל׳')}</small>`):conn;
+  const week=tile('go',tt('השבוע'),`<b class="num hl-big">${D.done}<small class="muted">/${D.plan||'—'}</small></b><small class="hl-sub">${tt('אימונים בוצעו')}</small>${weekRowHTML().replace('wk-row','wk-row wk-mini')}`,'data-to="progress"');
   const add=steps?tile('food-add-open',tt('ארוחה'),`<span class="hl-plus">${ICON.plus}</span><small class="hl-sub">${tt('צילום, חיפוש או הקלטה')}</small>`)
     :`<button class="card r20 hl-wide" data-act="food-add-open"><span class="hl-plus">${ICON.plus}</span><span class="lt"><b>${tt('הוספת ארוחה')}</b><small>${tt('צילום, חיפוש או הקלטה')}</small></span>${ICON.chev}</button>`;
   return hlHead()+hlWork(D)+`<div class="hl-grid">${food}${steps||week}${steps?week+add:add}</div>`+hlForYou(); }
