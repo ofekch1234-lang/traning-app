@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8b040c14"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8b040c14"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8b040c14"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ba5dd32f"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ba5dd32f"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ba5dd32f"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1377,6 +1377,12 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .pv{padding:14px}.pv-hd{display:flex;align-items:center;gap:11px;width:100%;text-align:var(--start);color:inherit;background:none;padding:0;font-size:15.5px}
 .pv-hd .lt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.pv-hd .lt small{font-size:12.5px;color:var(--muted)}
 .pv-ib{width:36px;height:36px;border-radius:12px;background:rgba(191,255,47,.12);color:var(--accent);display:grid;place-items:center;flex:none}.pv-ib svg.ic{width:20px;height:20px}
+.pg-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.pg-c{background:var(--surface2);border-radius:14px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;gap:2px}.pg-c b{font-family:var(--disp);font-size:19px;font-weight:700;color:var(--ink)}.pg-c small{font-size:11px;color:var(--muted)}
+button.pv-g{display:block;width:100%;text-align:start;font:inherit;color:inherit}
+.cmp-cta{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px;border-radius:18px;background:linear-gradient(135deg,rgba(191,255,47,.16),rgba(191,255,47,.05));border:1px solid rgba(191,255,47,.35);text-align:start;font:inherit;color:inherit}.cmp-cta.off{background:var(--surface2);border-color:var(--line)}
+.cmp-cta .lt b{display:block;font-size:15.5px}.cmp-cta .lt small{display:block;font-size:12.5px;color:var(--muted);line-height:1.4}.cmp-cta .lt{flex:1;min-width:0}
+.cmp-th{display:flex;flex:none}.cmp-th i{position:relative;width:44px;height:58px;border-radius:10px;overflow:hidden;background:var(--surface);border:2px solid var(--bg,#0A0B0A);display:block}.cmp-th i+i{margin-inline-start:-12px}.cmp-th img{width:100%;height:100%;object-fit:cover}.cmp-th small{position:absolute;bottom:2px;inset-inline:0;text-align:center;font-size:9px;font-weight:700;color:#fff;text-shadow:0 1px 2px #000}
+.cmp-go{flex:none;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:14px;padding:9px 14px;border-radius:12px}
 .pv-more{font-size:13px;font-weight:600;color:var(--accent);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}.pv-more .chev{color:var(--accent);display:inline-block;transition:transform .2s}
 button.pv.pv-hd{border:1px solid var(--line)}
 .pv-strip{display:flex;gap:6px;margin-top:12px}.pv-d{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10.5px;color:var(--muted);background:none;padding:0}
@@ -2668,7 +2674,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.156';
+const APP_VERSION='13.3.158';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8441,7 +8447,7 @@ function progCardsHTML(ws,today,goal,kT,pT){
     return `<button class="pv-ph" data-act="photo-open" data-d="${x.d}">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}<span>${x.d===today?tt('היום'):new Date(x.d+'T12:00:00').toLocaleDateString(LOC,{day:'numeric',month:'short'})}</span></button>`; }).join('');
   const phSub=pd==null?tt('בחר יום צילום קבוע · מוצפנות, רק אתה רואה'):isDay&&!hasToday?tt('היום יום צילום · מוצפנות, רק אתה רואה'):`${tt('יום צילום')}: ${DAY_NAMES[pd]} · ${tt('מוצפנות, רק אתה רואה')}`;
   const ph=`<div class="card r20 pv ${isDay&&!hasToday?'due':''}">${hd('ph',ICON.photo,tt('תמונות התקדמות'),phSub,tt('הכל'))}
-    ${o.ph?'':`<div class="pv-phs">${hasToday?'':`<button class="pv-ph add" data-act="photo-open" data-d="${today}">+ ${tt('צילום היום')}</button>`}${th}${[...Array(Math.max(0,(hasToday?4:3)-tsets.length))].map(()=>'<span class="pv-ph empty"></span>').join('')}</div>`}${body('ph',photosHTML())}</div>`;
+    ${o.ph?'':`<div class="pv-phs">${hasToday?'':`<button class="pv-ph add" data-act="photo-open" data-d="${today}">+ ${tt('צילום היום')}</button>`}${th}${[...Array(Math.max(0,(hasToday?4:3)-tsets.length))].map(()=>'<span class="pv-ph empty"></span>').join('')}</div>${cmpCTA()}`}${body('ph',photosHTML())}</div>`;
   /* food: 7 bars against the target */
   const days=[]; for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=ymd(d); days.push({dow:d.getDay(),t:dayTotals(ds),has:mealsOf(ds).length>0}); }
   const lg=days.filter(x=>x.has), cm=calm(), val=x=>cm?x.t.protein:x.t.kcal, tgt=cm?pT:kT;
@@ -8451,7 +8457,9 @@ function progCardsHTML(ws,today,goal,kT,pT){
   const bars=`<div class="pv-bars">${tgt?`<i class="pv-tl" style="bottom:calc(16px + (100% - 16px) * ${(tgt/mx).toFixed(3)})"></i>`:''}${days.map(x=>{ const big=!cm&&kState(x.t.kcal,kT)==='big';
     return `<span><i style="height:${x.has?Math.max(6,val(x)/mx*100):6}%;${x.has?'':'opacity:.25;'}${big?'background:var(--kbig)':''}"></i><small>${DAY_LETTERS[x.dow]}</small></span>`; }).join('')}</div>`;
   const nut=`<div class="card r20 pv">${hd('nut',ICON.food,tt('תזונה · 7 ימים'),nSub,tt('פירוט'))}${o.nut?'':bars}${body('nut',nutritionWeekHTML())}</div>`;
-  const goals=`<button class="card r20 pv pv-hd pv-g" data-act="food-targets-open"><span class="pv-ib">${ICON.target}</span><span class="lt"><b>${tt('היעדים שלי')}</b><small>${kT?`${kcalN(kT)} ${tt('קק״ל')} · ${pT||'—'} ${tt('ג׳ חלבון')}${goal?` · ${wB(goal)} ${BU()}`:''}`:tt('קלוריות, חלבון ומשקל יעד')}</small></span><span class="pv-more">${tt('עריכה')} <span class="chev">›</span></span></button>`;
+  const gch=(v,u,l)=>`<span class="pg-c"><b class="num">${v}</b><small>${u?`${u} · `:''}${l}</small></span>`;
+  const goals=`<button class="card r20 pv pv-g" data-act="food-targets-open"><span class="pv-hd" style="pointer-events:none"><span class="pv-ib">${ICON.target}</span><span class="lt"><b>${tt('היעדים שלי')}</b>${kT?'':`<small>${tt('קלוריות, חלבון ומשקל יעד')}</small>`}</span><span class="pv-more">${kT?tt('עריכה'):tt('הגדרה')} <span class="chev">›</span></span></span>
+    ${kT?`<span class="pg-row">${gch(kcalN(kT),'',tt('קק״ל ביום'))}${gch(pT||'—',tt('ג׳'),tt('חלבון'))}${goal?gch(wB(goal),BU(),tt('משקל יעד')):''}</span>`:''}</button>`;
   return cal+ph+nut+goals;
 }
 function bwChartHTML(goal,compact){
@@ -8753,6 +8761,13 @@ function homePhotosCard(urgentOnly){
       ${PH.sets.length>=2?`<button class="btn" style="flex:1" data-act="photo-cmp" data-a="front">לפני / אחרי</button>`:`<button class="btn" style="flex:1" data-act="go" data-to="track" data-view="body">${pd==null?'יום צילום קבוע':'כל התמונות'}</button>`}
     </div></div>`;
 }
+/* before / after: a big, visible invitation to compare and share */
+function cmpCTA(){ const n=PH.sets.length; if(!n)return '';
+  if(n<2)return `<div class="cmp-cta off"><span class="cmp-th"><i></i><i></i></span><span class="lt"><b>${tt('לפני / אחרי')}</b><small>${tt('אחרי הצילום הבא תוכל ליצור תמונת לפני ואחרי ולשתף את השינוי')}</small></span></div>`;
+  const s0=PH.sets[n-1], s1=PH.sets[0], f=x=>{ const k=['front','side','back'].find(a=>x[a]); return k&&PH.urls[x[k]]; }; ensureVisible([s0,s1]);
+  const a=f(s0), b=f(s1);
+  return `<button class="cmp-cta" data-act="photo-cmp" data-a="front"><span class="cmp-th"><i>${a?`<img src="${esc(a)}" alt="">`:''}<small>${tt('לפני')}</small></i><i>${b?`<img src="${esc(b)}" alt="">`:''}<small>${tt('אחרי')}</small></i></span>
+    <span class="lt"><b>${tt('לפני / אחרי')}</b><small>${tt('ראה את השינוי שלך ושתף אותו')}</small></span><span class="cmp-go">${tt('שתף')}</span></button>`; }
 function photosHTML(){
   if(!PH.loaded)loadPhotos();
   const pd=S.settings.photoDay, today=ymd(), dow=new Date().getDay();
@@ -8766,7 +8781,7 @@ function photosHTML(){
   </div>`;
   const until=(+pd-dow+7)%7;
   const next=isDay?(hasToday?'צילמת היום ✓':'היום!'):until===1?'מחר':`בעוד ${until} ימים`;
-  return `<div class="sect spread"><span>מעקב תמונות שבועי 📸</span>${PH.sets.length>=2?`<button class="linkbtn small" data-act="photo-cmp" data-a="front" style="font-family:var(--body)">לפני / אחרי</button>`:''}</div>
+  return `${cmpCTA()}<div class="sect spread"><span>מעקב תמונות שבועי 📸</span></div>
   <div class="card stack" style="gap:10px">
     <div class="spread"><span><b>יום ${DAYS[+pd]}</b> <span class="small muted">· הצילום הבא: ${next}</span></span><button class="linkbtn small" data-act="photo-day-change">שינוי יום</button></div>
     <button class="btn ${isDay&&!hasToday?'primary':''} big" data-act="photo-open" data-d="${today}">${hasToday?'עדכון תמונות היום':isDay?'📸 צלם עכשיו: חזית, גב וצד':'📸 צלם סט תמונות'}</button>
@@ -9609,10 +9624,10 @@ function adminChart(daily){
   const W=340,H=120,pb=18,n=daily.length,bw=W/n;
   const mx=Math.max(1,...daily.map(x=>x.active));
   const bars=daily.map((x,i)=>{const h=(x.active/mx)*(H-pb-14);const xx=W-(i+1)*bw;
-    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="3" fill="var(--accent)" opacity="${i===n-1?1:.55}"><title>${x.d}: ${x.active} פעילים${x.signups?`, ${x.signups} נרשמו`:''}${+x.rev?`, ₪${x.rev}`:''}</title></rect>`+
+    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="3" fill="var(--accent)" opacity="${i===n-1?1:.55}"><title>${x.h!=null?x.h+':00':x.d}: ${x.active} פעילים${x.signups?`, ${x.signups} נרשמו`:''}${+x.rev?`, ₪${x.rev}`:''}</title></rect>`+
       (x.signups?`<circle cx="${(xx+bw/2).toFixed(1)}" cy="${(H-pb-h-6).toFixed(1)}" r="3" fill="var(--ink)"/>`:'')+
       (+x.rev?`<text x="${(xx+bw/2).toFixed(1)}" y="${(H-pb-h-(x.signups?12:5)).toFixed(1)}" font-size="9" text-anchor="middle" fill="var(--gold)">₪</text>`:'');}).join('');
-  const lbl=[[0,W-1,'end'],[Math.floor(n/2),W-(Math.floor(n/2)+.5)*bw,'middle'],[n-1,1,'start']].map(([i,x,an])=>{const d=new Date(daily[i].d);return `<text x="${x.toFixed(1)}" y="${H-4}" font-size="10" fill="var(--muted)" text-anchor="${an}">${i===n-1?'היום':d.getDate()+'.'+(d.getMonth()+1)}</text>`;}).join('');
+  const lbl=(n>1?[[0,W-1,'end'],[Math.floor(n/2),W-(Math.floor(n/2)+.5)*bw,'middle'],[n-1,1,'start']]:[[0,W/2,'middle']]).map(([i,x,an])=>{const r=daily[i], d=new Date(r.d);return `<text x="${x.toFixed(1)}" y="${H-4}" font-size="10" fill="var(--muted)" text-anchor="${an}">${r.h!=null?r.h+':00':i===n-1?'היום':d.getDate()+'.'+(d.getMonth()+1)}</text>`;}).join('');
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;direction:ltr"><line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
     <text x="${W-2}" y="10" font-size="10" fill="var(--muted)" text-anchor="end">מקס׳ ${mx}</text></svg>`;
 }
@@ -9672,10 +9687,9 @@ function admTasksHTML(){
 function admOverviewHTML(){
   const O=A.ov;
   const kpi=(label,v,sub,up,act)=>`<button class="kpi" ${act?`data-act="adm-go" ${act}`:'disabled style="opacity:1"'}><span class="kl">${label}</span><b class="num">${v}</b>${sub?`<small class="${up?'up':''}">${sub}</small>`:''}</button>`;
-  const free=O.expired||0;
-  const mix=[['#94A3B8','חינמיים',free,'data-t="users" data-f="expired"'],['#2563EB','פרימיום מתנה',(O.trial||0)+(O.gifted||0),'data-t="users" data-f="trial"'],['var(--accent)','משלמים',O.paying||0,'data-t="users" data-f="paying"']].concat(O.pending?[['#D97706','ממתינים',O.pending,'data-t="users" data-f="pending"']]:[]);
+  const per=A.per||'t', P=A.pd, PL={d:'היום',w:'7 ימים',m:'החודש',t:'30 יום',a:'מאז ההתחלה'}[per], M=P?.mix||{};
+  const mix=[['#94A3B8','חינמיים',+M.free||0,'data-t="users" data-f="expired"'],['#2563EB','פרימיום מתנה',+M.trial||0,'data-t="users" data-f="trial"'],['var(--accent)','משלמים',+M.paying||0,'data-t="users" data-f="paying"']].concat(M.pending?[['#D97706','ממתינים',+M.pending,'data-t="users" data-f="pending"']]:[]);
   const tot=Math.max(1,mix.reduce((a,x)=>a+x[2],0));
-  const per=A.per||'t', P=A.pd;
   return `
     ${admTasksHTML()}
     <div class="sect2"><span>במספרים</span></div>
@@ -9688,18 +9702,18 @@ function admOverviewHTML(){
     </div>
     <div class="card r20 stat3 num adm-cnt"><div><b>${P?fmtNum(P.workouts):'…'}</b><span>אימונים</span></div><div><b>${P?fmtNum(P.meals):'…'}</b><span>ארוחות</span></div><div><b>${P?fmtNum(P.scans):'…'}</b><span>סריקות AI</span></div></div>
     <div class="card r20" style="padding:16px">
-      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">חלוקת המשתמשים</b><span class="small muted num">${fmtNum(O.users||0)}</span></div>
+      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">${per==='a'?'חלוקת המשתמשים':'הנרשמים · '+PL}</b><span class="small muted num">${fmtNum(mix.reduce((a,x)=>a+x[2],0))}</span></div>${P&&!mix.some(x=>x[2])?`<div class="small muted">אין נרשמים חדשים בתקופה</div>`:''}
       <div class="mix">${mix.filter(x=>x[2]).map(([c,,n])=>`<i style="--c:${c};width:${n/tot*100}%"></i>`).join('')}</div>
       <div class="legend">${mix.map(([c,l,n,a])=>`<button data-act="adm-go" ${a} style="padding:0;font:inherit;color:inherit"><span style="--c:${c}">${l}<b class="num">${n}</b></span></button>`).join('')}</div>
     </div>
     <div class="card r20 adm-chart" style="padding:16px">
-      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">פעילות · 30 יום</b><span class="small muted"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-inline-end:4px"></span>הרשמה · <span style="color:var(--gold);font-weight:700">₪</span> תשלום</span></div>
-      ${adminChart(O.daily||[])}
-      <div class="small muted" style="margin-top:8px">פעילים ב-30 יום: <b class="num" style="color:var(--ink)">${O.active30||0}</b></div>
+      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">פעילות · ${PL}</b><span class="small muted"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-inline-end:4px"></span>הרשמה · <span style="color:var(--gold);font-weight:700">₪</span> תשלום</span></div>
+      ${P?.series?.length?adminChart(P.series):'<div class="small muted">טוען…</div>'}
+      <div class="small muted" style="margin-top:8px">${per==='d'?'לפי שעה · ':''}פעילים בתקופה: <b class="num" style="color:var(--ink)">${P?P.active:'…'}</b></div>
     </div>
-    ${(A.aiTop||[]).length?`<div class="card r20" style="padding:16px">
-      <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">משתמשי AI כבדים · החודש</b><span class="small muted">מכסה: 50 ביום · 600 בחודש (טקסט)</span></div>
-      <div class="ai-top">${A.aiTop.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · ראפי ${u.coach} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
+    ${(P?.ai_top||[]).length?`<div class="card r20" style="padding:16px">
+      <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">משתמשי AI כבדים · ${PL}</b><span class="small muted">מכסה: 50 ביום · 600 בחודש (טקסט)</span></div>
+      <div class="ai-top">${P.ai_top.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · ראפי ${u.coach} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
     </div>`:''}`;
 }
 function admGrowthHTML(){
