@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1d1ff625"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1d1ff625"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1d1ff625"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4adc88e9"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4adc88e9"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4adc88e9"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -502,6 +502,17 @@ body:not(.landing)>#lx-sticky{display:none}
 .hp-th small{font-size:10.5px;color:var(--muted)}
 /* admin: v13.1 */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pbx-hd{display:flex;gap:12px;align-items:center;margin-bottom:14px}.pbx-hd img{width:52px;height:52px}.pbx-hd b{display:block;font-size:20px;font-weight:800}.pbx-hd span{font-size:13px;color:var(--muted)}
+.pbx-tabs{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 12px;padding:0 16px;scrollbar-width:none}.pbx-tabs::-webkit-scrollbar{display:none}
+.pbx-tabs button{flex:none;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit}.pbx-tabs button b{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:var(--surface2);font-size:13px}.pbx-tabs button small{font-size:13px;color:var(--muted);white-space:nowrap}
+.pbx-tabs button.on{border-color:var(--accent);background:var(--accent-soft)}.pbx-tabs button.on b{background:var(--accent);color:var(--accent-ink)}.pbx-tabs button.on small{color:var(--ink)}
+.pbx-sess{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:12px}.pbx-sess>.spread{margin:2px 2px 8px}
+.pbx-ex{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line)}.pbx-ex:first-of-type{border-top:0}
+.pbx-th{position:relative;width:58px;height:44px;border-radius:10px;overflow:hidden;background:var(--surface2);flex:none;padding:0;border:0;display:grid;place-items:center}.pbx-th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}.pbx-ph{width:100%;height:100%;display:grid;place-items:center;background:var(--surface2);color:var(--accent);font-size:18px}.pbx-ph .ic,.pbx-ph svg{width:18px;height:18px}
+.pbx-ex .lt{flex:1;min-width:0}.pbx-ex .lt b{display:block;font-size:14.5px}.pbx-ex .lt small{font-size:12.5px;color:var(--muted)}
+.pbx-sw{width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:var(--accent);display:grid;place-items:center;flex:none;padding:0}.pbx-sw .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pbx-demo{margin:4px 0 8px;border-radius:14px;overflow:hidden}
+.pbx-re{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:12px;border-radius:14px;border:1px dashed var(--accent);background:transparent;color:var(--accent);font:inherit;font-weight:700}.pbx-re .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .su{text-align:center;padding:4px 2px 2px}.su-dots{display:flex;justify-content:center;gap:6px;margin:0 0 14px}.su-dots i{width:7px;height:7px;border-radius:9px;background:var(--line)}.su-dots i.on{width:22px;background:var(--accent)}
 .su-prev{border-radius:24px;margin:0 auto 18px;max-width:330px;position:relative;overflow:hidden}
 .su-lock{padding:16px 12px 14px;background:radial-gradient(120% 90% at 50% 0%,rgba(191,255,47,.22),transparent 60%),linear-gradient(160deg,#1C2418,#0E120D);border:1px solid rgba(191,255,47,.18)}
@@ -2688,7 +2699,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.162';
+const APP_VERSION='13.3.164';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -10923,7 +10934,7 @@ function tourAct(act,b){
 }
 
 /* ===================== בונה תוכנית מותאמת (מבוסס כללים — חינם ומיידי) ===================== */
-const PB={step:0,a:{sex:null,goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]},plan:null,replace:true,sched:true};
+const PB={step:0,dir:1,seed:0,a:{sex:null,goal:null,level:null,days:null,time:60,equip:null,gear:['dumbbell','bench'],focus:[],limits:[]},plan:null,replace:true,sched:true};
 const PB_Q=[
   {k:'sex',t:'נתחיל מהבסיס: את/ה…',o:[['m','🙋‍♂️ גבר'],['f','🙋‍♀️ אישה']],grid:true},
   {k:'goal',t:'מה המטרה העיקרית שלך?',o:[['mass','💪 לבנות שריר','היפרטרופיה, נפח וצורה'],['strength','🏋️ להתחזק','להעלות משקלים בתרגילי הבסיס'],['cut','🔥 לחטב ולרדת בשומן','לשמור על שריר ולשרוף יותר'],['fit','⚡ כושר כללי','להרגיש טוב, חזק ובריא']]},
@@ -10931,6 +10942,7 @@ const PB_Q=[
   {k:'days',t:'כמה ימים בשבוע אתה יכול להתאמן?',o:[[2,'2 ימים'],[3,'3 ימים'],[4,'4 ימים'],[5,'5 ימים'],[6,'6 ימים']],grid:true},
   {k:'time',t:'כמה זמן יש לך לכל אימון?',o:[[45,'45 דקות'],[60,'שעה'],[75,'שעה ורבע'],[90,'שעה וחצי']],grid:true},
   {k:'equip',t:'איפה אתה מתאמן?',o:[['gym','🏢 חדר כושר מלא','מוטות, מכונות וכבלים'],['home','🏠 בבית עם משקולות','משקולות יד וספסל'],['bw','🤸 משקל גוף בלבד','בלי ציוד, אולי מוט מתח']]},
+  {k:'gear',t:'מה יש לך בבית?',sub:'נבנה את התוכנית רק ממה שיש. משקל גוף תמיד בפנים',multi:true,when:a=>a.equip==='home',o:[['dumbbell','🏋️ משקולות יד'],['bench','🪑 ספסל'],['barbell','➖ מוט ומשקולות'],['kettlebell','🔔 קטלבל'],['band','🎗️ גומיות'],['bar','🧗 מוט מתח']],grid:true},
   {k:'focus',t:'על מה תרצה לשים דגש?',sub:'אפשר לבחור כמה, או לדלג',multi:true,o:[['chest','חזה'],['back','גב'],['legs','רגליים'],['glutes','ישבן'],['shoulders','כתפיים'],['arms','ידיים'],['core','בטן']],grid:true},
   {k:'limits',t:'יש משהו שצריך להיזהר ממנו?',sub:'נוותר על תרגילים שמעמיסים על האזור',multi:true,o:[['knees','ברכיים'],['lowback','גב תחתון'],['shoulders','כתפיים']],grid:true},
 ];
@@ -11013,6 +11025,37 @@ function pbReq(title,focus){
   return r;
 }
 function pbMuscle(n){ for(const [g,arr] of Object.entries(LIB))if(arr.includes(n))return g; return ''; }
+/* which equipment an exercise needs, from the demo database (b barbell, d dumbbell, c cable, m machine, k kettlebell, r band, w body weight, o other) */
+const EXEQ={"לחיצת חזה במוט":"b","לחיצת חזה במשקולות":"d","לחיצת חזה בשיפוע":"d","לחיצה בשיפוע במוט":"b","לחיצה במכונת חזה":"m","לחיצת חזה בסמית׳":"m","פרפר (פק-דק)":"m","פרפר במשקולות":"d","פרפר בשיפוע":"d","כבלים מוצלבים":"c","מקבילים לחזה":"w","פולאובר במשקולת":"d","שכיבות סמיכה":"w","לחיצת חזה בשיפוע שלילי במשקולות":"d","לחיצת חזה באחיזה ניטרלית":"d","לחיצת חזה בכבל":"c","לחיצת חזה במכונת מנופים":"m","לחיצת חזה במוט באחיזה רחבה":"b","שכיבות סמיכה בשיפוע":"w","שכיבות סמיכה עם רגליים מוגבהות":"w","שכיבות סמיכה רחבות":"w","פולאובר במשקולת בזרועות כפופות":"d","שכיבות סמיכה על הברכיים":"w","שכיבות סמיכה בקשת (ארצ׳ר)":"w","שכיבות סמיכה עם מחיאת כף":"w","לחיצת סוונד":"w","פולי עליון":"c","פולי צר":"c","מתח":"w","מתח באחיזה הפוכה":"w","חתירה בכבל":"c","חתירה במוט":"b","חתירה במשקולת":"d","חתירת T":"b","חתירה הפוכה (משקל גוף)":"w","דדליפט":"b","דדליפט סומו":"b","פולאובר בכבל":"c","פייס פול":"c","שראגים":"d","פשיטת גב (היפראקסטנשן)":"w","חתירה בשתי משקולות":"d","חתירה על ספסל משופע":"d","חתירה במוט באחיזה הפוכה":"b","פולי עליון ביד אחת":"c","חתירה במכונה":"m","חתירה במוט לנדמיין":"b","חתירה ביד אחת במוט לנדמיין":"b","שראגים במוט":"b","חתירה בסמית׳":"m","חתירת פנדליי":"b","חתירת גורילה בקטלבל":"d","חתירת רנגייד":"d","דדליפט במוט משושה":"b","מתח באחיזה רחבה":"w","מתח בעזרה":"m","מתח שלילי":"w","חתירה בכבל באחיזה רחבה":"c","חתירה בכבל בעמידה":"c","פולי עליון בגומייה":"r","חתירה בגומייה":"r","פשיטת גב בשכיבה על הבטן":"w","דדליפט בלנדמיין":"b","סקוואט":"b","סקוואט קדמי":"b","סקוואט גביע":"d","סקוואט בסמית׳":"m","האק סקוואט":"m","לחיצת רגליים":"m","סקוואט בולגרי":"d","לאנג׳ים":"w","לאנג׳ים בהליכה":"w","עליות על ספסל":"d","פשיטת ברכיים":"m","כפיפת ברכיים":"m","כפיפת ברכיים בישיבה":"m","דדליפט רומני":"b","היפ תראסט":"b","גשר ישבן":"b","מכונת מקרבים":"m","מכונת מרחיקים":"m","הרמות עקבים":"b","הרמות עקבים בישיבה":"m","סקוואט לארגז":"b","סקוואט משקל גוף":"w","לאנג׳ים במוט":"b","לאנג׳ים לאחור במשקולות":"d","עליות על ספסל במשקולות":"d","סקוואט בולגרי בסמית׳":"m","לחיצת רגליים בעמידה צרה":"m","כפיפת ברכיים נורדית":"w","דדליפט ברגליים ישרות":"b","דדליפט רומני במשקולות":"d","גוד מורנינג":"b","גשר ישבן ברגל אחת":"w","גשר ישבן משקל גוף":"w","קיקבק ישבן על הברכיים":"w","קיקבק ישבן בכבל":"c","היפראקסטנשן הפוך":"w","הליכת מפלצת עם גומייה":"r","הרמות עקבים במכונת רגליים":"m","הרמות עקבים במשקולות":"d","קפיצות סקוואט":"w","לאנג׳ים בקפיצה":"w","סקוואט קוזאק":"w","לאנג׳ צולב (קרטסי)":"w","סקוואט פיסטול":"w","סקוואט פיסטול בעזרה":"w","סקוואט זרצ׳ר":"b","סקוואט מטוטלת":"m","האק סקוואט הפוך":"m","סקוואט עם עקבים מוגבהים":"w","ישיבה על הקיר":"w","גשר צפרדע":"w","גשר ישבן עם צעידה":"w","הרחקת ירך על שש (פייר הידרנט)":"w","הרחקת ירך בכבל":"c","היפ תראסט במכונה":"m","היפ תראסט בעמידת B":"d","דדליפט רומני בעמידת B":"d","לחיצת רגליים ברגל אחת":"m","לחיצת רגליים בעמידה רחבה":"m","דדליפט רומני ברגל אחת במשקולת":"d","דדליפט סומו במשקולת":"d","לאנג׳ים לאחור במוט":"b","סקוואט בולגרי במוט":"b","לאנג׳ צידי":"w","כפיפת ברכיים במשקולת":"d","לחיצת כתפיים במשקולות":"d","לחיצת כתפיים במוט":"b","לחיצת כתפיים במכונה":"m","לחיצת ארנולד":"d","הרחקות צד":"d","הרחקות צד בכבל":"c","הרמות קדמיות":"d","הרחקות אחוריות":"d","חתירה אנכית":"b","לחיצת כתפיים בעמידה במשקולות":"d","לחיצת כתפיים בסמית׳":"m","לחיצת כתפיים ביד אחת":"d","לחיצת כתפיים במכונת מנופים":"m","הרחקות צד בישיבה":"d","הרחקות צד בגומייה":"r","הרחקות אחוריות בכבל":"c","פרפר הפוך במכונה":"m","משיכת גומייה לצדדים":"r","הרמות Y במשקולות":"d","חתירה אנכית במשקולות":"d","חתירה אנכית בכבל":"c","לחיצת לנדמיין ביד אחת":"b","הרחקות צד במכונה":"m","הרחקות אחוריות על ספסל משופע":"d","הרמה קדמית בצלחת":"w","לחיצת ארנולד בעמידה":"d","לחיצת כתפיים בקטלבל":"k","לחיצת כתפיים בגומייה":"r","הרחקה לצד ולפנים במשקולות":"d","הרמות W בגומייה":"r","שכיבות סמיכה בפייק":"w","כפיפת מרפקים במוט":"b","כפיפת מרפקים במשקולות":"d","פטישים":"d","כפיפה בספסל כומר":"b","כפיפה בשיפוע":"d","כפיפה בריכוז":"d","כפיפת מרפקים בכבל":"c","כפיפת מרפקים במוט EZ":"b","כפיפה במוט באחיזה רחבה":"b","כפיפה לסירוגין במשקולות":"d","פטישים לסירוגין":"d","פטישים לרוחב הגוף":"d","כפיפת עכביש":"d","כפיפת זוטמן":"d","כפיפת מרפקים במכונה":"m","ספסל כומר במכונה":"m","כפיפה בכבל גבוה":"c","כפיפה בריכוז בכבל בעמידה":"c","כפיפת מלצר":"d","כפיפת מרפקים במוט באחיזה צרה":"b","כפיפת מרפקים בגומייה":"r","פשיטת מרפקים בכבל":"c","פשיטה בחבל בכבל":"c","לחיצה צרפתית":"b","פשיטה מעל הראש בכבל":"c","לחיצת חזה צרה":"b","מקבילים":"w","מקבילים על ספסל":"w","קיקבק במשקולת":"d","פשיטה מעל הראש במשקולת":"d","לחיצה צרפתית במשקולות":"d","פשיטה מעל הראש במוט":"b","פשיטה בכבל באחיזה הפוכה":"c","פשיטה בכבל בידית V":"c","פשיטה בכבל ביד אחת":"c","מכונת מקבילים":"m","שכיבות סמיכה צרות":"w","לחיצה צרה במשקולות":"d","לחיצת טייט":"d","קיקבק בכבל":"c","פשיטה מעל הראש בישיבה במשקולת":"d","פשיטה מעל הראש ביד אחת":"d","פשיטה מעל הראש בגומייה":"r","כפיפות בטן":"w","כפיפות בטן בכבל":"c","הרמות רגליים בתלייה":"w","הרמות רגליים בשכיבה":"w","פלאנק":"w","גלגל בטן":"w","רוסיאן טוויסט":"w","אופניים (בטן)":"w","מטפס הרים":"w","דד באג":"w","פאלוף פרס":"c","סופרמן":"w","כפיפות בטן בשיפוע שלילי":"w","כפיפות בטן הפוכות":"w","סיט-אפ":"w","סכין מתקפלת":"w","כפיפות בטן אלכסוניות":"w","כפיפות בטן לרוחב":"w","פלאנק צידי":"w","חוטב עצים בכבל":"c","הרמה אלכסונית בכבל":"c","גלגול בטן במוט":"b","משיכת ברכיים לחזה":"w","משיכת ברכיים על ספסל":"w","נגיעות בעקבים":"w","מרפק לברך":"w","החזקת גוף חלול (הולו)":"w","בירד דוג":"w","הרמות רגליים בכיסא קפטן":"w","דרגון פלאג":"w","בעיטות פלאטר":"w","בעיטות מספריים":"w","פלאנק ג׳קס":"w","כפיפות בטן עם נגיעה ברגליים":"w","פלאנק עם הטיית אגן":"w","מגבים בתלייה":"w","החזקת L":"w","פלאנק צידי עם השחלה":"w","סווינג קטלבל":"k","הליכת חקלאי":"d","קפיצה לארגז":"w","ניתורים צידיים":"w","קפיצות מעל ספסל":"w","ברפי":"w","ג׳אמפינג ג׳קס":"w","קפיצות טאק":"w","ת׳ראסטר במשקולות":"d","זחילת דוב":"w","זחילת סרטן":"w","הטחת כדור כוח":"o","נשיאת מזוודה":"d","גרירת מזחלת":"m","כדור לקיר":"o","הליכון":"m","ריצה בהליכון":"m","אופניים":"m","אליפטיקל":"m","מדרגות":"m","חתירה (ארגומטר)":"m","חבלי קרב":"w","הרמות ברכיים במקום":"w","בעיטות לישבן":"w","הליכה בשיפוע בהליכון":"m","ספרינט באופני אוויר":"m","החזקת דוב":"w","שכיבות סמיכה יהלום":"w","שכיבות סמיכה בפייק עם רגליים מוגבהות":"w","שכיבות סמיכה בעמידת ידיים":"w","קפיצת עומק":"w","אינצ׳וורם":"w","לאנג׳ צידי בהליכה":"w","לאנג׳ ספיידרמן":"w","עליות פליומטריות על ספסל":"w","פלאנק אין-אאוט":"w","פלאנק עם סיבוב T במשקולות":"d","פלאנק עם הושטת יד":"w","פלאנק צידי על הברך":"w","חצי סיט-אפ":"w","סיט-אפ עם סיבוב":"w","סקוואט סומו":"w","ריצה במקום":"w","קיקבוקס":"w","זחילת דוב לצדדים":"w","הרמות רגליים בשכיבה בברכיים כפופות":"w","פלאנק גבוה":"w","פלאנק הפוך":"w","מטפס הרים לרוחב הגוף":"w","לאנג׳ צולב עם משקולת":"d","לחיצת חזה צרה בשיפוע במשקולות":"d","טחנת רוח במשקולת":"d","לאנג׳ים בהליכה עם משקל מעל הראש":"d","גרירת משקולת בפלאנק":"d","רוסיאן טוויסט במשקולת":"d","חוטב עצים במשקולת":"d","הרמות קדמיות באחיזה ניטרלית":"d","סקוואט לנדמיין":"b","סקוואט לנדמיין עם לחיצה":"b","ספליט סקוואט במוט":"b","סקוואט עם גומייה":"r","קיקבק ישבן עם גומייה":"r","הרחקת ירכיים בישיבה עם גומייה":"r","דדליפט בגומייה":"r","גוד מורנינג בגומייה":"r","כפיפות בטן בגומייה על הברכיים":"r","לאנג׳ים עם גומייה":"r","חתירה ביד אחת בגומייה":"r","דדליפט בקטלבל מהגבהה":"k","דדליפט סומו בקטלבל מהגבהה":"k","סקוואט עמוק בקטלבל":"k","לאנג׳ים לאחור בקטלבל":"k","סיבוב קטלבל סביב הגוף":"k","חתירה אנכית בקטלבל ביד אחת":"k","סיט-אפ עם כדור כוח":"o","סקוואט עם זריקת כדור":"o","לאנג׳ בהליכה עם סיבוב וכדור":"o","כפיפות צד בכבל ביד אחת":"c","סקוואט בעמידת B בסמית׳":"m","בעיטת חמור בסמית׳":"m","לאנג׳ים לאחור בסמית׳":"m","מכונת סקוואט":"m","הרחקת ירך במכונה בהטיה קדימה":"m","דד באג עם כדור פיזיו":"o","גשר ישבן וכפיפת ברכיים ב-TRX":"o"};
+function exGear(n){ const c=EXEQ[n], h=String(n);
+  if(/קטלבל/.test(h))return 'kettlebell'; if(/גומי/.test(h))return 'band'; if(/סמית׳|מכונ/.test(h))return 'machine'; if(/בכבל|פולי/.test(h))return 'cable';
+  if(c==='w')return /מתח|בתלייה|מקבילים(?! על ספסל)|מגבים|החזקת L/.test(h)?'bar':'bw';
+  return {b:'barbell',d:'dumbbell',c:'cable',m:'machine',k:'kettlebell',r:'band',o:'other'}[c]||'other'; }
+const exBench=n=>/שיפוע|ספסל|לחיצת חזה במשקולות|פרפר במשקולות|לחיצה צרפתית|פולאובר|בשכיבה/.test(n);
+function pbGearOk(n,A){ const g=exGear(n); if(A.equip==='gym')return g!=='other'; const G=A.equip==='bw'?['bar']:(A.gear||[]);
+  if(A.equip==='home'&&!G.includes('bench')&&exBench(n)&&!/שכיבות סמיכה/.test(n))return false;
+  if(A.equip==='bw'&&exBench(n)&&!/שכיבות סמיכה|מקבילים על ספסל|עליות על ספסל|גשר/.test(n))return false;
+  return g==='bw'||G.includes(g); }
+/* every slot can use any library exercise of the same movement that has a checked demo video */
+const PB_RX={press:['חזה',/^לחיצ(?!.*שיפוע)|שכיבות סמיכה$/,/צרה|סוונד/],incline:['חזה',/שיפוע(?! שלילי)/,/פרפר|כבל|שכיבות/],fly:['חזה',/פרפר|מוצלב/,/הפוך/],
+  vpull:['גב',/פולי עליון|מתח|פולי צר/,/שלילי/],row:['גב',/חתיר/,/אנכית/],rear:['כתפיים',/אחורי|פרפר הפוך|פייס/,null],ohp:['כתפיים',/לחיצת (כתפיים|ארנולד)|פוש פרס|לנדמיין/,/גומייה/],
+  lat:['כתפיים',/הרחקות צד|הרחקה לצד/,null],squat:['רגליים',/סקוואט|האק/,/קפיצ|פיסטול|קוזאק|ארגז|קיר|זרצ׳ר/],lpress:['רגליים',/לחיצת רגליים/,null],
+  hinge:['רגליים',/דדליפט|גוד מורנינג/,/ברגל אחת/],lunge:['רגליים',/לאנג׳|בולגרי|עליות על ספסל/,/קפיצה/],glute:['רגליים',/היפ תראסט|גשר ישבן|גשר צפרדע/,null],
+  lext:['רגליים',/פשיטת ברכיים/,null],lcurl:['רגליים',/כפיפת ברכיים|נורדית|גלוט האם/,null],calf:['רגליים',/הרמות עקבים/,null],
+  bi:['יד קדמית',/כפיפ/,/שורש|הפוכה/],hammer:['יד קדמית',/פטיש/,null],tri:['יד אחורית',/פשיט|קיקבק|לחיצה צרפתית/,/מעל הראש/],trioh:['יד אחורית',/מעל הראש|צרפתית/,null],
+  core:['בטן וליבה',/./,/דרגון|L$/],abd:['רגליים',/הרחק|מפלצת|פייר|מרחיקים/,null],kick:['רגליים',/קיקבק/,null],step:['רגליים',/עליות על ספסל|לאנג׳ים לאחור|לאנג׳ אחורי/,null],
+  dpress:['חזה',/לחיצ.*(משקולות|מכונ)|שכיבות סמיכה/,/צרה/]};
+function pbRand(seed){ let x=seed%2147483647||1; return ()=>((x=x*16807%2147483647)-1)/2147483646; }
+function pbPool(k,A,banned,used,curated){
+  const R=PB_RX[k]; let extra=[];
+  if(R){ extra=(LIB[R[0]]||[]).filter(n=>R[1].test(n)&&!(R[2]&&R[2].test(n))&&exClip(n)); }
+  if(A.level==='beg')extra=extra.filter(n=>!/פיסטול|ארצ׳ר|מחיאת|נורדית|דרגון|זרצ׳ר|ברגל אחת|שלילי/.test(n));
+  const ok=n=>!banned.has(n)&&!used.has(n)&&pbGearOk(n,A)&&!!exClip(n);
+  const cur=(curated||[]).filter(ok), rest=[...new Set(extra)].filter(n=>ok(n)&&!cur.includes(n));
+  const rnd=pbRand(PB.seed*31+k.length*7+(A.days||0)), sh=L=>{ for(let i=L.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [L[i],L[j]]=[L[j],L[i]]; } return L; };
+  sh(rest); if(A.level!=='beg')sh(cur);
+  // beginners get the classic first; everyone else gets variety mixed in
+  return A.level==='beg'?[...cur,...rest]:cur.length?[cur[0],...rest.slice(0,3),...cur.slice(1),...rest.slice(3)]:rest; }
 function pbBuild(){
   const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[]));
   const prog=A.goal==='strength'?'כוח':A.goal==='cut'?'חיטוב':A.goal==='fit'?'כושר':'מסה';
@@ -11026,8 +11069,9 @@ function pbBuild(){
     const ex=[]; let compIdx=0;
     for(const sl of slots){
       const [k,vi]=sl.split(':'), def=PB_SLOTS[k]; if(!def)continue;
-      let pool=(def[A.equip]||[]).filter(n=>!banned.has(n)&&!used.has(n));
-      if(!pool.length&&PB_ALT[k])pool=PB_ALT[k].filter(n=>!banned.has(n)&&!used.has(n)&&(A.equip==='gym'||!['לחיצת רגליים','לחיצה במכונת חזה','חתירה בכבל','כפיפת ברכיים'].includes(n)));
+      const cur0=A.equip==='gym'?def.gym:A.equip==='bw'?def.bw:[...(def.home||[]),...(def.bw||[])];
+      let pool=def.cardio?(cur0||[]).filter(n=>!used.has(n)):pbPool(k,A,banned,used,cur0);
+      if(!pool.length&&PB_ALT[k])pool=PB_ALT[k].filter(n=>!banned.has(n)&&!used.has(n)&&pbGearOk(n,A));
       if(!pool.length)continue;
       const idx=vi==='f'?pool.length-1:(+vi||0)+(key.endsWith('2')?1:0);
       const n=pool[idx%pool.length]; used.add(n);
@@ -11045,7 +11089,7 @@ function pbBuild(){
       const g=pbMuscle(n);
       if(A.focus.some(f=>({chest:'חזה',back:'גב',legs:'רגליים',glutes:'רגליים',shoulders:'כתפיים',arms:g==='יד קדמית'?'יד קדמית':'יד אחורית',core:'בטן וליבה'}[f]===g)))sets+=vi==='f'?0:1;
       if(['פלאנק'].includes(n))reps='30–60 שנ׳';
-      ex.push({n,m:g,t:'s',s:sets,reps,rest});
+      ex.push({n,m:g,t:'s',s:sets,reps,rest,_k:k});
     }
     // אם מגבלות/ציוד השאירו מעט תרגילים — משלימים מתרגילים בטוחים שמתאימים לציוד
     const FILL={gym:['חתירה בכבל','לחיצה במכונת חזה','הרחקות צד','פייס פול','כפיפת ברכיים','היפ תראסט','פלאנק','דד באג','הרמות עקבים'],home:['חתירה במשקולת','לחיצת חזה במשקולות','הרחקות צד','הרחקות אחוריות','היפ תראסט','פלאנק','דד באג','הרמות עקבים','פטישים'],bw:['שכיבות סמיכה','חתירה הפוכה (משקל גוף)','גשר ישבן','פלאנק','דד באג','הרמות רגליים בשכיבה','הרמות עקבים','סופרמן']}[A.equip];
@@ -11072,6 +11116,7 @@ function pbBuild(){
   PB.plan={prog,split:PB_SPLIT_NAME(A.days,A.level,A.sex),sessions};
 }
 function pbSheet(){
+  while(PB_Q[PB.step]&&PB_Q[PB.step].when&&!PB_Q[PB.step].when(PB.a))PB.step=Math.max(0,PB.step+(PB.dir||1)); PB.dir=1;
   const st=PB.step, Q=PB_Q[st];
   if(st>=PB_Q.length){ pbBuild(); return pbPreview(); }
   const val=PB.a[Q.k], sel=v=>Q.multi?val.includes(v):val===v;
@@ -11197,8 +11242,16 @@ function pbAct(act,b){
       if(Q.multi){ const arr=PB.a[Q.k]; const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); if(v==='glutes')PB._gTouched=true; pbSheet(); }
       else { PB.a[Q.k]=v; if(Q.k==='sex'){ const f=PB.a.focus; if(v==='f'&&!f.includes('glutes'))f.push('glutes'); if(v==='m'){const i=f.indexOf('glutes'); if(i>=0&&!PB._gTouched)f.splice(i,1);} } PB.step++; pbSheet(); } return true; }
     case 'pb-next': PB.step++; pbSheet(); return true;
-    case 'pb-back': PB.step=Math.max(0,PB.step-1); pbSheet(); return true;
-    case 'pb-restart': PB.step=0; pbSheet(); return true;
+    case 'pb-back': PB.dir=-1; PB.step=Math.max(0,PB.step-1); pbSheet(); return true;
+    case 'pb-restart': PB.step=0; PB.vs=0; pbSheet(); return true;
+    case 'pb-demo': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.demo=PB.demo===b.dataset.n?null:b.dataset.n; pbPreview(); return true;
+    case 'pb-vs': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.vs=+b.dataset.i; pbPreview(); return true;
+    case 'pb-reroll': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.seed++; pbBuild(); pbPreview(); logEv('pb_reroll'); return true;
+    case 'pb-swap': { PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; const se=PB.plan.sessions[+b.dataset.s], e=se&&se.ex[+b.dataset.e]; if(!e)return true;
+      const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[])), used=new Set(se.ex.map(x=>x.n)); (e._seen=e._seen||[]).push(e.n);
+      let pool=pbPool(e._k||'',A,banned,used,[]).filter(n=>!e._seen.includes(n)); if(!pool.length){ e._seen=[e.n]; pool=pbPool(e._k||'',A,banned,used,[]); }
+      if(!pool.length){ toast(tt('אין תרגיל חלופי עם הציוד שבחרת')); return true; }
+      e.n=pool[0]; e.m=pbMuscle(e.n)||e.m; try{ navigator.vibrate?.(5); }catch(_){} pbPreview(); return true; }
     case 'pb-save': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; b.disabled=true; b.textContent='שומר…'; pbSave(); return true;
   }
   return false;
