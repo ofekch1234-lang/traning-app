@@ -1193,7 +1193,13 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .ob-wk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:16px 20px 0}
 .ob-wk div{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;border-radius:14px;background:#141715;font-size:13px;color:#A3ADA6;font-weight:700}
 .ob-wk b{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#1E2220;color:#5E665F;font-size:13px}
-.ob-wk .t{color:#F2F5F2}.ob-wk .t b{background:var(--accent);color:#0A0B0A}
+.ob-wk .t{color:#F2F5F2}.ob-wk .t b{background:#26331A;color:var(--accent)}
+.ob-wk button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;border-radius:14px;background:#141715;border:1.5px solid transparent;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.ob-wk button.on{border-color:var(--accent)}.ob-wk button.on b{background:var(--accent);color:#0A0B0A}
+.ob-card .ob-ex .pbx-th{width:52px;height:40px}.ob-card .ob-ex .t{font-size:15px;line-height:1.25}
+.ob-mob{display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;padding:10px 12px;border-radius:14px;background:#1A1E1B;border:0;color:#F2F5F2;font:inherit;text-align:start;cursor:pointer}
+.ob-mob .i{font-size:20px;width:30px;text-align:center}.ob-mob .t{flex:1}.ob-mob .t b{font-size:15px}.ob-mob .t small{font-size:12.5px}.ob-mob .c{color:#A3ADA6;font-size:16px}
+.ob-mobl{display:flex;flex-direction:column;gap:8px;padding:8px 4px 2px}.ob-mobl div{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}.ob-mobl div>span:nth-child(2){flex:1}.ob-mobl small{color:#A3ADA6;font-size:12.5px}.ob-mobl .pbx-th{width:46px;height:36px}
 .ob-card{margin:12px 20px 0;padding:14px 16px;border-radius:22px;background:#141715;border:1px solid #232825}
 .ob-card b{font-size:17px}.ob-card small{display:block;font-size:13px;color:#A3ADA6}
 .ob-ex{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid #1E2320;margin-top:8px}
@@ -3665,13 +3671,16 @@ function vOnb(){
       <div class="ob-rafi sm" style="margin:0 20px calc(28px + env(safe-area-inset-bottom))"><img src="${onbRafi('happy')}" alt=""><div class="ob-bub">${tt('בכל 6 שבועות אני מרענן את התוכנית, עם שבוע קל באמצע כדי שהגוף יתאושש.')}</div></div>`;
     if(!r)console.warn('onb: no nutrition target');
   }else if(st==='plan'){
-    const P=onbPlan(), r=tgCalc(onbTG()), days=PB_DAYS[+a.days||3]||[], s0=P.sessions[0]||{ex:[]}, ex=s0.ex||[];
-    let si=0; const wk=[0,1,2,3,4,5,6].map(d=>{ const on=days.includes(d); const L=on?'ABCDEF'[si++%P.sessions.length]:'–'; return `<div class="${on?'t':''}"><span>${DAY_LETTERS[d]}</span><b>${L}</b></div>`; }).join('');
+    const P=onbPlan(), r=tgCalc(onbTG()), days=PB_DAYS[+a.days||3]||[], ps=Math.min(ONB.ps||0,P.sessions.length-1), s0=P.sessions[ps]||{ex:[]}, ex=s0.ex||[];
+    const thumb=n=>{ const c=exClip(n); return `<span class="pbx-ph">${ICON.play}</span>${c?`<img src="${esc(c.poster)}" alt="" loading="lazy" onerror="this.remove()">`:''}`; };
+    const mob=(L,ic,t)=>L&&L.length?`<button class="ob-mob" data-act="onb-mob" data-k="${t}" aria-expanded="${ONB.mobO===t}"><span class="i">${ic}</span><span class="t"><b>${tt(t==='pre'?'חימום':'מתיחות')}</b><small><span class="num">${L.length}</span> ${tt('תרגילים')} · <span class="num">${Math.round(L.reduce((a,m)=>a+(m.sec||30),0)/60)||2}</span> ${tt('דק׳')}</small></span><span class="c" aria-hidden="true">${ONB.mobO===t?'⌃':'⌄'}</span></button>${ONB.mobO===t?`<div class="ob-mobl">${L.map(m=>`<div><span class="pbx-th">${thumb(m.n)}</span><span>${esc(m.n)}</span><small class="num">${m.sec||30} ${tt('שנ׳')}</small></div>`).join('')}</div>`:''}`:'';
+    let si=0; const wk=[0,1,2,3,4,5,6].map(d=>{ const on=days.includes(d), j=on?si++%P.sessions.length:-1; const L=on?'ABCDEF'[j]:'–'; return on?`<button class="t ${j===ps?'on':''}" data-act="onb-ps" data-i="${j}"><span>${DAY_LETTERS[d]}</span><b>${L}</b></button>`:`<div><span>${DAY_LETTERS[d]}</span><b>${L}</b></div>`; }).join('');
     h=`${onbTop()}<div class="ob-phd"><img src="${onbRafi('cheer')}" alt=""><div><div class="ob-kick acc">${tt('התוכנית שלך מוכנה')}</div><h1 class="ob-h3">${nm?`<span data-notr>${nm}</span>, `:''}${tt('ככה נראה השבוע שלך')}</h1></div></div>
       <div class="ob-wk">${wk}</div>
-      <div class="ob-card"><div class="spread"><span><b>${esc(String(s0.name||'').replace(/^[A-F] — /,'A · '))}</b><small>${ex.length} ${tt('תרגילים')} · ${tt('כ-')}${s0.min||60} ${tt('דקות')}</small></span><span class="ob-tag acc" style="white-space:nowrap;flex:none">${tt('ראשון בתור')}</span></div>
-        ${ex.slice(0,3).map((e,i)=>`<div class="ob-ex"><span class="n">${i+1}</span><span class="t">${esc(e.n)}</span><span class="r" dir="ltr">${e.t==='c'?e.min+' min':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}
-        ${ex.length>3?`<div class="ob-ex mut"><span class="n">+${ex.length-3}</span><span class="t">${ex.slice(3,6).map(e=>esc(e.n)).join(', ')}</span></div>`:''}</div>
+      <div class="ob-card"><div class="spread"><span><b>${esc(String(s0.name||'').replace(/^[A-F] — /,'ABCDEF'[ps]+' · '))}</b><small>${ex.length} ${tt('תרגילים')} · ${tt('כ-')}${s0.min||60} ${tt('דקות')}</small></span>${ps===0?`<span class="ob-tag acc" style="white-space:nowrap;flex:none">${tt('ראשון בתור')}</span>`:''}</div>
+        ${mob(s0.mob?.pre,'🔥','pre')}
+        ${ex.map((e,i)=>`<div class="ob-ex"><span class="pbx-th">${e.t==='c'?'<span class="pbx-ph">🏃</span>':thumb(e.n)}</span><span class="t">${esc(e.n)}</span><span class="r num" dir="ltr">${e.t==='c'?e.min+' min':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}
+        ${mob(s0.mob?.post,'🧘','post')}</div>
       ${r?`<div class="ob-card"><div class="spread"><b>${tt('היעד היומי שלך')}</b><small>${tt('מתעדכן כל שבוע')}</small></div>
         <div class="ob-kc"><b class="acc">${Math.round(r.kcal).toLocaleString('en-US')}</b><span>${tt('קק״ל')}</span><i></i><b>${r.prot}</b><span>${tt('גר׳ חלבון')}</span></div></div>`:''}
       <div style="flex:1"></div>
@@ -3735,6 +3744,8 @@ function onbAct(act,b){
         if(ONB.authed){ ONB.applied=true; ONB.authed=false; onbSave(); b.disabled=true; onbApply().catch(e=>{ console.warn('onbApply',e); b.disabled=false; toast(tt('לא הצלחנו לשמור את התוכנית, נסה שוב')); }); return true; } }
       onbGo(ONB.s+1); return true;
     case 'onb-lr': { const r=b; if(r.classList.contains('joy'))return true; r.classList.add('joy'); vibrate(8); setTimeout(()=>r.classList.remove('joy'),900); return true; }
+    case 'onb-ps': ONB.ps=+b.dataset.i; ONB.mobO=null; onbPaint(); return true;
+    case 'onb-mob': ONB.mobO=ONB.mobO===b.dataset.k?null:b.dataset.k; onbPaint(); return true;
     case 'onb-back': if(st==='save'||st==='plan'){ ONB_HQ.res=false; onbGo(ONB_STEPS.indexOf('health')); return true; } if(st==='health'&&ONB_HQ.res){ ONB_HQ.res=false; onbPaint(); return true; } onbGo(ONB.s-1); return true;
     case 'onb-hq-a': { ONB_HQ.ans[+b.dataset.i]=b.dataset.v==='1'; const g=b.parentElement; g.querySelectorAll('button').forEach(x=>{ const on=x===b; x.classList.toggle('on',on); x.classList.toggle('yes',on&&x.dataset.v==='1'); x.setAttribute('aria-pressed',String(on)); }); vibrate(6); return true; }
     case 'onb-hqall': ONB_HQ.ans=[]; ONB_HQ.res=false; a.hqd=1; a.hqc=0; onbSave(); vibrate(8); onbGo(ONB.s+1); return true;
