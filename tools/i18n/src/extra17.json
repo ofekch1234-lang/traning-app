@@ -3078,5 +3078,169 @@
  "הצילום נכשל, נסה שוב": {
   "en": "The photo failed, try again",
   "ar": "فشل التصوير، حاول مرة أخرى"
+ },
+ ". סיכום יומי נשמר בחשבון שלך כדי שתראה היסטוריה וראפי יוכל לעזור. לא משמש לפרסום ולא נמסר לאף אחד.": {
+  "en": ". A daily summary is saved to your account so you can see your history and Repi can help. It is never used for ads or shared with anyone.",
+  "ar": ". يُحفظ ملخص يومي في حسابك لترى السجل ويستطيع ريبي المساعدة. لا يُستخدم للإعلانات ولا يُشارك مع أحد."
+ },
+ "NextRep תציג את הפעילות שלך מהטלפון ומהשעון, ליד האימונים והתזונה.": {
+  "en": "NextRep will show your activity from your phone and watch, next to your workouts and nutrition.",
+  "ar": "سيعرض NextRep نشاطك من الهاتف والساعة، بجانب التمارين والتغذية."
+ },
+ "אין גישה לנתוני בריאות במכשיר הזה": {
+  "en": "Health data isn't available on this device",
+  "ar": "بيانات الصحة غير متاحة على هذا الجهاز"
+ },
+ "בלי הרשאה לצעדים אי אפשר להציג פעילות": {
+  "en": "Without access to steps, activity can't be shown",
+  "ar": "بدون إذن الخطوات لا يمكن عرض النشاط"
+ },
+ "דקות הליכה": {
+  "en": "minutes of walking",
+  "ar": "دقائق مشي"
+ },
+ "ההצעה שלנו": {
+  "en": "Our suggestion",
+  "ar": "اقتراحنا"
+ },
+ "החיבור נכשל": {
+  "en": "Couldn't connect",
+  "ar": "فشل الاتصال"
+ },
+ "היעד נשמר": {
+  "en": "Goal saved",
+  "ar": "تم حفظ الهدف"
+ },
+ "הממוצע שלך בשבועיים האחרונים ועוד 10%. יעד שאפשר לעמוד בו כל יום עדיף על יעד גבוה שנשבר.": {
+  "en": "Your average over the last two weeks plus 10%. A goal you can hit every day beats a high one you keep missing.",
+  "ar": "متوسطك في الأسبوعين الأخيرين زائد 10%. هدف يمكن تحقيقه كل يوم أفضل من هدف عالٍ لا يتحقق."
+ },
+ "השיא בתקופה": {
+  "en": "Best in period",
+  "ar": "الأعلى في الفترة"
+ },
+ "התאם את תקציב הקלוריות לפי צעדים": {
+  "en": "Adjust calorie budget to steps",
+  "ar": "تعديل ميزانية السعرات حسب الخطوات"
+ },
+ "חיבור": {
+  "en": "Connect",
+  "ar": "ربط"
+ },
+ "חיבור ל-": {
+  "en": "Connect to ",
+  "ar": "الربط مع "
+ },
+ "ימים ביעד": {
+  "en": "days at goal",
+  "ar": "أيام في الهدف"
+ },
+ "יעד צעדים יומי": {
+  "en": "Daily step goal",
+  "ar": "هدف الخطوات اليومي"
+ },
+ "כולל צעדים מהשעון": {
+  "en": "includes steps from your watch",
+  "ar": "يشمل خطوات الساعة"
+ },
+ "מהאפליקציה": {
+  "en": "From the app",
+  "ar": "من التطبيق"
+ },
+ "מוסיף רק פעילות מעבר לרגיל שלך, וחצי ממנה": {
+  "en": "Adds only activity beyond your usual, and only half of it",
+  "ar": "يضيف فقط النشاط الزائد عن المعتاد، ونصفه فقط"
+ },
+ "מחובר ✓": {
+  "en": "Connected ✓",
+  "ar": "تم الربط ✓"
+ },
+ "ממוצע יומי": {
+  "en": "Daily average",
+  "ar": "المتوسط اليومي"
+ },
+ "עמדת ביעד הצעדים היום": {
+  "en": "You hit your step goal today",
+  "ar": "حققت هدف الخطوات اليوم"
+ },
+ "פעילות": {
+  "en": "Activity",
+  "ar": "النشاط"
+ },
+ "צעדים": {
+  "en": "steps",
+  "ar": "خطوات"
+ },
+ "צעדים ביום": {
+  "en": "steps a day",
+  "ar": "خطوة يوميًا"
+ },
+ "צעדים ופעילות": {
+  "en": "Steps and activity",
+  "ar": "الخطوات والنشاط"
+ },
+ "צעדים וק״מ מהטלפון ומהשעון": {
+  "en": "Steps and km from your phone and watch",
+  "ar": "الخطوات والكيلومترات من الهاتف والساعة"
+ },
+ "צעדים, בערך": {
+  "en": "steps, about",
+  "ar": "خطوة، حوالي"
+ },
+ "צעדים, הליכה קצרה וזהו": {
+  "en": "steps, a short walk and you're there",
+  "ar": "خطوة، مشية قصيرة وتصل"
+ },
+ "צריך להתקין את Health Connect מחנות Play": {
+  "en": "Install Health Connect from the Play Store first",
+  "ar": "ثبّت Health Connect من متجر Play أولًا"
+ },
+ "צריך לעדכן את האפליקציה": {
+  "en": "Please update the app",
+  "ar": "يرجى تحديث التطبيق"
+ },
+ "קל׳ פעילות": {
+  "en": "active kcal",
+  "ar": "سعرات نشاط"
+ },
+ "ק״מ בסה״כ": {
+  "en": "km total",
+  "ar": "كم إجمالي"
+ },
+ "רצף": {
+  "en": "Streak",
+  "ar": "السلسلة"
+ },
+ "רק קריאה. NextRep לא משנה דבר ב-": {
+  "en": "Read only. NextRep never changes anything in ",
+  "ar": "قراءة فقط. لا يغيّر NextRep أي شيء في "
+ },
+ "שבועות ביעד": {
+  "en": "weeks at goal",
+  "ar": "أسابيع في الهدف"
+ },
+ "כמה צעדים עשית היום ובכל יום": {
+  "en": "How many steps you took today and every day",
+  "ar": "كم خطوة مشيت اليوم وكل يوم"
+ },
+ "מרחק": {
+  "en": "Distance",
+  "ar": "المسافة"
+ },
+ "ק״מ בהליכה ובריצה": {
+  "en": "Km walking and running",
+  "ar": "كم مشيًا وجريًا"
+ },
+ "קלוריות פעילות": {
+  "en": "Active calories",
+  "ar": "سعرات النشاط"
+ },
+ "מה שרפת בתנועה, מעבר למנוחה": {
+  "en": "What you burned moving, beyond rest",
+  "ar": "ما حرقته بالحركة، فوق الراحة"
+ },
+ "3 חודשים": {
+  "en": "3 months",
+  "ar": "3 أشهر"
  }
 }

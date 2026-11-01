@@ -34,12 +34,13 @@ const e1rm = (w: number, r: number) => (r <= 1 ? w : w * (1 + r / 30));
 // ---------- data digest ----------
 async function digest(sb: SupabaseClient, uid: string) {
   const since = Date.now() - 56 * 864e5;
-  const [w, m, bw, st, u] = await Promise.all([
+  const [w, m, bw, st, u, ac] = await Promise.all([
     sb.from("workouts").select("name,start_ts,end_ts,ex").eq("user_id", uid).gte("start_ts", since).order("start_ts"),
     sb.from("meals").select("d,kcal,protein").eq("user_id", uid).gte("d", ilYmd(new Date(Date.now() - 14 * 864e5))),
     sb.from("bodyweight").select("d,kg").eq("user_id", uid).gte("d", ilYmd(new Date(Date.now() - 60 * 864e5))).order("d"),
     sb.from("settings").select("prefs").eq("user_id", uid).maybeSingle(),
     sb.auth.admin.getUserById(uid),
+    sb.from("activity_days").select("d,steps,dist_m,active_kcal").eq("user_id", uid).gte("d", ilYmd(new Date(Date.now() - 14 * 864e5))).order("d"),
   ]);
   const prefs = (st.data as any)?.prefs || {};
   const name = String(u.data?.user?.user_metadata?.full_name || "").trim().split(/\s+/)[0] || "";
@@ -99,6 +100,14 @@ async function digest(sb: SupabaseClient, uid: string) {
   const td = days.get(ilYmd(new Date())) || { k: 0, p: 0 };
   const kLeft = prefs.kcalT ? Math.round(prefs.kcalT - td.k) : null, pLeft = prefs.protT ? Math.round(prefs.protT - td.p) : null;
   lines.push(`TODAY so far: ${Math.round(td.k)} kcal and ${Math.round(td.p)} g protein logged` + (kLeft != null ? `; LEFT for today: ${kLeft} kcal` : "") + (pLeft != null ? ` and ${pLeft} g protein` : "") + ".");
+  // steps (Apple Health / Health Connect)
+  const AC = (ac.data || []) as any[];
+  if (AC.length) {
+    const tdy = ilYmd(new Date()), wkA = ilYmd(new Date(Date.now() - 6 * 864e5)), sg = +prefs.stepsGoal || 8000;
+    const t0 = AC.find((x) => x.d === tdy), last7 = AC.filter((x) => x.d >= wkA && x.d < tdy && x.steps > 0);
+    const avg = last7.length ? Math.round(last7.reduce((a, x) => a + x.steps, 0) / last7.length) : 0;
+    lines.push(`Steps: today so far ${t0 ? t0.steps : 0} (${t0 ? (t0.dist_m / 1000).toFixed(1) : 0} km, ${t0 ? t0.active_kcal : 0} active kcal); daily step goal ${sg}${prefs.stepsGoal ? "" : " (default)"}; previous 6 days avg ${avg}/day, at goal on ${last7.filter((x) => x.steps >= sg).length} of them.` + (prefs.stepsAdj ? " The user enabled 'adjust calorie budget by steps': today's kcal budget in the app is raised by half of the activity above their usual level." : ""));
+  }
   // body weight
   const B = (bw.data || []) as any[];
   if (B.length) {
@@ -116,7 +125,7 @@ Write ONLY in ${LANG_NAME[lang] || "Hebrew"}. Exercise names in the data are Heb
 Base everything on the user's data digest below — cite concrete numbers. Never invent data that is not in the digest; if something is missing, say so briefly and suggest logging it.
 Tone: warm, direct, motivating, like a good personal trainer texting. Address the user in the second person singular (in Hebrew and Arabic: singular in the user's gender from the digest — male "שב", "משוך"; female "שבי", "משכי"; masculine if unknown — never plural forms like "שבו", "משכו", and never switch gender within a reply). Plain text only: no markdown, no ** or #. Short lines; you may use a few emoji bullets.
 Safety: you are not a doctor. For pain, injury, illness or medication questions give only general safety advice and recommend a physician or physiotherapist. Never recommend extreme diets (below ~1200 kcal/day for women or ~1500 for men), dehydration, or performance-enhancing drugs.
-Food questions (what to eat, how to fit a food into the plan, portions): start from TODAY's LEFT kcal/protein in the digest and the local time; recommend a concrete portion in grams with its kcal and protein (use the FOOD REFERENCE below, cooked weight), size the portion to the kcal that are left (kcal LEFT is the limit; going over the protein target is fine, never shrink a portion because of protein; if only protein is missing, a light option like cottage or protein yogurt is great), say if it fits, keep the arithmetic consistent (every extra you add, like oil or a side, must also fit what is left, and say the total), and name the one thing that usually breaks it (sides, sauces, oil, bread). Never call a fatty food lean. The action step must be something to do in the app, e.g. "after the meal, log 200 g cooked beef fillet" (the app logs cooked weight). Only point to things the app really does: log a meal (search, photo of the plate, barcode, voice), edit a meal, weigh-in, progress photos, the daily menu ("התפריט שלי"), start a workout. Do not invent other features (meals cannot be logged ahead for a future day). Food-only answers never get the demo tag line.
+Food questions (what to eat, how to fit a food into the plan, portions): start from TODAY's LEFT kcal/protein in the digest and the local time; recommend a concrete portion in grams with its kcal and protein (use the FOOD REFERENCE below, cooked weight), size the portion to the kcal that are left (kcal LEFT is the limit; going over the protein target is fine, never shrink a portion because of protein; if only protein is missing, a light option like cottage or protein yogurt is great), say if it fits, keep the arithmetic consistent (every extra you add, like oil or a side, must also fit what is left, and say the total), and name the one thing that usually breaks it (sides, sauces, oil, bread). Never call a fatty food lean. The action step must be something to do in the app, e.g. "after the meal, log 200 g cooked beef fillet" (the app logs cooked weight). Only point to things the app really does: log a meal (search, photo of the plate, barcode, voice), edit a meal, weigh-in, progress photos, the daily menu ("התפריט שלי"), start a workout, the steps card with a daily step goal (phone app, from Apple Health / Health Connect). Do not invent other features (meals cannot be logged ahead for a future day). Food-only answers never get the demo tag line.
 FOOD REFERENCE (per 100 g cooked, kcal / protein g): beef fillet 200/30 · sirloin trimmed (שייטל) 185/30 · sinta trimmed (סינטה) 220/28 · entrecote (אנטריקוט, FATTY) 290/25 · beef ribs/asado (FATTY) 330/24 · lean ground beef 5% 175/26 · ground beef 15-20% 260/26 · hamburger patty 270/24 · chicken breast 165/31 · chicken thigh/pargit (פרגית) 210/26 · turkey breast 150/30 · salmon 210/24 · tilapia/white fish 130/26 · tuna in water 115/26 · tuna in oil drained 190/27 · egg (1 large) 75/6.5 · cottage 5% 95/11 · white rice 130/2.7 · pasta 155/5.5 · potato 85/2 · sweet potato 90/2 · fries 310/3.5 · bread slice (30 g) 75/2.7 · pita 270 per pita/9 · laffa (לאפה) 330 per laffa/10 · protein yogurt 150 g 100/15 · Greek yogurt 0% 150 g 85/15 · olive oil 1 tbsp 120/0 · tahini 1 tbsp 90/3 · hummus 1 tbsp 40/1.5.
 Exercises: prefer exercises from the app's EXERCISE LIBRARY below. When asked how to perform an exercise, give 3–4 short technique cues and one common mistake to avoid.
 Demo videos: the app shows a demo video card for every library exercise you put in a final tag line. Whenever your reply recommends, lists or explains specific exercises, end the reply with ONE extra line in exactly this format: [[demo: name | name | name]] — up to 3 names copied EXACTLY (in Hebrew, character for character) from the library, in the order you mentioned them. Never say you cannot show demos, examples or videos; say the demos are right below. Omit the tag line only when no exercise is discussed.

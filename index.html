@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4ee92841"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4ee92841"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4ee92841"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=3ea2635a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3ea2635a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=3ea2635a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -502,6 +502,18 @@ body:not(.landing)>#lx-sticky{display:none}
 .hp-th small{font-size:10.5px;color:var(--muted)}
 /* admin: v13.1 */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.act-card{display:block;width:100%;text-align:start;font:inherit;color:inherit}
+.act-row{display:flex;align-items:center;gap:16px;margin-top:12px}.act-main{flex:1;min-width:0}.act-main>b{display:block;font-family:var(--disp);font-weight:700;font-size:32px;line-height:1}
+.act-sub{display:flex;gap:14px;margin-top:9px;font-size:13px;color:var(--muted)}.act-sub b{color:var(--ink);font-weight:600}
+.act-line{margin-top:12px;font-size:13px;color:var(--muted)}.act-line.ok{color:var(--accent);font-weight:600}
+.act-chart{position:relative;display:flex;align-items:flex-end;gap:6px;height:150px;padding-top:6px;border-bottom:1px solid var(--line)}.act-chart.dense{gap:2px}
+.act-b{flex:1;height:100%;display:flex;align-items:flex-end}.act-b i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--accent);opacity:.32}.act-b i.hit{opacity:1}.act-chart.dense .act-b i{border-radius:3px 3px 1px 1px}
+.act-gl{position:absolute;inset-inline:0;border-top:1.5px dashed var(--accent);pointer-events:none}.act-gl span{position:absolute;inset-inline-end:0;top:-18px;font-size:11px;color:var(--accent);font-weight:600}
+.act-lbls{display:flex;gap:6px;margin-top:6px}.act-lbls.dense{gap:2px}.act-lbls span{flex:1;text-align:center;font-size:11px;color:var(--muted);white-space:nowrap;overflow:visible}
+.act-intro{text-align:center;padding:6px 6px 14px}.act-intro h3{margin:12px 0 6px}.act-intro p{margin:0;font-size:14px;line-height:1.6}
+.act-hi{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--accent-soft);color:var(--accent)}.act-hi .ic{width:32px;height:32px}
+
+.adm-per{margin-bottom:10px}.adm-per button{font-size:13px;padding-inline:0}.adm-ld b.num{opacity:.4}.adm-cnt{margin-top:10px}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:start;color:inherit;font:inherit;min-width:0}
 .kpi .kl{font-size:13px;color:var(--muted)}
 .kpi b{font-family:var(--disp);font-size:27px;font-weight:800;line-height:1.15}
@@ -2644,7 +2656,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.144';
+const APP_VERSION='13.3.148';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3106,7 +3118,7 @@ function persistActive(){
   clearTimeout(_aT);_aT=setTimeout(flushActive,800);
 }
 /* newer account-level settings, saved and restored with the rest (health questionnaire, sensitive exercises, nutrition notes, training level) */
-const PREF_X=['hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb','mv','calm','calmAsk','restEx','pgoal'];
+const PREF_X=['stepsGoal','stepsAdj','hq','hqLater','level','sens','painLog','lowAck','lowH','ovrAt','habit','onb','mv','calm','calmAsk','restEx','pgoal'];
 async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
@@ -4584,6 +4596,7 @@ function vHome(){
     ${offerCard()}
     ${hqCardHTML()}${dbreakHTML()}${morningAfterHTML()}
     ${foodFirst?foodCard+`<div class="card r20 list"><button class="li" data-act="pb-open">${ICON.list}<span class="lt"><b>${G('רוצה גם תוכנית אימון?','רוצה גם תוכנית אימון?','גם תוכנית אימון?')}</b><small>8 שאלות קצרות, ויש לך תוכנית שמתאימה ליעד</small></span>${ICON.chev}</button></div>`:workCard+foodCard}
+    ${actCardHTML()}
     <div class="card r20">
       <div class="spread"><b style="font-size:17px">השבוע</b>${streak>1?`<span class="small" style="color:#B45309;font-weight:600">🔥 ${streak} שבועות ברצף</span>`:`<span class="small muted">${wkSub}</span>`}</div>
       ${weekRowHTML()}
@@ -4594,6 +4607,115 @@ function vHome(){
     ${wrapCardHTML()}
   `;
 }
+
+/* ----- activity: steps, km and active calories from Apple Health / Health Connect ----- */
+const ACT={days:{},at:0,p:'w'};
+try{ const j=JSON.parse(localStorage.getItem('nr-act')||'null'); if(j&&j.days)Object.assign(ACT,j,{p:'w'}); }catch(_){}
+const actNat=()=>!!window.Capacitor?.isNativePlatform?.();
+const actSrc=()=>!window.Capacitor?.isNativePlatform?.()?tt('מהאפליקציה'):window.Capacitor?.getPlatform?.()==='android'?'Health Connect':'Apple Health';
+const actDay=d=>ACT.days[d]||null;
+const actHas=()=>Object.keys(ACT.days).length>0;
+const HP=()=>window.Capacitor?.Plugins?.Health||null;
+const actOn=()=>{ try{ return localStorage.getItem('nr-hlth')==='on'; }catch(_){ return false; } };
+const actLater=()=>{ try{ return Date.now()-(+localStorage.getItem('nr-hlth-later')||0)<14*864e5; }catch(_){ return false; } };
+function actSave(){ try{ localStorage.setItem('nr-act',JSON.stringify({days:ACT.days,at:ACT.at})); }catch(_){} }
+/* daily sums straight from HealthKit / Health Connect. The OS de-duplicates phone + watch in its statistics */
+async function actSync(days){ const H=HP(); if(!H||!actOn()||actSync._busy)return; actSync._busy=true;
+  try{ const st=new Date(); st.setHours(0,0,0,0); st.setDate(st.getDate()-(days-1)); const q={startDate:st.toISOString(),endDate:new Date().toISOString(),bucket:'day',aggregation:'sum'};
+    const [a,b,c]=await Promise.all(['steps','distance','calories'].map(t=>H.queryAggregated({...q,dataType:t}).catch(()=>({samples:[]}))));
+    const nd={}, put=(r,k)=>(r.samples||[]).forEach(x=>{ const d=ymd(new Date(x.startDate)); (nd[d]=nd[d]||{s:0,km:0,kc:0})[k]=+x.value||0; });
+    put(a,'s'); put(b,'km'); put(c,'kc'); const rows=[];
+    for(const d in nd){ const v={s:Math.round(nd[d].s),km:Math.round(nd[d].km)/1000,kc:Math.round(nd[d].kc)}; const o=ACT.days[d];
+      if(!o||o.s!==v.s||Math.abs(o.km-v.km)>0.01||o.kc!==v.kc){ ACT.days[d]=v; rows.push({user_id:S.user?.id,d,steps:v.s,dist_m:Math.round(v.km*1000),active_kcal:v.kc,src:window.Capacitor?.getPlatform?.()==='android'?'hc':'hk',updated_at:new Date().toISOString()}); } }
+    ACT.at=Date.now(); actSave();
+    if(rows.length&&S.user){ sb.from('activity_days').upsert(rows).then(()=>{},()=>{}); if(S.tab==='home'||!$('#sheet').hidden&&$('.act-chart'))render(); }
+  }catch(_){} finally{ actSync._busy=false; } }
+/* history from the server: a new device, or the website */
+async function actLoad(){ try{ const {data}=await sb.from('activity_days').select('d,steps,dist_m,active_kcal').gte('d',ymd(new Date(Date.now()-100*864e5)));
+  let ch=false; for(const r of data||[]){ if(!ACT.days[r.d]||!actOn()){ ACT.days[r.d]={s:+r.steps||0,km:(+r.dist_m||0)/1000,kc:+r.active_kcal||0}; ch=true; } }
+  if(ch){ actSave(); if(S.tab==='home')render(); } }catch(_){}
+  if(actOn())actSync(ACT.at&&Date.now()-ACT.at<20*864e5?Math.max(2,Math.ceil((Date.now()-ACT.at)/864e5)+1):90); }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&actOn()&&Date.now()-ACT.at>3*6e4)actSync(Math.max(2,Math.min(30,Math.ceil((Date.now()-ACT.at)/864e5)+1))); });
+async function actConnect(){ const H=HP(); if(!H){ toast(tt('צריך לעדכן את האפליקציה')); return; }
+  try{ const av=await H.isAvailable();
+    if(!av?.available){ closeSheet(); toast(window.Capacitor?.getPlatform?.()==='android'?tt('צריך להתקין את Health Connect מחנות Play'):tt('אין גישה לנתוני בריאות במכשיר הזה')); return; }
+    const r=await H.requestAuthorization({read:['steps','distance','calories'],write:[],requestHistoryAccess:true});
+    if(window.Capacitor?.getPlatform?.()==='android'&&!(r?.readAuthorized||[]).includes('steps')){ toast(tt('בלי הרשאה לצעדים אי אפשר להציג פעילות')); return; }
+    try{ localStorage.setItem('nr-hlth','on'); }catch(_){}
+    closeSheet(); render(); await actSync(90); render(); toast(tt('מחובר ✓'));
+  }catch(e){ toast(tt('החיבור נכשל')); } }
+/* the calorie budget bonus: half of the activity above what the chosen activity level already counts, at most 600 */
+const ACT_BASE={'1.2':3000,'1.375':5000,'1.55':7000,'1.725':9000,'1.9':11000};
+function actBonus(ds){ if(!S.settings.stepsAdj)return 0; const a=actDay(ds||ymd()); if(!a||!a.s)return 0;
+  const base=ACT_BASE[String(S.settings.body?.act||'1.375')]||5000, per=a.kc&&a.s>500?a.kc/a.s:0.04;
+  return Math.min(600,Math.round(Math.max(0,a.s-base)*per*0.5/10)*10); }
+const ICO_WALK='<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="13" cy="4.5" r="1.8"/><path d="M10.5 21l2-6-2.5-2.5 1-5 3 2.5 3 1M10 7.5 7 9.5l-1 3.5M12.5 15l3 6"/></svg>';
+const ICO_HEART='<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.4a4.2 4.2 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/></svg>';
+function stepsSuggest(){ let s=0,n=0; for(let i=1;i<=14;i++){ const x=new Date(); x.setDate(x.getDate()-i); const a=actDay(ymd(x)); if(a&&a.s>300){s+=a.s;n++;} }
+  if(n<4)return 8000; return Math.max(4000,Math.min(10000,Math.round(s/n*1.1/500)*500)); }
+const stepsGoal=()=>+S.settings.stepsGoal||stepsSuggest();
+const fmtSt=v=>Math.round(+v||0).toLocaleString('en-US');
+const fmtKm=v=>(Math.round((+v||0)*10)/10).toFixed(1);
+function stepsRing(v,g,sz=88){ const R=sz/2-7, C=2*Math.PI*R, p=g?Math.min(1,v/g):0;
+  return `<svg viewBox="0 0 ${sz} ${sz}" width="${sz}" height="${sz}" aria-hidden="true" style="flex:none"><circle cx="${sz/2}" cy="${sz/2}" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="9"/><circle cx="${sz/2}" cy="${sz/2}" r="${R}" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}" transform="rotate(-90 ${sz/2} ${sz/2})"/>${p>=1?`<path d="M${sz/2-9} ${sz/2}l6 6 12-12" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`:`<text x="${sz/2}" y="${sz/2+5}" text-anchor="middle" font-family="var(--disp)" font-weight="700" font-size="16" fill="var(--ink)">${Math.round(p*100)}%</text>`}</svg>`; }
+function actCardHTML(){
+  if(!actNat()&&!actHas())return '';
+  if(!actOn()&&actNat()){ if(actLater()||!HP())return ''; return `<div class="card r20 list"><button class="li" data-act="act-intro"><span class="sbtn" style="background:var(--accent-soft);color:var(--accent)">${ICO_WALK}</span><span class="lt"><b>${tt('צעדים ופעילות')}</b><small>${tt('צעדים וק״מ מהטלפון ומהשעון')}</small></span><span class="btn primary" style="padding:8px 14px;border-radius:12px;pointer-events:none">${tt('חיבור')}</span></button></div>`; }
+  const d=actDay(ymd())||{s:0,km:0,kc:0}, g=stepsGoal(), left=g-d.s;
+  const line=left<=0?`${tt('עמדת ביעד הצעדים היום')} ✓`:left<1500?`${tt('עוד')} ${fmtSt(left)} ${tt('צעדים, הליכה קצרה וזהו')}`:`${tt('עוד')} ${fmtSt(left)} ${tt('צעדים, בערך')} ${Math.round(left/100/5)*5||5} ${tt('דקות הליכה')}`;
+  return `<button class="card r20 act-card" data-act="act-open">
+    <div class="spread"><b style="font-size:17px">${tt('פעילות')}</b><span class="small muted">${actSrc()}</span></div>
+    <div class="act-row">${stepsRing(d.s,g)}<div class="act-main"><b class="num">${fmtSt(d.s)}</b><span class="small muted">${tt('מתוך')} <span class="num">${fmtSt(g)}</span> ${tt('צעדים')}</span>
+      <div class="act-sub"><span><b class="num">${fmtKm(d.km)}</b> ${tt('ק״מ')}</span><span><b class="num">${fmtSt(Math.round(d.kc||0))}</b> ${tt('קל׳ פעילות')}</span></div></div></div>
+    <div class="act-line${left<=0?' ok':''}">${line}</div></button>`; }
+function actSeries(p){ const out=[]; const t=new Date();
+  if(p==='q'){ for(let w=12;w>=0;w--){ let s=0,km=0,n=0; for(let k=0;k<7;k++){ const x=new Date(t); x.setDate(t.getDate()-w*7-k); const a=actDay(ymd(x)); if(a){s+=a.s;km+=+a.km||0;n++;} }
+      const x=new Date(t); x.setDate(t.getDate()-w*7); out.push({lbl:w===0?tt('השבוע'):(w%4===0?x.toLocaleDateString(LOC,{day:'numeric',month:'numeric'}):''),s:n?Math.round(s/n):0,km,has:n>0}); } return out; }
+  const N=p==='m'?30:7; for(let i=N-1;i>=0;i--){ const x=new Date(t); x.setDate(t.getDate()-i); const a=actDay(ymd(x));
+    out.push({lbl:i===0?tt('היום'):p==='w'?x.toLocaleDateString(LOC,{weekday:'narrow'}):(i%7===0?x.toLocaleDateString(LOC,{day:'numeric',month:'numeric'}):''),s:a?a.s:0,km:a?+a.km||0:0,has:!!a}); } return out; }
+function openActSheet(){
+  const g=stepsGoal(), L=actSeries(ACT.p), mx=Math.max(g*1.15,...L.map(x=>x.s)), has=L.filter(x=>x.has);
+  const avg=has.length?Math.round(has.reduce((a,x)=>a+x.s,0)/has.length):0, hit=L.filter(x=>x.s>=g).length, km=L.reduce((a,x)=>a+x.km,0);
+  const best=L.reduce((a,x)=>x.s>a.s?x:a,{s:0});
+  let streak=0; for(let i=0;i<365;i++){ const x=new Date(); x.setDate(x.getDate()-i); const a=actDay(ymd(x)); if(a&&a.s>=g)streak++; else if(i>0)break; }
+  const bars=`<div class="act-chart${L.length>14?' dense':''}"><i class="act-gl" style="bottom:${g/mx*100}%"><span class="num">${fmtSt(g)}</span></i>${L.map(x=>`<div class="act-b"><i class="${x.s>=g?'hit':''}" style="height:${Math.max(x.has?3:0,x.s/mx*100)}%"></i></div>`).join('')}</div>
+    <div class="act-lbls${L.length>14?' dense':''}">${L.map(x=>`<span>${x.lbl}</span>`).join('')}</div>`;
+  const per=ACT.p==='q'?tt('ממוצע שבועי'):tt('ממוצע יומי');
+  openSheet(`<div class="spread"><h3 style="margin:0">${tt('צעדים ופעילות')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
+    <div class="seg2" style="margin:14px 0 16px">${[['w','שבוע'],['m','חודש'],['q','3 חודשים']].map(([k,t])=>`<button class="${ACT.p===k?'on':''}" data-act="act-p" data-p="${k}">${tt(t)}</button>`).join('')}</div>
+    ${bars}
+    <div class="card r20 stat3 num" style="margin-top:16px;background:var(--surface2);border:0"><div><b>${fmtSt(avg)}</b><span>${per}</span></div><div><b>${ACT.p==='q'?L.filter(x=>x.s>=g).length:hit}</b><span>${ACT.p==='q'?tt('שבועות ביעד'):tt('ימים ביעד')}</span></div><div><b>${fmtKm(km)}</b><span>${tt('ק״מ בסה״כ')}</span></div></div>
+    <div class="small muted" style="margin:10px 4px 0">${streak>1?`${tt('רצף')}: <b class="num" style="color:var(--ink)">${streak}</b> ${tt('ימים ביעד')} · `:''}${tt('השיא בתקופה')}: <b class="num" style="color:var(--ink)">${fmtSt(best.s)}</b></div>
+    <div class="card list" style="margin-top:14px">
+      <button class="li" data-act="act-goal">${ICON.target}<span class="lt"><b>${tt('יעד צעדים יומי')}</b><small class="num">${fmtSt(g)} ${tt('צעדים')}</small></span>${ICON.chev}</button>
+      <button class="li" data-act="act-adj"><span class="lt"><b>${tt('התאם את תקציב הקלוריות לפי צעדים')}</b><small>${S.settings.stepsAdj&&actBonus(ymd())?`${tt('היום')}: <span class="num">+${actBonus(ymd())}</span> ${tt('קק״ל')}`:tt('מוסיף רק פעילות מעבר לרגיל שלך, וחצי ממנה')}</small></span><span class="tg ${S.settings.stepsAdj?'on':''}" aria-hidden="true"></span></button>
+    </div>
+    <div class="small muted" style="text-align:center;margin-top:12px">${tt('מקור')}: ${actSrc()} · ${tt('כולל צעדים מהשעון')}</div>`); }
+let AG=0;
+function openActGoal(){ if(!AG)AG=stepsGoal(); const sg=stepsSuggest();
+  openSheet(`<div class="spread"><h3 style="margin:0">${tt('יעד צעדים יומי')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
+    <button class="tgw-sug ${AG===sg?'on':''}" data-act="ag-sug" style="margin-top:14px"><span class="tgw-sug-k">${tt('ההצעה שלנו')}</span><b class="num">${fmtSt(sg)} <small>${tt('צעדים')}</small></b><span>${tt('הממוצע שלך בשבועיים האחרונים ועוד 10%. יעד שאפשר לעמוד בו כל יום עדיף על יעד גבוה שנשבר.')}</span></button>
+    <div class="tgw-num" style="margin-top:14px"><button class="tgw-pm" data-act="ag-step" data-d="-500" aria-label="${tt('פחות')}">−</button><div class="tgw-val"><b class="num">${fmtSt(AG)}</b><span style="white-space:nowrap">${tt('צעדים ביום')}</span></div><button class="tgw-pm" data-act="ag-step" data-d="500" aria-label="${tt('יותר')}">+</button></div>
+    <div class="small muted" style="text-align:center;margin-top:6px">${tt('בערך')} <span class="num">${fmtKm(AG*0.75/1000)}</span> ${tt('ק״מ')} · <span class="num">${Math.round(AG/100/5)*5}</span> ${tt('דקות הליכה')}</div>
+    <button class="btn primary big" data-act="ag-save" style="width:100%;margin-top:16px">${tt('שמירה')}</button>`); }
+function openActIntro(){ const src=actSrc();
+  openSheet(`<div class="act-intro"><span class="act-hi">${ICO_HEART}</span><h3>${tt('חיבור ל-')}${src}</h3><p class="muted">${tt('NextRep תציג את הפעילות שלך מהטלפון ומהשעון, ליד האימונים והתזונה.')}</p></div>
+    <div class="card list">${[[ICO_WALK,'צעדים','כמה צעדים עשית היום ובכל יום'],['<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 18c3-8 6-8 8-4s5 4 8-4"/></svg>','מרחק','ק״מ בהליכה ובריצה'],[ICON.fire||ICON.target,'קלוריות פעילות','מה שרפת בתנועה, מעבר למנוחה']].map(([i,t,s])=>`<div class="li">${i}<span class="lt"><b>${tt(t)}</b><small>${tt(s)}</small></span></div>`).join('')}</div>
+    <div class="small muted" style="margin:12px 4px 0;line-height:1.6">${ICON.shield} ${tt('רק קריאה. NextRep לא משנה דבר ב-')}${src}${tt('. סיכום יומי נשמר בחשבון שלך כדי שתראה היסטוריה וראפי יוכל לעזור. לא משמש לפרסום ולא נמסר לאף אחד.')}</div>
+    <button class="btn primary big" data-act="act-connect" style="width:100%;margin-top:16px">${tt('המשך')}</button>
+    <button class="linkbtn" data-act="act-later" style="display:block;margin:10px auto 0;color:var(--muted)">${tt('לא עכשיו')}</button>`); }
+function actAct(a,b){
+  if(a==='act-open'){ openActSheet(); return true; }
+  if(a==='act-p'){ ACT.p=b.dataset.p; openActSheet(); return true; }
+  if(a==='act-intro'){ openActIntro(); return true; }
+  if(a==='act-connect'){ actConnect(); return true; }
+  if(a==='act-later'){ try{ localStorage.setItem('nr-hlth-later',String(Date.now())); }catch(_){} closeSheet(); render(); return true; }
+  if(a==='act-goal'){ AG=0; openActGoal(); return true; }
+  if(a==='act-adj'){ S.settings.stepsAdj=!S.settings.stepsAdj; persistSettings(); openActSheet(); return true; }
+  if(a==='ag-sug'){ AG=stepsSuggest(); openActGoal(); return true; }
+  if(a==='ag-step'){ AG=Math.max(2000,Math.min(30000,AG+ +b.dataset.d)); openActGoal(); return true; }
+  if(a==='ag-save'){ S.settings.stepsGoal=AG; persistSettings(); openActSheet(); render(); toast(tt('היעד נשמר')); return true; }
+  return false; }
 
 /* ----- nutrition tab ----- */
 function mealsOf(d){ return S.meals.filter(m=>m.d===d).sort((a,b)=>a.ts-b.ts); }
@@ -7583,7 +7705,7 @@ function cycInfo(){ const kT=+S.settings.kcalT||0; if(!kT)return null;
   return {n,src,ok:up>0&&down>0,up,down,train:kT+up,rest:kT-down}; }
 function cycOn(){ return isPrem()&&!!ncCfg().cyc&&!!cycInfo()?.ok; }
 function isTrainDay(ds){ const dt=new Date(ds+'T12:00:00'); if(trainedOn(dt))return true; if(ds<ymd())return false; return !!schedOn(dt); }
-function kcalFor(ds){ const kT=+S.settings.kcalT||0; if(!kT||!cycOn())return kT; const c=cycInfo(); return isTrainDay(ds||ymd())?c.train:c.rest; }
+function kcalFor(ds){ const kT=+S.settings.kcalT||0; if(!kT)return kT; const b=actBonus(ds); if(!cycOn())return kT+b; const c=cycInfo(); return (isTrainDay(ds||ymd())?c.train:c.rest)+b; }
 function cycTag(ds){ if(!cycOn())return ''; const t=isTrainDay(ds); return `<button class="daytag ${t?'tr':''}" data-act="cyc-open">${t?'יום אימון':'יום מנוחה'}</button>`; }
 function openCycSheet(){ const c=cycInfo(), on=!!ncCfg().cyc, kT=+S.settings.kcalT||0;
   openSheet(`<div class="spread"><h3 style="margin:0">ימי אימון וימי מנוחה</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
@@ -9412,10 +9534,10 @@ function userState(u){
 const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
 async function loadAdmin(){
   A.err=null; S.adminLoading=true; if(S.tab==='admin')render();
-  const [ov,cfg,ev,fn,ai]=await Promise.all([sb.rpc('admin_overview'),sb.rpc('admin_config'),sb.rpc('admin_events'),sb.rpc('admin_funnel'),sb.rpc('admin_ai_top',{p_limit:10})]);
+  const [ov,cfg,ev,fn,ai,pd]=await Promise.all([sb.rpc('admin_overview'),sb.rpc('admin_config'),sb.rpc('admin_events'),sb.rpc('admin_funnel'),sb.rpc('admin_ai_top',{p_limit:10}),sb.rpc('admin_period',{p:A.per||'t'})]);
   S.adminLoading=false;
   if(ov.error){A.err=ov.error.code==='42501'?'אין לך הרשאת ניהול':'טעינה נכשלה: '+ov.error.message;}
-  else{A.ov=ov.data; A.cfg=cfg.data||A.cfg; A.events=ev.data||[]; A.funnel=fn.data||A.funnel; A.aiTop=ai.data||[];}
+  else{A.ov=ov.data; A.cfg=cfg.data||A.cfg; A.events=ev.data||[]; A.funnel=fn.data||A.funnel; A.aiTop=ai.data||[]; A.pd=pd.data||A.pd;}
   if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs();
   if(S.tab==='admin')render();
 }
@@ -9497,16 +9619,18 @@ function admOverviewHTML(){
   const free=O.expired||0;
   const mix=[['#94A3B8','חינמיים',free,'data-t="users" data-f="expired"'],['#2563EB','פרימיום מתנה',(O.trial||0)+(O.gifted||0),'data-t="users" data-f="trial"'],['var(--accent)','משלמים',O.paying||0,'data-t="users" data-f="paying"']].concat(O.pending?[['#D97706','ממתינים',O.pending,'data-t="users" data-f="pending"']]:[]);
   const tot=Math.max(1,mix.reduce((a,x)=>a+x[2],0));
-  const perUser=O.active30?money((+O.ai_usd_month||0)/O.active30):'—';
+  const per=A.per||'t', P=A.pd;
   return `
     ${admTasksHTML()}
-    <div class="sect2"><span>החודש במספרים</span></div>
-    <div class="kpi-grid">
-      ${kpi('משתמשים',fmtNum(O.users||0),O.new7?`+${O.new7} השבוע`:'אין חדשים השבוע',!!O.new7,'data-t="users" data-f="all"')}
-      ${kpi('פעילים 7 ימים',fmtNum(O.active7||0),`${pctS(O.active7,O.users)} מהמשתמשים · היום ${O.active1||0}`,false,'')}
-      ${kpi('הכנסות החודש','₪'+fmtNum(Math.round(O.rev_month||0)),`${O.pay_month||0} תשלומים · סה״כ ₪${fmtNum(Math.round(O.rev_total||0))}`,false,'data-t="pay"')}
-      ${kpi('עלות AI החודש',money(O.ai_usd_month),`${perUser} למשתמש פעיל`,false,'')}
+    <div class="sect2"><span>במספרים</span></div>
+    <div class="seg2 adm-per">${[['d','היום'],['w','7 ימים'],['m','החודש'],['t','30 יום'],['a','הכל']].map(([k,t])=>`<button class="${per===k?'on':''}" data-act="adm-per" data-p="${k}">${t}</button>`).join('')}</div>
+    <div class="kpi-grid${P?'':' adm-ld'}">
+      ${kpi('משתמשים',fmtNum(O.users||0),per==='a'?`היום ${O.active1||0} פעילים`:P?(P.new?`+${P.new} בתקופה`:'אין חדשים בתקופה'):'…',!!(P&&P.new&&per!=='a'),'data-t="users" data-f="all"')}
+      ${kpi('פעילים',P?fmtNum(P.active):'…',P?`${pctS(P.active,O.users)} מהמשתמשים`:'',false,'')}
+      ${kpi('הכנסות',P?'₪'+fmtNum(Math.round(P.rev||0)):'…',P?`${P.pays||0} תשלומים`:'',false,'data-t="pay"')}
+      ${kpi('עלות AI',P?money(P.ai_usd):'…',P&&P.active?`${money((+P.ai_usd||0)/P.active)} למשתמש פעיל`:'',false,'')}
     </div>
+    <div class="card r20 stat3 num adm-cnt"><div><b>${P?fmtNum(P.workouts):'…'}</b><span>אימונים</span></div><div><b>${P?fmtNum(P.meals):'…'}</b><span>ארוחות</span></div><div><b>${P?fmtNum(P.scans):'…'}</b><span>סריקות AI</span></div></div>
     <div class="card r20" style="padding:16px">
       <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">חלוקת המשתמשים</b><span class="small muted num">${fmtNum(O.users||0)}</span></div>
       <div class="mix">${mix.filter(x=>x[2]).map(([c,,n])=>`<i style="--c:${c};width:${n/tot*100}%"></i>`).join('')}</div>
@@ -9690,6 +9814,7 @@ function admAct(act,b){
     case 'admin-open': closeSheet(); S.tab='admin'; render(); loadAdmin(); window.scrollTo(0,0); return true;
     case 'adm-back': S.tab='me'; location.hash='me'; render(); window.scrollTo(0,0); return true;
     case 'adm-refresh': loadAdmin(); return true;
+    case 'adm-per': A.per=b.dataset.p; A.pd=null; render(); sb.rpc('admin_period',{p:A.per}).then(({data})=>{ if(A.per===b.dataset.p){A.pd=data; if(S.tab==='admin')render();} }); return true;
     case 'adm-tab': A.tab=b.dataset.t; render(); window.scrollTo(0,0); if(A.tab==='users')admLoadUsers(true); if(A.tab==='msgs')admLoadMsgs(); if(A.tab==='prods')admLoadProds(); return true;
     case 'adm-prod-open': admProdOpen(b.dataset.code); return true;
     case 'adm-prod-ok': case 'adm-prod-unok': { const c=b.dataset.code, okk=act==='adm-prod-ok'; b.disabled=true;
@@ -11919,6 +12044,7 @@ function handleAct(b,ev){
     case 'saved-manage': openSavedManage(); break;
     case 'saved-rm': { const m=savedMeals().find(x=>x.id===b.dataset.id); if(m){ unsaveFixed(m.name); openSavedManage(); toast('הוסרה'); } break; }
     case 'food-targets-open': openTargetsSheet(); break;
+    case 'act-open': case 'act-p': case 'act-intro': case 'act-connect': case 'act-later': case 'act-goal': case 'act-adj': case 'ag-sug': case 'ag-step': case 'ag-save': actAct(act,b); break;
     case 'tgt-open': { const k=+S.settings.kcalT||'', p=+S.settings.protT||'', m=macroT();
       openSheet(`<h3>${tt('היעד היומי')}</h3>
         <div class="row" style="gap:10px">
@@ -12266,7 +12392,7 @@ async function enterApp(user){
       const pl=st.data.prefs?.lang; let lsl=null; try{lsl=localStorage.getItem('nr_lang');}catch(e){}
       if(pl&&pl!==LANG&&!lsl){ try{localStorage.setItem('nr_lang',pl);}catch(e){} location.reload(); return; }
       if(pl!==LANG)setTimeout(()=>flushActive(),1500); }
-    saveSnapshot();
+    saveSnapshot(); actLoad();
   }catch(e){ // אופליין — ממשיכים מתמונת המצב המקומית
     const snap=loadSnapshot();
     if(snap){ S.templates=snap.templates||[]; S.workouts=snap.workouts||[]; S.settings=Object.assign({rest:90},snap.settings); S.weights=snap.weights||[]; S.meals=snap.meals||[]; toast('מצב אופליין — עובדים מהנתונים השמורים'); }
