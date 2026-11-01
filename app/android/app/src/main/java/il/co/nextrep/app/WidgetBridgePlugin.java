@@ -40,6 +40,7 @@ public class WidgetBridgePlugin extends Plugin {
         Context ctx = getContext();
         ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, json).apply();
         NextRepWidget.updateAll(ctx);
+        NextRepStepsWidget.updateAll(ctx);
         JSObject r = new JSObject();
         r.put("ok", true);
         call.resolve(r);

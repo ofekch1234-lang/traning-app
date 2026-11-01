@@ -85,6 +85,16 @@ public class NextRepWidget extends AppWidgetProvider {
         if (wp > 0) { if (meta.length() > 0) meta.append(" · "); meta.append(wd).append('/').append(wp).append(' ').append(L.optString("week", "השבוע")); }
         v.setTextViewText(R.id.w_meta, meta.toString());
 
+        // steps (when the user connected Health Connect in the app): a blue row under protein
+        boolean stOn = s.optBoolean("stOn", false);
+        v.setViewVisibility(R.id.w_st_row, stOn ? View.VISIBLE : View.GONE);
+        v.setViewVisibility(R.id.w_st_bar, stOn ? View.VISIBLE : View.GONE);
+        if (stOn) {
+            int st = same ? s.optInt("st", 0) : 0, stG = Math.max(1, s.optInt("stG", 8000));
+            v.setTextViewText(R.id.w_st_lbl, L.optString("steps", "צעדים"));
+            v.setTextViewText(R.id.w_st, num(st) + "/" + num(stG));
+            v.setProgressBar(R.id.w_st_bar, 100, Math.min(100, Math.round(st * 100f / stG)), false);
+        }
         // pink bars when the app colour is pink (two bars per meter; only one is shown — tinting from a widget isn't supported on older Android)
         boolean pink = Color.red(accent) > Color.green(accent);
         int kp = target > 0 ? Math.min(100, Math.round(eaten * 100f / target)) : 0;

@@ -20,6 +20,16 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NRHeebo-Medium.ttf</string>
+		<string>NRHeebo-Bold.ttf</string>
+		<string>NRHeebo-ExtraBold.ttf</string>
+		<string>NRSora-SemiBold.ttf</string>
+		<string>NRSora-Bold.ttf</string>
+	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>NextRep מציגה בווידג׳ט את הצעדים של היום מתוך Apple Health.</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionPointIdentifier</key>

@@ -20,6 +20,11 @@
 		4E5257000000000000000002 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E525700000000000000000C /* MainViewController.swift */; };
 		4E5257000000000000000003 /* NextRepWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E525700000000000000000D /* NextRepWidget.swift */; };
 		4E5257000000000000000004 /* NextRepWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4E5257000000000000000010 /* NextRepWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4E5257000000000000000130 /* NRHeebo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E5257000000000000000110 /* NRHeebo-Medium.ttf */; };
+		4E5257000000000000000131 /* NRHeebo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E5257000000000000000111 /* NRHeebo-Bold.ttf */; };
+		4E5257000000000000000132 /* NRHeebo-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E5257000000000000000112 /* NRHeebo-ExtraBold.ttf */; };
+		4E5257000000000000000133 /* NRSora-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E5257000000000000000113 /* NRSora-SemiBold.ttf */; };
+		4E5257000000000000000134 /* NRSora-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E5257000000000000000114 /* NRSora-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +69,11 @@
 		4E525700000000000000000E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E525700000000000000000F /* NextRepWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NextRepWidget.entitlements; sourceTree = "<group>"; };
 		4E5257000000000000000010 /* NextRepWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextRepWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E5257000000000000000110 /* NRHeebo-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NRHeebo-Medium.ttf; sourceTree = "<group>"; };
+		4E5257000000000000000111 /* NRHeebo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NRHeebo-Bold.ttf; sourceTree = "<group>"; };
+		4E5257000000000000000112 /* NRHeebo-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NRHeebo-ExtraBold.ttf; sourceTree = "<group>"; };
+		4E5257000000000000000113 /* NRSora-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NRSora-SemiBold.ttf; sourceTree = "<group>"; };
+		4E5257000000000000000114 /* NRSora-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NRSora-Bold.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +138,11 @@
 				4E525700000000000000000D /* NextRepWidget.swift */,
 				4E525700000000000000000E /* Info.plist */,
 				4E525700000000000000000F /* NextRepWidget.entitlements */,
+				4E5257000000000000000110 /* NRHeebo-Medium.ttf */,
+				4E5257000000000000000111 /* NRHeebo-Bold.ttf */,
+				4E5257000000000000000112 /* NRHeebo-ExtraBold.ttf */,
+				4E5257000000000000000113 /* NRSora-SemiBold.ttf */,
+				4E5257000000000000000114 /* NRSora-Bold.ttf */,
 			);
 			path = NextRepWidget;
 			sourceTree = "<group>";
@@ -234,6 +249,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E5257000000000000000130 /* NRHeebo-Medium.ttf in Resources */,
+				4E5257000000000000000131 /* NRHeebo-Bold.ttf in Resources */,
+				4E5257000000000000000132 /* NRHeebo-ExtraBold.ttf in Resources */,
+				4E5257000000000000000133 /* NRSora-SemiBold.ttf in Resources */,
+				4E5257000000000000000134 /* NRSora-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

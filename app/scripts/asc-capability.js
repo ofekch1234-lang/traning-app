@@ -42,4 +42,12 @@ async function ensureBundle(identifier, name) {
   await add('APPLE_ID_AUTH', 'Sign in with Apple', [{ key: 'APPLE_ID_AUTH_APP_CONSENT', options: [{ key: 'PRIMARY_APP_CONSENT' }] }]);
   await add('PUSH_NOTIFICATIONS', 'Push notifications');
   await add('HEALTHKIT', 'HealthKit');
+  // the widget reads today's steps from Apple Health itself, so its App ID needs HealthKit too
+  { const r = await api('bundleIds?filter[identifier]=' + encodeURIComponent(BUNDLE + '.widget') + '&include=bundleIdCapabilities');
+    const w = (r.j.data || []).find(d => d.attributes.identifier === BUNDLE + '.widget');
+    if (w) { const wh = (r.j.included || []).map(c => c.attributes.capabilityType);
+      if (wh.includes('HEALTHKIT')) console.log('Widget HealthKit: already on');
+      else { const { status } = await api('bundleIdCapabilities', { method: 'POST', body: JSON.stringify({ data: { type: 'bundleIdCapabilities',
+        attributes: { capabilityType: 'HEALTHKIT' }, relationships: { bundleId: { data: { type: 'bundleIds', id: w.id } } } } }) });
+        console.log('Widget HealthKit: turned on (' + status + ')'); } } }
 })().catch(e => { console.log('::error::' + e.message); process.exit(1); });

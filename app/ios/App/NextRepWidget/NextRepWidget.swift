@@ -2,6 +2,7 @@ import WidgetKit
 import SwiftUI
 import Security
 import ActivityKit
+import HealthKit
 
 // MARK: - Data written by the app (WidgetBridgePlugin) into a shared keychain item
 
@@ -17,6 +18,12 @@ struct NRSnap: Codable {
     var nextSub: String?    // e.g. "today's workout" / "up next"
     var wkDone: Int?
     var wkPlan: Int?
+    var stOn: Bool?         // steps connected (Apple Health)
+    var st: Int?            // steps today, as last synced by the app
+    var stG: Int?           // daily step goal
+    var stKm: Double?
+    var stKc: Int?
+    var st7: [Int]?         // last 7 days, oldest first, today last
     var accent: String?     // hex, follows the app colour (lime / pink)
     var rtl: Bool?
     var L: [String: String]? // labels in the user's language
@@ -53,11 +60,18 @@ struct NRModel {
     var accent: Color
     var rtl: Bool
     var L: [String: String]
+    var stOn: Bool = false
+    var steps: Int = 0
+    var stGoal: Int = 8000
+    var stKm: Double = 0
+    var stKc: Int = 0
+    var st7: [Int] = []
 
     var left: Int { max(0, target - eaten) }
     var over: Bool { target > 0 && eaten > target }
     var kcalFrac: Double { target > 0 ? min(1, Double(eaten) / Double(target)) : 0 }
     var protFrac: Double { protT > 0 ? min(1, Double(prot) / Double(protT)) : 0 }
+    var stFrac: Double { stGoal > 0 ? min(1, Double(steps) / Double(stGoal)) : 0 }
     func t(_ k: String, _ fallback: String) -> String { L[k] ?? fallback }
 
     static func load(at date: Date) -> NRModel {
@@ -77,12 +91,27 @@ struct NRModel {
             wkPlan: s?.wkPlan ?? 0,
             accent: Color(hex: s?.accent ?? "#BFFF2F"),
             rtl: s?.rtl ?? true,
-            L: s?.L ?? [:]
+            L: s?.L ?? [:],
+            stOn: s?.stOn ?? false,
+            steps: sameDay ? (s?.st ?? 0) : 0,
+            stGoal: s?.stG ?? 8000,
+            stKm: sameDay ? (s?.stKm ?? 0) : 0,
+            stKc: sameDay ? (s?.stKc ?? 0) : 0,
+            st7: sameDay ? (s?.st7 ?? []) : Array(((s?.st7 ?? []).dropFirst()) + [0])
         )
+    }
+    /// fresher numbers read straight from Apple Health by the widget (the app may not have been opened for hours)
+    func with(_ h: NRHealthDay?) -> NRModel {
+        guard let h = h else { return self }
+        var m = self
+        if h.steps >= m.steps { m.steps = h.steps; m.stKm = max(m.stKm, h.km); m.stKc = max(m.stKc, h.kc) }
+        if h.days.count == 7 { m.st7 = zip(h.days, m.st7.count == 7 ? m.st7 : Array(repeating: 0, count: 7)).map { max($0, $1) } }
+        return m
     }
 
     static let sample = NRModel(hasData: true, eaten: 1240, target: 2100, prot: 96, protT: 160, next: "פלג גוף עליון A",
-                                nextEx: 6, nextSub: "האימון של היום", wkDone: 2, wkPlan: 4, accent: Color(hex: "#BFFF2F"), rtl: true, L: [:])
+                                nextEx: 6, nextSub: "האימון של היום", wkDone: 2, wkPlan: 4, accent: Color(hex: "#BFFF2F"), rtl: true, L: [:],
+                                stOn: true, steps: 5842, stGoal: 9500, stKm: 4.3, stKc: 216, st7: [6200, 9900, 4300, 9100, 7000, 8800, 5842])
 }
 
 extension Color {
@@ -101,6 +130,46 @@ func nrNum(_ n: Int) -> String {
     return f.string(from: NSNumber(value: n)) ?? "\(n)"
 }
 
+// MARK: - Apple Health, read by the widget itself (uses the app's permission)
+
+struct NRHealthDay { var steps: Int; var km: Double; var kc: Int; var days: [Int] }
+
+enum NRHealth {
+    static let store = HKHealthStore()
+    static func read(_ done: @escaping (NRHealthDay?) -> Void) {
+        guard HKHealthStore.isHealthDataAvailable(), let stT = HKQuantityType.quantityType(forIdentifier: .stepCount) else { done(nil); return }
+        let cal = Calendar.current, now = Date(), today = cal.startOfDay(for: now)
+        guard let start = cal.date(byAdding: .day, value: -6, to: today) else { done(nil); return }
+        let q = HKStatisticsCollectionQuery(quantityType: stT, quantitySamplePredicate: HKQuery.predicateForSamples(withStart: start, end: now, options: .strictStartDate),
+                                            options: .cumulativeSum, anchorDate: start, intervalComponents: DateComponents(day: 1))
+        q.initialResultsHandler = { _, res, err in
+            guard let res = res, err == nil else { done(nil); return }
+            var days: [Int] = []
+            res.enumerateStatistics(from: start, to: now) { st, _ in days.append(Int(st.sumQuantity()?.doubleValue(for: .count()) ?? 0)) }
+            while days.count < 7 { days.append(0) }
+            if days.count > 7 { days = Array(days.suffix(7)) }
+            let p = HKQuery.predicateForSamples(withStart: today, end: now, options: .strictStartDate)
+            let g = DispatchGroup(); var km = 0.0, kc = 0.0
+            if let dT = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) {
+                g.enter(); store.execute(HKStatisticsQuery(quantityType: dT, quantitySamplePredicate: p, options: .cumulativeSum) { _, st, _ in
+                    km = st?.sumQuantity()?.doubleValue(for: .meterUnit(with: .kilo)) ?? 0; g.leave() })
+            }
+            if let eT = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) {
+                g.enter(); store.execute(HKStatisticsQuery(quantityType: eT, quantitySamplePredicate: p, options: .cumulativeSum) { _, st, _ in
+                    kc = st?.sumQuantity()?.doubleValue(for: .kilocalorie()) ?? 0; g.leave() })
+            }
+            g.notify(queue: .global()) { done(NRHealthDay(steps: days.last ?? 0, km: (km * 10).rounded() / 10, kc: Int(kc.rounded()), days: days)) }
+        }
+        store.execute(q)
+    }
+}
+
+// MARK: - Fonts: the app's Heebo (text) and Sora (numbers), bundled in the extension
+
+func nrT(_ size: CGFloat, _ w: String = "Bold") -> Font { .custom("NRHeebo-\(w)", size: size) }
+func nrN(_ size: CGFloat, _ w: String = "Bold") -> Font { .custom("NRSora-\(w)", size: size) }
+let nrBlue = Color(red: 0.353, green: 0.784, blue: 0.980)
+
 // MARK: - Timeline: refresh when the app writes, and at midnight so "eaten today" resets
 
 struct NREntry: TimelineEntry {
@@ -112,13 +181,23 @@ struct NRProvider: TimelineProvider {
     func placeholder(in context: Context) -> NREntry { NREntry(date: Date(), m: .sample) }
     func getSnapshot(in context: Context, completion: @escaping (NREntry) -> Void) {
         let m = NRModel.load(at: Date())
-        completion(NREntry(date: Date(), m: context.isPreview && !m.hasData ? .sample : m))
+        if context.isPreview && !m.hasData { completion(NREntry(date: Date(), m: .sample)); return }
+        if !m.stOn { completion(NREntry(date: Date(), m: m)); return }
+        NRHealth.read { h in completion(NREntry(date: Date(), m: m.with(h))) }
     }
     func getTimeline(in context: Context, completion: @escaping (Timeline<NREntry>) -> Void) {
         let now = Date()
         let midnight = Calendar.current.startOfDay(for: now.addingTimeInterval(86400))
-        let entries = [NREntry(date: now, m: .load(at: now)), NREntry(date: midnight, m: .load(at: midnight))]
-        completion(Timeline(entries: entries, policy: .after(midnight.addingTimeInterval(3600))))
+        let base = NRModel.load(at: now)
+        if !base.stOn {
+            let entries = [NREntry(date: now, m: base), NREntry(date: midnight, m: .load(at: midnight))]
+            completion(Timeline(entries: entries, policy: .after(midnight.addingTimeInterval(3600)))); return
+        }
+        // steps change all day: read Apple Health now and again in about half an hour
+        NRHealth.read { h in
+            let next = min(now.addingTimeInterval(30 * 60), midnight.addingTimeInterval(60))
+            completion(Timeline(entries: [NREntry(date: now, m: base.with(h))], policy: .after(next)))
+        }
     }
 }
 
@@ -149,13 +228,35 @@ struct KcalRing: View {
                 .rotationEffect(.degrees(-90))
             VStack(spacing: 0) {
                 Text(m.target > 0 ? nrNum(m.over ? m.eaten - m.target : m.left) : nrNum(m.eaten))
-                    .font(.system(size: 20, weight: .heavy, design: .rounded)).foregroundColor(nrInk)
+                    .font(nrN(20)).foregroundColor(nrInk)
                     .minimumScaleFactor(0.6).lineLimit(1)
                 Text(m.target > 0 ? (m.over ? m.t("over", "מעל היעד") : m.t("left", "קק״ל נותרו")) : m.t("kcal", "קק״ל"))
-                    .font(.system(size: 9, weight: .semibold)).foregroundColor(nrMuted).lineLimit(1).minimumScaleFactor(0.7)
+                    .font(nrT(9, "Medium")).foregroundColor(nrMuted).lineLimit(1).minimumScaleFactor(0.7)
             }.padding(.horizontal, 8)
         }
         .frame(width: 92, height: 92)
+    }
+}
+
+struct NRBar: View {
+    let label: String
+    let value: String
+    let frac: Double
+    let color: Color
+    var body: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            HStack {
+                Text(label).font(nrT(11, "Medium")).foregroundColor(nrMuted)
+                Spacer(minLength: 4)
+                Text(value).font(nrN(11, "SemiBold")).foregroundColor(nrInk).environment(\.layoutDirection, .leftToRight)
+            }
+            GeometryReader { g in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(nrTrack)
+                    Capsule().fill(color).frame(width: max(4, g.size.width * frac))
+                }
+            }.frame(height: 6)
+        }
     }
 }
 
@@ -164,38 +265,84 @@ struct MediumView: View {
     var body: some View {
         HStack(spacing: 14) {
             KcalRing(m: m)
-            VStack(alignment: .leading, spacing: 8) {
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(m.t("protein", "חלבון")).font(.system(size: 11, weight: .semibold)).foregroundColor(nrMuted)
-                        Spacer(minLength: 4)
-                        Text(m.protT > 0 ? "\(m.prot)/\(m.protT)" : "\(m.prot)")
-                            .font(.system(size: 11, weight: .bold, design: .rounded)).foregroundColor(nrInk)
-                    }
-                    GeometryReader { g in
-                        ZStack(alignment: .leading) {
-                            Capsule().fill(nrTrack)
-                            Capsule().fill(m.accent).frame(width: max(4, g.size.width * m.protFrac))
-                        }
-                    }.frame(height: 6)
+            VStack(alignment: .leading, spacing: m.stOn ? 6 : 8) {
+                NRBar(label: m.t("protein", "חלבון"), value: m.protT > 0 ? "\(m.prot)/\(m.protT)" : "\(m.prot)", frac: m.protFrac, color: m.accent)
+                if m.stOn {
+                    NRBar(label: m.t("steps", "צעדים"), value: "\(nrNum(m.steps))/\(nrNum(m.stGoal))", frac: m.stFrac, color: nrBlue)
                 }
                 Rectangle().fill(nrTrack).frame(height: 1)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(m.nextSub.isEmpty ? m.t("next", "האימון הבא") : m.nextSub)
-                        .font(.system(size: 10, weight: .bold)).foregroundColor(m.accent).lineLimit(1)
-                    Text(m.next ?? m.t("noPlan", "אין אימון מתוכנן"))
-                        .font(.system(size: 15, weight: .heavy)).foregroundColor(nrInk).lineLimit(1).minimumScaleFactor(0.75)
-                    HStack(spacing: 6) {
-                        if m.nextEx > 0 {
-                            Text("\(m.nextEx) \(m.t("ex", "תרגילים"))").font(.system(size: 10, weight: .medium)).foregroundColor(nrMuted)
-                        }
-                        if m.wkPlan > 0 {
-                            Text("· \(m.wkDone)/\(m.wkPlan) \(m.t("week", "השבוע"))").font(.system(size: 10, weight: .medium)).foregroundColor(nrMuted)
+                VStack(alignment: .leading, spacing: 1) {
+                    HStack(spacing: 4) {
+                        Text(m.nextSub.isEmpty ? m.t("next", "האימון הבא") : m.nextSub).font(nrT(10, "Bold")).foregroundColor(m.accent)
+                        if m.stOn && m.wkPlan > 0 {
+                            Text("· \(m.wkDone)/\(m.wkPlan) \(m.t("week", "השבוע"))").font(nrT(10, "Medium")).foregroundColor(nrMuted)
                         }
                     }.lineLimit(1)
+                    Text(m.next ?? m.t("noPlan", "אין אימון מתוכנן"))
+                        .font(nrT(15, "ExtraBold")).foregroundColor(nrInk).lineLimit(1).minimumScaleFactor(0.75)
+                    if !m.stOn {
+                        HStack(spacing: 6) {
+                            if m.nextEx > 0 {
+                                Text("\(m.nextEx) \(m.t("ex", "תרגילים"))").font(nrT(10, "Medium")).foregroundColor(nrMuted)
+                            }
+                            if m.wkPlan > 0 {
+                                Text("· \(m.wkDone)/\(m.wkPlan) \(m.t("week", "השבוע"))").font(nrT(10, "Medium")).foregroundColor(nrMuted)
+                            }
+                        }.lineLimit(1)
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .environment(\.layoutDirection, m.rtl ? .rightToLeft : .leftToRight)
+        .nrBackground(nrBG)
+    }
+}
+
+struct StepsSmallView: View {
+    let m: NRModel
+    var body: some View {
+        let days = m.st7.count == 7 ? m.st7 : Array(repeating: 0, count: 7)
+        let mx = max(Double(m.stGoal), Double(days.max() ?? 0), 1)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text(m.t("steps", "צעדים")).font(nrT(11, "Bold")).foregroundColor(nrMuted)
+                Spacer()
+                Text("\(Int((m.stFrac * 100).rounded()))%").font(nrN(11, "Bold")).foregroundColor(nrBlue).environment(\.layoutDirection, .leftToRight)
+            }
+            if !m.stOn {
+                Spacer()
+                Text(m.t("connect", "חבר צעדים באפליקציה")).font(nrT(13, "Bold")).foregroundColor(nrInk).lineLimit(3)
+                Spacer()
+            } else {
+            Text(nrNum(m.steps)).font(nrN(30)).foregroundColor(nrInk).lineLimit(1).minimumScaleFactor(0.6).padding(.top, 4)
+            HStack(spacing: 3) {
+                Text(m.t("of", "מתוך")).font(nrT(10, "Medium"))
+                Text(nrNum(m.stGoal)).font(nrN(10, "SemiBold"))
+            }.foregroundColor(nrMuted)
+            GeometryReader { g in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(nrTrack)
+                    Capsule().fill(nrBlue).frame(width: max(4, g.size.width * m.stFrac))
+                }
+            }.frame(height: 6).padding(.top, 7)
+            Spacer(minLength: 6)
+            HStack(alignment: .bottom, spacing: 3) {
+                ForEach(0..<7, id: \.self) { i in
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(days[i] >= m.stGoal ? nrBlue : (i == 6 ? nrBlue.opacity(0.55) : nrBlue.opacity(0.25)))
+                        .frame(height: max(2, 26 * CGFloat(Double(days[i]) / mx)))
+                }
+            }.frame(height: 26, alignment: .bottom)
+            .environment(\.layoutDirection, m.rtl ? .rightToLeft : .leftToRight)
+            HStack(spacing: 3) {
+                Text(String(format: "%.1f", m.stKm)).font(nrN(9, "SemiBold"))
+                Text(m.t("km", "ק״מ")).font(nrT(9, "Medium"))
+                Text("·").font(nrT(9, "Medium"))
+                Text(nrNum(m.stKc)).font(nrN(9, "SemiBold"))
+                Text(m.t("kc", "קל׳")).font(nrT(9, "Medium"))
+            }.foregroundColor(nrMuted).padding(.top, 4).lineLimit(1)
+            }
         }
         .environment(\.layoutDirection, m.rtl ? .rightToLeft : .leftToRight)
         .nrBackground(nrBG)
@@ -207,11 +354,14 @@ struct RectView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
             Text(m.target > 0 ? "\(nrNum(m.over ? m.eaten - m.target : m.left)) \(m.over ? m.t("over", "מעל היעד") : m.t("left", "קק״ל נותרו"))" : "\(nrNum(m.eaten)) \(m.t("kcal", "קק״ל"))")
-                .font(.system(size: 15, weight: .heavy, design: .rounded)).lineLimit(1).minimumScaleFactor(0.7)
+                .font(nrT(15, "ExtraBold")).lineLimit(1).minimumScaleFactor(0.7)
             Text("\(m.t("protein", "חלבון")) \(m.prot)\(m.protT > 0 ? "/\(m.protT)" : "")")
-                .font(.system(size: 12, weight: .semibold)).lineLimit(1)
-            if let n = m.next {
-                Text(n).font(.system(size: 12, weight: .regular)).lineLimit(1).opacity(0.85)
+                .font(nrT(12, "Bold")).lineLimit(1)
+            if m.stOn {
+                Text("\(nrNum(m.steps)) \(m.t("steps", "צעדים")) · \(Int((m.stFrac * 100).rounded()))%")
+                    .font(nrT(12, "Medium")).lineLimit(1).opacity(0.9)
+            } else if let n = m.next {
+                Text(n).font(nrT(12, "Medium")).lineLimit(1).opacity(0.85)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -227,7 +377,24 @@ struct CircView: View {
         Gauge(value: m.kcalFrac) {
             Text("kcal")
         } currentValueLabel: {
-            Text(m.target > 0 ? nrNum(m.left) : nrNum(m.eaten)).font(.system(size: 13, weight: .heavy, design: .rounded)).minimumScaleFactor(0.5)
+            Text(m.target > 0 ? nrNum(m.left) : nrNum(m.eaten)).font(nrN(13)).minimumScaleFactor(0.5)
+        }
+        .gaugeStyle(.accessoryCircularCapacity)
+        .nrBackground(Color.clear)
+    }
+}
+
+@available(iOSApplicationExtension 16.0, *)
+struct StepsCircView: View {
+    let m: NRModel
+    var body: some View {
+        Gauge(value: m.stFrac) {
+            Text(m.t("steps", "צעדים"))
+        } currentValueLabel: {
+            VStack(spacing: -1) {
+                Text(m.steps >= 1000 ? String(format: "%.1fK", Double(m.steps) / 1000) : "\(m.steps)").font(nrN(12)).minimumScaleFactor(0.5)
+                Text(m.t("steps", "צעדים")).font(nrT(7, "Bold")).minimumScaleFactor(0.6)
+            }
         }
         .gaugeStyle(.accessoryCircularCapacity)
         .nrBackground(Color.clear)
@@ -249,14 +416,38 @@ struct NRWidgetView: View {
     }
 }
 
+struct NRStepsView: View {
+    @Environment(\.widgetFamily) var family
+    let entry: NREntry
+    var body: some View {
+        switch family {
+        case .accessoryCircular:
+            if #available(iOSApplicationExtension 16.0, *) { StepsCircView(m: entry.m) } else { StepsSmallView(m: entry.m) }
+        default:
+            StepsSmallView(m: entry.m)
+        }
+    }
+}
+
 struct NextRepWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "NextRepToday", provider: NRProvider()) { entry in
             NRWidgetView(entry: entry)
         }
         .configurationDisplayName("NextRep")
-        .description("קלוריות, חלבון והאימון הבא שלך")
+        .description("קלוריות, חלבון, צעדים והאימון הבא שלך")
         .supportedFamilies([.systemMedium, .accessoryRectangular, .accessoryCircular])
+    }
+}
+
+struct NextRepStepsWidget: Widget {
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: "NextRepSteps", provider: NRProvider()) { entry in
+            NRStepsView(entry: entry)
+        }
+        .configurationDisplayName("NextRep · צעדים")
+        .description("הצעדים של היום מול היעד, ו-7 הימים האחרונים")
+        .supportedFamilies([.systemSmall, .accessoryCircular])
     }
 }
 
@@ -427,6 +618,7 @@ struct NRWorkoutLive: Widget {
 struct NextRepWidgets: WidgetBundle {
     var body: some Widget {
         NextRepWidget()
+        NextRepStepsWidget()
         NRWorkoutLive()
     }
 }

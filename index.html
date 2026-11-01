@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=60b04c84"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=60b04c84"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=60b04c84"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=8b040c14"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=8b040c14"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=8b040c14"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2668,7 +2668,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.154';
+const APP_VERSION='13.3.156';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4471,8 +4471,10 @@ function widgetSync(){ if((NATIVE_OS!=='ios'&&NATIVE_OS!=='android')||S.mode!=='
     const snap={day:d,kcal:t.kcal,kT:kcalFor(d)||0,kT2:kcalFor(ymd(tm))||0,prot:t.protein,pT:+S.settings.protT||0,
       next:tpl?tt(tpl.name):null,nextEx:(tpl&&tpl.ex||[]).length,nextSub:nw?tt(nw.label):'',
       wkDone:S.workouts.filter(w=>w.start>=ws).length,wkPlan:Object.values(S.settings.schedule||{}).filter(Boolean).length,
+      stOn:!!(actOn()||actHas()),st:actDay(d)?.s||0,stG:stepsGoal(),stKm:Math.round((actDay(d)?.km||0)*10)/10,stKc:Math.round(actDay(d)?.kc||0),
+      st7:[6,5,4,3,2,1,0].map(i=>{ const x=new Date(); x.setDate(x.getDate()-i); return actDay(ymd(x))?.s||0; }),
       accent:(getComputedStyle(document.documentElement).getPropertyValue('--accent')||'').trim()||'#BFFF2F',rtl:LANG!=='en',
-      L:{left:tt('קק״ל נותרו'),over:tt('מעל היעד'),kcal:tt('קק״ל'),protein:tt('חלבון'),next:tt('האימון הבא'),noPlan:tt('אין אימון מתוכנן'),ex:tt('תרגילים'),week:tt('השבוע')}};
+      L:{connect:tt('חבר צעדים באפליקציה'),steps:tt('צעדים'),of:tt('מתוך'),km:tt('ק״מ'),kc:tt('קל׳'),left:tt('קק״ל נותרו'),over:tt('מעל היעד'),kcal:tt('קק״ל'),protein:tt('חלבון'),next:tt('האימון הבא'),noPlan:tt('אין אימון מתוכנן'),ex:tt('תרגילים'),week:tt('השבוע')}};
     const js=JSON.stringify(snap); if(js===widgetSync._last)return; widgetSync._last=js; P.set({json:js}).catch(()=>{ widgetSync._last=null; });
   }catch(_){} },1200); }
 document.addEventListener('visibilitychange',()=>{ if(document.hidden){ widgetSync._last=null; widgetSync(); } });
@@ -4640,7 +4642,7 @@ async function actSync(days){ const H=HP(); if(!H||!actOn()||actSync._busy)retur
     put(a,'s'); put(b,'km'); put(c,'kc'); const rows=[];
     for(const d in nd){ const v={s:Math.round(nd[d].s),km:Math.round(nd[d].km)/1000,kc:Math.round(nd[d].kc)}; const o=ACT.days[d];
       if(!o||o.s!==v.s||Math.abs(o.km-v.km)>0.01||o.kc!==v.kc){ ACT.days[d]=v; rows.push({user_id:S.user?.id,d,steps:v.s,dist_m:Math.round(v.km*1000),active_kcal:v.kc,src:window.Capacitor?.getPlatform?.()==='android'?'hc':'hk',updated_at:new Date().toISOString()}); } }
-    ACT.at=Date.now(); actSave();
+    ACT.at=Date.now(); actSave(); try{ widgetSync(); }catch(_){}
     if(rows.length&&S.user){ sb.from('activity_days').upsert(rows).then(()=>{},()=>{}); if(S.tab==='home'||!$('#sheet').hidden&&$('.act-chart'))render(); }
   }catch(_){} finally{ actSync._busy=false; } }
 /* history from the server: a new device, or the website */
@@ -4741,7 +4743,7 @@ function actAct(a,b){
   if(a==='act-adj'){ S.settings.stepsAdj=!S.settings.stepsAdj; persistSettings(); openActSheet(); return true; }
   if(a==='ag-sug'){ AG=stepsSuggest(); openActGoal(); return true; }
   if(a==='ag-step'){ AG=Math.max(2000,Math.min(30000,AG+ +b.dataset.d)); openActGoal(); return true; }
-  if(a==='ag-save'){ S.settings.stepsGoal=AG; persistSettings(); openActSheet(); render(); toast(tt('היעד נשמר')); return true; }
+  if(a==='ag-save'){ S.settings.stepsGoal=AG; persistSettings(); try{ widgetSync(); }catch(_){} openActSheet(); render(); toast(tt('היעד נשמר')); return true; }
   return false; }
 
 /* ----- Today screen: the workout first, then tiles, then one swipeable "for you" row (localStorage nr-hl=old shows the previous layout) ----- */
