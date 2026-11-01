@@ -3294,5 +3294,73 @@
  "ראה את השינוי שלך ושתף אותו": {
   "en": "See your change and share it",
   "ar": "شاهد تغيّرك وشاركه"
+ },
+ "יעד צעדים יומי ורצף ימים": {
+  "en": "A daily step goal and streaks",
+  "ar": "هدف خطوات يومي وسلسلة أيام"
+ },
+ "לפני שעה": {
+  "en": "1h ago",
+  "ar": "قبل ساعة"
+ },
+ "הסיכום השבועי שלך מוכן": {
+  "en": "Your weekly summary is ready",
+  "ar": "ملخصك الأسبوعي جاهز"
+ },
+ "בלי ספאם. אפשר לכבות כל סוג בהגדרות.": {
+  "en": "No spam. Turn off any type in settings.",
+  "ar": "بدون إزعاج. يمكن إيقاف أي نوع من الإعدادات."
+ },
+ "מתחברים פעם אחת, והצעדים מופיעים לבד, גם מהשעון.": {
+  "en": "Connect once and your steps show up on their own, from your watch too.",
+  "ar": "اربط مرة واحدة وستظهر خطواتك تلقائيًا، من الساعة أيضًا."
+ },
+ "ראפי מתאים את ההמלצות לפעילות שלך": {
+  "en": "Repi tailors tips to your activity",
+  "ar": "ريبي يكيّف النصائح حسب نشاطك"
+ },
+ "ההתראות עובדות גם כשהטלפון בכיס או נעול.": {
+  "en": "Notifications work even when your phone is in your pocket or locked.",
+  "ar": "الإشعارات تعمل حتى والهاتف في جيبك أو مقفل."
+ },
+ "הסיכום השבועי מראפי": {
+  "en": "Your weekly summary from Repi",
+  "ar": "الملخص الأسبوعي من ريبي"
+ },
+ "צעדים היום": {
+  "en": "steps today",
+  "ar": "خطوة اليوم"
+ },
+ "סוף המנוחה בין הסטים, עם רטט": {
+  "en": "End of rest between sets, with a vibration",
+  "ar": "نهاية الراحة بين المجموعات، مع اهتزاز"
+ },
+ "המנוחה נגמרה. סט 3 מתוך 4": {
+  "en": "Rest is over. Set 3 of 4",
+  "ar": "انتهت الراحة. المجموعة 3 من 4"
+ },
+ ", ולא משתמשים בזה לפרסום.": {
+  "en": ", and it is never used for ads.",
+  "ar": "، ولا يُستخدم للإعلانات."
+ },
+ "צעדים, ק״מ וקלוריות פעילות בכל יום": {
+  "en": "Steps, km and active calories every day",
+  "ar": "الخطوات والكيلومترات وسعرات النشاط كل يوم"
+ },
+ "ההתראות הופעלו": {
+  "en": "Notifications on",
+  "ar": "تم تفعيل الإشعارات"
+ },
+ "רק קריאה. לא משנים כלום ב-": {
+  "en": "Read only. Nothing changes in ",
+  "ar": "قراءة فقط. لا يتغير شيء في "
+ },
+ "תזכורת עדינה בימי האימון שלך": {
+  "en": "A gentle reminder on your workout days",
+  "ar": "تذكير لطيف في أيام تمرينك"
+ },
+ "כל צעד נספר": {
+  "en": "Every step counts",
+  "ar": "كل خطوة تُحسب"
  }
 }
