@@ -3801,7 +3801,8 @@ async function onbApply(){
   if(a.hqd){ S.settings.hq={at:Date.now(),v:1,c:a.hqc?1:0}; if(a.hqc)c.careful=true; }
   const P=onbPlan(), now=Date.now(), ids=[];
   for(let i=0;i<P.sessions.length;i++){ const se=P.sessions[i], id='t'+now+i; ids.push(id);
-    await saveTemplate({id,name:se.name,order:i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:e)}); }
+    await saveTemplate({id,name:se.name,order:i+1,ex:se.ex.map(e=>e.t==='c'?{n:e.n,m:e.m,t:'c'}:(({_k,_seen,...x})=>x)(e))});
+    const M=S.settings.mob=Object.assign({},S.settings.mob||{}); if(se.mob&&(se.mob.pre.length||se.mob.post.length))M[id]={pre:se.mob.pre.map(m=>[m.n,m.sec]),post:se.mob.post.map(m=>[m.n,m.sec])}; }
   S.settings.schedule={}; (PB_DAYS[+a.days||3]||[]).forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; });
   await persistSettings(); ONB.first=ids[0]||null; ONB.s=0; onbSave(); logEv('onb_done',{goal:a.goal,days:a.days,mode:a.mode});
   render(); natSchedSoon();
@@ -11063,7 +11064,7 @@ function exGear(n){ const c=EXEQ[n], h=String(n);
   if(c==='w')return /מתח|בתלייה|מקבילים(?! על ספסל)|מגבים|החזקת L/.test(h)?'bar':'bw';
   return {b:'barbell',d:'dumbbell',c:'cable',m:'machine',k:'kettlebell',r:'band',o:'other'}[c]||'other'; }
 const exBench=n=>/שיפוע|ספסל|לחיצת חזה במשקולות|פרפר במשקולות|לחיצה צרפתית|פולאובר|בשכיבה/.test(n);
-function pbGearOk(n,A){ const g=exGear(n); if(A.equip==='gym')return g!=='other'; const G=A.equip==='bw'?['bar']:(A.gear||[]);
+function pbGearOk(n,A){ const g=exGear(n); if(A.equip==='gym')return g!=='other'; const G=A.equip==='bw'?['bar']:(A.gear||['dumbbell','bench']);
   if(A.equip==='home'&&!G.includes('bench')&&exBench(n)&&!/שכיבות סמיכה/.test(n))return false;
   if(A.equip==='bw'&&exBench(n)&&!/שכיבות סמיכה|מקבילים על ספסל|עליות על ספסל|גשר/.test(n))return false;
   return g==='bw'||G.includes(g); }
@@ -11173,16 +11174,26 @@ function pbChoose(){
     <button class="card r20" data-act="pb-quick" style="width:100%;text-align:start;display:flex;gap:12px;align-items:center">${ICON.list}<span><b>${tt('שאלון מהיר')}</b><small class="muted" style="display:block">${tt('8 שאלות קצרות, תוכנית אימונים בלבד')}</small></span></button>
     <button class="btn big" style="margin-top:12px" data-act="sheet-close">${tt('ביטול')}</button>`); }
 function pbPreview(){
-  const P=PB.plan, A=PB.a;
-  openSheet(`<h3 style="margin-bottom:2px">התוכנית שלך מוכנה ✨</h3>
-    <div class="small muted" style="margin-bottom:12px">${A.sex==='f'?'לאישה':'לגבר'} · ${P.prog} · ${A.days} ימים · ${P.split}</div>
-    <div class="stack" style="gap:10px">${P.sessions.map(se=>`<div class="pb-sess"><div class="spread"><b>${esc(se.name)}</b><span class="small muted">~${se.min} דק׳</span></div>
-      ${se.ex.map(e=>`<div class="pb-ex"><span>${esc(e.n)}</span><span class="num muted" ${e.t==='c'?'':'dir="ltr"'}>${e.t==='c'?e.min+' דק׳':`${e.s} × ${esc(e.reps)}`}</span></div>`).join('')}</div>`).join('')}</div>
-    <div class="small muted" style="margin:12px 0">מתחילים במשקל שמאפשר את כל החזרות בטכניקה טובה. כשמגיעים לקצה העליון של טווח החזרות בכל הסטים, מעלים ${uL()==='lb'?'5–10 lb':'2.5–5 ק״ג'}.</div>
-    <label class="setrow" style="padding:6px 0"><span>החלף את התוכניות הקיימות</span><input type="checkbox" class="sw" id="pb-rep" ${PB.replace?'checked':''}></label>
+  const P=PB.plan, A=PB.a, vs=Math.min(PB.vs||0,P.sessions.length-1), se=P.sessions[vs];
+  const thumb=n=>{ const c=exClip(n); return `<span class="pbx-ph">${ICON.play}</span>${c?`<img src="${esc(c.poster)}" alt="" loading="lazy" onerror="this.remove()">`:''}`; };
+  const nEx=P.sessions.reduce((a,x)=>a+x.ex.length,0);
+  openSheet(`<div class="pbx-hd"><img src="img/kobi-cheer.svg" alt=""><div><b>${tt('התוכנית שלך מוכנה')}</b><span>${A.days} ${tt('ימים')} · ${P.prog} · ${esc(P.split)}</span></div></div>
+    <div class="pbx-tabs">${P.sessions.map((x,i)=>`<button class="${i===vs?'on':''}" data-act="pb-vs" data-i="${i}"><b>${'ABCDEF'[i]}</b><small>${esc(x.name.replace(/^[A-F] — /,'').split(':')[0])}</small></button>`).join('')}</div>
+    <div class="pbx-sess"><div class="spread"><b>${esc(se.name.replace(/^[A-F] — /,''))}</b><span class="small muted num">~${se.min} ${tt('דק׳')} · ${se.ex.length} ${tt('תרגילים')}</span></div>
+      ${se.mob?.pre?.length?`<div class="pbx-mob"><span class="pbx-mh">🔥 ${tt('חימום')} · <span class="num">${Math.round(se.mob.pre.length*0.6)||2}</span> ${tt('דק׳')}</span><div class="pbx-mr">${se.mob.pre.map(m=>`<button class="pbx-mi" data-act="pb-demo" data-n="${esc(m.n)}"><span class="pbx-mt">${thumb(m.n)}</span><small>${esc(m.n)}</small></button>`).join('')}</div></div>`:''}
+      <div class="pbx-mh" style="margin:10px 2px 2px">💪 ${tt('האימון')}</div>
+      ${se.ex.map((e,i)=>`<div class="pbx-ex"><button class="pbx-th" data-act="pb-demo" data-n="${esc(e.n)}">${e.t==='c'?`<span class="pbx-ph">🏃</span>`:thumb(e.n)}</button>
+        <span class="lt"><b>${esc(e.n)}</b><small class="num" ${e.t==='c'?'':'dir="ltr"'}>${e.t==='c'?e.min+' '+tt('דק׳'):`${e.s} × ${esc(e.reps)}`}</small></span>
+        ${e.t==='c'?'':`<button class="pbx-sw" data-act="pb-swap" data-s="${vs}" data-e="${i}" aria-label="${tt('החלפת תרגיל')}"><svg viewBox="0 0 24 24" class="ic"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></button>`}</div>${PB.demo===e.n?`<div class="pbx-demo">${demoHTML(e.n)}</div>`:''}`).join('')}
+      ${se.mob?.post?.length?`<div class="pbx-mob" style="margin-top:10px"><span class="pbx-mh">🧘 ${tt('מתיחות')} · <span class="num">${Math.round(se.mob.post.length*0.6)||2}</span> ${tt('דק׳')}</span><div class="pbx-mr">${se.mob.post.map(m=>`<button class="pbx-mi" data-act="pb-demo" data-n="${esc(m.n)}"><span class="pbx-mt">${thumb(m.n)}</span><small>${esc(m.n)}</small></button>`).join('')}</div></div>`:''}
+    </div>
+    <label class="setrow" style="padding:10px 0 2px"><span>${tt('חימום ומתיחות בכל אימון')}</span><input type="checkbox" class="sw" data-act="pb-mob" ${PB.a.mob!==false?'checked':''}></label>
+    <button class="pbx-re" data-act="pb-reroll"><svg viewBox="0 0 24 24" class="ic"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>${tt('תן לי וריאציה אחרת')}</button>
+    <div class="small muted" style="margin:12px 2px">${tt('לכל תרגיל יש סרטון הדגמה. לחיצה על החץ מחליפה תרגיל בתרגיל אחר לאותו שריר.')}</div>
     ${PB.rafi?.r?`<label class="setrow" style="padding:6px 0"><span>${tt('עדכן גם את יעד התזונה')} (<span class="num">${Math.round(PB.rafi.r.kcal).toLocaleString('en-US')}</span> ${tt('קק״ל')} · <span class="num">${PB.rafi.r.prot}</span> ${tt('גר׳ חלבון')})</span><input type="checkbox" class="sw" id="pb-tg" checked></label>`:''}
-    <label class="setrow" style="padding:6px 0;border-bottom:0"><span>קבע לי לו״ז שבועי (${PB_DAYS[A.days].map(d=>DAY_LETTERS[d]).join(', ')})</span><input type="checkbox" class="sw" id="pb-sch" ${PB.sched?'checked':''}></label>
-    <div class="row" style="margin-top:14px;gap:8px"><button class="btn" style="flex:1" data-act="pb-restart">שינוי תשובות</button><button class="btn primary" style="flex:2" data-act="pb-save">שמירת התוכנית</button></div>`);
+    <label class="setrow" style="padding:6px 0"><span>${tt('החלף את התוכניות הקיימות')}</span><input type="checkbox" class="sw" id="pb-rep" ${PB.replace?'checked':''}></label>
+    <label class="setrow" style="padding:6px 0;border-bottom:0"><span>${tt('קבע לי לו״ז שבועי')} (${PB_DAYS[A.days].map(d=>DAY_LETTERS[d]).join(', ')})</span><input type="checkbox" class="sw" id="pb-sch" ${PB.sched?'checked':''}></label>
+    <div class="row" style="margin-top:14px;gap:8px"><button class="btn" style="flex:1" data-act="pb-restart">${tt('שינוי תשובות')}</button><button class="btn primary" style="flex:2" data-act="pb-save">${tt('שמירת התוכנית')}</button></div>`);
 }
 async function pbSave(){
   const A=PB.a, P=PB.plan, rep=$('#pb-rep')?.checked, sch=$('#pb-sch')?.checked, tg=PB.rafi?.r&&$('#pb-tg')?.checked;
@@ -11277,7 +11288,7 @@ function startAct(act){
 function pbAct(act,b){
   switch(act){
     case 'pb-open': if(IS_NATIVE||window.NR_PB_RAFI){ closeSheet(); onbRedoStart(); return true; }
-    case 'pb-quick': PB.rafi=null; PB.step=0; PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,focus:[],limits:[]}; pbSheet(); return true;
+    case 'pb-quick': PB.rafi=null; PB.step=0; PB.dir=1; PB.vs=0; PB.seed=Math.floor(Math.random()*1e6); PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,gear:['dumbbell','bench'],focus:[],limits:[]}; pbSheet(); return true;
     case 'pb-rafi': closeSheet(); onbRedoStart(); return true;
     case 'pb-pick': { const Q=PB_Q[PB.step]; let v=b.dataset.v; if(typeof Q.o[0][0]==='number')v=+v;
       if(Q.multi){ const arr=PB.a[Q.k]; const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); if(v==='glutes')PB._gTouched=true; pbSheet(); }
