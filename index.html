@@ -2224,7 +2224,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.153';
+const APP_VERSION='13.3.155';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8518,10 +8518,10 @@ function adminChart(daily){
   const W=340,H=120,pb=18,n=daily.length,bw=W/n;
   const mx=Math.max(1,...daily.map(x=>x.active));
   const bars=daily.map((x,i)=>{const h=(x.active/mx)*(H-pb-14);const xx=W-(i+1)*bw;
-    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="3" fill="var(--accent)" opacity="${i===n-1?1:.55}"><title>${x.d}: ${x.active} פעילים${x.signups?`, ${x.signups} נרשמו`:''}${+x.rev?`, ₪${x.rev}`:''}</title></rect>`+
+    return `<rect x="${(xx+1.5).toFixed(1)}" y="${(H-pb-h).toFixed(1)}" width="${(bw-3).toFixed(1)}" height="${Math.max(h,x.active?2:0).toFixed(1)}" rx="3" fill="var(--accent)" opacity="${i===n-1?1:.55}"><title>${x.h!=null?x.h+':00':x.d}: ${x.active} פעילים${x.signups?`, ${x.signups} נרשמו`:''}${+x.rev?`, ₪${x.rev}`:''}</title></rect>`+
       (x.signups?`<circle cx="${(xx+bw/2).toFixed(1)}" cy="${(H-pb-h-6).toFixed(1)}" r="3" fill="var(--ink)"/>`:'')+
       (+x.rev?`<text x="${(xx+bw/2).toFixed(1)}" y="${(H-pb-h-(x.signups?12:5)).toFixed(1)}" font-size="9" text-anchor="middle" fill="var(--gold)">₪</text>`:'');}).join('');
-  const lbl=[[0,W-1,'end'],[Math.floor(n/2),W-(Math.floor(n/2)+.5)*bw,'middle'],[n-1,1,'start']].map(([i,x,an])=>{const d=new Date(daily[i].d);return `<text x="${x.toFixed(1)}" y="${H-4}" font-size="10" fill="var(--muted)" text-anchor="${an}">${i===n-1?'היום':d.getDate()+'.'+(d.getMonth()+1)}</text>`;}).join('');
+  const lbl=(n>1?[[0,W-1,'end'],[Math.floor(n/2),W-(Math.floor(n/2)+.5)*bw,'middle'],[n-1,1,'start']]:[[0,W/2,'middle']]).map(([i,x,an])=>{const r=daily[i], d=new Date(r.d);return `<text x="${x.toFixed(1)}" y="${H-4}" font-size="10" fill="var(--muted)" text-anchor="${an}">${r.h!=null?r.h+':00':i===n-1?'היום':d.getDate()+'.'+(d.getMonth()+1)}</text>`;}).join('');
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;direction:ltr"><line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>${bars}${lbl}
     <text x="${W-2}" y="10" font-size="10" fill="var(--muted)" text-anchor="end">מקס׳ ${mx}</text></svg>`;
 }
@@ -8581,10 +8581,9 @@ function admTasksHTML(){
 function admOverviewHTML(){
   const O=A.ov;
   const kpi=(label,v,sub,up,act)=>`<button class="kpi" ${act?`data-act="adm-go" ${act}`:'disabled style="opacity:1"'}><span class="kl">${label}</span><b class="num">${v}</b>${sub?`<small class="${up?'up':''}">${sub}</small>`:''}</button>`;
-  const free=O.expired||0;
-  const mix=[['#94A3B8','חינמיים',free,'data-t="users" data-f="expired"'],['#2563EB','פרימיום מתנה',(O.trial||0)+(O.gifted||0),'data-t="users" data-f="trial"'],['var(--accent)','משלמים',O.paying||0,'data-t="users" data-f="paying"']].concat(O.pending?[['#D97706','ממתינים',O.pending,'data-t="users" data-f="pending"']]:[]);
+  const per=A.per||'t', P=A.pd, PL={d:'היום',w:'7 ימים',m:'החודש',t:'30 יום',a:'מאז ההתחלה'}[per], M=P?.mix||{};
+  const mix=[['#94A3B8','חינמיים',+M.free||0,'data-t="users" data-f="expired"'],['#2563EB','פרימיום מתנה',+M.trial||0,'data-t="users" data-f="trial"'],['var(--accent)','משלמים',+M.paying||0,'data-t="users" data-f="paying"']].concat(M.pending?[['#D97706','ממתינים',+M.pending,'data-t="users" data-f="pending"']]:[]);
   const tot=Math.max(1,mix.reduce((a,x)=>a+x[2],0));
-  const per=A.per||'t', P=A.pd;
   return `
     ${admTasksHTML()}
     <div class="sect2"><span>במספרים</span></div>
@@ -8597,18 +8596,18 @@ function admOverviewHTML(){
     </div>
     <div class="card r20 stat3 num adm-cnt"><div><b>${P?fmtNum(P.workouts):'…'}</b><span>אימונים</span></div><div><b>${P?fmtNum(P.meals):'…'}</b><span>ארוחות</span></div><div><b>${P?fmtNum(P.scans):'…'}</b><span>סריקות AI</span></div></div>
     <div class="card r20" style="padding:16px">
-      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">חלוקת המשתמשים</b><span class="small muted num">${fmtNum(O.users||0)}</span></div>
+      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">${per==='a'?'חלוקת המשתמשים':'הנרשמים · '+PL}</b><span class="small muted num">${fmtNum(mix.reduce((a,x)=>a+x[2],0))}</span></div>${P&&!mix.some(x=>x[2])?`<div class="small muted">אין נרשמים חדשים בתקופה</div>`:''}
       <div class="mix">${mix.filter(x=>x[2]).map(([c,,n])=>`<i style="--c:${c};width:${n/tot*100}%"></i>`).join('')}</div>
       <div class="legend">${mix.map(([c,l,n,a])=>`<button data-act="adm-go" ${a} style="padding:0;font:inherit;color:inherit"><span style="--c:${c}">${l}<b class="num">${n}</b></span></button>`).join('')}</div>
     </div>
     <div class="card r20 adm-chart" style="padding:16px">
-      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">פעילות · 30 יום</b><span class="small muted"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-inline-end:4px"></span>הרשמה · <span style="color:var(--gold);font-weight:700">₪</span> תשלום</span></div>
-      ${adminChart(O.daily||[])}
-      <div class="small muted" style="margin-top:8px">פעילים ב-30 יום: <b class="num" style="color:var(--ink)">${O.active30||0}</b></div>
+      <div class="spread" style="margin-bottom:10px"><b style="font-size:16px">פעילות · ${PL}</b><span class="small muted"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-inline-end:4px"></span>הרשמה · <span style="color:var(--gold);font-weight:700">₪</span> תשלום</span></div>
+      ${P?.series?.length?adminChart(P.series):'<div class="small muted">טוען…</div>'}
+      <div class="small muted" style="margin-top:8px">${per==='d'?'לפי שעה · ':''}פעילים בתקופה: <b class="num" style="color:var(--ink)">${P?P.active:'…'}</b></div>
     </div>
-    ${(A.aiTop||[]).length?`<div class="card r20" style="padding:16px">
-      <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">משתמשי AI כבדים · החודש</b><span class="small muted">מכסה: 50 ביום · 600 בחודש (טקסט)</span></div>
-      <div class="ai-top">${A.aiTop.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · ראפי ${u.coach} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
+    ${(P?.ai_top||[]).length?`<div class="card r20" style="padding:16px">
+      <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">משתמשי AI כבדים · ${PL}</b><span class="small muted">מכסה: 50 ביום · 600 בחודש (טקסט)</span></div>
+      <div class="ai-top">${P.ai_top.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · ראפי ${u.coach} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
     </div>`:''}`;
 }
 function admGrowthHTML(){
