@@ -2724,7 +2724,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.172';
+const APP_VERSION='13.3.174';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3522,7 +3522,7 @@ function onbPB(){ const a=ONB.a;
     focus:(a.sex||(onbF()?'f':'m'))==='f'?['glutes']:[],limits:[...(a.lim||[])]}; }
 function onbTG(){ const a=ONB.a, d=+a.days||3;
   return {sex:a.sex||(onbF()?'f':'m'),age:+a.age,h:onbH(),w:+a.w,act:d<=3?1.375:d<=5?1.55:1.725,goal:a.goal==='cut'?'cut':a.goal==='mass'?'bulk':'keep',pace:a.pace==='slow'||a.pace==='fast'?a.pace:'normal'}; }
-function onbPlan(){ PB.a=onbPB(); pbBuild(); return PB.plan; }
+function onbPlan(){ PB.a=onbPB(); PB.vary=0; pbBuild(); return PB.plan; }
 /* "build me a plan" for an existing user, with Rafi: the same questions as the first run (goal → plan), answers kept in memory only */
 let ONB_BAK=null;
 function onbRedoStart(){ ONB_BAK=ONB; const b=S.settings.body||{};
@@ -11156,6 +11156,8 @@ function pbPool(k,A,banned,used,curated){
   if(A.level==='beg')extra=extra.filter(n=>!/פיסטול|ארצ׳ר|מחיאת|נורדית|דרגון|זרצ׳ר|ברגל אחת|שלילי/.test(n));
   const ok=n=>!banned.has(n)&&!used.has(n)&&pbGearOk(n,A)&&!!exClip(n);
   const cur=(curated||[]).filter(ok), rest=[...new Set(extra)].filter(n=>ok(n)&&!cur.includes(n));
+  // the plan as it was: the classic picks in their order. "Another variation" mixes in the rest of the library
+  if(!PB.vary)return cur.length?[...cur,...rest]:rest;
   const rnd=pbRand(PB.seed*31+k.length*7+(A.days||0)), sh=L=>{ for(let i=L.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [L[i],L[j]]=[L[j],L[i]]; } return L; };
   sh(rest); if(A.level!=='beg')sh(cur);
   // beginners get the classic first; everyone else gets variety mixed in
@@ -11373,20 +11375,20 @@ function startAct(act){
 function pbAct(act,b){
   switch(act){
     case 'pb-open': if(IS_NATIVE||window.NR_PB_RAFI){ closeSheet(); onbRedoStart(); return true; }
-    case 'pb-quick': PB.rafi=null; PB.step=0; PB.dir=1; PB.vs=0; PB.seed=Math.floor(Math.random()*1e6); PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,gear:['dumbbell','bench'],focus:[],limits:[]}; pbSheet(); return true;
+    case 'pb-quick': PB.rafi=null; PB.step=0; PB.dir=1; PB.vs=0; PB.vary=0; PB.seed=Math.floor(Math.random()*1e6); PB.a={sex:null,goal:null,level:null,days:null,time:60,equip:null,gear:['dumbbell','bench'],focus:[],limits:[]}; pbSheet(); return true;
     case 'pb-rafi': closeSheet(); onbRedoStart(); return true;
     case 'pb-pick': { const Q=PB_Q[PB.step]; let v=b.dataset.v; if(typeof Q.o[0][0]==='number')v=+v;
       if(Q.multi){ const arr=PB.a[Q.k]; const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); if(v==='glutes')PB._gTouched=true; pbSheet(); }
       else { PB.a[Q.k]=v; if(Q.k==='sex'){ const f=PB.a.focus; if(v==='f'&&!f.includes('glutes'))f.push('glutes'); if(v==='m'){const i=f.indexOf('glutes'); if(i>=0&&!PB._gTouched)f.splice(i,1);} } PB.step++; pbSheet(); } return true; }
     case 'pb-next': PB.step++; pbSheet(); return true;
     case 'pb-back': PB.dir=-1; PB.step=Math.max(0,PB.step-1); pbSheet(); return true;
-    case 'pb-restart': PB.step=0; PB.vs=0; pbSheet(); return true;
+    case 'pb-restart': PB.step=0; PB.vs=0; PB.vary=0; pbSheet(); return true;
     case 'pb-st': PB.a.st=!PB.a.st; if(!PB.a.st)PB.vst=0; PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; pbBuild(); pbPreview(); return true;
     case 'pb-vst': PB.vst=1; PB.demo=null; pbPreview(); return true;
     case 'pb-mob': PB.a.mob=!(PB.a.mob!==false); PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; pbBuild(); pbPreview(); return true;
     case 'pb-demo': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.demo=PB.demo===b.dataset.n?null:b.dataset.n; pbPreview(); return true;
     case 'pb-vs': PB.vst=0; PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.vs=+b.dataset.i; pbPreview(); return true;
-    case 'pb-reroll': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.seed++; pbBuild(); pbPreview(); logEv('pb_reroll'); return true;
+    case 'pb-reroll': PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; PB.seed++; PB.vary=1; pbBuild(); pbPreview(); logEv('pb_reroll'); return true;
     case 'pb-swap': { PB.replace=$('#pb-rep')?.checked; PB.sched=$('#pb-sch')?.checked; const se=PB.plan.sessions[+b.dataset.s], e=se&&se.ex[+b.dataset.e]; if(!e)return true;
       const A=PB.a, banned=new Set(A.limits.flatMap(l=>PB_BAN[l]||[])), used=new Set(se.ex.map(x=>x.n)); (e._seen=e._seen||[]).push(e.n);
       let pool=pbPool(e._k||'',A,banned,used,[]).filter(n=>!e._seen.includes(n)); if(!pool.length){ e._seen=[e.n]; pool=pbPool(e._k||'',A,banned,used,[]); }
