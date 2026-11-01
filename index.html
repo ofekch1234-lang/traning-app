@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=467c1450"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=467c1450"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=467c1450"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=95853c64"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=95853c64"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=95853c64"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -389,6 +389,20 @@ body:not(.landing)>#lx-sticky{display:none}
 .hp-th small{font-size:10.5px;color:var(--muted)}
 /* admin: v13.1 */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.su{text-align:center;padding:4px 2px 2px}.su-dots{display:flex;justify-content:center;gap:6px;margin:0 0 14px}.su-dots i{width:7px;height:7px;border-radius:9px;background:var(--line)}.su-dots i.on{width:22px;background:var(--accent)}
+.su-prev{border-radius:24px;margin:0 auto 18px;max-width:330px;position:relative;overflow:hidden}
+.su-lock{padding:16px 12px 14px;background:radial-gradient(120% 90% at 50% 0%,rgba(191,255,47,.22),transparent 60%),linear-gradient(160deg,#1C2418,#0E120D);border:1px solid rgba(191,255,47,.18)}
+.su-time{font-family:var(--disp);font-size:40px;font-weight:700;color:#fff;letter-spacing:-1px;margin-bottom:10px;opacity:.95}
+.su-nt{display:flex;gap:10px;align-items:center;text-align:start;background:rgba(255,255,255,.13);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;padding:10px 12px;margin-top:8px;animation:suIn .5s both}.su-nt.dim{opacity:.72;transform:scale(.97);animation-delay:.15s}
+.su-nt img{width:34px;height:34px;border-radius:9px;flex:none;background:#0A0B0A}.su-nt b{display:flex;justify-content:space-between;font-size:13px;color:#fff}.su-nt b small{font-weight:500;color:rgba(255,255,255,.6);font-size:11px}.su-nt span{font-size:13px;color:rgba(255,255,255,.88)}.su-nt>div{flex:1;min-width:0}
+@keyframes suIn{from{opacity:0;transform:translateY(10px)}}
+.su-steps{display:flex;align-items:center;gap:16px;padding:18px;background:radial-gradient(110% 90% at 0% 0%,rgba(90,200,250,.2),transparent 60%),linear-gradient(160deg,#14202A,#0D1216);border:1px solid rgba(90,200,250,.2)}
+.su-steps svg circle:nth-child(2){stroke:#5AC8FA}.su-sn{flex:1;text-align:start}.su-sn b{display:block;font-family:var(--disp);font-size:30px;font-weight:700;color:#fff;line-height:1}.su-sn>span{font-size:12px;color:rgba(255,255,255,.65)}
+.su-bars{display:flex;align-items:flex-end;gap:4px;height:34px;margin-top:10px}.su-bars i{flex:1;border-radius:3px;background:rgba(90,200,250,.35)}.su-bars i.hit{background:#5AC8FA}
+.su-h{font-size:24px;margin:0 0 6px;font-weight:800}.su-s{margin:0 auto 14px;color:var(--muted);font-size:14.5px;max-width:300px;line-height:1.5}
+.su-ul{list-style:none;padding:0;margin:0 auto 18px;max-width:320px;text-align:start;display:grid;gap:8px}.su-ul li{display:flex;align-items:center;gap:10px;font-size:14.5px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px}.su-ul li span{font-size:18px;width:24px;text-align:center}
+.su-go{width:100%}.su-skip{display:block;margin:10px auto 0;background:none;border:0;color:var(--muted);font:inherit;font-size:14px;padding:8px}
+.su-note{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}.su-note svg{width:14px;height:14px;flex:none}
 .mr-in{width:100%;height:100%;display:grid;place-items:center}.mr-c{text-align:center;line-height:1.05}.mr-c b{display:block;font-size:14px;font-weight:700;color:var(--ink)}.mr-c small{font-size:10px;color:var(--muted)}
 .hl-sect{margin-top:6px}.fy-row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}.fy-row::-webkit-scrollbar{display:none}
 .fy{flex:0 0 78%;scroll-snap-align:start;border-radius:20px;background:var(--surface);border:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;gap:12px;text-align:start;font:inherit;color:inherit;min-height:84px}.fy.wrap-card{flex-direction:column;align-items:stretch;justify-content:center}.fy .lt small,.fy .lt span{display:block}
@@ -2230,7 +2244,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.157';
+const APP_VERSION='13.3.159';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3590,14 +3604,15 @@ async function actLoad(){ try{ const {data}=await sb.from('activity_days').selec
   if(ch){ actSave(); if(S.tab==='home')render(); } }catch(_){}
   if(actOn())actSync(ACT.at&&Date.now()-ACT.at<20*864e5?Math.max(2,Math.ceil((Date.now()-ACT.at)/864e5)+1):90); }
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&actOn()&&Date.now()-ACT.at>3*6e4)actSync(Math.max(2,Math.min(30,Math.ceil((Date.now()-ACT.at)/864e5)+1))); });
-async function actConnect(){ const H=HP(); if(!H){ toast(tt('צריך לעדכן את האפליקציה')); return; }
+async function actConnect(keep){ const H=HP(); if(!H){ toast(tt('צריך לעדכן את האפליקציה')); return false; }
   try{ const av=await H.isAvailable();
-    if(!av?.available){ closeSheet(); toast(window.Capacitor?.getPlatform?.()==='android'?tt('צריך להתקין את Health Connect מחנות Play'):tt('אין גישה לנתוני בריאות במכשיר הזה')); return; }
+    if(!av?.available){ if(!keep)closeSheet(); toast(window.Capacitor?.getPlatform?.()==='android'?tt('צריך להתקין את Health Connect מחנות Play'):tt('אין גישה לנתוני בריאות במכשיר הזה')); return false; }
     const r=await H.requestAuthorization({read:['steps','distance','calories'],write:[],requestHistoryAccess:true});
-    if(window.Capacitor?.getPlatform?.()==='android'&&!(r?.readAuthorized||[]).includes('steps')){ toast(tt('בלי הרשאה לצעדים אי אפשר להציג פעילות')); return; }
+    if(window.Capacitor?.getPlatform?.()==='android'&&!(r?.readAuthorized||[]).includes('steps')){ toast(tt('בלי הרשאה לצעדים אי אפשר להציג פעילות')); return false; }
     try{ localStorage.setItem('nr-hlth','on'); }catch(_){}
-    closeSheet(); render(); await actSync(90); render(); toast(tt('מחובר ✓'));
-  }catch(e){ toast(tt('החיבור נכשל')); } }
+    if(keep){ actSync(90).then(()=>render()); return true; }
+    closeSheet(); render(); await actSync(90); render(); toast(tt('מחובר ✓')); return true;
+  }catch(e){ toast(tt('החיבור נכשל')); return false; } }
 /* the calorie budget bonus: half of the activity above what the chosen activity level already counts, at most 600 */
 const ACT_BASE={'1.2':3000,'1.375':5000,'1.55':7000,'1.725':9000,'1.9':11000};
 function actBonus(ds){ if(!S.settings.stepsAdj)return 0; const a=actDay(ds||ymd()); if(!a||!a.s)return 0;
@@ -9853,7 +9868,7 @@ async function pbSave(){
 function notifOnbSeen(){ try{ return !!localStorage.getItem('nr-notif-onb'); }catch(_){ return true; } }
 function onboardNext(){
   if(TOUR.on||$('#instgate'))return;
-  if(notifCan()&&!notifOnbSeen())return openNotifOnboard();
+  if(!notifOnbSeen()&&(notifCan()||(actNat()&&HP()&&!actOn())))return openSetupOnboard();
   if(needStart())return openStartSheet();
   maybeStartTour();
 }
@@ -9865,6 +9880,33 @@ function openNotifOnboard(){
     <button class="btn primary big" data-act="notif-onb">🔔 ${G('הפעל התראות','הפעילי התראות','הפעלת התראות')}</button>
     <button class="nc-later" data-act="notif-onb-later">אחר כך</button>`);
 }
+/* setup after sign-up: one permission per screen, with a preview of what it gives. The system prompt opens only on tap */
+const SU={i:0,list:null};
+function suList(){ const L=[]; if(notifCan())L.push('n'); if(actNat()&&HP()&&!actOn())L.push('h'); return L; }
+function openSetupOnboard(){
+  if(!SU.list){ SU.list=suList(); SU.i=0; try{ localStorage.setItem('nr-notif-onb','1'); }catch(_){} if(!SU.list.length)return onboardNext(); logEv('setup_onb_open',{n:SU.list.join('')}); }
+  if(SU.i>=SU.list.length){ closeSheet(); SU.list=null; render(); return setTimeout(onboardNext,300); }
+  const k=SU.list[SU.i], n=SU.list.length, src=actSrc();
+  const dots=n>1?`<div class="su-dots">${SU.list.map((_,i)=>`<i class="${i===SU.i?'on':''}"></i>`).join('')}</div>`:'';
+  const li=(ic,t)=>`<li><span>${ic}</span>${t}</li>`;
+  const prev=k==='n'?`<div class="su-prev su-lock"><div class="su-time num">9:41</div>
+      <div class="su-nt"><img src="icon-192.png" alt=""><div><b>NextRep <small>${tt('עכשיו')}</small></b><span>${tt('המנוחה נגמרה. סט 3 מתוך 4')}</span></div></div>
+      <div class="su-nt dim"><img src="img/kobi-happy.svg" alt=""><div><b>${tt('ראפי')} <small>${tt('לפני שעה')}</small></b><span>${tt('הסיכום השבועי שלך מוכן')}</span></div></div></div>`
+    :`<div class="su-prev su-steps"><div class="su-ring">${stepsRing(6214,8000,104)}</div><div class="su-sn"><b class="num">6,214</b><span>${tt('צעדים היום')}</span><div class="su-bars">${[55,90,40,100,70,85,78].map((h,i)=>`<i style="height:${h}%" class="${h>=100?'hit':''}"></i>`).join('')}</div></div></div>`;
+  const body=k==='n'?{t:G('שלא תפספס אף סט','שלא תפספסי אף סט','שלא יתפספס אף סט'),s:tt('ההתראות עובדות גם כשהטלפון בכיס או נעול.'),
+      ul:[li('⏱️',tt('סוף המנוחה בין הסטים, עם רטט')),li('📅',tt('תזכורת עדינה בימי האימון שלך')),li('💬',tt('הסיכום השבועי מראפי'))],
+      note:tt('בלי ספאם. אפשר לכבות כל סוג בהגדרות.'),go:tt('הפעלת התראות'),act:'su-notif'}
+    :{t:tt('כל צעד נספר'),s:tt('מתחברים פעם אחת, והצעדים מופיעים לבד, גם מהשעון.'),
+      ul:[li('👟',tt('צעדים, ק״מ וקלוריות פעילות בכל יום')),li('🎯',tt('יעד צעדים יומי ורצף ימים')),li('🤖',tt('ראפי מתאים את ההמלצות לפעילות שלך'))],
+      note:`${tt('רק קריאה. לא משנים כלום ב-')}${src}${tt(', ולא משתמשים בזה לפרסום.')}`,go:`${tt('חיבור ל-')}${src}`,act:'su-health'};
+  openSheet(`<div class="su">${dots}${prev}<h3 class="su-h">${body.t}</h3><p class="su-s">${body.s}</p><ul class="su-ul">${body.ul.join('')}</ul>
+    <button class="btn primary big su-go" data-act="${body.act}">${body.go}</button>
+    <button class="su-skip" data-act="su-skip">${tt('לא עכשיו')}</button><div class="su-note">${ICON.shield} ${body.note}</div></div>`); }
+function suAct(act){
+  if(act==='su-notif'){ logEv('notif_ask',{ctx:'setup'}); ensureNotifPerm().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:'setup'}); if(ok){ toast(tt('ההתראות הופעלו')); subscribePush().catch(()=>{}); if(S.settings.notif)S.settings.notif.remind=true; persistSettings(); } else notifSnooze(); SU.i++; openSetupOnboard(); }); return true; }
+  if(act==='su-health'){ logEv('health_ask',{ctx:'setup'}); actConnect(true).then(ok=>{ logEv(ok?'health_on':'health_no',{ctx:'setup'}); if(ok)toast(tt('מחובר ✓')); SU.i++; openSetupOnboard(); }); return true; }
+  if(act==='su-skip'){ const k=SU.list?.[SU.i]; logEv('setup_skip',{k}); if(k==='n')notifSnooze(); SU.i++; openSetupOnboard(); return true; }
+  return false; }
 function needStart(){ return !S.settings.start&&!S.templates.length&&!S.workouts.length&&!S.active; }
 function openStartSheet(){
   logEv('start_open');
@@ -10769,6 +10811,7 @@ function handleAct(b,ev){
         if(data?.user)S.user=data.user; toast('השם עודכן 👋'); if(!$('#sheet').hidden&&document.querySelector('#set-name'))closeSheet(); render();
       }); break; }
     case 'notif-onb': closeSheet(); logEv('notif_ask',{ctx:'onboard'}); ensureNotifPerm().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:'onboard'}); if(ok){ toast('ההתראות הופעלו 🔔'); subscribePush().catch(()=>{}); if(S.settings.notif)S.settings.notif.remind=true; persistSettings(); } render(); setTimeout(onboardNext,400); }); break;
+    case 'su-notif': case 'su-health': case 'su-skip': suAct(act); break;
     case 'notif-onb-later': closeSheet(); notifSnooze(); logEv('notif_onb_later'); setTimeout(onboardNext,300); break;
     case 'notif-on': closeSheet(); logEv('notif_ask',{ctx:b.dataset.ctx||null}); ensureNotifPerm().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:b.dataset.ctx||null}); if(ok){ toast('ההתראות הופעלו 🔔'); subscribePush().catch(()=>{}); if(S.settings.notif)S.settings.notif.remind=true; persistSettings(); } else toast(Notification.permission==='denied'?'ההרשאה נדחתה. אפשר לשנות בהגדרות הטלפון':'ההרשאה לא אושרה'); render(); }); break;
     case 'notif-later': closeSheet(); notifSnooze(); render(); break;
