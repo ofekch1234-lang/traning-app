@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=afaa2e76"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=afaa2e76"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=afaa2e76"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=6d356c28"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=6d356c28"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=6d356c28"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2397,7 +2397,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.205';
+const APP_VERSION='13.3.207';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
