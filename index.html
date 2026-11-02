@@ -1221,10 +1221,12 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .mq-ltl{font-size:13px;color:var(--muted)}#mq-lt{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
 .mq-dn{font-size:13.5px;color:var(--muted);margin:-2px 0 4px}
 .mq-row .q{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}.mq-row .q small{font-size:12px;color:var(--muted)}
+.mq-amt{display:flex;align-items:baseline;gap:6px;margin-top:3px}.mq-amt b{font-size:15px;font-weight:800;color:var(--accent)}.mq-amt span{font-size:12.5px;color:var(--muted);font-weight:400}
+.ms-ic.sm{width:28px;height:28px;border-radius:9px}.ms-ic.sm svg{width:16px;height:16px}
 .mq-or{display:block;font-size:12.5px;color:var(--accent);font-weight:600;margin-top:3px;font-style:normal}
 .mq-ln.slot .f em{color:var(--muted);font-weight:600}.mq-ln.slot .mq-plus{border:1.5px dashed var(--line)}
 .mq-hint{position:relative;display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 40px 12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.45;color:var(--muted)}.mq-hint img{width:34px;height:34px;flex:none}.mq-hint b{display:block;font-size:15px;margin-bottom:2px;color:var(--ink)}[dir=rtl] .mq-hint{padding:12px 14px 12px 40px}
-.mq-hx{position:absolute;top:8px;inset-inline-end:8px;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px;cursor:pointer}
+.mq-hcl{position:absolute;top:8px;inset-inline-end:8px;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px;cursor:pointer}
 .mq-sw{border:1.5px dashed color-mix(in srgb,var(--accent) 55%,transparent)}
 .mq-swst{display:flex;align-items:center;gap:2px;flex:none;background:var(--surface2);border-radius:12px;padding:3px}.mq-swst button{width:34px;height:34px;border:0;border-radius:9px;background:none;color:var(--ink);font:inherit;font-size:20px;font-weight:700;cursor:pointer}.mq-swst button:disabled{opacity:.3}.mq-swst b{min-width:22px;text-align:center;font-size:16px}
 .mq-swx{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.mq-swx button{display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:12px;border:0;background:var(--surface2);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer}.mq-swx small{color:var(--accent);font-weight:800}
@@ -4791,6 +4793,8 @@ function mqScale(meals,f,skipDone){ for(const m of meals){ if((skipDone&&m.done=
     const L=m.items.filter(i=>i.id).map(i=>({f:MFI(i.id),g:i.g,ref:i,cap:mqMx(m,MFI(i.id))})); solveMeal(L,mqK(m)*f,mqPr(m)*f); for(const x of L)x.ref.g=x.g; mqCapAll([m]); for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); }
   return meals; }
 function mqDay(){ const q=mqS(); if(!q.meals)return null; const today=ymd();
+  // menus saved before 13.3.181: one vegetable per meal and the grain cap, then top up to the same size
+  if(!q.cap2){ q.cap2=1; try{ mqWithK(q.kT||mqBase(),()=>{ mqCapAll(q.meals); mqTopUp(q.meals,q.kT||mqBase(),q.p||{}); }); if(q.ovr)mqCapAll(q.ovr.meals); }catch(e){ console.warn(e); } }
   // a treat day (or the lighter weekday around it): today's copy of the menu, scaled to today's budget
   if(q.p?.wk&&q.kT&&!(q.ovr&&q.ovr.d===today)){ const T=mqDayK(today)-mqSw()*100; if(Math.abs(T-q.kT)>60){ q.ovr={d:today,auto:1,meals:mqScale(JSON.parse(JSON.stringify(q.meals)),T/q.kT,true)}; } }
   return q.ovr&&q.ovr.d===today?q.ovr.meals:q.meals; }
@@ -4851,10 +4855,13 @@ function mqMx(m,f){ const kT=+S.settings.kcalT||2000, light=m.k==='b'||m.k==='s'
   if(light&&f.gp==='bread'&&f.ug&&(f.us||1)<1)c=Math.min(c,Math.max(f.mn,f.ug*(big?1.5:1))); // one pita / bagel at breakfast (1½ on a big day)
   if(m.k==='d'&&f.gp==='bread'&&f.ug)c=Math.min(c,Math.max(f.mn,f.ug*((f.us||1)<1?(big?1.5:1):(f.id==='rck'?4:big?3:2)))); // dinner: one pita / 2 slices — the rest of the plate goes to protein
   if(f.id==='ptl')c=Math.min(c,f.ug*(m.k==='l'||big?2:1)); // a light pita: 1 (2 at lunch or on a big day)
+  if(f.r==='C'&&f.hm&&/^כוס/.test(f.hm[1]))c=Math.min(c,Math.max(f.mn,f.hm[0]*(light?1:big?1.75:1.25))); // cooked grains and pasta: about a cup and a quarter on a plate (1¾ on a big day), not 2 cups of bulgur
   if(f.r==='F')c=Math.min(c,Math.max(f.mn,f.df*2)); // fat: up to 2 normal servings (2 tbsp tahini, 2 tsp oil, a handful of nuts)
   if(f.r==='X')c=Math.min(c,Math.max(f.mn,f.df)); // fruit: one serving per meal
   return c; }
-function mqCapAll(ms){ for(const m of ms)for(const i of m.items){ const f=MFI(i.id); if(!f)continue; const c=mqMx(m,f); if(i.g>c+.01){ const st=mfStep(f); i.g=Math.max(f.mn,Math.floor(c/st+1e-6)*st); } } }
+/* one vegetable line per meal: a salad and a tomato on one plate are the same thing twice */
+function mqOneV(m){ const V=m.items.filter(i=>i.r==='V'); if(V.length<2)return; const keep=V.find(i=>i.id==='sld')||V[0]; m.items=m.items.filter(i=>i.r!=='V'||i===keep); }
+function mqCapAll(ms){ for(const m of ms)mqOneV(m); for(const m of ms)for(const i of m.items){ const f=MFI(i.id); if(!f)continue; const c=mqMx(m,f); if(i.g>c+.01){ const st=mfStep(f); i.g=Math.max(f.mn,Math.floor(c/st+1e-6)*st); } } }
 /* יעד גבוה: כשהמנות כבר בגודל המקסימלי הסביר, מוסיפים כמו תזונאית — אגוזים או פרי לביניים, פרי לבוקר/ערב, שומן טוב לארוחה — ורק אז מגדילים פחמימה */
 const MQ_NUT=['alm','wal','pst','csh']; // pumpkin seeds in the shell are a nosh on their own, not a topping
 /* savoury foods: fruit, nuts and sweet spreads don't go in the same meal (no tuna with peanut butter, no eggs with dates) */
@@ -4956,18 +4963,19 @@ function vMenuQ(){ const q=mqS(), N=mqN();
     ${(()=>{ const sw=mqSw(), at=sw?((mqS().p?.swt||'eve')==='pm'?Math.max(0,day.findIndex(m=>m.k==='l')):day.length-1):-1;
       return day.map((m,i)=>mqMealHTML(m,i,today,i===nx||i===S.mqOpenI)+(i===at?mqSwHTML(today):'')).join('')+(sw?'':`<button class="mq-swadd" data-act="mq-swp">🍫 ${tt('להוסיף מקום למתוק')}<small>${tt('ראפי יקטין קצת את הארוחות')}</small></button>`); })()}
     <button class="mq-ask" data-act="mq-ask"><img src="img/kobi-happy.svg" alt=""><span>${G('ספר לראפי מה בא לך…','ספרי לראפי מה בא לך…')} "${tt('ערב במסעדה')}"</span></button>`; }
+const MQ_IC=k=>SLOT_IC[k]||'<svg viewBox="0 0 24 24"><path d="M12 7c-1-2.5-3-3-4.5-3M12 7c2.2-1.6 6-1.2 7 2.2.9 3.2-.8 8.1-3.3 10.3-1.2 1-2.6.9-3.7.3-1.1.6-2.5.7-3.7-.3C5.8 17.3 4.1 12.4 5 9.2 6 5.8 9.8 5.4 12 7Z"/></svg>';
 const MQ_OR={P:'או כל חלבון אחר',C:'או כל פחמימה אחרת',F:'או כל שומן אחר',X:'או כל פרי אחר'};
 const mqSq=()=>mqS().p?.mode==='sq'; // squares only: the user fills each budget; the menu's foods are ideas
 function mqMealHTML(m,i,today,open){ const nm=tt(MQ_K[m.k]), K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)), sq=Math.round(K/100), dn=mqName(m), SQ=mqSq(), shown=x=>!SQ||x.pick||x.r==='V';
   const meta=`<span class="num">${m.t} · ${sq} ${tt('ריבועים')} · ${K} ${tt('קק״ל')}</span>`;
   if(m.done===today)return `<div class="mq-done"><span class="v">✓</span><b>${nm}</b><span>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</span></div>`;
-  if(!open&&mqHas(m))return `<button class="mq-done mq-later" data-act="mq-open" data-m="${i}"><b>${nm}</b>${meta}<span>${m.out?tt('אוכלים בחוץ'):SQ&&!m.items.some(x=>x.pick)?tt('בחירה חופשית'):esc(dn||m.items.filter(x=>x.id&&x.r==='P'&&shown(x)).map(x=>mfName(MFI(x.id))).join(' · '))}</span></button>`;
-  const head=`<div class="mq-mh"><div class="mq-mt"><span class="n">${nm}</span><span class="t">${meta}</span></div>${m.out?'':SQ?`<button class="mq-re" data-act="mq-idea" data-m="${i}">💡 ${tt('תן לי רעיון')}</button>`:`<button class="mq-re" data-act="mq-re" data-m="${i}">↻ ${tt('ארוחה אחרת')}</button>`}</div>${dn&&!m.out&&!SQ?`<div class="mq-dn">${esc(dn)}</div>`:''}`;
+  if(!open&&mqHas(m))return `<button class="mq-done mq-later" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">${MQ_IC(m.k)}</span><b>${nm}</b>${meta}<span>${m.out?tt('אוכלים בחוץ'):SQ&&!m.items.some(x=>x.pick)?tt('בחירה חופשית'):esc(dn||m.items.filter(x=>x.id&&x.r==='P'&&shown(x)).map(x=>mfName(MFI(x.id))).join(' · '))}</span></button>`;
+  const head=`<div class="mq-mh"><span class="ms-ic" aria-hidden="true">${MQ_IC(m.k)}</span><div class="mq-mt"><span class="n">${nm}</span><span class="t">${meta}</span></div>${m.out?'':SQ?`<button class="mq-re" data-act="mq-idea" data-m="${i}">💡 ${tt('תן לי רעיון')}</button>`:`<button class="mq-re" data-act="mq-re" data-m="${i}">↻ ${tt('ארוחה אחרת')}</button>`}</div>${dn&&!m.out&&!SQ?`<div class="mq-dn">${esc(dn)}</div>`:''}`;
   if(m.out)return `<div class="mq-meal">${head}<div class="mq-out"><b>${tt('אוכלים בחוץ')} · ${sq} ${tt('ריבועים')}</b>${m.tip?`<span>${esc(m.tip)}</span>`:''}</div><button class="mq-eat" data-act="mq-eat" data-m="${i}">${tt('אכלתי')}</button></div>`;
   const can=SQ?m.items.some(x=>x.id&&x.pick):mqHas(m);
   return `<div class="mq-meal">${head}${m.items.map((x,j)=>{ const f=x.id&&shown(x)?MFI(x.id):null, kk=x.id?MFI(x.id).k*x.g/100:(x.kt||0), n=x.r!=='V'?Math.max(0,Math.round(kk/100)):0;
       const h=f?mqHH(f,x.g):'';
-      return `<button class="mq-ln ${!f&&SQ?'slot':''}" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?niTile(fIco(f),18,38):`<span class="mq-plus">+</span>`}<span class="f"><i class="g">${tt(MQ_G[x.r]||'')}${n?` <span class="sq">${'<b></b>'.repeat(Math.min(n,8))}</span>`:''}</i>${f?`${esc(mfName(f))}<small>${x.r==='V'?tt('כמה שרוצים')+' · ':h?h+' · ':''}<span class="num">${Math.round(x.g)} ${tt('גר׳')}</span></small>${MQ_OR[x.r]&&!SQ?`<span class="mq-or">${tt(MQ_OR[x.r])} ›</span>`:''}`:`<em>${SQ?tt('בחירה חופשית'):tt('בחירה')}</em>${SQ&&kk?`<small><span class="num">${Math.round(kk)}</span> ${tt('קק״ל')}</small>`:''}`}</span>${f?`<span class="k"><b class="num">${Math.round(f.k*x.g/100)}</b><small>${tt('קק״ל')}</small></span>`:''}<span class="ch" aria-hidden="true">‹</span></button>`; }).join('')}
+      return `<button class="mq-ln ${!f&&SQ?'slot':''}" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?niTile(fIco(f),18,38):`<span class="mq-plus">+</span>`}<span class="f"><i class="g">${tt(MQ_G[x.r]||'')}${n?` <span class="sq">${'<b></b>'.repeat(Math.min(n,8))}</span>`:''}</i>${f?`${esc(mfName(f))}<span class="mq-amt">${x.r==='V'?`<b>${tt('כמה שרוצים')}</b>`:`<b class="num">${h||`${Math.round(x.g)} ${tt('גר׳')}`}</b>${h?`<span class="num">${Math.round(x.g)} ${tt('גר׳')}</span>`:''}`}</span>${MQ_OR[x.r]&&!SQ?`<span class="mq-or">${tt(MQ_OR[x.r])} ›</span>`:''}`:`<em>${SQ?tt('בחירה חופשית'):tt('בחירה')}</em>${SQ&&kk?`<small><span class="num">${Math.round(kk)}</span> ${tt('קק״ל')}</small>`:''}`}</span>${f?`<span class="k"><b class="num">${Math.round(f.k*x.g/100)}</b><small>${tt('קק״ל')}</small></span>`:''}<span class="ch" aria-hidden="true">‹</span></button>`; }).join('')}
     <div class="mq-eatr"><button class="mq-eat" data-act="mq-eat" data-m="${i}" ${can?'':'disabled'}>${tt(SQ?'אכלתי':'אכלתי הכל')}</button><button class="mq-eat2" data-act="mq-eatc" data-m="${i}">${tt('אכלתי אחרת')}</button></div></div>`; }
 /* the sweet card: today's treat squares, editable — the meals around it grow or shrink to stay on target */
 function mqSwHTML(today){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?p.swk:['choc','cookie','ice','bamba']).map(id=>MQ_SWF.find(x=>x[0]===id)).filter(Boolean);
@@ -4978,7 +4986,7 @@ function mqSwHTML(today){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?
     <div class="mq-swx">${K.map(([id,e,nm])=>`<button data-act="mq-swlog" data-v="${id}">${e} ${tt(nm)}<small>+1</small></button>`).join('')}</div>
     <button class="mq-swmore" data-act="mq-swkinds">${tt('לבחור מה מופיע כאן')}</button></div>`; }
 function mqHintHTML(){ const p=mqS().p||{}; if(p.hintX)return '';
-  return `<div class="mq-hint"><img src="img/kobi-wink.svg" alt=""><span><b>${tt('זה כיוון ליום, לא חוק')}</b>${mqSq()?tt('ראפי נותן תקציב לכל ארוחה, ואתה ממלא. צריך רעיון? לחיצה אחת.'):tt('כל מאכל אפשר להחליף באחר עם אותו מספר ריבועים. לוחצים עליו ובוחרים.')}</span><button class="mq-hx" data-act="mq-hintx" aria-label="${tt('סגירה')}">✕</button></div>`; }
+  return `<div class="mq-hint"><img src="img/kobi-wink.svg" alt=""><span><b>${tt('זה כיוון ליום, לא חוק')}</b>${mqSq()?tt('ראפי נותן תקציב לכל ארוחה, ואתה ממלא. צריך רעיון? לחיצה אחת.'):tt('כל מאכל אפשר להחליף באחר עם אותו מספר ריבועים. לוחצים עליו ובוחרים.')}</span><button class="mq-hcl" data-act="mq-hintx" aria-label="${tt('סגירה')}">✕</button></div>`; }
 /* after "I ate something else": Rafi offers to move the difference into the meals that are left today */
 function mqRbHTML(today){ const q=mqS(), r=q.rb; if(!r||r.d!==today)return ''; const day=mqDay(), m=day&&day[r.i]; if(!m)return '';
   const sq=Math.abs(Math.round(r.diff/100))||1, more=r.diff>0, left=day.filter(x=>x.done!==today&&mqHas(x));
