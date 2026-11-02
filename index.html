@@ -1257,6 +1257,7 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .sh-bar{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 6px;min-height:36px}.sh-x{width:36px;height:36px;border-radius:50%;border:0;background:var(--surface2);color:var(--ink);font-size:15px;cursor:pointer}.sh-back{display:flex;align-items:center;gap:4px;height:36px;padding:0 12px 0 8px;border:0;border-radius:18px;background:var(--surface2);color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}html[dir="ltr"] .sh-back svg{transform:scaleX(-1)}
 .mq2-alld{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:14px;padding:22px 16px;border-radius:22px;background:var(--surface);border:1px solid var(--line);text-align:center}.mq2-alld span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:900;font-size:18px}.mq2-alld b{font-size:16px;margin-top:4px}.mq2-alld small{color:var(--muted);font-size:13px}
 .fd-seg{display:flex;gap:3px;margin:12px 0 4px;padding:4px;border-radius:15px;background:var(--surface);border:1px solid var(--line)}.fd-seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:40px;border:0;border-radius:11px;background:none;color:var(--muted);font:inherit;font-size:15px;font-weight:700;cursor:pointer}.fd-seg button.on{background:var(--surface2);color:var(--ink);box-shadow:0 1px 4px #0004}.fd-seg small{font-size:11.5px;font-weight:800;color:var(--accent-ink);background:var(--accent);padding:2px 7px;border-radius:7px}.fd-mt{justify-content:space-between}.fd-mt .ttl{margin:0}
+.mq2-undo{width:100%;height:44px;margin-top:12px;border-radius:14px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
 .mq2-card{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 16px}.mq2-card.nx{border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
 .mq2-top{display:flex;align-items:center;gap:10px}.mq2-top .lt{flex:1;min-width:0}.mq2-top .lt b{font-size:16.5px}.mq2-top .lt small{display:block;font-size:12.5px;color:var(--muted)}
 .mq2-pill{flex:none;font-size:12.5px;font-weight:800;padding:5px 10px;border-radius:10px;background:var(--surface2);color:var(--ink);white-space:nowrap}.mq2-pill.a{background:var(--accent);color:var(--accent-ink)}
@@ -5058,6 +5059,7 @@ const MQ_IC=k=>SLOT_IC[k]||'<svg viewBox="0 0 24 24"><path d="M12 7c-1-2.5-3-3-4
 const MQ_OR={P:'או כל חלבון אחר',C:'או כל פחמימה אחרת',F:'או כל שומן אחר',X:'או כל פרי אחר'};
 const mqSq=()=>mqS().p?.mode==='sq'; // squares only: the user fills each budget; the menu's foods are ideas
 function mqMealHTML(m,i,today,open,isNext){ const nm=tt(MQ_K[m.k]), K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)), sq=Math.round(K/100), dn=mqName(m), SQ=mqSq(), shown=x=>!SQ||x.pick||x.r==='V';
+  if(m.done===today&&open)return `<div class="mq2-card mq2-done"><div class="mq2-top"><span class="ms-ic" aria-hidden="true" style="background:var(--accent);color:var(--accent-ink);font-weight:900">✓</span><span class="lt"><b>${nm} · ${tt('נרשם')}</b><small>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</small></span></div><button class="mq2-undo" data-act="mq-undo" data-m="${i}">↺ ${tt('לא אכלתי, לבטל')}</button><div class="mq2-tip">${m.mid?tt('הארוחה תימחק גם מהיומן'):tt('הארוחה תחזור לתפריט')}</div></div>`;
   if(m.done===today)return `<button class="mq2-mini ok" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">✓</span><span class="lt"><b>${nm}</b><small>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</small></span></button>`;
   const sub=m.out?tt('אוכלים בחוץ'):SQ&&!m.items.some(x=>x.pick)?tt('בחירה חופשית'):esc(dn||m.items.filter(x=>x.id&&x.r==='P'&&shown(x)).map(x=>mfName(MFI(x.id))).join(' · '));
   if(!open)return `<button class="mq2-mini" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">${MQ_IC(m.k)}</span><span class="lt"><b>${nm} <span class="tm num">· ${m.t}</span></b><small>${sub||tt('ריקה')}</small></span><span class="mq2-pill num">${sq}</span></button>`;
@@ -5298,7 +5300,7 @@ async function mqEat(i,G){ const day=mqDay(), m=day&&day[i], today=ymd(); if(!m|
   const tot=items.reduce((a,t)=>({kcal:a.kcal+t.kcal,protein:a.protein+t.protein,carbs:a.carbs+t.carbs,fat:a.fat+t.fat}),{kcal:0,protein:0,carbs:0,fat:0});
   for(const [j,x] of m.items.entries()){ const f=x.id&&MFI(x.id); if(f&&(!G||G[j]>0)&&Number.isInteger(f.c)&&f.c<900000)sb.rpc('bump_food',{c:f.c}).then(()=>{},()=>{}); }
   m.done=today; persistSettings(); logEv(G?'menu_log_adj':'menu_log');
-  const keep=S.foodDate; S.foodDate=today; _mealDraft={name:m.rcp&&RCP(m.rcp)?RCP(m.rcp).n:(MSLOT[m.k]?.[1]||'ארוחה'),items,...tot}; await saveMealDraft(); S.foodDate=keep; render(); }
+  const keep=S.foodDate; S.foodDate=today; _mealDraft={name:m.rcp&&RCP(m.rcp)?RCP(m.rcp).n:(MSLOT[m.k]?.[1]||'ארוחה'),items,...tot}; window._lastMeal=null; await saveMealDraft(); S.foodDate=keep; if(window._lastMeal){ m.mid=window._lastMeal; persistSettings(); } render(); }
 /* ארוחה אחרת: ארוחה אמיתית אחרת מהספרייה, באותו גודל */
 /* "another meal": a different real meal from the library, the same size, with the same caps and portions as the generated day.
    First it avoids everything on today's menu and in this meal; if that leaves nothing sensible (a vegan, gluten-free day) it may reuse the day's foods; it never hands back a plate without protein */
@@ -5329,7 +5331,7 @@ function mqSwKinds(){ const p=mqS().p||{}, K=p.swk||[];
 /* "I ate something else": the meal is logged as what was really eaten, and the difference can move into the rest of the day */
 let MQX=null;
 function mqAltSaved(row){ const x=MQX; MQX=null; const q=mqS(), today=ymd(), day=mqDay(), m=day&&day[x.i]; if(!m||row.d!==today)return;
-  m.done=today; m.alt={n:String(row.name||'').slice(0,40),k:Math.round(+row.kcal||0)}; const diff=Math.round((+row.kcal||0)-x.K0);
+  m.done=today; m.mid=row.id; m.alt={n:String(row.name||'').slice(0,40),k:Math.round(+row.kcal||0)}; const diff=Math.round((+row.kcal||0)-x.K0);
   q.rb=Math.abs(diff)>=80?{d:today,diff,i:x.i}:null; persistSettings(); logEv('menu_alt'); }
 function mqRbApply(){ const q=mqS(), r=q.rb, today=ymd(); if(!r)return; if(!(q.ovr&&q.ovr.d===today))q.ovr={d:today,meals:JSON.parse(JSON.stringify(q.meals))};
   const L=q.ovr.meals.filter(m=>m.done!==today&&mqHas(m)), tot=L.reduce((a,m)=>a+mqK(m),0); if(tot>0){ const f=Math.max(.5,Math.min(1.5,(tot-r.diff)/tot)); mqScale(L,f,true); }
@@ -5351,6 +5353,8 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-wgo': mqWizDone(); return true;
     case 'mq-pick': mqPickOpen(mi,+b.dataset.l); return true;
     case 'mq-setf': { const m=day&&day[mi], x=m&&m.items[+b.dataset.l], f=MFI(b.dataset.id); if(x&&f){ const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100); x.id=f.id; x.r=f.r; x.g=mqFitG(f,kc,m); delete x.kt; x.pick=1; m.name=null; persistSettings(); } closeSheet(); render(); return true; }
+    case 'mq-undo': { const m=day&&day[mi]; if(!m)return true; const id=m.mid; delete m.done; delete m.mid; delete m.alt; if(q.rb&&q.rb.i===mi)q.rb=null; persistSettings();
+      if(id&&S.meals.some(x=>x.id===id))deleteMeal(id); else { render(); toast(tt('הארוחה חזרה לתפריט')); } logEv('menu_undo'); return true; }
     case 'mq-rxl': closeSheet(); setTimeout(()=>rcpListOpen(mi),40); return true;
     case 'mq-rxf': RX.f=b.dataset.v; rcpListR(); return true;
     case 'mq-rxo': rcpOpen(b.dataset.id,mi,b.dataset.v); return true;
@@ -6613,7 +6617,8 @@ async function saveMealEdit(){
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
 async function deleteMeal(id){
-  S.meals=S.meals.filter(m=>m.id!==id); _mealEdit=null; saveSnapshot(); closeSheet(); render();
+  S.meals=S.meals.filter(m=>m.id!==id); _mealEdit=null;
+  try{ const q=mqS(); for(const L of [q.meals,q.ovr&&q.ovr.meals])for(const x of L||[])if(x.mid===id){ delete x.done; delete x.mid; delete x.alt; persistSettings(); } }catch(_){} // deleted from the log → the menu meal is open again saveSnapshot(); closeSheet(); render();
   // drop a pending offline insert of the same meal; otherwise delete on the server (queued when offline)
   try{ const q=qAll(), k=q.filter(x=>!(x.table==='meals'&&x.row&&x.row.id===id&&!x.row._del)); if(k.length!==q.length){ localStorage.setItem(Q_KEY,JSON.stringify(k)); updateSyncBadge(); } }catch(_){}
   try{ const {error}=await sb.from('meals').delete().eq('id',id); if(error)throw error; }
@@ -6626,7 +6631,7 @@ async function saveMealDraft(){
   const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
   if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
   const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,altd,ai0,src,code,ai,pos,oil,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט',...(m.mc&&ai0?{ai:{...ai0,...(src?{s:src}:{}),...(code?{c:code}:{})}}:{})}))};
-  S.meals.push({...row}); if(MQX&&Date.now()-MQX.at<36e5&&row.name!=='מתוק')try{ mqAltSaved(row); }catch(e){ console.warn(e); } saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
+  S.meals.push({...row}); window._lastMeal=row.id; if(MQX&&Date.now()-MQX.at<36e5&&row.name!=='מתוק')try{ mqAltSaved(row); }catch(e){ console.warn(e); } saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }

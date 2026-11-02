@@ -4634,5 +4634,25 @@
  "לא נקלט טקסט. אפשר לכתוב במקום": {
   "en": "No text was picked up. You can type instead",
   "ar": "لم يُلتقط أي نص. يمكنك الكتابة بدلاً من ذلك"
+ },
+ "לא אכלתי, לבטל": {
+  "en": "I didn't eat it, undo",
+  "ar": "لم آكلها، تراجع"
+ },
+ "הארוחה תימחק גם מהיומן": {
+  "en": "The meal will also be removed from your log",
+  "ar": "ستُحذف الوجبة من السجل أيضاً"
+ },
+ "הארוחה תחזור לתפריט": {
+  "en": "The meal goes back to your menu",
+  "ar": "ستعود الوجبة إلى القائمة"
+ },
+ "הארוחה חזרה לתפריט": {
+  "en": "The meal is back in your menu",
+  "ar": "عادت الوجبة إلى القائمة"
+ },
+ "נרשם": {
+  "en": "Logged",
+  "ar": "مسجّلة"
  }
 }
