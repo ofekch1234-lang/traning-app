@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=23d483af"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=23d483af"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=23d483af"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=d0782974"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=d0782974"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=d0782974"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1533,6 +1533,11 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .mq-dn{font-size:13.5px;color:var(--muted);margin:-2px 0 4px}
 .mq-row .q{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}.mq-row .q small{font-size:12px;color:var(--muted)}
 .fd-img{display:block;flex:none;border-radius:10px;object-fit:cover;background:#141715}
+.sp-l{display:flex;flex-direction:column;gap:8px}.sp-r{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}.sp-r.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.sp-r .lt{flex:1;min-width:0;cursor:pointer}.sp-r .lt b{display:block;font-size:15.5px}.sp-r .lt small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.sp-st{display:flex;align-items:center;gap:2px;background:var(--surface2);border-radius:12px;padding:3px;flex:none}.sp-st button{width:32px;height:32px;border:0;border-radius:9px;background:none;color:var(--ink);font:inherit;font-size:19px;font-weight:700;cursor:pointer}.sp-st b{min-width:20px;text-align:center}
+.sp-bc{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:0;border:0;background:none;font:inherit;font-size:13px;color:var(--accent);font-weight:700;cursor:pointer}
+.sp-ck{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--line);background:none;display:grid;place-items:center;flex:none;font:inherit;cursor:pointer}.sp-r.on .sp-ck{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:900;font-size:14px}
 .mq2-hd{display:flex;align-items:center;gap:14px;margin-top:4px}.mq2-ring{position:relative;width:74px;height:74px;flex:none}.mq2-ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:800;font-family:var(--disp)}
 .mq2-hd .t{flex:1;min-width:0}.mq2-hd .t b{display:block;font-size:17px}.mq2-hd .t>span{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
 .mq2-q{width:32px;height:32px;flex:none;border-radius:50%;border:1px solid var(--line);background:none;color:var(--muted);font:inherit;font-weight:800;font-size:15px;cursor:pointer}
@@ -1915,6 +1920,10 @@ body.resting .rm-pan{display:none}
 .rtip b{font-weight:700}.rtip span{color:var(--muted);font-size:12.5px}
 .rtip.up{background:var(--gold-soft)}.rtip.up>b{color:var(--gold)}.rtip.up span b{color:var(--ink)}
 .set-done .done-btn{background:var(--accent);border-color:var(--accent)}
+:not(.set-done)>.done-btn[data-act="set-done"] svg{opacity:0}:not(.set-done)>.done-btn[data-act="set-done"]{position:relative}:not(.set-done)>.done-btn[data-act="set-done"]::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);opacity:.7}
+.setidx b{font-weight:600}.setidx.set-done b{display:none}.setidx.set-done::after{content:"✓";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:900;font-size:13px}
+.ex-cnt{display:inline-block;margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted);background:var(--surface2);border-radius:8px;padding:3px 8px}.ex-cnt.all{color:var(--accent-ink);background:var(--accent)}
+.ex-row.done{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}.exd-tag{display:inline-flex;align-items:center;gap:5px;flex:none;font-size:13px;font-weight:800;color:var(--accent-ink);background:var(--accent);border-radius:10px;padding:5px 10px}.exd-tag svg{width:14px;height:14px}
 .set-done .done-btn svg{stroke:var(--accent-ink)}
 .addset{margin-top:8px;width:100%;padding:9px;border:1px dashed var(--line);color:var(--muted);font-size:14px}
 
@@ -2761,7 +2770,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.188';
+const APP_VERSION='13.3.190';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5857,7 +5866,7 @@ function mwFinish(){
 }
 
 /* --- כניסה לתפריט: בלי יעד, קודם מגדירים יעד --- */
-function openMenu(){
+function openMenu(){ setTimeout(maybeStartTour,700);
   if(!(+S.settings.kcalT)){
     openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-think.svg" alt=""><div><b>קודם צריך יעד יומי 🎯</b><span>${G('כדי לבנות תפריט אני צריך לדעת כמה קלוריות וחלבון אתה צריך ביום. לוקח דקה, ומשקל יעד לא חובה.','כדי לבנות תפריט אני צריך לדעת כמה קלוריות וחלבון את צריכה ביום. לוקח דקה, ומשקל יעד לא חובה.','כדי לבנות תפריט צריך לדעת כמה קלוריות וחלבון צריך ביום. לוקח דקה, ומשקל יעד לא חובה.')}</span></div></div>
       <button class="btn primary big" data-act="mn-target">🎯 להגדרת יעד</button>
@@ -5884,8 +5893,12 @@ function mqDayK(ds){ const K=+S.settings.kcalT||1800, wk=mqS().p?.wk, we=MQ_WE[w
 const mqN=ds=>Math.max(10,Math.min(45,Math.round(mqDayK(ds)/100)));
 /* sweet squares the user keeps for a treat every day; the meals are built on what is left */
 const mqSw=()=>Math.max(0,Math.min(4,+mqS().p?.sw||0));
-const mqBase=()=>(+S.settings.kcalT||2000)-mqSw()*100;
-function mqWithK(k,fn){ const k0=S.settings.kcalT; S.settings.kcalT=k; try{ return fn(); } finally{ S.settings.kcalT=k0; } }
+/* supplements the user takes every day: their kcal and protein come off the meals (a shake already covers part of the protein) */
+const MQ_SUP=[['whey','🥤','אבקת חלבון','סקופ',{k:120,p:24,c:3,f:1.5,g:30}],['shake','🧃','שייק חלבון מוכן','בקבוק',{k:160,p:25,c:10,f:2,g:330}],['crea','⚡','קריאטין','מנה',{k:0,p:0,c:0,f:0,g:5}],['bar','🍫','חטיף חלבון','חטיף',{k:210,p:20,c:20,f:7,g:60}],['other','➕','מוצר אחר','מנה',null]];
+const mqSupL=p=>((p||mqS().p||{}).sup||[]).map(x=>{ const d=MQ_SUP.find(y=>y[0]===x.id); const v=x.prod||(d&&d[4]); return d&&v?{...x,d,v,n:Math.max(1,+x.n||1)}:null; }).filter(Boolean);
+const mqSupK=p=>Math.round(mqSupL(p).reduce((a,x)=>a+x.v.k*x.n,0)), mqSupP=p=>Math.round(mqSupL(p).reduce((a,x)=>a+x.v.p*x.n,0));
+const mqBase=()=>(+S.settings.kcalT||2000)-mqSw()*100-mqSupK();
+function mqWithK(k,fn){ const k0=S.settings.kcalT, p0=S.settings.protT, sp=mqSupP(); S.settings.kcalT=k; if(sp&&p0)S.settings.protT=Math.max(40,p0-sp); try{ return fn(); } finally{ S.settings.kcalT=k0; S.settings.protT=p0; } }
 /* scale meals to a new size: the same foods, portions solved again, caps kept */
 function mqScale(meals,f,skipDone){ for(const m of meals){ if((skipDone&&m.done===ymd())||!m.items.some(i=>i.id)){ for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); continue; }
     const L=m.items.filter(i=>i.id).map(i=>({f:MFI(i.id),g:i.g,ref:i,cap:mqMx(m,MFI(i.id))})); solveMeal(L,mqK(m)*f,mqPr(m)*f); for(const x of L)x.ref.g=x.g; mqCapAll([m]); for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); }
@@ -5921,7 +5934,7 @@ function mqTxt(f,g){ const h=mqHH(f,g); return `${f.r==='V'?tt('כמה שרוצ�
 function mqOne(f){ const g=Math.round(10000/f.k); const h=mqHH(f,g); return h||`${g} ${tt('גר׳')}`; }
 /* הפרופיל של השאלון הקצר → הפרופיל של מנוע התפריט */
 function mqP0(p){ return {style:p.style||'any',avoid:p.avoid||[],meals:+p.meals||4,bf:p.bf||'salty',dinner:'cooked',train:'none',cook:'any',likes:p.likes||[],heat:'yes',capK:MQ_CAPK,capOf:mqCapOf,capFn:(k,f,its)=>mqMx({k,items:(its||[]).map(i=>({id:i.f.id}))},f)}; }
-function mqWith(p,fn){ const M=menuS(), kp=M.p, kn=M.no; M.p=mqP0(p); M.no=p.no||[]; try{ return fn(M.p); } finally{ M.p=kp; M.no=kn; } }
+function mqWith(p,fn){ const M=menuS(), kp=M.p, kn=M.no; M.p=mqP0(p); M.no=[...(p.no||[]),...((p.sup||[]).some(x=>x.id==='whey'||x.id==='shake')?['why']:[])]; try{ return fn(M.p); } finally{ M.p=kp; M.no=kn; } }
 function mqTimes(meals){ let si=0; const n=meals.length, ST=n>=6?['10:30','16:30','21:30']:n===5?['10:30','16:30']:['16:30']; meals.forEach(m=>{ m.t=m.k==='s'?(ST[si++]||'16:30'):{b:'07:30',l:'13:00',d:'19:30'}[m.k]; }); return meals; }
 const mqSort=items=>items.sort((a,b)=>(MQ_ORD[a.r]??5)-(MQ_ORD[b.r]??5));
 /* מנה סבירה היא עד ~850 קק״ל לארוחה: ביעד גבוה מוסיפים ארוחה במקום להעמיס, והעודף עובר לארוחות האחרות */
@@ -6055,7 +6068,7 @@ function vMenuQ(){ const q=mqS(), N=mqN();
   if(!q.help){ q.help=1; persistSettings(); setTimeout(mqHelp,350); }
   const sw=mqSw(), open=S.mqOpenI!=null?S.mqOpenI:nx, R2=32, C2=2*Math.PI*R2;
   const strip=`<div class="mq2-strip">${day.map((m,i)=>{ const dn=m.done===today, sq=Math.round((mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0))/100);
-      return `<button class="${dn?'ok':''} ${i===open?'on':''}" data-act="mq-open" data-m="${i}">${dn?'<span class="d">✓</span>':`<small class="num">${m.t}</small>`}<b>${tt(MQ_K[m.k])}</b><small><span class="num">${sq}</span> ${tt('ריבועים')}</small></button>`; }).join('')}${sw?`<button class="${open==='sw'?'on':''}" data-act="mq-open" data-m="sw"><small>${tt('מתי שבא')}</small><b>🍫 ${tt('מתוק')}</b><small><span class="num">${sw}</span> ${tt(sw===1?'ריבוע':'ריבועים')}</small></button>`:''}</div>`;
+      return `<button class="${dn?'ok':''} ${i===open?'on':''}" data-act="mq-open" data-m="${i}">${dn?'<span class="d">✓</span>':`<small class="num">${m.t}</small>`}<b>${tt(MQ_K[m.k])}</b><small><span class="num">${sq}</span> ${tt('ריבועים')}</small></button>`; }).join('')}${mqSupL().length?`<button class="${open==='sup'?'on':''} ${q.supd&&q.supd.d===today&&q.supd.ok?'ok':''}" data-act="mq-open" data-m="sup"><small>${tt({am:'בבוקר',post:'אחרי אימון',pm:'בערב'}[q.p?.supt||'post'])}</small><b>💪 ${tt('תוספים')}</b><small>${mqSupK()?`<span class="num">${mqSupK()}</span> ${tt('קק״ל')}`:tt('תזכורת')}</small></button>`:''}${sw?`<button class="${open==='sw'?'on':''}" data-act="mq-open" data-m="sw"><small>${tt('מתי שבא')}</small><b>🍫 ${tt('מתוק')}</b><small><span class="num">${sw}</span> ${tt(sw===1?'ריבוע':'ריבועים')}</small></button>`:''}</div>`;
   return mqTop()+`<div class="mq2-hd"><span class="mq2-ring"><svg viewBox="0 0 74 74" width="74" height="74" aria-hidden="true"><circle cx="37" cy="37" r="${R2}" fill="none" stroke="var(--surface2)" stroke-width="7"/><circle cx="37" cy="37" r="${R2}" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C2}" stroke-dashoffset="${C2*(1-Math.min(1,left/N))}" transform="rotate(-90 37 37)"/></svg><b class="num">${left}</b></span>
       <span class="t"><b>${tt(left===1?'נשאר ריבוע אחד היום':'נשארו {0} ריבועים היום').replace('{0}',`<span class="num">${left}</span>`)}</b><span>${tt('{0} מתוך {1} · ריבוע = 100 קק״ל').replace('{0}',`<span class="num">${Math.min(N,eaten)}</span>`).replace('{1}',`<span class="num">${N}</span>`)}</span></span>
       <button class="mq2-q" data-act="mq-help" aria-label="${tt('מה זה ריבוע?')}">?</button></div>
@@ -6063,8 +6076,14 @@ function vMenuQ(){ const q=mqS(), N=mqN();
     ${q.note?`<div class="mq-note"><img src="img/kobi-wink.svg" alt=""><span>${esc(q.note)}</span></div>`:''}
     ${strip}${mqHintHTML()}${mqRbHTML(today)}
     ${(()=>{ const at=sw?((q.p?.swt||'eve')==='pm'?Math.max(0,day.findIndex(m=>m.k==='l')):day.length-1):-1;
-      return day.map((m,i)=>mqMealHTML(m,i,today,i===open,i===nx)+(i===at?(open==='sw'?mqSwHTML(today):mqSwMini()):'')).join('')+(sw?'':`<button class="mq-swadd" data-act="mq-swp">🍫 ${tt('להוסיף מקום למתוק')}<small>${tt('ראפי יקטין קצת את הארוחות')}</small></button>`); })()}
+      const su=mqSupL().length?(()=>{ const t=q.p?.supt||'post'; return t==='am'?0:t==='pm'?day.length-1:Math.max(0,day.findIndex(m=>m.k==='s')>=0?day.findIndex(m=>m.k==='s'):day.findIndex(m=>m.k==='l')); })():-1;
+      return day.map((m,i)=>mqMealHTML(m,i,today,i===open,i===nx)+(i===su?mqSupHTML(today,open==='sup'):'')+(i===at?(open==='sw'?mqSwHTML(today):mqSwMini()):'')).join('')+(sw?'':`<button class="mq-swadd" data-act="mq-swp">🍫 ${tt('להוסיף מקום למתוק')}<small>${tt('ראפי יקטין קצת את הארוחות')}</small></button>`); })()}
     <button class="mq-ask" data-act="mq-ask"><img src="img/kobi-happy.svg" alt=""><span>${G('ספר לראפי מה בא לך…','ספרי לראפי מה בא לך…')} "${tt('ערב במסעדה')}"</span></button>`; }
+function mqSupHTML(today,open){ const L=mqSupL(); if(!L.length)return ''; const q=mqS(), st=q.supd&&q.supd.d===today?q.supd:null, K=mqSupK(), when=tt({am:'בבוקר',post:'אחרי אימון',pm:'בערב'}[q.p?.supt||'post']);
+  if(st||!open)return `<button class="mq2-mini ${st&&st.ok?'ok':''}" data-act="mq-open" data-m="sup"><span class="ms-ic sm" aria-hidden="true">${st&&st.ok?'✓':'💪'}</span><span class="lt"><b>${tt('תוספים')}${st&&!st.ok?` · <span class="tm">${tt('לא היום')}</span>`:''}</b><small>${L.map(x=>(x.prod?x.prod.n:tt(x.d[2]))).join(' · ')}</small></span>${K?`<span class="mq2-pill num">${K}</span>`:''}</button>`;
+  return `<div class="mq2-card"><div class="mq2-top"><span class="ms-ic" aria-hidden="true">💪</span><span class="lt"><b>${tt('תוספים')}</b><small>${when} · ${tt('כבר בתוך היעד')}</small></span>${K?`<span class="mq2-pill"><span class="num">${K}</span> ${tt('קק״ל')}</span>`:''}</div>
+    ${L.map(x=>`<div class="mq2-it" style="cursor:default"><span class="ms-ic sm" aria-hidden="true">${x.d[1]}</span><span class="q"><b><span class="num">${x.n}</span> ${tt(x.d[3])}</b> ${esc(x.prod?x.prod.n:tt(x.d[2]))}${x.v.p?` <small><span class="num">${Math.round(x.v.p*x.n)}</span> ${tt('ג׳ חלבון')}</small>`:''}</span><span class="k"><b class="num">${Math.round(x.v.k*x.n)}</b><small>${tt('קק״ל')}</small></span></div>`).join('')}
+    <div class="mq2-act"><button class="a" data-act="mq-suplog">${tt('לקחתי')}</button><button class="b" data-act="mq-supskip">${tt('לא היום')}</button><button class="m" data-act="mq-w" data-v="sup" aria-label="${tt('עריכה')}">✎</button></div></div>`; }
 function mqSwMini(){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?p.swk:['choc','cookie','ice']).map(id=>MQ_SWF.find(x=>x[0]===id)).filter(Boolean);
   return `<button class="mq2-mini" data-act="mq-open" data-m="sw"><span class="ms-ic sm" aria-hidden="true">🍫</span><span class="lt"><b>${tt('מתוק')}</b><small>${K.map(x=>tt(x[2])).join(' · ')}</small></span><span class="mq2-pill num">${n}</span></button>`; }
 const MQ_IC=k=>SLOT_IC[k]||'<svg viewBox="0 0 24 24"><path d="M12 7c-1-2.5-3-3-4.5-3M12 7c2.2-1.6 6-1.2 7 2.2.9 3.2-.8 8.1-3.3 10.3-1.2 1-2.6.9-3.7.3-1.1.6-2.5.7-3.7-.3C5.8 17.3 4.1 12.4 5 9.2 6 5.8 9.8 5.4 12 7Z"/></svg>';
@@ -6126,15 +6145,22 @@ function mqWizHTML(){ const w=S.mqW, st=w.steps[w.i], p=w.p, n=w.steps.length;
       ${v?`<div class="mq-wl">${tt('מה בא לך בדרך כלל?')}</div><div class="mq-chips">${MQ_SWF.map(([id,e,n])=>`<button class="${K.includes(id)?'on':''}" data-act="mq-wswk" data-v="${id}">${e} ${tt(n)}</button>`).join('')}</div>
       <div class="mq-wl">${tt('מתי?')}</div><div class="mq-chips">${MQ_SWT.map(([id,n])=>`<button class="${(p.swt||'eve')===id?'on':''}" data-act="mq-wswt" data-v="${id}">${tt(n)}</button>`).join('')}</div>`:''}
       <button class="mq-cta a" data-act="mq-wn">${tt('המשך')}</button>`; }
+  else if(st==='sup'){ const L=p.sup||[], on=id=>L.find(x=>x.id===id);
+    body=bub('happy',G('לוקח תוספים?','לוקחת תוספים?'),tt('אכניס אותם לתפריט, כדי שהקלוריות והחלבון שלהם ייספרו'))+`<div class="sp-l">${MQ_SUP.map(([id,e,n,u,v])=>{ const x=on(id), pv=x&&x.prod||v;
+      return `<div class="sp-r ${x?'on':''}"><button class="sp-ck" data-act="mq-wsup" data-v="${id}" aria-label="${tt(n)}">${x?'✓':''}</button><span class="lt" data-act="mq-wsup" data-v="${id}"><b>${x&&x.prod?esc(x.prod.n):tt(n)}</b><small>${pv?(pv.k?`<span class="num">${x?x.n||1:1}</span> ${tt(u)} · <span class="num">${Math.round(pv.k*(x?x.n||1:1))}</span> ${tt('קק״ל')}${pv.p?` · <span class="num">${Math.round(pv.p*(x?x.n||1:1))}</span> ${tt('ג׳ חלבון')}`:''}`:tt('בלי קלוריות · רק תזכורת')):tt('סורקים ברקוד של המוצר')}</small>
+        ${x&&id!=='crea'?`<button class="sp-bc" data-act="mq-wsupbc" data-v="${id}">▦ ${tt(x.prod?'לסרוק מוצר אחר':'סריקת ברקוד של המוצר שלך')}</button>`:''}</span>
+        ${x&&id!=='crea'?`<span class="sp-st"><button data-act="mq-wsupn" data-v="${id}" data-d="-1" aria-label="${tt('פחות')}">−</button><b class="num">${x.n||1}</b><button data-act="mq-wsupn" data-v="${id}" data-d="1" aria-label="${tt('יותר')}">+</button></span>`:''}</div>`; }).join('')}</div>
+      ${L.length?`<div class="mq-wl">${tt('מתי בדרך כלל?')}</div><div class="mq-chips">${[['am','בבוקר'],['post','אחרי אימון'],['pm','בערב']].map(([v,t])=>`<button class="${(p.supt||'post')===v?'on':''}" data-act="mq-wsupt" data-v="${v}">${tt(t)}</button>`).join('')}</div>`:''}
+      <button class="mq-cta a" data-act="mq-wn">${tt(L.length?'המשך':'לא לוקח')}</button>`; }
   else if(st==='love')body=bub('wink',G('מה אתה הכי אוהב לאכול?','מה את הכי אוהבת לאכול?'),voOK()?tt('כותבים או מקליטים, כמו לתזונאית'):tt('כותבים חופשי, כמו לתזונאית'))+`<div class="mq-lv vo-host"><textarea id="mq-love" class="mq-tx" rows="3" maxlength="300" placeholder="${tt('למשל: שקשוקה, פסטה, הרבה עוף. בערב בא לי משהו מתוק')}">${esc(p.love||'')}</textarea>${voOK()?`<button class="mq-mic" data-act="vo-start" data-q="mq-love" aria-label="${tt('הקלטה קולית')}">${ICON.mic}<span>${tt('הקלטה')}</span></button>`:''}</div>
       <div id="mq-lt" class="mw-tags">${mqLoveTags(p.love)}</div>
       <button class="mq-cta a" data-act="mq-wgo">${tt('ראפי, תבנה לי')}</button>`;
   return `<div class="mq-wz">${n>1?prog:''}${body}</div>`; }
 function mqLoveTags(t){ const r=mwParse(t); return r.names.length?`<span class="mq-ltl">${tt('זיהיתי:')}</span>`+mwTags(r,false):''; }
 document.addEventListener('input',e=>{ if(e.target?.id!=='mq-love')return; const b=$('#mq-lt'); if(b)b.innerHTML=mqLoveTags(e.target.value); });
-function mqWizStart(mode){ const q=mqS(), p0=q.p||{}; S.mqW={mode,i:0,steps:mode==='self'?['style','avoid','meals','sweet']:['style','avoid','meals','sweet','love'],p:{style:p0.style||'any',avoid:[...(p0.avoid||[])],meals:p0.meals||((+S.settings.kcalT||0)>=2800?5:4),love:p0.love||'',sw:p0.sw??0,swk:[...(p0.swk||['choc','cookie'])],swt:p0.swt||'eve',wk:p0.wk||'',mode:p0.mode||'',hintX:p0.hintX}}; closeSheet(); render(); window.scrollTo(0,0); }
+function mqWizStart(mode){ const q=mqS(), p0=q.p||{}; S.mqW={mode,i:0,steps:mode==='sup'?['sup']:mode==='self'?['style','avoid','meals','sweet','sup']:['style','avoid','meals','sweet','sup','love'],p:{sup:JSON.parse(JSON.stringify(p0.sup||[])),supt:p0.supt||'post',style:p0.style||'any',avoid:[...(p0.avoid||[])],meals:p0.meals||((+S.settings.kcalT||0)>=2800?5:4),love:p0.love||'',sw:p0.sw??0,swk:[...(p0.swk||['choc','cookie'])],swt:p0.swt||'eve',wk:p0.wk||'',mode:p0.mode||'',hintX:p0.hintX}}; closeSheet(); render(); window.scrollTo(0,0); }
 function mqWizNext(){ const w=S.mqW; if(w.i<w.steps.length-1){ w.i++; render(); window.scrollTo(0,0); return; } mqWizDone(); }
-function mqWizDone(){ const w=S.mqW, q=mqS(), t=$('#mq-love'); if(t)w.p.love=t.value.trim(); const r=mwParse(w.p.love); w.p.likes=r.ids; w.p.bf=r.ids.some(id=>{ const f=MFI(id); return f&&f.s.includes('w')&&!f.s.includes('b'); })?'sweet':'salty'; S.mqW=null; q.p=w.p; q.off=false; mqBuild(w.mode); }
+function mqWizDone(){ const w=S.mqW, q=mqS(), t=$('#mq-love'); if(t)w.p.love=t.value.trim(); const r=mwParse(w.p.love); w.p.likes=r.ids; w.p.bf=r.ids.some(id=>{ const f=MFI(id); return f&&f.s.includes('w')&&!f.s.includes('b'); })?'sweet':'salty'; S.mqW=null; q.p=w.p; q.off=false; if(w.mode==='sup'){ if(q.meals)mqRefit(true); persistSettings(); render(); toast(tt('התוספים נכנסו לתפריט ✓')); return; } mqBuild(w.mode); }
 /* ספר לראפי: שינוי חופשי להיום */
 let MQA=null;
 function mqAskOpen(){ MQA={text:'',busy:false,res:null}; mqAskRender(); }
@@ -6257,7 +6283,7 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-pick': mqPickOpen(mi,+b.dataset.l); return true;
     case 'mq-setf': { const m=day&&day[mi], x=m&&m.items[+b.dataset.l], f=MFI(b.dataset.id); if(x&&f){ const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100); x.id=f.id; x.r=f.r; x.g=mqFitG(f,kc,m); delete x.kt; x.pick=1; m.name=null; persistSettings(); } closeSheet(); render(); return true; }
     case 'mq-re': { const m=day&&day[mi]; if(m){ mqReroll(m,day); persistSettings(); } closeSheet(); render(); return true; }
-    case 'mq-open': S.mqOpenI=b.dataset.m==='sw'?'sw':mi; render(); setTimeout(()=>{ const el=document.querySelector('.mq2-card,.mq-sw'); if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'}); },30); return true;
+    case 'mq-open': S.mqOpenI=b.dataset.m==='sw'||b.dataset.m==='sup'?b.dataset.m:mi; render(); setTimeout(()=>{ const el=document.querySelector('.mq2-card,.mq-sw'); if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'}); },30); return true;
     case 'mq-more': { const m=day&&day[mi]; if(!m)return true; openSheet(`<h3 style="margin:0 0 12px">${tt(MQ_K[m.k])}</h3>
       ${mqSq()?`<button class="mq-ch" data-act="mq-idea" data-m="${mi}"><b>💡 ${tt('תן לי רעיון')}</b><span>${tt('ראפי ממלא את הארוחה, ואפשר לשנות כל פריט')}</span></button>`:`<button class="mq-ch" data-act="mq-re" data-m="${mi}"><b>↻ ${tt('ארוחה אחרת')}</b><span>${tt('ראפי מציע ארוחה שלמה אחרת באותו גודל')}</span></button>`}
       <button class="mq-ch" data-act="mq-ask"><b>${tt('ספר לראפי מה בא לך')}</b><span>${tt('למשל: ערב במסעדה, או משהו מתוק בצהריים')}</span></button>
@@ -6279,6 +6305,15 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-swk': { q.p=q.p||{}; const K=q.p.swk||[], v=b.dataset.v; q.p.swk=K.includes(v)?K.filter(x=>x!==v):[...K,v]; persistSettings(); mqSwKinds(); render(); return true; }
     case 'mq-swt': q.p=q.p||{}; q.p.swt=b.dataset.v; persistSettings(); mqSwKinds(); render(); return true;
     case 'mq-wsw': S.mqW.p.sw=+b.dataset.v; render(); return true;
+    case 'mq-wsup': { const p=S.mqW.p, v=b.dataset.v, L=p.sup=p.sup||[], i=L.findIndex(x=>x.id===v); if(i>=0)L.splice(i,1); else { L.push({id:v,n:1}); if(v==='other'){ render(); return mqAct('mq-wsupbc',b); } } render(); return true; }
+    case 'mq-wsupn': { const x=(S.mqW.p.sup||[]).find(y=>y.id===b.dataset.v); if(x)x.n=Math.max(1,Math.min(5,(x.n||1)+(+b.dataset.d))); render(); return true; }
+    case 'mq-wsupt': S.mqW.p.supt=b.dataset.v; render(); return true;
+    case 'mq-wsupbc': { const v=b.dataset.v; openScanner(pr=>{ const W=S.mqW; if(!W)return; const x=(W.p.sup||[]).find(y=>y.id===v)||(W.p.sup.push({id:v,n:1}),W.p.sup[W.p.sup.length-1]), g=+pr.serving_g>0?+pr.serving_g:(MQ_SUP.find(y=>y[0]===v)?.[4]?.g||30), f=g/100;
+        x.prod={n:String(pr.brand&&!String(pr.name).includes(pr.brand)?pr.name+', '+pr.brand:pr.name).slice(0,40),k:Math.round((+pr.kcal||0)*f),p:Math.round((+pr.protein||0)*f*10)/10,c:Math.round((+pr.carbs||0)*f*10)/10,f:Math.round((+pr.fat||0)*f*10)/10,g,bc:pr.barcode};
+        render(); toast(tt('המוצר נוסף ✓')); }); return true; }
+    case 'mq-suplog': { const L=mqSupL(), today=ymd(); const its=L.filter(x=>x.v.k).map(x=>({name:`${x.prod?x.prod.n:tt(x.d[2])} (${x.n} ${tt(x.d[3])})`,kcal:Math.round(x.v.k*x.n),protein:Math.round(x.v.p*x.n),carbs:Math.round(x.v.c*x.n),fat:Math.round(x.v.f*x.n)}));
+      q.supd={d:today,ok:1}; persistSettings(); if(its.length){ const t=its.reduce((a,i)=>({kcal:a.kcal+i.kcal,protein:a.protein+i.protein,carbs:a.carbs+i.carbs,fat:a.fat+i.fat}),{kcal:0,protein:0,carbs:0,fat:0}); MQX=null; const keep=S.foodDate; S.foodDate=today; _mealDraft={name:'תוספים',items:its,...t}; saveMealDraft().then(()=>{ S.foodDate=keep; S.mqOpenI=null; render(); }); } else { S.mqOpenI=null; render(); toast(tt('נרשם ✓')); } return true; }
+    case 'mq-supskip': q.supd={d:ymd(),ok:0}; persistSettings(); S.mqOpenI=null; render(); return true;
     case 'mq-wswk': { const p=S.mqW.p, v=b.dataset.v; p.swk=(p.swk||[]).includes(v)?p.swk.filter(x=>x!==v):[...(p.swk||[]),v]; render(); return true; }
     case 'mq-wswt': S.mqW.p.swt=b.dataset.v; render(); return true;
     case 'mq-idea': { const m=day&&day[mi]; if(m){ for(const x of m.items)if(x.id)x.pick=1; persistSettings(); } closeSheet(); render(); return true; }
@@ -6295,6 +6330,7 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-set': openSheet(`<h3 style="margin:0 0 12px">${tt('התפריט שלי')}</h3>
       <button class="btn big" style="width:100%" data-act="mq-w" data-v="repi">${tt('לבנות מחדש עם ראפי')}</button>
       <button class="btn big" style="width:100%;margin-top:8px" data-act="mq-w" data-v="self">${tt('לבנות לבד מההתחלה')}</button>
+      <button class="btn big" style="width:100%;margin-top:8px" data-act="mq-w" data-v="sup">💪 ${tt('תוספים')}${mqSupL().length?` · <span class="num">${mqSupL().length}</span>`:''}</button>
       <button class="btn big" style="width:100%;margin-top:8px" data-act="mq-wk">📅 ${tt('חלוקה שבועית')}${q.p?.wk?` · ${tt(q.p.wk==='fs'?'שישי ושבת':'רק שבת')}`:''}</button>
       <button class="btn big" style="width:100%;margin-top:8px" data-act="mq-mode">${mqSq()?tt('חזרה לתפריט מלא'):'◻️ '+tt('מצב ריבועים בלבד')}</button>
       ${q.ovr&&q.ovr.d===ymd()&&!q.ovr.auto?`<button class="btn big" style="width:100%;margin-top:8px" data-act="mq-unovr">${tt('לבטל את השינויים של היום')}</button>`:''}
@@ -7632,7 +7668,7 @@ function vActive(){
     if(fxMode()==='remote'&&!e.fullTbl){ rows.push(vRemoteRow(e,ei,ei===rmCur(cur))); return; }
     if(isOpen(e,ei)){ rows.push(e.t==='c'?vCardio(e,ei,ei===cur):(e.t==='s'&&focusOn()&&!e.fullTbl&&e.sets.some(x=>!x.done)?(fxMode()==='row'?vRowEx(e,ei):vFocus(e,ei)):vStrength(e,ei,ei===cur))); return; }
     const tgt=e.t==='c'?'אירובי':`${(e.sets||[]).length} סטים${e.reps?` · ${esc(e.reps)} חזרות`:''}`;
-    const row=`<button class="ex-row" data-act="ex-open" data-ei="${ei}" style="view-transition-name:ex-${ei}"><span class="lt"><b>${esc(e.n)}</b><small class="num">${exDone(e)?exSummary(e):tgt}</small></span>${exDone(e)?`<span class="ok">${ICON.ok}</span>`:ICON.chev}</button>`;
+    const row=`<button class="ex-row ${exDone(e)?'done':''}" data-act="ex-open" data-ei="${ei}" style="view-transition-name:ex-${ei}"><span class="lt"><b>${esc(e.n)}</b><small class="num">${exDone(e)?exSummary(e):tgt}</small></span>${exDone(e)?`<span class="exd-tag">${ICON.ok}${tt('הושלם')}</span>`:ICON.chev}</button>`;
     (exDone(e)?done:next).push(row);
   });
   return `
@@ -8231,6 +8267,7 @@ function coCompactHTML(e,ei,co){ const open=!!e.coOpen, c=cueOf(e,co);
   return `<div class="rb ${open?'open':''} ${co.k==='up'?'up':''}"><span class="rb-avw"><img class="rb-av" src="img/kobi-${co.k==='up'?'cheer':'happy'}.svg" alt="${tt('ראפי')}"></span>
     <div class="rb-bub"><button class="rb-h" data-act="co-tog" data-ei="${ei}" aria-expanded="${open}"><span class="rb-t">${coHead(e,co)}</span><span class="rb-why">${open?tt('סגור'):tt('למה?')}</span></button>
     ${open?`<div class="rb-x"><p>${esc(co.why)}</p>${c?`<p class="rb-cue"><b>${tt('דגש טכניקה')}</b><span data-notr>${esc(c)}</span></p>`:''}${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}</div></div>`; }
+const exCnt=e=>{ const d=e.sets.filter(x=>x.done).length, n=e.sets.length; return d>=n&&n?`✓ ${tt('התרגיל הושלם')}`:`<span class="num">${d}</span> ${tt('מתוך')} <span class="num">${n}</span> ${tt('סטים בוצעו')}`; };
 function vStrength(e,ei,cur){
   const prev=lastPerf(e.n), lastS=e.sets.some(x=>x.done)?null:lastSetsOf(e.n);
   const rr=repRange(e.reps);
@@ -8241,6 +8278,7 @@ function vStrength(e,ei,cur){
     <div class="ex-head" style="align-items:flex-start">
       <div style="flex:1;min-width:0">
         <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
+        <div class="ex-cnt ${e.sets.every(x=>x.done)?'all':''}" data-exc="${ei}">${exCnt(e)}</div>
         ${co&&prev?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:`<div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}`}
         ${!co?(()=>{ const c=e.sets.some(x=>x.done)?null:cueOf(e,co); return c?`<div class="rtip cue"><b>דגש טכניקה</b><span data-notr>${esc(c)}</span></div>`:''; })():''}
@@ -8257,7 +8295,7 @@ function vStrength(e,ei,cur){
     <div class="setgrid">
       <span class="h">סט</span><span class="h">${LU()}</span><span class="h">חזרות${rr?(()=>{ const hi=co&&+co.top>rr.hi?+co.top:rr.hi; return ` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===hi?rr.lo:rr.lo+'–'+hi}</bdi>`; })():''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
-        <span class="setidx num">${si+1}</span>
+        <span class="setidx num ${s.done?'set-done':''}" data-cell="${ei}-${si}"><b>${si+1}</b></span>
         <span class="${s.done?'set-done':s.chg?.w!=null?'chg':''}" data-cell="${ei}-${si}">${sugDelta(s,lastS,si,'w')}<input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${wL(s.w??'')}" placeholder="${wL(s.pw??'')}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
         <span class="${s.done?'set-done '+repCls(e,s):s.chg?.r!=null?'chg':''}" data-cell="${ei}-${si}" data-rcell="1">${sugDelta(s,lastS,si,'r')}<input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" ${s.sug?'data-sug="1"':''} data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><button class="done-btn" data-act="set-done" data-ei="${ei}" data-si="${si}" aria-label="סיום סט"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
@@ -9869,6 +9907,7 @@ function openLookSheet(){
 function openHelpSheet(){
   openSheet(`${sheetHead('עזרה ויצירת קשר')}
     <div class="card list">
+      <button class="li" data-act="tour-restart">${ICON.help}<span class="lt"><b>${tt('הדרכות')}</b><small>${tt('להציג שוב את ההסבר בכל מסך')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="contact-open">${ICON.help}<span class="lt"><b>צור קשר</b><small>שאלה, תקלה או רעיון. נחזור אליך כאן</small></span>${ICON.chev}</button>
       <a class="li" href="terms.html" target="_blank">${ICON.shield}<span class="lt"><b>תקנון ותנאי שימוש</b></span>${ICON.chev}</a>
       <a class="li" href="privacy.html" target="_blank">${ICON.shield}<span class="lt"><b>מדיניות פרטיות</b></span>${ICON.chev}</a>
@@ -10919,8 +10958,8 @@ function zxReader(){
 function zxDecodeCanvas(c){
   try{ const res=zxReader().decode(new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(new ZXing.HTMLCanvasElementLuminanceSource(c)))); return res&&res.getText(); }catch(_){ return null; }
 }
-async function openScanner(){
-  SCAN.busy=false;
+async function openScanner(cb){
+  SCAN.busy=false; SCAN.cb=typeof cb==='function'?cb:null;
   openSheet(`<h3>סריקת ברקוד</h3>
     <div class="scanwrap"><video id="scanv" playsinline muted autoplay></video><div class="frame"></div></div>
     <div class="small muted" id="scanmsg" style="text-align:center;margin:8px 0">כוון את הברקוד למסגרת, במרחק של כ-15 ס״מ</div>
@@ -10964,6 +11003,7 @@ async function onBarcode(code){
   }catch(e){ toast('החיפוש נכשל, נסה שוב'); closeSheet(); }
 }
 function openProduct(p){
+  if(SCAN.cb){ const cb=SCAN.cb; SCAN.cb=null; closeSheet(); cb(p); return; }
   const units=[]; if(+p.serving_g>0)units.push({u:'יחידה (לפי האריזה)',g:+p.serving_g,d:true,bc:1});
   closeSheet();
   SCAN.code=p.barcode; SCAN.prod=p;
@@ -11116,46 +11156,54 @@ async function hoCreate(){
 /* ---- הסיור ---- */
 const TOUR={on:false,i:0};
 const TOUR_STEPS=[
-  // בית
-  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני ראפי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה עושים בו.'},
-  {tab:'home',sel:'.coach-card',title:'הסיכום השבועי שלי',text:'כל יום ראשון אכתוב לך כאן מה הלך טוב השבוע ועל מה להתמקד, לפי האימונים והתזונה שלך. לחיצה על הכרטיס פותחת אותו.'},
-  {tab:'home',sel:'.hcard',title:'מכאן מתחילים להתאמן',text:'הכרטיס הכהה הוא האימון הבא שלך. לחיצה אחת, והאימון מתחיל עם המשקלים מהפעם הקודמת.'},
-  {tab:'home',kind:'notif',title:'לא לפספס את סוף המנוחה 🔔',text:'הפעל התראות ונודיע לך כשהמנוחה בין הסטים נגמרת, גם כשהטלפון בכיס, ונזכיר לך ביום אימון.'},
-  {tab:'home',sel:'#hdr-me',title:'הפרופיל שלך',text:'יעדים, התראות, שפה, הזמנת חברים וצור קשר. משם אפשר גם להפעיל את ההדרכה הזו מחדש.'},
+  // היום
+  {tab:'home',img:'img/kobi-happy.svg',title:'ברוך הבא ל-NextRep 👋',text:'אני ראפי, המאמן שלך. בכל מסך שתיכנס אליו בפעם הראשונה אראה לך בכמה צעדים קצרים מה יש בו. אפשר לדלג בכל רגע.'},
+  {tab:'home',sel:'.hcard',title:'האימון הבא שלך',text:'לחיצה אחת, והאימון מתחיל עם המשקלים מהפעם הקודמת.'},
+  {tab:'home',sel:'.hl-grid',title:'היום שלך במבט אחד',text:'קלוריות, צעדים והשבוע שלך. לחיצה על כל אריח פותחת את הפירוט.'},
+  {tab:'home',sel:'.coach-card',title:'ראפי',text:'כאן אני כותב לך מה הלך טוב ועל מה להתמקד. אפשר גם לשאול אותי כל שאלה על אימונים ותזונה.'},
+  {tab:'home',sel:'#hdr-me',title:'הפרופיל שלך',text:'יעדים, התראות, שפה וצור קשר. משם אפשר גם להציג שוב את ההדרכות.'},
   // אימון
-  {tab:'train',pre:()=>{S.trainView='start';},sel:'[data-act="pb-open"]',title:'שלב 1: תוכנית אימון',text:'עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית שבנויה בשבילך. אפשר לערוך אותה בכל רגע.'},
-  {tab:'train',pre:()=>{S.trainView='start';},sel:'[data-act="start-free"]',title:'שלב 2: מתחילים אימון',text:'בוחרים אימון מהתוכנית, או מתחילים אימון חופשי ומוסיפים תרגילים תוך כדי.'},
-  {tab:'train',img:'img/kobi-cheer.svg',title:'בזמן האימון',text:'נגיעה בסט מסמנת שסיימת אותו. המשקל מהפעם הקודמת כבר ממולא, וטיימר המנוחה מתחיל לבד. לא בטוח איך עושים תרגיל? לוחצים ״צפה בהדגמה״.'},
+  {tab:'train',pre:()=>{S.trainView='start';},sel:'[data-act="pb-open"]',title:'תוכנית אימון',text:'עונים על כמה שאלות (מטרה, ימים בשבוע, ציוד וזמן) ומקבלים תוכנית מוכנה, עם סרטון הדגמה לכל תרגיל.'},
+  {tab:'train',pre:()=>{S.trainView='start';},sel:'[data-act="start-free"]',title:'או אימון חופשי',text:'מתחילים בלי תוכנית ומוסיפים תרגילים תוך כדי.'},
+  // בזמן אימון
+  {tab:'active',img:'img/kobi-cheer.svg',title:'ככה מתאמנים כאן 💪',text:'המשקל והחזרות מהפעם הקודמת כבר ממולאים. עשית סט? לוחצים על ✓ שלו, הוא נצבע בירוק והטיימר של המנוחה מתחיל לבד.'},
+  {tab:'active',sel:'.aw-prog',title:'כמה נשאר',text:'הפס מראה כמה סטים עשית מתוך כל האימון. תרגיל שסיימת מקבל ✓ ירוק בכותרת שלו.'},
+  {tab:'active',sel:'.aw-fin',title:'סיום',text:'בסוף האימון לוחצים כאן. רואים סיכום, שיאים חדשים, והאימון נשמר בהיסטוריה.'},
   // תזונה
-  {tab:'food',sel:'[data-act="food-targets-open"]',title:'קודם כל: יעד יומי',text:'מגדירים כמה קלוריות וחלבון לאכול ביום. נחשב לך את זה לפי המטרה, המשקל והגובה שלך.'},
-  {tab:'food',sel:'.ask',title:'רושמים מה אכלת',text:'כותבים מאכל ובוחרים מהמאגר הישראלי, או ארוחה שלמה כמו ״שניצל עם אורז״ ולוחצים ✨ חשב.'},
-  {tab:'food',sel:'.ask',title:'או בלי להקליד',text:'מצלמים את הצלחת וה-AI מזהה כל רכיב ומעריך כמה גרם יש. אפשר לתקן את הגרמים לפני שמוסיפים. או סורקים ברקוד של מוצר מהסופר.'},
+  {tab:'food',sel:'.ring-row',title:'היעד של היום',text:'כמה קלוריות נשארו לך היום, וכמה חלבון, פחמימה ושומן אכלת. לחיצה על הטבעת משנה את היעד.'},
+  {tab:'food',sel:'.ask',title:'רושמים מה אכלת',text:'כותבים או מקליטים, למשל ״שניצל עם אורז״. אפשר גם לצלם את הצלחת או לסרוק ברקוד.'},
+  {tab:'food',sel:'[data-act="mn-open"]',title:'התפריט שלך',text:'ראפי בונה לך תפריט לפי היעד והטעם שלך. הוא כיוון ליום, ואפשר להחליף בו כל מאכל.'},
+  // התפריט
+  {tab:'menu',img:'img/kobi-happy.svg',title:'זה התפריט שלך 👋',text:'בכמה צעדים קצרים אראה לך איך משתמשים בו. אפשר לדלג בכל רגע.'},
+  {tab:'menu',sel:'.mq2-hd',title:'הריבועים של היום',text:'כל ריבוע הוא 100 קלוריות. הטבעת מראה כמה נשארו לך היום, והיא מתעדכנת בכל ארוחה שאתה רושם.'},
+  {tab:'menu',sel:'.mq2-strip',title:'כל היום במבט אחד',text:'הארוחות לפי השעות. לחיצה על ארוחה פותחת אותה, וארוחה שכבר אכלת מסומנת ב-✓.'},
+  {tab:'menu',sel:'.mq2-it .mq2-sw',title:'לא בא לך משהו? מחליפים',text:'החצים ליד כל מאכל פותחים רשימה של מאכלים מאותו סוג, בכמות שמחזיקה את אותן קלוריות. אתה בוחר.'},
+  {tab:'menu',sel:'.mq2-act',title:'אכלת? לחיצה אחת',text:'״אכלתי״ רושם את הארוחה ביומן. אכלת משהו אחר? ״אכלתי אחרת״, וראפי מאזן את שאר היום.'},
   // קבוצות
-  {tab:'social',pre:()=>{SOC.gid=null; if(!SOC.groups)SOC.groups=[];},sel:'[data-act="soc-new"]',title:'מתאמנים עם חברים',text:'פותחים קבוצה ושולחים קישור לשותף או לחבר׳ה מהמכון. כל אימון שמישהו מסיים מופיע אוטומטית בצ׳אט.'},
+  {tab:'social',pre:()=>{SOC.gid=null; if(!SOC.groups)SOC.groups=[];},sel:'[data-act="soc-new"]',title:'מתאמנים עם חברים',text:'פותחים קבוצה ושולחים קישור לשותף או לחבר׳ה. רואים מי התאמן, ומעודדים.'},
   {tab:'social',sel:'[data-act="soc-join"]',title:'קיבלת קוד?',text:'אם חבר שלח לך קוד הזמנה, מצטרפים לקבוצה שלו מכאן.'},
-  {tab:'social',img:'img/kobi-cheer.svg',title:'אתגרים 🏆',text:'בתוך קבוצה אפשר להשיק אתגר: מי מתאמן הכי הרבה החודש, מרוץ ראשון ליעד, או כולם יחד מול יעד משותף.'},
-  // מעקב
-  {tab:'track',pre:()=>{S.trackView='body';},sel:'.seg2',title:'שני חלקים',text:'אימונים: גרפים, שיאים, הישגים והיסטוריה. גוף ומשקל: שקילות, תמונות ויעדים.'},
-  {tab:'track',pre:()=>{S.trackView='body';},sel:'[data-act="bw-quick"]',title:'שקילה',text:'שוקלים בבוקר ולוחצים כאן. כל שקילה נכנסת ללוח ולגרף, ככה רואים את המגמה ולא רק מספר של יום אחד.'},
-  {tab:'track',pre:()=>{S.trackView='body'; (S.bodyOpen||(S.bodyOpen={})).ph=true;},when:()=>S.settings.photoDay==null,sel:'.phset',title:'תמונות התקדמות',text:'בוחרים יום קבוע בשבוע ומקבלים תזכורת להצטלם. אחרי חודש משווים תמונה מול תמונה.'},
-  {tab:'track',pre:()=>{S.trackView='progress';},img:'img/kobi-cheer.svg',title:'הישגים וסיכום חודשי',text:'20 הישגים לפתוח, כל אחד עם חגיגה ותמונה לשיתוף. ובתחילת כל חודש מחכה לך סיכום של החודש שעבר.'},
+  // התקדמות
+  {tab:'track',pre:()=>{S.trackView='body';},sel:'.seg2',title:'שני חלקים',text:'אימונים: גרפים, שיאים והיסטוריה. גוף ומשקל: שקילות, תמונות ויעדים.'},
+  {tab:'track',pre:()=>{S.trackView='body';},sel:'[data-act="bw-quick"]',title:'שקילה',text:'שוקלים בבוקר ולוחצים כאן. הגרף מראה את המגמה, ולא את התנודות של יום אחד.'},
+  {tab:'track',pre:()=>{S.trackView='body';},when:()=>!!$('.eta'),sel:'.eta',title:'מתי מגיעים ליעד',text:'לפי הקצב שלך (או לפי התוכנית, בהתחלה) ראפי מעריך מתי תגיע למשקל היעד.'},
 ];
 /* per-screen tours: the first time a new user opens a screen, a short tour of just that screen */
 function toursSeen(){ if(!S.settings.toursSeen||typeof S.settings.toursSeen!=='object'){ let ls={}; try{ls=JSON.parse(localStorage.getItem('nr-tours')||'{}')||{};}catch(_){} S.settings.toursSeen=ls; } return S.settings.toursSeen; }
 // back on the sign-in screen after a language switch (the page reloads)
 try{ const a=JSON.parse(sessionStorage.getItem('nr-auth-open')||'null'); if(a){ sessionStorage.removeItem('nr-auth-open'); S.showAuth=true; S.authMode=a.m||'login'; if(a.e){S.authEmail=a.e; OTP.email=a.e;} } }catch(_){}
+/* which screen the user is looking at, for its first-time tour */
+const tourGrp=()=>S.active&&S.tab==='train'?'active':S.tab==='food'&&S.menuOpen?'menu':S.tab;
+const TOUR_NEW=['menu']; // redesigned screens: shown once to everyone, not only to new users
 function maybeStartTour(){
-  return; // v13.2.5: the guided tour is off (onboarding covers the essentials)
-  if(TOUR.on||S.active||S.mode!=='app'||$('#instgate'))return;
-  if(S.settings.tourDone)return; // finished the old all-in-one tour
-  try{ if(localStorage.getItem('nr-tour'))return; }catch(_){}
-  const created=new Date(S.user?.created_at||0).getTime(); if(Date.now()-created>14*864e5)return; // new users only
-  const tab=S.tab; if(toursSeen()[tab])return;
-  if(tab==='social'&&SOC.gid)return; if(tab==='home'&&CO.open)return;
-  if(!TOUR_STEPS.some(st=>st.tab===tab))return;
-  startTour(tab);
+  if(TOUR.on||S.mode!=='app'||$('#instgate')||!$('#sheet').hidden||S.mqW)return;
+  const g=tourGrp(); if(toursSeen()[g])return;
+  const created=new Date(S.user?.created_at||0).getTime(), fresh=Date.now()-created<30*864e5;
+  if(!fresh&&!TOUR_NEW.includes(g))return;
+  if(g==='social'&&SOC.gid)return; if(g==='home'&&typeof CO!=='undefined'&&CO.open)return;
+  if(!TOUR_STEPS.some(st=>st.tab===g&&(!st.when||st.when())))return;
+  startTour(g);
 }
-function startTour(tab){ TOUR.on=true; TOUR.i=0; TOUR.grp=tab||S.tab||'home'; tourShow(); }
+function startTour(tab){ TOUR.on=true; TOUR.i=0; TOUR.grp=tab||tourGrp()||'home'; tourShow(); }
 function tourSteps(){ return TOUR_STEPS.filter(st=>st.tab===TOUR.grp&&(!st.when||st.when())&&(st.kind!=='notif'||(notifPerm()==='default'&&(IS_NATIVE||!IS_IOS||IS_STANDALONE)&&!notifSnoozed()&&!notifOnbSeen()))); }
 function tourEnd(){
   const seen=toursSeen(); seen[TOUR.grp]=1; try{localStorage.setItem('nr-tours',JSON.stringify(seen));}catch(_){}
@@ -11195,7 +11243,7 @@ function tourAct(act,b){
     case 'tour-back': TOUR.i=Math.max(0,TOUR.i-1); tourShow(); return true;
     case 'tour-skip': tourEnd(); return true;
     case 'tour-notif': b.disabled=true; subscribePush().then(r=>{ toast(r.ok?'ההתראות הופעלו 🔔':'אפשר להפעיל אחר כך בהגדרות'); TOUR.i++; tourShow(); }); return true;
-    case 'tour-restart': closeSheet(); S.settings.tourDone=null; S.settings.toursSeen={}; try{localStorage.removeItem('nr-tour');localStorage.setItem('nr-tours','{}');}catch(_){} persistSettings(); S.tab='home'; location.hash='home'; render(); window.scrollTo(0,0); startTour('home'); return true;
+    case 'tour-restart': closeSheet(); S.settings.tourDone=null; S.settings.toursSeen={}; try{localStorage.removeItem('nr-tour');localStorage.setItem('nr-tours','{}');}catch(_){} persistSettings(); S.tab='home'; location.hash='home'; render(); window.scrollTo(0,0); toast(tt('ההדרכות יופיעו שוב בכל מסך')); startTour('home'); return true;
     case 'lang-open': openSheet(`<h3>🌐 שפה</h3><div class="langlist" data-notr>${Object.entries(LANG_NAMES).map(([k,v])=>`<button data-act="lang-set" data-l="${k}" lang="${k}" class="${k===LANG?'on':''}"><span>${v}</span>${k===LANG?'<span>✓</span>':''}</button>`).join('')}</div>`); return true;
     case 'lang-set': { const l=b.dataset.l; if(l&&l!==LANG){ b.innerHTML+=' …'; setLang(l); } else closeSheet(); return true; }
     case 'inst-native': if(_bip){ _bip.prompt(); _bip.userChoice.finally(()=>{_bip=null;}); } return true;
@@ -12165,7 +12213,7 @@ function startWorkout(name,tid,asked){
   const mb0=tid&&S.settings.mob?.[tid], mb=mb0&&(mb0.st||!gymT)?mb0:null, mob=mb?{...(mb.st?{st:1}:{}),pre:(mb.pre||[]).filter(x=>exHas(x[0])).map(([n,sec])=>({n,sec:+sec||30})),post:(mb.post||[]).filter(x=>exHas(x[0])).map(([n,sec])=>({n,sec:+sec||30}))}:null;
   S.active={start:Date.now(),name,tid:tid||null,ex,...(co?.deload?{dl:1}:{}),...(mob&&(mob.pre.length||mob.post.length)?{mob}:{})};
   persistActive(); S.tab='train'; location.hash='train'; render(); window.scrollTo(0,0);
-  startClock(); keepAwake(true);
+  startClock(); keepAwake(true); setTimeout(maybeStartTour,900);
 }
 /* "something hurts": where, how it feels, and one of three ways on. Nothing changes until the user picks */
 const PN={ei:-1,area:null,sharp:false,opt:'down'};
@@ -12373,6 +12421,7 @@ function handleAct(b,ev){
       persistActive();
       // עדכון נקודתי של השורה — בלי רינדור מלא, כדי שסימון סט יעבוד גם כשהמקלדת פתוחה
       document.querySelectorAll(`[data-cell="${ei2}-${si2}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
+      { const c=document.querySelector(`[data-exc="${ei2}"]`); if(c){ c.innerHTML=exCnt(e); c.classList.toggle('all',e.sets.every(x=>x.done)); } }
       { const rc=document.querySelector(`[data-cell="${ei2}-${si2}"][data-rcell]`), k=s.done?repCls(e,s):''; if(rc){ rc.classList.remove('r-in','r-over','r-under'); if(k)rc.classList.add(k); } }
       const wi=document.getElementById(`w-${ei2}-${si2}`), ri=document.getElementById(`r-${ei2}-${si2}`);
       if(wi)wi.value=wL(s.w??''); if(ri)ri.value=s.r??'';
