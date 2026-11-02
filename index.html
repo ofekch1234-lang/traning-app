@@ -1911,6 +1911,16 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .fin2-hero{display:flex;align-items:center;gap:14px;margin:2px 0 14px}.fin2-hero img{width:64px;height:64px;flex:none;animation:pop .6s cubic-bezier(.3,1.6,.4,1) both}.fin2-hero b{display:block;font-size:22px;line-height:1.2}.fin2-hero span{font-size:14px;color:var(--muted)}
 .fin2-st{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.fin2-st>div{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 6px;border-radius:16px;background:var(--surface2);text-align:center}
 .fin2-st b{font-family:var(--disp);font-size:22px;font-weight:800;color:var(--accent);line-height:1.1}.fin2-st span{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:3px}.fin2-st em{font-style:normal;font-size:11px;font-weight:700}.fin2-st em.up{color:var(--accent)}.fin2-st em.dn{color:var(--muted)}
+.fin2-st>div{justify-content:center;min-height:78px}
+.fin2-dv{display:flex;align-items:center;justify-content:center;gap:6px;margin:-4px 0 14px;padding:9px 12px;border-radius:12px;font-size:14px;font-weight:700;background:var(--surface2)}.fin2-dv.up{color:var(--accent)}.fin2-dv.dn{color:var(--muted)}
+.fin2-l .fx-r{display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:12px 0;border-top:1px solid var(--line)}.fin2-l .fx-r:first-child{border-top:0}
+.fin2-l .fx-n{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:16px;font-weight:700}.fin2-l .fx-n>span{min-width:0}
+.fin2-l .fx-c{flex:none;font-style:normal;font-size:12px;font-weight:800;padding:4px 9px;border-radius:9px;background:var(--surface2);color:var(--muted)}.fin2-l .fx-c.up{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}.fin2-l .fx-c.pr{background:#3a2f0b;color:#f5c542}
+.fin2-l .fx-v{display:block;font-size:14px;color:var(--muted);text-align:start}.fin2-l .fx-v b{color:var(--ink);font-weight:700;font-size:14px}
+.bdg2{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 0 14px}.bdg2-k{font-size:12.5px;font-weight:800;letter-spacing:.3px;color:var(--accent-ink);background:var(--accent);border-radius:20px;padding:5px 12px;margin-bottom:16px}
+.bdg2-e{width:132px;height:132px;border-radius:50%;display:grid;place-items:center;font-size:72px;line-height:1;background:var(--surface2)}.bdg2-e.on{background:radial-gradient(circle,color-mix(in srgb,var(--accent) 22%,transparent) 0,color-mix(in srgb,var(--accent) 6%,transparent) 62%,transparent 72%);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 30%,transparent)}
+.bdg2 h3{margin:16px 0 4px;font-size:24px}.bdg2 p{margin:0;color:var(--muted);font-size:15px}
+.bdg2-r{display:flex;align-items:center;gap:10px;margin-top:16px;padding:10px 14px;border-radius:14px;background:var(--surface2);font-size:14px;font-weight:600}.bdg2-r img{width:34px;height:34px}
 .fin2-l{display:grid;border-radius:16px;background:var(--surface);border:1px solid var(--line);padding:2px 12px;max-height:40vh;overflow-y:auto}
 .fx-r{display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:10px 0;border-bottom:1px solid var(--line)}.fx-r:last-child{border-bottom:0}.fx-r.skip{opacity:.55}
 .fx-n{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:14.5px;font-weight:600;min-width:0}.fx-v{font-size:13px;color:var(--muted);text-align:var(--start)}
@@ -10406,11 +10416,10 @@ function badgesCardHTML(){
 function openBadgeSheet(id,celebrate){
   const b=BADGES.find(x=>x[0]===id); if(!b)return; const st=badgeStats(); const on=st[b[4]]>=b[5];
   const pct=Math.min(100,Math.round(st[b[4]]/b[5]*100));
-  openSheet(`${celebrate?`<div class="small" style="text-align:center;color:var(--accent);font-weight:700;margin-top:4px">הישג חדש! 🎉</div>`:''}
-    ${celebrate?`<div class="co-cheer"><img src="img/kobi-cheer.svg" alt=""><span>כל הכבוד! 🎉</span></div>`:''}
-    <div class="bdg-big ${celebrate?'bdg-pop':''}" style="${on?'':'filter:grayscale(1);opacity:.4'}">${b[1]}</div>
-    <h3 style="text-align:center;margin:0">${esc(b[2])}</h3>
-    <div class="muted" style="text-align:center;margin:4px 0 12px">${esc(b[3])}</div>
+  openSheet(`<div class="bdg2">${celebrate?`<span class="bdg2-k">${tt('הישג חדש')}</span>`:''}
+    <div class="bdg2-e ${on?'on':''} ${celebrate?'bdg-pop':''}"><span style="${on?'':'filter:grayscale(1);opacity:.45'}">${b[1]}</span></div>
+    <h3>${esc(b[2])}</h3><p>${esc(b[3])}</p>
+    ${celebrate?`<div class="bdg2-r"><img src="img/kobi-cheer.svg" alt=""><span>${tt('כל הכבוד! ככה בונים הרגל.')}</span></div>`:''}</div>
     ${on?`<button class="btn primary big" data-act="badge-share" data-id="${b[0]}">📤 שתף את ההישג</button>`
        :`<div class="bdg-bar"><i style="width:${pct}%"></i></div><div class="small muted num" style="text-align:center">${badgeProg(b,st)||'עוד לא'}</div>`}
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
@@ -10919,14 +10928,17 @@ function renderFinish(){
     let dw=0, dr=0; ss.forEach((s,i)=>{ const p=prev[i]; if(!p)return; const d=(+s.w||0)-(+p.w||0); if(d>0)dw=Math.max(dw,d); else if(!d)dr+=Math.max(0,(+s.r||0)-(+p.r||0)); });
     const pr=prs.find(p=>p.n===e.n);
     const chip=pr?`<i class="fx-c pr">🏆 ${tt('שיא')}</i>`:dw?`<i class="fx-c up num">+${wL(dw)} ${LU()}</i>`:dr>0?`<i class="fx-c up num">+${dr} ${tt('חזרות')}</i>`:!prev.length?`<i class="fx-c">${tt('חדש')}</i>`:'';
-    return `<div class="fx-r"><span class="fx-n"><span>${esc(e.n)}</span>${chip}</span><span class="fx-v num">${ss.map(wLs).join(' · ')}</span></div>`; };
+    const grp=[]; for(const s of ss){ const w=+s.w||0, l=grp[grp.length-1]; if(l&&l.w===w)l.r.push(+s.r); else grp.push({w,r:[+s.r]}); }
+    const txt=grp.map(g=>g.w?`<b>${wL(g.w)} ${LU()}</b> × ${g.r.join(', ')}`:`${g.r.join(', ')} ${tt('חזרות')}`).join(' · ');
+    return `<div class="fx-r"><span class="fx-n"><span>${esc(e.n)}</span>${chip}</span><span class="fx-v num" dir="rtl">${txt}</span></div>`; };
   openSheet(`
     <div class="fin2-hero"><img src="img/kobi-${prs.length?'cheer':'happy'}${fem}.svg" alt=""><div><b>${prs.length?tt('אימון עם שיא!'):tt('עבודה טובה!')}</b><span>${esc(a.name)}</span></div></div>
     <div class="fin2-st">
       <div><b class="num">${fmtDur(w.end-a.start)}</b><span>${tt('משך')}</span></div>
       <div><b class="num">${sets}</b><span>${tt('סטים')}</span></div>
-      <div><b class="num">${fmtNum(wL(vol))}</b><span>${uL()==='lb'?tt('נפח (lb)'):tt('נפח (ק״ג)')}${infoI('vol')}</span>${dv!=null&&Math.abs(dv)>=1?`<em class="num ${dv>0?'up':'dn'}">${dv>0?'+':''}${dv}% ${tt('מהפעם הקודמת')}</em>`:''}</div>
+      <div><b class="num">${fmtNum(wL(vol))}</b><span>${uL()==='lb'?tt('נפח (lb)'):tt('נפח (ק״ג)')}</span></div>
     </div>
+    ${dv!=null&&Math.abs(dv)>=1?`<div class="fin2-dv ${dv>0?'up':'dn'}"><span class="num">${dv>0?'↑':'↓'} ${Math.abs(dv)}%</span> ${dv>0?tt('יותר נפח מהאימון הקודם'):tt('פחות נפח מהאימון הקודם')}${infoI('vol')}</div>`:''}
     <div class="fin2-l">${w.ex.map(row).join('')}</div>
     <button class="btn primary big" style="width:100%;margin-top:14px" data-act="save-w">${tt('שמור אימון')} ✓</button>
     <div class="row" style="margin-top:8px;gap:8px">
