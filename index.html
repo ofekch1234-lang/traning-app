@@ -1221,6 +1221,20 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .mq-ltl{font-size:13px;color:var(--muted)}#mq-lt{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
 .mq-dn{font-size:13.5px;color:var(--muted);margin:-2px 0 4px}
 .mq-row .q{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}.mq-row .q small{font-size:12px;color:var(--muted)}
+.mq-or{display:block;font-size:12.5px;color:var(--accent);font-weight:600;margin-top:3px;font-style:normal}
+.mq-ln.slot .f em{color:var(--muted);font-weight:600}.mq-ln.slot .mq-plus{border:1.5px dashed var(--line)}
+.mq-hint{position:relative;display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 40px 12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.45;color:var(--muted)}.mq-hint img{width:34px;height:34px;flex:none}.mq-hint b{display:block;font-size:15px;margin-bottom:2px;color:var(--ink)}[dir=rtl] .mq-hint{padding:12px 14px 12px 40px}
+.mq-hx{position:absolute;top:8px;inset-inline-end:8px;width:28px;height:28px;border:0;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:13px;cursor:pointer}
+.mq-sw{border:1.5px dashed color-mix(in srgb,var(--accent) 55%,transparent)}
+.mq-swst{display:flex;align-items:center;gap:2px;flex:none;background:var(--surface2);border-radius:12px;padding:3px}.mq-swst button{width:34px;height:34px;border:0;border-radius:9px;background:none;color:var(--ink);font:inherit;font-size:20px;font-weight:700;cursor:pointer}.mq-swst button:disabled{opacity:.3}.mq-swst b{min-width:22px;text-align:center;font-size:16px}
+.mq-swx{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.mq-swx button{display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:12px;border:0;background:var(--surface2);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer}.mq-swx small{color:var(--accent);font-weight:800}
+.mq-swmore{display:block;margin-top:10px;border:0;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;padding:0}
+.mq-swadd{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;margin-top:14px;padding:12px;border-radius:18px;border:1.5px dashed var(--line);background:none;color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer}.mq-swadd small{font-size:12.5px;color:var(--muted);font-weight:500}
+.mq-rb{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:14px;border-radius:18px;background:color-mix(in srgb,var(--accent) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}.mq-rb img{width:40px;height:40px;flex:none}.mq-rb>div{flex:1}.mq-rb b{display:block;font-size:15.5px;margin-bottom:3px}.mq-rb span{font-size:14px;line-height:1.45;color:var(--muted)}
+.mq-rbr{display:flex;gap:8px;margin-top:10px}.mq-rbr button{flex:1;min-height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-weight:700;font-size:14px;cursor:pointer}.mq-rbr button.a{flex:1.4;background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.mq-ch{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:100%;margin-top:8px;padding:14px 16px;border-radius:16px;background:var(--surface2);border:1px solid var(--line);color:var(--ink);font:inherit;text-align:start;cursor:pointer}.mq-ch b{font-size:16px}.mq-ch span{font-size:13.5px;color:var(--muted)}
+.mq-wl{margin:22px 0 10px;font-weight:700;font-size:15px}.mq-rec{font-style:normal;font-size:11.5px;font-weight:800;color:var(--accent-ink);background:var(--accent);border-radius:8px;padding:2px 7px;margin-inline-start:6px}
+.mq-wkc{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:150px;margin:16px 0 6px}.mq-wkc div{display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}.mq-wkc i{width:100%;border-radius:8px;background:var(--surface2)}.mq-wkc i.up{background:var(--accent)}.mq-wkc b{font-size:13px}.mq-wkc small{color:var(--muted);font-size:12px}
 .mq-done{display:flex;align-items:center;gap:10px;width:100%;margin-top:14px;padding:14px 16px;border-radius:18px;background:var(--surface);border:1px solid var(--line);color:var(--ink);font:inherit;text-align:start}
 .mq-done>span:last-child{flex:1;min-width:0;font-size:13.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:end}
 .mq-done .v{width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:14px;flex:none}
@@ -4008,7 +4022,7 @@ function openFoodAdd(opts){
   if(!$('#sheet').hidden&&$('#sheet .fa-sheet'))return;
   const recents=recentMealNames();
   openSheet(`<div class="lib-head fa-sheet stack" style="gap:10px;padding-bottom:10px">
-    <div class="spread"><h3 style="margin:0">${(S.foodDate||ymd())===ymd()?tt(['הוספה לארוחת בוקר','הוספה לארוחת צהריים','הוספה לארוחת ערב'][(h=>h<11?0:h<16?1:2)(new Date().getHours())]):tt('הוספת ארוחה')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
+    <div class="spread"><h3 style="margin:0">${opts?.title?esc(opts.title):(S.foodDate||ymd())===ymd()?tt(['הוספה לארוחת בוקר','הוספה לארוחת צהריים','הוספה לארוחת ערב'][(h=>h<11?0:h<16?1:2)(new Date().getHours())]):tt('הוספת ארוחה')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
     <div class="fsearch"><textarea id="food-text" rows="1" maxlength="600" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״"></textarea><button class="fs-go" data-act="food-ai" aria-label="ניתוח עם AI">✨ חשב</button></div>
   </div>
   <div class="liblist fa-body">
@@ -4762,8 +4776,24 @@ const MQ_STN={any:'eats everything',kosher:'kosher (never meat with dairy in one
 function mqS(){ let q=S.settings.mq; if(!q||typeof q!=='object')q=S.settings.mq={p:null,meals:null,ovr:null};
   if(q.meals&&q.meals.some(m=>!Array.isArray(m.items))){ q.meals=null; q.ovr=null; } // the first "lines" version of the squares menu → rebuild
   return q; }
-const mqN=()=>Math.max(10,Math.min(45,Math.round((+S.settings.kcalT||1800)/100)));
-function mqDay(){ const q=mqS(); if(!q.meals)return null; return q.ovr&&q.ovr.d===ymd()?q.ovr.meals:q.meals; }
+/* the day's budget: the calorie target, moved between weekdays and the weekend when the user asked for treat days (same weekly total) */
+const MQ_WE={fs:[5,6],s:[6]};
+function mqDayK(ds){ const K=+S.settings.kcalT||1800, wk=mqS().p?.wk, we=MQ_WE[wk]; if(!we)return K;
+  const E=Math.max(200,Math.round(K*.12/50)*50), dow=new Date((ds||ymd())+'T12:00:00').getDay();
+  return Math.round(we.includes(dow)?K+E:K-E*we.length/(7-we.length)); }
+const mqN=ds=>Math.max(10,Math.min(45,Math.round(mqDayK(ds)/100)));
+/* sweet squares the user keeps for a treat every day; the meals are built on what is left */
+const mqSw=()=>Math.max(0,Math.min(4,+mqS().p?.sw||0));
+const mqBase=()=>(+S.settings.kcalT||2000)-mqSw()*100;
+function mqWithK(k,fn){ const k0=S.settings.kcalT; S.settings.kcalT=k; try{ return fn(); } finally{ S.settings.kcalT=k0; } }
+/* scale meals to a new size: the same foods, portions solved again, caps kept */
+function mqScale(meals,f,skipDone){ for(const m of meals){ if((skipDone&&m.done===ymd())||!m.items.some(i=>i.id)){ for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); continue; }
+    const L=m.items.filter(i=>i.id).map(i=>({f:MFI(i.id),g:i.g,ref:i,cap:mqMx(m,MFI(i.id))})); solveMeal(L,mqK(m)*f,mqPr(m)*f); for(const x of L)x.ref.g=x.g; mqCapAll([m]); for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); }
+  return meals; }
+function mqDay(){ const q=mqS(); if(!q.meals)return null; const today=ymd();
+  // a treat day (or the lighter weekday around it): today's copy of the menu, scaled to today's budget
+  if(q.p?.wk&&q.kT&&!(q.ovr&&q.ovr.d===today)){ const T=mqDayK(today)-mqSw()*100; if(Math.abs(T-q.kT)>60){ q.ovr={d:today,auto:1,meals:mqScale(JSON.parse(JSON.stringify(q.meals)),T/q.kT,true)}; } }
+  return q.ovr&&q.ovr.d===today?q.ovr.meals:q.meals; }
 const mqHas=m=>!!(m.out||m.items.some(i=>i.id));
 const mqK=m=>m.items.reduce((a,i)=>{ const f=i.id&&MFI(i.id); return a+(f?f.k*i.g/100:0); },0);
 const mqPr=m=>m.items.reduce((a,i)=>{ const f=i.id&&MFI(i.id); return a+(f?f.p*i.g/100:0); },0);
@@ -4876,9 +4906,9 @@ function mqAutoName(m){ const L=m.items.filter(i=>i.id&&i.r!=='V'&&MFI(i.id)).ma
   const last=L.pop(); return L.join(', ')+[' ו',' & ',' و'][MLI]+last; }
 let MQB=false;
 function mqCat(p){ return MF().filter(f=>mqOK(f,p)).map(f=>({id:f.id,n:mfName(f),r:f.r,s:f.s,t:f.t})); }
-async function mqBuild(mode){ const q=mqS(), p=q.p||{meals:4}; q.ovr=null; q.note=''; q.kT=+S.settings.kcalT||2000;
-  if(mode==='self'){ q.meals=mqSelf(p); persistSettings(); logEv('menu_prefs'); render(); return; }
-  const meals=mqGen(p);
+async function mqBuild(mode){ const q=mqS(), p=q.p||{meals:4}; q.ovr=null; q.note=''; q.kT=mqBase(); q.rb=null;
+  if(mode==='self'){ q.meals=mqWithK(q.kT,()=>mqSelf(p)); persistSettings(); logEv('menu_prefs'); render(); return; }
+  const meals=mqWithK(q.kT,()=>mqGen(p));
   if(p.love){ MQB=true; q.meals=null; render();
     const r=await aiCall({mode:'sq',catalog:mqCat(p),profile:{sex:S.settings.g,kcal:q.kT,protein:+S.settings.protT||null,style:MQ_STN[p.style||'any'],avoid:p.avoid||[],loves_text:p.love,likes:(p.likes||[]).map(id=>mfName(MFI(id))).filter(Boolean)},
       meals:meals.map((m,i)=>({meal:i,kind:m.k,kcal:Math.round(mqK(m)),protein:Math.round(mqPr(m)),now:m.items.map(x=>x.id)}))});
@@ -4894,9 +4924,8 @@ function mqAIMeal(m,am,p){ if(!m||!am)return false; const ids=[]; for(const id o
   const fs=ids.map(MFI); if(ids.length<(m.k==='s'?1:2)||(m.k!=='s'&&!fs.some(f=>f.r==='P')))return false;
   const K=mqK(m)||m.items.reduce((a,i)=>a+(i.kt||0),0)||400, Pt=Math.max(8,mqPr(m)), it=solveIds(ids,K,Pt,f=>mqMx(m,f)); if(!it)return false;
   m.items=mqSort(it.map(x=>({r:MFI(x.id).r,id:x.id,g:x.g}))); mqCapAll([m]); m.name=String(am.name||'').slice(0,40)||null; m.tp=null; return true; }
-function mqRefit(){ const q=mqS(), f=(+S.settings.kcalT||2000)/(q.kT||+S.settings.kcalT||2000);
-  for(const m of q.meals){ if(!m.items.some(i=>i.id))continue; const L=m.items.filter(i=>i.id).map(i=>({f:MFI(i.id),g:i.g,ref:i,cap:mqMx(m,MFI(i.id))})); solveMeal(L,mqK(m)*f,mqPr(m)*f); for(const x of L)x.ref.g=x.g; mqCapAll([m]); for(const i of m.items)if(!i.id&&i.kt)i.kt=Math.round(i.kt*f); }
-  mqTrim(q.meals); q.kT=+S.settings.kcalT||2000; q.ovr=null; persistSettings(); render(); }
+function mqRefit(silent){ const q=mqS(), f=mqBase()/(q.kT||mqBase());
+  mqScale(q.meals,f); mqTrim(q.meals); q.kT=mqBase(); if(q.ovr&&q.ovr.d===ymd()&&!q.ovr.auto)mqScale(q.ovr.meals,f,true); else q.ovr=null; persistSettings(); if(!silent)render(); }
 
 /* ---------- מסכים ---------- */
 function mqBar(n,on){ return `<div class="mq-bar">${[...Array(n)].map((_,i)=>`<i class="${i<on?'on':''}"></i>`).join('')}</div>`; }
@@ -4914,27 +4943,48 @@ function mqTop(){ return `<div class="mn-top"><button class="tgw-back" data-act=
 function vMenuQ(){ const q=mqS(), N=mqN();
   if(S.mqW)return mqTop()+mqWizHTML();
   if(MQB)return mqTop()+`<div class="mq-busy"><img src="img/kobi-think.svg" alt=""><b>${tt('ראפי בונה לך תפריט…')}</b><span>${tt('בוחר מאכלים לפי מה שכתבת')}</span></div>`;
-  if(!q.meals&&q.p&&!q.off){ q.kT=+S.settings.kcalT||2000; q.meals=mqGen(q.p); persistSettings(); }
+  if(!q.meals&&q.p&&!q.off){ q.kT=mqBase(); q.meals=mqWithK(q.kT,()=>mqGen(q.p)); persistSettings(); }
   if(!q.meals)return mqTop()+`<div class="mq-hero"><div class="n num">${N}</div><div class="u">${tt('ריבועים ביום')}</div><div class="s">${tt('כל ריבוע הוא 100 קק״ל.')}<br>${tt('למשל 3 כפות אורז, או ביצה אחת.')}</div>${mqBar(N,0)}</div>
     <button class="mq-cta a" data-act="mq-w" data-v="repi">${tt('ראפי יבנה לי')}</button><button class="mq-cta" data-act="mq-w" data-v="self">${tt('אבנה לבד')}</button>`;
   const today=ymd(), day=mqDay(), eaten=Math.round(dayTotals(today).kcal/100), left=Math.max(0,N-eaten), nx=day.findIndex(m=>m.done!==today);
   if(!q.help){ q.help=1; persistSettings(); setTimeout(mqHelp,350); }
   return mqTop()+`<div class="mq-left"><b class="num">${left}</b><span>${tt(left===1?'ריבוע נשאר היום':'ריבועים נשארו היום')}</span></div>${mqBar(N,Math.min(N,eaten))}
     <button class="mq-what" data-act="mq-help"><span class="sqi"></span>${tt('ריבוע = 100 קק״ל')}<b>${tt('מה זה?')}</b></button>
-    ${Math.abs((q.kT||0)-(+S.settings.kcalT||0))>60?`<button class="mq-fit" data-act="mq-fit">${tt('היעד היומי השתנה.')} <b>${tt('עדכן את התפריט')}</b></button>`:''}
+    ${Math.abs((q.kT||0)-mqBase())>60?`<button class="mq-fit" data-act="mq-fit">${tt('היעד היומי השתנה.')} <b>${tt('עדכן את התפריט')}</b></button>`:''}
     ${q.note?`<div class="mq-note"><img src="img/kobi-wink.svg" alt=""><span>${esc(q.note)}</span></div>`:''}
-    ${day.map((m,i)=>mqMealHTML(m,i,today,i===nx||i===S.mqOpenI)).join('')}
+    ${mqHintHTML()}${mqRbHTML(today)}
+    ${(()=>{ const sw=mqSw(), at=sw?((mqS().p?.swt||'eve')==='pm'?Math.max(0,day.findIndex(m=>m.k==='l')):day.length-1):-1;
+      return day.map((m,i)=>mqMealHTML(m,i,today,i===nx||i===S.mqOpenI)+(i===at?mqSwHTML(today):'')).join('')+(sw?'':`<button class="mq-swadd" data-act="mq-swp">🍫 ${tt('להוסיף מקום למתוק')}<small>${tt('ראפי יקטין קצת את הארוחות')}</small></button>`); })()}
     <button class="mq-ask" data-act="mq-ask"><img src="img/kobi-happy.svg" alt=""><span>${G('ספר לראפי מה בא לך…','ספרי לראפי מה בא לך…')} "${tt('ערב במסעדה')}"</span></button>`; }
-function mqMealHTML(m,i,today,open){ const nm=tt(MQ_K[m.k]), K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)), sq=Math.round(K/100), dn=mqName(m);
+const MQ_OR={P:'או כל חלבון אחר',C:'או כל פחמימה אחרת',F:'או כל שומן אחר',X:'או כל פרי אחר'};
+const mqSq=()=>mqS().p?.mode==='sq'; // squares only: the user fills each budget; the menu's foods are ideas
+function mqMealHTML(m,i,today,open){ const nm=tt(MQ_K[m.k]), K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)), sq=Math.round(K/100), dn=mqName(m), SQ=mqSq(), shown=x=>!SQ||x.pick||x.r==='V';
   const meta=`<span class="num">${m.t} · ${sq} ${tt('ריבועים')} · ${K} ${tt('קק״ל')}</span>`;
-  if(m.done===today)return `<div class="mq-done"><span class="v">✓</span><b>${nm}</b><span>${m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</span></div>`;
-  if(!open&&mqHas(m))return `<button class="mq-done mq-later" data-act="mq-open" data-m="${i}"><b>${nm}</b>${meta}<span>${m.out?tt('אוכלים בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r==='P').map(x=>mfName(MFI(x.id))).join(' · '))}</span></button>`;
-  const head=`<div class="mq-mh"><div class="mq-mt"><span class="n">${nm}</span><span class="t">${meta}</span></div>${m.out?'':`<button class="mq-re" data-act="mq-re" data-m="${i}">↻ ${tt('ארוחה אחרת')}</button>`}</div>${dn&&!m.out?`<div class="mq-dn">${esc(dn)}</div>`:''}`;
+  if(m.done===today)return `<div class="mq-done"><span class="v">✓</span><b>${nm}</b><span>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</span></div>`;
+  if(!open&&mqHas(m))return `<button class="mq-done mq-later" data-act="mq-open" data-m="${i}"><b>${nm}</b>${meta}<span>${m.out?tt('אוכלים בחוץ'):SQ&&!m.items.some(x=>x.pick)?tt('בחירה חופשית'):esc(dn||m.items.filter(x=>x.id&&x.r==='P'&&shown(x)).map(x=>mfName(MFI(x.id))).join(' · '))}</span></button>`;
+  const head=`<div class="mq-mh"><div class="mq-mt"><span class="n">${nm}</span><span class="t">${meta}</span></div>${m.out?'':SQ?`<button class="mq-re" data-act="mq-idea" data-m="${i}">💡 ${tt('תן לי רעיון')}</button>`:`<button class="mq-re" data-act="mq-re" data-m="${i}">↻ ${tt('ארוחה אחרת')}</button>`}</div>${dn&&!m.out&&!SQ?`<div class="mq-dn">${esc(dn)}</div>`:''}`;
   if(m.out)return `<div class="mq-meal">${head}<div class="mq-out"><b>${tt('אוכלים בחוץ')} · ${sq} ${tt('ריבועים')}</b>${m.tip?`<span>${esc(m.tip)}</span>`:''}</div><button class="mq-eat" data-act="mq-eat" data-m="${i}">${tt('אכלתי')}</button></div>`;
-  return `<div class="mq-meal">${head}${m.items.map((x,j)=>{ const f=x.id?MFI(x.id):null, n=f&&x.r!=='V'?Math.max(0,Math.round(f.k*x.g/10000)):0;
+  const can=SQ?m.items.some(x=>x.id&&x.pick):mqHas(m);
+  return `<div class="mq-meal">${head}${m.items.map((x,j)=>{ const f=x.id&&shown(x)?MFI(x.id):null, kk=x.id?MFI(x.id).k*x.g/100:(x.kt||0), n=x.r!=='V'?Math.max(0,Math.round(kk/100)):0;
       const h=f?mqHH(f,x.g):'';
-      return `<button class="mq-ln" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?niTile(fIco(f),18,38):`<span class="mq-plus">+</span>`}<span class="f"><i class="g">${tt(MQ_G[x.r]||'')}${n?` <span class="sq">${'<b></b>'.repeat(Math.min(n,8))}</span>`:''}</i>${f?`${esc(mfName(f))}<small>${x.r==='V'?tt('כמה שרוצים')+' · ':h?h+' · ':''}<span class="num">${Math.round(x.g)} ${tt('גר׳')}</span></small>`:`<em>${tt('בחירה')}</em>`}</span>${f?`<span class="k"><b class="num">${Math.round(f.k*x.g/100)}</b><small>${tt('קק״ל')}</small></span>`:''}<span class="ch" aria-hidden="true">‹</span></button>`; }).join('')}
-    <div class="mq-eatr"><button class="mq-eat" data-act="mq-eat" data-m="${i}" ${mqHas(m)?'':'disabled'}>${tt('אכלתי הכל')}</button><button class="mq-eat2" data-act="mq-eatx" data-m="${i}" ${mqHas(m)?'':'disabled'}>${tt('אכלתי אחרת')}</button></div></div>`; }
+      return `<button class="mq-ln ${!f&&SQ?'slot':''}" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?niTile(fIco(f),18,38):`<span class="mq-plus">+</span>`}<span class="f"><i class="g">${tt(MQ_G[x.r]||'')}${n?` <span class="sq">${'<b></b>'.repeat(Math.min(n,8))}</span>`:''}</i>${f?`${esc(mfName(f))}<small>${x.r==='V'?tt('כמה שרוצים')+' · ':h?h+' · ':''}<span class="num">${Math.round(x.g)} ${tt('גר׳')}</span></small>${MQ_OR[x.r]&&!SQ?`<span class="mq-or">${tt(MQ_OR[x.r])} ›</span>`:''}`:`<em>${SQ?tt('בחירה חופשית'):tt('בחירה')}</em>${SQ&&kk?`<small><span class="num">${Math.round(kk)}</span> ${tt('קק״ל')}</small>`:''}`}</span>${f?`<span class="k"><b class="num">${Math.round(f.k*x.g/100)}</b><small>${tt('קק״ל')}</small></span>`:''}<span class="ch" aria-hidden="true">‹</span></button>`; }).join('')}
+    <div class="mq-eatr"><button class="mq-eat" data-act="mq-eat" data-m="${i}" ${can?'':'disabled'}>${tt(SQ?'אכלתי':'אכלתי הכל')}</button><button class="mq-eat2" data-act="mq-eatc" data-m="${i}">${tt('אכלתי אחרת')}</button></div></div>`; }
+/* the sweet card: today's treat squares, editable — the meals around it grow or shrink to stay on target */
+function mqSwHTML(today){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?p.swk:['choc','cookie','ice','bamba']).map(id=>MQ_SWF.find(x=>x[0]===id)).filter(Boolean);
+  const got=mealsOf(today).filter(m=>m.name==='מתוק').reduce((a,m)=>a+m.kcal,0), on=Math.min(n,Math.round(got/100));
+  return `<div class="mq-meal mq-sw"><div class="mq-mh"><div class="mq-mt"><span class="n">🍫 ${tt('מתוק')}</span><span class="t"><span class="num">${n} ${tt(n===1?'ריבוע':'ריבועים')} · ${n*100} ${tt('קק״ל')}</span>${on?` · ${tt('נרשמו')} <span class="num">${on}</span>`:''}</span></div>
+      <span class="mq-swst"><button data-act="mq-swm" aria-label="${tt('פחות')}">−</button><b class="num">${n}</b><button data-act="mq-swp" aria-label="${tt('יותר')}" ${n>=4?'disabled':''}>+</button></span></div>
+    <div class="small muted" style="margin-top:2px">${tt('כבר בתוך היעד. ריבוע אחד זה בערך:')}</div>
+    <div class="mq-swx">${K.map(([id,e,nm])=>`<button data-act="mq-swlog" data-v="${id}">${e} ${tt(nm)}<small>+1</small></button>`).join('')}</div>
+    <button class="mq-swmore" data-act="mq-swkinds">${tt('לבחור מה מופיע כאן')}</button></div>`; }
+function mqHintHTML(){ const p=mqS().p||{}; if(p.hintX)return '';
+  return `<div class="mq-hint"><img src="img/kobi-wink.svg" alt=""><span><b>${tt('זה כיוון ליום, לא חוק')}</b>${mqSq()?tt('ראפי נותן תקציב לכל ארוחה, ואתה ממלא. צריך רעיון? לחיצה אחת.'):tt('כל מאכל אפשר להחליף באחר עם אותו מספר ריבועים. לוחצים עליו ובוחרים.')}</span><button class="mq-hx" data-act="mq-hintx" aria-label="${tt('סגירה')}">✕</button></div>`; }
+/* after "I ate something else": Rafi offers to move the difference into the meals that are left today */
+function mqRbHTML(today){ const q=mqS(), r=q.rb; if(!r||r.d!==today)return ''; const day=mqDay(), m=day&&day[r.i]; if(!m)return '';
+  const sq=Math.abs(Math.round(r.diff/100))||1, more=r.diff>0, left=day.filter(x=>x.done!==today&&mqHas(x));
+  return `<div class="mq-rb"><img src="img/kobi-wink.svg" alt=""><div><b>${more?tt('אכלת {0} ריבועים יותר ב{1}'):tt('אכלת {0} ריבועים פחות ב{1}')}`.replace('{0}',`<span class="num">${sq}</span>`).replace('{1}',tt(MQ_K[m.k]))+`</b>
+    <span>${left.length?(more?tt('הכל טוב. אפשר להקטין קצת את מה שנשאר היום, כדי שהיום יישאר ביעד.'):tt('אפשר להגדיל קצת את מה שנשאר היום.')):tt('זה היה הסוף של היום. מחר ממשיכים רגיל, בלי לפצות.')}</span>
+    <div class="mq-rbr">${left.length?`<button class="a" data-act="mq-rbok">${tt(more?'הקטן את מה שנשאר':'הגדל את מה שנשאר')}</button>`:''}<button data-act="mq-rbno">${tt(left.length?'השאר כמו שהוא':'הבנתי')}</button></div></div></div>`; }
 /* בחירת מאכל לשורה: אותו סוג, ובכמות שמחזיקה את אותן קלוריות */
 function mqPickOpen(mi,li){ const day=mqDay(), m=day&&day[mi], x=m&&m.items[li]; if(!x)return; const p=mqS().p||{}, sl=mqSlot(m,mqP0(p));
   const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100), oth=m.items.filter(y=>y!==x), ok=f=>mqOK(f,p)&&mqKos(f,oth,p)&&!oth.some(y=>y.id===f.id);
@@ -4945,6 +4995,11 @@ function mqPickOpen(mi,li){ const day=mqDay(), m=day&&day[mi], x=m&&m.items[li];
 /* שאלון קצר עם ראפי */
 const MQ_ST=[['any','אוכל הכל','בלי הגבלות'],['kosher','כשר','בלי בשר וחלב באותה ארוחה'],['pesc','צמחוני + דגים','בלי בשר ועוף. כן דגים, ביצים וחלב'],['veg','צמחוני','בלי בשר, עוף ודגים. כן ביצים וחלב'],['vegan','טבעוני','בלי מוצרים מן החי']];
 const MQ_AV=[['l','לקטוז'],['g','גלוטן'],['n','אגוזים'],['e','ביצים'],['f','דגים'],['s','סויה']];
+/* one square (~100 kcal) of the usual treats, for the sweet card: tap = logged */
+const MQ_SWF=[['choc','🍫','4 קוביות שוקולד חלב',20,107,1.5,11.5,6.2],['cookie','🍪','2 עוגיות',22,105,1.4,14.5,4.6],['ice','🍦','כדור גלידה קטן',50,100,1.8,12,5],['wafer','🧇','2 וופלים',20,104,1.2,13,5.2],
+  ['cake','🍰','פרוסה קטנה של עוגה',30,110,1.6,15,5],['bamba','🥜','חצי שקית במבה',18,98,2.8,7.2,6.4],['bisli','🥨','חצי שקית ביסלי',20,98,2,13,4.2],['popc','🍿','קערית פופקורן',22,100,2.6,13,4.5]];
+const MQ_SWT=[['pm','אחר הצהריים'],['eve','אחרי ארוחת ערב']];
+const mqSwRec=()=>Math.max(1,Math.min(3,Math.round(mqN()*.1))); // about a tenth of the day
 function mqWizHTML(){ const w=S.mqW, st=w.steps[w.i], p=w.p, n=w.steps.length;
   const bub=(img,q,s)=>`<div class="mq-rp"><img src="img/kobi-${img}.svg" alt=""><div class="bb">${q}${s?`<span>${s}</span>`:''}</div></div>`;
   const prog=`<div class="mq-prg">${w.steps.map((_,i)=>`<i class="${i<=w.i?'on':''}"></i>`).join('')}</div><div class="small muted">${w.i+1} ${tt('מתוך')} ${n}</div>`;
@@ -4954,13 +5009,18 @@ function mqWizHTML(){ const w=S.mqW, st=w.steps[w.i], p=w.p, n=w.steps.length;
     body=bub('happy',G('יש משהו שאתה לא יכול לאכול?','יש משהו שאת לא יכולה לאכול?'),tt('רגישויות ואלרגיות. אפשר לבחור כמה'))+`<div class="mq-chips">${L.map(([v,t])=>`<button class="${(p.avoid||[]).includes(v)?'on':''}" data-act="mq-wav" data-v="${v}">${tt(t)}</button>`).join('')}</div>
       <button class="mq-cta a" data-act="mq-wn">${tt((p.avoid||[]).length?'המשך':'אין לי')}</button>`; }
   else if(st==='meals')body=bub('happy',tt('כמה ארוחות ביום נוח לך?'),`${tt('אחלק את')} ${mqN()} ${tt('הריבועים ביניהן')}`)+`<div class="mq-chips big">${[3,4,5].map(v=>`<button class="${+p.meals===v?'on':''}" data-act="mq-wm" data-v="${v}">${v}</button>`).join('')}</div>`;
+  else if(st==='sweet'){ const v=+p.sw||0, rec=mqSwRec(), K=p.swk||[];
+    body=bub('wink',G('כמה מתוק להכניס לתפריט כל יום?','כמה מתוק להכניס לתפריט כל יום?'),tt('ראפי מוריד את זה משאר הארוחות, ככה נשארים ביעד'))+`<div class="mq-opts">${[0,1,2,3].map(n=>`<button class="${v===n?'on':''}" data-act="mq-wsw" data-v="${n}"><b>${n?`${n} ${tt(n===1?'ריבוע':'ריבועים')} · <span class="num">${n*100}</span> ${tt('קק״ל')}`:tt('בלי מתוק')}${n===rec?` <i class="mq-rec">${tt('מומלץ')}</i>`:''}</b><span>${tt(['אפשר להוסיף בכל רגע מהתפריט','למשל 4 קוביות שוקולד או 2 עוגיות','למשל שוקולד אחר הצהריים וגלידה בערב','מתוק כל יום, בלי רגשות אשם'][n])}</span></button>`).join('')}</div>
+      ${v?`<div class="mq-wl">${tt('מה בא לך בדרך כלל?')}</div><div class="mq-chips">${MQ_SWF.map(([id,e,n])=>`<button class="${K.includes(id)?'on':''}" data-act="mq-wswk" data-v="${id}">${e} ${tt(n)}</button>`).join('')}</div>
+      <div class="mq-wl">${tt('מתי?')}</div><div class="mq-chips">${MQ_SWT.map(([id,n])=>`<button class="${(p.swt||'eve')===id?'on':''}" data-act="mq-wswt" data-v="${id}">${tt(n)}</button>`).join('')}</div>`:''}
+      <button class="mq-cta a" data-act="mq-wn">${tt('המשך')}</button>`; }
   else if(st==='love')body=bub('wink',G('מה אתה הכי אוהב לאכול?','מה את הכי אוהבת לאכול?'),voOK()?tt('כותבים או מקליטים, כמו לתזונאית'):tt('כותבים חופשי, כמו לתזונאית'))+`<div class="mq-lv vo-host"><textarea id="mq-love" class="mq-tx" rows="3" maxlength="300" placeholder="${tt('למשל: שקשוקה, פסטה, הרבה עוף. בערב בא לי משהו מתוק')}">${esc(p.love||'')}</textarea>${voOK()?`<button class="mq-mic" data-act="vo-start" data-q="mq-love" aria-label="${tt('הקלטה קולית')}">${ICON.mic}<span>${tt('הקלטה')}</span></button>`:''}</div>
       <div id="mq-lt" class="mw-tags">${mqLoveTags(p.love)}</div>
       <button class="mq-cta a" data-act="mq-wgo">${tt('ראפי, תבנה לי')}</button>`;
   return `<div class="mq-wz">${n>1?prog:''}${body}</div>`; }
 function mqLoveTags(t){ const r=mwParse(t); return r.names.length?`<span class="mq-ltl">${tt('זיהיתי:')}</span>`+mwTags(r,false):''; }
 document.addEventListener('input',e=>{ if(e.target?.id!=='mq-love')return; const b=$('#mq-lt'); if(b)b.innerHTML=mqLoveTags(e.target.value); });
-function mqWizStart(mode){ const q=mqS(), p0=q.p||{}; S.mqW={mode,i:0,steps:mode==='self'?['style','avoid','meals']:['style','avoid','meals','love'],p:{style:p0.style||'any',avoid:[...(p0.avoid||[])],meals:p0.meals||((+S.settings.kcalT||0)>=2800?5:4),love:p0.love||''}}; closeSheet(); render(); window.scrollTo(0,0); }
+function mqWizStart(mode){ const q=mqS(), p0=q.p||{}; S.mqW={mode,i:0,steps:mode==='self'?['style','avoid','meals','sweet']:['style','avoid','meals','sweet','love'],p:{style:p0.style||'any',avoid:[...(p0.avoid||[])],meals:p0.meals||((+S.settings.kcalT||0)>=2800?5:4),love:p0.love||'',sw:p0.sw??0,swk:[...(p0.swk||['choc','cookie'])],swt:p0.swt||'eve',wk:p0.wk||'',mode:p0.mode||'',hintX:p0.hintX}}; closeSheet(); render(); window.scrollTo(0,0); }
 function mqWizNext(){ const w=S.mqW; if(w.i<w.steps.length-1){ w.i++; render(); window.scrollTo(0,0); return; } mqWizDone(); }
 function mqWizDone(){ const w=S.mqW, q=mqS(), t=$('#mq-love'); if(t)w.p.love=t.value.trim(); const r=mwParse(w.p.love); w.p.likes=r.ids; w.p.bf=r.ids.some(id=>{ const f=MFI(id); return f&&f.s.includes('w')&&!f.s.includes('b'); })?'sweet':'salty'; S.mqW=null; q.p=w.p; q.off=false; mqBuild(w.mode); }
 /* ספר לראפי: שינוי חופשי להיום */
@@ -5023,7 +5083,8 @@ function mqEatXAct(act,b){ if(!MQE)return true; const m=mqDay()?.[MQE.i]; if(!m)
     else if(act==='mqe-uok'){ MQE.g[E.j]=E.g; MQE.k[E.j]=E.k; MQE.ed=null; mqEatXR(); } }
   else if(act==='mqe-ok'){ const G=MQE.g, i=MQE.i; MQE=null; closeSheet(); mqEat(i,G); }
   return true; }
-async function mqEat(i,G){ const day=mqDay(), m=day&&day[i], today=ymd(); if(!m||m.done===today)return;
+async function mqEat(i,G){ const day=mqDay(), m=day&&day[i], today=ymd(); if(!m||m.done===today)return; MQX=null;
+  if(mqSq()&&!G&&!m.out)G=m.items.map(x=>x.pick||x.r==='V'?x.g:0);
   if(m.out){ m.done=today; persistSettings(); render(); toast(tt('את מה שאכלת בחוץ רושמים בתיבה "מה אכלת?"')); return; }
   const items=m.items.map((x,j)=>({x,g:G?G[j]:x.g})).filter(o=>o.x.id&&o.g>0).map(({x,g})=>{ const f=MFI(x.id), k=g/100, h=mqHH(f,g).replace(/[⁦⁩]/g,''); return {name:`${mfName(f)} (${h?h+', ':''}${Math.round(g)} ${tt('גר׳')})`,kcal:Math.round(f.k*k),protein:Math.round(f.p*k),carbs:Math.round(f.cb*k),fat:Math.round(f.ft*k)}; });
   if(!items.length)return;
@@ -5049,6 +5110,30 @@ function mqReroll(m,day){ const p=mqS().p||{}; mqWith(p,p0=>{ const rnd=mRand((D
     const nm={k:m.k,items:mqSort(it.map(i=>({r:i.f.r,id:i.f.id,g:i.g})))}; mqCapAll([nm]); mqTrim([nm]);
     if(t<3&&nm.items.map(i=>i.id).sort().join()===mine.slice().sort().join())continue;
     m.items=nm.items; m.tp=tp?tp.id:null; m.name=null; return; } }); }
+function mqSwSet(n){ const q=mqS(); q.p=q.p||{}; const old=mqSw(); n=Math.max(0,Math.min(4,n)); if(n===old)return; q.p.sw=n; if(!q.p.swk)q.p.swk=['choc','cookie'];
+  if(q.meals)mqRefit(true); persistSettings(); render(); toast(n>old?tt('נוסף ריבוע מתוק. הארוחות קטנו ב-100 קק״ל'):tt('ירד ריבוע מתוק. הארוחות גדלו ב-100 קק״ל')); }
+async function mqSwLog(id){ const x=MQ_SWF.find(y=>y[0]===id); if(!x)return; const [,e,n,g,k,pr,cb,ft]=x;
+  MQX=null; const keep=S.foodDate; S.foodDate=ymd(); _mealDraft={name:'מתוק',items:[{name:`${tt(n)}`,kcal:k,protein:pr,carbs:cb,fat:ft,g}],kcal:k,protein:pr,carbs:cb,fat:ft}; await saveMealDraft(); S.foodDate=keep; render(); }
+function mqSwKinds(){ const p=mqS().p||{}, K=p.swk||[];
+  openSheet(`<h3 style="margin:0 0 4px">${tt('מה מופיע בכרטיס המתוק?')}</h3><div class="small muted" style="margin-bottom:12px">${tt('כל אחד מהם הוא ריבוע אחד, בערך 100 קק״ל')}</div>
+    <div class="mq-chips">${MQ_SWF.map(([id,e,n])=>`<button class="${K.includes(id)?'on':''}" data-act="mq-swk" data-v="${id}">${e} ${tt(n)}</button>`).join('')}</div>
+    <div class="mq-wl">${tt('מתי?')}</div><div class="mq-chips">${MQ_SWT.map(([id,n])=>`<button class="${(p.swt||'eve')===id?'on':''}" data-act="mq-swt" data-v="${id}">${tt(n)}</button>`).join('')}</div>
+    <button class="btn primary big" style="width:100%;margin-top:16px" data-act="sheet-close">${tt('סיום')}</button>`); }
+/* "I ate something else": the meal is logged as what was really eaten, and the difference can move into the rest of the day */
+let MQX=null;
+function mqAltSaved(row){ const x=MQX; MQX=null; const q=mqS(), today=ymd(), day=mqDay(), m=day&&day[x.i]; if(!m||row.d!==today)return;
+  m.done=today; m.alt={n:String(row.name||'').slice(0,40),k:Math.round(+row.kcal||0)}; const diff=Math.round((+row.kcal||0)-x.K0);
+  q.rb=Math.abs(diff)>=80?{d:today,diff,i:x.i}:null; persistSettings(); logEv('menu_alt'); }
+function mqRbApply(){ const q=mqS(), r=q.rb, today=ymd(); if(!r)return; if(!(q.ovr&&q.ovr.d===today))q.ovr={d:today,meals:JSON.parse(JSON.stringify(q.meals))};
+  const L=q.ovr.meals.filter(m=>m.done!==today&&mqHas(m)), tot=L.reduce((a,m)=>a+mqK(m),0); if(tot>0){ const f=Math.max(.5,Math.min(1.5,(tot-r.diff)/tot)); mqScale(L,f,true); }
+  q.rb=null; persistSettings(); render(); toast(tt('שאר היום התעדכן ✓')); }
+function mqWeekSheet(){ const p=mqS().p||{}, now=new Date(), sun=new Date(now); sun.setDate(now.getDate()-now.getDay());
+  const D=[...Array(7)].map((_,i)=>{ const x=new Date(sun); x.setDate(sun.getDate()+i); return {l:DAY_LETTERS[i],n:Math.round(mqDayK(ymd(x))/100)}; }), mx=Math.max(...D.map(d=>d.n)), base=Math.round((+S.settings.kcalT||1800)/100);
+  openSheet(`<h3 style="margin:0 0 4px">${tt('חלוקה שבועית')}</h3><div class="small muted">${tt('אותו סך לשבוע, עם יותר ריבועים בסוף השבוע')}</div>
+    <div class="mq-wkc">${D.map(d=>`<div><b class="num">${d.n}</b><i class="${d.n>base?'up':''}" style="height:${Math.round(d.n/mx*100)}px"></i><small>${d.l}</small></div>`).join('')}</div>
+    <div class="small muted" style="text-align:center">${tt('ממוצע')} <b class="num" style="color:var(--ink)">${Math.round(D.reduce((a,d)=>a+d.n,0)/7)}</b> ${tt('ריבועים ביום · כמו היעד שלך')}</div>
+    <div class="mq-chips" style="margin-top:16px;justify-content:center">${[['','בלי'],['fs','שישי ושבת'],['s','רק שבת']].map(([v,t])=>`<button class="${(p.wk||'')===v?'on':''}" data-act="mq-wkset" data-v="${v}">${tt(t)}</button>`).join('')}</div>
+    <button class="btn primary big" style="width:100%;margin-top:18px" data-act="sheet-close">${tt('סיום')}</button>`); }
 function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
   switch(act){
     case 'mq-w': mqWizStart(b.dataset.v); return true;
@@ -5058,12 +5143,32 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-wm': S.mqW.p.meals=+b.dataset.v; render(); setTimeout(mqWizNext,180); return true;
     case 'mq-wgo': mqWizDone(); return true;
     case 'mq-pick': mqPickOpen(mi,+b.dataset.l); return true;
-    case 'mq-setf': { const m=day&&day[mi], x=m&&m.items[+b.dataset.l], f=MFI(b.dataset.id); if(x&&f){ const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100); x.id=f.id; x.r=f.r; x.g=mqFitG(f,kc,m); delete x.kt; m.name=null; persistSettings(); } closeSheet(); render(); return true; }
+    case 'mq-setf': { const m=day&&day[mi], x=m&&m.items[+b.dataset.l], f=MFI(b.dataset.id); if(x&&f){ const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100); x.id=f.id; x.r=f.r; x.g=mqFitG(f,kc,m); delete x.kt; x.pick=1; m.name=null; persistSettings(); } closeSheet(); render(); return true; }
     case 'mq-re': { const m=day&&day[mi]; if(m){ mqReroll(m,day); persistSettings(); } render(); return true; }
     case 'mq-open': S.mqOpenI=mi; render(); return true;
     case 'mq-help': mqHelp(); return true;
     case 'mq-eat': mqEat(mi); return true;
-    case 'mq-eatx': mqEatX(mi); return true;
+    case 'mq-eatx': closeSheet(); mqEatX(mi); return true;
+    case 'mq-eatc': openSheet(`<h3 style="margin:0 0 12px">${tt('מה קרה בארוחה הזו?')}</h3>
+      <button class="mq-ch" data-act="mq-eatx" data-m="${mi}"><b>${tt('אכלתי את זה, בכמות אחרת')}</b><span>${tt('משנים כמויות או מורידים פריט')}</span></button>
+      <button class="mq-ch" data-act="mq-alt" data-m="${mi}"><b>${tt('אכלתי משהו אחר לגמרי')}</b><span>${tt('רושמים מה באמת אכלת, וראפי מתאים את שאר היום')}</span></button>`); return true;
+    case 'mq-alt': { const m=day&&day[mi]; if(!m)return true; MQX={i:mi,K0:Math.round(mqK(m)),at:Date.now()}; closeSheet(); setTimeout(()=>openFoodAdd({title:`${tt('מה אכלת ב')}${tt(MQ_K[m.k])}?`}),60); return true; }
+    case 'mq-rbok': mqRbApply(); return true;
+    case 'mq-rbno': q.rb=null; persistSettings(); render(); return true;
+    case 'mq-hintx': q.p=q.p||{}; q.p.hintX=1; persistSettings(); render(); return true;
+    case 'mq-swp': mqSwSet(mqSw()+1); return true;
+    case 'mq-swm': mqSwSet(mqSw()-1); return true;
+    case 'mq-swlog': mqSwLog(b.dataset.v); return true;
+    case 'mq-swkinds': mqSwKinds(); return true;
+    case 'mq-swk': { q.p=q.p||{}; const K=q.p.swk||[], v=b.dataset.v; q.p.swk=K.includes(v)?K.filter(x=>x!==v):[...K,v]; persistSettings(); mqSwKinds(); render(); return true; }
+    case 'mq-swt': q.p=q.p||{}; q.p.swt=b.dataset.v; persistSettings(); mqSwKinds(); render(); return true;
+    case 'mq-wsw': S.mqW.p.sw=+b.dataset.v; render(); return true;
+    case 'mq-wswk': { const p=S.mqW.p, v=b.dataset.v; p.swk=(p.swk||[]).includes(v)?p.swk.filter(x=>x!==v):[...(p.swk||[]),v]; render(); return true; }
+    case 'mq-wswt': S.mqW.p.swt=b.dataset.v; render(); return true;
+    case 'mq-idea': { const m=day&&day[mi]; if(m){ for(const x of m.items)if(x.id)x.pick=1; persistSettings(); } render(); return true; }
+    case 'mq-mode': q.p=q.p||{}; q.p.mode=q.p.mode==='sq'?'':'sq'; persistSettings(); closeSheet(); render(); toast(q.p.mode==='sq'?tt('מצב ריבועים בלבד: אתה ממלא, ראפי נותן רעיונות'):tt('חזרה לתפריט מלא')); return true;
+    case 'mq-wk': mqWeekSheet(); return true;
+    case 'mq-wkset': q.p=q.p||{}; q.p.wk=b.dataset.v||''; if(q.ovr&&q.ovr.auto)q.ovr=null; persistSettings(); mqWeekSheet(); render(); return true;
     case 'mqe-all': case 'mqe-s': case 'mqe-n': case 'mqe-ok': case 'mqe-uk': case 'mqe-us': case 'mqe-un': case 'mqe-u0': case 'mqe-uok': return mqEatXAct(act,b);
     case 'mq-fit': mqRefit(); return true;
     case 'mq-ask': mqAskOpen(); return true;
@@ -5074,7 +5179,9 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-set': openSheet(`<h3 style="margin:0 0 12px">${tt('התפריט שלי')}</h3>
       <button class="btn big" style="width:100%" data-act="mq-w" data-v="repi">${tt('לבנות מחדש עם ראפי')}</button>
       <button class="btn big" style="width:100%;margin-top:8px" data-act="mq-w" data-v="self">${tt('לבנות לבד מההתחלה')}</button>
-      ${q.ovr&&q.ovr.d===ymd()?`<button class="btn big" style="width:100%;margin-top:8px" data-act="mq-unovr">${tt('לבטל את השינויים של היום')}</button>`:''}
+      <button class="btn big" style="width:100%;margin-top:8px" data-act="mq-wk">📅 ${tt('חלוקה שבועית')}${q.p?.wk?` · ${tt(q.p.wk==='fs'?'שישי ושבת':'רק שבת')}`:''}</button>
+      <button class="btn big" style="width:100%;margin-top:8px" data-act="mq-mode">${mqSq()?tt('חזרה לתפריט מלא'):'◻️ '+tt('מצב ריבועים בלבד')}</button>
+      ${q.ovr&&q.ovr.d===ymd()&&!q.ovr.auto?`<button class="btn big" style="width:100%;margin-top:8px" data-act="mq-unovr">${tt('לבטל את השינויים של היום')}</button>`:''}
       <button class="btn big" style="width:100%;margin-top:8px;color:var(--danger,#ff5a5f)" data-act="mq-del">${tt('מחיקת התפריט')}</button>`); return true;
     case 'mq-unovr': q.ovr=null; persistSettings(); closeSheet(); render(); return true;
     case 'mq-del': q.meals=null; q.ovr=null; q.note=''; q.off=true; persistSettings(); closeSheet(); render(); return true;
@@ -6286,7 +6393,7 @@ async function saveMealDraft(){
   const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
   if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
   const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,altd,ai0,src,code,ai,pos,oil,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט',...(m.mc&&ai0?{ai:{...ai0,...(src?{s:src}:{}),...(code?{c:code}:{})}}:{})}))};
-  S.meals.push({...row}); saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
+  S.meals.push({...row}); if(MQX&&Date.now()-MQX.at<36e5&&row.name!=='מתוק')try{ mqAltSaved(row); }catch(e){ console.warn(e); } saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
