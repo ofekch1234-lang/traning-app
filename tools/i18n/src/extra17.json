@@ -4002,5 +4002,25 @@
  "כל המתיחות בוצעו": {
   "en": "All stretches done",
   "ar": "تم إنجاز كل التمددات"
+ },
+ "בשבועות האחרונים המשקל זז בכיוון ההפוך ליעד": {
+  "en": "Over the last few weeks your weight moved away from the goal",
+  "ar": "في الأسابيع الأخيرة تحرّك الوزن عكس الهدف"
+ },
+ "צפי להגיע ליעד": {
+  "en": "Expected to reach your goal",
+  "ar": "الموعد المتوقع للوصول إلى الهدف"
+ },
+ "לפי הקצב שלך בשבועות האחרונים": {
+  "en": "Based on your pace over the last few weeks",
+  "ar": "حسب وتيرتك في الأسابيع الأخيرة"
+ },
+ "לפי התוכנית שלך": {
+  "en": "Based on your plan",
+  "ar": "حسب خطتك"
+ },
+ "צפי ליעד": {
+  "en": "Goal by",
+  "ar": "موعد الهدف"
  }
 }

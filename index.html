@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=aae9e50a"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=aae9e50a"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=aae9e50a"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=97be5d3c"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=97be5d3c"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=97be5d3c"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1417,6 +1417,8 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .pv{padding:14px}.pv-hd{display:flex;align-items:center;gap:11px;width:100%;text-align:var(--start);color:inherit;background:none;padding:0;font-size:15.5px}
 .pv-hd .lt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.pv-hd .lt small{font-size:12.5px;color:var(--muted)}
 .pv-ib{width:36px;height:36px;border-radius:12px;background:rgba(191,255,47,.12);color:var(--accent);display:grid;place-items:center;flex:none}.pv-ib svg.ic{width:20px;height:20px}
+.eta{display:flex;align-items:flex-start;gap:9px;margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--surface2)}.eta svg{width:18px;height:18px;flex:none;color:var(--accent);margin-top:2px}.eta b{display:block;font-size:14.5px}.eta small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}.eta.off{font-size:13.5px;color:var(--muted)}.eta.off svg{color:var(--muted)}
+.pg-eta{display:block;margin-top:9px;font-size:13px;color:var(--muted);text-align:center}.pg-eta b{color:var(--ink);font-weight:700}
 .pg-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.pg-c{background:var(--surface2);border-radius:14px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;gap:2px}.pg-c b{font-family:var(--disp);font-size:19px;font-weight:700;color:var(--ink)}.pg-c small{font-size:11px;color:var(--muted)}
 button.pv-g{display:block;width:100%;text-align:start;font:inherit;color:inherit}
 .cmp-cta{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px;border-radius:18px;background:linear-gradient(135deg,rgba(191,255,47,.16),rgba(191,255,47,.05));border:1px solid rgba(191,255,47,.35);text-align:start;font:inherit;color:inherit}.cmp-cta.off{background:var(--surface2);border-color:var(--line)}
@@ -2724,7 +2726,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.174';
+const APP_VERSION='13.3.178';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8454,7 +8456,7 @@ function weeklyBalanceHTML(){
   if(avgK==null&&d7==null&&!ws)return '';
   const rate=d30!=null?d30/4.3:d7; // ק״ג לשבוע
   let proj='';
-  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד השבועות האחרונים'; }
+  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'} (${tt('בערך')} ${etaDate({d:new Date(Date.now()+wk*7*864e5),wk})})`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד השבועות האחרונים'; }
   // משפט אחד של ראפי לפי המספרים (בלי AI)
   let tip='';
   if(avgK!=null&&kT){ const diff=avgK-kT;
@@ -8476,6 +8478,28 @@ function weeklyBalanceHTML(){
     ${tip?`<div class="wb-tip"><img src="img/kobi-think.svg" alt=""><span>${tip}</span></div>`:''}
   </div>`;
 }
+/* when the weight goal is likely reached: from the real trend once there are ~2 weeks of weigh-ins moving the right way,
+   otherwise from the plan (the calorie target against the body's burn). null when there is no goal, it's reached, or it's over 2 years away */
+function goalETA(){
+  const goal=+S.settings.goalKg||0, ws=S.weights||[], lw=ws[ws.length-1]; if(!goal||!lw)return null;
+  const tr=bwTrend(), now=tr?tr.kg:+lw.kg, left=goal-now; if(Math.abs(wB(goal)-wB(lw.kg))<(uB()==='lb'?0.5:0.3))return null;
+  const span=ws.length>1?(new Date(lw.d)-new Date(ws[0].d))/864e5:0, d30=bwChange(30), d14=bwChange(14);
+  let rate=null, src='trend'; // kg per week, in kg
+  if(span>=14&&ws.length>=4){ const r=d30!=null&&span>=28?d30/4.3:d14!=null?d14/2:null; if(r!=null)rate=wBk(r); }
+  const right=rate!=null&&Math.sign(rate)===Math.sign(left)&&Math.abs(rate)>=0.05;
+  if(!right){ const b=S.settings.body||{}, kT=+S.settings.kcalT||0, r=tgCalc({...b,w:lw.kg}); const pw=r&&kT?Math.round(((kT-r.tdee)*7/7700)*100)/100:null;
+    if(pw==null||Math.sign(pw)!==Math.sign(left)||Math.abs(pw)<0.05)return {off:rate!=null&&Math.abs(rate)>=0.05&&Math.sign(rate)!==Math.sign(left)};
+    rate=pw; src='plan'; }
+  const wk=left/rate; if(wk>104)return {far:1,src};
+  const d=new Date(Date.now()+Math.max(0,wk)*7*864e5);
+  return {d,wk,src,rate};
+}
+const etaDate=e=>e.d.toLocaleDateString(LOC,e.wk<8?{day:'numeric',month:'long'}:{month:'long',year:'numeric'});
+function etaLine(){ const e=goalETA(); if(!e)return '';
+  if(e.off)return `<div class="eta off">${ICON.target}<span>${tt('בשבועות האחרונים המשקל זז בכיוון ההפוך ליעד')}</span></div>`;
+  if(e.far||!e.d)return '';
+  const r=Math.abs(Math.round(wB(e.rate)*10)/10)||0.1;
+  return `<div class="eta">${ICON.target}<span><b>${tt('צפי להגיע ליעד')}: ${tt('בערך')} <span class="num">${etaDate(e)}</span></b><small>${e.src==='trend'?tt('לפי הקצב שלך בשבועות האחרונים'):tt('לפי התוכנית שלך')} · <span class="num">${r}</span> ${BU()} ${tt('בשבוע')}</small></span></div>`; }
 function balanceLine(){
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0, goal=+S.settings.goalKg||0;
   const days=[]; for(let i=6;i>=0;i--){ const x=new Date(); x.setDate(x.getDate()-i); const ds=ymd(x); if(mealsOf(ds).length)days.push(dayTotals(ds)); }
@@ -8484,7 +8508,7 @@ function balanceLine(){
   const d7=bwChange(7), d30=bwChange(30), lw=(S.weights||[]).slice(-1)[0];
   const rate=d30!=null?d30/4.3:d7;
   let proj='';
-  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'}`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
+  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'} (${tt('בערך')} ${etaDate({d:new Date(Date.now()+wk*7*864e5),wk})})`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
   let tip='';
   if(avgK!=null&&kT){ const diff=avgK-kT;
     if(diff>150&&goal&&lw&&goal<lw.kg)tip=overTip(rate);
@@ -8535,9 +8559,9 @@ function vBody(){
     const pct=total?Math.max(0,Math.min(100,done/total*100)):100;
     const left=Math.round((wB(last.kg)-wB(goal))*10)/10;
     goalLine=`<div><div class="spread small"><span>יעד <b class="num">${wB(goal)} ${BU()}</b></span><span class="num muted">${left===0?'הגעת ליעד 🎉':`נשארו ${Math.abs(left)} ${BU()}`}</span></div>
-      <div class="bar2" style="margin-top:5px"><i style="width:${pct}%"></i></div></div>`;
+      <div class="bar2" style="margin-top:5px"><i style="width:${pct}%"></i></div>${etaLine()}</div>`;
   }
-  const bl=balanceLine();
+  const bl=balanceLine(); if(goalLine)bl.proj=''; // the goal box under the bar already says when
   const o=S.bodyOpen||(S.bodyOpen={});
   return `
     <div class="card r20 stack" style="gap:12px">
@@ -8589,7 +8613,7 @@ function progCardsHTML(ws,today,goal,kT,pT){
   const nut=`<div class="card r20 pv">${hd('nut',ICON.food,tt('תזונה · 7 ימים'),nSub,tt('פירוט'))}${o.nut?'':bars}${body('nut',nutritionWeekHTML())}</div>`;
   const gch=(v,u,l)=>`<span class="pg-c"><b class="num">${v}</b><small>${u?`${u} · `:''}${l}</small></span>`;
   const goals=`<button class="card r20 pv pv-g" data-act="food-targets-open"><span class="pv-hd" style="pointer-events:none"><span class="pv-ib">${ICON.target}</span><span class="lt"><b>${tt('היעדים שלי')}</b>${kT?'':`<small>${tt('קלוריות, חלבון ומשקל יעד')}</small>`}</span><span class="pv-more">${kT?tt('עריכה'):tt('הגדרה')} <span class="chev">›</span></span></span>
-    ${kT?`<span class="pg-row">${gch(kcalN(kT),'',tt('קק״ל ביום'))}${gch(pT||'—',tt('ג׳'),tt('חלבון'))}${goal?gch(wB(goal),BU(),tt('משקל יעד')):''}</span>`:''}</button>`;
+    ${kT?`<span class="pg-row">${gch(kcalN(kT),'',tt('קק״ל ביום'))}${gch(pT||'—',tt('ג׳'),tt('חלבון'))}${goal?gch(wB(goal),BU(),tt('משקל יעד')):''}</span>`:''}${goal?(()=>{ const e=goalETA(); return e&&e.d?`<span class="pg-eta">${tt('צפי ליעד')}: <b class="num">${etaDate(e)}</b></span>`:''; })():''}</button>`;
   return cal+ph+nut+goals;
 }
 function bwChartHTML(goal,compact){
