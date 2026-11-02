@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=3de2b764"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3de2b764"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=3de2b764"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9b0d52e5"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9b0d52e5"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9b0d52e5"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1453,6 +1453,7 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 
 /* active workout */
 .ex-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;transition:border-color .3s,box-shadow .3s}
+.rq-skip{grid-column:1/-1;justify-self:center;background:none!important;border:0!important;color:var(--muted)!important;font:inherit;font-size:13px;text-decoration:underline;padding:2px 6px!important;min-height:0!important;cursor:pointer}.rq-next{display:block;margin-top:4px;font-size:13px;color:var(--muted)}.rq-next b{color:var(--ink)}
 .ex-card.ex-finish{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
 .aw-head{view-transition-name:aw-head}
 ::view-transition-group(*){animation-duration:.38s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
@@ -1609,7 +1610,7 @@ body.resting .rm-pan{display:none}
 .rtip b{font-weight:700}.rtip span{color:var(--muted);font-size:12.5px}
 .rtip.up{background:var(--gold-soft)}.rtip.up>b{color:var(--gold)}.rtip.up span b{color:var(--ink)}
 .set-done .done-btn{background:var(--accent);border-color:var(--accent)}
-:not(.set-done)>.done-btn[data-act="set-done"] svg{opacity:0}:not(.set-done)>.done-btn[data-act="set-done"]{position:relative}:not(.set-done)>.done-btn[data-act="set-done"]::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);opacity:.7}
+:not(.set-done)>.done-btn:is([data-act="set-done"],[data-act="cardio-done"]) svg{opacity:0}:not(.set-done)>.done-btn:is([data-act="set-done"],[data-act="cardio-done"]){position:relative}:not(.set-done)>.done-btn:is([data-act="set-done"],[data-act="cardio-done"])::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);opacity:.7}
 .setidx b{font-weight:600}.setidx.set-done b{display:none}.setidx.set-done::after{content:"✓";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:900;font-size:13px}
 .ex-cnt{display:inline-block;margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted);background:var(--surface2);border-radius:8px;padding:3px 8px}.ex-cnt.all{color:var(--accent-ink);background:var(--accent)}
 .ex-row.done{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}.exd-tag{display:inline-flex;align-items:center;gap:5px;flex:none;font-size:13px;font-weight:800;color:var(--accent-ink);background:var(--accent);border-radius:10px;padding:5px 10px}.exd-tag svg{width:14px;height:14px}
@@ -2695,7 +2696,7 @@ function bestMap(){
 function lastPerf(name){
   const ws=[...S.workouts].sort((a,b)=>b.start-a.start);
   for(const w of ws){const e=(w.ex||[]).find(e=>e.n===name);
-    if(e){ if(e.t==='c') return e.c?`קודם: ${e.c.min||0} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`:null;
+    if(e){ if(e.t==='c') return e.c?`קודם: ${e.c.min||0} דק׳${e.c.spd?` · ${e.c.spd} ${tt('קמ״ש')}`:''}${e.c.inc?` · ${tt('שיפוע')} ${e.c.inc}%`:''}${e.c.km?` · ${e.c.km} ק״מ`:''}`:null;
       const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)continue;
       return 'קודם: '+ss.map(wLs).join(' · ');}}
   return null;
@@ -2898,8 +2899,8 @@ function tickRest(){
 function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;document.body.classList.remove('resting');restRirHide();disarmServerRest();saveRestState();}
 /* after every set: ask "reps left?" on the rest bar, right above the timer (optional; no answer changes nothing) */
 function restRir(ei,si){ const e=S.active?.ex?.[ei], el=$('#rest-rir'); if(!e||!el||!coachOn()||!coachCfg().rir)return;
-  el.classList.remove('ok'); el.innerHTML=`<div class="rq-top"><span><b>${tt('כמה חזרות עוד היית מצליח?')}</b><small>${esc(e.n)} · ${si===(e.sets||[]).length-1?tt('סט אחרון'):`${tt('סט')} ${si+1}`}</small></span><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></div><div class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}</div>`; el.hidden=false; }
-function restRirHide(){ const el=$('#rest-rir'); if(el){ el.hidden=true; el.innerHTML=''; } }
+  el.classList.remove('ok'); el.innerHTML=`<div class="rq-top"><span><b>${tt('כמה חזרות עוד היית מצליח?')}</b><small>${esc(e.n)} · ${si===(e.sets||[]).length-1?tt('סט אחרון'):`${tt('סט')} ${si+1}`}</small></span><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></div><div class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}<button class="rq-skip" data-act="rir-skip">${tt('דלג')}</button></div>`; el.hidden=false; }
+function restRirHide(){ const el=$('#rest-rir'); if(el){ el.hidden=true; el.innerHTML=''; } if(ADV.ei!=null){ clearTimeout(ADV.t); ADV.t=setTimeout(advNow,350); } }
 
 /* "מה אכלת?" — the box grows down smoothly as the text gets longer (up to 5 lines, then scrolls inside) */
 function askFit(t,now){ const box=t.closest('.ask1'); if(!box)return; const v=t.value;
@@ -6541,6 +6542,9 @@ function clockText(){
 }
 /* finishing an exercise: a short "done" moment on the card, then it folds into its row while the next exercise opens
    and slides to the top under the header (a view transition where supported, a plain re-render elsewhere) */
+/* the finished exercise folds and the next opens only once the user is done with it */
+const ADV={ei:null,t:null};
+function advNow(){ clearTimeout(ADV.t); ADV.t=null; if(ADV.ei==null)return; ADV.ei=null; if(S.active&&S.tab==='train')workoutAdvance(); }
 function workoutAdvance(){
   const go=()=>{ render(); const c=document.querySelector('.ex-card.cur')||document.querySelector('.aw-end'), h=document.querySelector('.aw-head');
     if(c){ const top=c.getBoundingClientRect().top+scrollY-((h?h.getBoundingClientRect().bottom:120)+10); window.scrollTo(0,Math.max(0,top)); } };
@@ -6548,7 +6552,7 @@ function workoutAdvance(){
   go(); }
 /* v13: one exercise open at a time. Done exercises fold into a row, the rest wait in "הבאים". */
 function exDone(e){ return e.t==='c'?!!e.c?.done:(e.sets||[]).length>0&&e.sets.every(s=>s.done); }
-function exSummary(e){ if(e.t==='c')return e.c?.min?`${e.c.min} דק׳${e.c.km?` · ${e.c.km} ק״מ`:''}`:'אירובי';
+function exSummary(e){ if(e.t==='c')return e.c?.min?`${e.c.min} דק׳${e.c.spd?` · ${e.c.spd} ${tt('קמ״ש')}`:''}${e.c.km?` · ${e.c.km} ק״מ`:''}`:'אירובי';
   const d=(e.sets||[]).filter(s=>s.done); return d.length?d.map(wLs).join(' · '):`${(e.sets||[]).length} סטים`; }
 /* warm-up / stretches inside the workout: one card, a guided 30-second-per-move mode, or skip */
 function mobCard(ph){ const a=S.active, M=a?.mob, L=M&&M[ph]; if(!L||!L.length)return '';
@@ -7248,18 +7252,19 @@ function openExMenu(ei){
 }
 function vCardio(e,ei,cur){
   const prev=lastPerf(e.n);
-  const c=e.c||(e.c={min:'',km:'',inc:''});
+  const c=e.c||(e.c={min:'',km:'',inc:'',spd:''});
   return `<div class="ex-card ${cur?'cur':''}" data-ei="${ei}" style="view-transition-name:ex-${ei}">
     <div class="ex-head" style="align-items:flex-start">
       <div style="flex:1;min-width:0"><div class="ex-name" style="font-weight:700;font-size:18px">${esc(e.n)}</div><div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:'אירובי'}</div></div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">${INFO[e.n]?`<button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמה" style="color:var(--accent)">${ICON.play}</button>`:''}
         <button class="ibtn" data-act="ex-menu" data-ei="${ei}" aria-label="אפשרויות תרגיל">${ICON.dots}</button></div>
     </div>
-    <div class="setgrid" style="grid-template-columns:1fr 1fr 1fr 44px">
-      <span class="h">דקות</span><span class="h">ק״מ</span><span class="h">שיפוע %</span><span class="h">✓</span>
+    <div class="setgrid" style="grid-template-columns:1fr 1fr 1fr 1fr 44px;gap:6px">
+      <span class="h">${tt('דקות')}</span><span class="h">${tt('מהירות')}</span><span class="h">${tt('שיפוע %')}</span><span class="h">${tt('ק״מ')}</span><span class="h">✓</span>
       <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="דקות" value="${c.min??''}" data-bind="cmin" data-ei="${ei}" aria-label="דקות"></span>
-      <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="ק״מ" value="${c.km??''}" data-bind="ckm" data-ei="${ei}" aria-label="קילומטרים"></span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="קמ״ש" value="${c.spd??''}" data-bind="cspd" data-ei="${ei}" aria-label="${tt('מהירות בקמ״ש')}"></span>
       <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="%" value="${c.inc??''}" data-bind="cinc" data-ei="${ei}" aria-label="שיפוע"></span>
+      <span class="${c.done?'set-done':''}"><input class="num" type="text" readonly data-np="num" data-unit="ק״מ" value="${c.km??''}" data-bind="ckm" data-ei="${ei}" aria-label="קילומטרים"></span>
       <span class="${c.done?'set-done':''}"><button class="done-btn" data-act="cardio-done" data-ei="${ei}" aria-label="סיום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
     </div>
   </div>`;
@@ -10995,7 +11000,7 @@ async function doSaveWorkout(){
   const a=S.active; if(!a)return;
   const w=clone(a); w.end=wkEnd(a); w.id='w'+a.start;
   w.ex=w.ex.map(e=>{ // strip placeholders, normalize numbers
-    if(e.t==='c'){const c=e.c||{};return {n:e.n,m:e.m,t:'c',c:{min:+c.min||0,km:+c.km||0,inc:+c.inc||0}};}
+    if(e.t==='c'){const c=e.c||{};return {n:e.n,m:e.m,t:'c',c:{min:+c.min||0,km:+c.km||0,inc:+c.inc||0,spd:+c.spd||0}};}
     // keep "reps left" (the coach reads it next time) and the light-week mark; warm-up sets (e.wu) are never saved
     return {n:e.n,m:e.m,t:'s',...(e.dl?{dl:1}:{}),sets:(e.sets||[]).map(s=>({w:+s.w||0,r:+s.r||0,...(s.rir!=null&&s.rir!==''?{rir:+s.rir}:{})})).filter(s=>s.r>0)};
   }).filter(e=>e.t==='c'?(e.c.min>0||e.c.km>0):e.sets.length>0);
@@ -11112,9 +11117,10 @@ function handleAct(b,ev){
     case 'sw-pv': SW.pv=SW.pv===b.dataset.n?null:b.dataset.n; openExSwap(SW.ei); break;
     case 'ex-lock': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; const L=coachCfg().lock; if(L[e.n])delete L[e.n]; else L[e.n]=1; persistSettings(); closeSheet(); toast(L[e.n]?'התרגיל ננעל':'התרגיל שוחרר'); break; }
     case 'rir': rirSet(+b.dataset.ei,+b.dataset.si,+b.dataset.v); break;
+    case 'rir-skip': restRirHide(); break;
     case 'rir-last': { const ei=+b.dataset.ei, si=+b.dataset.si, e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)break; vibrate(8);
       const last=si===(e.sets||[]).length-1, msg=last?(s.rir=+b.dataset.v,persistActive(),'נשמר. ראפי יתחשב בזה בפעם הבאה'):rirSet(ei,si,+b.dataset.v); // a middle set also tunes the next set
-      const el=$('#rest-rir'); if(el){ el.classList.add('ok'); el.innerHTML=`<span>${esc(tt(msg||''))}</span>`; setTimeout(()=>{ if(el.classList.contains('ok'))restRirHide(); },last?1600:2600); } break; }
+      const el=$('#rest-rir'); if(el){ el.classList.add('ok'); const nE=last?nextOpenEx():null; el.innerHTML=`<span>${esc(tt(msg||''))}</span>${nE?`<span class="rq-next">${tt('הבא')}: <b>${esc(nE.n)}</b></span>`:''}`; setTimeout(()=>{ if(el.classList.contains('ok'))restRirHide(); },last?1400:2600); } break; }
     case 'nc-apply': ncDone(true); break;
     case 'nc-keep': ncDone(false); break;
     case 'nc-wait': { ncCfg().wait=ymd(); persistSettings(); render(); break; }
@@ -11167,7 +11173,8 @@ function handleAct(b,ev){
         startRest(lastSet&&nE?restBetween(nE):(e.rest||S.settings.rest),nx); restRir(ei2,si2);
         if(e.sets.every(x=>x.done)&&$('#np').hidden){ if(S.active.open)delete S.active.open[ei2];
           const card=document.querySelector(`.ex-card[data-ei="${ei2}"]`); if(card)card.classList.add('ex-finish');
-          setTimeout(()=>{ if(S.active&&S.tab==='train')workoutAdvance(); },850); } else if(document.querySelector('.ex-card.fx,#rm-pan'))render(); } break; }
+          // the finished card stays put while the "reps left?" question is open; it folds only after the answer (or skip)
+          ADV.ei=ei2; clearTimeout(ADV.t); if(!$('#rest-rir')||$('#rest-rir').hidden)ADV.t=setTimeout(advNow,2000); } else if(document.querySelector('.ex-card.fx,#rm-pan'))render(); } break; }
     case 'done-all': { const e=S.active?.ex[+b.dataset.ei]; if(!e||e.t!=='s')break;
       if(!b.dataset.sure){ b.dataset.sure='1'; const t=b.querySelector('b')||b; t.textContent='בטוח? לחץ שוב';
         setTimeout(()=>{delete b.dataset.sure; if(b.isConnected)t.textContent=b.querySelector('b')?'סמן את כל הסטים':'✓✓';},2200); break; }
@@ -11490,7 +11497,10 @@ document.addEventListener('input',ev=>{
   const i=ev.target.closest('[data-bind]'); if(!i)return;
   const k=i.dataset.bind;
   if(k==='w'||k==='r'){ const s=S.active?.ex[+i.dataset.ei]?.sets[+i.dataset.si]; if(s){s[k]=i.value; persistActive();} }
-  else if(k==='cmin'||k==='ckm'||k==='cinc'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc'}[k]]=i.value; persistActive();} }
+  else if(k==='cmin'||k==='ckm'||k==='cinc'||k==='cspd'){ const e=S.active?.ex[+i.dataset.ei]; if(e?.c){e.c[{cmin:'min',ckm:'km',cinc:'inc',cspd:'spd'}[k]]=i.value;
+      // speed × time gives the distance when it wasn't typed (treadmill)
+      if((k==='cspd'||k==='cmin')&&+e.c.spd>0&&+e.c.min>0&&!e.c.kmT){ e.c.km=String(Math.round(+e.c.spd*+e.c.min/60*100)/100); const el=document.querySelector(`[data-bind="ckm"][data-ei="${i.dataset.ei}"]`); if(el)el.value=e.c.km; }
+      if(k==='ckm')e.c.kmT=1; persistActive();} }
   else if(k==='libq'){ S.lib.q=i.value; renderLibrary(); }
   else if(k==='askq'){ S.askQ=i.value; askFit(i); const bar1=i.closest('.ask1'); if(bar1)bar1.classList.toggle('has',!!i.value); const clr=bar1?true:i.closest('.ask')?.querySelector('.clr');
     if(!bar1&&!!i.value!==!!clr){ const bar=i.closest('.ask'); if(i.value&&bar&&!clr){ const c=document.createElement('button'); c.className='sq clr'; c.dataset.act='ask-clear'; c.setAttribute('aria-label','ניקוי'); c.textContent='✕'; bar.insertBefore(c,bar.querySelector('[data-act="scan-open"]')); } else if(!i.value&&clr)clr.remove(); }
