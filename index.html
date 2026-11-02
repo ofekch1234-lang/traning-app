@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=656f64e6"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=656f64e6"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=656f64e6"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ca344550"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ca344550"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ca344550"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2771,7 +2771,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.192';
+const APP_VERSION='13.3.194';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6099,7 +6099,7 @@ function mqMealHTML(m,i,today,open,isNext){ const nm=tt(MQ_K[m.k]), K=Math.round
   if(m.out)return `<div class="mq2-card ${isNext?'nx':''}">${head}<div class="mq-out"><b>${tt('אוכלים בחוץ')} · <span class="num">${sq}</span> ${tt('ריבועים')}</b>${m.tip?`<span>${esc(m.tip)}</span>`:''}</div>${acts}</div>`;
   return `<div class="mq2-card ${isNext?'nx':''}">${head}${dn&&!SQ?`<div class="mq2-dish">${esc(dn)}</div>`:''}
     ${m.items.map((x,j)=>{ const f=x.id&&shown(x)?MFI(x.id):null, kk=x.id?MFI(x.id).k*x.g/100:(x.kt||0), h=f?mqHH(f,x.g):'';
-      return `<button class="mq2-it ${f?'':'slot'}" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?fdImg(f,40,16):'<span class="mq2-plus">+</span>'}<span class="q">${f?`<b>${x.r==='V'?tt('כמה שרוצים'):`<span class="num">${h||`${Math.round(x.g)} ${tt('גר׳')}`}</span>`}</b> ${esc(mfName(f))}${h&&x.r!=='V'?` <small class="num">${Math.round(x.g)} ${tt('גר׳')}</small>`:''}`:`<b>${tt(MQ_G[x.r]||'')}</b> ${tt('בחירה חופשית')}`}</span>${x.r!=='V'&&kk?`<span class="k"><b class="num">${Math.round(kk)}</b><small>${tt('קק״ל')}</small></span>`:''}<span class="mq2-sw"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></span></button>`; }).join('')}
+      return `<button class="mq2-it ${f?'':'slot'}" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?fdImg(f,40,16):'<span class="mq2-plus">+</span>'}<span class="q">${f?(()=>{ if(x.r==='V')return `<b>${tt('כמה שרוצים')}</b> ${esc(mfName(f))}`; const a=h?amtName(h,mfName(f),f.id):null; if(a&&a.pre)return `${esc(a.rest)} ${tt('מ-')}<b><span class="num">${a.b}</span></b> <small class="num">${Math.round(x.g)} ${tt('גר׳')}</small>`; return `<b><span class="num">${a?a.b:`${Math.round(x.g)} ${tt('גר׳')}`}</span></b>${a?(a.rest?' '+esc(a.rest):''):' '+esc(mfName(f))}${h?` <small class="num">${Math.round(x.g)} ${tt('גר׳')}</small>`:''}`; })():`<b>${tt(MQ_G[x.r]||'')}</b> ${tt('בחירה חופשית')}`}</span>${x.r!=='V'&&kk?`<span class="k"><b class="num">${Math.round(kk)}</b><small>${tt('קק״ל')}</small></span>`:''}<span class="mq2-sw"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></span></button>`; }).join('')}
     <div class="mq2-tip">${SQ?tt('לחיצה על שורה בוחרת מאכל לתקציב שלה'):tt('לחיצה על החצים מחליפה במאכל אחר באותה כמות ריבועים')}</div>${acts}</div>`; }
 /* the sweet card: today's treat squares, editable — the meals around it grow or shrink to stay on target */
 function mqSwHTML(today){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?p.swk:['choc','cookie','ice','bamba']).map(id=>MQ_SWF.find(x=>x[0]===id)).filter(Boolean);
@@ -8271,6 +8271,15 @@ function coCompactHTML(e,ei,co){ const open=!!e.coOpen, c=cueOf(e,co);
   return `<div class="rb ${open?'open':''} ${co.k==='up'?'up':''}"><span class="rb-avw"><img class="rb-av" src="img/kobi-${co.k==='up'?'cheer':'happy'}.svg" alt="${tt('ראפי')}"></span>
     <div class="rb-bub"><button class="rb-h" data-act="co-tog" data-ei="${ei}" aria-expanded="${open}"><span class="rb-t">${coHead(e,co)}</span><span class="rb-why">${open?tt('סגור'):tt('למה?')}</span></button>
     ${open?`<div class="rb-x"><p>${esc(co.why)}</p>${c?`<p class="rb-cue"><b>${tt('דגש טכניקה')}</b><span data-notr>${esc(c)}</span></p>`:''}${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}</div></div>`; }
+/* "2 ביצים" + "ביצים" → "2 ביצים"; "1 פיתה" + "פיתה מלאה" → "1 פיתה מלאה": the unit already names the food, so it isn't said twice */
+const heStem=w=>{ let x=String(w||'').replace(/[׳'"״⁦⁩]/g,'').replace(/[םןץףך]$/,c=>({'ם':'מ','ן':'נ','ץ':'צ','ף':'פ','ך':'כ'}[c])), y; do{ y=x; if(x.length>3)x=x.replace(/(יות|ית|ימ|ים|ות|ה|י)$/,''); }while(x!==y); return x; };
+function amtName(h,name,id){ const m=String(h||'').match(/^(\S+)\s+(.+)$/); if(!m)return {b:h,rest:name};
+  if(id==='oml'||id==='shk')return {b:`${m[1]} ${tt('ביצים')}`,rest:name,pre:1}; // "חביתה מ-2 ביצים", not "2 ביצים חביתה"
+  const U=m[2].split(/\s+/), N=String(name||'').split(/\s+/);
+  if(U.length<=N.length&&U.every((w,i)=>heStem(w)&&heStem(w)===heStem(N[i]))){ const rest=N.slice(U.length).join(' ');
+    // "2 פיתות" + "מלאה" doesn't agree in Hebrew: a plural with a description reads "2 × פיתה מלאה"
+    return rest&&U.join(' ')!==N.slice(0,U.length).join(' ')?{b:m[1]+' ×',rest:name}:{b:h,rest}; }
+  return {b:h,rest:name}; }
 const exCnt=e=>{ const d=e.sets.filter(x=>x.done).length, n=e.sets.length; return d>=n&&n?`✓ ${tt('התרגיל הושלם')}`:`<span class="num">${d}</span> ${tt('מתוך')} <span class="num">${n}</span> ${tt('סטים בוצעו')}`; };
 function vStrength(e,ei,cur){
   const prev=lastPerf(e.n), lastS=e.sets.some(x=>x.done)?null:lastSetsOf(e.n);
