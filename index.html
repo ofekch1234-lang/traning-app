@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=ca344550"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=ca344550"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=ca344550"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=22ba230b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=22ba230b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=22ba230b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2230,6 +2230,16 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .fin2-hero{display:flex;align-items:center;gap:14px;margin:2px 0 14px}.fin2-hero img{width:64px;height:64px;flex:none;animation:pop .6s cubic-bezier(.3,1.6,.4,1) both}.fin2-hero b{display:block;font-size:22px;line-height:1.2}.fin2-hero span{font-size:14px;color:var(--muted)}
 .fin2-st{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.fin2-st>div{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 6px;border-radius:16px;background:var(--surface2);text-align:center}
 .fin2-st b{font-family:var(--disp);font-size:22px;font-weight:800;color:var(--accent);line-height:1.1}.fin2-st span{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:3px}.fin2-st em{font-style:normal;font-size:11px;font-weight:700}.fin2-st em.up{color:var(--accent)}.fin2-st em.dn{color:var(--muted)}
+.fin2-st>div{justify-content:center;min-height:78px}
+.fin2-dv{display:flex;align-items:center;justify-content:center;gap:6px;margin:-4px 0 14px;padding:9px 12px;border-radius:12px;font-size:14px;font-weight:700;background:var(--surface2)}.fin2-dv.up{color:var(--accent)}.fin2-dv.dn{color:var(--muted)}
+.fin2-l .fx-r{display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:12px 0;border-top:1px solid var(--line)}.fin2-l .fx-r:first-child{border-top:0}
+.fin2-l .fx-n{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:16px;font-weight:700}.fin2-l .fx-n>span{min-width:0}
+.fin2-l .fx-c{flex:none;font-style:normal;font-size:12px;font-weight:800;padding:4px 9px;border-radius:9px;background:var(--surface2);color:var(--muted)}.fin2-l .fx-c.up{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}.fin2-l .fx-c.pr{background:#3a2f0b;color:#f5c542}
+.fin2-l .fx-v{display:block;font-size:14px;color:var(--muted);text-align:start}.fin2-l .fx-v b{color:var(--ink);font-weight:700;font-size:14px}
+.bdg2{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 0 14px}.bdg2-k{font-size:12.5px;font-weight:800;letter-spacing:.3px;color:var(--accent-ink);background:var(--accent);border-radius:20px;padding:5px 12px;margin-bottom:16px}
+.bdg2-e{width:132px;height:132px;border-radius:50%;display:grid;place-items:center;font-size:72px;line-height:1;background:var(--surface2)}.bdg2-e.on{background:radial-gradient(circle,color-mix(in srgb,var(--accent) 22%,transparent) 0,color-mix(in srgb,var(--accent) 6%,transparent) 62%,transparent 72%);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 30%,transparent)}
+.bdg2 h3{margin:16px 0 4px;font-size:24px}.bdg2 p{margin:0;color:var(--muted);font-size:15px}
+.bdg2-r{display:flex;align-items:center;gap:10px;margin-top:16px;padding:10px 14px;border-radius:14px;background:var(--surface2);font-size:14px;font-weight:600}.bdg2-r img{width:34px;height:34px}
 .fin2-l{display:grid;border-radius:16px;background:var(--surface);border:1px solid var(--line);padding:2px 12px;max-height:40vh;overflow-y:auto}
 .fx-r{display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:10px 0;border-bottom:1px solid var(--line)}.fx-r:last-child{border-bottom:0}.fx-r.skip{opacity:.55}
 .fx-n{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:14.5px;font-weight:600;min-width:0}.fx-v{font-size:13px;color:var(--muted);text-align:var(--start)}
@@ -2771,7 +2781,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.194';
+const APP_VERSION='13.3.196';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4879,7 +4889,7 @@ function hlWork(D){ return S.active?liveHomeCard():D.nw?nextCardHTML(D.nw):`<div
 /* B: the workout first, then a 2x2 grid of small tiles */
 function vHomeB(){ const D=hlData();
   const tile=(act,ttl,body,extra='')=>`<button class="card r20 hl-tile" data-act="${act}" ${extra}><span class="hl-tt">${ttl}</span>${body}</button>`;
-  const food=!D.kT?tile('food-targets-open',tt('תזונה'),`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.target}</span><small class="hl-sub">${tt('הגדר יעד יומי')}</small>`):tile('go',tt('תזונה'),`<div class="hl-tr">${miniRing(D.t.kcal/D.kT,`<div class="mr-c"><b class="num">${Math.round(D.t.kcal/D.kT*100)}%</b></div>`,KCOL[kState(D.t.kcal,D.kT)],54)}<div><b class="num hl-big">${fmtSt(D.t.kcal)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${tt('קלוריות')}</small></div></div><small class="hl-sub">${tt('חלבון')} <b class="num">${D.t.protein}</b>/<span class="num">${D.pT||'—'}</span> ${tt('ג׳')}</small>`,'data-to="food"');
+  const food=!D.kT?tile('food-targets-open',tt('תזונה'),`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.target}</span><small class="hl-sub">${tt('הגדר יעד יומי')}</small>`):tile('go',tt('תזונה'),`<div class="hl-tr">${miniRing(D.t.kcal/D.kT,`<div class="mr-c"><b class="num">${Math.round(D.t.kcal/D.kT*100)}%</b></div>`,KCOL[kState(D.t.kcal,D.kT)],54)}${(()=>{ const ks=kState(D.t.kcal,D.kT); return ks==='under'?`<div><b class="num hl-big">${fmtSt(Math.round(D.kT-D.t.kcal))}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${tt('קלוריות נותרו')}</small></div>`:`<div><b class="num hl-big">${fmtSt(D.t.kcal)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${ks==='in'?tt('בטווח היום'):tt('יום גדול')}</small></div>`; })()}</div><small class="hl-sub">${tt('חלבון')} <b class="num">${D.t.protein}</b>/<span class="num">${D.pT||'—'}</span> ${tt('ג׳')}</small>`,'data-to="food"');
   const conn=!D.steps&&actNat()&&!actLater()&&HP()?tile('act-intro',tt('צעדים ופעילות'),`<span class="hl-plus" style="background:var(--accent-soft);color:var(--accent)">${ICO_WALK}</span><small class="hl-sub">${tt('חיבור ל-')}${actSrc()}</small>`):'';
   const steps=D.steps?tile('act-open',tt('פעילות'),`<div class="hl-tr">${miniRing(D.a?D.a.s/D.sg:0,`<div class="mr-c"><b class="num">${D.a?Math.round(D.a.s/D.sg*100):0}%</b></div>`,'#5AC8FA',54)}<div><b class="num hl-big">${fmtSt(D.a?.s||0)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.sg)}</small><small class="hl-u" style="color:#5AC8FA">${tt('צעדים')}</small></div></div><small class="hl-sub"><b class="num">${fmtKm(D.a?.km||0)}</b> ${tt('ק״מ')} · <b class="num">${fmtSt(D.a?.kc||0)}</b> ${tt('קל׳')}</small>`):conn;
   const week=tile('go',tt('השבוע'),`<b class="num hl-big">${D.done}<small class="muted">/${D.plan||'—'}</small></b><small class="hl-sub">${tt('אימונים בוצעו')}</small>${weekRowHTML().replace('wk-row','wk-row wk-mini')}`,'data-to="progress"');
@@ -11675,11 +11685,10 @@ function badgesCardHTML(){
 function openBadgeSheet(id,celebrate){
   const b=BADGES.find(x=>x[0]===id); if(!b)return; const st=badgeStats(); const on=st[b[4]]>=b[5];
   const pct=Math.min(100,Math.round(st[b[4]]/b[5]*100));
-  openSheet(`${celebrate?`<div class="small" style="text-align:center;color:var(--accent);font-weight:700;margin-top:4px">הישג חדש! 🎉</div>`:''}
-    ${celebrate?`<div class="co-cheer"><img src="img/kobi-cheer.svg" alt=""><span>כל הכבוד! 🎉</span></div>`:''}
-    <div class="bdg-big ${celebrate?'bdg-pop':''}" style="${on?'':'filter:grayscale(1);opacity:.4'}">${b[1]}</div>
-    <h3 style="text-align:center;margin:0">${esc(b[2])}</h3>
-    <div class="muted" style="text-align:center;margin:4px 0 12px">${esc(b[3])}</div>
+  openSheet(`<div class="bdg2">${celebrate?`<span class="bdg2-k">${tt('הישג חדש')}</span>`:''}
+    <div class="bdg2-e ${on?'on':''} ${celebrate?'bdg-pop':''}"><span style="${on?'':'filter:grayscale(1);opacity:.45'}">${b[1]}</span></div>
+    <h3>${esc(b[2])}</h3><p>${esc(b[3])}</p>
+    ${celebrate?`<div class="bdg2-r"><img src="img/kobi-cheer.svg" alt=""><span>${tt('כל הכבוד! ככה בונים הרגל.')}</span></div>`:''}</div>
     ${on?`<button class="btn primary big" data-act="badge-share" data-id="${b[0]}">📤 שתף את ההישג</button>`
        :`<div class="bdg-bar"><i style="width:${pct}%"></i></div><div class="small muted num" style="text-align:center">${badgeProg(b,st)||'עוד לא'}</div>`}
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">סגור</button>`);
@@ -12188,14 +12197,17 @@ function renderFinish(){
     let dw=0, dr=0; ss.forEach((s,i)=>{ const p=prev[i]; if(!p)return; const d=(+s.w||0)-(+p.w||0); if(d>0)dw=Math.max(dw,d); else if(!d)dr+=Math.max(0,(+s.r||0)-(+p.r||0)); });
     const pr=prs.find(p=>p.n===e.n);
     const chip=pr?`<i class="fx-c pr">🏆 ${tt('שיא')}</i>`:dw?`<i class="fx-c up num">+${wL(dw)} ${LU()}</i>`:dr>0?`<i class="fx-c up num">+${dr} ${tt('חזרות')}</i>`:!prev.length?`<i class="fx-c">${tt('חדש')}</i>`:'';
-    return `<div class="fx-r"><span class="fx-n"><span>${esc(e.n)}</span>${chip}</span><span class="fx-v num">${ss.map(wLs).join(' · ')}</span></div>`; };
+    const grp=[]; for(const s of ss){ const w=+s.w||0, l=grp[grp.length-1]; if(l&&l.w===w)l.r.push(+s.r); else grp.push({w,r:[+s.r]}); }
+    const txt=grp.map(g=>g.w?`<b>${wL(g.w)} ${LU()}</b> × ${g.r.join(', ')}`:`${g.r.join(', ')} ${tt('חזרות')}`).join(' · ');
+    return `<div class="fx-r"><span class="fx-n"><span>${esc(e.n)}</span>${chip}</span><span class="fx-v num" dir="rtl">${txt}</span></div>`; };
   openSheet(`
     <div class="fin2-hero"><img src="img/kobi-${prs.length?'cheer':'happy'}${fem}.svg" alt=""><div><b>${prs.length?tt('אימון עם שיא!'):tt('עבודה טובה!')}</b><span>${esc(a.name)}</span></div></div>
     <div class="fin2-st">
       <div><b class="num">${fmtDur(w.end-a.start)}</b><span>${tt('משך')}</span></div>
       <div><b class="num">${sets}</b><span>${tt('סטים')}</span></div>
-      <div><b class="num">${fmtNum(wL(vol))}</b><span>${uL()==='lb'?tt('נפח (lb)'):tt('נפח (ק״ג)')}${infoI('vol')}</span>${dv!=null&&Math.abs(dv)>=1?`<em class="num ${dv>0?'up':'dn'}">${dv>0?'+':''}${dv}% ${tt('מהפעם הקודמת')}</em>`:''}</div>
+      <div><b class="num">${fmtNum(wL(vol))}</b><span>${uL()==='lb'?tt('נפח (lb)'):tt('נפח (ק״ג)')}</span></div>
     </div>
+    ${dv!=null&&Math.abs(dv)>=1?`<div class="fin2-dv ${dv>0?'up':'dn'}"><span class="num">${dv>0?'↑':'↓'} ${Math.abs(dv)}%</span> ${dv>0?tt('יותר נפח מהאימון הקודם'):tt('פחות נפח מהאימון הקודם')}${infoI('vol')}</div>`:''}
     <div class="fin2-l">${w.ex.map(row).join('')}</div>
     <button class="btn primary big" style="width:100%;margin-top:14px" data-act="save-w">${tt('שמור אימון')} ✓</button>
     <div class="row" style="margin-top:8px;gap:8px">
