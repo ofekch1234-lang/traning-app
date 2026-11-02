@@ -4022,5 +4022,237 @@
  "צפי ליעד": {
   "en": "Goal by",
   "ar": "موعد الهدف"
+ },
+ "כמה מתוק להכניס לתפריט כל יום?": {
+  "en": "How much sweet should the menu have each day?",
+  "ar": "كم من الحلويات تريد في القائمة كل يوم؟"
+ },
+ "ראפי מוריד את זה משאר הארוחות, ככה נשארים ביעד": {
+  "en": "Repi takes it off the other meals, so you stay on target",
+  "ar": "رافي يخصمها من باقي الوجبات، فتبقى ضمن هدفك"
+ },
+ "מומלץ": {
+  "en": "Recommended",
+  "ar": "موصى به"
+ },
+ "בלי מתוק": {
+  "en": "No sweets",
+  "ar": "بدون حلويات"
+ },
+ "אפשר להוסיף בכל רגע מהתפריט": {
+  "en": "You can add it any time from the menu",
+  "ar": "يمكن الإضافة في أي وقت من القائمة"
+ },
+ "למשל 4 קוביות שוקולד או 2 עוגיות": {
+  "en": "e.g. 4 squares of chocolate or 2 cookies",
+  "ar": "مثلًا 4 مربعات شوكولاتة أو قطعتا بسكويت"
+ },
+ "למשל שוקולד אחר הצהריים וגלידה בערב": {
+  "en": "e.g. chocolate in the afternoon and ice cream at night",
+  "ar": "مثلًا شوكولاتة بعد الظهر وآيس كريم مساءً"
+ },
+ "מתוק כל יום, בלי רגשות אשם": {
+  "en": "Something sweet every day, guilt-free",
+  "ar": "حلو كل يوم، بلا شعور بالذنب"
+ },
+ "מה בא לך בדרך כלל?": {
+  "en": "What do you usually feel like?",
+  "ar": "ماذا تشتهي عادةً؟"
+ },
+ "מתי?": {
+  "en": "When?",
+  "ar": "متى؟"
+ },
+ "אחרי ארוחת ערב": {
+  "en": "After dinner",
+  "ar": "بعد العشاء"
+ },
+ "4 קוביות שוקולד חלב": {
+  "en": "4 squares of milk chocolate",
+  "ar": "4 مربعات شوكولاتة بالحليب"
+ },
+ "כדור גלידה קטן": {
+  "en": "A small scoop of ice cream",
+  "ar": "كرة آيس كريم صغيرة"
+ },
+ "2 וופלים": {
+  "en": "2 wafers",
+  "ar": "قطعتا ويفر"
+ },
+ "פרוסה קטנה של עוגה": {
+  "en": "A small slice of cake",
+  "ar": "قطعة كعك صغيرة"
+ },
+ "חצי שקית במבה": {
+  "en": "Half a bag of Bamba",
+  "ar": "نصف كيس بامبا"
+ },
+ "חצי שקית ביסלי": {
+  "en": "Half a bag of Bissli",
+  "ar": "نصف كيس بيسلي"
+ },
+ "קערית פופקורן": {
+  "en": "A small bowl of popcorn",
+  "ar": "وعاء فشار صغير"
+ },
+ "או כל חלבון אחר": {
+  "en": "or any other protein",
+  "ar": "أو أي بروتين آخر"
+ },
+ "או כל פחמימה אחרת": {
+  "en": "or any other carb",
+  "ar": "أو أي نشويات أخرى"
+ },
+ "או כל שומן אחר": {
+  "en": "or any other fat",
+  "ar": "أو أي دهون أخرى"
+ },
+ "או כל פרי אחר": {
+  "en": "or any other fruit",
+  "ar": "أو أي فاكهة أخرى"
+ },
+ "תן לי רעיון": {
+  "en": "Give me an idea",
+  "ar": "أعطني فكرة"
+ },
+ "בחירה חופשית": {
+  "en": "Your choice",
+  "ar": "اختيار حر"
+ },
+ "כבר בתוך היעד. ריבוע אחד זה בערך:": {
+  "en": "Already in your target. One square is about:",
+  "ar": "ضمن هدفك. مربع واحد تقريبًا:"
+ },
+ "לבחור מה מופיע כאן": {
+  "en": "Choose what shows here",
+  "ar": "اختر ما يظهر هنا"
+ },
+ "זה כיוון ליום, לא חוק": {
+  "en": "It's a direction for the day, not a rule",
+  "ar": "هذه وجهة لليوم، لا قاعدة"
+ },
+ "ראפי נותן תקציב לכל ארוחה, ואתה ממלא. צריך רעיון? לחיצה אחת.": {
+  "en": "Repi gives each meal a budget and you fill it. Need an idea? One tap.",
+  "ar": "رافي يعطي كل وجبة ميزانية وأنت تملؤها. تحتاج فكرة؟ نقرة واحدة."
+ },
+ "כל מאכל אפשר להחליף באחר עם אותו מספר ריבועים. לוחצים עליו ובוחרים.": {
+  "en": "Any food can be swapped for another with the same squares. Tap it and choose.",
+  "ar": "يمكن استبدال أي طعام بآخر بنفس عدد المربعات. انقر عليه واختر."
+ },
+ "אכלת {0} ריבועים יותר ב{1}": {
+  "en": "You had {0} more squares at {1}",
+  "ar": "أكلت {0} مربعات أكثر في {1}"
+ },
+ "אכלת {0} ריבועים פחות ב{1}": {
+  "en": "You had {0} fewer squares at {1}",
+  "ar": "أكلت {0} مربعات أقل في {1}"
+ },
+ "הכל טוב. אפשר להקטין קצת את מה שנשאר היום, כדי שהיום יישאר ביעד.": {
+  "en": "All good. The rest of today can shrink a little so the day stays on target.",
+  "ar": "كل شيء جيد. يمكن تقليل ما تبقى اليوم قليلًا ليبقى اليوم ضمن الهدف."
+ },
+ "אפשר להגדיל קצת את מה שנשאר היום.": {
+  "en": "The rest of today can grow a little.",
+  "ar": "يمكن زيادة ما تبقى اليوم قليلًا."
+ },
+ "זה היה הסוף של היום. מחר ממשיכים רגיל, בלי לפצות.": {
+  "en": "That was the end of the day. Tomorrow carries on as usual, no making up.",
+  "ar": "هذا كان آخر اليوم. غدًا نكمل كالمعتاد بلا تعويض."
+ },
+ "הקטן את מה שנשאר": {
+  "en": "Shrink what's left",
+  "ar": "قلّل ما تبقى"
+ },
+ "הגדל את מה שנשאר": {
+  "en": "Grow what's left",
+  "ar": "زد ما تبقى"
+ },
+ "השאר כמו שהוא": {
+  "en": "Leave it",
+  "ar": "اتركه كما هو"
+ },
+ "להוסיף מקום למתוק": {
+  "en": "Make room for something sweet",
+  "ar": "أضف مكانًا للحلويات"
+ },
+ "ראפי יקטין קצת את הארוחות": {
+  "en": "Repi will make the meals a little smaller",
+  "ar": "رافي سيصغّر الوجبات قليلًا"
+ },
+ "נוסף ריבוע מתוק. הארוחות קטנו ב-100 קק״ל": {
+  "en": "A sweet square added. Meals are 100 kcal smaller",
+  "ar": "أُضيف مربع حلو. الوجبات أصغر بـ100 سعرة"
+ },
+ "ירד ריבוע מתוק. הארוחות גדלו ב-100 קק״ל": {
+  "en": "A sweet square removed. Meals are 100 kcal bigger",
+  "ar": "أُزيل مربع حلو. الوجبات أكبر بـ100 سعرة"
+ },
+ "מה מופיע בכרטיס המתוק?": {
+  "en": "What shows on the sweet card?",
+  "ar": "ماذا يظهر في بطاقة الحلويات؟"
+ },
+ "כל אחד מהם הוא ריבוע אחד, בערך 100 קק״ל": {
+  "en": "Each is one square, about 100 kcal",
+  "ar": "كل واحد مربع واحد، حوالي 100 سعرة"
+ },
+ "שאר היום התעדכן ✓": {
+  "en": "The rest of today is updated ✓",
+  "ar": "تم تحديث باقي اليوم ✓"
+ },
+ "חלוקה שבועית": {
+  "en": "Weekly split",
+  "ar": "توزيع أسبوعي"
+ },
+ "אותו סך לשבוע, עם יותר ריבועים בסוף השבוע": {
+  "en": "The same weekly total, with more squares at the weekend",
+  "ar": "نفس المجموع الأسبوعي، مع مربعات أكثر في نهاية الأسبوع"
+ },
+ "ריבועים ביום · כמו היעד שלך": {
+  "en": "squares a day · same as your target",
+  "ar": "مربعات يوميًا · مثل هدفك"
+ },
+ "שישי ושבת": {
+  "en": "Friday and Saturday",
+  "ar": "الجمعة والسبت"
+ },
+ "רק שבת": {
+  "en": "Saturday only",
+  "ar": "السبت فقط"
+ },
+ "מה קרה בארוחה הזו?": {
+  "en": "What happened with this meal?",
+  "ar": "ماذا حدث في هذه الوجبة؟"
+ },
+ "אכלתי את זה, בכמות אחרת": {
+  "en": "I ate it, a different amount",
+  "ar": "أكلتها بكمية مختلفة"
+ },
+ "משנים כמויות או מורידים פריט": {
+  "en": "Change amounts or remove an item",
+  "ar": "غيّر الكميات أو احذف عنصرًا"
+ },
+ "אכלתי משהו אחר לגמרי": {
+  "en": "I ate something else entirely",
+  "ar": "أكلت شيئًا آخر تمامًا"
+ },
+ "רושמים מה באמת אכלת, וראפי מתאים את שאר היום": {
+  "en": "Log what you really ate and Repi adjusts the rest of the day",
+  "ar": "سجّل ما أكلته فعلًا ورافي يعدّل باقي اليوم"
+ },
+ "מה אכלת ב": {
+  "en": "What did you eat for ",
+  "ar": "ماذا أكلت في "
+ },
+ "מצב ריבועים בלבד": {
+  "en": "Squares-only mode",
+  "ar": "وضع المربعات فقط"
+ },
+ "חזרה לתפריט מלא": {
+  "en": "Back to the full menu",
+  "ar": "العودة إلى القائمة الكاملة"
+ },
+ "מצב ריבועים בלבד: אתה ממלא, ראפי נותן רעיונות": {
+  "en": "Squares only: you fill, Repi gives ideas",
+  "ar": "المربعات فقط: أنت تملأ ورافي يعطي أفكارًا"
  }
 }
