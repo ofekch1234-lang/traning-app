@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9b0d52e5"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9b0d52e5"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9b0d52e5"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=25e963d2"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=25e963d2"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=25e963d2"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1453,7 +1453,7 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 
 /* active workout */
 .ex-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;transition:border-color .3s,box-shadow .3s}
-.rq-skip{grid-column:1/-1;justify-self:center;background:none!important;border:0!important;color:var(--muted)!important;font:inherit;font-size:13px;text-decoration:underline;padding:2px 6px!important;min-height:0!important;cursor:pointer}.rq-next{display:block;margin-top:4px;font-size:13px;color:var(--muted)}.rq-next b{color:var(--ink)}
+.rq-skip{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:40px!important;margin-top:2px;border-radius:12px!important;border:1.5px solid rgba(0,0,0,.18)!important;background:rgba(0,0,0,.06)!important;color:#3a3f3b!important;font:inherit;font-size:14px!important;font-weight:700!important;cursor:pointer}.rq-next{display:block;margin-top:4px;font-size:13px;color:var(--muted)}.rq-next b{color:var(--ink)}
 .ex-card.ex-finish{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
 .aw-head{view-transition-name:aw-head}
 ::view-transition-group(*){animation-duration:.38s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
@@ -2899,7 +2899,7 @@ function tickRest(){
 function stopRest(){clearInterval(T.int);T.int=null;$('#restbar').hidden=true;document.body.classList.remove('resting');restRirHide();disarmServerRest();saveRestState();}
 /* after every set: ask "reps left?" on the rest bar, right above the timer (optional; no answer changes nothing) */
 function restRir(ei,si){ const e=S.active?.ex?.[ei], el=$('#rest-rir'); if(!e||!el||!coachOn()||!coachCfg().rir)return;
-  el.classList.remove('ok'); el.innerHTML=`<div class="rq-top"><span><b>${tt('כמה חזרות עוד היית מצליח?')}</b><small>${esc(e.n)} · ${si===(e.sets||[]).length-1?tt('סט אחרון'):`${tt('סט')} ${si+1}`}</small></span><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></div><div class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}<button class="rq-skip" data-act="rir-skip">${tt('דלג')}</button></div>`; el.hidden=false; }
+  el.classList.remove('ok'); el.innerHTML=`<div class="rq-top"><span><b>${tt('כמה חזרות עוד היית מצליח?')}</b><small>${esc(e.n)} · ${si===(e.sets||[]).length-1?tt('סט אחרון'):`${tt('סט')} ${si+1}`}</small></span><button class="ouch" data-act="pain-open" data-ei="${ei}">${tt('משהו לא נוח?')}</button></div><div class="chips2">${[0,1,2,3].map(v=>`<button class="num" dir="ltr" data-act="rir-last" data-ei="${ei}" data-si="${si}" data-v="${v}">${v===3?'3+':v}</button>`).join('')}<button class="rq-skip" data-act="rir-skip">${tt('דלג על השאלה')} ›</button></div>`; el.hidden=false; }
 function restRirHide(){ const el=$('#rest-rir'); if(el){ el.hidden=true; el.innerHTML=''; } if(ADV.ei!=null){ clearTimeout(ADV.t); ADV.t=setTimeout(advNow,350); } }
 
 /* "מה אכלת?" — the box grows down smoothly as the text gets longer (up to 5 lines, then scrolls inside) */
