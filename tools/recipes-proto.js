@@ -1,7 +1,11 @@
 // recipe scaling engine + sheet (prototype, injected into the app page)
 window.rcpFood=it=>it.id?MF().find(f=>f.id===it.id):null;
+// cooked-value foods: shown as bought (raw meat / dry grains). [raw g per cooked g, name, kind, g per cup dry, pack g]
+window.RCP_RAW={chk:[1.33,'חזה עוף','m'],thg:[1.35,'פרגיות','m'],tky:[1.33,'חזה הודו טחון','m',0,500],bef:[1.3,'בשר בקר טחון','m',0,500],sal:[1.2,'פילה סלמון','m'],
+  ric:[.34,'אורז לבן','g',185],brr:[.36,'אורז מלא','g',190],pas:[.42,'פסטה','g',0,500],cus:[.4,'קוסקוס','g',175]};
+window.RCP_NM={swp:'בטטה',pot:'תפוח אדמה',brc:'ברוקולי',grb:'שעועית ירוקה',pep:'פלפל אדום',sld:'סלט ירקות'};
 window.rcpGr=f=>f&&f.hm&&f.hm[1]==='מנה';
-window.rcpStep=(f,base)=>{ if(!f)return 1; if(f.u&&f.ug)return f.ug*(f.us||1); if(f.hm&&!rcpGr(f))return f.hm[0]*(f.hm[1]==='כוס'?.25:.5); return base<60?5:10; };
+window.rcpStep=(f,base)=>{ if(!f)return 1; if(RCP_RAW[f.id])return 10/RCP_RAW[f.id][0]; if(f.u&&f.ug)return f.ug*(f.us||1); if(f.hm&&!rcpGr(f))return f.hm[0]*(f.hm[1]==='כוס'?.25:.5); return base<60?5:10; };
 window.rcpVals=(it,g)=>{ const f=rcpFood(it)||it, m=(g??it.g)/100; return {k:f.k*m,p:f.p*m,cb:f.cb*m,ft:f.ft*m}; };
 window.rcpTot=(R,G)=>R.it.reduce((a,it,i)=>{ const v=rcpVals(it,G[i]); a.k+=v.k;a.p+=v.p;a.cb+=v.cb;a.ft+=v.ft; return a; },{k:0,p:0,cb:0,ft:0});
 window.rcpFit=(R,K,PT)=>{
@@ -18,14 +22,20 @@ window.rcpFit=(R,K,PT)=>{
   const t=rcpTot(R,G); return {G,t,ok:Math.abs(t.k-K)<=K*.1};
 };
 window.rcpAmt=(it,g)=>{ const f=rcpFood(it); if(!f)return {a:it.h,n:it.x};
-  if(f.u&&f.ug){ const q=g/f.ug; return {a:fracQ(q)+' '+(q>1?(f.up||f.u)[0]:f.u[0]),n:f.n[0],id:f.id}; }
-  if(f.hm&&!rcpGr(f)){ const st=f.hm[1]==='כוס'?.25:.5, q=Math.round(g/f.hm[0]/st)*st; return {a:fracQ(q)+' '+(q>1?f.hm[2]:f.hm[1]),n:f.n[0],id:f.id,gr:Math.round(g)}; }
-  return {a:Math.round(g)+' '+tt('ג׳'),n:f.n[0],id:f.id}; };
-window.rcpLine=(it,g)=>{ const A=rcpAmt(it,g); if(!A.id)return A.a==='לפי הטעם'?A.n:A.a.includes(A.n)?A.a:`${A.a} ${A.n}`; const m=amtName(A.a,A.n,A.id); return `${m.b} ${m.rest}`.trim(); };
+  const W=RCP_RAW[f.id];
+  if(W){ const r=Math.round(g*W[0]/10)*10, pk=W[4]&&r/W[4]>=.2?` · בערך ${fracQ(Math.max(.25,Math.round(r/W[4]*4)/4))} ${W[2]==='m'?'מגש':'חבילה'} של ${W[4]} ג׳`:'';
+    if(W[2]==='m')return {a:r+' '+tt('ג׳'),n:W[1],id:f.id,sub:`לפני בישול${pk} · אחרי בישול כ־${Math.round(g/10)*10} ג׳`,raw:1};
+    const cq=f.hm?Math.round(g/f.hm[0]*4)/4:0, dq=W[3]?Math.round(r/W[3]*4)/4:0;
+    return {a:r+' '+tt('ג׳'),n:W[1],id:f.id,sub:`יבש${dq?` · בערך ${fracQ(dq)} ${dq>1?'כוסות':'כוס'}`:''}${pk}${cq?` · יוצא כ־${fracQ(cq)} ${cq>1?'כוסות':'כוס'} מבושל`:''}`,raw:1}; }
+  const nm=RCP_NM[f.id]||f.n[0];
+  if(f.u&&f.ug){ const q=g/f.ug; return {a:fracQ(q)+' '+(q>1?(f.up||f.u)[0]:f.u[0]),n:nm,id:f.id}; }
+  if(f.hm&&!rcpGr(f)){ const st=f.hm[1]==='כוס'?.25:.5, q=Math.round(g/f.hm[0]/st)*st; return {a:fracQ(q)+' '+(q>1?f.hm[2]:f.hm[1]),n:nm,id:f.id,sub:Math.round(g)+' '+tt('ג׳')}; }
+  return {a:Math.round(g)+' '+tt('ג׳'),n:nm,id:f.id}; };
+window.rcpLine=(it,g)=>{ const A=rcpAmt(it,g); if(!A.id)return A.a==='לפי הטעם'?A.n:A.a.includes(A.n)?A.a:`${A.a} ${A.n}`; if(A.raw)return `${A.a} ${A.n}${RCP_RAW[A.id][2]==="g"?(A.id==="pas"?" יבשה":" יבש"):""}`; const m=amtName(A.a,A.n,A.id); return `${m.b} ${m.rest}`.trim(); };
 window.openRecipe=(R,K,PT,lbl)=>{
   const {G,t}=rcpFit(R,K,PT);
   const rows=R.it.map((it,i)=>{ const A=rcpAmt(it,G[i]), f=rcpFood(it); const m={b:A.a,rest:A.n};
-    return `<div class="rc-it">${f?fdImg(f,40,18):'<span class="rc-ph"></span>'}<div class="rc-in"><b>${esc(m.rest)}</b>${A.gr?`<small class="num">${A.gr} ${tt('ג׳')}</small>`:''}</div><span class="rc-q num">${esc(m.b)}</span>${it.r==='P'||it.r==='C'?`<i class="rc-tag ${it.r}">${it.r==='P'?'מותאם לחלבון':'מותאם לקלוריות'}</i>`:''}</div>`; }).join('');
+    return `<div class="rc-it">${f?fdImg(f,40,18):'<span class="rc-ph"></span>'}<div class="rc-in"><b>${esc(m.rest)}</b>${A.sub?`<small class="num">${A.sub}</small>`:''}</div><span class="rc-q num">${esc(m.b)}</span>${it.r==='P'||it.r==='C'?`<i class="rc-tag ${it.r}">${it.r==='P'?'מותאם לחלבון':'מותאם לקלוריות'}</i>`:''}</div>`; }).join('');
   const steps=R.st.map((s,i)=>`<li><span class="rc-n num">${i+1}</span><p>${esc(s).replace(/\{(\d+)\}/g,(_,n)=>`<b>${esc(rcpLine(R.it[+n],G[+n]))}</b>`)}</p></li>`).join('');
   const hero=R.it.filter(it=>it.id).sort((a,b)=>(b.r==='P')-(a.r==='P')||(b.r==='C')-(a.r==='C')).slice(0,3).map(it=>fdImg(it.id,84,30)).join('');
   openSheet(`<div class="rc">
