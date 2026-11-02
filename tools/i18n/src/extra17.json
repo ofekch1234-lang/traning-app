@@ -4618,5 +4618,21 @@
  "יומן": {
   "en": "Log",
   "ar": "السجل"
+ },
+ "לא שמעתי כלום. אפשר לכתוב במקום, או לנסות שוב": {
+  "en": "I didn't hear anything. You can type instead, or try again",
+  "ar": "لم أسمع شيئاً. يمكنك الكتابة بدلاً من ذلك أو المحاولة مجدداً"
+ },
+ "ההקלטה צריכה חיבור לאינטרנט. אפשר לכתוב במקום": {
+  "en": "Voice input needs an internet connection. You can type instead",
+  "ar": "التسجيل يحتاج اتصالاً بالإنترنت. يمكنك الكتابة بدلاً من ذلك"
+ },
+ "ההקלטה לא עבדה. אפשר לכתוב במקום": {
+  "en": "Voice input didn't work. You can type instead",
+  "ar": "التسجيل لم ينجح. يمكنك الكتابة بدلاً من ذلك"
+ },
+ "לא נקלט טקסט. אפשר לכתוב במקום": {
+  "en": "No text was picked up. You can type instead",
+  "ar": "لم يُلتقط أي نص. يمكنك الكتابة بدلاً من ذلك"
  }
 }

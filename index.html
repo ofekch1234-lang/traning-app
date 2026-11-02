@@ -2953,7 +2953,8 @@ document.addEventListener('scroll',e=>{ const t=e.target; if(t&&t.id==='ask-q')t
 
 /* voice → text: the phone's own speech recognition (free, no AI call). The text lands in the box for a quick check, then "חשב" */
 const voNat=()=>{ const c=window.Capacitor; return c&&c.isNativePlatform&&c.isNativePlatform()&&c.Plugins&&c.Plugins.SpeechRecognition||null; };
-const voWeb=()=>window.SpeechRecognition||window.webkitSpeechRecognition||null;
+const voIOSPWA=()=>/iP(hone|ad|od)/.test(navigator.userAgent)&&(navigator.standalone||matchMedia('(display-mode: standalone)').matches);
+const voWeb=()=>(!voIOSPWA()&&!(()=>{try{return localStorage.getItem('nr-vo-bad')==='1';}catch(_){return false;}})()&&(window.SpeechRecognition||window.webkitSpeechRecognition))||null;
 const voOK=()=>!!(voNat()||voWeb());
 const voLang=()=>({he:'he-IL',ar:'ar-SA',en:'en-US'})[LANG]||'he-IL';
 let VO=null;
@@ -2970,9 +2971,10 @@ async function voStart(qid){ qid=qid||'ask-q'; const q=$('#'+qid), box=q?.closes
   const show=t=>{ if(!VO)return; VO.txt=t; VO.last=Date.now(); live.textContent=t; };
   VO.iv=setInterval(()=>{ if(!VO)return; const s=Math.floor((Date.now()-VO.t0)/1000); tm.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
     // native gives the real mic level; the web has none, so the wave follows when words arrive
-    const l=N?VO.lvl:(Date.now()-VO.last<700?.35+Math.random()*.6:.06+Math.random()*.12);
+    const l=N?VO.lvl:(VO.last&&Date.now()-VO.last<700?.35+Math.random()*.6:.03);
     VO.hs.push(l); if(VO.hs.length>bars.length)VO.hs.shift(); bars.forEach((b,i)=>{ const v=VO.hs[i-(bars.length-VO.hs.length)]; b.style.height=(v==null?4:Math.max(4,Math.round(4+v*28)))+'px'; });
-    if(s>=60)voStop(true); },100);
+    if(s>=60)voStop(true);
+    if(!N&&!VO.txt&&!VO.warned&&Date.now()-VO.t0>8000){ VO.warned=1; voStop(false); toast(tt('לא שמעתי כלום. אפשר לכתוב במקום, או לנסות שוב')); voFail(); } },100);
   try{
     if(N){ VO.subs.push(await N.addListener('partialResults',e=>show(e.accumulatedText||e.matches?.[0]||VO.txt)));
       VO.subs.push(await N.addListener('audioLevel',e=>{ if(VO)VO.lvl=Math.min(1,Math.max(0,+e.level||0)); }));
@@ -2980,14 +2982,18 @@ async function voStart(qid){ qid=qid||'ask-q'; const q=$('#'+qid), box=q?.closes
       await N.start({language:voLang(),partialResults:true,popup:false,addPunctuation:true,maxResults:1}); }
     else { const r=new W(); VO.r=r; r.lang=voLang(); r.continuous=true; r.interimResults=true;
       r.onresult=e=>{ let t=''; for(const x of e.results)t+=x[0].transcript; show(t.trim()); };
-      r.onerror=e=>{ if(e.error==='not-allowed'||e.error==='service-not-allowed')toast(tt('צריך לאשר גישה למיקרופון')); };
-      r.onend=()=>{ if(VO&&!VO.stopping)voStop(true); }; r.start(); }
+      r.onerror=e=>{ if(!VO||VO.stopping)return; const er=e.error; if(er==='aborted')return;
+        if(er==='no-speech'&&!VO.txt){ return; } // the watchdog handles silence
+        voStop(true); toast(er==='not-allowed'||er==='service-not-allowed'?tt('צריך לאשר גישה למיקרופון'):er==='network'?tt('ההקלטה צריכה חיבור לאינטרנט. אפשר לכתוב במקום'):tt('ההקלטה לא עבדה. אפשר לכתוב במקום')); if(er!=='not-allowed'&&er!=='no-speech')voFail(); };
+      r.onend=()=>{ if(VO&&!VO.stopping){ if(!VO.txt&&Date.now()-VO.t0<8000&&!VO.rs){ VO.rs=1; try{ r.start(); return; }catch(_){} } voStop(true); } }; r.start(); }
   }catch(err){ console.warn('voice',err); voStop(false); toast(tt('ההקלטה לא זמינה כרגע')); } }
+function voFail(){ try{ const n=+(localStorage.getItem('nr-vo-f')||0)+1; localStorage.setItem('nr-vo-f',n); if(n>=2)localStorage.setItem('nr-vo-bad','1'); }catch(_){} }
 async function voStop(apply){ const v=VO; if(!v||v.stopping)return; v.stopping=true; clearInterval(v.iv);
   const N=voNat(); try{ if(N)await N.stop(); else v.r?.stop(); }catch(_){}
   for(const s of v.subs)try{ s.remove(); }catch(_){}
   VO=null; const box=v.box&&document.contains(v.box)?v.box:$('.ask1'); box?.querySelector('.ask-rec')?.remove(); box?.classList.remove('rec');
-  const q=$('#'+(v.qid||'ask-q')); if(apply&&q&&v.txt){ q.value=(v.base?v.base+' ':'')+v.txt; q.dispatchEvent(new Event('input',{bubbles:true})); } }
+  if(v.txt)try{ localStorage.removeItem('nr-vo-f'); }catch(_){}
+  const q=$('#'+(v.qid||'ask-q')); if(apply&&!v.txt&&!v.warned)toast(tt('לא נקלט טקסט. אפשר לכתוב במקום')); if(apply&&q&&v.txt){ q.value=(v.base?v.base+' ':'')+v.txt; q.dispatchEvent(new Event('input',{bubbles:true})); } }
 /* ---------- rendering ---------- */
 function render(){
   try{ document.body.classList.toggle('adm',S.mode==='app'&&S.tab==='admin'); }catch(_){}
@@ -11196,6 +11202,7 @@ document.addEventListener('click',ev=>{
 });
 function handleAct(b,ev){
   const act=b.dataset.act;
+  if(VO&&act!=='vo-stop'&&act!=='vo-cancel'){ voStop(true).then(()=>{ try{ handleAct(b,ev); }catch(err){ console.error(err); } }); return; }
   if(act==='lock-view'){ enterApp._ro=true; S.trackView='history'; S.tab='track'; enterApp(S.user); return; }
   if(act==='lock-pay'){ S.mode='paywall'; render(); window.scrollTo(0,0); return; }
   if(S.locked&&S.mode==='app'&&!LOCK_OK.test(act)){ toast(tt('מצב צפייה בלבד. בוחרים מסלול, והכל נפתח מיד.')); return; }
