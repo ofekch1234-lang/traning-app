@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=645385e0"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=645385e0"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=645385e0"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c1cf434b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c1cf434b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c1cf434b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1567,6 +1567,7 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .rx-seg{display:flex;gap:3px;margin-top:12px;padding:3px;border-radius:13px;background:var(--surface2)}.rx-seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:38px;border:0;border-radius:10px;background:none;color:var(--muted);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer}.rx-seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px #0003}.rx-seg button:not(.on):last-child{color:var(--accent)}.rx-seg .num{font-size:12px;font-weight:800;padding:1px 7px;border-radius:8px;background:color-mix(in srgb,var(--accent) 16%,transparent)}
 .sh-bar{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 6px;min-height:36px}.sh-x{width:36px;height:36px;border-radius:50%;border:0;background:var(--surface2);color:var(--ink);font-size:15px;cursor:pointer}.sh-back{display:flex;align-items:center;gap:4px;height:36px;padding:0 12px 0 8px;border:0;border-radius:18px;background:var(--surface2);color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}html[dir="ltr"] .sh-back svg{transform:scaleX(-1)}
 .mq2-alld{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:14px;padding:22px 16px;border-radius:22px;background:var(--surface);border:1px solid var(--line);text-align:center}.mq2-alld span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:900;font-size:18px}.mq2-alld b{font-size:16px;margin-top:4px}.mq2-alld small{color:var(--muted);font-size:13px}
+.fd-seg{display:flex;gap:3px;margin:12px 0 4px;padding:4px;border-radius:15px;background:var(--surface);border:1px solid var(--line)}.fd-seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:40px;border:0;border-radius:11px;background:none;color:var(--muted);font:inherit;font-size:15px;font-weight:700;cursor:pointer}.fd-seg button.on{background:var(--surface2);color:var(--ink);box-shadow:0 1px 4px #0004}.fd-seg small{font-size:11.5px;font-weight:800;color:var(--accent-ink);background:var(--accent);padding:2px 7px;border-radius:7px}.fd-mt{justify-content:space-between}.fd-mt .ttl{margin:0}
 .mq2-card{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 16px}.mq2-card.nx{border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
 .mq2-top{display:flex;align-items:center;gap:10px}.mq2-top .lt{flex:1;min-width:0}.mq2-top .lt b{font-size:16.5px}.mq2-top .lt small{display:block;font-size:12.5px;color:var(--muted)}
 .mq2-pill{flex:none;font-size:12.5px;font-weight:800;padding:5px 10px;border-radius:10px;background:var(--surface2);color:var(--ink);white-space:nowrap}.mq2-pill.a{background:var(--accent);color:var(--accent-ink)}
@@ -2807,7 +2808,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.202';
+const APP_VERSION='13.3.204';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5126,6 +5127,7 @@ function vFood(){
   return `
     <div class="spread"><h2 class="ttl">תזונה</h2>
       <div class="row" style="gap:0;flex-wrap:nowrap"><button class="hd-btn" style="border:0;background:none;font-size:22px" data-act="food-nav" data-dir="-1" aria-label="יום קודם">${ARW_PREV}</button><label class="fdate" aria-label="${tt('בחירת תאריך')}"><b style="font-size:15px">${d===today?'היום':fmtDate(+dt)}</b><input type="date" id="food-date" value="${d}" max="${today}" min="${ymd(new Date(Date.now()-59*864e5))}" onclick="try{this.showPicker()}catch(_){}"></label><button class="hd-btn" style="border:0;background:none;font-size:22px;${d>=today?'opacity:.3':''}" data-act="food-nav" data-dir="1" aria-label="יום הבא" ${d>=today?'disabled':''}>${ARW_NEXT}</button></div></div>
+    ${fdSeg(0)}
     ${!kT?`<button class="goalcta" data-act="food-targets-open">
       <span class="gi">🎯</span>
       <span class="gt"><b>הגדר יעד יומי</b><span>כמה קלוריות וחלבון לאכול כדי להגיע למטרה שלך</span></span>
@@ -5160,7 +5162,6 @@ function vFood(){
         </div>`; }).join('')}
     </div>
     ${d===today?foodCoachHTML(d,a7,kT):''}
-    ${d===today?`<div class="card r20 list"><button class="li" data-act="${has?'mn-open':'mn-open'}">${ICON.menu.replace('class="ic"','class="ic" style="color:var(--accent)"')}<span class="lt"><b>התפריט שלי</b><small>${next?`הבא בתור: ${tt(MSLOT[next.k]?.[1]||'')}`:has?'כל הארוחות של היום נרשמו ✓':'תפריט יומי שמותאם ליעד ולטעם שלך'}</small></span>${ICON.chev}</button></div>`:''}
   `;
 }
 /* v13: one sheet for every way to add food — search, photo, barcode, manual, AI, and "again" */
@@ -6094,7 +6095,9 @@ function mqHelp(){ const N=mqN(), ex=['egg','brd','ric','ban','thn','oil'].map(M
       <div><b>2</b><span>${tt('לא בא לך משהו? לוחצים עליו ובוחרים אחר. הכמות מתעדכנת לבד.')}</span></div>
       <div><b>3</b><span>${tt('אכלת? לוחצים "אכלתי", והריבועים למעלה נצבעים.')}</span></div></div>
     <button class="btn primary big" style="width:100%;margin-top:14px" data-act="sheet-close">${tt('הבנתי')}</button></div>`); }
-function mqTop(){ return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="${tt('חזרה')}">→</button><h2>${tt('התפריט שלי')}</h2>${mqS().meals&&!S.mqW?`<button class="mv-ib" data-act="mq-set" aria-label="${tt('הגדרות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>`:''}</div>`; }
+function fdSeg(on){ const q=mqS(), day=q.meals&&mqDay(), today=ymd(), nx=day?day.find(m=>m.done!==today&&mqHas(m)):null;
+  return `<div class="fd-seg" role="tablist"><button role="tab" class="${on?'':'on'}" aria-selected="${!on}" ${on?'data-act="mn-close"':''}>${tt('יומן')}</button><button role="tab" class="${on?'on':''}" aria-selected="${!!on}" ${on?'':'data-act="mn-open"'}>${tt('התפריט שלי')}${!on&&nx?`<small>${tt(MQ_K[nx.k])}</small>`:''}</button></div>`; }
+function mqTop(){ if(!S.mqW)return `<div class="mn-top fd-mt"><h2 class="ttl">${tt('תזונה')}</h2>${mqS().meals?`<button class="mv-ib" data-act="mq-set" aria-label="${tt('הגדרות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>`:''}</div>${fdSeg(1)}`; return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="${tt('חזרה')}">→</button><h2>${tt('התפריט שלי')}</h2>${mqS().meals&&!S.mqW?`<button class="mv-ib" data-act="mq-set" aria-label="${tt('הגדרות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>`:''}</div>`; }
 function vMenuQ(){ const q=mqS(), N=mqN();
   if(S.mqW)return mqTop()+mqWizHTML();
   if(MQB)return mqTop()+`<div class="mq-busy"><img src="img/kobi-think.svg" alt=""><b>${tt('ראפי בונה לך תפריט…')}</b><span>${tt('בוחר מאכלים לפי מה שכתבת')}</span></div>`;
@@ -12840,7 +12843,7 @@ function handleAct(b,ev){
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': natPushOff().finally(()=>sb.auth.signOut()); break;
     case 'np-close': closeNumpad(); break;
-    case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); window.scrollTo(0,0); break;
+    case 'go': if(b.dataset.to==='food'&&S.tab!=='food'&&!S.mqW)S.menuOpen=false; S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); window.scrollTo(0,0); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
     case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
     case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
@@ -13002,6 +13005,7 @@ document.getElementById('tabs').addEventListener('click',ev=>{
   const b=ev.target.closest('[data-tab]'); if(!b)return;
   if(b.dataset.tab==='social'&&S.tab==='social'&&SOC.gid){SOC.gid=null;} // לחיצה חוזרת = חזרה לרשימה
   const changed=S.tab!==b.dataset.tab;
+  if(changed&&b.dataset.tab==='food'&&!S.mqW)S.menuOpen=false; // התזונה נפתחת תמיד ביומן
   S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render(); if(changed){window.scrollTo(0,0); setTimeout(maybeStartTour,350);}
   if(S.tab==='social')socLoad();
 });
