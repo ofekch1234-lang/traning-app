@@ -53,9 +53,11 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=aaa24a90"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=aaa24a90"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=aaa24a90"><\/script>');
+  var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
+  if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f26f420f"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f26f420f"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f26f420f"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -96,6 +98,41 @@
 :root[data-accent="violet"]{--accent:#A78BFA;--accent-soft:#2A1F47;--accent-ink:#0A0B0A}
 :root[data-accent="blue"]{--accent:#60A5FA;--accent-soft:#16294A;--accent-ink:#0A0B0A}
 :root[data-accent="teal"]{--accent:#2DD4BF;--accent-soft:#0F332F;--accent-ink:#0A0B0A}
+/* ── light: black and white, the brand color only as a touch (progress, logo, active tab, small tags) ── */
+:root[data-theme="light"]{
+  --bg:#F5F5F3; --surface:#FFFFFF; --surface2:#EFEFEC; --ink:#0D0D0D; --muted:#6B6D69; --line:#E3E3DF;
+  --accent:#0D0D0D; --accent-ink:#FFFFFF; --accent-soft:#EDEDEA; --lime:#C6FF3D; --lime-ink:#0D0D0D;
+  --gold:#C98A12; --gold-soft:#FBEBC6; --danger:#D9443A; --kbig:#3A3D39;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 6px 18px rgba(0,0,0,.05); --overlay-shadow:0 -10px 34px rgba(0,0,0,.14);
+  color-scheme:light }
+:root[data-theme="light"] body{background:var(--bg)}
+/* cards get a soft shadow instead of a dark outline */
+:root[data-theme="light"] .card,:root[data-theme="light"] .mq2-card,:root[data-theme="light"] .mq2-mini,:root[data-theme="light"] .hcard{box-shadow:var(--shadow)}
+/* lime, here and there: progress, "next", the logo, the active tab, done marks */
+:root[data-theme="light"] .mq2-ring circle:last-child,:root[data-theme="light"] .ring-fg,:root[data-theme="light"] svg circle[stroke="var(--accent)"]{stroke:var(--lime)}
+:root[data-theme="light"] .mq2-pill.a,:root[data-theme="light"] .fd-seg small,:root[data-theme="light"] .rx-seg .num{background:var(--lime);color:var(--lime-ink)}
+:root[data-theme="light"] .mq2-strip .on{border-color:var(--ink);background:var(--surface)}
+:root[data-theme="light"] .mq2-card.nx{border-color:var(--ink)}
+:root[data-theme="light"] .mq2-it .q b,:root[data-theme="light"] .rc-s b{color:var(--ink);background:linear-gradient(transparent 58%,color-mix(in srgb,var(--lime) 85%,transparent) 58%);padding:0 2px}
+:root[data-theme="light"] .mq2-mini.ok .ms-ic,:root[data-theme="light"] .mq2-alld span{background:var(--lime);color:var(--lime-ink)}
+:root[data-theme="light"] .ms-ic{background:var(--surface2);color:var(--ink)}
+:root[data-theme="light"] .rx-seg button:not(.on):last-child{color:var(--ink)}
+:root[data-theme="light"] .bar2 i{background:var(--ink)}
+:root[data-theme="light"] .brand b{color:var(--lime-ink);background:var(--lime);padding:0 5px;border-radius:7px}
+:root[data-theme="light"] nav.tabs{background:rgba(255,255,255,.92);border-color:var(--line);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+:root[data-theme="light"] nav.tabs .tb-pill{background:var(--ink)}
+:root[data-theme="light"] nav.tabs button.on{color:#fff}:root[data-theme="light"] nav.tabs button.on .ic{color:var(--lime)}
+:root[data-theme="light"] .hcard{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+:root[data-theme="light"] .paper{--surface:#FFFFFF;--surface2:#F1F1EE;background:#FFFFFF!important}
+:root[data-theme="light"] .meals-paper{border-color:var(--line)!important;box-shadow:var(--shadow)}
+:root[data-theme="light"] .meals-paper .li>div>.lt>b{color:var(--ink)}
+:root[data-theme="light"] .hd-btn.me{background:var(--ink);color:#fff}
+:root[data-theme="light"] .hn-lime,:root[data-theme="light"] .hl3{background:var(--lime)}:root[data-theme="light"] .hn-lime .hn-go{background:#0D0D0D;color:var(--lime)}
+:root[data-theme="light"] .rc-tag.C{color:#9A6A00}:root[data-theme="light"] .rc-tag{color:var(--ink)}
+:root[data-theme="light"][data-accent="rose"]{--lime:#FF4FA3;--lime-ink:#fff}
+:root[data-theme="light"][data-accent="violet"]{--lime:#A78BFA;--lime-ink:#fff}
+:root[data-theme="light"][data-accent="blue"]{--lime:#60A5FA;--lime-ink:#fff}
+:root[data-theme="light"][data-accent="teal"]{--lime:#2DD4BF;--lime-ink:#0D0D0D}
 .ph-lock{display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--accent-soft);font-size:12.5px;line-height:1.5}
 .ph-lock b{display:block}
 .todayrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 0 12px}
@@ -1569,6 +1606,7 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .mq2-alld{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:14px;padding:22px 16px;border-radius:22px;background:var(--surface);border:1px solid var(--line);text-align:center}.mq2-alld span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:900;font-size:18px}.mq2-alld b{font-size:16px;margin-top:4px}.mq2-alld small{color:var(--muted);font-size:13px}
 .fd-seg{display:flex;gap:3px;margin:12px 0 4px;padding:4px;border-radius:15px;background:var(--surface);border:1px solid var(--line)}.fd-seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:40px;border:0;border-radius:11px;background:none;color:var(--muted);font:inherit;font-size:15px;font-weight:700;cursor:pointer}.fd-seg button.on{background:var(--surface2);color:var(--ink);box-shadow:0 1px 4px #0004}.fd-seg small{font-size:11.5px;font-weight:800;color:var(--accent-ink);background:var(--accent);padding:2px 7px;border-radius:7px}.fd-mt{justify-content:space-between}.fd-mt .ttl{margin:0}
 .mq2-undo{width:100%;height:44px;margin-top:12px;border-radius:14px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.lk-th{flex-wrap:wrap;gap:10px}.lk-seg{display:flex;gap:3px;padding:3px;border-radius:12px;background:var(--surface2);width:100%}.lk-seg button{flex:1;height:36px;border:0;border-radius:9px;background:none;color:var(--muted);font:inherit;font-weight:700;font-size:14px;cursor:pointer}.lk-seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px #0002}
 .mq2-card{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 16px}.mq2-card.nx{border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
 .mq2-top{display:flex;align-items:center;gap:10px}.mq2-top .lt{flex:1;min-width:0}.mq2-top .lt b{font-size:16.5px}.mq2-top .lt small{display:block;font-size:12.5px;color:var(--muted)}
 .mq2-pill{flex:none;font-size:12.5px;font-weight:800;padding:5px 10px;border-radius:10px;background:var(--surface2);color:var(--ink);white-space:nowrap}.mq2-pill.a{background:var(--accent);color:var(--accent-ink)}
@@ -2809,7 +2847,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.206';
+const APP_VERSION='13.3.208';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3276,7 +3314,7 @@ async function flushActive(){
   if(!S.user)return;
   if(_aBusy){_aDirty=true;return;}
   _aBusy=true;
-  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,uL:S.settings.uL||null,uB:S.settings.uB||null,menu:S.settings.menu||null,mq:S.settings.mq||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null,saved:S.settings.saved||null,...Object.fromEntries(PREF_X.map(k=>[k,S.settings[k]??null]))}}); }catch(e){}
+  try{ await sb.from('settings').upsert({user_id:S.user.id,rest:S.settings.rest,active:S.active?clone(S.active):null,prefs:{notif:S.settings.notif||{},schedule:S.settings.schedule||{},kcalT:S.settings.kcalT||null,protT:S.settings.protT||null,goalKg:S.settings.goalKg||null,photoDay:S.settings.photoDay??null,tourDone:S.settings.tourDone||null,toursSeen:S.settings.toursSeen||null,lang:window._langNext||LANG,badgesSeen:S.settings.badgesSeen||null,body:S.settings.body||null,wrapSeen:S.settings.wrapSeen||null,g:S.settings.g||null,accent:S.settings.accent||null,theme:S.settings.theme||null,uL:S.settings.uL||null,uB:S.settings.uB||null,menu:S.settings.menu||null,mq:S.settings.mq||null,start:S.settings.start||null,coach:S.settings.coach||null,nc:S.settings.nc||null,gear:S.settings.gear||null,saved:S.settings.saved||null,...Object.fromEntries(PREF_X.map(k=>[k,S.settings[k]??null]))}}); }catch(e){}
   _aBusy=false; if(_aDirty){_aDirty=false;flushActive();}
 }
 async function persistSettings(){ clearTimeout(_aT); return flushActive(); }
@@ -3471,6 +3509,7 @@ function render(){
   try{ const q0=$('#ask-q'); if(q0&&q0.value)askFit(q0,true); }catch(_){}
   if(askFocus){ const q=$('#ask-q'); if(q){ try{ q.focus({preventScroll:true}); q.setSelectionRange(q.value.length,q.value.length); }catch(_){} if(q.value.trim().length>=2)foodSearch(q.value,'ask-res'); } } }
 function render_(){
+  try{ const lt=S.mode==='app'&&themeOn(S.settings?.theme||(()=>{ try{ return localStorage.getItem('nr-theme'); }catch(_){ return null; } })()), h=document.documentElement; if(lt!==(h.getAttribute('data-theme')==='light')){ if(lt)h.setAttribute('data-theme','light'); else h.removeAttribute('data-theme'); const tc=document.querySelector('meta[name="theme-color"]'); if(tc)tc.setAttribute('content',lt?'#F5F5F3':'#0A0B0A'); } }catch(_){}
   if(S.tab==='plans'){S.tab='train';S.trainView='plans';}
   for(const b of document.querySelectorAll('#tabs button'))b.classList.toggle('on',b.dataset.tab===S.tab);
   requestAnimationFrame(tbPill);
@@ -10070,13 +10109,21 @@ function openNotifSheet(){
     <button class="btn" style="width:100%;margin-top:16px" data-act="rest-test">בדיקת התראת מנוחה (10 שניות)</button>
     <div class="small muted" style="margin-top:6px">לחץ, צא מהאפליקציה מיד, ובעוד 10 שניות אמורה להגיע התראה.</div>`);
 }
+function themeOn(v){ v=v||'dark'; return v==='light'||(v==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches); }
+function themeApply(v){ v=v||'dark'; const h=document.documentElement, lt=themeOn(v);
+  if(lt)h.setAttribute('data-theme','light'); else h.removeAttribute('data-theme');
+  const tc=document.querySelector('meta[name="theme-color"]'); if(tc)tc.setAttribute('content',lt?'#F5F5F3':'#0A0B0A');
+  try{ localStorage.setItem('nr-theme',v); }catch(_){}
+  try{ const SB=window.Capacitor?.Plugins?.StatusBar; if(SB){ SB.setStyle({style:lt?'LIGHT':'DARK'}); SB.setBackgroundColor?.({color:lt?'#F5F5F3':'#0A0B0A'}); } }catch(_){} }
+try{ matchMedia('(prefers-color-scheme: light)').addEventListener('change',()=>{ if((S.settings?.theme||'dark')==='auto'){ themeApply('auto'); render(); } }); }catch(_){}
 function openLookSheet(){
   openSheet(`${sheetHead('שפה ומראה')}
     <div class="card list">
       <button class="li" data-act="lang-open">${ICON.globe}<span class="lt"><b>שפה</b><small data-notr>${LANG_NAMES[LANG]}</small></span>${ICON.chev}</button>
       <button class="li" data-act="units-open">${ICON.scale||ICON.chart}<span class="lt"><b>יחידות משקל</b><small>${tt('משקל גוף')}: ${uB()==='lb'?'lb':tt('ק״ג')} · ${tt('אימונים')}: ${uL()==='lb'?'lb':tt('ק״ג')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="g-open">${ICON.user}<span class="lt"><b>פנייה</b><small>${{m:'לשון זכר',f:'לשון נקבה',x:'לא משנה'}[S.settings.g]||'לא נבחר'}</small></span>${ICON.chev}</button>
-      <button class="li" data-act="acc-open"><span style="width:22px;height:22px;border-radius:50%;background:var(--accent);flex-shrink:0"></span><span class="lt"><b>צבע</b><small>${(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]}</small></span>${ICON.chev}</button>
+      <div class="li lk-th"><span class="lt"><b>${tt('מראה')}</b></span><div class="lk-seg">${[['dark','כהה'],['light','בהיר'],['auto','לפי המכשיר']].map(([k,l])=>`<button class="${(S.settings.theme||'dark')===k?'on':''}" data-act="theme-set" data-v="${k}">${tt(l)}</button>`).join('')}</div></div>
+      <button class="li" data-act="acc-open"><span style="width:22px;height:22px;border-radius:50%;background:${themeOn(S.settings.theme)?'var(--lime)':'var(--accent)'};flex-shrink:0"></span><span class="lt"><b>צבע</b><small>${(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]}</small></span>${ICON.chev}</button>
     </div>`);
 }
 function openHelpSheet(){
@@ -12831,6 +12878,7 @@ function handleAct(b,ev){
     case 'finish-w': renderFinish(); break;
     case 'save-w': doSaveWorkout(); break;
     case 'sheet-close': closeSheet(); break;
+    case 'theme-set': S.settings.theme=b.dataset.v; themeApply(S.settings.theme); persistSettings(); logEv('theme',{v:b.dataset.v}); openLookSheet(); render(); break;
     case 'acct-delete': openSheet(`<h3>מחיקת החשבון</h3><div class="muted" style="margin:-4px 0 12px;line-height:1.55">החשבון שלך יימחק עכשיו, יחד עם כל האימונים, הארוחות, השקילות, התמונות וההודעות בקבוצות. אי אפשר לשחזר אותם אחר כך. רשומות תשלום נשמרות בלי פרטים מזהים, כפי שהחוק מחייב.</div>
       <div class="rtip" style="margin:0 0 12px"><b>יש לך מנוי בחנות?</b><span>מחיקת החשבון לא מבטלת מנוי שנקנה ב-App Store או ב-Google Play. את המנוי מבטלים בהגדרות המנויים של הטלפון.</span></div>
       <textarea id="del-why" class="adm-in" rows="2" placeholder="${tt('סיבת העזיבה (לא חובה, יעזור לנו להשתפר)')}"></textarea>
@@ -13099,7 +13147,7 @@ async function enterApp(user){
       S.settings.schedule=st.data.prefs?.schedule||{};
       S.settings.kcalT=st.data.prefs?.kcalT||null; S.settings.protT=st.data.prefs?.protT||null; S.settings.goalKg=st.data.prefs?.goalKg||null; S.settings.menu=st.data.prefs?.menu||null; S.settings.mq=st.data.prefs?.mq||null; S.settings.photoDay=st.data.prefs?.photoDay??null; S.settings.tourDone=st.data.prefs?.tourDone||null; if(st.data.prefs?.toursSeen)S.settings.toursSeen=Object.assign({},st.data.prefs.toursSeen,S.settings.toursSeen||{});
       S.settings.badgesSeen=st.data.prefs?.badgesSeen||null; S.settings.body=st.data.prefs?.body||null; S.settings.wrapSeen=st.data.prefs?.wrapSeen||null;
-      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; S.settings.uL=st.data.prefs?.uL||null; S.settings.uB=st.data.prefs?.uB||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null; S.settings.saved=st.data.prefs?.saved||null; PREF_X.forEach(k=>{ S.settings[k]=st.data.prefs?.[k]??null; });
+      S.settings.g=st.data.prefs?.g||null; S.settings.accent=st.data.prefs?.accent||null; if(st.data.prefs?.theme){ S.settings.theme=st.data.prefs.theme; themeApply(S.settings.theme); } S.settings.uL=st.data.prefs?.uL||null; S.settings.uB=st.data.prefs?.uB||null; S.settings.start=st.data.prefs?.start||null; S.settings.coach=st.data.prefs?.coach||null; S.settings.nc=st.data.prefs?.nc||null; S.settings.gear=st.data.prefs?.gear||null; S.settings.saved=st.data.prefs?.saved||null; PREF_X.forEach(k=>{ S.settings[k]=st.data.prefs?.[k]??null; });
       try{ const src=JSON.parse(localStorage.getItem('nr-src')||'null'); if(src&&!localStorage.getItem('nr-src-logged')){ localStorage.setItem('nr-src-logged','1');
         if(!(src.t>new Date(S.user.created_at).getTime()+36e5))logEv('src',src); } }catch(_){}
       if(!S.settings.g&&window.NR_G){ S.settings.g=window.NR_G; setTimeout(()=>persistSettings(),800); }
