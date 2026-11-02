@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c1cf434b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c1cf434b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c1cf434b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=aaa24a90"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=aaa24a90"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=aaa24a90"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1568,6 +1568,7 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .sh-bar{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 6px;min-height:36px}.sh-x{width:36px;height:36px;border-radius:50%;border:0;background:var(--surface2);color:var(--ink);font-size:15px;cursor:pointer}.sh-back{display:flex;align-items:center;gap:4px;height:36px;padding:0 12px 0 8px;border:0;border-radius:18px;background:var(--surface2);color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}html[dir="ltr"] .sh-back svg{transform:scaleX(-1)}
 .mq2-alld{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:14px;padding:22px 16px;border-radius:22px;background:var(--surface);border:1px solid var(--line);text-align:center}.mq2-alld span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:900;font-size:18px}.mq2-alld b{font-size:16px;margin-top:4px}.mq2-alld small{color:var(--muted);font-size:13px}
 .fd-seg{display:flex;gap:3px;margin:12px 0 4px;padding:4px;border-radius:15px;background:var(--surface);border:1px solid var(--line)}.fd-seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:40px;border:0;border-radius:11px;background:none;color:var(--muted);font:inherit;font-size:15px;font-weight:700;cursor:pointer}.fd-seg button.on{background:var(--surface2);color:var(--ink);box-shadow:0 1px 4px #0004}.fd-seg small{font-size:11.5px;font-weight:800;color:var(--accent-ink);background:var(--accent);padding:2px 7px;border-radius:7px}.fd-mt{justify-content:space-between}.fd-mt .ttl{margin:0}
+.mq2-undo{width:100%;height:44px;margin-top:12px;border-radius:14px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
 .mq2-card{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 16px}.mq2-card.nx{border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
 .mq2-top{display:flex;align-items:center;gap:10px}.mq2-top .lt{flex:1;min-width:0}.mq2-top .lt b{font-size:16.5px}.mq2-top .lt small{display:block;font-size:12.5px;color:var(--muted)}
 .mq2-pill{flex:none;font-size:12.5px;font-weight:800;padding:5px 10px;border-radius:10px;background:var(--surface2);color:var(--ink);white-space:nowrap}.mq2-pill.a{background:var(--accent);color:var(--accent-ink)}
@@ -2808,7 +2809,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.204';
+const APP_VERSION='13.3.206';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3418,7 +3419,8 @@ document.addEventListener('scroll',e=>{ const t=e.target; if(t&&t.id==='ask-q')t
 
 /* voice → text: the phone's own speech recognition (free, no AI call). The text lands in the box for a quick check, then "חשב" */
 const voNat=()=>{ const c=window.Capacitor; return c&&c.isNativePlatform&&c.isNativePlatform()&&c.Plugins&&c.Plugins.SpeechRecognition||null; };
-const voWeb=()=>window.SpeechRecognition||window.webkitSpeechRecognition||null;
+const voIOSPWA=()=>/iP(hone|ad|od)/.test(navigator.userAgent)&&(navigator.standalone||matchMedia('(display-mode: standalone)').matches);
+const voWeb=()=>(!voIOSPWA()&&!(()=>{try{return localStorage.getItem('nr-vo-bad')==='1';}catch(_){return false;}})()&&(window.SpeechRecognition||window.webkitSpeechRecognition))||null;
 const voOK=()=>!!(voNat()||voWeb());
 const voLang=()=>({he:'he-IL',ar:'ar-SA',en:'en-US'})[LANG]||'he-IL';
 let VO=null;
@@ -3435,9 +3437,10 @@ async function voStart(qid){ qid=qid||'ask-q'; const q=$('#'+qid), box=q?.closes
   const show=t=>{ if(!VO)return; VO.txt=t; VO.last=Date.now(); live.textContent=t; };
   VO.iv=setInterval(()=>{ if(!VO)return; const s=Math.floor((Date.now()-VO.t0)/1000); tm.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
     // native gives the real mic level; the web has none, so the wave follows when words arrive
-    const l=N?VO.lvl:(Date.now()-VO.last<700?.35+Math.random()*.6:.06+Math.random()*.12);
+    const l=N?VO.lvl:(VO.last&&Date.now()-VO.last<700?.35+Math.random()*.6:.03);
     VO.hs.push(l); if(VO.hs.length>bars.length)VO.hs.shift(); bars.forEach((b,i)=>{ const v=VO.hs[i-(bars.length-VO.hs.length)]; b.style.height=(v==null?4:Math.max(4,Math.round(4+v*28)))+'px'; });
-    if(s>=60)voStop(true); },100);
+    if(s>=60)voStop(true);
+    if(!N&&!VO.txt&&!VO.warned&&Date.now()-VO.t0>8000){ VO.warned=1; voStop(false); toast(tt('לא שמעתי כלום. אפשר לכתוב במקום, או לנסות שוב')); voFail(); } },100);
   try{
     if(N){ VO.subs.push(await N.addListener('partialResults',e=>show(e.accumulatedText||e.matches?.[0]||VO.txt)));
       VO.subs.push(await N.addListener('audioLevel',e=>{ if(VO)VO.lvl=Math.min(1,Math.max(0,+e.level||0)); }));
@@ -3445,14 +3448,18 @@ async function voStart(qid){ qid=qid||'ask-q'; const q=$('#'+qid), box=q?.closes
       await N.start({language:voLang(),partialResults:true,popup:false,addPunctuation:true,maxResults:1}); }
     else { const r=new W(); VO.r=r; r.lang=voLang(); r.continuous=true; r.interimResults=true;
       r.onresult=e=>{ let t=''; for(const x of e.results)t+=x[0].transcript; show(t.trim()); };
-      r.onerror=e=>{ if(e.error==='not-allowed'||e.error==='service-not-allowed')toast(tt('צריך לאשר גישה למיקרופון')); };
-      r.onend=()=>{ if(VO&&!VO.stopping)voStop(true); }; r.start(); }
+      r.onerror=e=>{ if(!VO||VO.stopping)return; const er=e.error; if(er==='aborted')return;
+        if(er==='no-speech'&&!VO.txt){ return; } // the watchdog handles silence
+        voStop(true); toast(er==='not-allowed'||er==='service-not-allowed'?tt('צריך לאשר גישה למיקרופון'):er==='network'?tt('ההקלטה צריכה חיבור לאינטרנט. אפשר לכתוב במקום'):tt('ההקלטה לא עבדה. אפשר לכתוב במקום')); if(er!=='not-allowed'&&er!=='no-speech')voFail(); };
+      r.onend=()=>{ if(VO&&!VO.stopping){ if(!VO.txt&&Date.now()-VO.t0<8000&&!VO.rs){ VO.rs=1; try{ r.start(); return; }catch(_){} } voStop(true); } }; r.start(); }
   }catch(err){ console.warn('voice',err); voStop(false); toast(tt('ההקלטה לא זמינה כרגע')); } }
+function voFail(){ try{ const n=+(localStorage.getItem('nr-vo-f')||0)+1; localStorage.setItem('nr-vo-f',n); if(n>=2)localStorage.setItem('nr-vo-bad','1'); }catch(_){} }
 async function voStop(apply){ const v=VO; if(!v||v.stopping)return; v.stopping=true; clearInterval(v.iv);
   const N=voNat(); try{ if(N)await N.stop(); else v.r?.stop(); }catch(_){}
   for(const s of v.subs)try{ s.remove(); }catch(_){}
   VO=null; const box=v.box&&document.contains(v.box)?v.box:$('.ask1'); box?.querySelector('.ask-rec')?.remove(); box?.classList.remove('rec');
-  const q=$('#'+(v.qid||'ask-q')); if(apply&&q&&v.txt){ q.value=(v.base?v.base+' ':'')+v.txt; q.dispatchEvent(new Event('input',{bubbles:true})); } }
+  if(v.txt)try{ localStorage.removeItem('nr-vo-f'); }catch(_){}
+  const q=$('#'+(v.qid||'ask-q')); if(apply&&!v.txt&&!v.warned)toast(tt('לא נקלט טקסט. אפשר לכתוב במקום')); if(apply&&q&&v.txt){ q.value=(v.base?v.base+' ':'')+v.txt; q.dispatchEvent(new Event('input',{bubbles:true})); } }
 /* ---------- rendering ---------- */
 function render(){
   if(IS_NATIVE)requestAnimationFrame(natStatusBar);
@@ -6131,6 +6138,7 @@ const MQ_IC=k=>SLOT_IC[k]||'<svg viewBox="0 0 24 24"><path d="M12 7c-1-2.5-3-3-4
 const MQ_OR={P:'או כל חלבון אחר',C:'או כל פחמימה אחרת',F:'או כל שומן אחר',X:'או כל פרי אחר'};
 const mqSq=()=>mqS().p?.mode==='sq'; // squares only: the user fills each budget; the menu's foods are ideas
 function mqMealHTML(m,i,today,open,isNext){ const nm=tt(MQ_K[m.k]), K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)), sq=Math.round(K/100), dn=mqName(m), SQ=mqSq(), shown=x=>!SQ||x.pick||x.r==='V';
+  if(m.done===today&&open)return `<div class="mq2-card mq2-done"><div class="mq2-top"><span class="ms-ic" aria-hidden="true" style="background:var(--accent);color:var(--accent-ink);font-weight:900">✓</span><span class="lt"><b>${nm} · ${tt('נרשם')}</b><small>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</small></span></div><button class="mq2-undo" data-act="mq-undo" data-m="${i}">↺ ${tt('לא אכלתי, לבטל')}</button><div class="mq2-tip">${m.mid?tt('הארוחה תימחק גם מהיומן'):tt('הארוחה תחזור לתפריט')}</div></div>`;
   if(m.done===today)return `<button class="mq2-mini ok" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">✓</span><span class="lt"><b>${nm}</b><small>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</small></span></button>`;
   const sub=m.out?tt('אוכלים בחוץ'):SQ&&!m.items.some(x=>x.pick)?tt('בחירה חופשית'):esc(dn||m.items.filter(x=>x.id&&x.r==='P'&&shown(x)).map(x=>mfName(MFI(x.id))).join(' · '));
   if(!open)return `<button class="mq2-mini" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">${MQ_IC(m.k)}</span><span class="lt"><b>${nm} <span class="tm num">· ${m.t}</span></b><small>${sub||tt('ריקה')}</small></span><span class="mq2-pill num">${sq}</span></button>`;
@@ -6371,7 +6379,7 @@ async function mqEat(i,G){ const day=mqDay(), m=day&&day[i], today=ymd(); if(!m|
   const tot=items.reduce((a,t)=>({kcal:a.kcal+t.kcal,protein:a.protein+t.protein,carbs:a.carbs+t.carbs,fat:a.fat+t.fat}),{kcal:0,protein:0,carbs:0,fat:0});
   for(const [j,x] of m.items.entries()){ const f=x.id&&MFI(x.id); if(f&&(!G||G[j]>0)&&Number.isInteger(f.c)&&f.c<900000)sb.rpc('bump_food',{c:f.c}).then(()=>{},()=>{}); }
   m.done=today; persistSettings(); logEv(G?'menu_log_adj':'menu_log');
-  const keep=S.foodDate; S.foodDate=today; _mealDraft={name:m.rcp&&RCP(m.rcp)?RCP(m.rcp).n:(MSLOT[m.k]?.[1]||'ארוחה'),items,...tot}; await saveMealDraft(); S.foodDate=keep; render(); }
+  const keep=S.foodDate; S.foodDate=today; _mealDraft={name:m.rcp&&RCP(m.rcp)?RCP(m.rcp).n:(MSLOT[m.k]?.[1]||'ארוחה'),items,...tot}; window._lastMeal=null; await saveMealDraft(); S.foodDate=keep; if(window._lastMeal){ m.mid=window._lastMeal; persistSettings(); } render(); }
 /* ארוחה אחרת: ארוחה אמיתית אחרת מהספרייה, באותו גודל */
 /* "another meal": a different real meal from the library, the same size, with the same caps and portions as the generated day.
    First it avoids everything on today's menu and in this meal; if that leaves nothing sensible (a vegan, gluten-free day) it may reuse the day's foods; it never hands back a plate without protein */
@@ -6402,7 +6410,7 @@ function mqSwKinds(){ const p=mqS().p||{}, K=p.swk||[];
 /* "I ate something else": the meal is logged as what was really eaten, and the difference can move into the rest of the day */
 let MQX=null;
 function mqAltSaved(row){ const x=MQX; MQX=null; const q=mqS(), today=ymd(), day=mqDay(), m=day&&day[x.i]; if(!m||row.d!==today)return;
-  m.done=today; m.alt={n:String(row.name||'').slice(0,40),k:Math.round(+row.kcal||0)}; const diff=Math.round((+row.kcal||0)-x.K0);
+  m.done=today; m.mid=row.id; m.alt={n:String(row.name||'').slice(0,40),k:Math.round(+row.kcal||0)}; const diff=Math.round((+row.kcal||0)-x.K0);
   q.rb=Math.abs(diff)>=80?{d:today,diff,i:x.i}:null; persistSettings(); logEv('menu_alt'); }
 function mqRbApply(){ const q=mqS(), r=q.rb, today=ymd(); if(!r)return; if(!(q.ovr&&q.ovr.d===today))q.ovr={d:today,meals:JSON.parse(JSON.stringify(q.meals))};
   const L=q.ovr.meals.filter(m=>m.done!==today&&mqHas(m)), tot=L.reduce((a,m)=>a+mqK(m),0); if(tot>0){ const f=Math.max(.5,Math.min(1.5,(tot-r.diff)/tot)); mqScale(L,f,true); }
@@ -6424,6 +6432,8 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-wgo': mqWizDone(); return true;
     case 'mq-pick': mqPickOpen(mi,+b.dataset.l); return true;
     case 'mq-setf': { const m=day&&day[mi], x=m&&m.items[+b.dataset.l], f=MFI(b.dataset.id); if(x&&f){ const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100); x.id=f.id; x.r=f.r; x.g=mqFitG(f,kc,m); delete x.kt; x.pick=1; m.name=null; persistSettings(); } closeSheet(); render(); return true; }
+    case 'mq-undo': { const m=day&&day[mi]; if(!m)return true; const id=m.mid; delete m.done; delete m.mid; delete m.alt; if(q.rb&&q.rb.i===mi)q.rb=null; persistSettings();
+      if(id&&S.meals.some(x=>x.id===id))deleteMeal(id); else { render(); toast(tt('הארוחה חזרה לתפריט')); } logEv('menu_undo'); return true; }
     case 'mq-rxl': closeSheet(); setTimeout(()=>rcpListOpen(mi),40); return true;
     case 'mq-rxf': RX.f=b.dataset.v; rcpListR(); return true;
     case 'mq-rxo': rcpOpen(b.dataset.id,mi,b.dataset.v); return true;
@@ -7686,7 +7696,8 @@ async function saveMealEdit(){
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
 async function deleteMeal(id){
-  S.meals=S.meals.filter(m=>m.id!==id); _mealEdit=null; saveSnapshot(); closeSheet(); render();
+  S.meals=S.meals.filter(m=>m.id!==id); _mealEdit=null;
+  try{ const q=mqS(); for(const L of [q.meals,q.ovr&&q.ovr.meals])for(const x of L||[])if(x.mid===id){ delete x.done; delete x.mid; delete x.alt; persistSettings(); } }catch(_){} // deleted from the log → the menu meal is open again saveSnapshot(); closeSheet(); render();
   // drop a pending offline insert of the same meal; otherwise delete on the server (queued when offline)
   try{ const q=qAll(), k=q.filter(x=>!(x.table==='meals'&&x.row&&x.row.id===id&&!x.row._del)); if(k.length!==q.length){ localStorage.setItem(Q_KEY,JSON.stringify(k)); updateSyncBadge(); } }catch(_){}
   try{ const {error}=await sb.from('meals').delete().eq('id',id); if(error)throw error; }
@@ -7699,7 +7710,7 @@ async function saveMealDraft(){
   const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
   if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
   const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,altd,ai0,src,code,ai,pos,oil,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט',...(m.mc&&ai0?{ai:{...ai0,...(src?{s:src}:{}),...(code?{c:code}:{})}}:{})}))};
-  S.meals.push({...row}); if(MQX&&Date.now()-MQX.at<36e5&&row.name!=='מתוק')try{ mqAltSaved(row); }catch(e){ console.warn(e); } saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
+  S.meals.push({...row}); window._lastMeal=row.id; if(MQX&&Date.now()-MQX.at<36e5&&row.name!=='מתוק')try{ mqAltSaved(row); }catch(e){ console.warn(e); } saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
@@ -12465,6 +12476,7 @@ document.addEventListener('click',ev=>{
 });
 function handleAct(b,ev){
   const act=b.dataset.act;
+  if(VO&&act!=='vo-stop'&&act!=='vo-cancel'){ voStop(true).then(()=>{ try{ handleAct(b,ev); }catch(err){ console.error(err); } }); return; }
   if(act==='lock-view'){ enterApp._ro=true; S.trackView='history'; S.tab='track'; enterApp(S.user); return; }
   if(act==='lock-pay'){ S.mode='paywall'; render(); window.scrollTo(0,0); return; }
   if(S.locked&&S.mode==='app'&&!LOCK_OK.test(act)){ toast(tt('מצב צפייה בלבד. בוחרים מסלול, והכל נפתח מיד.')); return; }
