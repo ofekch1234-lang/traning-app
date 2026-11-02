@@ -3,7 +3,7 @@
 const fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '../..'), OUT = path.resolve(__dirname, '../www');
 fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(OUT, { recursive: true });
-const keep = f => /^(index\.html|menu-foods\.js|manifest(-f)?\.json|badge-96\.png|icon(-f)?-\d+\.png|(privacy|terms|accessibility)(-en|-ar)?\.html)$/.test(f);
+const keep = f => /^(index\.html|menu-foods\.js|recipes\.js|manifest(-f)?\.json|badge-96\.png|icon(-f)?-\d+\.png|(privacy|terms|accessibility)(-en|-ar)?\.html)$/.test(f);
 for (const f of fs.readdirSync(ROOT)) if (keep(f)) fs.copyFileSync(path.join(ROOT, f), path.join(OUT, f));
 // notification sounds: iOS and Android look them up at the web root (public/); the app also plays them in-app
 for (const f of fs.readdirSync(path.resolve(__dirname, '../sounds'))) if (f.endsWith('.wav')) fs.copyFileSync(path.resolve(__dirname, '../sounds', f), path.join(OUT, f));
