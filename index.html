@@ -2397,7 +2397,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.207';
+const APP_VERSION='13.3.209';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5137,7 +5137,7 @@ const RCP_NM={chp:'גרגירי חומוס (מבושלים או מקופסה)',w
 const rcpGr=f=>f&&f.hm&&f.hm[1]==='מנה';
 const RCP_XI={"בצל": 1, "עגבניות מרוסקות": 2, "רוטב סויה": 3, "בשר בקר טחון 5%": 4, "פירורי לחם": 5, "בצל סגול": 6, "חזה הודו טחון": 7, "בצל ירוק": 8, "מיץ לימון": 9, "חרדל": 10, "קקאו": 11, "סילאן": 12, "אפונה": 13, "חלב קוקוס": 14, "רוטב עגבניות": 15, "דבש": 16, "יוגורט 3%": 17, "שומשום": 18, "מיץ ליים": 19, "סלרי": 20, "שמנת צמחית לבישול": 21, "רוטב טריאקי": 22, "סלמון מעושן": 23, "סלסה": 24, "הריסה": 25, "פטרוזיליה, שמיר ובצל ירוק": 26, "חלבוני ביצה": 27, "קפה נמס": 28, "זרעי צ׳יה": 29, "קוקוס טחון": 30, "סולת": 31, "תרד טרי": 32, "נענע": 33, "זעתר": 34, "קורנפלור": 35, "פיסטוקים קצוצים": 36, "קטשופ": 37, "חומץ": 38, "בזיליקום": 39, "רוטב ברביקיו": 40, "רוקט": 41, "פטרוזיליה": 42, "שעועית אדומה מקופסה": 43, "חרדל ודבש": 44, "שמנת לבישול 10%": 45, "עגבניות שרי": 46, "קמח": 47, "דלעת": 48};
 /* photo of a free-text ingredient (img/recipes/x), by its Hebrew name */
-const rcpXImg=(it,sz)=>{ const n=RCP_XI[String(it.xh||it.x||'').replace(/\s*\(.*\)/,'').trim()]; return n?`<img class="fd-img" src="img/recipes/x/xi${String(n).padStart(2,'0')}.webp" alt="" loading="lazy" width="${sz}" height="${sz}" style="width:${sz}px;height:${sz}px">`:`<span class="rc-ph" style="width:${sz}px;height:${sz}px"></span>`; };
+const rcpXImg=(it,sz)=>{ const n=RCP_XI[String(it.xh||it.x||'').replace(/\s*\(.*\)/,'').trim()]||((it.taste||it.h==='לפי הטעם')&&it.x!=='קרח'?49:0); return n?`<img class="fd-img" src="img/recipes/x/xi${String(n).padStart(2,'0')}.webp" alt="" loading="lazy" width="${sz}" height="${sz}" style="width:${sz}px;height:${sz}px">`:`<span class="rc-ph" style="width:${sz}px;height:${sz}px"></span>`; };
 const rcpStep=(f,base)=>{ if(!f)return 1; if(RCP_RAW[f.id])return 10/RCP_RAW[f.id][0]; if(f.u&&f.ug)return f.ug*(f.us||1); if(f.hm&&!rcpGr(f))return f.hm[0]*(f.hm[1]==='כוס'?.25:.5); return base<60?5:10; };
 const rcpVals=(it,g)=>{ const f=rcpFood(it)||it, m=(g??it.g)/100; return {k:f.k*m,p:f.p*m,cb:f.cb*m,ft:f.ft*m}; };
 const rcpTot=(R,G)=>R.it.reduce((a,it,i)=>{ const v=rcpVals(it,G[i]); a.k+=v.k;a.p+=v.p;a.cb+=v.cb;a.ft+=v.ft; return a; },{k:0,p:0,cb:0,ft:0});
