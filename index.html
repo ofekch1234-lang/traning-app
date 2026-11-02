@@ -11571,7 +11571,7 @@ function handleAct(b,ev){
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': sb.auth.signOut(); break;
     case 'np-close': closeNumpad(); break;
-    case 'go': S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); window.scrollTo(0,0); break;
+    case 'go': if(b.dataset.to==='food'&&S.tab!=='food'&&!S.mqW)S.menuOpen=false; S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); window.scrollTo(0,0); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
     case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
     case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
@@ -11728,6 +11728,7 @@ document.getElementById('tabs').addEventListener('click',ev=>{
   const b=ev.target.closest('[data-tab]'); if(!b)return;
   if(b.dataset.tab==='social'&&S.tab==='social'&&SOC.gid){SOC.gid=null;} // לחיצה חוזרת = חזרה לרשימה
   const changed=S.tab!==b.dataset.tab;
+  if(changed&&b.dataset.tab==='food'&&!S.mqW)S.menuOpen=false; // התזונה נפתחת תמיד ביומן
   S.tab=b.dataset.tab; location.hash=S.tab; S.confirmDel=null; render(); if(changed){window.scrollTo(0,0); setTimeout(maybeStartTour,350);}
   if(S.tab==='social')socLoad();
 });
