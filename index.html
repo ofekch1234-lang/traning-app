@@ -53,15 +53,16 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=22ba230b"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=22ba230b"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=22ba230b"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=60d1430a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=60d1430a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=60d1430a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="menu-foods.js?v=17"></script>
 <script src="recipes.js?v=1" defer></script>
+<script>if(window.NR_LANG==="en"||window.NR_LANG==="ar")document.write('<script src="recipes-'+window.NR_LANG+'.js?v=1" defer><\/script>');</script>
 <style>
 /* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
 /* numbers: Sora digits only (subset, ~3KB per weight); letters stay Heebo */
@@ -1547,7 +1548,7 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .mq2-strip small{font-size:11.5px;color:var(--muted)}.mq2-strip b{font-size:14px}.mq2-strip .ok{opacity:.6}.mq2-strip .on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}.mq2-strip .d{font-size:12px;color:var(--accent);font-weight:800}
 .rx-cta{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:11px 14px;border-radius:16px;background:color-mix(in srgb,var(--accent) 9%,var(--surface2));border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);cursor:pointer}
 .rx-cta .th{display:flex;flex:none}.rx-cta .rx-img{border-radius:50%;border:2px solid var(--surface);margin-inline-start:-12px;object-fit:cover}.rx-cta .rx-img:first-child{margin-inline-start:0}
-.rx-cta .tx{flex:1;display:flex;flex-direction:column;min-width:0}.rx-cta b{font-size:15px}.rx-cta small{font-size:12.5px;color:var(--muted)}.rx-cta i,.rx-how i{font-style:normal;color:var(--accent);display:grid;flex:none}
+.rx-cta .tx{flex:1;display:flex;flex-direction:column;min-width:0}.rx-cta b{font-size:15px}.rx-cta small{font-size:12.5px;color:var(--muted)}.rx-cta i,.rx-how i{font-style:normal;color:var(--accent);display:grid;flex:none}html[dir="ltr"] .rx-cta i svg,html[dir="ltr"] .rx-how i svg{transform:scaleX(-1)}
 .rx-h{font-size:22px;margin:4px 0 2px}.rx-sub{color:var(--muted);font-size:14px;margin-bottom:12px}.rx-ch{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
 .rx-r{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}.rx-r:first-of-type{border-top:0}
 .rx-img{border-radius:14px;object-fit:cover;flex:none;background:var(--surface2)}
@@ -2800,7 +2801,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.198';
+const APP_VERSION='13.3.200';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6142,12 +6143,17 @@ function mqSwHTML(today){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?
 function mqHintHTML(){ const p=mqS().p||{}; if(p.hintX)return '';
   return `<div class="mq-hint"><img src="img/kobi-wink.svg" alt=""><span><b>${tt('זה כיוון ליום, לא חוק')}</b>${mqSq()?tt('ראפי נותן תקציב לכל ארוחה, ואתה ממלא. צריך רעיון? לחיצה אחת.'):tt('כל מאכל אפשר להחליף באחר עם אותו מספר ריבועים. לוחצים עליו ובוחרים.')}</span><button class="mq-hcl" data-act="mq-hintx" aria-label="${tt('סגירה')}">✕</button></div>`; }
 /* ── מתכונים: ספרייה (recipes.js) שהכמויות שלה מותאמות ליעד של הארוחה ── */
-const RCP=id=>(window.RECIPES||[]).find(r=>r.id===id);
+const RCP_C={};
+/* he: the recipe as written; en/ar: the same recipe with names, steps and free-text ingredients from recipes-<lang>.js (the Hebrew name is kept for filtering) */
+function RCP(id){ const R=(window.RECIPES||[]).find(r=>r.id===id); if(!R||!MLI)return R; if(RCP_C[id])return RCP_C[id]; const T=(window.RECIPES_L||{})[id]; if(!T)return null;
+  return RCP_C[id]={...R,n:T.n,st:T.st,it:R.it.map((it,i)=>{ if(it.id)return it; const o=(T.x||{})[i]||{}; return {...it,xh:it.x,x:o.x||it.x,h:o.h!=null?o.h:it.h,sub:o.sub!=null?o.sub:it.sub,taste:it.h==='לפי הטעם'}; })}; }
+const rcpAll=()=>(window.RECIPES||[]).map(r=>RCP(r.id)).filter(Boolean);
 const rcpFood=it=>it.id?MFI(it.id):null;
 // מזונות שהערך שלהם בקטלוג הוא אחרי בישול: מוצגים כמו שקונים (בשר נא, דגן יבש). [גרם נא לגרם מבושל, שם, סוג, גרם לכוס יבשה, גודל אריזה, תואר]
 const RCP_RAW={chk:[1.33,'חזה עוף','m'],thg:[1.35,'פרגיות','m'],snt:[1.3,'סינטה','m'],sal:[1.2,'פילה סלמון','m'],fsh:[1.2,'פילה אמנון','m'],dns:[1.25,'פילה דניס','m'],
   ric:[.36,'אורז לבן','g',185],brr:[.34,'אורז מלא','g',190],pas:[.43,'פסטה','g',0,500,'יבשה'],cus:[.3,'קוסקוס','g',175],qui:[.33,'קינואה','g',170,0,'יבשה'],bul:[.24,'בורגול','g',140],
   pti:[.42,'פתיתים','g',0,500,'יבשים'],rnd:[.3,'אטריות אורז','g',0,400,'יבשות'],len:[.33,'עדשים','g',190,0,'יבשים']};
+const RCP_RN={chk:['Chicken breast','صدر دجاج'],thg:['Chicken thighs','أفخاذ دجاج'],snt:['Sirloin steak','ستيك سينتا'],sal:['Salmon fillet','فيليه سلمون'],fsh:['Tilapia fillet','فيليه بلطي'],dns:['Sea bream fillet','فيليه دنيس'],ric:['White rice','أرز أبيض'],brr:['Brown rice','أرز بني'],pas:['Pasta','معكرونة'],cus:['Couscous','كسكس'],qui:['Quinoa','كينوا'],bul:['Bulgur','برغل'],pti:['Israeli couscous (ptitim)','بتيتيم'],rnd:['Rice noodles','نودلز الأرز'],len:['Lentils','عدس']};
 const RCP_NM={chp:'גרגירי חומוס (מבושלים או מקופסה)',wbn:'שעועית לבנה (מקופסה, מסוננת)',crn:'תירס',mpt:'פירה',egp:'חציל',spn:'תרד',msh:'פטריות',zuc:'קישוא',let:'חסה',swp:'בטטה',pot:'תפוח אדמה',brc:'ברוקולי',grb:'שעועית ירוקה',pep:'פלפל אדום',sld:'סלט ירקות'};
 const rcpGr=f=>f&&f.hm&&f.hm[1]==='מנה';
 const rcpStep=(f,base)=>{ if(!f)return 1; if(RCP_RAW[f.id])return 10/RCP_RAW[f.id][0]; if(f.u&&f.ug)return f.ug*(f.us||1); if(f.hm&&!rcpGr(f))return f.hm[0]*(f.hm[1]==='כוס'?.25:.5); return base<60?5:10; };
@@ -6167,27 +6173,32 @@ function rcpFit(R,K,PT){
   if(iF>=0){ const t=rcpTot(R,G).k; if(t>K*1.06)set(iF,R.it[iF].g*.5,.5); else if(t<K*.94)set(iF,G[iF]+(K-t)/F(iF).k*100,1); }
   const t=rcpTot(R,G); return {G,t,ok:Math.abs(t.k-K)<=K*.1}; }
 function rcpAmt(it,g){ const f=rcpFood(it);
-  if(!f&&it.r){ const r=Math.round(g/10)*10, q=Math.round(r/500*4)/4; return {a:r+' '+tt('ג׳'),n:it.x,sub:(it.sub||'')+(q>=.25?` · בערך ${fracQ(q)} מגש של 500 ג׳`:''),raw:1}; }
-  if(!f)return {a:it.h,n:it.x};
+  const GR=tt('ג׳'), PK=(q,w,m)=>tt(m?'בערך {0} מגש של {1} ג׳':'בערך {0} חבילה של {1} ג׳').replace('{0}',fracQ(q)).replace('{1}',w), CUP=q=>tt(q>1?'{0} כוסות':'{0} כוס').replace('{0}',fracQ(q));
+  if(!f&&it.r){ const r=Math.round(g/10)*10, q=Math.round(r/500*4)/4; return {a:r+' '+GR,n:it.x,sub:(it.sub||'')+(q>=.25?' · '+PK(q,500,1):''),raw:1}; }
+  if(!f)return {a:it.h,n:it.x,taste:it.taste||it.h==='לפי הטעם'};
   const W=RCP_RAW[f.id];
-  if(W){ const r=Math.round(g*W[0]/10)*10, pk=W[4]&&r/W[4]>=.2?` · בערך ${fracQ(Math.max(.25,Math.round(r/W[4]*4)/4))} ${W[2]==='m'?'מגש':'חבילה'} של ${W[4]} ג׳`:'';
-    if(W[2]==='m')return {a:r+' '+tt('ג׳'),n:W[1],id:f.id,sub:`לפני בישול${pk} · אחרי בישול כ־${Math.round(g/10)*10} ג׳`,raw:1};
+  if(W){ const r=Math.round(g*W[0]/10)*10, pk=W[4]&&r/W[4]>=.2?' · '+PK(Math.max(.25,Math.round(r/W[4]*4)/4),W[4],W[2]==='m'):'', nm=MLI?RCP_RN[f.id][MLI-1]:W[1];
+    if(W[2]==='m')return {a:r+' '+GR,n:nm,id:f.id,sub:`${tt('לפני בישול')}${pk} · ${tt('אחרי בישול כ־{0} ג׳').replace('{0}',Math.round(g/10)*10)}`,raw:1};
     const cq=f.hm?Math.round(g/f.hm[0]*4)/4:0, dq=W[3]?Math.round(r/W[3]*4)/4:0;
-    return {a:r+' '+tt('ג׳'),n:W[1],id:f.id,sub:`${W[5]||'יבש'}${dq?` · בערך ${fracQ(dq)} ${dq>1?'כוסות':'כוס'}`:''}${pk}${cq?` · יוצא כ־${fracQ(cq)} ${cq>1?'כוסות':'כוס'} מבושל`:''}`,raw:1}; }
-  const nm=RCP_NM[f.id]||f.n[0];
-  if(f.u&&f.ug){ const q=g/f.ug; return {a:fracQ(q)+' '+(q>1?(f.up||f.u)[0]:f.u[0]),n:nm,id:f.id}; }
-  if(f.hm&&!rcpGr(f)){ const s=f.hm[1]==='כוס'?.25:.5, q=Math.round(g/f.hm[0]/s)*s; return {a:fracQ(q)+' '+(q>1?f.hm[2]:f.hm[1]),n:nm,id:f.id,sub:Math.round(g)+' '+tt('ג׳')}; }
-  return {a:Math.round(g)+' '+tt('ג׳'),n:nm,id:f.id}; }
-function rcpLine(it,g){ const A=rcpAmt(it,g); if(!A.id)return A.a==='לפי הטעם'?A.n:A.a.includes(A.n)?A.a:`${A.a} ${A.n}`; if(A.raw)return `${A.a} ${A.n}${RCP_RAW[A.id][2]==='g'?' '+(RCP_RAW[A.id][5]||'יבש'):''}`; const m=amtName(A.a,A.n,A.id); return `${m.b} ${m.rest}`.trim(); }
+    return {a:r+' '+GR,n:nm,id:f.id,sub:`${MLI?tt('יבש'):W[5]||'יבש'}${dq?' · '+tt('בערך')+' '+CUP(dq):''}${pk}${cq?' · '+tt('יוצא כ־{0} מבושל').replace('{0}',CUP(cq)):''}`,raw:1}; }
+  const nm=MLI?f.n[MLI]:RCP_NM[f.id]||f.n[0];
+  if(f.u&&f.ug){ const q=g/f.ug; return {a:fracQ(q)+' '+(q>1?(f.up||f.u)[MLI]:f.u[MLI]),n:nm,id:f.id}; }
+  if(f.hm&&!rcpGr(f)){ const s=f.hm[1]==='כוס'?.25:.5, q=Math.round(g/f.hm[0]/s)*s; return {a:fracQ(q)+' '+(q>1?f.hm[2+2*MLI]:f.hm[1+2*MLI]),n:nm,id:f.id,sub:Math.round(g)+' '+GR}; }
+  return {a:Math.round(g)+' '+GR,n:nm,id:f.id}; }
+const lc1=t=>MLI===1&&t?t[0].toLowerCase()+t.slice(1):t, uc1=t=>MLI===1&&t?t[0].toUpperCase()+t.slice(1):t;
+function rcpLine(it,g){ const A=rcpAmt(it,g); if(!A.id)return A.taste?A.n:A.a.includes(A.n)?A.a:`${A.a} ${A.n}`;
+  if(A.raw)return MLI?`${A.a} ${lc1(A.n)}${RCP_RAW[A.id][2]==='g'?` (${tt('יבש')})`:''}`:`${A.a} ${A.n}${RCP_RAW[A.id][2]==='g'?' '+(RCP_RAW[A.id][5]||'יבש'):''}`;
+  if(MLI){ const u=A.a.replace(/^\S+\s+/,'').toLowerCase(), n=A.n.toLowerCase(); return u&&(n.includes(u)||u.includes(n)||n.slice(0,3)===u.slice(0,3))?A.a:`${A.a} ${lc1(A.n)}`; }
+  const m=amtName(A.a,A.n,A.id); return `${m.b} ${m.rest}`.trim(); }
 /* רכיב שאינו בקטלוג: ניחוש סוג ורגישויות מהשם, כדי לסנן לפי השאלון */
-const rcpPseudo=it=>{ const x=it.x||'', t=/בקר|הודו|עוף|פסטרמה/.test(x)?'m':/סלמון|דג|טונה|בקלה|סרדין/.test(x)?'f':/גבינ|יוגורט|לאבנה|שמנת(?! צמחית)|חלב(?! קוקוס| שקדים| סויה)|חמאה(?! בוטנים)/.test(x)?'d':/ביצ/.test(x)?'e':'v';
+const rcpPseudo=it=>{ const x=it.xh||it.x||'', t=/בקר|הודו|עוף|פסטרמה/.test(x)?'m':/סלמון|דג|טונה|בקלה|סרדין/.test(x)?'f':/גבינ|יוגורט|לאבנה|שמנת(?! צמחית)|חלב(?! קוקוס| שקדים| סויה)|חמאה(?! בוטנים)/.test(x)?'d':/ביצ/.test(x)?'e':'v';
   return {t,x:(/לחם|פירורי|קמח|סולת|טריאקי|סויה|פסטה|טורטי/.test(x)?'g':'')+(/סויה|טריאקי|טופו/.test(x)?'s':'')+(/אגוז|שקד|בוטנ|קשיו|פסטו/.test(x)?'n':''),honey:/דבש/.test(x)}; };
 function rcpOK(R,p){ p=p||mqS().p||{}; return R.it.every(it=>{ const f=rcpFood(it); if(f)return mqOK({...f,gf:0},p); const ps=rcpPseudo(it); if(p.style==='vegan'&&ps.honey)return false; return mqOK(ps,p); }); }
 const rcpKind=k=>k==='s'?/s/:k==='b'?/[bw]/:/m/;
 const rcpImg=(id,sz)=>`<img class="rx-img" src="img/recipes/${id}.webp" alt="" loading="lazy" width="${sz}" height="${sz}" style="width:${sz}px;height:${sz}px" onerror="this.style.visibility='hidden'">`;
 const rcpMealT=m=>({K:Math.round(mqK(m))||400,PT:Math.round(mqPr(m))||25});
-function rcpFor(m){ if(MLI||!window.RECIPES)return []; const {K,PT}=rcpMealT(m), re=rcpKind(m.k), p=mqS().p||{};
-  return RECIPES.filter(R=>re.test(R.s)&&rcpOK(R,p)).map(R=>({R,f:rcpFit(R,K,PT)})).filter(x=>x.f.ok).sort((a,b)=>Math.abs(a.f.t.k-K)-Math.abs(b.f.t.k-K)); }
+function rcpFor(m){ if(!window.RECIPES||(MLI&&!window.RECIPES_L))return []; const {K,PT}=rcpMealT(m), re=rcpKind(m.k), p=mqS().p||{};
+  return rcpAll().filter(R=>re.test(R.s)&&rcpOK(R,p)).map(R=>({R,f:rcpFit(R,K,PT)})).filter(x=>x.f.ok).sort((a,b)=>Math.abs(a.f.t.k-K)-Math.abs(b.f.t.k-K)); }
 const rcpDiet=R=>{ const T=R.it.map(it=>(rcpFood(it)||rcpPseudo(it)).t); return T.includes('m')?'m':T.includes('f')?'f':T.includes('d')||T.includes('e')?'v':'vg'; };
 let RX=null;
 function rcpListOpen(mi){ const m=mqDay()?.[mi]; if(!m)return; RX={mi,f:RX&&RX.mi===mi?RX.f:'all'}; rcpListR(); }
@@ -6195,21 +6206,21 @@ function rcpListR(){ const m=mqDay()?.[RX.mi]; if(!m)return; const all=rcpFor(m)
   const F={all:()=>1,q:x=>x.R.min<=20,m:x=>rcpDiet(x.R)==='m',f:x=>rcpDiet(x.R)==='f',v:x=>rcpDiet(x.R)==='v'||rcpDiet(x.R)==='vg'};
   const ch=[['all','הכול'],['q','עד 20 דק׳'],['m','בשרי'],['f','דגים'],['v','צמחוני']].filter(([k])=>k==='all'||all.some(F[k]));
   const L=all.filter(F[RX.f]||F.all);
-  openSheet(`<h3 class="rx-h">${tt('מתכונים ל')}${tt(MQ_K[m.k])}</h3><div class="rx-sub">${tt('הכמויות כבר מותאמות לארוחה של')} <span class="num">${K}</span> ${tt('קק״ל')}</div>
+  openSheet(`<h3 class="rx-h">${tt('מתכונים ל{0}').replace('{0}',tt(MQ_K[m.k]))}</h3><div class="rx-sub">${tt('הכמויות כבר מותאמות לארוחה של')} <span class="num">${K}</span> ${tt('קק״ל')}</div>
     <div class="rx-ch">${ch.map(([k,l])=>`<button class="chip ${RX.f===k?'on':''}" data-act="mq-rxf" data-m="${RX.mi}" data-v="${k}">${tt(l)}</button>`).join('')}</div>
     ${L.length?L.map(({R,f})=>`<button class="rx-r" data-act="mq-rxo" data-m="${RX.mi}" data-id="${R.id}">${rcpImg(R.id,60)}<span class="tx"><b>${esc(R.n)}</b><small><span class="num">${R.min}</span> ${tt('דק׳')} · <span class="num">${Math.round(f.t.p)}</span> ${tt('ג׳ חלבון')}</small></span><span class="k"><b class="num">${Math.round(f.t.k)}</b><small>${tt('קק״ל')}</small></span></button>`).join(''):`<div class="small muted" style="padding:18px 0">${tt('אין כרגע מתכון שמתאים לארוחה הזו ולהעדפות שלך.')}</div>`}`); }
 /* דף מתכון. from='menu' = כבר בתפריט */
 function rcpOpen(id,mi,from){ const R=RCP(id), m=mqDay()?.[mi]; if(!R||!m)return; let G, t;
   if(from==='menu'&&m.rcp===id){ G=R.it.map((it,i)=>{ const x=m.items.find(y=>y.ri===i); return x?(x.id?x.g:x.rx.g):it.g; }); t=rcpTot(R,G); } else { const {K,PT}=rcpMealT(m); ({G,t}=rcpFit(R,K,PT)); }
   const rows=R.it.map((it,i)=>{ const A=rcpAmt(it,G[i]), f=rcpFood(it);
-    return `<div class="rc-it">${f?fdImg(f,40,18):'<span class="rc-ph"></span>'}<div class="rc-in"><b>${esc(A.n)}</b>${A.sub?`<small class="num">${A.sub}</small>`:''}</div><span class="rc-q num">${esc(A.a)}</span>${it.r==='P'||it.r==='C'?`<i class="rc-tag ${it.r}">${it.r==='P'?tt('מותאם לחלבון'):tt('מותאם לקלוריות')}</i>`:''}</div>`; }).join('');
+    return `<div class="rc-it">${f?fdImg(f,40,18):'<span class="rc-ph"></span>'}<div class="rc-in"><b>${esc(uc1(A.n))}</b>${A.sub?`<small class="num">${MLI===1?A.sub.replace(/ · About /g,' · about '):A.sub}</small>`:''}</div><span class="rc-q num">${esc(A.a)}</span>${it.r==='P'||it.r==='C'?`<i class="rc-tag ${it.r}">${it.r==='P'?tt('מותאם לחלבון'):tt('מותאם לקלוריות')}</i>`:''}</div>`; }).join('');
   const steps=R.st.map((s,i)=>`<li><span class="rc-n num">${i+1}</span><p>${esc(s).replace(/\{(\d+)\}/g,(_,n)=>`<b>${esc(rcpLine(R.it[+n],G[+n]))}</b>`)}</p></li>`).join('');
   const inMenu=from==='menu'&&m.rcp===id;
   openSheet(`<div class="rc">${rcpImg(R.id,180).replace('class="rx-img"','class="rx-img rc-hero"')}
     <h3 class="rc-t">${esc(R.n)}</h3>
     <div class="rc-meta"><span><span class="num">${R.min}</span> ${tt('דק׳')}</span><span>${tt(MQ_K[m.k])}</span></div>
     <div class="rc-fit"><div><b class="num">${Math.round(t.k)}</b><small>${tt('קק״ל')}</small></div><div><b class="num">${Math.round(t.p)}</b><small>${tt('ג׳ חלבון')}</small></div><div><b class="num">${Math.round(t.cb)}</b><small>${tt('ג׳ פחמימה')}</small></div><div><b class="num">${Math.round(t.ft)}</b><small>${tt('ג׳ שומן')}</small></div></div>
-    <div class="rc-why">${tt('הכמויות מותאמות ל')}${tt(MQ_K[m.k])} ${tt('שלך')}</div>
+    <div class="rc-why">${tt('הכמויות מותאמות ל{0} שלך').replace('{0}',lc1(tt(MQ_K[m.k])))}</div>
     <h4 class="rc-h">${tt('רכיבים · מנה אחת')}</h4><div class="rc-l">${rows}</div>
     <h4 class="rc-h">${tt('הכנה')}</h4><ol class="rc-s">${steps}</ol>
     ${inMenu?`<button class="btn primary big" style="width:100%;margin-top:16px" data-act="mq-eat" data-m="${mi}">${tt('אכלתי')} ✓</button><button class="btn" style="width:100%;margin-top:8px" data-act="sheet-close">${tt('סגירה')}</button>`
@@ -6226,7 +6237,7 @@ function rcpCardHTML(m,i){ const R=RCP(m.rcp); if(!R)return '';
     ${m.items.map(x=>{ const it=R.it[x.ri]; if(!it)return ''; const f=x.id&&MFI(x.id), A=f?rcpAmt(it,x.g):{a:x.rx.a,n:x.rx.n}, kk=f?f.k*x.g/100:x.rx.k;
       return `<div class="mq2-it rx-it">${f?fdImg(f,40,16):'<span class="rc-ph" style="width:40px;height:40px"></span>'}<span class="q"><b><span class="num">${esc(A.a)}</span></b> ${esc(A.n)}</span>${kk?`<span class="k"><b class="num">${Math.round(kk)}</b><small>${tt('קק״ל')}</small></span>`:''}</div>`; }).join('')}
     <button class="rx-how" data-act="mq-rxh" data-m="${i}">${rcpImg(R.id,34)}<span>${tt('איך מכינים')} · <span class="num">${R.min}</span> ${tt('דק׳')}</span><i aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></button>`; }
-function rcpCtaHTML(m,i){ if(MLI||m.rcp||m.out||mqSq())return ''; const L=rcpFor(m); if(L.length<2)return '';
+function rcpCtaHTML(m,i){ if(m.rcp||m.out||mqSq())return ''; const L=rcpFor(m); if(L.length<2)return '';
   return `<button class="rx-cta" data-act="mq-rxl" data-m="${i}"><span class="th">${L.slice(0,3).map(x=>rcpImg(x.R.id,34)).join('')}</span><span class="tx"><b>${tt('רוצה לבשל משהו?')}</b><small><span class="num">${L.length}</span> ${tt('מתכונים בכמויות שמתאימות לך')}</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></i></button>`; }
 /* after "I ate something else": Rafi offers to move the difference into the meals that are left today */
 function mqRbHTML(today){ const q=mqS(), r=q.rb; if(!r||r.d!==today)return ''; const day=mqDay(), m=day&&day[r.i]; if(!m)return '';

@@ -20,7 +20,7 @@ on:
         default: macos-26
   push:
     branches: [native]
-    paths: ['app/**', 'index.html', 'i18n/**', 'img/**', 'menu-foods.js', 'recipes.js', '.github/workflows/native.yml']
+    paths: ['app/**', 'index.html', 'i18n/**', 'img/**', 'menu-foods.js', 'recipes.js', 'recipes-en.js', 'recipes-ar.js', '.github/workflows/native.yml']
 concurrency:
   # pushes cancel older push builds; manual store builds (TestFlight / Play) are never cancelled
   group: ${{ github.event_name == 'push' && format('native-push-{0}', github.ref) || format('native-manual-{0}', github.run_id) }}
