@@ -53,9 +53,9 @@
     var mf=q('link[rel="manifest"]'); if(mf)mf.setAttribute('href','manifest-f.json?v=1');
     var ai=q('link[rel="apple-touch-icon"]'); if(ai)ai.setAttribute('href','icon-f-180.png?v=2');
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=bd1b89d9"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=bd1b89d9"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=bd1b89d9"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=23d483af"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=23d483af"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=23d483af"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1532,6 +1532,24 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .mq-ltl{font-size:13px;color:var(--muted)}#mq-lt{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
 .mq-dn{font-size:13.5px;color:var(--muted);margin:-2px 0 4px}
 .mq-row .q{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}.mq-row .q small{font-size:12px;color:var(--muted)}
+.mq2-hd{display:flex;align-items:center;gap:14px;margin-top:4px}.mq2-ring{position:relative;width:74px;height:74px;flex:none}.mq2-ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:800;font-family:var(--disp)}
+.mq2-hd .t{flex:1;min-width:0}.mq2-hd .t b{display:block;font-size:17px}.mq2-hd .t>span{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.mq2-q{width:32px;height:32px;flex:none;border-radius:50%;border:1px solid var(--line);background:none;color:var(--muted);font:inherit;font-weight:800;font-size:15px;cursor:pointer}
+.mq2-strip{display:flex;gap:8px;overflow-x:auto;margin:16px -16px 0;padding:2px 16px;scrollbar-width:none}.mq2-strip::-webkit-scrollbar{display:none}
+.mq2-strip button{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:76px;padding:9px 10px;border-radius:16px;background:var(--surface);border:1px solid var(--line);color:var(--ink);font:inherit;cursor:pointer}
+.mq2-strip small{font-size:11.5px;color:var(--muted)}.mq2-strip b{font-size:14px}.mq2-strip .ok{opacity:.6}.mq2-strip .on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}.mq2-strip .d{font-size:12px;color:var(--accent);font-weight:800}
+.mq2-card{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 16px}.mq2-card.nx{border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+.mq2-top{display:flex;align-items:center;gap:10px}.mq2-top .lt{flex:1;min-width:0}.mq2-top .lt b{font-size:16.5px}.mq2-top .lt small{display:block;font-size:12.5px;color:var(--muted)}
+.mq2-pill{flex:none;font-size:12.5px;font-weight:800;padding:5px 10px;border-radius:10px;background:var(--surface2);color:var(--ink);white-space:nowrap}.mq2-pill.a{background:var(--accent);color:var(--accent-ink)}
+.mq2-dish{font-size:19px;font-weight:800;margin:10px 0 4px;line-height:1.3}
+.mq2-it{display:flex;align-items:center;gap:10px;width:100%;padding:10px 0;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);font:inherit;text-align:start;cursor:pointer}.mq2-dish+.mq2-it,.mq2-top+.mq2-it{margin-top:6px}
+.mq2-it .q{flex:1;min-width:0;font-size:15.5px;line-height:1.35}.mq2-it .q b{color:var(--accent);font-weight:800}.mq2-it .q small{color:var(--muted);font-size:12px;white-space:nowrap}.mq2-it .k{font-size:13px;color:var(--muted)}
+.mq2-it.slot .q b{color:var(--ink)}.mq2-it.slot .q{color:var(--muted)}.mq2-plus{width:30px;height:30px;border-radius:9px;border:1.5px dashed var(--line);display:grid;place-items:center;color:var(--muted);flex:none}
+.mq2-sw{width:30px;height:30px;border-radius:9px;background:var(--surface2);display:grid;place-items:center;color:var(--muted);flex:none}
+.mq2-tip{font-size:12.5px;color:var(--muted);text-align:center;margin-top:8px}
+.mq2-act{display:flex;gap:8px;margin-top:12px}.mq2-act button{height:46px;border-radius:14px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer}.mq2-act .a{flex:1.5;background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}.mq2-act .a:disabled{opacity:.4}.mq2-act .b{flex:1}.mq2-act .m{width:46px;flex:none;font-size:20px}
+.mq2-mini{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:13px 16px;border-radius:18px;background:var(--surface);border:1px solid var(--line);color:var(--ink);font:inherit;text-align:start;cursor:pointer}.mq2-mini .lt{flex:1;min-width:0}.mq2-mini .lt b{font-size:15.5px}.mq2-mini .tm{color:var(--muted);font-weight:500;font-size:13px}
+.mq2-mini .lt small{display:block;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mq2-mini.ok .ms-ic{background:var(--accent);color:var(--accent-ink);font-weight:900}
 .mq-amt{display:flex;align-items:baseline;gap:6px;margin-top:3px}.mq-amt b{font-size:15px;font-weight:800;color:var(--accent)}.mq-amt span{font-size:12.5px;color:var(--muted);font-weight:400}
 .ms-ic.sm{width:28px;height:28px;border-radius:9px}.ms-ic.sm svg{width:16px;height:16px}
 .mq-or{display:block;font-size:12.5px;color:var(--accent);font-weight:600;margin-top:3px;font-style:normal}
@@ -2742,7 +2760,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.182';
+const APP_VERSION='13.3.184';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6034,28 +6052,34 @@ function vMenuQ(){ const q=mqS(), N=mqN();
     <button class="mq-cta a" data-act="mq-w" data-v="repi">${tt('ראפי יבנה לי')}</button><button class="mq-cta" data-act="mq-w" data-v="self">${tt('אבנה לבד')}</button>`;
   const today=ymd(), day=mqDay(), eaten=Math.round(dayTotals(today).kcal/100), left=Math.max(0,N-eaten), nx=day.findIndex(m=>m.done!==today);
   if(!q.help){ q.help=1; persistSettings(); setTimeout(mqHelp,350); }
-  return mqTop()+`<div class="mq-left"><b class="num">${left}</b><span>${tt(left===1?'ריבוע נשאר היום':'ריבועים נשארו היום')}</span></div>${mqBar(N,Math.min(N,eaten))}
-    <button class="mq-what" data-act="mq-help"><span class="sqi"></span>${tt('ריבוע = 100 קק״ל')}<b>${tt('מה זה?')}</b></button>
+  const sw=mqSw(), open=S.mqOpenI!=null?S.mqOpenI:nx, R2=32, C2=2*Math.PI*R2;
+  const strip=`<div class="mq2-strip">${day.map((m,i)=>{ const dn=m.done===today, sq=Math.round((mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0))/100);
+      return `<button class="${dn?'ok':''} ${i===open?'on':''}" data-act="mq-open" data-m="${i}">${dn?'<span class="d">✓</span>':`<small class="num">${m.t}</small>`}<b>${tt(MQ_K[m.k])}</b><small><span class="num">${sq}</span> ${tt('ריבועים')}</small></button>`; }).join('')}${sw?`<button class="${open==='sw'?'on':''}" data-act="mq-open" data-m="sw"><small>${tt('מתי שבא')}</small><b>🍫 ${tt('מתוק')}</b><small><span class="num">${sw}</span> ${tt(sw===1?'ריבוע':'ריבועים')}</small></button>`:''}</div>`;
+  return mqTop()+`<div class="mq2-hd"><span class="mq2-ring"><svg viewBox="0 0 74 74" width="74" height="74" aria-hidden="true"><circle cx="37" cy="37" r="${R2}" fill="none" stroke="var(--surface2)" stroke-width="7"/><circle cx="37" cy="37" r="${R2}" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C2}" stroke-dashoffset="${C2*(1-Math.min(1,left/N))}" transform="rotate(-90 37 37)"/></svg><b class="num">${left}</b></span>
+      <span class="t"><b>${tt(left===1?'נשאר ריבוע אחד היום':'נשארו {0} ריבועים היום').replace('{0}',`<span class="num">${left}</span>`)}</b><span>${tt('{0} מתוך {1} · ריבוע = 100 קק״ל').replace('{0}',`<span class="num">${Math.min(N,eaten)}</span>`).replace('{1}',`<span class="num">${N}</span>`)}</span></span>
+      <button class="mq2-q" data-act="mq-help" aria-label="${tt('מה זה ריבוע?')}">?</button></div>
     ${Math.abs((q.kT||0)-mqBase())>60?`<button class="mq-fit" data-act="mq-fit">${tt('היעד היומי השתנה.')} <b>${tt('עדכן את התפריט')}</b></button>`:''}
     ${q.note?`<div class="mq-note"><img src="img/kobi-wink.svg" alt=""><span>${esc(q.note)}</span></div>`:''}
-    ${mqHintHTML()}${mqRbHTML(today)}
-    ${(()=>{ const sw=mqSw(), at=sw?((mqS().p?.swt||'eve')==='pm'?Math.max(0,day.findIndex(m=>m.k==='l')):day.length-1):-1;
-      return day.map((m,i)=>mqMealHTML(m,i,today,i===nx||i===S.mqOpenI)+(i===at?mqSwHTML(today):'')).join('')+(sw?'':`<button class="mq-swadd" data-act="mq-swp">🍫 ${tt('להוסיף מקום למתוק')}<small>${tt('ראפי יקטין קצת את הארוחות')}</small></button>`); })()}
+    ${strip}${mqHintHTML()}${mqRbHTML(today)}
+    ${(()=>{ const at=sw?((q.p?.swt||'eve')==='pm'?Math.max(0,day.findIndex(m=>m.k==='l')):day.length-1):-1;
+      return day.map((m,i)=>mqMealHTML(m,i,today,i===open,i===nx)+(i===at?(open==='sw'?mqSwHTML(today):mqSwMini()):'')).join('')+(sw?'':`<button class="mq-swadd" data-act="mq-swp">🍫 ${tt('להוסיף מקום למתוק')}<small>${tt('ראפי יקטין קצת את הארוחות')}</small></button>`); })()}
     <button class="mq-ask" data-act="mq-ask"><img src="img/kobi-happy.svg" alt=""><span>${G('ספר לראפי מה בא לך…','ספרי לראפי מה בא לך…')} "${tt('ערב במסעדה')}"</span></button>`; }
+function mqSwMini(){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?p.swk:['choc','cookie','ice']).map(id=>MQ_SWF.find(x=>x[0]===id)).filter(Boolean);
+  return `<button class="mq2-mini" data-act="mq-open" data-m="sw"><span class="ms-ic sm" aria-hidden="true">🍫</span><span class="lt"><b>${tt('מתוק')}</b><small>${K.map(x=>tt(x[2])).join(' · ')}</small></span><span class="mq2-pill num">${n}</span></button>`; }
 const MQ_IC=k=>SLOT_IC[k]||'<svg viewBox="0 0 24 24"><path d="M12 7c-1-2.5-3-3-4.5-3M12 7c2.2-1.6 6-1.2 7 2.2.9 3.2-.8 8.1-3.3 10.3-1.2 1-2.6.9-3.7.3-1.1.6-2.5.7-3.7-.3C5.8 17.3 4.1 12.4 5 9.2 6 5.8 9.8 5.4 12 7Z"/></svg>';
 const MQ_OR={P:'או כל חלבון אחר',C:'או כל פחמימה אחרת',F:'או כל שומן אחר',X:'או כל פרי אחר'};
 const mqSq=()=>mqS().p?.mode==='sq'; // squares only: the user fills each budget; the menu's foods are ideas
-function mqMealHTML(m,i,today,open){ const nm=tt(MQ_K[m.k]), K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)), sq=Math.round(K/100), dn=mqName(m), SQ=mqSq(), shown=x=>!SQ||x.pick||x.r==='V';
-  const meta=`<span class="num">${m.t} · ${sq} ${tt('ריבועים')} · ${K} ${tt('קק״ל')}</span>`;
-  if(m.done===today)return `<div class="mq-done"><span class="v">✓</span><b>${nm}</b><span>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</span></div>`;
-  if(!open&&mqHas(m))return `<button class="mq-done mq-later" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">${MQ_IC(m.k)}</span><b>${nm}</b>${meta}<span>${m.out?tt('אוכלים בחוץ'):SQ&&!m.items.some(x=>x.pick)?tt('בחירה חופשית'):esc(dn||m.items.filter(x=>x.id&&x.r==='P'&&shown(x)).map(x=>mfName(MFI(x.id))).join(' · '))}</span></button>`;
-  const head=`<div class="mq-mh"><span class="ms-ic" aria-hidden="true">${MQ_IC(m.k)}</span><div class="mq-mt"><span class="n">${nm}</span><span class="t">${meta}</span></div>${m.out?'':SQ?`<button class="mq-re" data-act="mq-idea" data-m="${i}">💡 ${tt('תן לי רעיון')}</button>`:`<button class="mq-re" data-act="mq-re" data-m="${i}">↻ ${tt('ארוחה אחרת')}</button>`}</div>${dn&&!m.out&&!SQ?`<div class="mq-dn">${esc(dn)}</div>`:''}`;
-  if(m.out)return `<div class="mq-meal">${head}<div class="mq-out"><b>${tt('אוכלים בחוץ')} · ${sq} ${tt('ריבועים')}</b>${m.tip?`<span>${esc(m.tip)}</span>`:''}</div><button class="mq-eat" data-act="mq-eat" data-m="${i}">${tt('אכלתי')}</button></div>`;
-  const can=SQ?m.items.some(x=>x.id&&x.pick):mqHas(m);
-  return `<div class="mq-meal">${head}${m.items.map((x,j)=>{ const f=x.id&&shown(x)?MFI(x.id):null, kk=x.id?MFI(x.id).k*x.g/100:(x.kt||0), n=x.r!=='V'?Math.max(0,Math.round(kk/100)):0;
-      const h=f?mqHH(f,x.g):'';
-      return `<button class="mq-ln ${!f&&SQ?'slot':''}" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?niTile(fIco(f),18,38):`<span class="mq-plus">+</span>`}<span class="f"><i class="g">${tt(MQ_G[x.r]||'')}${n?` <span class="sq">${'<b></b>'.repeat(Math.min(n,8))}</span>`:''}</i>${f?`${esc(mfName(f))}<span class="mq-amt">${x.r==='V'?`<b>${tt('כמה שרוצים')}</b>`:`<b class="num">${h||`${Math.round(x.g)} ${tt('גר׳')}`}</b>${h?`<span class="num">${Math.round(x.g)} ${tt('גר׳')}</span>`:''}`}</span>${MQ_OR[x.r]&&!SQ?`<span class="mq-or">${tt(MQ_OR[x.r])} ›</span>`:''}`:`<em>${SQ?tt('בחירה חופשית'):tt('בחירה')}</em>${SQ&&kk?`<small><span class="num">${Math.round(kk)}</span> ${tt('קק״ל')}</small>`:''}`}</span>${f?`<span class="k"><b class="num">${Math.round(f.k*x.g/100)}</b><small>${tt('קק״ל')}</small></span>`:''}<span class="ch" aria-hidden="true">‹</span></button>`; }).join('')}
-    <div class="mq-eatr"><button class="mq-eat" data-act="mq-eat" data-m="${i}" ${can?'':'disabled'}>${tt(SQ?'אכלתי':'אכלתי הכל')}</button><button class="mq-eat2" data-act="mq-eatc" data-m="${i}">${tt('אכלתי אחרת')}</button></div></div>`; }
+function mqMealHTML(m,i,today,open,isNext){ const nm=tt(MQ_K[m.k]), K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0)), sq=Math.round(K/100), dn=mqName(m), SQ=mqSq(), shown=x=>!SQ||x.pick||x.r==='V';
+  if(m.done===today)return `<button class="mq2-mini ok" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">✓</span><span class="lt"><b>${nm}</b><small>${m.alt?`${esc(m.alt.n)} · <span class="num">${kcalN(m.alt.k)}</span> ${tt('קק״ל')}`:m.out?tt('בחוץ'):esc(dn||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).join(' · '))}</small></span></button>`;
+  const sub=m.out?tt('אוכלים בחוץ'):SQ&&!m.items.some(x=>x.pick)?tt('בחירה חופשית'):esc(dn||m.items.filter(x=>x.id&&x.r==='P'&&shown(x)).map(x=>mfName(MFI(x.id))).join(' · '));
+  if(!open)return `<button class="mq2-mini" data-act="mq-open" data-m="${i}"><span class="ms-ic sm" aria-hidden="true">${MQ_IC(m.k)}</span><span class="lt"><b>${nm} <span class="tm num">· ${m.t}</span></b><small>${sub||tt('ריקה')}</small></span><span class="mq2-pill num">${sq}</span></button>`;
+  const head=`<div class="mq2-top"><span class="ms-ic" aria-hidden="true">${MQ_IC(m.k)}</span><span class="lt"><b>${nm}</b><small><span class="num">${m.t}</span>${isNext?` · ${tt('הבא בתור')}`:''} · <span class="num">${K}</span> ${tt('קק״ל')}</small></span><span class="mq2-pill ${isNext?'a':''}"><span class="num">${sq}</span> ${tt('ריבועים')}</span></div>`;
+  const acts=`<div class="mq2-act"><button class="a" data-act="mq-eat" data-m="${i}" ${m.out||(SQ?m.items.some(x=>x.id&&x.pick):mqHas(m))?'':'disabled'}>${tt('אכלתי')}</button><button class="b" data-act="mq-eatc" data-m="${i}">${tt('אכלתי אחרת')}</button>${m.out?'':`<button class="m" data-act="mq-more" data-m="${i}" aria-label="${tt('עוד אפשרויות')}">⋯</button>`}</div>`;
+  if(m.out)return `<div class="mq2-card ${isNext?'nx':''}">${head}<div class="mq-out"><b>${tt('אוכלים בחוץ')} · <span class="num">${sq}</span> ${tt('ריבועים')}</b>${m.tip?`<span>${esc(m.tip)}</span>`:''}</div>${acts}</div>`;
+  return `<div class="mq2-card ${isNext?'nx':''}">${head}${dn&&!SQ?`<div class="mq2-dish">${esc(dn)}</div>`:''}
+    ${m.items.map((x,j)=>{ const f=x.id&&shown(x)?MFI(x.id):null, kk=x.id?MFI(x.id).k*x.g/100:(x.kt||0), h=f?mqHH(f,x.g):'';
+      return `<button class="mq2-it ${f?'':'slot'}" data-act="mq-pick" data-m="${i}" data-l="${j}">${f?niTile(fIco(f),16,30):'<span class="mq2-plus">+</span>'}<span class="q">${f?`<b>${x.r==='V'?tt('כמה שרוצים'):`<span class="num">${h||`${Math.round(x.g)} ${tt('גר׳')}`}</span>`}</b> ${esc(mfName(f))}${h&&x.r!=='V'?` <small class="num">${Math.round(x.g)} ${tt('גר׳')}</small>`:''}`:`<b>${tt(MQ_G[x.r]||'')}</b> ${tt('בחירה חופשית')}`}</span>${x.r!=='V'&&kk?`<span class="k num">${Math.round(kk)}</span>`:''}<span class="mq2-sw"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></span></button>`; }).join('')}
+    <div class="mq2-tip">${SQ?tt('לחיצה על שורה בוחרת מאכל לתקציב שלה'):tt('לחיצה על החצים מחליפה במאכל אחר באותה כמות ריבועים')}</div>${acts}</div>`; }
 /* the sweet card: today's treat squares, editable — the meals around it grow or shrink to stay on target */
 function mqSwHTML(today){ const n=mqSw(), p=mqS().p||{}, K=(p.swk&&p.swk.length?p.swk:['choc','cookie','ice','bamba']).map(id=>MQ_SWF.find(x=>x[0]===id)).filter(Boolean);
   const got=mealsOf(today).filter(m=>m.name==='מתוק').reduce((a,m)=>a+m.kcal,0), on=Math.min(n,Math.round(got/100));
@@ -6231,8 +6255,12 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-wgo': mqWizDone(); return true;
     case 'mq-pick': mqPickOpen(mi,+b.dataset.l); return true;
     case 'mq-setf': { const m=day&&day[mi], x=m&&m.items[+b.dataset.l], f=MFI(b.dataset.id); if(x&&f){ const kc=x.id?MFI(x.id).k*x.g/100:(x.kt||100); x.id=f.id; x.r=f.r; x.g=mqFitG(f,kc,m); delete x.kt; x.pick=1; m.name=null; persistSettings(); } closeSheet(); render(); return true; }
-    case 'mq-re': { const m=day&&day[mi]; if(m){ mqReroll(m,day); persistSettings(); } render(); return true; }
-    case 'mq-open': S.mqOpenI=mi; render(); return true;
+    case 'mq-re': { const m=day&&day[mi]; if(m){ mqReroll(m,day); persistSettings(); } closeSheet(); render(); return true; }
+    case 'mq-open': S.mqOpenI=b.dataset.m==='sw'?'sw':mi; render(); setTimeout(()=>{ const el=document.querySelector('.mq2-card,.mq-sw'); if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'}); },30); return true;
+    case 'mq-more': { const m=day&&day[mi]; if(!m)return true; openSheet(`<h3 style="margin:0 0 12px">${tt(MQ_K[m.k])}</h3>
+      ${mqSq()?`<button class="mq-ch" data-act="mq-idea" data-m="${mi}"><b>💡 ${tt('תן לי רעיון')}</b><span>${tt('ראפי ממלא את הארוחה, ואפשר לשנות כל פריט')}</span></button>`:`<button class="mq-ch" data-act="mq-re" data-m="${mi}"><b>↻ ${tt('ארוחה אחרת')}</b><span>${tt('ראפי מציע ארוחה שלמה אחרת באותו גודל')}</span></button>`}
+      <button class="mq-ch" data-act="mq-ask"><b>${tt('ספר לראפי מה בא לך')}</b><span>${tt('למשל: ערב במסעדה, או משהו מתוק בצהריים')}</span></button>
+      <button class="mq-ch" data-act="mq-mode"><b>${mqSq()?tt('חזרה לתפריט מלא'):tt('מצב ריבועים בלבד')}</b><span>${mqSq()?tt('ראפי ממלא את כל הארוחות'):tt('ראפי נותן תקציב, ואתה ממלא')}</span></button>`); return true; }
     case 'mq-help': mqHelp(); return true;
     case 'mq-eat': mqEat(mi); return true;
     case 'mq-eatx': closeSheet(); mqEatX(mi); return true;
@@ -6252,13 +6280,13 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-wsw': S.mqW.p.sw=+b.dataset.v; render(); return true;
     case 'mq-wswk': { const p=S.mqW.p, v=b.dataset.v; p.swk=(p.swk||[]).includes(v)?p.swk.filter(x=>x!==v):[...(p.swk||[]),v]; render(); return true; }
     case 'mq-wswt': S.mqW.p.swt=b.dataset.v; render(); return true;
-    case 'mq-idea': { const m=day&&day[mi]; if(m){ for(const x of m.items)if(x.id)x.pick=1; persistSettings(); } render(); return true; }
+    case 'mq-idea': { const m=day&&day[mi]; if(m){ for(const x of m.items)if(x.id)x.pick=1; persistSettings(); } closeSheet(); render(); return true; }
     case 'mq-mode': q.p=q.p||{}; q.p.mode=q.p.mode==='sq'?'':'sq'; persistSettings(); closeSheet(); render(); toast(q.p.mode==='sq'?tt('מצב ריבועים בלבד: אתה ממלא, ראפי נותן רעיונות'):tt('חזרה לתפריט מלא')); return true;
     case 'mq-wk': mqWeekSheet(); return true;
     case 'mq-wkset': q.p=q.p||{}; q.p.wk=b.dataset.v||''; if(q.ovr&&q.ovr.auto)q.ovr=null; persistSettings(); mqWeekSheet(); render(); return true;
     case 'mqe-all': case 'mqe-s': case 'mqe-n': case 'mqe-ok': case 'mqe-uk': case 'mqe-us': case 'mqe-un': case 'mqe-u0': case 'mqe-uok': return mqEatXAct(act,b);
     case 'mq-fit': mqRefit(); return true;
-    case 'mq-ask': mqAskOpen(); return true;
+    case 'mq-ask': closeSheet(); setTimeout(mqAskOpen,40); return true;
     case 'mq-achip': { const t=$('#mq-q'); if(t){ t.value=tt(b.dataset.v); t.focus(); } return true; }
     case 'mq-asend': mqAskSend(); return true;
     case 'mq-acancel': MQA=null; closeSheet(); return true;
