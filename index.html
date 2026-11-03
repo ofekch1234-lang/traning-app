@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a49abcc6"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a49abcc6"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a49abcc6"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c73d4ba4"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c73d4ba4"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c73d4ba4"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1957,10 +1957,13 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .co-lockcard{position:relative;margin-top:4px}
 .co-lockcard .co-blur{filter:blur(5px);opacity:.55;pointer-events:none;user-select:none}
 .co-lockcard .co-lk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;padding:0 10px}
-.pw-prem{background:linear-gradient(135deg,rgba(124,58,237,.10),rgba(236,72,153,.08) 60%,rgba(34,197,94,.08));border-radius:16px;padding:14px}
-.pw-prem .pr{display:flex;gap:10px;align-items:flex-start;padding:5px 0}
-.pw-prem .pr i{font-style:normal;flex-shrink:0;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:700}
-.pw-prem .pr b{display:block;font-size:15px}.pw-prem .pr span{font-size:13px;color:var(--muted)}
+.pw-prem{position:relative;overflow:hidden;background:radial-gradient(120% 70% at 85% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),var(--surface);border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-radius:22px;padding:16px 16px 6px}
+.pw-t{display:inline-flex;align-items:center;gap:8px}.pw-star{color:var(--accent);flex-shrink:0}
+.pw-prem .pw-ph{font-size:12.5px;font-weight:700;letter-spacing:.02em;color:var(--accent);margin:0 2px 6px}
+.pw-prem .pr{display:flex;gap:13px;align-items:center;padding:11px 0;border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.pw-prem .pw-ph+.pr{border-top:0}
+.pw-prem .pr i{font-style:normal;flex-shrink:0;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 24%,transparent),color-mix(in srgb,var(--accent) 8%,transparent));color:var(--accent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 30%,transparent)}
+.pw-prem .pr b{display:block;font-size:15.5px;line-height:1.3}.pw-prem .pr span{display:block;font-size:13px;color:var(--muted);line-height:1.45;margin-top:2px}
 .dots{display:flex;justify-content:space-between;margin-top:10px;padding:0 2px;direction:var(--dir)}
 .day.miss i{background:transparent;border:2px dashed var(--line)}.day.mvd i,.wk-row .mvd i{background:transparent;border:2px dotted var(--line);opacity:.55}
 .day{text-align:center;font-size:11.5px;color:var(--muted)}
@@ -9854,18 +9857,19 @@ function recapHTML(){
 /* after the trial (lock model): the app is closed, but history and progress stay viewable */
 function lockBar(){ return `<div class="card r20 lockbar"><span>🔒</span><span style="flex:1"><b>${tt('מצב צפייה בלבד')}</b><small>${tt('האימונים והנתונים שלך שמורים. בוחרים מסלול, והכל נפתח מיד.')}</small></span><button class="btn primary" data-act="lock-pay">${tt('לבחירת מסלול')}</button></div>`; }
 const LOCK_OK=/^(track-view|metric|wrap-|vol-open|sheet-close|pr-all|photo-view|hist-(open|ex|month)|body-tog|badges-open|badge-|lock-|plan|access-logout|contact-|share-w|info|ex-demo|demo)/;
+const PWI={star:`<svg class="pw-star" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L12 16.8l-5.8 3.5 1.6-6.6-5.2-4.4 6.8-.5z"/></svg>`,up: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>`, menu: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v7a2 2 0 0 0 2 2v9M5 3v5M9 3v5"/><path d="M18 21V3c-2.2.8-3.5 3-3.5 6.5V14H18"/></svg>`, ai: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5h3.2L9 6h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13.5" r="3.3"/><path d="M19 2.5v3M17.5 4h3"/></svg>`, chat: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M8.5 9.5h7M8.5 12.5h4.5"/></svg>`, ok: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`};
 function vPaywall(full){
   const paid=!!S.plan?.access_until;
   const body=`
     ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
-    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':S.plan?.lock?'שבוע הניסיון הסתיים':'הפרימיום הסתיים'):(S.plan?.premium?'⭐ הפרימיום שלך':'⭐ NextRep פרימיום')}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
+    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':S.plan?.lock?'שבוע הניסיון הסתיים':'הפרימיום הסתיים'):`<span class="pw-t">${PWI.star}${S.plan?.premium?tt('הפרימיום שלך'):`NextRep ${tt('פרימיום')}`}</span>`}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
     ${full==='end'?`<div class="muted small">${tt('ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, ראפי והתפריט? בוחרים מסלול.')}</div>`:full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
     ${!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${new Date(S.plan.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'})}</b>. חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.</div>`:''}
-    <div class="pw-prem">
-      ${freeTier()?`<div class="pr"><i>↑</i><div><b>${tt('התקדמות אוטומטית באימונים')}</b><span>${tt('משקל וחזרות לכל סט באימון הבא, שבוע קל ותוכנית חדשה כל 6 שבועות')}</span></div></div><div class="pr"><i>M</i><div><b>${tt('תפריט אישי ו־217 מתכונים')}</b><span>${tt('לפי היעד והטעם שלך, בכמויות שלך')}</span></div></div>`:''}
-      ${S.plan?.lock&&!freeTier()?`<div class="pr"><i>✓</i><div><b>${tt('כל האפליקציה פתוחה')}</b><span>${tt('אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים')}</span></div></div>`:''}
-      <div class="pr"><i>AI</i><div><b>ניתוח תזונה AI בכל ארוחה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית</span></div></div>
-      <div class="pr"><i>K</i><div><b>ראפי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה</span></div></div>
+    <div class="pw-prem"><div class="pw-ph">${tt('מה מקבלים בפרימיום')}</div>
+      ${freeTier()?`<div class="pr"><i>${PWI.up}</i><div><b>${tt('התקדמות אוטומטית באימונים')}</b><span>${tt('משקל וחזרות לכל סט באימון הבא, שבוע קל ותוכנית חדשה כל 6 שבועות')}</span></div></div><div class="pr"><i>${PWI.menu}</i><div><b>${tt('תפריט אישי ו־217 מתכונים')}</b><span>${tt('לפי היעד והטעם שלך, בכמויות שלך')}</span></div></div>`:''}
+      ${S.plan?.lock&&!freeTier()?`<div class="pr"><i>${PWI.ok}</i><div><b>${tt('כל האפליקציה פתוחה')}</b><span>${tt('אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים')}</span></div></div>`:''}
+      <div class="pr"><i>${PWI.ai}</i><div><b>ניתוח תזונה AI בכל ארוחה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית</span></div></div>
+      <div class="pr"><i>${PWI.chat}</i><div><b>ראפי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה</span></div></div>
     </div>
     <div class="small muted">${freeTier()?(aiWk()?tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, 2 ניתוחי AI בשבוע, שקילות, קבוצות ואתגרים. '):tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, שקילות, קבוצות ואתגרים. ')):full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
     <div class="stack" style="gap:10px">${plansHTML()}</div>
