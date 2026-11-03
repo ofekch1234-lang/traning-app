@@ -1,0 +1,2 @@
+-- ref_cap_config (applied 2026-11-03): the yearly cap on free months for invites is billing.ref_cap (now 3, default 6),
+-- used by ref_paid and returned by my_referrals as 'cap'. Function bodies: the migration of the same name in the database.

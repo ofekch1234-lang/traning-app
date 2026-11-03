@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>הוזמנת ל-NextRep · 14 ימים חינם</title>
-<meta name="description" content="חבר הזמין אותך ל-NextRep: תוכנית אימונים אישית, ראפי המאמן וניתוח ארוחות מצילום. 14 ימים חינם דרך ההזמנה.">
+<title>הוזמנת להתאמן ב-NextRep</title>
+<meta name="description" content="חבר הזמין אותך ל-NextRep: תוכנית אימונים אישית, ראפי המאמן וניתוח ארוחות מצילום. מתאמנים ביחד.">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="הוזמנת ל-NextRep · 14 ימים חינם">
+<meta property="og:title" content="הוזמנת להתאמן ב-NextRep">
 <meta property="og:description" content="תוכנית אימונים אישית, ראפי המאמן וניתוח ארוחות מצילום. בלי כרטיס אשראי.">
 <meta property="og:image" content="https://www.nextrep.co.il/icon-512.png?v=3">
 <meta name="theme-color" content="#0A0B0A">
@@ -50,14 +50,14 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
     <div class="who"><i id="ini">?</i><span id="who">חבר הזמין אותך</span></div>
     <img class="rafi" src="/img/kobi-happy.svg?v=3" alt="ראפי, המאמן של NextRep">
     <div class="grp" id="grp" hidden><span>הקבוצה</span><b></b><small>נכנסים אליה אוטומטית אחרי ההרשמה</small></div>
-    <h1><span id="days">14</span> ימים חינם,<br><em>רק דרך ההזמנה</em></h1>
-    <p>תוכנית אימונים אישית, ראפי המאמן שזוכר כל סט, וניתוח ארוחות מצילום. בלי כרטיס אשראי.</p>
+    <h1>מתאמנים יותר טוב<br><em>עם חבר</em></h1>
+    <p>תוכנית אימונים אישית, ראפי המאמן שזוכר כל סט, וניתוח ארוחות מצילום. מתחילים בניסיון חינם, בלי כרטיס אשראי.</p>
     <div class="shots" aria-hidden="true"><img src="/img/shots/he-m-home.webp" alt=""><img src="/img/shots/he-m-active.webp" alt=""><img src="/img/shots/he-m-food.webp" alt=""></div>
     <div class="code"><span>קוד ההזמנה</span><b id="code">—</b><button id="cp" type="button">העתקה</button></div>
   </div>
   <div class="foot">
     <a class="btn" id="ios" href="https://apps.apple.com/app/id6826127248"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.8zM14.2 5.7c.6-.8 1.1-1.8 1-2.9-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>הורדה מה-App Store</a>
-    <div class="note" id="note">ההטבה תזוהה אוטומטית כשתפתחו את האפליקציה. אם לא, מקלידים את הקוד בשאלון הפתיחה.</div>
+    <div class="note" id="note">ההזמנה תזוהה אוטומטית כשתפתחו את האפליקציה. אם לא, מקלידים את הקוד בשאלון הפתיחה.</div>
   </div>
 </main>
 <script>
@@ -66,8 +66,8 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
   var code=(location.pathname.split('/i/')[1]||new URLSearchParams(location.search).get('c')||'').replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,12);
   var grp=(new URLSearchParams(location.search).get('g')||'').replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,8);
   var ua=navigator.userAgent||'', android=/android/i.test(ua), ios=/iphone|ipad|ipod/i.test(ua);
-  if(android){ document.getElementById('ios').style.display='none'; document.getElementById('note').textContent='האפליקציה לאנדרואיד בדרך. שמרו את הקוד, ותקבלו את ההטבה כשהיא תצא.'; }
-  else if(!ios){ document.getElementById('note').textContent='פתחו את הקישור הזה בטלפון כדי להוריד את האפליקציה. ההטבה תזוהה אוטומטית.'; }
+  if(android){ document.getElementById('ios').style.display='none'; document.getElementById('note').textContent='האפליקציה לאנדרואיד בדרך. שמרו את הקוד ותקלידו אותו כשהיא תצא.'; }
+  else if(!ios){ document.getElementById('note').textContent='פתחו את הקישור הזה בטלפון כדי להוריד את האפליקציה. ההזמנה תזוהה אוטומטית.'; }
   if(!code){ document.getElementById('m').classList.add('nocode'); return; }
   document.getElementById('code').textContent=code;
   try{ localStorage.setItem('nr-refcode',code); }catch(e){}
@@ -75,8 +75,7 @@ p{margin:12px 0 0;color:var(--mu);font-size:16px;line-height:1.5;max-width:330px
   fetch(URL+'/rest/v1/rpc/ref_click',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify(grp?{p_code:code,p_group:grp}:{p_code:code})})
     .then(function(r){return r.json();}).then(function(d){
       if(!d||!d.ok){ document.querySelector('.who').style.display='none'; return; }
-      var n=String(d.name||'').trim(); if(n){ document.getElementById('who').textContent=n+' הזמין/ה אותך'; document.getElementById('ini').textContent=n[0]; document.title=n+' הזמין/ה אותך ל-NextRep · 14 ימים חינם'; }
-      if(d.days)document.getElementById('days').textContent=d.days;
+      var n=String(d.name||'').trim(); if(n){ document.getElementById('who').textContent=n+' הזמין/ה אותך'; document.getElementById('ini').textContent=n[0]; document.title=n+' הזמין/ה אותך להתאמן ב-NextRep'; }
       if(d.group){ var g=document.getElementById('grp'); g.querySelector('b').textContent=d.group; g.hidden=false; if(n)document.getElementById('who').textContent=n+' מזמין/ה אותך לקבוצה'; }
     }).catch(function(){});
 })();
