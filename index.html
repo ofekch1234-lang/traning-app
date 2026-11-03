@@ -2412,7 +2412,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.221';
+const APP_VERSION='13.3.223';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6565,7 +6565,7 @@ async function foodSearch(q,boxId){
 }
 let _portion=null;
 /* משקאות: כמות במ״ל ובכוסות (בקירוב 1 מ״ל = 1 גרם) */
-const LIQ_RX=/(^|[\s,(])(חלב|משקה|מיץ|נקטר|שוקו|קפיר|לבן|רוויון|אייס|קפה|תה|סודה|מים|קולה|בירה|יין|שייק|סמוטי|לימונדה|אשכוליות|milk|drink|juice|shake|smoothie|soda|water|cola|beer|wine|coffee|tea|kefir)/i;
+const LIQ_RX=/(^|[\s,(])(חלב|משקה|משקאות|מיץ|נקטר|שוקו|קפיר|רוויון|אייס|קפה|תה|סודה|מים|קולה|בירה|יין|שייק|סמוטי|לימונדה)(?=$|[\s,().%\d'"״׳-])|^לבן(?=$|[\s,().%\d-])|(^|[\s,(])(milk|drink|juice|shake|smoothie|soda|water|cola|beer|wine|coffee|tea|kefir)/i;
 const LIQ_NOT=/שוקולד|אבק|גבינ|חמאה|גלידה|מעדן|ממרח|עוגי|עוגה|ופל|פודינג|chocolate|powder|cheese|butter|ice cream/i;
 const isLiquid=f=>!!f&&(f.liq===true||LIQ_RX.test(String(f.name||''))&&!LIQ_NOT.test(String(f.name||'')));
 /* where an item's values come from: Tzameret (<10000), USDA (600000+), curated items (900000+) from food_src */
