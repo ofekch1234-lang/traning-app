@@ -1944,6 +1944,14 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 .planpill{margin-top:8px;display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;background:var(--gold-soft);color:var(--gold);font-size:13px;font-weight:600;border:0}
 .planpill.paid{background:var(--accent-soft);color:var(--accent)}
 .planpill.free{background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(236,72,153,.12));color:#9333EA}
+.fz-cnt{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);margin:2px 2px 8px}
+.fz-chip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--ink);background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:5px 10px;cursor:pointer}
+.fz-wrap{position:relative;min-height:420px}
+.fz-blur{filter:blur(7px);opacity:.55;pointer-events:none;user-select:none;max-height:640px;overflow:hidden}
+.fz-card{position:absolute;inset-inline:8px;top:70px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px 18px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.fz-card img{width:64px;height:64px}
+.fz-card b{font-size:19px}
+.fz-card span{font-size:14px;color:var(--muted);line-height:1.5;margin-bottom:6px}
 .aiq-free{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
 .aiq-free .linkbtn{font-size:13px;font-weight:600;color:var(--accent)}
 .co-lockcard{position:relative;margin-top:4px}
@@ -4083,7 +4091,7 @@ function repiOpen(q){
 }
 function mealSlot(m){ const h=new Date(m.ts).getHours(); return h<11?'b':h<16?'l':'d'; }
 function vFood(){
-  if(S.menuOpen)return vMenuQ();
+  if(S.menuOpen)return freeTier()?vMenuLock():vMenuQ();
   brkAuto();
   const d=S.foodDate, today=ymd();
   const dt=new Date(d+'T12:00:00');
@@ -5066,9 +5074,14 @@ function mqHelp(){ const N=mqN(), ex=['egg','brd','ric','ban','thn','oil'].map(M
       <div><b>2</b><span>${tt('לא בא לך משהו? לוחצים עליו ובוחרים אחר. הכמות מתעדכנת לבד.')}</span></div>
       <div><b>3</b><span>${tt('אכלת? לוחצים "אכלתי", והריבועים למעלה נצבעים.')}</span></div></div>
     <button class="btn primary big" style="width:100%;margin-top:14px" data-act="sheet-close">${tt('הבנתי')}</button></div>`); }
-function fdSeg(on){ const q=mqS(), day=q.meals&&mqDay(), today=ymd(), nx=day?day.find(m=>m.done!==today&&mqHas(m)):null;
+function fdSeg(on){ const q=mqS(), day=q.meals&&mqDay(), today=ymd(), nx=day&&!freeTier()?day.find(m=>m.done!==today&&mqHas(m)):null;
   return `<div class="fd-seg" role="tablist"><button role="tab" class="${on?'':'on'}" aria-selected="${!on}" ${on?'data-act="mn-close"':''}>${tt('יומן')}</button><button role="tab" class="${on?'on':''}" aria-selected="${!!on}" ${on?'':'data-act="mn-open"'}>${tt('התפריט שלי')}${!on&&nx?`<small>${tt(MQ_K[nx.k])}</small>`:''}</button></div>`; }
 function mqTop(){ if(!S.mqW)return `<div class="mn-top fd-mt"><h2 class="ttl">${tt('תזונה')}</h2>${mqS().meals?`<button class="mv-ib" data-act="mq-set" aria-label="${tt('הגדרות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>`:''}</div>${fdSeg(1)}`; return `<div class="mn-top"><button class="tgw-back" data-act="mn-close" aria-label="${tt('חזרה')}">→</button><h2>${tt('התפריט שלי')}</h2>${mqS().meals&&!S.mqW?`<button class="mv-ib" data-act="mq-set" aria-label="${tt('הגדרות')}"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>`:''}</div>`; }
+/* free tier: the menu tab shows a blurred sample of the menu behind one card */
+function vMenuLock(){ const MQ=S.mqOpenI; const top=mqTop(); let inner=''; try{ if(mqS().meals&&!S.mqW){ const f=vMenuQ(); inner=f.startsWith(top)?f.slice(top.length):''; } }catch(_){ inner=''; } S.mqOpenI=MQ;
+  return `${top}<div class="fz-wrap"><div class="fz-blur" aria-hidden="true">${inner||`<div class="card r20" style="height:120px"></div><div class="card r20" style="height:120px"></div><div class="card r20" style="height:120px"></div>`}</div>
+    <div class="fz-card"><img src="img/kobi-happy.svg" alt=""><b>${tt('התפריט האישי שלך')}</b><span>${tt('תפריט יומי לפי היעד והטעם שלך, החלפות בלחיצה ו־217 מתכונים בכמויות שלך.')}</span>
+    <button class="btn primary big" data-act="plans-open" data-why="menu">${tt('פתיחה עם פרימיום')}</button></div></div>`; }
 function vMenuQ(){ const q=mqS(), N=mqN();
   if(S.mqW)return mqTop()+mqWizHTML();
   if(MQB)return mqTop()+`<div class="mq-busy"><img src="img/kobi-think.svg" alt=""><b>${tt('ראפי בונה לך תפריט…')}</b><span>${tt('בוחר מאכלים לפי מה שכתבת')}</span></div>`;
@@ -6197,6 +6210,20 @@ document.addEventListener('input',ev=>{ if(!TG||ev.target.id!=='tgw-r')return; c
 const AIQ={photo:null,loaded:0,LIM:300};
 /* freemium: free users get plan.free_ai_day AI analyses per day (photo + text + label together) */
 const isPrem=()=>!!(S.plan&&(S.plan.premium||S.plan.admin));
+/* free tier (server flag plan.free_tier): after the trial the app stays open for training and manual logging;
+   the smart parts (coach, Repi, AI analysis, menu and recipes) and a few extras need Premium */
+const freeTier=()=>!!(S.plan&&S.plan.free_tier&&!isPrem());
+const FREE={tpl:4,days:90};
+const PU={tpl:['עד 4 תוכניות בחינם','בפרימיום אפשר לשמור כמה תוכניות שרוצים ולעבור ביניהן. התוכניות הקיימות שלך נשארות כמו שהן.'],
+  chart:['כל ההיסטוריה בפרימיום','בחינם רואים את 3 החודשים האחרונים. הנתונים הישנים שמורים, ובפרימיום הגרף מציג את כולם.'],
+  ai:['ניתוח AI זמין בפרימיום','צילום צלחת, תיאור בקול או בטקסט וקריאת תווית. בחינם אפשר להמשיך עם חיפוש במאגר ובברקוד.'],
+  menu:['התפריט האישי בפרימיום','תפריט יומי לפי היעד והטעם שלך, החלפות בלחיצה ו־217 מתכונים בכמויות שלך.'],
+  coach:['ראפי המאמן בפרימיום','משקל וחזרות לכל סט באימון הבא, שבוע קל בזמן, ותוכנית חדשה כל 6 שבועות.']};
+function premUpsell(why){ const u=PU[why]||PU.coach; logEv('upsell',{why});
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>${tt(u[0])}</b><span>${tt(u[1])}</span></div></div>
+    <button class="btn primary big" data-act="plans-open" data-why="${why}">${tt('שדרוג לפרימיום')}</button>
+    <button class="btn big" style="margin-top:8px" data-act="sheet-close">${tt('לא עכשיו')}</button>`); }
+const lockChip=(why,t)=>`<button class="fz-chip" data-act="prem-up" data-why="${why}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>${tt(t)}</button>`;
 function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)return; AIQ.loaded=Date.now();
   const prem=isPrem(), ms=new Date(); if(prem)ms.setDate(1); ms.setHours(0,0,0,0);
   sb.from('ai_usage').select('id',{count:'exact',head:true}).in('kind',prem?['photo','label']:['photo','label','text']).gte('created_at',ms.toISOString())
@@ -6204,12 +6231,14 @@ function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)r
       if(S.tab==='food'){ const el=$('#aiq'); if(el)el.outerHTML=aiQuotaLine(); } }); }
 function aiFreeLeft(){ if(isPrem())return null; if(AIQ.freeDay!==new Date().toDateString()){ AIQ.free=null; AIQ.loaded=0; } return AIQ.free; }
 function aiQuotaLine(){ if(S.plan?.admin||!S.plan)return ''; aiQuotaLoad();
+  if(freeTier()&&!(+S.plan.free_ai_day))return `<div id="aiq" class="aiq-free used">${tt('ניתוח AI מתמונה, קול וטקסט זמין בפרימיום')}<button class="linkbtn" data-act="prem-up" data-why="ai">${tt('פתיחה')}</button></div>`;
   if(!isPrem()){ const f=aiFreeLeft(); if(f==null)return '<div id="aiq"></div>';
     return f>0?`<div id="aiq" class="aiq-free">✨ ${f>1?`נותרו לך <b class="num">${f}</b> ניתוחי AI חינמיים היום`:'ניתוח AI חינמי אחד מחכה לך היום'}<button class="linkbtn" data-act="plans-open" data-why="ai">⭐ פרימיום</button></div>`
       :`<div id="aiq" class="aiq-free used">הניתוח החינמי של היום נוצל · מחר יש עוד אחד<button class="linkbtn" data-act="plans-open" data-why="ai">⭐ שדרוג</button></div>`; }
   if(AIQ.photo==null)return '<div id="aiq"></div>';
   return `<div id="aiq" class="small muted" style="text-align:center;margin-top:6px">${AIQ.photo>0?`📸 נותרו ${AIQ.photo} ניתוחי תמונה החודש`:'📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר'}</div>`; }
 function aiUpsell(){
+  if(freeTier()&&!(+S.plan.free_ai_day))return premUpsell('ai');
   logEv('upsell',{why:'ai'});
   openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>הניתוח החינמי של היום נוצל ✨</b><span>מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.</span></div></div>
     <button class="btn primary big" data-act="plans-open" data-why="ai">⭐ שדרוג לפרימיום</button>
@@ -7538,6 +7567,7 @@ function vPlans(){
     <button class="pb-cta" data-act="pb-open"><span class="pb-ic">✨</span><span style="flex:1"><b>בנה לי תוכנית</b><small>8 שאלות קצרות ותקבל תוכנית מותאמת לרמה, למטרה ולזמן שלך</small></span><span class="btn primary" style="pointer-events:none">התחל</span></button>
     ${sched}
     <div class="sect">התוכניות</div>
+    ${freeTier()?`<div class="fz-cnt"><span><b class="num">${Math.min(list.length,FREE.tpl)}/${FREE.tpl}</b> ${tt('תוכניות בחינם')}</span>${list.length>=FREE.tpl?lockChip('tpl','ללא הגבלה בפרימיום'):''}</div>`:''}
     <button class="btn primary big" data-act="tpl-new">+ תוכנית חדשה</button>
     ${list.length?list.map(t=>`
       <div class="card">
@@ -7686,6 +7716,7 @@ function vProgress(){
           <span class="small" style="color:var(--accent);font-weight:600">${progDelta()}</span></div>
         <div class="row" style="gap:6px"><button class="chip ${S.progressMetric==='top'?'on':''}" data-act="metric" data-m="top">משקל שיא בסט</button><button class="chip ${S.progressMetric==='vol'?'on':''}" data-act="metric" data-m="vol">נפח כולל</button></div>
         <div class="chartwrap" id="chartwrap">${chartSVG()}</div>
+        ${freeTier()?`<div class="fz-cnt"><span>${tt('3 החודשים האחרונים')}</span>${lockChip('chart','כל ההיסטוריה')}</div>`:''}
       </div>`
     :`<div class="card r20"><div class="empty" style="margin:0"><div class="big">הגרפים מחכים לנתונים</div>אחרי שני אימונים עם אותו תרגיל כבר יהיה כאן קו התקדמות.</div></div>`}
     ${prs.length?`<div class="sect2"><span>שיאים אחרונים</span>${prs.length>4?`<button class="linkbtn" data-act="pr-all">${showAll?'פחות':'הכל'}</button>`:''}</div>
@@ -7700,7 +7731,7 @@ function vProgress(){
 }
 function progDelta(){
   const n=S.progressEx; if(!n)return '';
-  const pts=[]; for(const w of [...S.workouts].sort((a,b)=>a.start-b.start)){ const e=(w.ex||[]).find(e=>e.n===n&&e.t==='s'); if(!e)continue;
+  const pts=[], cut=freeTier()?Date.now()-FREE.days*864e5:0; for(const w of [...S.workouts].sort((a,b)=>a.start-b.start)){ if(w.start<cut)continue; const e=(w.ex||[]).find(e=>e.n===n&&e.t==='s'); if(!e)continue;
     const top=Math.max(0,...(e.sets||[]).filter(x=>+x.r>0).map(x=>+x.w||0)); if(top)pts.push({t:w.start,v:top}); }
   if(pts.length<2)return '';
   const first=pts[0], last=pts[pts.length-1], d=Math.round((wL(last.v)-wL(first.v))*10)/10, wk=Math.max(1,Math.round((last.t-first.t)/(7*864e5)));
@@ -8443,8 +8474,8 @@ async function saveBodyweight(val,date){
   catch(e){ qPush('bodyweight',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
 }
 function chartData(){
-  const pts=[];
-  for(const w of [...S.workouts].sort((a,b)=>a.start-b.start)){
+  const pts=[], cut=freeTier()?Date.now()-FREE.days*864e5:0;
+  for(const w of [...S.workouts].sort((a,b)=>a.start-b.start)){ if(w.start<cut)continue;
     const e=(w.ex||[]).find(e=>e.n===S.progressEx&&e.t==='s'); if(!e)continue;
     const ss=(e.sets||[]).filter(s=>+s.r>0); if(!ss.length)continue;
     const top=Math.max(...ss.map(s=>+s.w||0));
@@ -9825,11 +9856,12 @@ function vPaywall(full){
     ${full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
     ${!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${new Date(S.plan.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'})}</b>. חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.</div>`:''}
     <div class="pw-prem">
-      ${S.plan?.lock?`<div class="pr"><i>✓</i><div><b>${tt('כל האפליקציה פתוחה')}</b><span>${tt('אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים')}</span></div></div>`:''}
+      ${freeTier()?`<div class="pr"><i>↑</i><div><b>${tt('התקדמות אוטומטית באימונים')}</b><span>${tt('משקל וחזרות לכל סט באימון הבא, שבוע קל ותוכנית חדשה כל 6 שבועות')}</span></div></div><div class="pr"><i>M</i><div><b>${tt('תפריט אישי ו־217 מתכונים')}</b><span>${tt('לפי היעד והטעם שלך, בכמויות שלך')}</span></div></div>`:''}
+      ${S.plan?.lock&&!freeTier()?`<div class="pr"><i>✓</i><div><b>${tt('כל האפליקציה פתוחה')}</b><span>${tt('אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים')}</span></div></div>`:''}
       <div class="pr"><i>AI</i><div><b>ניתוח תזונה AI בכל ארוחה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית</span></div></div>
       <div class="pr"><i>K</i><div><b>ראפי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה</span></div></div>
     </div>
-    <div class="small muted">${full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
+    <div class="small muted">${freeTier()?tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, שקילות, קבוצות ואתגרים. '):full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
     <div class="stack" style="gap:10px">${plansHTML()}</div>
     ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">🎁 ${G('או הזמן חבר: 14 ימים לו, חודש חינם לך','או הזמיני חברה: 14 ימים לה, חודש חינם לך','או הזמנת חבר: 14 ימים לחבר, חודש חינם לך')}</button>`:''}
     <div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
@@ -11646,7 +11678,8 @@ function handleAct(b,ev){
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
     case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
     case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
-    case 'tpl-new': _tplDraft={id:'t'+Date.now(),name:'',ex:[],order:S.templates.length+1,isNew:true}; renderTplEditor(); break;
+    case 'prem-up': premUpsell(b.dataset.why); break;
+    case 'tpl-new': if(freeTier()&&S.templates.length>=FREE.tpl){ premUpsell('tpl'); break; } _tplDraft={id:'t'+Date.now(),name:'',ex:[],order:S.templates.length+1,isNew:true}; renderTplEditor(); break;
     case 'tpl-edit': { const t=S.templates.find(t=>t.id===b.dataset.id); if(t){_tplDraft=clone(t); renderTplEditor();} break; }
     case 'tpl-add-ex': { if(_tplDraft)_tplDraft.name=$('#tpl-name')?.value||_tplDraft.name; openLibrary('tpl'); break; }
     case 'tpl-rm-ex': _tplDraft.ex.splice(+b.dataset.i,1); renderTplEditor(); break;
@@ -11853,7 +11886,7 @@ async function enterApp(user){
   if(PAID_RETURN||enterApp._claim){ enterApp._claim=false; try{ const c=await sb.rpc('claim_payment'); if(c.data?.ok&&!c.data.duplicate)toast('התשלום אומת, הגישה נפתחה 🎉'); }catch(_){} }
   await refApplyPending();
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status;
-    if(st==='expired'){
+    if(st==='expired'&&!pl.data.free_tier){
       if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }
       if(enterApp._ro){ S.locked=true; } else {
       S.mode='paywall'; render();
