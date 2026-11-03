@@ -2,7 +2,7 @@
 --  * billing.free_tier=true: after the trial the app stays open (training, manual food logging, barcode, groups);
 --    the client gates the coach, Repi, AI analysis (free_ai_per_day=0, enforced in the nutrition function),
 --    the menu and recipes, more than 4 saved plans and charts older than 90 days. my_plan returns free_tier.
---  * referrals: the invited friend gets the regular trial (ref_trial_days=0); the inviter gets nothing on the
+--  * referrals: the invited friend gets the regular trial (ref_trial_days=0); the inviter gets, for the
 --    first friend who starts training a Premium week once (ref_join_once.sql), and 30 days when a friend pays.
 
 create or replace function public.my_plan()
