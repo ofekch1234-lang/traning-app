@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c73d4ba4"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c73d4ba4"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c73d4ba4"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a0ce77b4"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a0ce77b4"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a0ce77b4"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2412,7 +2412,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.219';
+const APP_VERSION='13.3.221';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4179,9 +4179,9 @@ let TG=null;
 function tgLastWeight(){ const w=[...(S.weights||[])].sort((a,b)=>a.d<b.d?1:-1)[0]; return w?+w.kg:null; }
 function tgCalc(t){
   const w=+t.w, h=+t.h, a=+t.age; if(!(w>30&&w<300&&h>120&&h<230&&a>=13&&a<100)||!t.sex||!t.act||!t.goal)return null;
-  const bmr=10*w+6.25*h-5*a+(t.sex==='f'?-161:5), tdee=bmr*t.act;
+  const bmr=10*w+6.25*h-5*a+(t.sex==='f'?-161:t.sex==='x'?-78:5), tdee=bmr*t.act;
   const adj=t.goal==='cut'?(t.pace==='slow'?-0.12:t.pace==='fast'?-0.28:-0.2):t.goal==='bulk'?(t.pace==='slow'?0.07:t.pace==='fast'?0.18:0.12):0;
-  let kcal=tdee*(1+adj); const floor=t.sex==='f'?1300:1600, raw=kcal; kcal=Math.max(kcal,Math.min(floor,tdee*0.9)); const clamped=kcal>raw+1;
+  let kcal=tdee*(1+adj); const floor=t.sex==='f'?1300:t.sex==='x'?1450:1600, raw=kcal; kcal=Math.max(kcal,Math.min(floor,tdee*0.9)); const clamped=kcal>raw+1;
   kcal=Math.round(kcal/50)*50;
   const leanW=tgLean(w,h); // above BMI 27, base protein on a healthy-size weight
   const prot=Math.round(leanW*(t.goal==='cut'?2.0:t.goal==='bulk'?1.8:1.7)/5)*5;
@@ -6158,7 +6158,7 @@ function tgRender(){
     <div class="pb-prog" style="flex:1"><i style="width:${Math.round(Math.min(t.step,n)/n*100)}%"></i></div><span class="small muted num">${Math.min(t.step+1,n)}/${n}</span></div>`;
   const kobi=(q,k,img='happy')=>`<div class="tgw-q"><img src="img/kobi-${img}.svg" alt=""><div><b>${q}</b>${k?`<span>${k}</span>`:''}</div></div>`;
   let body='';
-  if(key==='sex')body=kobi(G('נתחיל: אתה…','נתחיל: את…','נתחיל: את/ה…'),'')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
+  if(key==='sex')body=kobi(G('נתחיל: אתה…','נתחיל: את…','נתחיל: את/ה…'),'')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה'],['x','🙂','מעדיף/ה לא לציין']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
   else if(TG_NUM[key]){ const c=tgC(key); if(t[key]==null)t[key]=c.def(); const v=c.D(t[key]);
     const sg=key==='gw'?tgGoalSuggest(t):null;
     body=kobi(c.q(),c.k,key==='w'?'wink':'happy')+(sg?`<button class="tgw-sug ${Math.abs(+t.gw-sg.kg)<0.3?'on':''}" data-act="tg-sug" data-v="${sg.kg}"><span class="tgw-sug-k">💚 ההצעה הבריאה</span><b class="num">${c.D(sg.kg)} <small>${c.unit}</small></b><span>${sg.why}</span><span class="small muted">הטווח הבריא לגובה שלך: ${c.D(sg.lo)} עד ${c.D(sg.hi)} ${c.unit} · עכשיו BMI ${sg.bmi}</span></button>`:'')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
@@ -9024,6 +9024,7 @@ function vMe(){
       <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
       ${S.isAdmin?`<button class="li" data-act="admin-open">${ICON.chart}<span class="lt"><b>לוח ניהול</b><small>משתמשים, פעילות ועלויות AI</small></span>${ICON.chev}</button>`:''}
+      <button class="li" data-act="acct-delete" style="color:var(--danger)">${ICON.user}<span class="lt"><b>${tt('מחיקת החשבון והמידע')}</b><small>${tt('מוחק לצמיתות את החשבון וכל הנתונים')}</small></span>${ICON.chev}</button>
     </div>
     <button class="linkbtn" data-act="logout" style="color:var(--danger);text-decoration:none;font-weight:600;align-self:center">יציאה מהחשבון</button>
     <div class="small muted" style="text-align:center" dir="ltr">${esc(S.user?.email||'')} · v${APP_VERSION}</div>
@@ -10282,7 +10283,7 @@ function tourAct(act,b){
 /* ===================== בונה תוכנית מותאמת (מבוסס כללים — חינם ומיידי) ===================== */
 const PB={step:0,dir:1,seed:0,a:{sex:null,goal:null,level:null,days:null,time:60,equip:null,gear:['dumbbell','bench'],focus:[],limits:[]},plan:null,replace:true,sched:true};
 const PB_Q=[
-  {k:'sex',t:'נתחיל מהבסיס: את/ה…',o:[['m','🙋‍♂️ גבר'],['f','🙋‍♀️ אישה']],grid:true},
+  {k:'sex',t:'נתחיל מהבסיס: את/ה…',o:[['m','🙋‍♂️ גבר'],['f','🙋‍♀️ אישה'],['x','🙂 מעדיף/ה לא לציין']],grid:true},
   {k:'goal',t:'מה המטרה העיקרית שלך?',o:[['mass','💪 לבנות שריר','היפרטרופיה, נפח וצורה'],['strength','🏋️ להתחזק','להעלות משקלים בתרגילי הבסיס'],['cut','🔥 לחטב ולרדת בשומן','לשמור על שריר ולשרוף יותר'],['fit','⚡ כושר כללי','להרגיש טוב, חזק ובריא']]},
   {k:'level',t:'כמה זמן אתה מתאמן עם משקולות?',o:[['beg','מתחיל','פחות מחצי שנה, או חוזר אחרי הפסקה ארוכה'],['mid','בינוני','חצי שנה עד שנתיים של אימון קבוע'],['adv','מתקדם','יותר משנתיים, מכיר טכניקה היטב']]},
   {k:'days',t:'כמה ימים בשבוע אתה יכול להתאמן?',o:[[2,'2 ימים'],[3,'3 ימים'],[4,'4 ימים'],[5,'5 ימים'],[6,'6 ימים']],grid:true},
