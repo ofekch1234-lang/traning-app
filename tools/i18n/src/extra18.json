@@ -226,5 +226,65 @@
  "יש לך קוד הזמנה מחבר? מקלידים אותו כאן.": {
   "en": "Have an invite code from a friend? Enter it here.",
   "ar": "لديك رمز دعوة من صديق؟ أدخله هنا."
+ },
+ "הזמנת חבר? הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא רוכש מנוי.": {
+  "en": "Invited a friend? They get 14 days free, and you get a free month when they subscribe.",
+  "ar": "دعوت صديقًا؟ يحصل على 14 يومًا مجانًا، وتحصل على شهر مجاني عندما يشترك."
+ },
+ "הזמנת חברה? היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא רוכשת מנוי.": {
+  "en": "Invited a friend? They get 14 days free, and you get a free month when they subscribe.",
+  "ar": "دعوتِ صديقة؟ تحصل على 14 يومًا مجانًا، وتحصلين على شهر مجاني عندما تشترك."
+ },
+ "נותרו לך {0} ניתוחי AI חינמיים השבוע": {
+  "en": "You have {0} free AI analyses left this week",
+  "ar": "تبقّى لك {0} تحليلات ذكاء اصطناعي مجانية هذا الأسبوع"
+ },
+ "ניתוח AI חינמי אחד נשאר לך השבוע": {
+  "en": "You have 1 free AI analysis left this week",
+  "ar": "تبقّى لك تحليل ذكاء اصطناعي مجاني واحد هذا الأسبوع"
+ },
+ "הניתוחים החינמיים של השבוע נוצלו · ביום ראשון מתחדשים": {
+  "en": "This week's free analyses are used up · they renew on Sunday",
+  "ar": "استُخدمت التحليلات المجانية لهذا الأسبوع · تتجدد يوم الأحد"
+ },
+ "הניתוחים החינמיים של השבוע נוצלו": {
+  "en": "This week's free analyses are used up",
+  "ar": "استُخدمت التحليلات المجانية لهذا الأسبوع"
+ },
+ "ביום ראשון מתחדשים. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.": {
+  "en": "They renew on Sunday. You can keep going with food search or barcode, or upgrade to Premium: AI analysis for every meal and Repi, your personal coach.",
+  "ar": "تتجدد يوم الأحد. يمكنك المتابعة بالبحث في قاعدة البيانات أو الباركود، أو الترقية إلى بريميوم: تحليل ذكاء اصطناعي لكل وجبة وريبي مدربك الشخصي."
+ },
+ "פרימיום": {
+  "en": "Premium",
+  "ar": "بريميوم"
+ },
+ "שדרוג": {
+  "en": "Upgrade",
+  "ar": "ترقية"
+ },
+ "חבר חדש מקבל 14 ימים חינם ונכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא רוכש מנוי.": {
+  "en": "A new friend gets 14 days free and joins the group right away, and you get a free month when they subscribe.",
+  "ar": "يحصل الصديق الجديد على 14 يومًا مجانًا وينضم إلى الفريق مباشرة، وتحصل على شهر مجاني عندما يشترك."
+ },
+ "ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, ראפי והתפריט? בוחרים מסלול.": {
+  "en": "You continue for free, and all your workouts, weigh-ins and meals are kept. Want the coach, Repi and the menu? Pick a plan.",
+  "ar": "تستمر مجانًا، وكل تمارينك وأوزانك ووجباتك محفوظة. تريد المدرب وريبي والقائمة؟ اختر باقة."
+ },
+ "להמשיך בחינם": {
+  "en": "Continue for free",
+  "ar": "المتابعة مجانًا"
+ },
+ "בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, 2 ניתוחי AI בשבוע, שקילות, קבוצות ואתגרים. ": {
+  "en": "Always free: workout logging, timer and exercise videos, calorie tracking, barcode, 2 AI analyses a week, weigh-ins, groups and challenges. ",
+  "ar": "مجانًا دائمًا: تسجيل التمارين، المؤقت وفيديوهات التمارين، تتبّع السعرات، الباركود، تحليلان بالذكاء الاصطناعي أسبوعيًا، الأوزان، الفرق والتحديات. "
+ },
+ "מה מקבלים בפרימיום": {
+  "en": "What you get with Premium",
+  "ar": "ما تحصل عليه مع بريميوم"
+ },
+ "הפרימיום שלך": {
+  "en": "Your Premium",
+  "ar": "بريميوم الخاص بك"
  }
 }
