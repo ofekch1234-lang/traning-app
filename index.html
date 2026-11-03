@@ -526,6 +526,7 @@ body:not(.landing)>#lx-sticky{display:none}
 .ofr-t.in{margin:10px 0 0;background:var(--surface)}
 .ofr-t .l{font-weight:700;font-size:13.5px}.ofr-t .l b{color:var(--ink)}
 .ofr-t .t{display:flex;gap:3px;direction:ltr}.ofr-t .t span{background:var(--surface);color:var(--ink);border-radius:8px;min-width:34px;padding:5px 0;text-align:center;font:700 17px/1 inherit;font-variant-numeric:tabular-nums}
+.ofr-t .t span.dd{min-width:0;padding:5px 8px;direction:rtl;font-size:14px}
 .ofr-t.in .t span{background:var(--gold-soft)}.ofr-t .t i{font-style:normal;font-weight:700;align-self:center}
 .planbanner{display:flex;gap:10px;align-items:center;width:100%;text-align:var(--start);background:var(--gold-soft);border:1px solid var(--gold);border-radius:14px;padding:11px 14px;margin-bottom:12px;color:var(--ink)}
 .qrbox{background:#fff;border-radius:16px;padding:14px;display:grid;place-items:center;margin:4px auto;width:min(260px,100%)}
@@ -10977,11 +10978,10 @@ function offerWin(){ const p=S.plan; if(!IS_NATIVE||!p||p.admin||!p.lock||!RC_KE
   const s=offerSecond(u); if(!p.premium&&now>=s&&now<s+OFFER_DAY)return {end:s+OFFER_DAY,second:true};
   return null; }
 function rcCheck(){ if(RC.ready&&RC.uid&&RC.offer!==!!offerWin())rcLoad(); }
-const ocdFmt=ms=>{ ms=Math.max(0,ms); const h=Math.floor(ms/36e5), m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
-  return `<span>${z(h)}</span><i>:</i><span>${z(m)}</span><i>:</i><span>${z(x)}</span>`; };
+const ocdFmt=ms=>{ ms=Math.max(0,ms); const d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
+  return `${d?`<span class="dd">${d===1?tt('יום'):`${d} ${tt('ימים')}`}</span><i>·</i>`:''}<span>${z(h)}</span><i>:</i><span>${z(m)}</span><i>:</i><span>${z(x)}</span>`; };
 function offerTimerHTML(w,inline){ if(!w)return '';
   const left=w.end-Date.now();
-  if(left>OFFER_DAY)return inline?'':`<div class="ofr-t"><span class="l">${tt('ההצעה בתוקף עד')} <b class="num">${offerDay(w.end)}</b></span></div>`;
   return `<div class="ofr-t ${inline?'in':''}"><span class="l">${tt(w.second?'ההצעה חזרה ל-24 שעות בלבד':'ההצעה נגמרת בעוד')}</span><span class="t ocd" data-end="${w.end}">${ocdFmt(left)}</span></div>`; }
 /* the second (and last) window, 7 days after the lock: said plainly, with a big countdown. After it the offer never returns. */
 const lastChance=()=>{ const w=IS_NATIVE&&!(S.plan?.store_until&&new Date(S.plan.store_until)>Date.now())?offerWin():null; return w&&w.second?w:null; };
