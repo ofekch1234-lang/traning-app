@@ -286,5 +286,29 @@
  "הפרימיום שלך": {
   "en": "Your Premium",
   "ar": "بريميوم الخاص بك"
+ },
+ "מחיקת החשבון והמידע": {
+  "en": "Delete account and data",
+  "ar": "حذف الحساب والبيانات"
+ },
+ "מוחק לצמיתות את החשבון וכל הנתונים": {
+  "en": "Permanently deletes your account and all your data",
+  "ar": "يحذف حسابك وكل بياناتك نهائيًا"
+ },
+ "מעדיף/ה לא לציין": {
+  "en": "Prefer not to say",
+  "ar": "أفضّل عدم التحديد"
+ },
+ "🙂 מעדיף/ה לא לציין": {
+  "en": "🙂 Prefer not to say",
+  "ar": "🙂 أفضّل عدم التحديد"
+ },
+ "לא משנה לי": {
+  "en": "Doesn't matter to me",
+  "ar": "لا يهمني"
+ },
+ "לא לציין": {
+  "en": "Prefer not to say",
+  "ar": "عدم التحديد"
  }
 }

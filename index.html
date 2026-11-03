@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=9c10e096"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=9c10e096"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=9c10e096"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=73061088"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=73061088"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=73061088"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1177,6 +1177,9 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .ob-tip{margin-top:14px;display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:18px;background:#0F1210;border:1px dashed #2A302C;font-size:14px;line-height:1.5;color:#C9D0CB}
 .ob-tip .ok{display:flex;align-items:center;gap:10px;color:#C9D0CB;font-size:15px}.ob-tip .ok svg{color:var(--accent)}
 .ob-g2{display:flex;gap:12px}
+.ob-fsx{grid-column:1/-1}.ob-fsx>.ob-f{height:100%}
+.ob-gx{display:block;margin:12px auto 0;height:44px;padding:0 20px;border-radius:99px;background:#141715;border:1.5px solid #232825;color:#C9D1CB;font-size:15px;font-weight:600}
+.ob-gx.on{border-color:var(--accent);color:#F2F5F2;background:color-mix(in srgb,var(--accent) 7%,#141715)}
 .ob-gcard{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 10px 18px;border-radius:22px;background:#141715;border:2px solid #232825;color:#F2F5F2}
 .ob-gcard.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,#141715)}
 .ob-gcard{position:relative}.ob-gsym{position:absolute;top:12px;inset-inline-start:12px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1C201D;border:1.5px solid #2C322E}
@@ -2863,7 +2866,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.220';
+const APP_VERSION='13.3.222';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3746,6 +3749,7 @@ function vOnb(){
     const card=(v,img,w,q)=>`<button class="ob-gcard ${a.g===v?'on':''}" data-act="onb-g" data-v="${v}" aria-pressed="${a.g===v}" data-notr><span class="ob-gsym ${v==='f'?'f':'m'}" aria-hidden="true">${v==='f'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v7M8.5 19h7"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.3 9.7 21 3M15 3h6v6"/></svg>'}</span><img src="img/kobi-happy${v==='f'?'-f':''}.svg" alt=""><span class="w">${w}</span><span class="q">${q}</span></button>`;
     h=`${onbTop()}${onbSay('happy',`${tt('נעים מאוד')}, <span data-notr>${nm}</span>! ${tt('איך לפנות אליך?')}`)}
       <div class="ob-mid"><div class="ob-g2">${card('m','',...ONB_GTXT('m'))}${card('f','',...ONB_GTXT('f'))}</div>
+        <button class="ob-gx ${a.g==='x'?'on':''}" data-act="onb-g" data-v="x" aria-pressed="${a.g==='x'}">${tt('לא משנה לי')}</button>
         ${a.g==='f'&&iconCan()&&!iconIsF()&&!ONB.iconNo?iconOfferHTML():''}
         <p class="ob-hint center">${tt('כל האפליקציה תדבר אליך ככה. בחירה ב״את״ מחליפה גם את הצבע לוורוד. אפשר לשנות בהגדרות.')}</p></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
@@ -3786,8 +3790,8 @@ function vOnb(){
       const unit=k==='w'?`<span class="u-mini" role="group" aria-label="${tt('יחידות משקל')}">${[['kg',tt('ק״ג')],['lb','lb']].map(([v,l2])=>`<button type="button" class="${uB()===v?'on':''}" data-act="onb-unit" data-v="${v}" aria-pressed="${uB()===v}">${l2}</button>`).join('')}</span>`:`<em>${uu}</em>`;
       return `<label class="ob-f ${+a[k]?'has':''}"><span${k==='w'?' class="ob-fh"':''}>${l}${k==='w'?unit:''}</span><span class="v"><input id="onb-${k}" class="num" type="text" readonly data-np="num" data-unit="${uu}" aria-label="${l}" value="${vv}" placeholder="–"><em>${uu}</em></span></label>`; };
     h=`${onbTop()}${onbSay('think',tt('כמה מספרים, ואני מחשב לך יעד קלוריות וחלבון.'))}
-      <div class="ob-mid"><div class="ob-g2b">${f('h',tt('גובה'),tt('ס״מ'))}${f('w',tt('משקל'),tt('ק״ג'))}${f('age',tt('גיל'),tt('שנים'))}
-        <div class="ob-f"><span>${tt('מין (לחישוב)')}</span><span class="ob-sx"><button class="${a.sex==='m'?'on':''}" data-act="onb-pick" data-k="sex" data-v="m">${tt('זכר')}</button><button class="${a.sex==='f'?'on':''}" data-act="onb-pick" data-k="sex" data-v="f">${tt('נקבה')}</button></span></div></div>
+      <div class="ob-mid"><div class="ob-g2b">${f('h',tt('גובה'),tt('ס״מ'))}${f('w',tt('משקל'),tt('ק״ג'))}<div class="ob-fsx">${f('age',tt('גיל'),tt('שנים'))}</div>
+        <div class="ob-f ob-fsx"><span>${tt('מין (לחישוב)')}</span><span class="ob-sx"><button class="${a.sex==='m'?'on':''}" data-act="onb-pick" data-k="sex" data-v="m">${tt('זכר')}</button><button class="${a.sex==='f'?'on':''}" data-act="onb-pick" data-k="sex" data-v="f">${tt('נקבה')}</button><button class="${a.sex==='x'?'on':''}" data-act="onb-pick" data-k="sex" data-v="x">${tt('לא לציין')}</button></span></div></div>
         ${a.goal==='cut'||a.goal==='mass'?f('goalKg',tt('יעד משקל (לא חובה)'),tt('ק״ג'))+`<div class="ob-f ob-pace"><span>${a.goal==='cut'?tt('באיזה קצב לרדת?'):tt('באיזה קצב לעלות?')}</span><span class="ob-sx">${[['slow',tt('רגוע')],['normal',tt('רגיל')],['fast',tt('מהיר')]].map(([v,l])=>`<button class="${(a.pace||'normal')===v?'on':''}" data-act="onb-pick" data-k="pace" data-v="${v}" aria-pressed="${(a.pace||'normal')===v}">${l}</button>`).join('')}</span><small class="ob-pace-h">${(a.pace||'normal')==='fast'?tt('לא מומלץ: קשה יותר להתמיד ולשמור על השריר.'):(a.pace||'normal')==='slow'?tt('הכי קל להתמיד, ההתקדמות איטית יותר.'):tt('מומלץ: איזון בין קצב להתמדה.')}</small></div>`:''}
         <div class="ob-priv">${OBI.lock}<span>${tt('הנתונים נשמרים רק בחשבון שלך, ומשמשים רק לחישוב היעד.')}</span></div></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
@@ -3918,7 +3922,7 @@ function onbAct(act,b){
     case 'onb-refno': if(ONB.ref?.grp){ try{ localStorage.removeItem('nr-join'); }catch(_){} } ONB.ref=null; ONB.refNo=true; ONB.refErr=''; try{ localStorage.removeItem('nr-refcode'); }catch(_){} { const fs=ONB.refFromStart; ONB.refFromStart=false; onbGo(fs?ONB_STEPS.indexOf('meet'):ONB.s+1); } return true;
     case 'onb-login': ONB.login=true; onbSave(); render(); return true;
     case 'onb-new': ONB.login=false; onbSave(); render(); return true;
-    case 'onb-g': { const v=b.dataset.v, was=window.NR_G; a.g=v; if(!a.sex)a.sex=v; onbSave();
+    case 'onb-g': { const v=b.dataset.v, was=window.NR_G; a.g=v; if(!a.sex&&v!=='x')a.sex=v; onbSave();
       try{ localStorage.setItem('nr-g',v); localStorage.removeItem('nr-acc'); }catch(_){}
       if(LANG!=='en'&&(v==='f')!==(was==='f')){ location.reload(); return true; } // feminine Hebrew/Arabic dictionary loads on start
       window.NR_G=v; applyLook(v,null); if(v==='m'&&iconIsF())iconSet(false); onbPaint(); return true; }
@@ -4521,7 +4525,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
     <p>נרשמים עם המייל בלי סיסמה, מוסיפים למסך הבית, ומהאימון הבא כל סט כבר נשמר. שבוע ראשון חינם, בלי כרטיס אשראי.</p>
     <button class="btn primary lx-go" data-act="land-signup">${tt('אני רוצה להתחיל')} <span class="lx-arr" aria-hidden="true">←</span></button>
   </section>
-  ${LANG!=='en'?`<nav class="ld-tools" aria-label="${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}"><b>${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}</b><div>${(LANG==='ar'?[['/ar/calc/','حاسبة السعرات اليومية'],['/ar/calc/bmi','حاسبة BMI'],['/ar/calc/protein','حاسبة البروتين'],['/ar/food/','جدول السعرات للأطعمة']]:[['/calc/','מחשבון קלוריות יומי'],['/calc/bmi','מחשבון BMI'],['/calc/protein','מחשבון חלבון'],['/food/','טבלת קלוריות למזון'],['/guide/','מדריכי אימון ותזונה']]).map(([h,t])=>`<a href="${h}" data-notr>${t}</a>`).join('')}</div></nav>`:''}
+  ${LANG!=='en'?`<nav class="ld-tools" aria-label="${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}"><b>${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}</b><div>${(LANG==='ar'?[['/ar/calc/','حاسبة السعرات اليومية'],['/ar/calc/bmi','حاسبة BMI'],['/ar/calc/protein','حاسبة البروتين'],['/ar/food/','جدول السعرات للأطعمة'],['/ar/guide/','أدلة التمارين والتغذية']]:[['/calc/','מחשבון קלוריות יומי'],['/calc/bmi','מחשבון BMI'],['/calc/protein','מחשבון חלבון'],['/food/','טבלת קלוריות למזון'],['/guide/','מדריכי אימון ותזונה']]).map(([h,t])=>`<a href="${h}" data-notr>${t}</a>`).join('')}</div></nav>`:''}
   <div class="ld-foot">${langPillsHTML()}<div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:support@nextrep.co.il">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
   <div class="lx-sticky" id="lx-sticky"><button class="btn primary" data-act="land-signup">${tt('שבוע ראשון חינם')} · ${tt('להתחלה')} <span class="lx-arr">←</span></button></div>
   </div>`;
@@ -5259,9 +5263,9 @@ let TG=null;
 function tgLastWeight(){ const w=[...(S.weights||[])].sort((a,b)=>a.d<b.d?1:-1)[0]; return w?+w.kg:null; }
 function tgCalc(t){
   const w=+t.w, h=+t.h, a=+t.age; if(!(w>30&&w<300&&h>120&&h<230&&a>=13&&a<100)||!t.sex||!t.act||!t.goal)return null;
-  const bmr=10*w+6.25*h-5*a+(t.sex==='f'?-161:5), tdee=bmr*t.act;
+  const bmr=10*w+6.25*h-5*a+(t.sex==='f'?-161:t.sex==='x'?-78:5), tdee=bmr*t.act;
   const adj=t.goal==='cut'?(t.pace==='slow'?-0.12:t.pace==='fast'?-0.28:-0.2):t.goal==='bulk'?(t.pace==='slow'?0.07:t.pace==='fast'?0.18:0.12):0;
-  let kcal=tdee*(1+adj); const floor=t.sex==='f'?1300:1600, raw=kcal; kcal=Math.max(kcal,Math.min(floor,tdee*0.9)); const clamped=kcal>raw+1;
+  let kcal=tdee*(1+adj); const floor=t.sex==='f'?1300:t.sex==='x'?1450:1600, raw=kcal; kcal=Math.max(kcal,Math.min(floor,tdee*0.9)); const clamped=kcal>raw+1;
   kcal=Math.round(kcal/50)*50;
   const leanW=tgLean(w,h); // above BMI 27, base protein on a healthy-size weight
   const prot=Math.round(leanW*(t.goal==='cut'?2.0:t.goal==='bulk'?1.8:1.7)/5)*5;
@@ -7238,7 +7242,7 @@ function tgRender(){
     <div class="pb-prog" style="flex:1"><i style="width:${Math.round(Math.min(t.step,n)/n*100)}%"></i></div><span class="small muted num">${Math.min(t.step+1,n)}/${n}</span></div>`;
   const kobi=(q,k,img='happy')=>`<div class="tgw-q"><img src="img/kobi-${img}.svg" alt=""><div><b>${q}</b>${k?`<span>${k}</span>`:''}</div></div>`;
   let body='';
-  if(key==='sex')body=kobi(G('נתחיל: אתה…','נתחיל: את…','נתחיל: את/ה…'),'')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
+  if(key==='sex')body=kobi(G('נתחיל: אתה…','נתחיל: את…','נתחיל: את/ה…'),'')+`<div class="pb-grid">${[['m','🙋‍♂️','גבר'],['f','🙋‍♀️','אישה'],['x','🙂','מעדיף/ה לא לציין']].map(([v,e,l])=>`<button class="tgw-big ${t.sex===v?'on':''}" data-act="tg-pick" data-k="sex" data-v="${v}"><span>${e}</span><b>${l}</b></button>`).join('')}</div>`;
   else if(TG_NUM[key]){ const c=tgC(key); if(t[key]==null)t[key]=c.def(); const v=c.D(t[key]);
     const sg=key==='gw'?tgGoalSuggest(t):null;
     body=kobi(c.q(),c.k,key==='w'?'wink':'happy')+(sg?`<button class="tgw-sug ${Math.abs(+t.gw-sg.kg)<0.3?'on':''}" data-act="tg-sug" data-v="${sg.kg}"><span class="tgw-sug-k">💚 ההצעה הבריאה</span><b class="num">${c.D(sg.kg)} <small>${c.unit}</small></b><span>${sg.why}</span><span class="small muted">הטווח הבריא לגובה שלך: ${c.D(sg.lo)} עד ${c.D(sg.hi)} ${c.unit} · עכשיו BMI ${sg.bmi}</span></button>`:'')+`<div class="tgw-num"><button class="tgw-pm" data-act="tg-step" data-d="-1" aria-label="פחות">−</button>
@@ -10127,6 +10131,7 @@ function vMe(){
       <button class="li" data-act="me-look">${ICON.globe}<span class="lt"><b>שפה ומראה</b><small>${[`<span data-notr>${LANG_NAMES[LANG]}</span>`,{m:'לשון זכר',f:'לשון נקבה',x:''}[S.settings.g]||'',(ACCENTS.find(a=>a[0]===(S.settings.accent||(S.settings.g==='f'?'rose':'green')))||ACCENTS[0])[2]].filter(Boolean).join(' · ')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="me-help">${ICON.help}<span class="lt"><b>עזרה ויצירת קשר</b><small>פנייה אלינו, תקנון ופרטיות</small></span>${ICON.chev}</button>
       ${S.isAdmin?`<button class="li" data-act="admin-open">${ICON.chart}<span class="lt"><b>לוח ניהול</b><small>משתמשים, פעילות ועלויות AI</small></span>${ICON.chev}</button>`:''}
+      <button class="li" data-act="acct-delete" style="color:var(--danger)">${ICON.user}<span class="lt"><b>${tt('מחיקת החשבון והמידע')}</b><small>${tt('מוחק לצמיתות את החשבון וכל הנתונים')}</small></span>${ICON.chev}</button>
     </div>
     <button class="linkbtn" data-act="logout" style="color:var(--danger);text-decoration:none;font-weight:600;align-self:center">יציאה מהחשבון</button>
     <div class="small muted" style="text-align:center" dir="ltr">${esc(S.user?.email||'')} · v${APP_VERSION}</div>
@@ -11541,7 +11546,7 @@ function tourAct(act,b){
 /* ===================== בונה תוכנית מותאמת (מבוסס כללים — חינם ומיידי) ===================== */
 const PB={step:0,dir:1,seed:0,a:{sex:null,goal:null,level:null,days:null,time:60,equip:null,gear:['dumbbell','bench'],focus:[],limits:[]},plan:null,replace:true,sched:true};
 const PB_Q=[
-  {k:'sex',t:'נתחיל מהבסיס: את/ה…',o:[['m','🙋‍♂️ גבר'],['f','🙋‍♀️ אישה']],grid:true},
+  {k:'sex',t:'נתחיל מהבסיס: את/ה…',o:[['m','🙋‍♂️ גבר'],['f','🙋‍♀️ אישה'],['x','🙂 מעדיף/ה לא לציין']],grid:true},
   {k:'goal',t:'מה המטרה העיקרית שלך?',o:[['mass','💪 לבנות שריר','היפרטרופיה, נפח וצורה'],['strength','🏋️ להתחזק','להעלות משקלים בתרגילי הבסיס'],['cut','🔥 לחטב ולרדת בשומן','לשמור על שריר ולשרוף יותר'],['fit','⚡ כושר כללי','להרגיש טוב, חזק ובריא']]},
   {k:'level',t:'כמה זמן אתה מתאמן עם משקולות?',o:[['beg','מתחיל','פחות מחצי שנה, או חוזר אחרי הפסקה ארוכה'],['mid','בינוני','חצי שנה עד שנתיים של אימון קבוע'],['adv','מתקדם','יותר משנתיים, מכיר טכניקה היטב']]},
   {k:'days',t:'כמה ימים בשבוע אתה יכול להתאמן?',o:[[2,'2 ימים'],[3,'3 ימים'],[4,'4 ימים'],[5,'5 ימים'],[6,'6 ימים']],grid:true},
