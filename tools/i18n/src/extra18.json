@@ -218,5 +218,45 @@
  "שלחו את הקישור או את הקוד. ההזמנה נשמרת גם כשמורידים את האפליקציה מהחנות.": {
   "en": "Send the link or the code. The invite is kept even when they download the app from the store.",
   "ar": "أرسلوا الرابط أو الرمز. تُحفظ الدعوة حتى عند تنزيل التطبيق من المتجر."
+ },
+ "הזמנת חבר? הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא רוכש מנוי.": {
+  "en": "Invited a friend? They get 14 days free, and you get a free month when they subscribe.",
+  "ar": "دعوت صديقًا؟ يحصل على 14 يومًا مجانًا، وتحصل على شهر مجاني عندما يشترك."
+ },
+ "הזמנת חברה? היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא רוכשת מנוי.": {
+  "en": "Invited a friend? They get 14 days free, and you get a free month when they subscribe.",
+  "ar": "دعوتِ صديقة؟ تحصل على 14 يومًا مجانًا، وتحصلين على شهر مجاني عندما تشترك."
+ },
+ "נותרו לך {0} ניתוחי AI חינמיים השבוע": {
+  "en": "You have {0} free AI analyses left this week",
+  "ar": "تبقّى لك {0} تحليلات ذكاء اصطناعي مجانية هذا الأسبوع"
+ },
+ "ניתוח AI חינמי אחד נשאר לך השבוע": {
+  "en": "You have 1 free AI analysis left this week",
+  "ar": "تبقّى لك تحليل ذكاء اصطناعي مجاني واحد هذا الأسبوع"
+ },
+ "הניתוחים החינמיים של השבוע נוצלו · ביום ראשון מתחדשים": {
+  "en": "This week's free analyses are used up · they renew on Sunday",
+  "ar": "استُخدمت التحليلات المجانية لهذا الأسبوع · تتجدد يوم الأحد"
+ },
+ "הניתוחים החינמיים של השבוע נוצלו": {
+  "en": "This week's free analyses are used up",
+  "ar": "استُخدمت التحليلات المجانية لهذا الأسبوع"
+ },
+ "ביום ראשון מתחדשים. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.": {
+  "en": "They renew on Sunday. You can keep going with food search or barcode, or upgrade to Premium: AI analysis for every meal and Repi, your personal coach.",
+  "ar": "تتجدد يوم الأحد. يمكنك المتابعة بالبحث في قاعدة البيانات أو الباركود، أو الترقية إلى بريميوم: تحليل ذكاء اصطناعي لكل وجبة وريبي مدربك الشخصي."
+ },
+ "פרימיום": {
+  "en": "Premium",
+  "ar": "بريميوم"
+ },
+ "שדרוג": {
+  "en": "Upgrade",
+  "ar": "ترقية"
+ },
+ "חבר חדש מקבל 14 ימים חינם ונכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא רוכש מנוי.": {
+  "en": "A new friend gets 14 days free and joins the group right away, and you get a free month when they subscribe.",
+  "ar": "يحصل الصديق الجديد على 14 يومًا مجانًا وينضم إلى الفريق مباشرة، وتحصل على شهر مجاني عندما يشترك."
  }
 }

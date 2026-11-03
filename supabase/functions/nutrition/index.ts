@@ -95,11 +95,14 @@ Deno.serve(async (req: Request) => {
     // חינם: ניתוח AI אחד ביום (צילום, טקסט או תווית יחד), לפי יום קלנדרי בשעון ישראל
     let freeLeft: number | null = null;
     if (!isPremium) {
-      const FREE_DAY = Math.max(0, Number((plan as { free_ai_day?: number } | null)?.free_ai_day ?? 1));
+      // free_ai_week > 0: a weekly allowance (Sunday to Saturday, Israel time); otherwise free_ai_day per day
+      const WEEK = Math.max(0, Number((plan as { free_ai_week?: number } | null)?.free_ai_week ?? 0));
+      const FREE_DAY = WEEK > 0 ? WEEK : Math.max(0, Number((plan as { free_ai_day?: number } | null)?.free_ai_day ?? 1));
       const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jerusalem", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-      const dayStart = new Date(today + "T00:00:00+03:00").toISOString();
+      const t0 = new Date(today + "T00:00:00Z"); if (WEEK > 0) t0.setUTCDate(t0.getUTCDate() - t0.getUTCDay());
+      const dayStart = new Date(t0.toISOString().slice(0, 10) + "T00:00:00+03:00").toISOString();
       const { count } = await sb.from("ai_usage").select("id", { count: "exact", head: true }).eq("user_id", user.id).in("kind", ["photo", "label", "text"]).gte("created_at", dayStart);
-      if ((count ?? 0) >= FREE_DAY) return new Response(JSON.stringify({ error: "quota", free: true, period: "day", limit: FREE_DAY }), { status: 429, headers: cors });
+      if ((count ?? 0) >= FREE_DAY) return new Response(JSON.stringify({ error: "quota", free: true, period: WEEK > 0 ? "week" : "day", limit: FREE_DAY }), { status: 429, headers: cors });
       freeLeft = FREE_DAY - (count ?? 0) - 1;
     }
     if (!isAdmin) {
