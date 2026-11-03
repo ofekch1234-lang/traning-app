@@ -225,6 +225,10 @@ const guides=require('./guides.js'); const guideUrls=[];
 for(const l of LANGS){ const all=guides.load(l); if(!all.length)continue; for(const g of all){ w(g.path,guides.page(HEAD,FOOT,l,g,all,calcLinks)); guideUrls.push(g.path); } w(guides.base(l),guides.index(HEAD,FOOT,l,all)); guideUrls.push(guides.base(l)); }
 // sitemaps
 const sm=list=>`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${list.map(u=>`<url><loc>${SITE}${u}</loc></url>`).join('')}</urlset>`;
+// Arabic names fixed after publishing (stray Cyrillic/Hebrew letters): the old address stays as a redirect to the new page (not in the sitemap)
+const renamedAr=JSON.parse(fs.readFileSync(path.join(__dirname,'renamed-ar.json'),'utf8'));
+for(const f of foods){ const oldName=renamedAr[f.c]; if(!oldName||!LANGS.includes('ar'))continue; const oldP=`/ar/food/${encodeURI(slug(oldName))}-${f.c}`, newP=pathOf(f,'ar'); if(oldP===newP)continue;
+  w(oldP,`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="${SITE}${newP}"><meta http-equiv="refresh" content="0;url=${newP}"><title>${esc(nameOf(f,'ar'))}</title></head><body><a href="${newP}">${esc(nameOf(f,'ar'))}</a></body></html>`); }
 for(const l of LANGS)w(`/sitemap-food-${l}.xml`,sm(urls[l]));
 w('/sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${LANGS.map(l=>`<sitemap><loc>${SITE}/sitemap-food-${l}.xml</loc></sitemap>`).join('')}<sitemap><loc>${SITE}/sitemap-pages.xml</loc></sitemap></sitemapindex>`);
 // clean URLs (vercel cleanUrls redirects *.html), so the sitemap lists the final address of each page
