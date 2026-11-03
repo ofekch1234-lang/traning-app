@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c5d61a77"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c5d61a77"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c5d61a77"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a49abcc6"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a49abcc6"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a49abcc6"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -9859,7 +9859,7 @@ function vPaywall(full){
   const body=`
     ${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
     <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':S.plan?.lock?'שבוע הניסיון הסתיים':'הפרימיום הסתיים'):(S.plan?.premium?'⭐ הפרימיום שלך':'⭐ NextRep פרימיום')}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
-    ${full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
+    ${full==='end'?`<div class="muted small">${tt('ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, ראפי והתפריט? בוחרים מסלול.')}</div>`:full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}
     ${!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${new Date(S.plan.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'numeric'})}</b>. חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.</div>`:''}
     <div class="pw-prem">
       ${freeTier()?`<div class="pr"><i>↑</i><div><b>${tt('התקדמות אוטומטית באימונים')}</b><span>${tt('משקל וחזרות לכל סט באימון הבא, שבוע קל ותוכנית חדשה כל 6 שבועות')}</span></div></div><div class="pr"><i>M</i><div><b>${tt('תפריט אישי ו־217 מתכונים')}</b><span>${tt('לפי היעד והטעם שלך, בכמויות שלך')}</span></div></div>`:''}
@@ -9867,15 +9867,21 @@ function vPaywall(full){
       <div class="pr"><i>AI</i><div><b>ניתוח תזונה AI בכל ארוחה</b><span>צילום צלחת, תיאור בטקסט וקריאת תווית</span></div></div>
       <div class="pr"><i>K</i><div><b>ראפי, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם ראפי על אימונים ותזונה</span></div></div>
     </div>
-    <div class="small muted">${freeTier()?tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, שקילות, קבוצות ואתגרים. '):full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
+    <div class="small muted">${freeTier()?(aiWk()?tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, 2 ניתוחי AI בשבוע, שקילות, קבוצות ואתגרים. '):tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, שקילות, קבוצות ואתגרים. ')):full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.</div>
     <div class="stack" style="gap:10px">${plansHTML()}</div>
     ${!full&&!S.plan?.admin?`<button class="btn" data-act="invite-open" data-src="paywall">${G('או הזמן חבר: חודש חינם כשהוא רוכש מנוי','או הזמיני חברה: חודש חינם כשהיא רוכשת מנוי','או הזמנת חבר: חודש חינם כשהוא רוכש מנוי')}</button>`:''}
     <div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
     <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>
-    ${full&&S.plan?.lock?`<button class="btn big" data-act="lock-view" style="background:var(--surface)">📖 ${tt('צפייה בהיסטוריה שלי')}</button>`:''}
-    ${full?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
-  return full?`<div class="pw">${body}</div>`:body;
+    ${full==='end'?`<button class="btn big" data-act="sheet-close" style="background:var(--surface)">${tt('להמשיך בחינם')}</button>`:''}
+    ${full===true&&S.plan?.lock?`<button class="btn big" data-act="lock-view" style="background:var(--surface)">📖 ${tt('צפייה בהיסטוריה שלי')}</button>`:''}
+    ${full===true?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
+  return full===true?`<div class="pw">${body}</div>`:body;
 }
+/* free tier: once, when the trial has ended, a summary of the trial with the plans and a "continue for free" button */
+function trialEndSheet(){ const k='nr-trialend-'+(S.user?.id||''); try{ if(localStorage.getItem(k))return; localStorage.setItem(k,'1'); }catch(_){ return; }
+  if(!freeTier()||S.active)return; logEv('trial_end_sheet',null);
+  const show=()=>{ closeSheet(); openSheet(`<div class="pw" style="padding:0">${vPaywall('end')}</div>`); };
+  sb.rpc('trial_recap').then(({data})=>{ if(data)S.recap=data; show(); },show); }
 const PLAN_LABEL={4:'מנוי 4 חודשים',6:'מנוי 6 חודשים',12:'מנוי שנתי'};
 function planPill(){
   const p=S.plan; if(!p||p.admin||!p.billing)return '';
@@ -11903,6 +11909,7 @@ async function enterApp(user){
       if(PAID_RETURN&&!(enterApp._poll>=8)){ enterApp._poll=(enterApp._poll||0)+1; toast('מאשר את התשלום…'); setTimeout(()=>enterApp(user),4000); }
       return; } }
     else S.locked=false;
+    if(st==='expired'&&pl.data.free_tier&&!PAID_RETURN)setTimeout(()=>{ if(S.mode==='app')trialEndSheet(); },1500);
     if(st!=='approved'&&st!=='expired'){ S.access=st; S.mode='pending'; render(); return; } } }catch(_){}
   try{
     const [tpl,wo,st,bw,ml]=await Promise.all([

@@ -258,5 +258,17 @@
  "חבר חדש מקבל 14 ימים חינם ונכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא רוכש מנוי.": {
   "en": "A new friend gets 14 days free and joins the group right away, and you get a free month when they subscribe.",
   "ar": "يحصل الصديق الجديد على 14 يومًا مجانًا وينضم إلى الفريق مباشرة، وتحصل على شهر مجاني عندما يشترك."
+ },
+ "ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, ראפי והתפריט? בוחרים מסלול.": {
+  "en": "You continue for free, and all your workouts, weigh-ins and meals are kept. Want the coach, Repi and the menu? Pick a plan.",
+  "ar": "تستمر مجانًا، وكل تمارينك وأوزانك ووجباتك محفوظة. تريد المدرب وريبي والقائمة؟ اختر باقة."
+ },
+ "להמשיך בחינם": {
+  "en": "Continue for free",
+  "ar": "المتابعة مجانًا"
+ },
+ "בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, 2 ניתוחי AI בשבוע, שקילות, קבוצות ואתגרים. ": {
+  "en": "Always free: workout logging, timer and exercise videos, calorie tracking, barcode, 2 AI analyses a week, weigh-ins, groups and challenges. ",
+  "ar": "مجانًا دائمًا: تسجيل التمارين، المؤقت وفيديوهات التمارين، تتبّع السعرات، الباركود، تحليلان بالذكاء الاصطناعي أسبوعيًا، الأوزان، الفرق والتحديات. "
  }
 }
