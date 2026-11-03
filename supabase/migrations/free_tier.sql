@@ -3,7 +3,7 @@
 --    the client gates the coach, Repi, AI analysis (free_ai_per_day=0, enforced in the nutrition function),
 --    the menu and recipes, more than 4 saved plans and charts older than 90 days. my_plan returns free_tier.
 --  * referrals: the invited friend gets the regular trial (ref_trial_days=0); the inviter gets nothing on the
---    friend's first workout (ref_join_days=0), only 30 days when the friend pays (ref_paid, unchanged).
+--    first friend who starts training a Premium week once (ref_join_once.sql), and 30 days when a friend pays.
 
 create or replace function public.my_plan()
  returns jsonb language plpgsql stable security definer set search_path to ''
@@ -59,4 +59,4 @@ begin
 exception when others then null;
 end $function$;
 
-update public.app_config set value = value || '{"free_tier": true, "free_ai_per_day": 0, "ref_trial_days": 0, "ref_join_days": 0}'::jsonb where key = 'billing';
+update public.app_config set value = value || '{"free_tier": true, "free_ai_per_day": 0, "ref_trial_days": 0, "ref_join_days": 7}'::jsonb where key = 'billing';

@@ -1,0 +1,3 @@
+-- ref_join_once (applied 2026-11-03): the Premium week for an invited friend who starts training is given once
+-- per inviter (and only to an inviter who is not paying). Later friends only trigger a "started training" push.
+-- The full function body is the one in the migration of the same name in the database.
