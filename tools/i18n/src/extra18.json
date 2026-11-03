@@ -206,5 +206,17 @@
  "פעם אחת, כשהחבר הראשון שלך מתחיל להתאמן": {
   "en": "Once, when your first friend starts training",
   "ar": "مرة واحدة، عندما يبدأ أول صديق لك بالتمرّن"
+ },
+ "פעם אחת, כשהחבר הראשון שהזמנת רושם אימון או ארוחה. הרשמה לבד לא מספיקה.": {
+  "en": "Once, when the first friend you invited logs a workout or a meal. Signing up alone doesn't count.",
+  "ar": "مرة واحدة، عندما يسجّل أول صديق دعوته تمرينًا أو وجبة. التسجيل وحده لا يكفي."
+ },
+ "נרשם, עוד לא התאמן": {
+  "en": "Signed up, hasn't trained yet",
+  "ar": "سجّل، لم يتمرّن بعد"
+ },
+ "שלחו את הקישור או את הקוד. ההזמנה נשמרת גם כשמורידים את האפליקציה מהחנות.": {
+  "en": "Send the link or the code. The invite is kept even when they download the app from the store.",
+  "ar": "أرسلوا الرابط أو الرمز. تُحفظ الدعوة حتى عند تنزيل التطبيق من المتجر."
  }
 }
