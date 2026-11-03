@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=78605bdc"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=78605bdc"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=78605bdc"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c5d61a77"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c5d61a77"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c5d61a77"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2409,7 +2409,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.217';
+const APP_VERSION='13.3.219';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3352,7 +3352,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
   const kg=tt('ק״ג');
   return `<div class="ld cx">
   ${landGenderHTML()}
-  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים מהמכשיר הזה, ותתחברו אוטומטית.</div>`:''}
+  ${inv?`<div class="ld-invite">👋 חבר הזמין אותך להתאמן איתו ב-NextRep. נרשמים, ואחרי אישור החשבון תצטרף אוטומטית לקבוצה.</div>`:refd?`<div class="ld-invite">🎁 חבר הזמין אותך ל-NextRep: דרך ההזמנה מקבלים 14 ימים חינם. ההטבה נשמרת כשנרשמים מהמכשיר הזה.</div>`:''}
   <section class="cx-hero" id="lx-hero">
     <h1 class="cx-h1">${tt('תוכנית אימונים, תזונה AI ומאמן אישי שמכיר אותך.')}</h1>
     <p class="cx-sub">${tt('אפליקציה אחת שהופכת כל אימון לצעד קדימה.')}</p>
@@ -3442,7 +3442,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
         <span class="pp num">₪${p.price}</span>
         <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span></button>`;}).join('')}
     </div>
-    <div class="cx-note">${LW('הזמנת חבר? כשהוא רוכש מנוי, אתה מקבל חודש חינם.','הזמנת חברה? כשהיא רוכשת מנוי, את מקבלת חודש חינם.')}</div>
+    <div class="cx-note">${LW('הזמנת חבר? הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא רוכש מנוי.','הזמנת חברה? היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא רוכשת מנוי.')}</div>
   </section>
 
   <section class="cx-faq">
@@ -6225,23 +6225,28 @@ function premUpsell(why){ const u=PU[why]||PU.coach; logEv('upsell',{why});
     <button class="btn primary big" data-act="plans-open" data-why="${why}">${tt('שדרוג לפרימיום')}</button>
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">${tt('לא עכשיו')}</button>`); }
 const lockChip=(why,t)=>`<button class="fz-chip" data-act="prem-up" data-why="${why}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>${tt(t)}</button>`;
+/* free AI allowance: per week (plan.free_ai_week, Sunday to Saturday, Israel time on the server) or per day (plan.free_ai_day) */
+const aiWk=()=>!!S.plan&&+S.plan.free_ai_week>0;
+function aiPerKey(){ const d=new Date(); if(aiWk()){ d.setHours(0,0,0,0); d.setDate(d.getDate()-d.getDay()); } return d.toDateString(); }
 function aiQuotaLoad(){ if(!S.user||S.plan?.admin||Date.now()-AIQ.loaded<60000)return; AIQ.loaded=Date.now();
-  const prem=isPrem(), ms=new Date(); if(prem)ms.setDate(1); ms.setHours(0,0,0,0);
+  const prem=isPrem(), ms=new Date(); if(prem)ms.setDate(1); ms.setHours(0,0,0,0); if(!prem&&aiWk())ms.setDate(ms.getDate()-ms.getDay());
   sb.from('ai_usage').select('id',{count:'exact',head:true}).in('kind',prem?['photo','label']:['photo','label','text']).gte('created_at',ms.toISOString())
-    .then(({count,error})=>{ if(error)return; if(prem)AIQ.photo=Math.max(0,AIQ.LIM-(count||0)); else { AIQ.free=Math.max(0,(+S.plan?.free_ai_day||1)-(count||0)); AIQ.freeDay=new Date().toDateString(); }
+    .then(({count,error})=>{ if(error)return; if(prem)AIQ.photo=Math.max(0,AIQ.LIM-(count||0)); else { AIQ.free=Math.max(0,(aiWk()?+S.plan.free_ai_week:(+S.plan?.free_ai_day||1))-(count||0)); AIQ.freeDay=aiPerKey(); }
       if(S.tab==='food'){ const el=$('#aiq'); if(el)el.outerHTML=aiQuotaLine(); } }); }
-function aiFreeLeft(){ if(isPrem())return null; if(AIQ.freeDay!==new Date().toDateString()){ AIQ.free=null; AIQ.loaded=0; } return AIQ.free; }
+function aiFreeLeft(){ if(isPrem())return null; if(AIQ.freeDay!==aiPerKey()){ AIQ.free=null; AIQ.loaded=0; } return AIQ.free; }
 function aiQuotaLine(){ if(S.plan?.admin||!S.plan)return ''; aiQuotaLoad();
-  if(freeTier()&&!(+S.plan.free_ai_day))return `<div id="aiq" class="aiq-free used">${tt('ניתוח AI מתמונה, קול וטקסט זמין בפרימיום')}<button class="linkbtn" data-act="prem-up" data-why="ai">${tt('פתיחה')}</button></div>`;
+  if(freeTier()&&!aiWk()&&!(+S.plan.free_ai_day))return `<div id="aiq" class="aiq-free used">${tt('ניתוח AI מתמונה, קול וטקסט זמין בפרימיום')}<button class="linkbtn" data-act="prem-up" data-why="ai">${tt('פתיחה')}</button></div>`;
   if(!isPrem()){ const f=aiFreeLeft(); if(f==null)return '<div id="aiq"></div>';
+    if(aiWk())return f>0?`<div id="aiq" class="aiq-free">${f>1?tt('נותרו לך {0} ניתוחי AI חינמיים השבוע').replace('{0}',`<b class="num">${f}</b>`):tt('ניתוח AI חינמי אחד נשאר לך השבוע')}<button class="linkbtn" data-act="plans-open" data-why="ai">${tt('פרימיום')}</button></div>`
+      :`<div id="aiq" class="aiq-free used">${tt('הניתוחים החינמיים של השבוע נוצלו · ביום ראשון מתחדשים')}<button class="linkbtn" data-act="plans-open" data-why="ai">${tt('שדרוג')}</button></div>`;
     return f>0?`<div id="aiq" class="aiq-free">✨ ${f>1?`נותרו לך <b class="num">${f}</b> ניתוחי AI חינמיים היום`:'ניתוח AI חינמי אחד מחכה לך היום'}<button class="linkbtn" data-act="plans-open" data-why="ai">⭐ פרימיום</button></div>`
       :`<div id="aiq" class="aiq-free used">הניתוח החינמי של היום נוצל · מחר יש עוד אחד<button class="linkbtn" data-act="plans-open" data-why="ai">⭐ שדרוג</button></div>`; }
   if(AIQ.photo==null)return '<div id="aiq"></div>';
   return `<div id="aiq" class="small muted" style="text-align:center;margin-top:6px">${AIQ.photo>0?`📸 נותרו ${AIQ.photo} ניתוחי תמונה החודש`:'📸 ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד או לחפש במאגר'}</div>`; }
 function aiUpsell(){
-  if(freeTier()&&!(+S.plan.free_ai_day))return premUpsell('ai');
+  if(freeTier()&&!aiWk()&&!(+S.plan.free_ai_day))return premUpsell('ai');
   logEv('upsell',{why:'ai'});
-  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>הניתוח החינמי של היום נוצל ✨</b><span>מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.</span></div></div>
+  openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>${aiWk()?tt('הניתוחים החינמיים של השבוע נוצלו'):'הניתוח החינמי של היום נוצל ✨'}</b><span>${aiWk()?tt('ביום ראשון מתחדשים. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.'):'מחר יש עוד אחד. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.'}</span></div></div>
     <button class="btn primary big" data-act="plans-open" data-why="ai">⭐ שדרוג לפרימיום</button>
     <button class="btn big" style="margin-top:8px" data-act="invite-open" data-src="ai">${G('הזמן חבר: חודש חינם כשהוא רוכש מנוי','הזמיני חברה: חודש חינם כשהיא רוכשת מנוי','הזמנת חבר: חודש חינם כשהוא רוכש מנוי')}</button>
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">אמשיך עם המאגר</button>`);
@@ -6260,7 +6265,7 @@ async function foodAI(payload){
     if(error)throw error;
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
     if(data._left&&data._left.kind==='photo'){AIQ.photo=data._left.n; AIQ.loaded=Date.now();}
-    if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); AIQ.loaded=Date.now(); }
+    if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=aiPerKey(); AIQ.loaded=Date.now(); }
     S.ai.keep=false; const its=data.items.map(mcFromAI);
     const ref=await Promise.race([mcRefine(its).catch(()=>null),new Promise(r=>setTimeout(r,2500))]);
     pscanHide(); openMealConfirm(data,S.ai.img,ref||its);
@@ -6268,7 +6273,7 @@ async function foodAI(payload){
     console.error(e);
     S.ai.keep=true; const st=e?.context?.status;
     let qd=null; if(st===429){ try{qd=await e.context.json();}catch(_){} if(payload.image&&qd?.period==='month')AIQ.photo=0; }
-    if(st===429&&qd?.free){ AIQ.free=0; AIQ.freeDay=new Date().toDateString(); setTimeout(aiUpsell,0); }
+    if(st===429&&qd?.free){ AIQ.free=0; AIQ.freeDay=aiPerKey(); setTimeout(aiUpsell,0); }
     else toast(st===429?(qd?.period==='day'?'הגעת לתקרה היומית. נמשיך מחר 💪':payload.image?'ניצלת את ניתוחי התמונה לחודש הזה. אפשר להקליד מה אכלת או לחפש במאגר':'הגעת למכסת ניתוחי ה-AI החודשית. אפשר לחפש במאגר או להוסיף ידנית')
       :(e?.slow||st===502||st===503||st===504)?'הניתוח לקח יותר מדי זמן. נסה שוב, או כתוב בקצרה מה בצלחת'
       :e?.message==='empty'?'לא זיהינו אוכל או שתייה. נסה לפרט, למשל "2 פרוסות לחם עם גבינה"'
@@ -6447,7 +6452,7 @@ async function mcFix(){ const inp=$('#mc-fixq'), q=(inp?.value||'').trim(), m=_m
   MC.busy=true; const b=$('[data-act="mc-fix"]'); if(b){ b.disabled=true; b.textContent='…'; }
   try{ const {data,error}=await sb.functions.invoke('nutrition',{body:{text:`${desc}. ${tt('תיקון')}: ${q}`,lang:LANG}});
     if(error||!data||!Array.isArray(data.items)||!data.items.length)throw error||new Error('empty');
-    if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); }
+    if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=aiPerKey(); }
     const img=MC.img, its=data.items.map(mcFromAI); MC.busy=false; openMealConfirm({...data,name:data.name||m.name},img,its); toast(tt('עודכן לפי מה שכתבת ✓')); }
   catch(e){ MC.busy=false; if(b){ b.disabled=false; b.textContent=tt('תקן'); } toast(e?.context?.status===429?tt('הגעת למכסת ניתוחי ה-AI. אפשר לתקן פריט ביד'):tt('התיקון לא הצליח. אפשר לתקן פריט ביד')); } }
 const mcUnitG=q=>q.liq?'מ״ל':tt('גר׳');
@@ -9714,7 +9719,7 @@ function socJoinSheet(){
 function socInviteSheet(){
   invLoad();
   const info=SOC.info[SOC.gid]||{}; const code=info.invite_code||((SOC.groups||[]).find(g=>g.id===SOC.gid)||{}).invite_code||'';
-  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">חבר חדש נכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא רוכש מנוי.</div>
+  openSheet(`<h3>הזמנת חברים</h3><div class="muted" style="margin:-4px 0 12px">חבר חדש מקבל 14 ימים חינם ונכנס ישר לקבוצה, ואתם מקבלים חודש חינם כשהוא רוכש מנוי.</div>
     <div class="inv-code">${esc(code)}</div>
     <div class="row" style="margin-top:12px;flex-wrap:nowrap"><button class="btn primary big" style="flex:2" data-act="soc-share" data-code="${esc(code)}">שליחת הזמנה</button>
       <button class="btn big" style="flex:1" data-act="soc-qr" data-code="${esc(code)}">ברקוד</button></div>
@@ -9781,7 +9786,7 @@ function socAct(act,b){
       socInviteSheet(); return true; }
     case 'soc-invite': socMutesLoad(SOC.gid); socInviteSheet(); if(!SOC.info[SOC.gid])socLoadInfo(SOC.gid).then(socInviteSheet); return true;
     case 'soc-share': { const code=b.dataset.code, url=socInvUrl(code);
-      const text=`בוא להתאמן איתי בקבוצה ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. קוד הקבוצה: ${code}`;
+      const text=`בוא להתאמן איתי בקבוצה ב-NextRep 💪 נעקוב אחד אחרי השני, נפרגן ונתחרה באתגרים. 14 ימים חינם דרך ההזמנה. קוד הקבוצה: ${code}`;
       if(navigator.share)navigator.share({title:'NextRep',text:tt(text),url}).catch(()=>{});
       else navigator.clipboard?.writeText(tt(text)+'\n'+url).then(()=>toast('הקישור הועתק'),()=>toast(url)); return true; }
     case 'soc-leave': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? לחץ שוב ליציאה';return true;}
@@ -9890,27 +9895,27 @@ function loadQR(){ return window.qrcode?Promise.resolve():new Promise((res,rej)=
 function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q.createSvgTag({cellSize:6,margin:2,scalable:true}); }
 /* הזמנת חברים (לאפליקציה בחנויות): לכל משתמש קוד אישי וקישור nextrep.co.il/i/CODE.
    המזמין: חודש חינם על כל חבר שרוכש מנוי (עד 3 בשנה, billing.ref_cap); מנוי בחנות מקבל את החיוב הבא ב-₪0, כל השאר 30 ימי פרימיום.
-   החבר עצמו מקבל את תקופת הניסיון הרגילה (billing.ref_trial_days=0). מי שלא משלם מקבל פעם אחת שבוע פרימיום
+   החבר מקבל 14 ימי ניסיון במקום 7 (billing.ref_trial_days=14). מי שלא משלם מקבל פעם אחת שבוע פרימיום
    כשהחבר הראשון שלו מתחיל להתאמן (ref_join_days=7, חד־פעמי בשרת). */
 const INV={st:null,p:null,code:null};
 const INV_SITE='https://www.nextrep.co.il';
 /* a group invite is also a personal invite: 14 free days for the friend, a free month for you when they subscribe */
 function socInvUrl(code){ return INV.code?`${INV_SITE}/i/${INV.code}?g=${code}`:`${INV_SITE}/#join=${code}`; }
 function inviteUrl(){ return INV.code?`${INV_SITE}/i/${INV.code}`:`${INV_SITE}/#ref=${S.user?.id||''}`; }
-function inviteText(){
-  return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. בוא להתאמן איתי.','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. בואו להתאמן איתי.'))+(INV.code?` ${tt('קוד ההזמנה')}: ${INV.code}`:''); }
+function inviteText(){ const d=+INV.st?.trial_days||14;
+  return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.')).replace('{d}',d)+(INV.code?` ${tt('קוד ההזמנה')}: ${INV.code}`:''); }
 function logEv(k,meta){ try{ if(S.user)sb.rpc('log_event',{p_kind:k,p_meta:meta||null}).then(()=>{},()=>{}); }catch(_){} }
 function invLoad(){ return INV.p||(INV.p=Promise.all([sb.rpc('my_referrals'),sb.rpc('my_ref_code')]).then(([a,b])=>{ if(a.data)INV.st=a.data; if(b.data)INV.code=b.data; }).catch(()=>{}).finally(()=>{ setTimeout(()=>{INV.p=null;},30000); })); }
 const INV_GIFT='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>';
 /* an invite code saved before sign-in (the invite page, or the code step in the app's questionnaire): attach it to the new account */
 async function refApplyPending(){ let c=null; try{ c=localStorage.getItem('nr-refcode'); }catch(_){} if(!c||!S.user)return;
   try{ const {data}=await sb.rpc('ref_apply',{p_code:c}); if(data&&(data.ok||['already','late','self','code'].includes(data.err))){ try{ localStorage.removeItem('nr-refcode'); }catch(_){} }
-    if(data?.ok&&data.name){ toast(tt('ההזמנה של {0} נקלטה').replace('{0}',data.name)); try{ const pl=await sb.rpc('my_plan'); if(pl.data){ S.plan=pl.data; render(); } }catch(_){} } }catch(_){} }
+    if(data?.ok&&data.name){ toast(tt('ההזמנה של {0} נקלטה: 14 ימים חינם').replace('{0}',data.name)); try{ const pl=await sb.rpc('my_plan'); if(pl.data){ S.plan=pl.data; render(); } }catch(_){} } }catch(_){} }
 async function openInviteSheet(src){
   if(!S.user)return;
   logEv('invite_open',{src:src||null});
   const ld=invLoad();
-  const draw=()=>{ const st=INV.st||{trial_days:0,join_days:7,reward_days:30,cap:3,year:0,ready:0,joined:0,paid:0,people:[]}, url=inviteUrl(), txt=inviteText(), code=INV.code;
+  const draw=()=>{ const st=INV.st||{trial_days:14,join_days:7,reward_days:30,cap:3,year:0,ready:0,joined:0,paid:0,people:[]}, url=inviteUrl(), txt=inviteText(), code=INV.code;
     const wa=`https://wa.me/?text=${encodeURIComponent(txt+'\n'+url)}`, cap=+st.cap||3, yr=Math.min(cap,+st.year||0);
     const claim=+st.ready>0&&st.store?`<div class="inv-claim"><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="inv-gi">${INV_GIFT}</span><div><small>${tt('חבר הצטרף למנוי')}</small><b>${+st.ready>1?tt('מחכים לך {0} חודשים חינם').replace('{0}',st.ready):tt('מחכה לך חודש חינם')}</b></div></div>
         <div class="small muted" style="margin:8px 0 12px;line-height:1.5">${tt('החיוב הבא שלך יהיה ₪0, והמנוי ממשיך כרגיל אחריו. אישור אחד בחלון של אפל.')}</div>
@@ -9921,6 +9926,7 @@ async function openInviteSheet(src){
     openSheet(`<div class="tgw-q" style="margin:0 0 12px"><img src="img/kobi-cheer${S.settings.g==="f"?"-f":""}.svg" alt=""><div><b>${tt('מתאמנים יותר טוב עם חבר')}</b><span>${tt('שלחו את הקישור או את הקוד. ההזמנה נשמרת גם כשמורידים את האפליקציה מהחנות.')}</span></div></div>
       ${claim}
       <div class="card inv-rules">
+        ${+st.trial_days>0?rule(`<b class="num">${st.trial_days}</b>`,tt('החבר מקבל {0} ימים חינם').replace('{0}',st.trial_days),tt('כל האפליקציה פתוחה, בלי כרטיס אשראי')):''}
         ${rule(INV_GIFT,G('אתה מקבל חודש חינם','את מקבלת חודש חינם','מקבלים חודש חינם'),(st.store?tt('על כל חבר שרוכש מנוי: החיוב הבא שלך ₪0'):tt('על כל חבר שרוכש מנוי'))+` · ${tt('עד {0} בשנה').replace('{0}',cap)}`,true)}
         ${st.paying||!(+st.join_days)||(st.people||[]).some(x=>x.started)?'':rule(`<b class="num">+${st.join_days}</b>`,G('ועוד שבוע פרימיום לך','ועוד שבוע פרימיום לך','ועוד שבוע פרימיום'),tt('פעם אחת, כשהחבר הראשון שהזמנת רושם אימון או ארוחה. הרשמה לבד לא מספיקה.'))}
       </div>
@@ -10045,13 +10051,13 @@ async function readLabel(file){
   try{
     const b64=await shrinkImage(file,1600,0.88);
     const {data,error}=await sb.functions.invoke('nutrition',{body:{image:b64,media:'image/jpeg',label:true,lang:LANG}});
-    if(error)throw error; if(data?._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=new Date().toDateString(); }
+    if(error)throw error; if(data?._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=aiPerKey(); }
     if(!data||data.error||!(+data.kcal>=0)||!data.name)throw new Error('no_label');
     const p={barcode:SCAN.code,name:String(data.name),brand:data.brand||null,kcal:+data.kcal||0,protein:+data.protein||0,fat:+data.fat||0,carbs:+data.carbs||0,serving_g:+data.serving_g||null};
     const fix=!!SCAN.prod&&SCAN.prod.barcode===SCAN.code;
     if(SCAN.code)bcSave({code:SCAN.code,name:fix?undefined:p.name,brand:fix?undefined:p.brand,kcal:p.kcal,protein:p.protein,carbs:p.carbs,fat:p.fat,serving_g:p.serving_g||undefined}).catch(()=>{});
     toast(fix?'עודכן לפי האריזה ✓':'המוצר נוסף למאגר ✓'); openProduct(fix?{...SCAN.prod,...p,name:SCAN.prod.name,brand:SCAN.prod.brand,check:false}:p);
-  }catch(e){ let qd=null; if(e?.context?.status===429){ try{qd=await e.context.json();}catch(_){} if(qd?.free){ AIQ.free=0; AIQ.freeDay=new Date().toDateString(); return aiUpsell(); } }
+  }catch(e){ let qd=null; if(e?.context?.status===429){ try{qd=await e.context.json();}catch(_){} if(qd?.free){ AIQ.free=0; AIQ.freeDay=aiPerKey(); return aiUpsell(); } }
     toast(e?.context?.status===429?'הגעת למכסת ה-AI היומית':'לא הצלחתי לקרוא את הטבלה. נסה צילום קרוב וחד יותר'); }
 }
 function fmtPhone(n){ n=String(n||''); return n.length===9?'0'+n.slice(0,2)+'-'+n.slice(2,5)+'-'+n.slice(5):n; }
