@@ -2414,7 +2414,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.227';
+const APP_VERSION='13.3.229';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -4141,7 +4141,7 @@ function vFood(){
     <div class="card r20 list meals-paper paper">
       ${slots.map(([k,label])=>{ const ms=meals.filter(m=>mealSlot(m)===k); const kc=ms.reduce((a,m)=>a+(+m.kcal||0),0);
         return `<div class="li" style="align-items:flex-start;${ms.length?'flex-direction:column;gap:6px':''}">
-          <div style="display:flex;align-items:center;gap:12px;width:100%"><span class="ms-ic" aria-hidden="true">${SLOT_IC[k]}</span><span class="lt"><b>${label}</b>${ms.length?'':'<small>עוד לא נרשם</small>'}</span>${ms.length?(calm()?`<span class="num" style="font-weight:600">${Math.round(ms.reduce((a,m)=>a+(+m.protein||0),0))} <small class="muted" style="font-weight:400">${tt('גר׳ חלבון')}</small></span>`:`<span class="num" style="font-weight:600">${kcalN(kc)} <small class="muted" style="font-weight:400">${tt('קק״ל')}</small></span>`):''}${d===today?`<button class="sbtn" data-act="food-add-open" aria-label="הוסף ל${label}">${ICON.plus}</button>`:''}</div>
+          <div style="display:flex;align-items:center;gap:12px;width:100%"><span class="ms-ic" aria-hidden="true">${SLOT_IC[k]}</span><span class="lt"><b>${label}</b>${ms.length?'':'<small>עוד לא נרשם</small>'}</span>${ms.length?(calm()?`<span class="num" style="font-weight:600">${Math.round(ms.reduce((a,m)=>a+(+m.protein||0),0))} <small class="muted" style="font-weight:400">${tt('גר׳ חלבון')}</small></span>`:`<span class="num" style="font-weight:600">${kcalN(kc)} <small class="muted" style="font-weight:400">${tt('קק״ל')}</small></span>`):''}${d===today?`<button class="sbtn" data-act="food-add-open" data-slot="${k}" aria-label="הוסף ל${label}">${ICON.plus}</button>`:''}</div>
           ${ms.map(m=>`<button class="spread" style="width:100%;text-align:var(--start);padding:6px 0 0;border-top:1px dashed var(--line);border-radius:0" data-act="meal-open" data-id="${esc(m.id)}"><span style="min-width:0"><span data-notr style="font-size:14.5px">${esc(m.name)}</span><span class="small muted" style="display:block">${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${Math.round(m.protein||0)} גר׳ חלבון</span></span><span class="num muted small" style="white-space:nowrap;flex:none">${calm()?'':m.kcal} ›</span></button>`).join('')}
         </div>`; }).join('')}
     </div>
@@ -4149,11 +4149,15 @@ function vFood(){
   `;
 }
 /* v13: one sheet for every way to add food — search, photo, barcode, manual, AI, and "again" */
+/* the meal (breakfast / lunch / dinner) the user tapped "+" on. A meal's slot comes from its time, so saving moves the time into that slot */
+let FA_SLOT=null, FA_AT=0; const SLOT_H={b:8,l:13,d:19};
+function slotTs(ts,k){ if(!k||!SLOT_H[k]||mealSlot({ts})===k)return ts; const x=new Date(ts); x.setHours(SLOT_H[k],0,0,0); return +x; }
 function openFoodAdd(opts){
   if(!$('#sheet').hidden&&$('#sheet .fa-sheet'))return;
+  FA_SLOT=SLOT_H[opts?.slot]?opts.slot:null; FA_AT=Date.now();
   const recents=recentMealNames();
   openSheet(`<div class="lib-head fa-sheet stack" style="gap:10px;padding-bottom:10px">
-    <div class="spread"><h3 style="margin:0">${opts?.title?esc(opts.title):(S.foodDate||ymd())===ymd()?tt(['הוספה לארוחת בוקר','הוספה לארוחת צהריים','הוספה לארוחת ערב'][(h=>h<11?0:h<16?1:2)(new Date().getHours())]):tt('הוספת ארוחה')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
+    <div class="spread"><h3 style="margin:0">${opts?.title?esc(opts.title):FA_SLOT?tt({b:'הוספה לארוחת בוקר',l:'הוספה לארוחת צהריים',d:'הוספה לארוחת ערב'}[FA_SLOT]):(S.foodDate||ymd())===ymd()?tt(['הוספה לארוחת בוקר','הוספה לארוחת צהריים','הוספה לארוחת ערב'][(h=>h<11?0:h<16?1:2)(new Date().getHours())]):tt('הוספת ארוחה')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
     <div class="fsearch"><textarea id="food-text" rows="1" maxlength="600" enterkeyhint="go" autocomplete="off" data-bind="foodq" placeholder="קוטג׳, או ״שניצל עם אורז״"></textarea><button class="fs-go" data-act="food-ai" aria-label="ניתוח עם AI">✨ חשב</button></div>
   </div>
   <div class="liblist fa-body">
@@ -6720,6 +6724,7 @@ async function saveMealDraft(){
   if(!m.items.length)return;
   const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
   if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
+  if(Date.now()-FA_AT<20*6e4)ts=slotTs(ts,FA_SLOT); FA_SLOT=null; // a choice older than 20 minutes was abandoned
   const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,altd,ai0,src,code,ai,pos,oil,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט',...(m.mc&&ai0?{ai:{...ai0,...(src?{s:src}:{}),...(code?{c:code}:{})}}:{})}))};
   S.meals.push({...row}); window._lastMeal=row.id; if(MQX&&Date.now()-MQX.at<36e5&&row.name!=='מתוק')try{ mqAltSaved(row); }catch(e){ console.warn(e); } saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
@@ -11547,7 +11552,7 @@ function handleAct(b,ev){
     case 'meal-save': saveMealDraft(); break;
     case 'mc-del': case 'mc-pick': case 'mc-open': case 'mc-alt': case 'mc-step': case 'mc-unit': case 'mc-add': case 'mc-photo': case 'mc-manual': case 'mc-oil': case 'mc-fix': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; askFit(q); q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
-    case 'food-add-open': openFoodAdd({type:!!b.closest('.ask')}); break;
+    case 'food-add-open': openFoodAdd({type:!!b.closest('.ask'),slot:b.dataset.slot}); break;
     case 'bc-fix': openBcFix(); break;
     case 'bc-unit': openSheet(`<h3>כמה שוקלת יחידה אחת?</h3><div class="muted small" style="margin:-4px 0 12px">חטיף, פרוסה, בקבוק או גביע. בדרך כלל כתוב על האריזה ("משקל נטו" או "מנה"). נשמר לכל המשתמשים.</div>
       <input id="bu-g" class="num" type="text" readonly data-np="num" data-unit="${_portion?.liq?'מ״ל':'גרם'}" aria-label="משקל יחידה" placeholder="${_portion?.liq?'מ״ל':'גרם'}" style="font-size:22px;text-align:center">
