@@ -2412,7 +2412,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.223';
+const APP_VERSION='13.3.225';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6316,9 +6316,9 @@ async function pcamOpen(){
 function pcamPick(){ let f=document.getElementById('food-photo'); if(!f){ f=document.createElement('input'); f.type='file'; f.accept='image/*'; f.id='food-photo'; f.hidden=true; document.body.appendChild(f); } f.click(); }
 function pcamClose(){ try{ if(_pcam==='native')NCam()?.stop().catch(()=>{}); else _pcam?.getTracks().forEach(t=>t.stop()); }catch(_){} _pcam=null; document.documentElement.classList.remove('pcam-on'); document.getElementById('pcam')?.remove(); }
 async function pcamShot(){
-  if(_pcam==='native'){ try{ const r=await NCam().capture({quality:85,width:1280}); vibrate(10); pcamClose(); if(r?.value)foodAI({image:r.value,media:'image/jpeg'}); }catch(e){ console.error(e); toast(tt('הצילום נכשל, נסה שוב')); } return; }
+  if(_pcam==='native'){ try{ const r=await NCam().capture({quality:85,width:1568}); vibrate(10); pcamClose(); if(r?.value)foodAI({image:r.value,media:'image/jpeg'}); }catch(e){ console.error(e); toast(tt('הצילום נכשל, נסה שוב')); } return; }
   const v=$('#pcam-v'); if(!v||!v.videoWidth)return;
-  const sc=Math.min(1,1280/Math.max(v.videoWidth,v.videoHeight)), c=document.createElement('canvas'); c.width=Math.round(v.videoWidth*sc); c.height=Math.round(v.videoHeight*sc);
+  const sc=Math.min(1,1568/Math.max(v.videoWidth,v.videoHeight)), c=document.createElement('canvas'); c.width=Math.round(v.videoWidth*sc); c.height=Math.round(v.videoHeight*sc);
   c.getContext('2d').drawImage(v,0,0,c.width,c.height); const b64=c.toDataURL('image/jpeg',.85).split(',')[1]; vibrate(10); pcamClose();
   const hint=($('#food-text')?.value||$('#ask-q')?.value||'').trim().slice(0,200);
   foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'}); }
@@ -11819,12 +11819,12 @@ document.addEventListener('change',ev=>{
   }
   if(ev.target.id==='pcam-file'&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0]; ev.target.value=''; pcamClose();
-    shrinkImage(f,1280).then(b64=>foodAI({image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה')); return; }
+    shrinkImage(f,1568).then(b64=>foodAI({image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה')); return; }
   if(ev.target.id==='food-photo'&&ev.target.files&&ev.target.files[0]){
     const f=ev.target.files[0]; ev.target.value='';
     toast('מעבד תמונה…');
     const hint=($('#food-text')?.value||'').trim().slice(0,200);
-    shrinkImage(f,1280).then(b64=>foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
+    shrinkImage(f,1568).then(b64=>foodAI(hint?{image:b64,media:'image/jpeg',hint}:{image:b64,media:'image/jpeg'})).catch(()=>toast('קריאת התמונה נכשלה'));
     return;
   }
   const i=ev.target.closest('[data-bind]'); if(!i)return;
