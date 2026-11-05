@@ -2117,6 +2117,8 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 .mc-no{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink,#0A0B0A);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
 .mc-oil{margin-top:10px;background:linear-gradient(135deg,#1B2410,var(--surface) 70%);border:1px solid rgba(191,255,47,.4);border-radius:18px;padding:12px}.mc-oil .hd{display:flex;gap:10px;align-items:flex-start}.mc-oil img{width:34px;height:34px;flex:none}.mc-oil b{font-size:15px}.mc-oil p{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.4}
 .mc-oil .seg3{display:flex;gap:6px;margin-top:10px}.mc-oil .seg3 button{flex:1;padding:8px 0;border-radius:12px;background:var(--bg);border:1px solid var(--line);font:inherit;font-weight:700;font-size:13.5px;color:var(--ink)}.mc-oil .seg3 small{display:block;font-size:11px;font-weight:500;color:var(--muted)}.mc-oil .seg3 button.on{border-color:var(--accent);color:var(--accent)}
+:root[data-theme="light"] .mc-oil{background:linear-gradient(135deg,color-mix(in srgb,var(--lime) 22%,#fff),var(--surface) 70%);border-color:color-mix(in srgb,var(--lime) 70%,#9BBF2A);box-shadow:var(--shadow)}
+:root[data-theme="light"] .mc-oil .seg3 button{background:var(--surface)}
 .mc-fix{display:flex;align-items:center;gap:8px;margin-top:10px;border:1px dashed rgba(191,255,47,.45);border-radius:14px;padding:6px 6px 6px 10px}.mc-fix input{flex:1;min-width:0;background:none;border:0;color:var(--ink);font:inherit;font-size:14px;padding:6px 0}.mc-fix input:focus{outline:none}
 .mc-after{display:flex;justify-content:space-between;gap:10px;margin-top:10px;background:var(--surface2);border-radius:14px;padding:10px 14px;font-size:12.5px;color:var(--muted)}.mc-after b{display:block;font-size:18px;font-weight:800;color:var(--accent)}.mc-after b.over{color:var(--gold)}
 .mc-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface2);margin-bottom:12px}
@@ -2412,7 +2414,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.225';
+const APP_VERSION='13.3.227';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
