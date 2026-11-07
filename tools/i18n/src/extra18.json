@@ -310,5 +310,65 @@
  "לא לציין": {
   "en": "Prefer not to say",
   "ar": "عدم التحديد"
+ },
+ "התמונה יצאה חשוכה": {
+  "en": "The photo came out dark",
+  "ar": "الصورة مظلمة"
+ },
+ "התמונה יצאה מטושטשת": {
+  "en": "The photo came out blurry",
+  "ar": "الصورة غير واضحة"
+ },
+ "באור טוב יותר אזהה את המנה ואת הכמויות בצורה מדויקת יותר.": {
+  "en": "In better light I can identify the dish and the amounts more accurately.",
+  "ar": "في إضاءة أفضل أتعرف على الطبق والكميات بدقة أكبر."
+ },
+ "תמונה חדה עוזרת לי לזהות כל פריט ולהעריך כמויות.": {
+  "en": "A sharp photo helps me identify each item and estimate amounts.",
+  "ar": "الصورة الواضحة تساعدني على التعرف على كل صنف وتقدير الكميات."
+ },
+ "לנתח בכל זאת": {
+  "en": "Analyze anyway",
+  "ar": "حلّل على أي حال"
+ },
+ "לצלם שוב": {
+  "en": "Retake",
+  "ar": "التقط مجددًا"
+ },
+ "בערך כמה": {
+  "en": "About how much",
+  "ar": "كم تقريبًا من"
+ },
+ "קשה לראות את הכמות בתמונה. בחירה אחת מדייקת את כל החישוב.": {
+  "en": "The amount is hard to see in the photo. One tap makes the whole count more accurate.",
+  "ar": "يصعب رؤية الكمية في الصورة. اختيار واحد يجعل الحساب كله أدق."
+ },
+ "פחות": {
+  "en": "Less",
+  "ar": "أقل"
+ },
+ "כמו שחישבתי": {
+  "en": "As estimated",
+  "ar": "كما قدّرت"
+ },
+ "יותר": {
+  "en": "More",
+  "ar": "أكثر"
+ },
+ "ג׳": {
+  "en": "g",
+  "ar": "غ"
+ },
+ "כמות ידנית": {
+  "en": "Custom amount",
+  "ar": "كمية يدوية"
+ },
+ "שינוי": {
+  "en": "change",
+  "ar": "تغيير"
+ },
+ "כמות אחרת? הזנה ידנית": {
+  "en": "Different amount? Enter it",
+  "ar": "كمية أخرى؟ أدخلها يدويًا"
  }
 }
