@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a0ce77b4"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a0ce77b4"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a0ce77b4"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=034f7036"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=034f7036"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=034f7036"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2125,6 +2125,9 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 .mc-no{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink,#0A0B0A);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
 .mc-oil{margin-top:10px;background:linear-gradient(135deg,#1B2410,var(--surface) 70%);border:1px solid rgba(191,255,47,.4);border-radius:18px;padding:12px}.mc-oil .hd{display:flex;gap:10px;align-items:flex-start}.mc-oil img{width:34px;height:34px;flex:none}.mc-oil b{font-size:15px}.mc-oil p{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.4}
 .mc-oil .seg3{display:flex;gap:6px;margin-top:10px}.mc-oil .seg3 button{flex:1;padding:8px 0;border-radius:12px;background:var(--bg);border:1px solid var(--line);font:inherit;font-weight:700;font-size:13.5px;color:var(--ink)}.mc-oil .seg3 small{display:block;font-size:11px;font-weight:500;color:var(--muted)}.mc-oil .seg3 button.on{border-color:var(--accent);color:var(--accent)}
+.mc-amt-man{display:block;width:100%;margin-top:10px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:none;color:var(--muted);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.mc-amt-man.on{border-style:solid;border-color:var(--accent);color:var(--ink)}
+:root[data-theme="light"] .mc-amt-man.on{border-color:var(--ink)}
 :root[data-theme="light"] .mc-oil{background:linear-gradient(135deg,color-mix(in srgb,var(--lime) 22%,#fff),var(--surface) 70%);border-color:color-mix(in srgb,var(--lime) 70%,#9BBF2A);box-shadow:var(--shadow)}
 :root[data-theme="light"] .mc-oil .seg3 button{background:var(--surface)}
 .mc-fix{display:flex;align-items:center;gap:8px;margin-top:10px;border:1px dashed rgba(191,255,47,.45);border-radius:14px;padding:6px 6px 6px 10px}.mc-fix input{flex:1;min-width:0;background:none;border:0;color:var(--ink);font:inherit;font-size:14px;padding:6px 0}.mc-fix input:focus{outline:none}
@@ -2422,7 +2425,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.231';
+const APP_VERSION='13.3.233';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6271,9 +6274,24 @@ function aiUpsell(){
 // out of free analyses: show the upsell instead of opening the camera / file picker
 document.addEventListener('click',ev=>{ const l=ev.target.closest?.('label'); if(!l||!l.querySelector('#food-photo,#label-photo'))return;
   if(aiFreeLeft()===0){ ev.preventDefault(); ev.stopPropagation(); aiUpsell(); } },true);
+/* before an analysis is spent: a dark or blurry photo is offered a retake (brightness and sharpness on a 160 px copy) */
+function imgQuality(b64){ return new Promise(res=>{ const im=new Image(); im.onload=()=>{ try{
+    const W=160, H=Math.max(1,Math.round(im.height*W/im.width)), c=document.createElement('canvas'); c.width=W; c.height=H;
+    const x=c.getContext('2d',{willReadFrequently:true}); x.drawImage(im,0,0,W,H); const d=x.getImageData(0,0,W,H).data, g=new Float32Array(W*H);
+    let sum=0; for(let i=0;i<W*H;i++){ g[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2]; sum+=g[i]; }
+    let n=0, m=0, m2=0; for(let y=1;y<H-1;y++)for(let X=1;X<W-1;X++){ const i=y*W+X, l=4*g[i]-g[i-1]-g[i+1]-g[i-W]-g[i+W]; n++; m+=l; m2+=l*l; }
+    const mean=sum/(W*H), lap=n?m2/n-(m/n)**2:999; res({dark:mean<32,blur:lap<25,mean,lap}); }catch(_){ res({}); } };
+  im.onerror=()=>res({}); im.src='data:image/jpeg;base64,'+b64; }); }
+function photoRetakeSheet(payload,q){ window._qPay=payload;
+  openSheet(`<div class="grab"></div><div style="text-align:center;padding:6px 4px 2px"><img src="img/kobi-think.svg" alt="" style="width:64px;height:64px">
+    <h3 style="margin:8px 0 6px">${q.dark?tt('התמונה יצאה חשוכה'):tt('התמונה יצאה מטושטשת')}</h3>
+    <p class="muted" style="margin:0 0 16px">${q.dark?tt('באור טוב יותר אזהה את המנה ואת הכמויות בצורה מדויקת יותר.'):tt('תמונה חדה עוזרת לי לזהות כל פריט ולהעריך כמויות.')}</p></div>
+    <div class="row"><button class="btn" style="flex:1" data-act="photo-anyway">${tt('לנתח בכל זאת')}</button><button class="btn primary" style="flex:1.4" data-act="pcam-again">${tt('לצלם שוב')}</button></div>`); }
 async function foodAI(payload){
   if(S.ai.busy)return;
   if(aiFreeLeft()===0){ aiUpsell(); return; }
+  if(payload.image&&!payload.qok){ const q=await imgQuality(payload.image); if(q.dark||q.blur){ try{logEv('photo_q',{dark:!!q.dark,blur:!!q.blur});}catch(_){} photoRetakeSheet(payload,q); return; } }
+  if(payload.qok){ payload={...payload}; delete payload.qok; }
   try{ if($('#sheet .fa-sheet'))closeSheet(); }catch(_){}
   S.ai.busy=true; S.ai.q=payload.text||''; S.ai.img=payload.image?'data:image/jpeg;base64,'+payload.image:null; render(); aiTicker(true); if(S.ai.img)pscanShow(S.ai.img);
   try{
@@ -6283,7 +6301,7 @@ async function foodAI(payload){
     if(!data||!Array.isArray(data.items)||!data.items.length)throw new Error('empty');
     if(data._left&&data._left.kind==='photo'){AIQ.photo=data._left.n; AIQ.loaded=Date.now();}
     if(data._free){ AIQ.free=+data._free.left||0; AIQ.freeDay=aiPerKey(); AIQ.loaded=Date.now(); }
-    S.ai.keep=false; const its=data.items.map(mcFromAI);
+    S.ai.keep=false; const B=await Promise.race([aiBias(),new Promise(r=>setTimeout(()=>r(null),1200))]); const its=data.items.map(it=>mcFromAI(mcBias(it,B)));
     const ref=await Promise.race([mcRefine(its).catch(()=>null),new Promise(r=>setTimeout(r,2500))]);
     pscanHide(); openMealConfirm(data,S.ai.img,ref||its);
   }catch(e){ pscanHide();
@@ -6356,9 +6374,18 @@ function aiTicker(on){
    Items the AI wasn't sure about are flagged, and a likely alternative ("tuna in oil?") is one tap away. */
 const MC={open:-1,sugg:[],t:null,img:null,busy:false,ctx:'draft'};
 const mcM=()=>MC.ctx==='edit'?_mealEdit:_mealDraft; // the confirm sheet (new meal) and the edit sheet (saved meal) share one item editor
+/* learned from users' own corrections (saved as a0 on each item): where people consistently change the AI's amount for a
+   food, its grams are scaled by the median correction. Aggregated server side (ai_bias: 15+ corrections from 5+ users). */
+const AIB={m:null,t:0};
+async function aiBias(){ if(AIB.m&&Date.now()-AIB.t<6*36e5)return AIB.m;
+  try{ const {data}=await sb.rpc('ai_bias'); const m={}; for(const r of data||[])if(r&&r.k&&Math.abs(+r.f-1)>=.08)m[r.k]=+r.f; AIB.m=m; AIB.t=Date.now(); }catch(_){ AIB.m=AIB.m||{}; }
+  return AIB.m; }
+function mcBias(it,B){ const f=B&&B[fdNorm(it.name)]; if(!f||+it.count>0||!(+it.grams>0))return it;
+  const r=v=>Math.round(+v*f*10)/10; return {...it,grams:Math.round(+it.grams*f),kcal:Math.round(+it.kcal*f),protein:r(it.protein),carbs:r(it.carbs),fat:r(it.fat),altk:it.altk!=null?Math.round(+it.altk*f):it.altk,_bias:f}; }
 function mcFromAI(it){ const g=Math.round(+it.grams||0), c=Math.round(+it.count||0), unit=String(it.unit||'').slice(0,24), r1=v=>Math.round(v*1000)/1000;
   const o={name:String(it.name||''),kcal:+it.kcal||0,protein:+it.protein||0,carbs:+it.carbs||0,fat:+it.fat||0,ask:it.sure===false,alt:String(it.alt||'').slice(0,40),
-    ai0:{n:String(it.name||'').slice(0,60),g,k:Math.round(+it.kcal||0)}};
+    ai0:{n:String(it.name||'').slice(0,60),g:it._bias?Math.round(g/it._bias):g,k:Math.round(+it.kcal||0)}};
+  if(it.amt===true)o.amt=1;
   if(Array.isArray(it.pos)&&it.pos.length===2&&it.pos.every(v=>+v>=0&&+v<=100))o.pos=[+it.pos[0],+it.pos[1]];
   if(it.oil===true||it.oil===false)o.oil=it.oil;
   mcSane(o,g,c,unit);
@@ -6385,7 +6412,13 @@ const fdStem=s=>String(s||'').replace(/[\u05DA\u05DD\u05DF\u05E3\u05E5]/g,c=>Str
 const fdNear=(a,b,abs)=>Math.abs(a-b)<=Math.max(abs,.45*Math.max(a,b));
 async function mcGround(o){ const q=o.q; if(!q||q.mult!=null||!(q.g>0)||!o.name)return;
   const key=fdKey(o.name); if(key.length<2)return; const K=fdNorm(key);
-  const f=(await mcFind(key)).find(x=>fdNorm(x.name)===K); if(!f||!fdNear(o.kcal/q.g*100,+f.kcal||0,60))return;
+  const L=await mcFind(key), ak=o.kcal/q.g*100; let f=L.find(x=>fdNorm(x.name)===K); if(f&&!fdNear(ak,+f.kcal||0,60))f=null;
+  // no exact name: the first search result whose name holds every word of the AI's name (few extra words) and whose kcal
+  // per 100 g is within 25%. The database values (label / Tzameret / USDA) then replace the AI's own estimate.
+  if(!f){ const T=K.split(' ').filter(w=>w.length>=2).map(fdStem);
+    f=L.find(x=>{ const N=fdNorm(x.name); if(/^ffq/.test(N))return false; const W=N.split(' ').map(fdStem);
+      return T.length&&T.every(t=>W.includes(t))&&W.length<=T.length+3&&Math.abs(ak-(+x.kcal||0))<=Math.max(35,.25*Math.max(ak,+x.kcal||0)); })||null; }
+  if(!f)return;
   const {units,liq}=foodUnits(f), U=units.map(u=>({u:u.u,g:u.g})), r1=v=>Math.round(v*1000)/1000;
   let u=null, n=q.g;
   if(q.u){ const ug=q.g/q.n, st=fdStem(q.u), cl=L=>L.sort((a,b)=>Math.abs(Math.log(a.g/ug))-Math.abs(Math.log(b.g/ug)))[0];
@@ -6438,6 +6471,7 @@ function openMealConfirm(data,img,built){
       <div class="mc-hd"><h3>${esc(_mealDraft.name)}</h3><div class="small muted">${tt('הערכת AI · לחיצה על פריט כדי לשנות')}</div></div></div>`}
     <div class="mc-sum" id="mc-tot"></div>
     <div id="mc-list" class="mc-list"></div>
+    <div id="mc-amt"></div>
     <div id="mc-oil"></div>
     <div class="mc-fix"><span aria-hidden="true">✏️</span><input id="mc-fixq" maxlength="200" enterkeyhint="send" placeholder="${tt('משהו לא מדויק? ספר לי, למשל ״היה עליו כף טחינה״')}"><button class="btn small primary" data-act="mc-fix">${tt('תקן')}</button></div>
     <div id="mc-after"></div>
@@ -6459,6 +6493,15 @@ function mcOilHTML(){ const el=$('#mc-oil'); if(!el)return; const L=mcOily(); if
   const n=Math.min(3,L.length), names=L.slice(0,3).map(i=>esc(i.name)).join(' · ');
   el.innerHTML=`<div class="mc-oil"><div class="hd"><img src="img/kobi-happy.svg" alt=""><div><b>${tt('בושל בשמן?')}</b><p>${names}: ${tt('חישבתי כמות רגילה של שמן. שמן לא נראה בתמונה, אז זה הכי משנה.')}</p></div></div>
     <div class="seg3">${[['none',tt('בלי שמן'),OIL_D.none*n],['reg',tt('רגיל'),0],['lots',tt('הרבה'),OIL_D.lots*n]].map(([k,l,d])=>`<button class="${MC.oil===k?'on':''}" data-act="mc-oil" data-v="${k}">${l}<small class="num">${d?`${d>0?'+':'−'}${Math.abs(d)}`:tt('כפי שחישבתי')}</small></button>`).join('')}</div></div>`; }
+/* "about how much?": the AI marks (amt) the one uncounted item whose amount it found hardest to judge; less / as estimated / more */
+const AMT_F=[.7,1,1.35];
+function mcAmtItem(){ const m=_mealDraft; return m?m.items.find(i=>i.amt&&!i._oil&&i.q&&i.q.per&&!i.q.u&&i.q.g>0):null; }
+function mcAmtHTML(){ const el=$('#mc-amt'); if(!el)return; const o=mcAmtItem(); if(!o){ el.innerHTML=''; return; }
+  if(!o.amtB)o.amtB=o.q.g; const u=o.q.liq?'מ״ל':tt('ג׳'), G=AMT_F.map(f=>Math.round(o.amtB*f/5)*5), cur=o.q.g, v=G.findIndex(x=>x===cur), mi=_mealDraft.items.indexOf(o);
+  el.innerHTML=`<div class="mc-oil"><div class="hd"><img src="img/kobi-think.svg" alt=""><div><b>${tt('בערך כמה')} ${esc(String(o.name).replace(/\s*\(.*$/,''))}?</b><p>${tt('קשה לראות את הכמות בתמונה. בחירה אחת מדייקת את כל החישוב.')}</p></div></div>
+    <div class="seg3">${AMT_F.map((f,j)=>`<button class="${v===j?'on':''}" data-act="mc-amt" data-v="${f}">${[tt('פחות'),tt('כמו שחישבתי'),tt('יותר')][j]}<small class="num">${G[j]} ${u}</small></button>`).join('')}</div>
+    <button class="mc-amt-man${v<0?' on':''}" data-act="mc-open" data-mi="${mi}">${v<0?`${tt('כמות ידנית')}: <b class="num">${cur} ${u}</b> · ${tt('שינוי')}`:tt('כמות אחרת? הזנה ידנית')}</button></div>`; }
+function mcSetAmt(f){ const o=mcAmtItem(); if(!o)return; if(!o.amtB)o.amtB=o.q.g; o.amtV=f; o.q.n=Math.max(1,Math.round(o.amtB*f/5)*5); meApply(o); mcRender(); }
 function mcSetOil(v){ const m=_mealDraft; if(!m)return; m.items=m.items.filter(i=>!i._oil); MC.oil=v;
   const n=Math.min(3,mcOily().length), d=(OIL_D[v]||0)*n;
   if(d){ const f=Math.round(d/9*10)/10; m.items.push({name:tt(v==='lots'?'שמן בבישול (תוספת)':'בלי שמן בבישול (הפחתה)'),kcal:d,protein:0,carbs:0,fat:f,q:{mult:1,base:{kcal:d,protein:0,carbs:0,fat:f}},_oil:1}); }
@@ -6514,7 +6557,7 @@ function mcRender(){
     </div>`; }).join('')
     +(MC.open==='add'?`<div class="mc-it paper open"><div class="mc-ed"><div class="mc-lb">${tt('מה עוד היה בצלחת?')}</div><div class="fsearch mc-fs">${ICON.search}<input class="mc-find" type="search" enterkeyhint="search" data-mi="add" placeholder="${tt('חיפוש במאגר')}" autocomplete="off" autocorrect="off" spellcheck="false"></div><div class="mc-sugg" id="mc-s"${MC.sugg.length?'':' hidden'}>${mcSuggHTML('add')}</div><div class="mc-edf">${MC.ctx==='edit'?`<button class="linkbtn" data-act="mc-manual">${tt('הוספה ידנית')}</button>`:'<span></span>'}<button class="btn small" data-act="mc-add">${tt('ביטול')}</button></div></div></div>`
       :`<button class="mc-addrow" data-act="mc-add">${ICON.plus}<span>${tt('הוספת פריט שחסר')}</span></button>`);
-  mcTotals(); if(MC.ctx==='draft'){ mcOilHTML(); const b=$('#mc-big'); if(b){ b.querySelectorAll('.mc-pin').forEach(x=>x.remove()); b.insertAdjacentHTML('beforeend',mcPinsHTML()); } }
+  mcTotals(); if(MC.ctx==='draft'){ mcAmtHTML(); mcOilHTML(); const b=$('#mc-big'); if(b){ b.querySelectorAll('.mc-pin').forEach(x=>x.remove()); b.insertAdjacentHTML('beforeend',mcPinsHTML()); } }
   if(MC.open==='add')setTimeout(()=>$('#mc-list .mc-find')?.focus(),30);
 }
 async function mcFind(q){ try{ const {data}=await sb.rpc('search_foods',LANG==='he'?{q,lim:6}:{q,lim:6,lang:LANG}); return data||[]; }catch(_){ return []; } }
@@ -6523,6 +6566,7 @@ async function mcAct(act,b){
   if(act==='mc-manual'){ m.items.push({name:'',kcal:0,protein:0,carbs:0,fat:0,q:{mult:1,base:{kcal:0,protein:0,carbs:0,fat:0}},_man:1}); MC.open=m.items.length-1; MC.sugg=[]; mcRender(); setTimeout(()=>$('#mc-list .mc-mn')?.focus(),40); return; }
   if(act==='mc-photo'){ b.classList.toggle('big'); return; }
   if(act==='mc-oil'){ mcSetOil(b.dataset.v); return; }
+  if(act==='mc-amt'){ mcSetAmt(+b.dataset.v); return; }
   if(act==='mc-fix'){ mcFix(); return; }
   if(act==='mc-add'){ MC.open=MC.open==='add'?-1:'add'; MC.sugg=[]; mcRender(); return; }
   if(act==='mc-open'){ MC.open=MC.open===n?-1:n; MC.sugg=[]; mcRender(); if(MC.open===n)b.closest('.mc-it')?.scrollIntoView({block:'nearest',behavior:'smooth'}); return; }
@@ -6733,7 +6777,7 @@ async function saveMealDraft(){
   const d=S.tab==='food'&&S.foodDate<=ymd()?S.foodDate:ymd(); let ts=Date.now();
   if(d!==ymd()){ const n=new Date(), x=new Date(d+'T12:00:00'); x.setHours(n.getHours(),n.getMinutes(),0,0); ts=+x; }
   if(Date.now()-FA_AT<20*6e4)ts=slotTs(ts,FA_SLOT); FA_SLOT=null; // a choice older than 20 minutes was abandoned
-  const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,altd,ai0,src,code,ai,pos,oil,...x})=>({...x,...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט',...(m.mc&&ai0?{ai:{...ai0,...(src?{s:src}:{}),...(code?{c:code}:{})}}:{})}))};
+  const row={id:'m'+Date.now(),user_id:S.user.id,d,ts,name:m.name,kcal:m.kcal,protein:m.protein,carbs:m.carbs,fat:m.fat,items:m.items.map(({_f,ask,alt,altd,ai0,src,code,ai,pos,oil,amt,amtB,amtV,...x})=>({...x,...(ai0&&ai0.g>0&&!x._oil?{a0:[ai0.g,fdNorm(ai0.n).slice(0,40)]}:{}),...(x.q&&x.q.g?{g:x.q.g}:{}),name:String(x.name||'').trim()||'פריט',...(m.mc&&ai0?{ai:{...ai0,...(src?{s:src}:{}),...(code?{c:code}:{})}}:{})}))};
   S.meals.push({...row}); window._lastMeal=row.id; if(MQX&&Date.now()-MQX.at<36e5&&row.name!=='מתוק')try{ mqAltSaved(row); }catch(e){ console.warn(e); } saveSnapshot(); closeSheet(); render(); _mealDraft=null; if(row.d===ymd())checkDayGoals();
   try{ const {error}=await sb.from('meals').upsert(row); if(error)throw error; toast(d===ymd()?'נרשם 🍽️':`${tt('נרשם ליום')} ${fmtDate(ts)} 🍽️`); }
   catch(e){ qPush('meals',row); toast('נשמר מקומית — יסונכרן כשתחזור רשת'); }
@@ -10133,6 +10177,7 @@ function payAct(act,b){
     case 'scan-open': pcamClose(); openScanner(); return true;
     case 'pcam-open': pcamOpen(); return true;
     case 'pcam-again': closeSheet(); _mealDraft=null; pcamOpen(); return true;
+    case 'photo-anyway': { const p=window._qPay; window._qPay=null; closeSheet(); if(p)foodAI({...p,qok:1}); return true; }
     case 'pcam-close': pcamClose(); return true;
     case 'pcam-shot': pcamShot(); return true;
     case 'scan-close': stopScan(); closeSheet(); return true;
@@ -11558,7 +11603,7 @@ function handleAct(b,ev){
       _mealDraft={name:nm,items:[{name:nm,kcal:kc,protein:pr,carbs:0,fat:0}],kcal:kc,protein:pr,carbs:0,fat:0};
       saveMealDraft(); break; }
     case 'meal-save': saveMealDraft(); break;
-    case 'mc-del': case 'mc-pick': case 'mc-open': case 'mc-alt': case 'mc-step': case 'mc-unit': case 'mc-add': case 'mc-photo': case 'mc-manual': case 'mc-oil': case 'mc-fix': mcAct(act,b); break;
+    case 'mc-del': case 'mc-pick': case 'mc-open': case 'mc-alt': case 'mc-step': case 'mc-unit': case 'mc-add': case 'mc-photo': case 'mc-manual': case 'mc-oil': case 'mc-amt': case 'mc-fix': mcAct(act,b); break;
     case 'food-pick': { const f=S.foodSugg[+b.dataset.i]; if(b.closest('#ask-res')){ S.askQ=''; const q=$('#ask-q'); if(q){ q.value=''; askFit(q); q.blur(); } const r=$('#ask-res'); if(r){ r.hidden=true; r.innerHTML=''; } } if(f)openPortion(f); break; }
     case 'food-add-open': openFoodAdd({type:!!b.closest('.ask'),slot:b.dataset.slot}); break;
     case 'bc-fix': openBcFix(); break;
