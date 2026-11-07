@@ -1520,6 +1520,14 @@ nav.tabs .ic{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round
 #restbar .bar{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
 #restbar .bar>i{display:block;height:100%;background:var(--accent);border-radius:99px}
 #restbar button{color:var(--ink);border:1px solid rgba(255,255,255,.14);padding:6px 11px;font-size:13px}
+/* light mode: the bar stays a dark floating pill, so its text and buttons are light and the skip button is lime */
+:root[data-theme="light"] #restbar .inner,:root[data-theme="light"] #restbar .rir2.ok{background:#161816;border-color:#161816;color:#F2F5F1;box-shadow:0 10px 30px rgba(0,0,0,.28)}
+:root[data-theme="light"] #restbar .tl small{color:rgba(242,245,241,.62)}
+:root[data-theme="light"] #restbar .inner button{color:#F2F5F1;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16)}
+:root[data-theme="light"] #restbar .inner button.go{background:var(--lime);color:#0D0D0D;border-color:var(--lime)}
+:root[data-theme="light"] #restbar .bar{background:rgba(255,255,255,.16)}
+:root[data-theme="light"] #restbar .bar>i{background:var(--lime)}
+:root[data-theme="light"] #restbar .rir2.ok{color:var(--lime)}
 
 /* active workout */
 .ex-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;transition:border-color .3s,box-shadow .3s}
@@ -2414,7 +2422,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.229';
+const APP_VERSION='13.3.231';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
