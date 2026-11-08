@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=87063ae0"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=87063ae0"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=87063ae0"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=42a7c66e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=42a7c66e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=42a7c66e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -856,6 +856,14 @@ body:not(.landing)>#lx-sticky{display:none}
 .otp-mail{display:flex;align-items:center;gap:8px;background:var(--surface2);border-radius:12px;padding:10px 12px;font-size:14px}
 .otp-mail b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:600;font-size:16px;color:var(--ink)}
+.pi-cta{border:1px solid var(--line);box-shadow:none}.pi-cta .pb-ic{display:grid;place-items:center;color:var(--accent)}.pi-cta .pb-ic .ic{width:22px;height:22px}.pi-cta small{display:block;color:var(--muted)}
+.pi-src{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pi-b{display:flex;flex-direction:column;gap:4px;align-items:flex-start;padding:14px;border-radius:18px;background:var(--surface2);border:1px solid var(--line);cursor:pointer}.pi-b .ic{width:26px;height:26px;color:var(--accent);margin-bottom:6px}.pi-b b{font-size:15px}.pi-b small{color:var(--muted);font-size:12.5px}
+.pi-th{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.pi-t{position:relative;width:72px;height:72px;border-radius:14px;overflow:hidden;background:var(--surface2);display:flex;flex-direction:column;align-items:center;justify-content:center}.pi-t img{width:100%;height:100%;object-fit:cover}.pi-t button{position:absolute;top:4px;inset-inline-end:4px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:0}.pi-pdf b{color:var(--accent)}.pi-pdf small{font-size:10px;color:var(--muted);max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pi-txt{width:100%;margin-top:12px;border-radius:16px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font:inherit;font-size:15px;padding:12px 14px;resize:vertical;min-height:96px}
+.pi-busy{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:26px 10px 30px}.pi-busy img{width:96px;height:96px}.pi-busy b{font-size:19px}.pi-busy span{color:var(--muted);font-size:14px;max-width:280px;line-height:1.5}.pi-sp{width:30px;height:30px;border-radius:50%;border:3px solid var(--surface2);border-top-color:var(--accent);animation:pcspin .8s linear infinite;margin-top:10px}
+.pi-day{background:var(--surface2);border-radius:18px;padding:6px 12px 6px;margin-bottom:10px}.pi-dn{width:100%;border:0;background:none;color:var(--ink);font:inherit;font-weight:700;font-size:16px;padding:8px 2px;border-bottom:1px solid var(--line);border-radius:0}
+.pi-r{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.pi-r:first-of-type{border-top:0}.pi-n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--surface);color:var(--muted);font-size:12px;display:grid;place-items:center}.pi-x2{flex:1;min-width:0;border:0;background:none;padding:0;text-align:start;font:inherit;color:inherit}.pi-x2 b{display:block;font-size:15px}.pi-x2 small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}.pi-tag{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:600;color:#FFB547;background:rgba(255,181,71,.12);padding:3px 8px;border-radius:8px}.pi-del{flex:0 0 30px;height:30px;border-radius:50%;border:0;background:var(--surface);color:var(--muted);font-size:12px}
+.pi-rep{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:14px}.pi-rep input{width:20px;height:20px;accent-color:var(--accent)}
 .pb-cta{display:flex;gap:12px;align-items:center;width:100%;text-align:var(--start);padding:14px;border-radius:16px;background:var(--surface);border:2px solid var(--accent);margin-top:10px;box-shadow:0 8px 22px -14px color-mix(in srgb,var(--accent) 70%,transparent)}
 .pb-cta .pb-ic{font-size:28px}.pb-cta .btn{flex-shrink:0;border-radius:12px;padding:10px 16px;font-weight:700}.pb-cta b{display:block;font-size:17px}.pb-cta small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
 .pb-top{display:flex;flex-direction:column;gap:6px}
@@ -6873,7 +6881,7 @@ function vTrainStart(){
     ${S.templates.length?`<div class="sect2"><span>התוכנית שלי</span><button class="linkbtn" data-act="train-view" data-v="plans">עריכה</button></div>
     <div class="card r20 list">${list.map(t=>`<div class="li"><button class="lt tv-open" data-act="tpl-view" data-id="${esc(t.id)}"><b>${esc(t.name)}</b><small>${tplSub(t)} · <span class="tv-more">${tt('פרטים')} ›</span></small></button><button class="sbtn" data-act="start-tpl" data-id="${esc(t.id)}" aria-label="התחל ${esc(t.name)}">${ICON.play}</button></div>`).join('')||`<div class="li small muted">כל התוכנית למעלה. אפשר להוסיף עוד אימונים בעריכה.</div>`}</div>`
     :''}
-    ${!S.templates.length?`<div class="card r20 stack" style="gap:12px"><b style="font-family:var(--disp);font-size:22px;line-height:1.15">עוד אין לך תוכנית</b><span class="small muted">הכי קל להתחיל מתוכנית שבנויה בשבילך. לוקח 2 דקות.</span><button class="btn primary big" data-act="pb-open">בנה לי תוכנית</button></div>`:''}
+    ${!S.templates.length?`<div class="card r20 stack" style="gap:12px"><b style="font-family:var(--disp);font-size:22px;line-height:1.15">עוד אין לך תוכנית</b><span class="small muted">הכי קל להתחיל מתוכנית שבנויה בשבילך. לוקח 2 דקות.</span><button class="btn primary big" data-act="pb-open">בנה לי תוכנית</button><button class="btn big" data-act="pi-open" data-src="empty" style="display:flex;align-items:center;justify-content:center;gap:8px">${ICON.cam}${tt('יש לי תוכנית ממאמן')}</button></div>`:''}
     <div class="two">
       <button class="card r20" data-act="start-free">${ICON.plus}אימון חופשי</button>
       ${S.templates.length?`<button class="card r20" data-act="pb-open">${ICON.list}בנה לי תוכנית</button>`:`<button class="card r20" data-act="start-ready">${ICON.list}תוכנית מוכנה</button>`}
@@ -7686,6 +7694,7 @@ function vPlans(){
     </div>`;
   return `
     <button class="pb-cta" data-act="pb-open"><span class="pb-ic">✨</span><span style="flex:1"><b>בנה לי תוכנית</b><small>8 שאלות קצרות ותקבל תוכנית מותאמת לרמה, למטרה ולזמן שלך</small></span><span class="btn primary" style="pointer-events:none">התחל</span></button>
+    <button class="pb-cta pi-cta" data-act="pi-open" data-src="plans"><span class="pb-ic">${ICON.cam}</span><span style="flex:1"><b>${tt('ייבוא תוכנית מהמאמן')}</b><small>${tt('צילום, PDF או טקסט מהוואטסאפ. מקס מכניס אותה בשבילך')}</small></span>${ICON.chev}</button>
     ${sched}
     <div class="sect">התוכניות</div>
     ${freeTier()?`<div class="fz-cnt"><span><b class="num">${Math.min(list.length,FREE.tpl)}/${FREE.tpl}</b> ${tt('תוכניות בחינם')}</span>${list.length>=FREE.tpl?lockChip('tpl','ללא הגבלה בפרימיום'):''}</div>`:''}
@@ -10656,6 +10665,68 @@ async function pbSave(){
     <button class="btn big" style="margin-top:8px" data-act="sheet-close">אחר כך</button>`); }
   else toast('התוכנית נשמרה 💪 בהצלחה!');
 }
+/* ----- import a plan from a coach: photos, a PDF or pasted text → Max reads it → the user checks it → templates ----- */
+let PI=null;
+const PI_LIB=()=>Object.entries(LIB).flatMap(([g,a])=>a.map(n=>n+'|'+g)).join('\n');
+function piOpen(src){ PI={imgs:[],pdf:null,pdfName:'',text:'',busy:false,res:null,rep:!S.workouts.length}; logEv('pi_open',{src:src||null}); piDraw(); }
+function piDraw(){ if(!PI)return; if(PI.busy)return piBusy(); if(PI.res)return piReview();
+  const has=PI.imgs.length||PI.pdf||PI.text.trim();
+  openSheet(`<div class="sh-bar"><h3 style="margin:0">${tt('ייבוא תוכנית מהמאמן')}</h3><button class="sh-x" data-act="sheet-close" aria-label="${tt('סגירה')}">✕</button></div>
+    <div class="tgw-q" style="margin:4px 0 14px"><img src="img/kobi-think.svg" alt=""><div><b>${tt('יש לך תוכנית ממאמן?')}</b><span>${tt('מצלמים, מעלים או מדביקים, ומקס מכניס אותה לאפליקציה. לפני השמירה בודקים שהכול נכון.')}</span></div></div>
+    <div class="pi-src">
+      <label class="pi-b">${ICON.cam}<b>${tt('תמונה או צילום מסך')}</b><small>${tt('אפשר כמה, עד 4')}</small><input type="file" accept="image/*" multiple hidden data-pi="img"></label>
+      <label class="pi-b">${ICON.list}<b>${tt('קובץ PDF')}</b><small>${tt('מהמייל או מהוואטסאפ')}</small><input type="file" accept="application/pdf" hidden data-pi="pdf"></label>
+    </div>
+    ${PI.imgs.length||PI.pdf?`<div class="pi-th">${PI.imgs.map((b,i)=>`<span class="pi-t"><img src="data:image/jpeg;base64,${b}" alt=""><button data-act="pi-rm" data-i="${i}" aria-label="${tt('הסרה')}">✕</button></span>`).join('')}${PI.pdf?`<span class="pi-t pi-pdf"><b>PDF</b><small data-notr>${esc(PI.pdfName)}</small><button data-act="pi-rm" data-i="pdf" aria-label="${tt('הסרה')}">✕</button></span>`:''}</div>`:''}
+    <textarea id="pi-txt" class="pi-txt" rows="4" placeholder="${tt('או הדבק כאן את התוכנית, למשל מהוואטסאפ')}">${esc(PI.text)}</textarea>
+    <button class="btn primary big" data-act="pi-go" style="width:100%;margin-top:12px" ${has?'':'disabled'}>${tt('מקס, תקרא את התוכנית')}</button>`); }
+function piBusy(){ openSheet(`<div class="pi-busy"><img src="img/kobi-think.svg" alt=""><b>${tt('מקס קורא את התוכנית…')}</b><span>${tt('מתאים כל תרגיל לסרטון ההדגמה שלו. זה לוקח עד חצי דקה.')}</span><i class="pi-sp"></i></div>`); }
+function piFiles(inp){ const kind=inp.dataset.pi, fs=[...(inp.files||[])]; inp.value=''; if(!fs.length)return;
+  if(kind==='pdf'){ const f=fs[0]; if(f.size>6e6){ toast(tt('הקובץ גדול מדי (עד 6MB)')); return; }
+    const r=new FileReader(); r.onload=()=>{ PI.pdf=String(r.result).split(',')[1]; PI.pdfName=f.name; piDraw(); }; r.readAsDataURL(f); return; }
+  Promise.all(fs.slice(0,4-PI.imgs.length).map(f=>shrinkImage(f,1800,.85))).then(a=>{ PI.imgs.push(...a); piDraw(); }).catch(()=>toast(tt('קריאת התמונה נכשלה'))); }
+async function piGo(){ PI.text=($('#pi-txt')?.value||'').trim(); if(!PI.imgs.length&&!PI.pdf&&!PI.text)return;
+  PI.busy=true; piBusy(); logEv('pi_go',{imgs:PI.imgs.length,pdf:!!PI.pdf,txt:PI.text.length});
+  try{ const {data,error}=await Promise.race([sb.functions.invoke('plan-import',{body:{images:PI.imgs,pdf:PI.pdf,text:PI.text,lang:LANG,lib:PI_LIB()}}),new Promise((_,rj)=>setTimeout(()=>rj(new Error('timeout')),100000))]);
+    let err=data?.error; if(error){ try{ err=(await error.context?.json?.())?.error||'ai_failed'; }catch(_){ err='ai_failed'; } }
+    PI.busy=false;
+    if(err){ logEv('pi_err',{e:err}); toast(err==='not_plan'?tt('לא מצאנו כאן תוכנית אימונים. נסה תמונה ברורה יותר'):err==='quota'?tt('הגעת למגבלת הייבוא להיום. אפשר שוב מחר'):tt('משהו השתבש. נסה שוב')); piDraw(); return; }
+    PI.res={name:data.name||'',days:(data.days||[]).map(d=>({name:d.name,ex:d.ex}))}; logEv('pi_ok',{days:PI.res.days.length,ex:PI.res.days.reduce((a,d)=>a+d.ex.length,0),miss:PI.res.days.reduce((a,d)=>a+d.ex.filter(e=>!e.lib&&!e.cardio).length,0)}); piDraw();
+  }catch(e){ PI.busy=false; toast(tt('משהו השתבש. נסה שוב')); piDraw(); } }
+const piName=e=>e.lib||e.as;
+function piReview(){ const R=PI.res, n=R.days.length, miss=R.days.reduce((a,d)=>a+d.ex.filter(e=>!e.lib&&!e.cardio).length,0);
+  const row=(e,di,ei)=>{ const sub=e.cardio?`<span class="num">${e.cardio}</span> ${tt('דק׳')}`:`<span class="num">${e.s} × ${esc(e.reps||'—')}</span>${e.rest?` · ${tt('מנוחה')} <span class="num">${e.rest}</span> ${tt('שנ׳')}`:''}`;
+    return `<div class="pi-r ${e.lib||e.cardio?'':'miss'}"><span class="pi-n num">${ei+1}</span><button class="pi-x2" data-act="pi-swap" data-d="${di}" data-e="${ei}"><b>${esc(piName(e))}</b><small>${sub}${e.note?` · <span data-notr>${esc(e.note)}</span>`:''}</small>${e.lib||e.cardio?'':`<span class="pi-tag">${tt('לא מצאנו במאגר · לחץ לבחירה')}</span>`}</button><button class="pi-del" data-act="pi-del" data-d="${di}" data-e="${ei}" aria-label="${tt('הסרה')}">✕</button></div>`; };
+  openSheet(`<div class="sh-bar"><h3 style="margin:0">${tt('בדיקה לפני שמירה')}</h3><button class="sh-x" data-act="sheet-close" aria-label="${tt('סגירה')}">✕</button></div>
+    <div class="small muted" style="margin:-2px 0 12px;line-height:1.5">${tt('מקס מצא')} <b class="num" style="color:var(--ink)">${n}</b> ${tt('אימונים')}. ${miss?`<b class="num" style="color:var(--ink)">${miss}</b> ${tt('תרגילים לא נמצאו במאגר: אפשר לבחור תרגיל מתאים או להשאיר כמו שהם.')}`:tt('כל התרגילים הותאמו לסרטון הדגמה.')}</div>
+    ${R.days.map((d,di)=>`<div class="pi-day"><input class="pi-dn" data-pi-day="${di}" value="${esc(d.name)}" maxlength="40" data-notr aria-label="${tt('שם האימון')}">${d.ex.map((e,ei)=>row(e,di,ei)).join('')}</div>`).join('')}
+    ${S.templates.length?`<label class="pi-rep"><input type="checkbox" id="pi-rep" ${PI.rep?'checked':''}><span>${tt('להחליף את התוכניות הקיימות שלי')}</span></label>`:''}
+    <button class="btn primary big" data-act="pi-save" style="width:100%;margin-top:12px">${tt('שמירת התוכנית')}</button>
+    <button class="linkbtn" data-act="pi-back" style="display:block;margin:10px auto 0;color:var(--muted)">${tt('התחלה מחדש')}</button>`); }
+async function piSave(){ const R=PI.res; PI.rep=!!$('#pi-rep')?.checked; const rep=PI.rep;
+  document.querySelectorAll('[data-pi-day]').forEach(el=>{ const d=R.days[+el.dataset.piDay]; if(d)d.name=el.value.trim()||d.name; });
+  const days=R.days.filter(d=>d.ex.length); if(!days.length)return;
+  if(freeTier()&&!rep&&S.templates.length+days.length>FREE.tpl){ premUpsell('tplpb'); return; }
+  if(rep)for(const t of [...S.templates])await deleteTemplate(t.id);
+  const base=rep?0:S.templates.length, now=Date.now(), ids=[];
+  for(let i=0;i<days.length;i++){ const d=days[i], id='t'+now+i; ids.push(id);
+    await saveTemplate({id,name:d.name,order:base+i+1,ex:d.ex.map(e=>{ const n=piName(e);
+      if(e.cardio)return {n,m:CARDIO_GROUP,t:'c',min:e.cardio};
+      return {n,m:(e.lib&&pbMuscle(e.lib))||e.m||'פונקציונלי',t:'s',s:e.s||3,reps:String(e.reps||'').replace(/-/g,'–'),rest:e.rest||90,...(e.note?{how:e.note+(INFO[n]?'\n\n'+INFO[n]:'')}:{})}; })}); }
+  if(rep&&S.settings.schedule){ S.settings.schedule={}; persistSettings(); }
+  logEv('pi_save',{days:days.length,rep}); PI=null; closeSheet(); S.tab='train'; S.trainView='plans'; render(); window.scrollTo(0,0);
+  toast(tt('התוכנית מהמאמן נשמרה')); }
+function piAct(a,b){
+  if(a==='pi-open'){ closeSheet(); piOpen(b.dataset.src); return true; }
+  if(!PI)return false;
+  if(a==='pi-go'){ piGo(); return true; }
+  if(a==='pi-rm'){ PI.text=($('#pi-txt')?.value||PI.text); if(b.dataset.i==='pdf'){ PI.pdf=null; PI.pdfName=''; } else PI.imgs.splice(+b.dataset.i,1); piDraw(); return true; }
+  if(a==='pi-del'){ const d=PI.res.days[+b.dataset.d]; d.ex.splice(+b.dataset.e,1); if(!d.ex.length)PI.res.days.splice(+b.dataset.d,1); if(!PI.res.days.length){ PI.res=null; } piDraw(); return true; }
+  if(a==='pi-swap'){ PI.sw=[+b.dataset.d,+b.dataset.e]; document.querySelectorAll('[data-pi-day]').forEach(el=>{ const d=PI.res.days[+el.dataset.piDay]; if(d)d.name=el.value.trim()||d.name; }); PI.rep=!!$('#pi-rep')?.checked; openLibrary('pi'); return true; }
+  if(a==='pi-save'){ piSave(); return true; }
+  if(a==='pi-back'){ PI.res=null; piDraw(); return true; }
+  return false; }
+function piPick(n,g){ const [di,ei]=PI.sw||[]; const e=PI.res?.days[di]?.ex[ei]; if(e){ if(g===CARDIO_GROUP){ e.cardio=e.cardio||20; e.s=0; } else e.cardio=0; e.lib=n; e.m=g; } piDraw(); }
 /* v13.2: "how do we start?" for new users, instead of silently loading A/B/C */
 /* onboarding after name + address: notifications (once per device, where the device can show them), then "how do we start?", then the tour */
 function notifOnbSeen(){ try{ return !!localStorage.getItem('nr-notif-onb'); }catch(_){ return true; } }
@@ -10706,6 +10777,7 @@ function openStartSheet(){
   const o=(act,ic,t,sub,rec)=>`<button class="li" data-act="${act}" style="${rec?'background:var(--accent-soft);':''}border-radius:16px;border:1px solid ${rec?'var(--accent)':'var(--line)'};margin-bottom:8px"><span class="tk" style="--c:var(--accent)">${ic}</span><span class="lt"><b>${t}</b><small style="white-space:normal">${sub}</small></span>${ICON.chev}</button>`;
   openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-happy.svg" alt=""><div><b>${G('איך תרצה להתחיל?','איך תרצי להתחיל?','איך נתחיל?')}</b><span>אפשר לשנות את זה בכל רגע.</span></div></div>
     ${o('start-pb',ICON.list,G('תבנה לי תוכנית','תבני לי תוכנית','בניית תוכנית בשבילי'),'8 שאלות קצרות: מטרה, רמה, ימים וציוד. מקבלים תוכנית שמתאימה בדיוק',true)}
+    ${o('pi-open',ICON.cam,'יש לי תוכנית ממאמן','מצלמים או מעלים, ומקס מכניס אותה לאפליקציה')}
     ${o('start-own',ICON.pen,'יש לי תוכנית, אכניס אותה','בונים את האימונים שלך עם סרטון הדגמה לכל תרגיל')}
     ${o('start-food',ICON.food,'בינתיים רק תזונה','מעקב קלוריות, תפריט חכם וניתוח AI. האימונים יחכו')}
     <button class="linkbtn" data-act="start-ready" style="display:block;margin:6px auto 0;color:var(--muted);text-decoration:none;font-size:14px">או תוכנית מוכנה: דחיפה, משיכה ורגליים</button>`);
@@ -11442,6 +11514,7 @@ function handleAct(b,ev){
   if(act.startsWith('soc-')&&socAct(act,b))return;
   if(payAct(act,b))return;
   if(act.startsWith('pb-')&&pbAct(act,b))return;
+  if(act.startsWith('pi-')&&piAct(act,b))return;
   if(act.startsWith('mob-')&&mobAct(act,b))return;
   if(act.startsWith('start-')&&act!=='start-tpl'&&act!=='start-free'&&startAct(act))return;
   if(act.startsWith('coach-')&&coachAct(act,b))return;
@@ -11813,7 +11886,7 @@ function handleAct(b,ev){
     case 'np-close': closeNumpad(); break;
     case 'go': if(b.dataset.to==='food'&&S.tab!=='food'&&!S.mqW)S.menuOpen=false; S.tab=b.dataset.to; if(b.dataset.view)S.trackView=b.dataset.view; location.hash=S.tab; render(); window.scrollTo(0,0); break;
     case 'lib-group': S.lib.group=b.dataset.g; renderLibrary(); break;
-    case 'lib-pick': addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
+    case 'lib-pick': if(S.lib.target==='pi'){ piPick(b.dataset.n,b.dataset.g); break; } addExercise(b.dataset.n,b.dataset.g); if(S.lib.target==='tpl')renderTplEditor(); break;
     case 'lib-custom': { const v=($('#customex')?.value||'').trim(); if(!v)break; addExercise(v,S.lib.group===CARDIO_GROUP?CARDIO_GROUP:(S.lib.group||'כללי')); break; }
     case 'prem-up': premUpsell(b.dataset.why); break;
     case 'tpl-new': if(freeTier()&&S.templates.length>=FREE.tpl){ premUpsell('tpl'); break; } _tplDraft={id:'t'+Date.now(),name:'',ex:[],order:S.templates.length+1,isNew:true}; renderTplEditor(); break;
@@ -11924,6 +11997,7 @@ document.addEventListener('input',ev=>{
 });
 document.addEventListener('toggle',ev=>{ const d=ev.target; if(d?.dataset?.det)S.settings[d.dataset.det]=d.open; },true);
 document.addEventListener('change',ev=>{
+  if(ev.target.dataset&&ev.target.dataset.pi&&PI){ piFiles(ev.target); return; }
   if(ev.target.id==='cyc-on'){ ncCfg().cyc=ev.target.checked; persistSettings(); logEv('cyc',{on:ev.target.checked}); render(); toast(ev.target.checked?'מקס יתאים את היעד לימי האימון':'יעד אחיד לכל הימים'); return; }
   if(ev.target.id==='food-date'){ const v=ev.target.value; if(/^\d{4}-\d{2}-\d{2}$/.test(v)&&v<=ymd()){ S.foodDate=v; render(); } return; }
   if(ev.target.dataset&&ev.target.dataset.cmp&&PH.cmp){ const c=PH.cmp; c[ev.target.dataset.cmp]=ev.target.value; openPhotoCompare(c.angle,c.a,c.b); return; }
