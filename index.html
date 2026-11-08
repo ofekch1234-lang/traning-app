@@ -2433,6 +2433,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 #pcam .pc-hint{position:absolute;left:0;right:0;bottom:calc(30% - 54px);text-align:center;font-weight:700;font-size:15px;text-shadow:0 1px 8px rgba(0,0,0,.8)}#pcam .pc-hint small{display:block;font-weight:500;font-size:13px;opacity:.85;margin-top:3px}
 #pcam .pc-bar{position:absolute;left:0;right:0;bottom:0;padding:26px 24px calc(env(safe-area-inset-bottom,0px) + 26px);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.85) 45%)}
 #pcam .pc-b{display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:600;width:64px}#pcam .pc-b svg.ic{width:26px;height:26px;padding:12px;box-sizing:content-box;border-radius:50%;background:rgba(255,255,255,.16)}
+#pcam .pc-load{position:absolute;inset:0;z-index:1;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .25s}#pcam .pc-load span{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;animation:pcspin .8s linear infinite}@keyframes pcspin{to{transform:rotate(360deg)}}#pcam.ready .pc-load{opacity:0;pointer-events:none}
 #pcam .pc-shot{width:76px;height:76px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.35)}#pcam .pc-shot:active{transform:scale(.94)}
 html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on body>*:not(#pcam){visibility:hidden!important}#pcam.native{background:transparent}
 #pscan{position:fixed;inset:0;z-index:150;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 40px) 18px 30px;text-align:center}
@@ -2507,7 +2508,7 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 :root[data-accent="blue"][data-theme="light"]{--oa:#6AAFFF;--oi:#12140C;--oh1:#1E3558;--oh2:#151F30;--og:rgba(90,150,240,0.45);--onav:#161C26;--lime:#6AAFFF;--lime-ink:#12140C;--ob1:rgba(106,175,255,0.3);--ob2:#F0F4FA;--ob3:#E4EBF5;--oc1:#FFFFFF;--oc2:#FFFFFF;--oc3:#F0F4FA;--ol:rgba(20,24,10,.06);--ot:#12140C;--om:rgba(18,20,12,.55);--of:#F0F4FA;--ochip:rgba(18,20,12,.16);}
 :root[data-accent="teal"]:not([data-theme="light"]){--oa:#6EEBD8;--oi:#12140C;--oh1:#1A4540;--oh2:#13241F;--og:rgba(60,200,180,0.45);--onav:#15201E;--accent:#6EEBD8;--lime:#6EEBD8;--ob1:#122E2A;--ob2:#0C1714;--ob3:#0B0C0A;--oc1:rgba(30,90,80,0.38);--oc2:rgba(30,90,80,0.16);--oc3:rgba(20,22,18,.6);--ol:rgba(110,235,216,0.08);--ot:#F2F4EC;--om:rgba(242,244,236,.6);--of:rgba(255,255,255,.05);--ochip:rgba(242,244,236,.2);}
 :root[data-accent="teal"][data-theme="light"]{--oa:#3FD9C2;--oi:#12140C;--oh1:#1A4540;--oh2:#13241F;--og:rgba(60,200,180,0.45);--onav:#15201E;--lime:#3FD9C2;--lime-ink:#12140C;--ob1:rgba(63,217,194,0.3);--ob2:#EEF7F5;--ob3:#E2F0EC;--oc1:#FFFFFF;--oc2:#FFFFFF;--oc3:#EEF7F5;--ol:rgba(20,24,10,.06);--ot:#12140C;--om:rgba(18,20,12,.55);--of:#EEF7F5;--ochip:rgba(18,20,12,.16);}
-:root,:root body{background:radial-gradient(90% 45% at 50% 0%,var(--ob1) 0%,transparent 70%),linear-gradient(180deg,var(--ob2) 0%,var(--ob3) 100%)!important;background-attachment:fixed!important}
+:root:not(.pcam-on),:root:not(.pcam-on) body{background:radial-gradient(90% 45% at 50% 0%,var(--ob1) 0%,transparent 70%),linear-gradient(180deg,var(--ob2) 0%,var(--ob3) 100%)!important;background-attachment:fixed!important}
 :root header.top{background:transparent!important}
 :root .brand b{color:var(--oa)!important;background:none!important;padding:0!important}
 :root[data-theme="light"] .brand b{color:inherit!important}
@@ -2946,7 +2947,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.236';
+const APP_VERSION='13.3.238';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -7478,6 +7479,7 @@ async function pcamOpen(){
   try{ if(!$('#sheet').hidden)closeSheet(); }catch(_){}
   pcamClose(); if(!pcamOK()){ pcamPick(); return; } const el=document.createElement('div'); el.id='pcam';
   el.innerHTML=`<video id="pcam-v" playsinline muted autoplay></video>
+    <div class="pc-load" aria-hidden="true"><span></span></div>
     <button class="pc-x" data-act="pcam-close" aria-label="${tt('סגירה')}">✕</button>
     <div class="pc-fr" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <div class="pc-hint">${tt('כדאי שכל הצלחת תיכנס למסגרת')}<small>${tt('צלם מלמעלה, באור טוב')}</small></div>
@@ -7488,12 +7490,12 @@ async function pcamOpen(){
     </div>`;
   document.body.appendChild(el);
   const nc=NCam(); if(nc){ el.classList.add('native'); el.querySelector('video')?.remove(); document.documentElement.classList.add('pcam-on');
-    try{ await nc.start({position:'rear',toBack:true,disableAudio:true,enableHighResolution:true,lockAndroidOrientation:true}); _pcam='native'; if(!document.getElementById('pcam')){ nc.stop().catch(()=>{}); _pcam=null; } }
+    try{ await nc.start({position:'rear',toBack:true,disableAudio:true,enableHighResolution:true,lockAndroidOrientation:true}); _pcam='native'; if(!document.getElementById('pcam')){ nc.stop().catch(()=>{}); _pcam=null; } else setTimeout(()=>el.classList.add('ready'),250); }
     catch(e){ console.error(e); pcamClose(); pcamPick(); }
     return; }
   try{ _pcam=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1440}},audio:false});
     if(!document.getElementById('pcam')){ _pcam.getTracks().forEach(t=>t.stop()); _pcam=null; return; }
-    $('#pcam-v').srcObject=_pcam; }
+    const v=$('#pcam-v'); v.addEventListener('playing',()=>el.classList.add('ready'),{once:true}); setTimeout(()=>el.classList.add('ready'),4000); v.srcObject=_pcam; }
   catch(e){ pcamClose(); pcamPick(); }
 }
 function pcamPick(){ let f=document.getElementById('food-photo'); if(!f){ f=document.createElement('input'); f.type='file'; f.accept='image/*'; f.id='food-photo'; f.hidden=true; document.body.appendChild(f); } f.click(); }
