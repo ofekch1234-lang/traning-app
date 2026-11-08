@@ -2947,7 +2947,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.244';
+const APP_VERSION='13.3.246';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3676,7 +3676,7 @@ function vNatAuth(){
       <h3 style="margin:0">כניסה או הרשמה</h3>
       ${NATIVE_OS==='ios'?`<button class="abtn" data-act="nat-apple" ${b?'disabled':''}>${APPLE_SVG}<span>${b==='apple'?tt('רגע…'):tt('המשך עם Apple')}</span></button>`:''}
       <button class="gbtn" data-act="nat-google" ${b?'disabled':''}>${G_SVG}<span>${b==='google'?tt('רגע…'):tt('המשך עם Google')}</span></button>
-      <button class="linkbtn" data-act="nat-mail" style="font-size:14px">✉️ ${tt('כניסה עם אימייל')}</button>
+      ${NATIVE_OS==='ios'?'':`<button class="linkbtn" data-act="nat-mail" style="font-size:14px">✉️ ${tt('כניסה עם אימייל')}</button>`}
       ${NAUTH.err?`<div class="autherr" style="display:block">${esc(NAUTH.err)}</div>`:''}
       <div class="small muted gconsent" style="text-align:center;line-height:1.55">${Gx('בהמשך אתה מסכים ל','בהמשך את מסכימה ל','בהמשך את/ה מסכים/ה ל')}<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a>. המידע באפליקציה אינו ייעוץ רפואי.</div>
       <button class="linkbtn" data-act="onb-new" style="font-size:14px">${tt('חדש ב-NextRep? מתחילים עם מקס')}</button>
