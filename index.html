@@ -63,8 +63,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="menu-foods.js?v=17"></script>
-<script src="recipes.js?v=3" defer></script>
-<script>if(window.NR_LANG==="en"||window.NR_LANG==="ar")document.write('<script src="recipes-'+window.NR_LANG+'.js?v=3" defer><\/script>');</script>
+<script src="recipes.js?v=4" defer></script>
+<script>if(window.NR_LANG==="en"||window.NR_LANG==="ar")document.write('<script src="recipes-'+window.NR_LANG+'.js?v=4" defer><\/script>');</script>
 <style>
 /* Layout: app-shell — sticky header, scrolling content, fixed bottom tab bar + rest-timer bar; everything derives from the tokens below. */
 /* numbers: Sora digits only (subset, ~3KB per weight); letters stay Heebo */
@@ -1288,7 +1288,7 @@ button.pv.pv-hd{border:1px solid var(--line)}
 .rc-it{display:grid;grid-template-columns:40px 1fr auto;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}.rc-it:first-child{border-top:0}.rc-it>:first-child{grid-row:span 2}
 .rc-ph{display:inline-block;width:40px;height:40px;border-radius:50%;background:var(--surface2);box-shadow:inset 0 0 0 1px var(--line);flex:none}.rc-in{display:flex;flex-direction:column;min-width:0}.rc-in b{font-size:15px}.rc-in small{font-size:12px;color:var(--muted)}.rc-q{text-align:end;white-space:nowrap;font-weight:800;font-size:15px}
 .rc-tag{grid-column:2/4;font-style:normal;font-size:11px;font-weight:700;color:var(--accent);margin-top:2px}.rc-tag.C{color:#d9a400}
-.rc-s{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}.rc-s li{display:flex;gap:12px;align-items:flex-start}.rc-n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--surface2);font-weight:800;font-size:13px}.rc-s p{margin:2px 0 0;font-size:15px;line-height:1.55}.rc-s b{color:var(--accent);font-weight:700}
+.rc-s{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}button.rc-it{width:100%;background:none;border:0;font:inherit;color:inherit;text-align:start;cursor:pointer;-webkit-tap-highlight-color:transparent}.rc-l .rc-it{grid-template-columns:22px 40px 1fr auto;grid-template-rows:auto}.rc-l .rc-it>:first-child{grid-row:auto}.rc-ck{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);box-sizing:border-box;display:grid;place-items:center;transition:background .15s,border-color .15s}.rc-it.on .rc-ck{background:var(--accent);border-color:var(--accent)}.rc-it.on .rc-ck::after{content:'';width:8px;height:4px;border:solid var(--accent-ink,#0A0B0A);border-width:0 0 2px 2px;transform:translateY(-1px) rotate(-45deg)}.rc-it.on .rc-in,.rc-it.on .rc-q,.rc-it.on .fd-img,.rc-it.on img{opacity:.38}.rc-it.on .rc-in b{text-decoration:line-through}.rc-noimg{width:40px;height:40px;border-radius:50%;background:var(--surface2);display:block}.rc-l .rc-tag{display:inline-block;vertical-align:2px;margin:0 4px;padding:1px 7px;border-radius:99px;background:color-mix(in srgb,var(--accent) 16%,transparent);font-size:10.5px}.rc-l .rc-tag.C{background:color-mix(in srgb,#d9a400 16%,transparent)}.rc-sp .rc-in small{font-size:13px;color:var(--ink);opacity:.8}.rc-s li{background:var(--surface);border-radius:18px;padding:12px 12px 12px 14px}.rc-sx{flex:1;min-width:0}.rc-st{display:block;font-size:15px;font-weight:800;margin:2px 0 3px}.rc-sx p{margin:0;line-height:1.6}.rc-tm{flex:none;align-self:flex-start;font-size:12px;font-weight:700;padding:4px 9px;border-radius:99px;background:var(--surface2);color:var(--muted);white-space:nowrap}.rc-s li{display:flex;gap:12px;align-items:flex-start}.rc-n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--surface2);font-weight:800;font-size:13px}.rc-s p{margin:2px 0 0;font-size:15px;line-height:1.55}.rc-s b{color:var(--accent);font-weight:700}
 
 .rx-seg{display:flex;gap:3px;margin-top:12px;padding:3px;border-radius:13px;background:var(--surface2)}.rx-seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:38px;border:0;border-radius:10px;background:none;color:var(--muted);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer}.rx-seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px #0003}.rx-seg button:not(.on):last-child{color:var(--accent)}.rx-seg .num{font-size:12px;font-weight:800;padding:1px 7px;border-radius:8px;background:color-mix(in srgb,var(--accent) 16%,transparent)}
 .sh-bar{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 6px;min-height:36px}.sh-x{width:36px;height:36px;border-radius:50%;border:0;background:var(--surface2);color:var(--ink);font-size:15px;cursor:pointer}.sh-back{display:flex;align-items:center;gap:4px;height:36px;padding:0 12px 0 8px;border:0;border-radius:18px;background:var(--surface2);color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}html[dir="ltr"] .sh-back svg{transform:scaleX(-1)}
@@ -2426,7 +2426,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.243';
+const APP_VERSION='13.3.245';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -5196,7 +5196,7 @@ function rcpFit(R,K,PT){
   const t=rcpTot(R,G); return {G,t,ok:Math.abs(t.k-K)<=K*.1}; }
 function rcpAmt(it,g){ const f=rcpFood(it);
   const GR=tt('ג׳'), PK=(q,w,m)=>tt(m?'בערך {0} מגש של {1} ג׳':'בערך {0} חבילה של {1} ג׳').replace('{0}',fracQ(q)).replace('{1}',w), CUP=q=>tt(q>1?'{0} כוסות':'{0} כוס').replace('{0}',fracQ(q));
-  if(!f&&it.r){ const r=Math.round(g/10)*10, q=Math.round(r/500*4)/4; return {a:r+' '+GR,n:it.x,sub:(it.sub||'')+(q>=.25?' · '+PK(q,500,1):''),raw:1}; }
+  if(!f&&it.r){ const r=Math.round(g/10)*10, q=Math.round(r/500*4)/4; return {a:r+' '+GR,n:it.x,sub:(it.sub||'')+(q>=.25&&it.pk!==0?' · '+PK(q,500,1):''),raw:1}; }
   if(!f)return {a:it.h,n:it.x,taste:it.taste||it.h==='לפי הטעם'};
   const W=RCP_RAW[f.id];
   if(W){ const r=Math.round(g*W[0]/10)*10, pk=W[4]&&r/W[4]>=.2?' · '+PK(Math.max(.25,Math.round(r/W[4]*4)/4),W[4],W[2]==='m'):'', nm=MLI?RCP_RN[f.id][MLI-1]:W[1];
@@ -5204,7 +5204,7 @@ function rcpAmt(it,g){ const f=rcpFood(it);
     const cq=f.hm?Math.round(g/f.hm[0]*4)/4:0, dq=W[3]?Math.round(r/W[3]*4)/4:0;
     return {a:r+' '+GR,n:nm,id:f.id,sub:`${MLI?tt('יבש'):W[5]||'יבש'}${dq?' · '+tt('בערך')+' '+CUP(dq):''}${pk}${cq?' · '+tt('יוצא כ־{0} מבושל').replace('{0}',CUP(cq)):''}`,raw:1}; }
   const nm=MLI?f.n[MLI]:RCP_NM[f.id]||f.n[0];
-  if(f.u&&f.ug){ const q=g/f.ug; return {a:fracQ(q)+' '+(q>1?(f.up||f.u)[MLI]:f.u[MLI]),n:nm,id:f.id}; }
+  if(f.u&&f.ug){ const q0=g/f.ug, q=q0>=1?Math.max(1,Math.round(q0*2)/2):Math.max(.25,Math.round(q0*4)/4); return {a:fracQ(q)+' '+(q>1?(f.up||f.u)[MLI]:f.u[MLI]),n:nm,id:f.id,sub:Math.round(g)+' '+tt('ג׳')}; }
   if(f.hm&&!rcpGr(f)){ const s=f.hm[1]==='כוס'?.25:.5, q=Math.round(g/f.hm[0]/s)*s; return {a:fracQ(q)+' '+(q>1?f.hm[2+2*MLI]:f.hm[1+2*MLI]),n:nm,id:f.id,sub:Math.round(g)+' '+GR}; }
   return {a:Math.round(g)+' '+GR,n:nm,id:f.id}; }
 const lc1=t=>MLI===1&&t?t[0].toLowerCase()+t.slice(1):t, uc1=t=>MLI===1&&t?t[0].toUpperCase()+t.slice(1):t;
@@ -5216,10 +5216,11 @@ function rcpLine(it,g){ const A=rcpAmt(it,g); if(!A.id)return A.taste?A.n:A.a.in
 const rcpPseudo=it=>{ const x=it.xh||it.x||'', t=/בקר|הודו|עוף|פסטרמה/.test(x)?'m':/סלמון|דג|טונה|בקלה|סרדין/.test(x)?'f':/גבינ|יוגורט|לאבנה|שמנת(?! צמחית)|חלב(?! קוקוס| שקדים| סויה)|חמאה(?! בוטנים)/.test(x)?'d':/ביצ/.test(x)?'e':'v';
   return {t,x:(/לחם|פירורי|קמח|סולת|טריאקי|סויה|פסטה|טורטי/.test(x)?'g':'')+(/סויה|טריאקי|טופו/.test(x)?'s':'')+(/אגוז|שקד|בוטנ|קשיו|פסטו/.test(x)?'n':''),honey:/דבש/.test(x)}; };
 function rcpOK(R,p){ p=p||mqS().p||{}; return R.it.every(it=>{ const f=rcpFood(it); if(f)return mqOK({...f,gf:0},p); const ps=rcpPseudo(it); if(p.style==='vegan'&&ps.honey)return false; return mqOK(ps,p); }); }
-const rcpKind=k=>k==='s'?/s/:k==='b'?/[bw]/:/m/;
+/* dinner: whoever chose a light dinner gets the light dinners (d) and the savory breakfasts (b); everyone else the mains plus the light dinners */
+const rcpKind=(k,p)=>k==='s'?/s/:k==='b'?/[bw]/:k==='d'?(p&&p.dinner==='light'?/[bd]/:/[md]/):/m/;
 const rcpImg=(id,sz)=>`<img class="rx-img" src="img/recipes/${id}.webp" alt="" loading="lazy" width="${sz}" height="${sz}" style="width:${sz}px;height:${sz}px" onerror="this.style.visibility='hidden'">`;
 const rcpMealT=m=>({K:Math.round(mqK(m))||400,PT:Math.round(mqPr(m))||25});
-function rcpFor(m){ if(!window.RECIPES||(MLI&&!window.RECIPES_L))return []; const {K,PT}=rcpMealT(m), re=rcpKind(m.k), p=mqS().p||{};
+function rcpFor(m){ if(!window.RECIPES||(MLI&&!window.RECIPES_L))return []; const {K,PT}=rcpMealT(m), p=mqS().p||{}, re=rcpKind(m.k,p);
   return rcpAll().filter(R=>re.test(R.s)&&rcpOK(R,p)).map(R=>({R,f:rcpFit(R,K,PT)})).filter(x=>x.f.ok).sort((a,b)=>Math.abs(a.f.t.k-K)-Math.abs(b.f.t.k-K)); }
 const rcpDiet=R=>{ const T=R.it.map(it=>(rcpFood(it)||rcpPseudo(it)).t); return T.includes('m')?'m':T.includes('f')?'f':T.includes('d')||T.includes('e')?'v':'vg'; };
 let RX=null;
@@ -5234,9 +5235,17 @@ function rcpListR(){ const m=mqDay()?.[RX.mi]; if(!m)return; const all=rcpFor(m)
 /* דף מתכון. from='menu' = כבר בתפריט */
 function rcpOpen(id,mi,from){ const R=RCP(id), m=mqDay()?.[mi]; if(!R||!m)return; let G, t;
   if(from==='menu'&&m.rcp===id){ G=R.it.map((it,i)=>{ const x=m.items.find(y=>y.ri===i); return x?(x.id?x.g:x.rx.g):it.g; }); t=rcpTot(R,G); } else { const {K,PT}=rcpMealT(m); ({G,t}=rcpFit(R,K,PT)); }
+  /* ingredients: tap a row to tick it off while cooking; the "to taste" spices are gathered in one line at the end */
+  const TASTE=[];
   const rows=R.it.map((it,i)=>{ const A=rcpAmt(it,G[i]), f=rcpFood(it);
-    return `<div class="rc-it">${f?fdImg(f,40,18):rcpXImg(it,40)}<div class="rc-in"><b>${esc(uc1(A.n))}</b>${A.sub?`<small class="num">${MLI===1?A.sub.replace(/ · About /g,' · about '):A.sub}</small>`:''}</div><span class="rc-q num">${esc(A.a)}</span>${it.r==='P'||it.r==='C'?`<i class="rc-tag ${it.r}">${it.r==='P'?tt('מותאם לחלבון'):tt('מותאם לקלוריות')}</i>`:''}</div>`; }).join('');
-  const steps=R.st.map((s,i)=>`<li><span class="rc-n num">${i+1}</span><p>${esc(s).replace(/\{(\d+)\}/g,(_,n)=>`<b>${esc(rcpLine(R.it[+n],G[+n]))}</b>`)}</p></li>`).join('');
+    if(A.taste){ TASTE.push(uc1(A.n)); return ''; }
+    const im=f?fdImg(f,40,18):(rcpXImg(it,40)||'<span class="rc-noimg" aria-hidden="true"></span>');
+    return `<button class="rc-it" data-act="mq-rck" aria-pressed="false"><span class="rc-ck" aria-hidden="true"></span>${im}<div class="rc-in"><b>${esc(uc1(A.n))}${it.r==='P'||it.r==='C'?` <i class="rc-tag ${it.r}">${it.r==='P'?tt('מותאם לחלבון'):tt('מותאם לקלוריות')}</i>`:''}</b>${A.sub?`<small class="num">${MLI===1?A.sub.replace(/ · About /g,' · about '):A.sub}</small>`:''}</div><span class="rc-q num">${esc(A.a)}</span></button>`; }).join('')
+    +(TASTE.length?`<div class="rc-it rc-sp"><span class="rc-ck" style="visibility:hidden"></span>${rcpXImg({x:'',h:'לפי הטעם',taste:1},40)||'<span class="rc-noimg"></span>'}<div class="rc-in"><b>${tt('תיבול')}</b><small>${esc(TASTE.join(', '))}</small></div><span class="rc-q">${tt('לפי הטעם')}</span></div>`:'');
+  /* a step may start with a short title ("Title|text"); the time it takes ("8 דקות") shows as a small chip */
+  const stTime=x=>{ const m=String(x).match(/(\d+(?:[–-]\d+)?)\s*(דקות|דקה|minutes?|min|دقائق|دقيقة)/); return m?m[1].replace('-','–'):''; };
+  const steps=R.st.map((s,i)=>{ const pp=String(s).split('|'), ti=pp.length>1?pp[0]:'', tx=pp.length>1?pp.slice(1).join('|'):pp[0], tm=stTime(tx);
+    return `<li><span class="rc-n num">${i+1}</span><div class="rc-sx">${ti?`<span class="rc-st">${esc(ti)}</span>`:''}<p>${esc(tx).replace(/\{(\d+)\}/g,(_,n)=>`<b>${esc(rcpLine(R.it[+n],G[+n]))}</b>`)}</p></div>${tm?`<span class="rc-tm num">${tm} ${tt('דק׳')}</span>`:''}</li>`; }).join('');
   const inMenu=from==='menu'&&m.rcp===id;
   const bar=`<div class="sh-bar">${from==='list'?`<button class="sh-back" data-act="mq-rxb" data-m="${mi}"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>${tt('כל המתכונים')}</button>`:'<span></span>'}<button class="sh-x" data-act="sheet-close" aria-label="${tt('סגירה')}">✕</button></div>`;
   openSheet(`${bar}<div class="rc">${rcpImg(R.id,180).replace('class="rx-img"','class="rx-img rc-hero"')}
@@ -5444,6 +5453,7 @@ function mqAct(act,b){ const q=mqS(), mi=+b.dataset.m, day=mqDay();
     case 'mq-rxl': closeSheet(); setTimeout(()=>rcpListOpen(mi),40); return true;
     case 'mq-rxf': RX.f=b.dataset.v; rcpListR(); return true;
     case 'mq-rxo': rcpOpen(b.dataset.id,mi,b.dataset.v); return true;
+    case 'mq-rck': { const on=!b.classList.contains('on'); b.classList.toggle('on',on); b.setAttribute('aria-pressed',on); vibrate(6); return true; }
     case 'mq-rxb': rcpListR(); return true;
     case 'mq-rxh': { const m=day&&day[mi]; if(m&&m.rcp)rcpOpen(m.rcp,mi,'menu'); return true; }
     case 'mq-rxu': if(rcpUse(b.dataset.id,mi)){ closeSheet(); S.mqOpenI=mi; render(); toast(tt('המתכון נכנס לתפריט')); } return true;
