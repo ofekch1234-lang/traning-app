@@ -362,5 +362,9 @@
  "כמות אחרת? הזנה ידנית": {
   "en": "Different amount? Enter it",
   "ar": "كمية أخرى؟ أدخلها يدويًا"
+ },
+ "שלחו את הקוד לחברים, והם נכנסים ישר לקבוצה.": {
+  "en": "Send the code to your friends and they join the group right away.",
+  "ar": "أرسلوا الرمز لأصدقائكم، وسينضمّون إلى المجموعة مباشرة."
  }
 }
