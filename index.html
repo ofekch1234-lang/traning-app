@@ -3912,12 +3912,11 @@ function hlShareHTML(){ if(!S.user||S.mode!=='app')return '';
   return `<div class="card r20 hl-share"><span class="hs-ic">${ICON.users}</span><span class="lt"><b>${tt('אהבת את NextRep?')}</b><small>${G('שתף חברים ותאתגרו אחד את השני','שתפי חברות ותאתגרו אחת את השנייה','שיתוף עם חברים, ואתגר משותף')}</small></span><button class="hs-go" data-act="invite-open" data-src="home">${tt('שיתוף')}</button></div>`; }
 function hlForYou(){ const L=[];
   const co=coachRowHTML(); if(co)L.push(co);
-  const hq=hqCardHTML(); if(hq)L.push(hq);
   const w=wrapCardHTML(); if(w){ const m=w.match(/data-y="(\d+)" data-m="(\d+)"/), k=(w.match(/data-k="([^"]+)"/)||[])[1]||'', t=((w.match(/<b[^>]*>([^<]+)<\/b>/)||[])[1]||'').replace(/^📊\s*/,''); if(m)L.push(`<div class="card r20 hl-wrap"><button class="hw-main" data-act="wrap-open" data-y="${m[1]}" data-m="${m[2]}"><span class="hs-ic" style="background:rgba(47,111,214,.18);color:#5B8DEF">${ICON.chart}</span><span class="lt"><b>${t}</b><small>${tt('בוא נראה מה עשית')}</small></span></button><button class="hw-x" data-act="wrap-dismiss" data-k="${k}" aria-label="${tt('סגירה')}">✕</button></div>`); }
   try{ if(!TOUR.on&&notifCan()&&!notifSnoozed())L.push(`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>${tt('הפעל התראות')}</b><small>${tt('סוף המנוחה, ימי אימון והודעות ממקס')}</small></span>${ICON.chev}</button></div>`); }catch(_){}
   L.push(hlShareHTML());
   return `<div class="hl-more">${L.join('')}</div>`; }
-function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${dbreakHTML()}${morningAfterHTML()}`; }
+function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${hqCardHTML()}${dbreakHTML()}${morningAfterHTML()}`; }
 function hlWork(D){ return S.active?liveHomeCard():D.nw?nextCardHTML(D.nw):`<div class="hcard"><div class="lbl"><span>${tt('האימון הראשון שלך')}</span></div><div class="nm">${tt('בוא נבנה לך תוכנית')}</div><button class="go" data-act="pb-open">${tt('בנה לי תוכנית')}</button></div>`; }
 /* B: the workout first, then a 2x2 grid of small tiles */
 function vHomeB(){ const D=hlData();
