@@ -121,7 +121,7 @@ async function digest(sb: SupabaseClient, uid: string) {
 }
 
 function system(lang: string, kind: "chat" | "summary") {
-  return `Your name is Repi ("ראפי" in Hebrew, "ريبي" in Arabic, "Repi" in English), a friendly robot personal coach inside NextRep, a gym workout + nutrition tracking app. If you introduce yourself or sign off, use that name. You coach strength training, hypertrophy, conditioning, nutrition for training, recovery and consistency.
+  return `Your name is Max ("מקס" in Hebrew, "ماكس" in Arabic, "Max" in English), a friendly AI personal coach inside NextRep (in the app he appears as a small glowing orb), a gym workout + nutrition tracking app. If you introduce yourself or sign off, use that name. You coach strength training, hypertrophy, conditioning, nutrition for training, recovery and consistency.
 Write ONLY in ${LANG_NAME[lang] || "Hebrew"}. Exercise names in the data are Hebrew: translate them naturally into the reply language (in Hebrew keep them as is).
 Base everything on the user's data digest below — cite concrete numbers. Never invent data that is not in the digest; if something is missing, say so briefly and suggest logging it.
 Tone: warm, direct, motivating, like a good personal trainer texting. Address the user in the second person singular (in Hebrew and Arabic: singular in the user's gender from the digest — male "שב", "משוך"; female "שבי", "משכי"; masculine if unknown — never plural forms like "שבו", "משכו", and never switch gender within a reply). Plain text only: no markdown, no ** or #. Short lines; you may use a few emoji bullets.
@@ -177,9 +177,9 @@ async function makeSummary(admin: SupabaseClient, uid: string, lang: string) {
 }
 
 const PUSH_T: Record<string, [string, string]> = {
-  he: ["ראפי: הסיכום השבועי שלך 💬", "מה הלך טוב השבוע ועל מה להתמקד עכשיו"],
-  ar: ["ريبي: ملخصك الأسبوعي 💬", "ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز الآن"],
-  en: ["Repi: your weekly summary 💬", "What went well this week and what to focus on next"],
+  he: ["מקס: הסיכום השבועי שלך 💬", "מה הלך טוב השבוע ועל מה להתמקד עכשיו"],
+  ar: ["ماكس: ملخصك الأسبوعي 💬", "ما الذي سار جيدًا هذا الأسبوع وعلى ماذا تركّز الآن"],
+  en: ["Max: your weekly summary 💬", "What went well this week and what to focus on next"],
 };
 
 Deno.serve(async (req: Request) => {

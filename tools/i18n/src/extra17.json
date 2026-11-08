@@ -111,9 +111,9 @@
   "en": "Terms of use",
   "ar": "شروط الاستخدام"
  },
- "נשמר. ראפי יתקדם איתך בקצב זהיר": {
-  "en": "Saved. Repi will progress with you at a careful pace",
-  "ar": "تم الحفظ. سيتقدم رابي معك بوتيرة حذرة"
+ "נשמר. מקס יתקדם איתך בקצב זהיר": {
+  "en": "Saved. Max will progress with you at a careful pace",
+  "ar": "تم الحفظ. سيتقدم ماكس معك بوتيرة حذرة"
  },
  "תודה. אפשר להתאמן בראש שקט": {
   "en": "Thanks. Train with peace of mind",
@@ -159,9 +159,9 @@
   "en": "This week's average is a bit over the plan. The easiest step: protein at every meal, it keeps you fuller.",
   "ar": "متوسط هذا الأسبوع أعلى قليلًا من الخطة. أسهل خطوة: بروتين في كل وجبة، فهو يُشبع أكثر."
  },
- "שבוע בלי רישום. מספיקה ארוחה אחת ביום כדי שראפי יבין מגמה.": {
-  "en": "A week without logging. One meal a day is enough for Repi to see a trend.",
-  "ar": "أسبوع بدون تسجيل. تكفي وجبة واحدة في اليوم ليفهم رابي الاتجاه."
+ "שבוע בלי רישום. מספיקה ארוחה אחת ביום כדי שמקס יבין מגמה.": {
+  "en": "A week without logging. One meal a day is enough for Max to see a trend.",
+  "ar": "أسبوع بدون تسجيل. تكفي وجبة واحدة في اليوم ليفهم ماكس الاتجاه."
  },
  "האכילה ב-4 הימים האחרונים נמוכה מהתוכנית": {
   "en": "Eating over the last 4 days is below the plan",
@@ -215,9 +215,9 @@
   "en": "A few health questions",
   "ar": "بعض الأسئلة الصحية"
  },
- "האם משהו מאלה נכון לגביך? התשובות לא נשמרות, רק הקצב שראפי בוחר.": {
-  "en": "Does any of this apply to you? Your answers aren't saved, only the pace Repi picks.",
-  "ar": "هل ينطبق عليك أي من هذا؟ لا تُحفظ الإجابات، فقط الوتيرة التي يختارها رابي."
+ "האם משהו מאלה נכון לגביך? התשובות לא נשמרות, רק הקצב שמקס בוחר.": {
+  "en": "Does any of this apply to you? Your answers aren't saved, only the pace Max picks.",
+  "ar": "هل ينطبق عليك أي من هذا؟ لا تُحفظ الإجابات، فقط الوتيرة التي يختارها ماكس."
  },
  "הכל תקין, אין אף אחד מאלה": {
   "en": "All good, none of these",
@@ -255,25 +255,25 @@
   "en": "Pregnancy, or giving birth in the past year",
   "ar": "حمل، أو ولادة خلال السنة الأخيرة"
  },
- "ראפי מתאים אימונים ותזונה לפי הנתונים שלך, ולא מחליף ייעוץ רפואי. כאב חד או חוזר: עוצרים ומתייעצים עם איש מקצוע.": {
-  "en": "Repi adapts training and nutrition to your data and doesn't replace medical advice. Sharp or recurring pain: stop and consult a professional.",
-  "ar": "يكيّف رابي التدريب والتغذية حسب بياناتك، ولا يحل محل الاستشارة الطبية. ألم حاد أو متكرر: توقف واستشر مختصًا."
+ "מקס מתאים אימונים ותזונה לפי הנתונים שלך, ולא מחליף ייעוץ רפואי. כאב חד או חוזר: עוצרים ומתייעצים עם איש מקצוע.": {
+  "en": "Max adapts training and nutrition to your data and doesn't replace medical advice. Sharp or recurring pain: stop and consult a professional.",
+  "ar": "يكيّف ماكس التدريب والتغذية حسب بياناتك، ولا يحل محل الاستشارة الطبية. ألم حاد أو متكرر: توقف واستشر مختصًا."
  },
  "תודה ששיתפת. מומלץ לבדוק עם רופא לפני שמתחילים.": {
   "en": "Thanks for sharing. It's best to check with a doctor before you start.",
   "ar": "شكرًا لمشاركتك. يُنصح بمراجعة طبيب قبل البدء."
  },
- "זה לא אומר שאסור להתאמן. ככה כל מאמן אחראי עובד. בינתיים ראפי מתאים את עצמו:": {
-  "en": "It doesn't mean you can't train. It's how every responsible coach works. Meanwhile Repi adjusts:",
-  "ar": "هذا لا يعني أنه ممنوع التدرب. هكذا يعمل كل مدرب مسؤول. في هذه الأثناء يتكيّف رابي:"
+ "זה לא אומר שאסור להתאמן. ככה כל מאמן אחראי עובד. בינתיים מקס מתאים את עצמו:": {
+  "en": "It doesn't mean you can't train. It's how every responsible coach works. Meanwhile Max adjusts:",
+  "ar": "هذا لا يعني أنه ممنوع التدرب. هكذا يعمل كل مدرب مسؤول. في هذه الأثناء يتكيّف ماكس:"
  },
  "✓ קצב התקדמות זהיר: קפיצות משקל קטנות יותר": {
   "en": "✓ Careful progression: smaller weight jumps",
   "ar": "✓ تقدّم بوتيرة حذرة: قفزات وزن أصغر"
  },
- "✓ אפשר לשנות את זה בכל רגע בהגדרות של ראפי": {
-  "en": "✓ You can change this anytime in Repi's settings",
-  "ar": "✓ يمكن تغيير ذلك في أي وقت من إعدادات رابي"
+ "✓ אפשר לשנות את זה בכל רגע בהגדרות של מקס": {
+  "en": "✓ You can change this anytime in Max's settings",
+  "ar": "✓ يمكن تغيير ذلك في أي وقت من إعدادات ماكس"
  },
  "התייעצתי עם רופא, או שההחלטה להמשיך היא שלי ואקשיב לגוף": {
   "en": "I consulted a doctor, or the choice to continue is mine and I'll listen to my body",
@@ -283,9 +283,9 @@
   "en": "Continue",
   "ar": "نتابع"
  },
- "שאלה קצרה מראפי": {
-  "en": "A quick question from Repi",
-  "ar": "سؤال قصير من رابي"
+ "שאלה קצרה ממקס": {
+  "en": "A quick question from Max",
+  "ar": "سؤال قصير من ماكس"
  },
  "כמה שאלות בריאות, כמו שכל מאמן שואל. 20 שניות.": {
   "en": "A few health questions, like every coach asks. 20 seconds.",
@@ -307,9 +307,9 @@
   "en": "Does any of this apply to you?",
   "ar": "هل ينطبق عليك أي من هذا؟"
  },
- "התשובות לא נשמרות, רק הקצב שראפי בוחר.": {
-  "en": "Your answers aren't saved, only the pace Repi picks.",
-  "ar": "لا تُحفظ الإجابات، فقط الوتيرة التي يختارها رابي."
+ "התשובות לא נשמרות, רק הקצב שמקס בוחר.": {
+  "en": "Your answers aren't saved, only the pace Max picks.",
+  "ar": "لا تُحفظ الإجابات، فقط الوتيرة التي يختارها ماكس."
  },
  "9 שאלות קצרות · פחות מדקה וחצי": {
   "en": "9 short questions · under a minute and a half",
@@ -327,9 +327,9 @@
   "en": "How many reps were left?",
   "ar": "كم تكرارًا تبقّى؟"
  },
- "נשמר. ראפי יתחשב בזה בפעם הבאה": {
-  "en": "Saved. Repi will factor it in next time",
-  "ar": "تم الحفظ. سيأخذ رابي ذلك بالحسبان في المرة القادمة"
+ "נשמר. מקס יתחשב בזה בפעם הבאה": {
+  "en": "Saved. Max will factor it in next time",
+  "ar": "تم الحفظ. سيأخذ ماكس ذلك بالحسبان في المرة القادمة"
  },
  "מסומן כרגיש ({0}) עד {1}: בלי עליות במשקל. אם עבר, אפשר לחזור לרגיל.": {
   "en": "Marked sensitive ({0}) until {1}: no weight increases. If it's gone, you can go back to normal.",
@@ -339,9 +339,9 @@
   "en": "A step back to leap forward: {0} instead of {1}, with more reps. From here you build back up to a new best.",
   "ar": "خطوة للوراء للقفز للأمام: {0} بدل {1}، مع تكرارات أكثر. من هنا نبني من جديد لرقم قياسي جديد."
  },
- "אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-{0} חזרות. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.": {
-  "en": "No progress in the last 3 workouts. Today aim for {0} reps. If it continues, at the end of the block Repi will suggest a small step back to break through.",
-  "ar": "لا تقدّم في آخر 3 تدريبات. اليوم نستهدف {0} تكرارات. إذا استمر ذلك، سيقترح رابي في نهاية الدورة خطوة صغيرة للوراء لكسر الجمود."
+ "אין התקדמות ב-3 האימונים האחרונים. היום מכוונים ל-{0} חזרות. אם זה נמשך, בסוף הבלוק מקס יציע צעד אחורה קטן כדי לשבור את זה.": {
+  "en": "No progress in the last 3 workouts. Today aim for {0} reps. If it continues, at the end of the block Max will suggest a small step back to break through.",
+  "ar": "لا تقدّم في آخر 3 تدريبات. اليوم نستهدف {0} تكرارات. إذا استمر ذلك، سيقترح ماكس في نهاية الدورة خطوة صغيرة للوراء لكسر الجمود."
  },
  "בפעם הקודמת חלק מהסטים היו קלים יותר. היום כל הסטים ב-{0}, ומשם ממשיכים לעלות.": {
   "en": "Last time some sets were lighter. Today all sets at {0}, and from there you keep going up.",
@@ -503,9 +503,9 @@
   "en": "{0}: third time this month",
   "ar": "{0}: المرة الثالثة هذا الشهر"
  },
- "כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז ראפי ימשיך בזהירות.": {
-  "en": "When the same area keeps bothering you, it's worth having a physiotherapist or doctor check it. Until then Repi will go carefully.",
-  "ar": "عندما تزعجك المنطقة نفسها مرارًا، من المفيد فحصها لدى أخصائي علاج طبيعي أو طبيب. حتى ذلك الحين سيتابع رابي بحذر."
+ "כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז מקס ימשיך בזהירות.": {
+  "en": "When the same area keeps bothering you, it's worth having a physiotherapist or doctor check it. Until then Max will go carefully.",
+  "ar": "عندما تزعجك المنطقة نفسها مرارًا، من المفيد فحصها لدى أخصائي علاج طبيعي أو طبيب. حتى ذلك الحين سيتابع ماكس بحذر."
  },
  "הבנתי": {
   "en": "Got it",
@@ -571,9 +571,9 @@
   "en": "Why not make up for it?",
   "ar": "لماذا لا نعوّض؟"
  },
- "ראפי:": {
-  "en": "Repi:",
-  "ar": "رابي:"
+ "מקס:": {
+  "en": "Max:",
+  "ar": "ماكس:"
  },
  "נראה שהתוכנית קשה כרגע. זה לא כישלון שלך, כנראה כיוונו גבוה מדי. בוא נתאים אותה:": {
   "en": "Looks like the plan is hard right now. That's not your failure, we probably aimed too high. Let's adjust it:",
@@ -791,9 +791,9 @@
   "en": "{0} of {1}",
   "ar": "{0} من {1}"
  },
- "שבוע פחות טוב לא מאפס כלום. ראפי סופר את רוב השבועות, לא רצף מושלם.": {
-  "en": "A weaker week doesn't reset anything. Repi counts most weeks, not a perfect streak.",
-  "ar": "أسبوع أقل لا يُصفّر شيئًا. رابي يحسب أغلب الأسابيع، لا سلسلة مثالية."
+ "שבוע פחות טוב לא מאפס כלום. מקס סופר את רוב השבועות, לא רצף מושלם.": {
+  "en": "A weaker week doesn't reset anything. Max counts most weeks, not a perfect streak.",
+  "ar": "أسبوع أقل لا يُصفّر شيئًا. ماكس يحسب أغلب الأسابيع، لا سلسلة مثالية."
  },
  "ההפסקה הסתיימה. חוזרים ליעד החיטוב": {
   "en": "The break is over. Back to your cutting target",
@@ -803,9 +803,9 @@
   "en": "Diet break · {0} more days at maintenance",
   "ar": "استراحة من الحمية · {0} أيام أخرى بأكل الثبات"
  },
- "ראפי מציע": {
-  "en": "Repi suggests",
-  "ar": "رابي يقترح"
+ "מקס מציע": {
+  "en": "Max suggests",
+  "ar": "ماكس يقترح"
  },
  "{0} שבועות של חיטוב. מגיעה לך הפסקה.": {
   "en": "{0} weeks of cutting. You’ve earned a break.",
@@ -831,9 +831,9 @@
   "en": "Weight may go up a little from water. It's expected and comes off when you return",
   "ar": "قد يرتفع الوزن قليلًا بسبب الماء. هذا متوقع وينخفض عند العودة"
  },
- "אחרי שבועיים ראפי מחזיר אוטומטית ליעד החיטוב": {
-  "en": "After two weeks Repi switches you back to the cutting target",
-  "ar": "بعد أسبوعين يعيدك رابي تلقائيًا إلى هدف التنشيف"
+ "אחרי שבועיים מקס מחזיר אוטומטית ליעד החיטוב": {
+  "en": "After two weeks Max switches you back to the cutting target",
+  "ar": "بعد أسبوعين يعيدك ماكس تلقائيًا إلى هدف التنشيف"
  },
  "להתחיל הפסקה": {
   "en": "Start the break",
@@ -875,9 +875,9 @@
   "en": "Want to try calm mode?",
   "ar": "هل تريد تجربة الوضع الهادئ؟"
  },
- "בלי מספרי קלוריות על המסך. רק חלבון, טבעת התקדמות ומגמה שבועית. ראפי ממשיך לחשב ולכוון ברקע.": {
-  "en": "No calorie numbers on screen. Just protein, a progress ring and the weekly trend. Repi keeps calculating and adjusting in the background.",
-  "ar": "بلا أرقام سعرات على الشاشة. فقط البروتين وحلقة التقدّم والاتجاه الأسبوعي. رابي يواصل الحساب والضبط في الخلفية."
+ "בלי מספרי קלוריות על המסך. רק חלבון, טבעת התקדמות ומגמה שבועית. מקס ממשיך לחשב ולכוון ברקע.": {
+  "en": "No calorie numbers on screen. Just protein, a progress ring and the weekly trend. Max keeps calculating and adjusting in the background.",
+  "ar": "بلا أرقام سعرات على الشاشة. فقط البروتين وحلقة التقدّم والاتجاه الأسبوعي. ماكس يواصل الحساب والضبط في الخلفية."
  },
  "לנסות": {
   "en": "Try it",
@@ -971,9 +971,9 @@
   "en": "Stay at {0} and try one more rep than last time. At {1} reps on every set, go up in weight.",
   "ar": "نبقى على {0} ونحاول تكرارًا واحدًا أكثر من المرة السابقة. عند {1} تكرارات في كل المجموعات، نرفع الوزن."
  },
- "ראפי · המאמן החכם שלך": {
-  "en": "Repi · your smart coach",
-  "ar": "رابي · مدربك الذكي"
+ "מקס · המאמן החכם שלך": {
+  "en": "Max · your smart coach",
+  "ar": "ماكس · مدربك الذكي"
  },
  "השבוע במסלול": {
   "en": "On track this week",
@@ -1115,9 +1115,9 @@
   "en": "Once you hit {0} reps in every set, the weight goes up.",
   "ar": "عندما تصل إلى {0} تكرارًا في كل المجموعات، نرفع الوزن."
  },
- "אין התקדמות ב-3 האימונים האחרונים. היום מכוונים לעוד חזרה בכל סט. אם זה נמשך, בסוף הבלוק ראפי יציע צעד אחורה קטן כדי לשבור את זה.": {
-  "en": "No progress in the last 3 workouts. Today, aim for one more rep in every set. If it continues, Repi will suggest a small step back at the end of the block to break through.",
-  "ar": "لا تقدم في آخر 3 تمارين. اليوم نستهدف تكرارًا إضافيًا في كل مجموعة. إذا استمر ذلك، سيقترح رابي في نهاية البلوك خطوة صغيرة للخلف لكسر الركود."
+ "אין התקדמות ב-3 האימונים האחרונים. היום מכוונים לעוד חזרה בכל סט. אם זה נמשך, בסוף הבלוק מקס יציע צעד אחורה קטן כדי לשבור את זה.": {
+  "en": "No progress in the last 3 workouts. Today, aim for one more rep in every set. If it continues, Max will suggest a small step back at the end of the block to break through.",
+  "ar": "لا تقدم في آخر 3 تمارين. اليوم نستهدف تكرارًا إضافيًا في كل مجموعة. إذا استمر ذلك، سيقترح ماكس في نهاية البلوك خطوة صغيرة للخلف لكسر الركود."
  },
  "המטרה היא כל יום בטווח. עוד יום אחד, וכבר יש לך שבוע שמזיז את המשקל.": {
   "en": "The goal is every day in range. One more day, and you already have a week that moves the scale.",
@@ -1163,9 +1163,9 @@
   "en": "Change in the last week",
   "ar": "التغيّر في الأسبوع الأخير"
  },
- "המשקל קופץ מיום ליום בגלל מים ומלח. לכן ראפי משווה ממוצע של 7 שקילות לממוצע של השבוע שלפני, וככה רואים לאן המשקל באמת הולך.": {
-  "en": "Your weight jumps from day to day because of water and salt. So Repi compares the average of 7 weigh-ins with the week before, which shows where your weight is really heading.",
-  "ar": "يقفز الوزن من يوم لآخر بسبب الماء والملح. لذلك يقارن رابي متوسط 7 قياسات بمتوسط الأسبوع الذي قبله، وهكذا ترى إلى أين يتجه وزنك فعلًا."
+ "המשקל קופץ מיום ליום בגלל מים ומלח. לכן מקס משווה ממוצע של 7 שקילות לממוצע של השבוע שלפני, וככה רואים לאן המשקל באמת הולך.": {
+  "en": "Your weight jumps from day to day because of water and salt. So Max compares the average of 7 weigh-ins with the week before, which shows where your weight is really heading.",
+  "ar": "يقفز الوزن من يوم لآخر بسبب الماء والملح. لذلك يقارن ماكس متوسط 7 قياسات بمتوسط الأسبوع الذي قبله، وهكذا ترى إلى أين يتجه وزنك فعلًا."
  },
  "אותם משקלים": {
   "en": "Same weights",
@@ -1247,9 +1247,9 @@
   "en": "Close",
   "ar": "إغلاق"
  },
- "ראפי": {
-  "en": "Repi",
-  "ar": "رابي"
+ "מקס": {
+  "en": "Max",
+  "ar": "ماكس"
  },
  "ממוצע שבועי": {
   "en": "Weekly average",
@@ -1263,9 +1263,9 @@
   "en": "The weekly average is what counts.",
   "ar": "المتوسط الأسبوعي هو ما يهم."
  },
- "ראפי · הסיכום השבועי": {
-  "en": "Repi · Weekly check-in",
-  "ar": "رابي · الملخص الأسبوعي"
+ "מקס · הסיכום השבועי": {
+  "en": "Max · Weekly check-in",
+  "ar": "ماكس · الملخص الأسبوعي"
  },
  "שבוע {0} בחיטוב: ככה זה בהתחלה": {
   "en": "Week {0} of your cut: this is how it starts",
@@ -2131,17 +2131,17 @@
   "en": "This week's dinners",
   "ar": "وجبات العشاء هذا الأسبوع"
  },
- "ראפי בונה…": {
-  "en": "Repi is building…",
-  "ar": "رابي يبني…"
+ "מקס בונה…": {
+  "en": "Max is building…",
+  "ar": "ماكس يبني…"
  },
  "ערבים חדשים": {
   "en": "New dinners",
   "ar": "عشاءات جديدة"
  },
- "ראפי יבנה לפי הטעם שלך": {
-  "en": "Repi will build to your taste",
-  "ar": "رابي سيبني حسب ذوقك"
+ "מקס יבנה לפי הטעם שלך": {
+  "en": "Max will build to your taste",
+  "ar": "ماكس سيبني حسب ذوقك"
  },
  "מה לשנות היום? \"ערב בלי בישול\"…": {
   "en": "What should change today? \"No-cook dinner\"…",
@@ -2159,13 +2159,13 @@
   "en": "You've reached 5 requests today. You can keep going with the alternatives under each item",
   "ar": "وصلت إلى 5 طلبات اليوم. يمكنك المتابعة بالبدائل تحت كل عنصر"
  },
- "תפריט עם ראפי זמין בפרימיום": {
-  "en": "Menus with Repi are a Premium feature",
-  "ar": "القائمة مع رابي متاحة في بريميوم"
+ "תפריט עם מקס זמין בפרימיום": {
+  "en": "Menus with Max are a Premium feature",
+  "ar": "القائمة مع ماكس متاحة في بريميوم"
  },
- "ראפי בנה לך ערבים חדשים לשבוע ✓": {
-  "en": "Repi built new dinners for your week ✓",
-  "ar": "رابي بنى لك عشاءات جديدة للأسبوع ✓"
+ "מקס בנה לך ערבים חדשים לשבוע ✓": {
+  "en": "Max built new dinners for your week ✓",
+  "ar": "ماكس بنى لك عشاءات جديدة للأسبوع ✓"
  },
  "ערב בלי בישול": {
   "en": "No-cook dinner",
@@ -2187,21 +2187,21 @@
   "en": "What should change?",
   "ar": "ماذا نغيّر؟"
  },
- "כותבים כמו לתזונאית. ראפי מעדכן רק את מה שצריך.": {
-  "en": "Write like you would to a dietitian. Repi only changes what's needed.",
-  "ar": "اكتب كما تكتب لأخصائي تغذية. رابي يغيّر فقط ما يلزم."
+ "כותבים כמו לתזונאית. מקס מעדכן רק את מה שצריך.": {
+  "en": "Write like you would to a dietitian. Max only changes what's needed.",
+  "ar": "اكتب كما تكتب لأخصائي تغذية. ماكس يغيّر فقط ما يلزم."
  },
- "כותבות כמו לתזונאית. ראפי מעדכן רק את מה שצריך.": {
-  "en": "Write like you would to a dietitian. Repi only changes what's needed.",
-  "ar": "اكتبي كما تكتبين لأخصائية تغذية. رابي يغيّر فقط ما يلزم."
+ "כותבות כמו לתזונאית. מקס מעדכן רק את מה שצריך.": {
+  "en": "Write like you would to a dietitian. Max only changes what's needed.",
+  "ar": "اكتبي كما تكتبين لأخصائية تغذية. ماكس يغيّر فقط ما يلزم."
  },
  "למשל: יש לי ארוחת ערב עם חברים ביום חמישי במסעדה איטלקית": {
   "en": "e.g. I'm having dinner with friends on Thursday at an Italian place",
   "ar": "مثلًا: لدي عشاء مع أصدقاء يوم الخميس في مطعم إيطالي"
  },
- "ראפי חושב…": {
-  "en": "Repi is thinking…",
-  "ar": "رابي يفكر…"
+ "מקס חושב…": {
+  "en": "Max is thinking…",
+  "ar": "ماكس يفكر…"
  },
  "עדכן את": {
   "en": "Update",
@@ -2211,9 +2211,9 @@
   "en": "Try again",
   "ar": "حاول مجددًا"
  },
- "שלח לראפי": {
-  "en": "Send to Repi",
-  "ar": "أرسل إلى رابي"
+ "שלח למקס": {
+  "en": "Send to Max",
+  "ar": "أرسل إلى ماكس"
  },
  "התפריט עודכן ✓": {
   "en": "Menu updated ✓",
@@ -2255,9 +2255,9 @@
   "en": "As much as you like",
   "ar": "قدر ما تشاء"
  },
- "ראפי בונה לך תפריט…": {
-  "en": "Repi is building your menu…",
-  "ar": "رابي يبني قائمتك…"
+ "מקס בונה לך תפריט…": {
+  "en": "Max is building your menu…",
+  "ar": "ماكس يبني قائمتك…"
  },
  "בוחר מאכלים לפי מה שכתבת": {
   "en": "Picking foods based on what you wrote",
@@ -2275,9 +2275,9 @@
   "en": "For example 3 spoons of rice, or one egg.",
   "ar": "مثلًا 3 ملاعق أرز، أو بيضة واحدة."
  },
- "ראפי יבנה לי": {
-  "en": "Repi will build it",
-  "ar": "رابي سيبنيها لي"
+ "מקס יבנה לי": {
+  "en": "Max will build it",
+  "ar": "ماكس سيبنيها لي"
  },
  "ריבוע נשאר היום": {
   "en": "square left today",
@@ -2295,13 +2295,13 @@
   "en": "Update the menu",
   "ar": "حدّث القائمة"
  },
- "ספר לראפי מה בא לך…": {
-  "en": "Tell Repi what you feel like…",
-  "ar": "أخبر رابي بما تشتهي…"
+ "ספר למקס מה בא לך…": {
+  "en": "Tell Max what you feel like…",
+  "ar": "أخبر ماكس بما تشتهي…"
  },
- "ספרי לראפי מה בא לך…": {
-  "en": "Tell Repi what you feel like…",
-  "ar": "أخبري رابي بما تشتهين…"
+ "ספרי למקס מה בא לך…": {
+  "en": "Tell Max what you feel like…",
+  "ar": "أخبري ماكس بما تشتهين…"
  },
  "ערב במסעדה": {
   "en": "Dinner at a restaurant",
@@ -2371,9 +2371,9 @@
   "en": "e.g. shakshuka, pasta, lots of chicken. Something sweet at night",
   "ar": "مثلًا: شكشوكة، باستا، دجاج كثير. شيء حلو في المساء"
  },
- "ראפי, תבנה לי": {
-  "en": "Repi, build it",
-  "ar": "رابي، ابنِها لي"
+ "מקס, תבנה לי": {
+  "en": "Max, build it",
+  "ar": "ماكس، ابنِها لي"
  },
  "אין לי זמן לבשל היום": {
   "en": "No time to cook today",
@@ -2387,17 +2387,17 @@
   "en": "Something else for lunch",
   "ar": "شيء آخر للغداء"
  },
- "ספר לראפי מה בא לך": {
-  "en": "Tell Repi what you feel like",
-  "ar": "أخبر رابي بما تشتهي"
+ "ספר למקס מה בא לך": {
+  "en": "Tell Max what you feel like",
+  "ar": "أخبر ماكس بما تشتهي"
  },
- "ספרי לראפי מה בא לך": {
-  "en": "Tell Repi what you feel like",
-  "ar": "أخبري رابي بما تشتهين"
+ "ספרי למקס מה בא לך": {
+  "en": "Tell Max what you feel like",
+  "ar": "أخبري ماكس بما تشتهين"
  },
- "ראפי משנה רק את היום, ושומר על הריבועים.": {
-  "en": "Repi changes only today and keeps your squares.",
-  "ar": "رابي يغيّر اليوم فقط ويحافظ على المربعات."
+ "מקס משנה רק את היום, ושומר על הריבועים.": {
+  "en": "Max changes only today and keeps your squares.",
+  "ar": "ماكس يغيّر اليوم فقط ويحافظ على المربعات."
  },
  "למשל: יש לי ארוחת ערב עם חברים במסעדה איטלקית": {
   "en": "e.g. dinner with friends at an Italian place",
@@ -2415,9 +2415,9 @@
   "en": "Log what you ate out in the \"What did you eat?\" box",
   "ar": "سجّل ما أكلته خارجًا في خانة \"ماذا أكلت؟\""
  },
- "לבנות מחדש עם ראפי": {
-  "en": "Rebuild with Repi",
-  "ar": "إعادة البناء مع رابي"
+ "לבנות מחדש עם מקס": {
+  "en": "Rebuild with Max",
+  "ar": "إعادة البناء مع ماكس"
  },
  "לבנות לבד מההתחלה": {
   "en": "Build it myself from scratch",
@@ -2919,9 +2919,9 @@
   "en": "g of protein to go today.",
   "ar": "غ بروتين متبقية اليوم."
  },
- "לחיצה לרעיון מראפי": {
-  "en": "Tap for an idea from Repi",
-  "ar": "اضغط لفكرة من ريبي"
+ "לחיצה לרעיון ממקס": {
+  "en": "Tap for an idea from Max",
+  "ar": "اضغط لفكرة من ماكس"
  },
  "חסרים לי": {
   "en": "I'm missing",
@@ -2935,9 +2935,9 @@
   "en": "All of today's goals are done ✓ Great day.",
   "ar": "تم تحقيق كل أهداف اليوم ✓ يوم رائع."
  },
- "לחיצה לשיחה עם ראפי": {
-  "en": "Tap to chat with Repi",
-  "ar": "اضغط للحديث مع ريبي"
+ "לחיצה לשיחה עם מקס": {
+  "en": "Tap to chat with Max",
+  "ar": "اضغط للحديث مع ماكس"
  },
  "לא מצאתי את זה במאגר, אבל אני יכול לחשב": {
   "en": "Not in the database, but I can calculate it",
@@ -2947,29 +2947,29 @@
   "en": "I'll break it into ingredients and calculate calories and protein. You can add an amount too, e.g. \"a medium slice\".",
   "ar": "سأقسمه إلى مكونات وأحسب السعرات والبروتين. يمكنك كتابة الكمية أيضًا، مثل \"قطعة متوسطة\"."
  },
- "ראפי, תחשב": {
-  "en": "Repi, calculate",
-  "ar": "ريبي، احسب"
+ "מקס, תחשב": {
+  "en": "Max, calculate",
+  "ar": "ماكس، احسب"
  },
- "ראפי יחשב את כל המנה": {
-  "en": "Repi will calculate the whole dish",
-  "ar": "ريبي سيحسب الطبق كاملًا"
+ "מקס יחשב את כל המנה": {
+  "en": "Max will calculate the whole dish",
+  "ar": "ماكس سيحسب الطبق كاملًا"
  },
  "לא בדיוק מה שאכלת?": {
   "en": "Not exactly what you ate?",
   "ar": "ليس بالضبط ما أكلته؟"
  },
- "ראפי יחשב לפי התיאור": {
-  "en": "Repi will calculate from your description",
-  "ar": "ريبي سيحسب حسب وصفك"
+ "מקס יחשב לפי התיאור": {
+  "en": "Max will calculate from your description",
+  "ar": "ماكس سيحسب حسب وصفك"
  },
  "אפשר להוסיף פרטים, למשל ״חצי מנה בלי צ׳יפס״": {
   "en": "Add details, e.g. \"half a portion, no fries\"",
   "ar": "أضف تفاصيل، مثل \"نصف وجبة بدون بطاطا\""
  },
- "ראפי חישב לפי התיאור · לחיצה על פריט כדי לשנות": {
-  "en": "Repi calculated from your description · tap an item to change it",
-  "ar": "ريبي حسب حسب وصفك · اضغط على عنصر لتغييره"
+ "מקס חישב לפי התיאור · לחיצה על פריט כדי לשנות": {
+  "en": "Max calculated from your description · tap an item to change it",
+  "ar": "ماكس حسب حسب وصفك · اضغط على عنصر لتغييره"
  },
  "אחרי הארוחה נשארים לך": {
   "en": "Left for today after this meal",
@@ -3079,9 +3079,9 @@
   "en": "The photo failed, try again",
   "ar": "فشل التصوير، حاول مرة أخرى"
  },
- ". סיכום יומי נשמר בחשבון שלך כדי שתראה היסטוריה וראפי יוכל לעזור. לא משמש לפרסום ולא נמסר לאף אחד.": {
-  "en": ". A daily summary is saved to your account so you can see your history and Repi can help. It is never used for ads or shared with anyone.",
-  "ar": ". يُحفظ ملخص يومي في حسابك لترى السجل ويستطيع ريبي المساعدة. لا يُستخدم للإعلانات ولا يُشارك مع أحد."
+ ". סיכום יומי נשמר בחשבון שלך כדי שתראה היסטוריה ומקס יוכל לעזור. לא משמש לפרסום ולא נמסר לאף אחד.": {
+  "en": ". A daily summary is saved to your account so you can see your history and Max can help. It is never used for ads or shared with anyone.",
+  "ar": ". يُحفظ ملخص يومي في حسابك لترى السجل ويستطيع ماكس المساعدة. لا يُستخدم للإعلانات ولا يُشارك مع أحد."
  },
  "NextRep תציג את הפעילות שלך מהטלפון ומהשעון, ליד האימונים והתזונה.": {
   "en": "NextRep will show your activity from your phone and watch, next to your workouts and nutrition.",
@@ -3315,17 +3315,17 @@
   "en": "Connect once and your steps show up on their own, from your watch too.",
   "ar": "اربط مرة واحدة وستظهر خطواتك تلقائيًا، من الساعة أيضًا."
  },
- "ראפי מתאים את ההמלצות לפעילות שלך": {
-  "en": "Repi tailors tips to your activity",
-  "ar": "ريبي يكيّف النصائح حسب نشاطك"
+ "מקס מתאים את ההמלצות לפעילות שלך": {
+  "en": "Max tailors tips to your activity",
+  "ar": "ماكس يكيّف النصائح حسب نشاطك"
  },
  "ההתראות עובדות גם כשהטלפון בכיס או נעול.": {
   "en": "Notifications work even when your phone is in your pocket or locked.",
   "ar": "الإشعارات تعمل حتى والهاتف في جيبك أو مقفل."
  },
- "הסיכום השבועי מראפי": {
-  "en": "Your weekly summary from Repi",
-  "ar": "الملخص الأسبوعي من ريبي"
+ "הסיכום השבועי ממקס": {
+  "en": "Your weekly summary from Max",
+  "ar": "الملخص الأسبوعي من ماكس"
  },
  "צעדים היום": {
   "en": "steps today",
@@ -4027,8 +4027,8 @@
   "en": "How much sweet should the menu have each day?",
   "ar": "كم من الحلويات تريد في القائمة كل يوم؟"
  },
- "ראפי מוריד את זה משאר הארוחות, ככה נשארים ביעד": {
-  "en": "Repi takes it off the other meals, so you stay on target",
+ "מקס מוריד את זה משאר הארוחות, ככה נשארים ביעד": {
+  "en": "Max takes it off the other meals, so you stay on target",
   "ar": "رافي يخصمها من باقي الوجبات، فتبقى ضمن هدفك"
  },
  "מומלץ": {
@@ -4131,8 +4131,8 @@
   "en": "It's a direction for the day, not a rule",
   "ar": "هذه وجهة لليوم، لا قاعدة"
  },
- "ראפי נותן תקציב לכל ארוחה, ואתה ממלא. צריך רעיון? לחיצה אחת.": {
-  "en": "Repi gives each meal a budget and you fill it. Need an idea? One tap.",
+ "מקס נותן תקציב לכל ארוחה, ואתה ממלא. צריך רעיון? לחיצה אחת.": {
+  "en": "Max gives each meal a budget and you fill it. Need an idea? One tap.",
   "ar": "رافي يعطي كل وجبة ميزانية وأنت تملؤها. تحتاج فكرة؟ نقرة واحدة."
  },
  "כל מאכל אפשר להחליף באחר עם אותו מספר ריבועים. לוחצים עליו ובוחרים.": {
@@ -4175,8 +4175,8 @@
   "en": "Make room for something sweet",
   "ar": "أضف مكانًا للحلويات"
  },
- "ראפי יקטין קצת את הארוחות": {
-  "en": "Repi will make the meals a little smaller",
+ "מקס יקטין קצת את הארוחות": {
+  "en": "Max will make the meals a little smaller",
   "ar": "رافي سيصغّر الوجبات قليلًا"
  },
  "נוסף ריבוע מתוק. הארוחות קטנו ב-100 קק״ל": {
@@ -4235,8 +4235,8 @@
   "en": "I ate something else entirely",
   "ar": "أكلت شيئًا آخر تمامًا"
  },
- "רושמים מה באמת אכלת, וראפי מתאים את שאר היום": {
-  "en": "Log what you really ate and Repi adjusts the rest of the day",
+ "רושמים מה באמת אכלת, ומקס מתאים את שאר היום": {
+  "en": "Log what you really ate and Max adjusts the rest of the day",
   "ar": "سجّل ما أكلته فعلًا ورافي يعدّل باقي اليوم"
  },
  "מה אכלת ב": {
@@ -4251,8 +4251,8 @@
   "en": "Back to the full menu",
   "ar": "العودة إلى القائمة الكاملة"
  },
- "מצב ריבועים בלבד: אתה ממלא, ראפי נותן רעיונות": {
-  "en": "Squares only: you fill, Repi gives ideas",
+ "מצב ריבועים בלבד: אתה ממלא, מקס נותן רעיונות": {
+  "en": "Squares only: you fill, Max gives ideas",
   "ar": "المربعات فقط: أنت تملأ ورافي يعطي أفكارًا"
  },
  "נשאר ריבוע אחד היום": {
@@ -4279,24 +4279,24 @@
   "en": "Tap the arrows to swap for another food with the same squares",
   "ar": "انقر على الأسهم للاستبدال بطعام آخر بنفس المربعات"
  },
- "ראפי ממלא את הארוחה, ואפשר לשנות כל פריט": {
-  "en": "Repi fills the meal, and you can change any item",
+ "מקס ממלא את הארוחה, ואפשר לשנות כל פריט": {
+  "en": "Max fills the meal, and you can change any item",
   "ar": "رافي يملأ الوجبة ويمكنك تغيير أي عنصر"
  },
- "ראפי מציע ארוחה שלמה אחרת באותו גודל": {
-  "en": "Repi suggests a different whole meal of the same size",
+ "מקס מציע ארוחה שלמה אחרת באותו גודל": {
+  "en": "Max suggests a different whole meal of the same size",
   "ar": "رافي يقترح وجبة كاملة أخرى بنفس الحجم"
  },
  "למשל: ערב במסעדה, או משהו מתוק בצהריים": {
   "en": "e.g. dinner out, or something sweet at lunch",
   "ar": "مثلًا: عشاء في مطعم، أو شيء حلو في الغداء"
  },
- "ראפי ממלא את כל הארוחות": {
-  "en": "Repi fills every meal",
+ "מקס ממלא את כל הארוחות": {
+  "en": "Max fills every meal",
   "ar": "رافي يملأ كل الوجبات"
  },
- "ראפי נותן תקציב, ואתה ממלא": {
-  "en": "Repi gives a budget, you fill it",
+ "מקס נותן תקציב, ואתה ממלא": {
+  "en": "Max gives a budget, you fill it",
   "ar": "رافي يعطي ميزانية وأنت تملأ"
  },
  "אבקת חלבון": {
@@ -4595,9 +4595,9 @@
   "en": "{0} cup",
   "ar": "{0} كوب"
  },
- "הארוחה של ראפי": {
-  "en": "Repi's meal",
-  "ar": "وجبة رابي"
+ "הארוחה של מקס": {
+  "en": "Max's meal",
+  "ar": "وجبة ماكس"
  },
  "מתכונים": {
   "en": "Recipes",
