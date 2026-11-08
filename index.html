@@ -2498,8 +2498,8 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 .mc-name::-webkit-search-cancel-button{display:none}
 </style>
 <style id="olive">/* olive style (TestFlight trial): dark + light, every accent, Max/Repi in the accent; remove this block to revert */
-:root:not([data-theme="light"]){--oa:#E2FC6A;--oi:#12140C;--oh1:#3A421C;--oh2:#23271A;--og:rgba(170,200,60,0.45);--onav:#1E2116;--accent:#E2FC6A;--lime:#E2FC6A;--ob1:#2A2F18;--ob2:#171A0F;--ob3:#0B0C0A;--oc1:rgba(78,88,40,0.38);--oc2:rgba(78,88,40,0.16);--oc3:rgba(20,22,18,.6);--ol:rgba(226,252,106,0.08);--ot:#F2F4EC;--om:rgba(242,244,236,.6);--of:rgba(255,255,255,.05);--ochip:rgba(242,244,236,.2);}
-:root[data-theme="light"]{--oa:#D4F53C;--oi:#12140C;--oh1:#3A421C;--oh2:#23271A;--og:rgba(170,200,60,0.45);--onav:#1E2116;--lime:#D4F53C;--lime-ink:#12140C;--ob1:rgba(212,245,60,0.3);--ob2:#F4F6EC;--ob3:#ECEFE2;--oc1:#FFFFFF;--oc2:#FFFFFF;--oc3:#F4F6EC;--ol:rgba(20,24,10,.06);--ot:#12140C;--om:rgba(18,20,12,.55);--of:#F4F6EC;--ochip:rgba(18,20,12,.16);}
+:root:not([data-theme="light"]){--oa:#BFFF2F;--oi:#12140C;--oh1:#3A421C;--oh2:#23271A;--og:rgba(170,200,60,0.45);--onav:#1E2116;--accent:#BFFF2F;--lime:#BFFF2F;--ob1:#2A2F18;--ob2:#171A0F;--ob3:#0B0C0A;--oc1:rgba(78,88,40,0.38);--oc2:rgba(78,88,40,0.16);--oc3:rgba(20,22,18,.6);--ol:rgba(191,255,47,0.08);--ot:#F2F4EC;--om:rgba(242,244,236,.6);--of:rgba(255,255,255,.05);--ochip:rgba(242,244,236,.2);}
+:root[data-theme="light"]{--oa:#BFFF2F;--oi:#12140C;--oh1:#3A421C;--oh2:#23271A;--og:rgba(170,200,60,0.45);--onav:#1E2116;--lime:#BFFF2F;--lime-ink:#12140C;--ob1:rgba(191,255,47,0.3);--ob2:#F4F6EC;--ob3:#ECEFE2;--oc1:#FFFFFF;--oc2:#FFFFFF;--oc3:#F4F6EC;--ol:rgba(20,24,10,.06);--ot:#12140C;--om:rgba(18,20,12,.55);--of:#F4F6EC;--ochip:rgba(18,20,12,.16);}
 :root[data-accent="rose"]:not([data-theme="light"]){--oa:#FF8AC4;--oi:#12140C;--oh1:#4A1E38;--oh2:#2A1522;--og:rgba(220,80,150,0.45);--onav:#221620;--accent:#FF8AC4;--lime:#FF8AC4;--ob1:#33172A;--ob2:#1A0F16;--ob3:#0B0C0A;--oc1:rgba(90,40,66,0.38);--oc2:rgba(90,40,66,0.16);--oc3:rgba(20,22,18,.6);--ol:rgba(255,138,196,0.08);--ot:#F2F4EC;--om:rgba(242,244,236,.6);--of:rgba(255,255,255,.05);--ochip:rgba(242,244,236,.2);}
 :root[data-accent="rose"][data-theme="light"]{--oa:#FF6FB2;--oi:#12140C;--oh1:#4A1E38;--oh2:#2A1522;--og:rgba(220,80,150,0.45);--onav:#221620;--lime:#FF6FB2;--lime-ink:#12140C;--ob1:rgba(255,111,178,0.3);--ob2:#FBF1F5;--ob3:#F4E6EC;--oc1:#FFFFFF;--oc2:#FFFFFF;--oc3:#FBF1F5;--ol:rgba(20,24,10,.06);--ot:#12140C;--om:rgba(18,20,12,.55);--of:#FBF1F5;--ochip:rgba(18,20,12,.16);}
 :root[data-accent="violet"]:not([data-theme="light"]){--oa:#C4B2FF;--oi:#12140C;--oh1:#33285A;--oh2:#1F1A30;--og:rgba(150,120,240,0.45);--onav:#1C1828;--accent:#C4B2FF;--lime:#C4B2FF;--ob1:#231D3A;--ob2:#141020;--ob3:#0B0C0A;--oc1:rgba(64,50,110,0.38);--oc2:rgba(64,50,110,0.16);--oc3:rgba(20,22,18,.6);--ol:rgba(196,178,255,0.08);--ot:#F2F4EC;--om:rgba(242,244,236,.6);--of:rgba(255,255,255,.05);--ochip:rgba(242,244,236,.2);}
@@ -2947,7 +2947,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.240';
+const APP_VERSION='13.3.242';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -11301,8 +11301,8 @@ function qrSVG(text){ const q=qrcode(0,'M'); q.addData(text); q.make(); return q
 const INV={st:null,p:null,code:null};
 const INV_SITE='https://www.nextrep.co.il';
 /* a group invite is also a personal invite: 14 free days for the friend, a free month for you when they subscribe */
-/* iOS app: no referral rewards or free days by code (App Store guideline 3.1.1). Group invites stay, as plain invites. */
-function NOREF(){ return !!(window.Capacitor?.isNativePlatform?.()&&window.Capacitor?.getPlatform?.()==='ios'); }
+/* the apps (iOS and Android): no referral rewards or free days by code (App Store guideline 3.1.1; Android kept the same). Group invites stay, as plain invites. The website keeps the referral program. */
+function NOREF(){ return !!window.Capacitor?.isNativePlatform?.(); }
 function socInvUrl(code){ return INV.code&&!NOREF()?`${INV_SITE}/i/${INV.code}?g=${code}`:`${INV_SITE}/#join=${code}`; }
 function inviteUrl(){ return INV.code?`${INV_SITE}/i/${INV.code}`:`${INV_SITE}/#ref=${S.user?.id||''}`; }
 function inviteText(){ const d=+INV.st?.trial_days||14;
