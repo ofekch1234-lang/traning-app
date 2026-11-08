@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=48170d86"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=48170d86"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=48170d86"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e645df38"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e645df38"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e645df38"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -468,6 +468,10 @@ body:not(.landing)>#lx-sticky{display:none}
 .hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.hl-tile{display:flex;flex-direction:column;gap:8px;text-align:start;padding:14px;font:inherit;color:inherit;margin:0;min-height:132px}.hl-tt{font-size:13px;color:var(--muted);font-weight:600}
 .hl-tr{display:flex;align-items:center;gap:10px}.hl-big{font-family:var(--disp);font-size:22px;font-weight:700;display:block;line-height:1.1}.hl-of{display:block;font-size:12px}.hl-u{display:block;font-size:12px;color:var(--accent);font-weight:600;margin-top:1px}
 .hl-sub{font-size:12px;color:var(--muted)}.hl-sub b{color:var(--ink)}
+.hl-more{display:flex;flex-direction:column;gap:10px;margin-top:-2px}.hl-wrap{display:flex;align-items:center;gap:6px;padding:0;overflow:hidden}.hw-main{flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:14px;border:0;background:none;font:inherit;color:inherit;text-align:start}.hw-main .lt{flex:1;min-width:0}.hw-main .lt b{display:block;font-size:16px}.hw-main .lt small{display:block;color:var(--muted);font-size:13px}.hw-x{flex:0 0 40px;height:40px;margin-inline-end:8px;border:0;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:14px}.hl-more>.card{margin:0}
+.hl-share{display:flex;align-items:center;gap:12px;padding:14px}.hl-share .lt{flex:1;min-width:0}.hl-share .lt b{display:block;font-size:16px}.hl-share .lt small{display:block;text-wrap:balance;color:var(--muted);font-size:13px;line-height:1.4;margin-top:2px}
+.hs-ic{flex:0 0 44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}.hs-ic .ic{width:22px;height:22px}
+.hs-go{flex:0 0 auto;border:0;border-radius:999px;padding:9px 14px;font:inherit;font-weight:700;font-size:14px;background:var(--accent);color:var(--accent-ink)}
 .hl-wide{grid-column:1/-1;display:flex;align-items:center;gap:12px;text-align:start;padding:12px 14px;margin:0;font:inherit;color:inherit}.hl-wide .lt small{display:block}
 .hl-plus{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}.hl-plus .ic{width:24px;height:24px}
 .wk-mini{gap:3px!important;margin-top:auto}.wk-mini>div>span{display:none}.wk-mini>div>i{width:14px!important;height:14px!important}
@@ -3903,13 +3907,17 @@ function hlData(){ const d=ymd(), t=dayTotals(d), kT=kcalFor(d), pT=+S.settings.
   const a=actDay(d), sg=stepsGoal(), trainedToday=trainedOn(new Date()), today=schedOn(new Date());
   return {d,t,kT,pT,nw,done,plan,a,sg,trainedToday,today,steps:(actNat()&&actOn())||actHas()}; }
 /* everything that is not today's core goes into one swipeable row, one item per card */
+/* below the day's core: Max, the monthly wrap, notifications and a simple "share with friends" card, stacked (no side-scroll) */
+function hlShareHTML(){ if(!S.user||S.mode!=='app')return '';
+  return `<div class="card r20 hl-share"><span class="hs-ic">${ICON.users}</span><span class="lt"><b>${tt('אהבת את NextRep?')}</b><small>${G('שתף חברים ותאתגרו אחד את השני','שתפי חברות ותאתגרו אחת את השנייה','שיתוף עם חברים, ואתגר משותף')}</small></span><button class="hs-go" data-act="invite-open" data-src="home">${tt('שיתוף')}</button></div>`; }
 function hlForYou(){ const L=[];
-  const co=coachRowHTML(); if(co)L.push(co.replace('class="card r20 kobi-row coach-card"','class="fy kobi-row coach-card"'));
-  const w=wrapCardHTML(); if(w){ const m=w.match(/data-y="(\d+)" data-m="(\d+)"/), t=(w.match(/<b[^>]*>([^<]+)<\/b>/)||[])[1]||''; if(m)L.push(`<button class="fy fy-s" data-act="wrap-open" data-y="${m[1]}" data-m="${m[2]}"><span class="sbtn" style="background:#2F6FD6;color:#fff">${ICON.chart}</span><span class="lt"><b>${t.replace(/^📊\s*/,'')}</b><small>${tt('בוא נראה מה עשית')}</small></span></button>`); }
-  if(!NOREF())L.push(`<button class="fy fy-s" data-act="invite-open" data-src="home"><span class="sbtn" style="background:var(--accent);color:var(--accent-ink)">${ICON.gift}</span><span class="lt"><b>${G('הזמן חבר, וקבל חודש חינם','הזמיני חברה, וקבלי חודש חינם','הזמנת חבר: חודש חינם')}</b><small>${tt('על כל חבר שרוכש מנוי')}</small></span></button>`);
-  try{ if(!TOUR.on&&notifCan()&&!notifSnoozed())L.push(`<button class="fy fy-s" data-act="notif-on" data-ctx="home"><span class="sbtn">${ICON.bell}</span><span class="lt"><b>${tt('הפעל התראות')}</b><small>${tt('סוף המנוחה, ימי אימון והודעות ממקס')}</small></span></button>`); }catch(_){}
-  return `<div class="sect2 hl-sect"><span>${tt('בשבילך')}</span></div><div class="fy-row">${L.join('')}</div>`; }
-function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${hqCardHTML()}${dbreakHTML()}${morningAfterHTML()}`; }
+  const co=coachRowHTML(); if(co)L.push(co);
+  const hq=hqCardHTML(); if(hq)L.push(hq);
+  const w=wrapCardHTML(); if(w){ const m=w.match(/data-y="(\d+)" data-m="(\d+)"/), k=(w.match(/data-k="([^"]+)"/)||[])[1]||'', t=((w.match(/<b[^>]*>([^<]+)<\/b>/)||[])[1]||'').replace(/^📊\s*/,''); if(m)L.push(`<div class="card r20 hl-wrap"><button class="hw-main" data-act="wrap-open" data-y="${m[1]}" data-m="${m[2]}"><span class="hs-ic" style="background:rgba(47,111,214,.18);color:#5B8DEF">${ICON.chart}</span><span class="lt"><b>${t}</b><small>${tt('בוא נראה מה עשית')}</small></span></button><button class="hw-x" data-act="wrap-dismiss" data-k="${k}" aria-label="${tt('סגירה')}">✕</button></div>`); }
+  try{ if(!TOUR.on&&notifCan()&&!notifSnoozed())L.push(`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>${tt('הפעל התראות')}</b><small>${tt('סוף המנוחה, ימי אימון והודעות ממקס')}</small></span>${ICON.chev}</button></div>`); }catch(_){}
+  L.push(hlShareHTML());
+  return `<div class="hl-more">${L.join('')}</div>`; }
+function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${dbreakHTML()}${morningAfterHTML()}`; }
 function hlWork(D){ return S.active?liveHomeCard():D.nw?nextCardHTML(D.nw):`<div class="hcard"><div class="lbl"><span>${tt('האימון הראשון שלך')}</span></div><div class="nm">${tt('בוא נבנה לך תוכנית')}</div><button class="go" data-act="pb-open">${tt('בנה לי תוכנית')}</button></div>`; }
 /* B: the workout first, then a 2x2 grid of small tiles */
 function vHomeB(){ const D=hlData();
@@ -3917,7 +3925,7 @@ function vHomeB(){ const D=hlData();
   const food=!D.kT?tile('food-targets-open',tt('תזונה'),`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.target}</span><small class="hl-sub">${tt('הגדר יעד יומי')}</small>`):tile('go',tt('תזונה'),`<div class="hl-tr">${miniRing(D.t.kcal/D.kT,`<div class="mr-c"><b class="num">${Math.round(D.t.kcal/D.kT*100)}%</b></div>`,KCOL[kState(D.t.kcal,D.kT)],54)}${(()=>{ const ks=kState(D.t.kcal,D.kT); return ks==='under'?`<div><b class="num hl-big">${fmtSt(Math.round(D.kT-D.t.kcal))}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${tt('קלוריות נותרו')}</small></div>`:`<div><b class="num hl-big">${fmtSt(D.t.kcal)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${ks==='in'?tt('בטווח היום'):tt('יום גדול')}</small></div>`; })()}</div><small class="hl-sub">${tt('חלבון')} <b class="num">${D.t.protein}</b>/<span class="num">${D.pT||'—'}</span> ${tt('ג׳')}</small>`,'data-to="food"');
   const conn=!D.steps&&actNat()&&!actLater()&&HP()?tile('act-intro',tt('צעדים ופעילות'),`<span class="hl-plus" style="background:var(--accent-soft);color:var(--accent)">${ICO_WALK}</span><small class="hl-sub">${tt('חיבור ל-')}${actSrc()}</small>`):'';
   const steps=D.steps?tile('act-open',tt('פעילות'),`<div class="hl-tr">${miniRing(D.a?D.a.s/D.sg:0,`<div class="mr-c"><b class="num">${D.a?Math.round(D.a.s/D.sg*100):0}%</b></div>`,'#5AC8FA',54)}<div><b class="num hl-big">${fmtSt(D.a?.s||0)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.sg)}</small><small class="hl-u" style="color:#5AC8FA">${tt('צעדים')}</small></div></div><small class="hl-sub"><b class="num">${fmtKm(D.a?.km||0)}</b> ${tt('ק״מ')} · <b class="num">${fmtSt(D.a?.kc||0)}</b> ${tt('קל׳')}</small>`):conn;
-  const week=tile('go',tt('השבוע'),`<b class="num hl-big">${D.done}<small class="muted">/${D.plan||'—'}</small></b><small class="hl-sub">${tt('אימונים בוצעו')}</small>${weekRowHTML().replace('wk-row','wk-row wk-mini')}`,'data-to="progress"');
+  const week=tile('go',tt('השבוע'),`<b class="num hl-big">${D.done}${D.plan?`<small class="muted">/${D.plan}</small>`:''}</b><small class="hl-sub">${tt(D.plan?'אימונים בוצעו':'אימונים השבוע')}</small>${weekRowHTML().replace('wk-row','wk-row wk-mini')}`,'data-to="progress"');
   const add=steps?tile('food-add-open',tt('ארוחה'),`<span class="hl-plus">${ICON.plus}</span><small class="hl-sub">${tt('צילום, חיפוש או הקלטה')}</small>`)
     :`<button class="card r20 hl-wide" data-act="food-add-open"><span class="hl-plus">${ICON.plus}</span><span class="lt"><b>${tt('הוספת ארוחה')}</b><small>${tt('צילום, חיפוש או הקלטה')}</small></span>${ICON.chev}</button>`;
   return hlHead()+hlWork(D)+`<div class="hl-grid">${food}${steps||week}${steps?week+add:add}</div>`+hlForYou(); }
@@ -9997,7 +10005,7 @@ const INV_GIFT='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stro
 async function refApplyPending(){ if(NOREF())return; let c=null; try{ c=localStorage.getItem('nr-refcode'); }catch(_){} if(!c||!S.user)return;
   try{ const {data}=await sb.rpc('ref_apply',{p_code:c}); if(data&&(data.ok||['already','late','self','code'].includes(data.err))){ try{ localStorage.removeItem('nr-refcode'); }catch(_){} }
     if(data?.ok&&data.name){ toast(tt('ההזמנה של {0} נקלטה: 14 ימים חינם').replace('{0}',data.name)); try{ const pl=await sb.rpc('my_plan'); if(pl.data){ S.plan=pl.data; render(); } }catch(_){} } }catch(_){} }
-function shareAppPlain(){ openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',INV_SITE,'מתאמן? תנסה את NextRep, יומן אימונים שזוכר כל סט, עם טיימר, תזונה וקבוצות 💪'); }
+function shareAppPlain(){ openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור. אחר כך פותחים קבוצה ומתאתגרים.',INV_SITE,'בוא נתאמן ביחד ב-NextRep ונאתגר אחד את השני. יומן אימונים שזוכר כל סט, עם תזונה וקבוצות 💪'); }
 async function openInviteSheet(src){
   if(!S.user)return;
   logEv('invite_open',{src:src||null});
@@ -10181,7 +10189,7 @@ function payAct(act,b){
       sb.rpc('set_my_phone',{p_phone:v}).then(({data,error})=>{ b.disabled=false; if(error){toast('שמירת הטלפון נכשלה');return;} S.myPhone=data; const f=phoneThen._next; phoneThen._next=null; closeSheet(); f&&f(); }); return true; }
     case 'phone-edit': phoneSheet(null); return true;
     case 'plan-recheck': closeSheet(); enterApp._claim=true; if(S.user)enterApp(S.user); return true;
-    case 'share-app': { if(NOREF()){ shareAppPlain(); return true; } if(S.user){ closeSheet(); openInviteSheet('settings'); return true; } const url=`${location.origin}/#ref=${S.user?.id||''}`; openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',url,'מתאמן? תנסה את NextRep, יומן אימונים שזוכר כל סט, עם טיימר, תזונה וקבוצות 💪'); return true; }
+    case 'share-app': { if(NOREF()){ shareAppPlain(); return true; } if(S.user){ closeSheet(); openInviteSheet('settings'); return true; } const url=`${location.origin}/#ref=${S.user?.id||''}`; openShareSheet('שתף את NextRep','חבר סורק את הברקוד או מקבל קישור, ונרשם.',url,'בוא נתאמן ביחד ב-NextRep ונאתגר אחד את השני. יומן אימונים שזוכר כל סט, עם תזונה וקבוצות 💪'); return true; }
     case 'invite-open': closeSheet(); if(NOREF()){ shareAppPlain(); return true; } openInviteSheet(b.dataset.src||'btn'); return true;
     case 'inv-qr': { const u=b.dataset.url; openShareSheet('ברקוד להזמנה','החבר סורק ונרשם דרך הקישור שלך.',u,inviteText()); logEv('invite_share',{ch:'qr'}); return true; }
     case 'inv-share': { const ch=b.dataset.ch; logEv('invite_share',{ch});
