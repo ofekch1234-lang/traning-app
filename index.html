@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e645df38"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e645df38"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e645df38"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=87063ae0"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=87063ae0"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=87063ae0"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -468,6 +468,10 @@ body:not(.landing)>#lx-sticky{display:none}
 .hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.hl-tile{display:flex;flex-direction:column;gap:8px;text-align:start;padding:14px;font:inherit;color:inherit;margin:0;min-height:132px}.hl-tt{font-size:13px;color:var(--muted);font-weight:600}
 .hl-tr{display:flex;align-items:center;gap:10px}.hl-big{font-family:var(--disp);font-size:22px;font-weight:700;display:block;line-height:1.1}.hl-of{display:block;font-size:12px}.hl-u{display:block;font-size:12px;color:var(--accent);font-weight:600;margin-top:1px}
 .hl-sub{font-size:12px;color:var(--muted)}.hl-sub b{color:var(--ink)}
+.hf .hf-top{display:flex;align-items:center;gap:16px;width:100%;border:0;background:none;padding:6px 0 14px;font:inherit;color:inherit;text-align:start}.hf-c b{font-size:24px;line-height:1}.hf-c small{display:block;font-size:12px;color:var(--muted);margin-top:2px}.hf-ms{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}.hf-m{font-size:13px}.hf-m .spread{margin-bottom:5px}.hf-m b{font-size:15px}
+.hl-nm{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;margin:0 0 12px;text-align:start;font:inherit;color:inherit}.hl-nm img{width:56px;height:56px;border-radius:14px;object-fit:cover;flex:0 0 56px}.hl-nm .lt{flex:1;min-width:0}.hl-nm .lt b{display:block;font-size:16px;margin:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hl-nm .lt small{display:block;color:var(--muted);font-size:12.5px}
+.hf-dots{display:flex;gap:5px;margin-top:auto}.hf-dots i{flex:1;height:8px;border-radius:4px;background:var(--surface2)}.hf-dots i.on{background:var(--accent)}.hf-dots i.td{outline:1.5px solid var(--muted);outline-offset:1px}
+.hl-wide+.hl-more{margin-top:10px}
 .hl-more{display:flex;flex-direction:column;gap:10px;margin-top:-2px}.hl-wrap{display:flex;align-items:center;gap:6px;padding:0;overflow:hidden}.hw-main{flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:14px;border:0;background:none;font:inherit;color:inherit;text-align:start}.hw-main .lt{flex:1;min-width:0}.hw-main .lt b{display:block;font-size:16px}.hw-main .lt small{display:block;color:var(--muted);font-size:13px}.hw-x{flex:0 0 40px;height:40px;margin-inline-end:8px;border:0;border-radius:50%;background:var(--surface2);color:var(--muted);font-size:14px}.hl-more>.card{margin:0}
 .hl-share{display:flex;align-items:center;gap:12px;padding:14px}.hl-share .lt{flex:1;min-width:0}.hl-share .lt b{display:block;font-size:16px}.hl-share .lt small{display:block;text-wrap:balance;color:var(--muted);font-size:13px;line-height:1.4;margin-top:2px}
 .hs-ic{flex:0 0 44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}.hs-ic .ic{width:22px;height:22px}
@@ -3918,8 +3922,36 @@ function hlForYou(){ const L=[];
   return `<div class="hl-more">${L.join('')}</div>`; }
 function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${hqCardHTML()}${dbreakHTML()}${morningAfterHTML()}`; }
 function hlWork(D){ return S.active?liveHomeCard():D.nw?nextCardHTML(D.nw):`<div class="hcard"><div class="lbl"><span>${tt('האימון הראשון שלך')}</span></div><div class="nm">${tt('בוא נבנה לך תוכנית')}</div><button class="go" data-act="pb-open">${tt('בנה לי תוכנית')}</button></div>`; }
+/* people who only log food: no workout in 14 days, and they came for food or keep logging meals. Their Today leads with nutrition */
+function foodUser(){ if(S.active)return false; const c=Date.now()-14*864e5;
+  if(S.workouts.some(w=>(+new Date(w.start)||0)>c))return false;
+  return S.settings.start==='food'||S.meals.filter(m=>(+m.ts||0)>c).length>=5; }
+/* the next meal of the day from the menu, if the user keeps one */
+function hlNextMeal(){ try{ const ms=mqDay(); if(!ms)return ''; const td=ymd(), i=ms.findIndex(m=>m.done!==td); if(i<0)return ''; const m=ms[i];
+  const R=m.rcp&&RCP(m.rcp), nm=R?R.n:m.out?tt('אוכלים בחוץ'):(mqName(m)||m.items.filter(x=>x.id&&x.r!=='V').map(x=>mfName(MFI(x.id))).slice(0,3).join(' · '));
+  const K=Math.round(mqK(m)||m.items.reduce((a,x)=>a+(x.kt||0),0));
+  return `<button class="card r20 hl-nm" data-act="go" data-to="food">${R?rcpImg(R.id,56):`<span class="hs-ic">${MQ_IC(m.k)}</span>`}<span class="lt"><small>${tt('הארוחה הבאה')} · ${tt(MQ_K[m.k])}${m.t?` · <span class="num">${m.t}</span>`:''}</small><b>${esc(nm||tt(MQ_K[m.k]))}</b><small class="num">${K} ${tt('קק״ל')}</small></span>${ICON.chev}</button>`; }catch(e){ return ''; } }
+/* nutrition first: the day's ring and macros, the next meal, then tiles; training waits in a small card */
+function vHomeF(){ const D=hlData(), mt=macroT(D.d), ks=kState(D.t.kcal,D.kT);
+  const bar=(l,v,t,c)=>`<div class="hf-m"><div class="spread"><span>${tt(l)}</span><span><b class="num">${v}</b><span class="muted num">${t?` / ${t}`:''} ${tt('ג׳')}</span></span></div><div class="bar2"><i style="width:${t?Math.min(100,v/t*100):0}%;background:${c}"></i></div></div>`;
+  const hero=!D.kT?`<div class="hcard"><div class="lbl"><span>${tt('התזונה היום')}</span></div><div class="nm">${tt('בוא נגדיר לך יעד יומי')}</div><div class="sub">${tt('כמה קלוריות וחלבון לאכול כדי להגיע למטרה')}</div><button class="go" data-act="food-targets-open">${tt('הגדרת יעד')}</button></div>`
+    :`<div class="hcard hf"><div class="lbl"><span>${tt('התזונה היום')}</span><span class="num">${S.meals.filter(m=>m.d===D.d).length} ${tt('ארוחות')}</span></div>
+      <button class="hf-top" data-act="go" data-to="food">${miniRing(D.t.kcal/D.kT,`<div class="mr-c hf-c"><b class="num">${fmtSt(Math.abs(Math.round(D.kT-D.t.kcal)))}</b><small>${ks==='under'?tt('נותרו'):ks==='in'?tt('בטווח'):tt('מעל')}</small></div>`,KCOL[ks],128)}
+      <div class="hf-ms">${bar('חלבון',D.t.protein,D.pT,'var(--accent)')}${bar('פחמימות',D.t.carbs,mt.c,'#5AC8FA')}${bar('שומן',D.t.fat,mt.f,'#FFB547')}</div></button>
+      <button class="go" data-act="food-add-open">${ICON.plus} ${tt('הוספת ארוחה')}</button></div>`;
+  // the week in food: days the user logged and stayed within the range
+  const ws=new Date(); ws.setHours(0,0,0,0); ws.setDate(ws.getDate()-ws.getDay()); let hit=0; const dots=[];
+  for(let i=0;i<7;i++){ const x=new Date(ws); x.setDate(ws.getDate()+i); const ds=ymd(x), t=dayTotals(ds), k=kcalFor(ds), ok=t.kcal>0&&k&&kState(t.kcal,k)!=='big'&&t.kcal>=k*.75; if(ok)hit++; dots.push(`<i class="${ok?'on':''} ${ds===D.d?'td':''}"></i>`); }
+  const tile=(act,ttl,body,extra='')=>`<button class="card r20 hl-tile" data-act="${act}" ${extra}><span class="hl-tt">${ttl}</span>${body}</button>`;
+  const week=tile('go',tt('השבוע'),`<b class="num hl-big">${hit}<small class="muted">/7</small></b><small class="hl-sub">${tt('ימים ביעד הקלוריות')}</small><span class="hf-dots">${dots.join('')}</span>`,'data-to="food"');
+  const steps=D.steps?tile('act-open',tt('פעילות'),`<div class="hl-tr">${miniRing(D.a?D.a.s/D.sg:0,`<div class="mr-c"><b class="num">${D.a?Math.round(D.a.s/D.sg*100):0}%</b></div>`,'#5AC8FA',54)}<div><b class="num hl-big">${fmtSt(D.a?.s||0)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.sg)}</small><small class="hl-u" style="color:#5AC8FA">${tt('צעדים')}</small></div></div><small class="hl-sub"><b class="num">${fmtKm(D.a?.km||0)}</b> ${tt('ק״מ')} · <b class="num">${fmtSt(D.a?.kc||0)}</b> ${tt('קל׳')}</small>`)
+    :actNat()&&!actLater()&&HP()?tile('act-intro',tt('צעדים ופעילות'),`<span class="hl-plus" style="background:var(--accent-soft);color:var(--accent)">${ICO_WALK}</span><small class="hl-sub">${tt('חיבור ל-')}${actSrc()}</small>`):'';
+  const lw=tgLastWeight(), wt=tile('go',tt('משקל'),lw?`<b class="num hl-big">${lw}<small class="muted"> ${tt('ק״ג')}</small></b><small class="hl-sub">${tt('לחץ לעדכון')}</small>`:`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.plus}</span><small class="hl-sub">${tt('הוספת שקילה')}</small>`,'data-to="progress"');
+  const train=D.nw?`<button class="card r20 hl-wide" data-act="tpl-view" data-id="${esc(D.nw.t.id)}"><span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.play}</span><span class="lt"><b>${tt('בא לך להתאמן היום?')}</b><small>${esc(D.nw.t.name)}</small></span>${ICON.chev}</button>`
+    :`<button class="card r20 hl-wide" data-act="pb-open"><span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.list}</span><span class="lt"><b>${tt('רוצה גם תוכנית אימון?')}</b><small>${tt('8 שאלות קצרות, ויש לך תוכנית שמתאימה ליעד')}</small></span>${ICON.chev}</button>`;
+  return hlHead()+hero+hlNextMeal()+`<div class="hl-grid">${week}${steps||wt}</div>`+train+hlForYou(); }
 /* B: the workout first, then a 2x2 grid of small tiles */
-function vHomeB(){ const D=hlData();
+function vHomeB(){ if(foodUser())return vHomeF(); const D=hlData();
   const tile=(act,ttl,body,extra='')=>`<button class="card r20 hl-tile" data-act="${act}" ${extra}><span class="hl-tt">${ttl}</span>${body}</button>`;
   const food=!D.kT?tile('food-targets-open',tt('תזונה'),`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.target}</span><small class="hl-sub">${tt('הגדר יעד יומי')}</small>`):tile('go',tt('תזונה'),`<div class="hl-tr">${miniRing(D.t.kcal/D.kT,`<div class="mr-c"><b class="num">${Math.round(D.t.kcal/D.kT*100)}%</b></div>`,KCOL[kState(D.t.kcal,D.kT)],54)}${(()=>{ const ks=kState(D.t.kcal,D.kT); return ks==='under'?`<div><b class="num hl-big">${fmtSt(Math.round(D.kT-D.t.kcal))}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${tt('קלוריות נותרו')}</small></div>`:`<div><b class="num hl-big">${fmtSt(D.t.kcal)}</b><small class="muted num hl-of">${tt('מתוך')} ${fmtSt(D.kT)}</small><small class="hl-u">${ks==='in'?tt('בטווח היום'):tt('יום גדול')}</small></div>`; })()}</div><small class="hl-sub">${tt('חלבון')} <b class="num">${D.t.protein}</b>/<span class="num">${D.pT||'—'}</span> ${tt('ג׳')}</small>`,'data-to="food"');
   const conn=!D.steps&&actNat()&&!actLater()&&HP()?tile('act-intro',tt('צעדים ופעילות'),`<span class="hl-plus" style="background:var(--accent-soft);color:var(--accent)">${ICO_WALK}</span><small class="hl-sub">${tt('חיבור ל-')}${actSrc()}</small>`):'';
