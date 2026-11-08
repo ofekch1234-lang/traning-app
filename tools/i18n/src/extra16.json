@@ -3,9 +3,9 @@
   "en": "Block",
   "ar": "دورة"
  },
- "ראפי · הסיכום השבועי שלך{0}": {
-  "en": "Repi · your weekly summary{0}",
-  "ar": "ريبي · ملخصك الأسبوعي{0}"
+ "מקס · הסיכום השבועי שלך{0}": {
+  "en": "Max · your weekly summary{0}",
+  "ar": "ماكس · ملخصك الأسبوعي{0}"
  },
  "חזרות; אם עדיין תקוע, בסוף הבלוק נחליף לווריאציה.": {
   "en": "reps; if still stuck, we'll switch variations at the end of the block.",
@@ -95,9 +95,9 @@
   "en": "Training and rest days",
   "ar": "أيام التمرين وأيام الراحة"
  },
- "ראפי מעביר קלוריות מימי המנוחה לימי האימון, בעיקר כפחמימה, כדי שיהיה לך יותר כוח באימון. הממוצע השבועי נשאר {0} קק״ל, אז הקצב לא משתנה.": {
-  "en": "Repi moves calories from rest days to training days, mostly as carbs, so you have more energy to train. Your weekly average stays {0} kcal, so your pace doesn't change.",
-  "ar": "ينقل ريبي سعرات من أيام الراحة إلى أيام التمرين، معظمها كربوهيدرات، لتحصل على طاقة أكبر في التمرين. يبقى المعدل الأسبوعي {0} سعرة، فلا تتغير الوتيرة."
+ "מקס מעביר קלוריות מימי המנוחה לימי האימון, בעיקר כפחמימה, כדי שיהיה לך יותר כוח באימון. הממוצע השבועי נשאר {0} קק״ל, אז הקצב לא משתנה.": {
+  "en": "Max moves calories from rest days to training days, mostly as carbs, so you have more energy to train. Your weekly average stays {0} kcal, so your pace doesn't change.",
+  "ar": "ينقل ماكس سعرات من أيام الراحة إلى أيام التمرين، معظمها كربوهيدرات، لتحصل على طاقة أكبر في التمرين. يبقى المعدل الأسبوعي {0} سعرة، فلا تتغير الوتيرة."
  },
  "קודם צריך יעד קלוריות יומי.": {
   "en": "You need a daily calorie target first.",
@@ -143,9 +143,9 @@
   "en": "Off · more calories on training days",
   "ar": "متوقف · سعرات أكثر في أيام التمرين"
  },
- "ראפי יתאים את היעד לימי האימון": {
-  "en": "Repi will match your target to training days",
-  "ar": "سيضبط ريبي هدفك حسب أيام التمرين"
+ "מקס יתאים את היעד לימי האימון": {
+  "en": "Max will match your target to training days",
+  "ar": "سيضبط ماكس هدفك حسب أيام التمرين"
  },
  "יעד אחיד לכל הימים": {
   "en": "Same target every day",

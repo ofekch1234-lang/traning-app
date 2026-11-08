@@ -63,9 +63,9 @@
   "en": "Personal menu with Premium",
   "ar": "القائمة الشخصية مع بريميوم"
  },
- "ראפי המאמן בפרימיום": {
-  "en": "Repi the coach with Premium",
-  "ar": "المدرب ريبي مع بريميوم"
+ "מקס המאמן בפרימיום": {
+  "en": "Max the coach with Premium",
+  "ar": "المدرب ماكس مع بريميوم"
  },
  "משקל וחזרות לכל סט באימון הבא, שבוע קל בזמן, ותוכנית חדשה כל 6 שבועות.": {
   "en": "Weight and reps for every set next workout, a deload week on time, and a new plan every 6 weeks.",
@@ -251,9 +251,9 @@
   "en": "This week's free analyses are used up",
   "ar": "استُخدمت التحليلات المجانية لهذا الأسبوع"
  },
- "ביום ראשון מתחדשים. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה וראפי המאמן האישי.": {
-  "en": "They renew on Sunday. You can keep going with food search or barcode, or upgrade to Premium: AI analysis for every meal and Repi, your personal coach.",
-  "ar": "تتجدد يوم الأحد. يمكنك المتابعة بالبحث في قاعدة البيانات أو الباركود، أو الترقية إلى بريميوم: تحليل ذكاء اصطناعي لكل وجبة وريبي مدربك الشخصي."
+ "ביום ראשון מתחדשים. אפשר להמשיך עם חיפוש במאגר או ברקוד, או לשדרג לפרימיום: ניתוח AI בכל ארוחה ומקס המאמן האישי.": {
+  "en": "They renew on Sunday. You can keep going with food search or barcode, or upgrade to Premium: AI analysis for every meal and Max, your personal coach.",
+  "ar": "تتجدد يوم الأحد. يمكنك المتابعة بالبحث في قاعدة البيانات أو الباركود، أو الترقية إلى بريميوم: تحليل ذكاء اصطناعي لكل وجبة وماكس مدربك الشخصي."
  },
  "פרימיום": {
   "en": "Premium",
@@ -267,9 +267,9 @@
   "en": "A new friend gets 14 days free and joins the group right away, and you get a free month when they subscribe.",
   "ar": "يحصل الصديق الجديد على 14 يومًا مجانًا وينضم إلى الفريق مباشرة، وتحصل على شهر مجاني عندما يشترك."
  },
- "ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, ראפי והתפריט? בוחרים מסלול.": {
-  "en": "You continue for free, and all your workouts, weigh-ins and meals are kept. Want the coach, Repi and the menu? Pick a plan.",
-  "ar": "تستمر مجانًا، وكل تمارينك وأوزانك ووجباتك محفوظة. تريد المدرب وريبي والقائمة؟ اختر باقة."
+ "ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, מקס והתפריט? בוחרים מסלול.": {
+  "en": "You continue for free, and all your workouts, weigh-ins and meals are kept. Want the coach, Max and the menu? Pick a plan.",
+  "ar": "تستمر مجانًا، وكل تمارينك وأوزانك ووجباتك محفوظة. تريد المدرب وماكس والقائمة؟ اختر باقة."
  },
  "להמשיך בחינם": {
   "en": "Continue for free",
