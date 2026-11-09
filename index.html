@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=42a7c66e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=42a7c66e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=42a7c66e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1c9dc1c9"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1c9dc1c9"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1c9dc1c9"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1161,7 +1161,7 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .pv{padding:14px}.pv-hd{display:flex;align-items:center;gap:11px;width:100%;text-align:var(--start);color:inherit;background:none;padding:0;font-size:15.5px}
 .pv-hd .lt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.pv-hd .lt small{font-size:12.5px;color:var(--muted)}
 .pv-ib{width:36px;height:36px;border-radius:12px;background:rgba(191,255,47,.12);color:var(--accent);display:grid;place-items:center;flex:none}.pv-ib svg.ic{width:20px;height:20px}
-.eta{display:flex;align-items:flex-start;gap:9px;margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--surface2)}.eta svg{width:18px;height:18px;flex:none;color:var(--accent);margin-top:2px}.eta b{display:block;font-size:14.5px}.eta small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}.eta.off{font-size:13.5px;color:var(--muted)}.eta.off svg{color:var(--muted)}
+.eta{display:flex;align-items:flex-start;gap:9px;margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--surface2)}.eta svg{width:18px;height:18px;flex:none;color:var(--accent);margin-top:2px}.eta b{display:block;font-size:14.5px}.eta small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}.eta small.eta-ch{color:var(--ink);opacity:.85;margin-top:6px;line-height:1.45}.eta.off{font-size:13.5px;color:var(--muted)}.eta.off svg{color:var(--muted)}
 .pg-eta{display:block;margin-top:9px;font-size:13px;color:var(--muted);text-align:center}.pg-eta b{color:var(--ink);font-weight:700}
 .pg-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.pg-c{background:var(--surface2);border-radius:14px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;gap:2px}.pg-c b{font-family:var(--disp);font-size:19px;font-weight:700;color:var(--ink)}.pg-c small{font-size:11px;color:var(--muted)}
 button.pv-g{display:block;width:100%;text-align:start;font:inherit;color:inherit}
@@ -7948,7 +7948,7 @@ function weeklyBalanceHTML(){
   if(avgK==null&&d7==null&&!ws)return '';
   const rate=d30!=null?d30/4.3:d7; // ק״ג לשבוע
   let proj='';
-  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'} (${tt('בערך')} ${etaDate({d:new Date(Date.now()+wk*7*864e5),wk})})`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד השבועות האחרונים'; }
+  { const e=goal?goalETA():null; if(e&&e.lo)proj=`${tt('צפי להגיע ליעד')}: ${tt('בערך')} ${etaRange(e)}`; else if(e&&e.off)proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
   // משפט אחד של מקס לפי המספרים (בלי AI)
   let tip='';
   if(avgK!=null&&kT){ const diff=avgK-kT;
@@ -7970,28 +7970,46 @@ function weeklyBalanceHTML(){
     ${tip?`<div class="wb-tip"><img src="img/kobi-think.svg" alt=""><span>${tip}</span></div>`:''}
   </div>`;
 }
-/* when the weight goal is likely reached: from the real trend once there are ~2 weeks of weigh-ins moving the right way,
-   otherwise from the plan (the calorie target against the body's burn). null when there is no goal, it's reached, or it's over 2 years away */
-function goalETA(){
+/* the goal forecast, built to be stable: a trend line over 6 weeks of weigh-ins (least squares, so one odd weigh-in barely moves it),
+   blended with the calorie plan, recomputed at most once a week, kept unless it moved 2+ weeks, and shown as a range */
+function etaCalc(){
   const goal=+S.settings.goalKg||0, ws=S.weights||[], lw=ws[ws.length-1]; if(!goal||!lw)return null;
-  const tr=bwTrend(), now=tr?tr.kg:+lw.kg, left=goal-now; if(Math.abs(wB(goal)-wB(lw.kg))<(uB()==='lb'?0.5:0.3))return null;
-  const span=ws.length>1?(new Date(lw.d)-new Date(ws[0].d))/864e5:0, d30=bwChange(30), d14=bwChange(14);
-  let rate=null, src='trend'; // kg per week, in kg
-  if(span>=14&&ws.length>=4){ const r=d30!=null&&span>=28?d30/4.3:d14!=null?d14/2:null; if(r!=null)rate=wBk(r); }
-  const right=rate!=null&&Math.sign(rate)===Math.sign(left)&&Math.abs(rate)>=0.05;
-  if(!right){ const b=S.settings.body||{}, kT=+S.settings.kcalT||0, r=tgCalc({...b,w:lw.kg}); const pw=r&&kT?Math.round(((kT-r.tdee)*7/7700)*100)/100:null;
-    if(pw==null||Math.sign(pw)!==Math.sign(left)||Math.abs(pw)<0.05)return {off:rate!=null&&Math.abs(rate)>=0.05&&Math.sign(rate)!==Math.sign(left)};
-    rate=pw; src='plan'; }
-  const wk=left/rate; if(wk>104)return {far:1,src};
-  const d=new Date(Date.now()+Math.max(0,wk)*7*864e5);
-  return {d,wk,src,rate};
+  const tr=bwTrend(), now=tr?tr.kg:+lw.kg, left=goal-now; if(Math.abs(wB(goal)-wB(now))<(uB()==='lb'?0.5:0.3))return null;
+  const lim=ymd(new Date(Date.now()-42*864e5)), pts=ws.filter(x=>x.d>=lim); let tr7=null;
+  if(pts.length>=4){ const t0=+new Date(pts[0].d+'T12:00:00'), X=pts.map(p=>(+new Date(p.d+'T12:00:00')-t0)/864e5), Y=pts.map(p=>+p.kg);
+    if(X[X.length-1]>=14){ const mx=X.reduce((a,v)=>a+v,0)/X.length, my=Y.reduce((a,v)=>a+v,0)/Y.length; let n=0,d=0; X.forEach((x,i)=>{ n+=(x-mx)*(Y[i]-my); d+=(x-mx)**2; }); if(d>0)tr7=n/d*7; } }
+  const bd=S.settings.body||{}, kT=+S.settings.kcalT||0, r=tgCalc({...bd,w:lw.kg}), pw=r&&kT?(kT-r.tdee)*7/7700:null;
+  const ok=v=>v!=null&&Math.sign(v)===Math.sign(left)&&Math.abs(v)>=0.05;
+  let rate, src;
+  if(ok(tr7)){ rate=ok(pw)?tr7*0.7+pw*0.3:tr7; src='trend'; }
+  else if(ok(pw)&&!(tr7!=null&&Math.abs(tr7)>=0.1)){ rate=pw; src='plan'; }
+  else return {off:tr7!=null&&Math.abs(tr7)>=0.05&&Math.sign(tr7)!==Math.sign(left)};
+  const wk=left/rate; if(wk>104)return {far:1};
+  return {wk:Math.max(0,wk), rate, src};
 }
+function goalETA(){
+  const e=etaCalc(); if(!e||e.off||e.far)return e;
+  const goal=+S.settings.goalKg, now=Date.now(), sun=new Date(); sun.setHours(0,0,0,0); sun.setDate(sun.getDate()-sun.getDay());
+  const k=ymd(sun), W=7*864e5, fresh={k,g:goal,mid:now+e.wk*W,lo:now+e.wk*0.85*W,hi:now+e.wk*1.3*W,rate:e.rate,src:e.src};
+  let c=null; try{ c=JSON.parse(localStorage.getItem('nr-eta2')||'null'); }catch(_){}
+  const save=o=>{ try{ localStorage.setItem('nr-eta2',JSON.stringify(o)); }catch(_){} return o; };
+  if(c&&c.g===goal&&c.k===k&&c.hi>now)return c;
+  if(c&&c.g===goal&&c.hi>now){ if(Math.abs(fresh.mid-c.mid)<14*864e5)return save({...c,k,ch:0,rate:e.rate,src:e.src}); fresh.prev=c.rate; fresh.ch=1; }
+  return save(fresh);
+}
+/* "February–March 2027", or "in 3–5 weeks" when it's close */
+function etaRange(e){ const now=Date.now(), W=7*864e5, a=Math.max(1,Math.round((e.lo-now)/W)), b=Math.max(a,Math.round((e.hi-now)/W));
+  if(b<=8)return a===b?`${tt('בעוד')} ${a} ${tt('שבועות')}`:`${tt('בעוד')} ${a}–${b} ${tt('שבועות')}`;
+  const L=new Date(e.lo), H=new Date(e.hi), mo=d=>d.toLocaleDateString(LOC,{month:'long'}), y=d=>d.getFullYear();
+  if(L.getMonth()===H.getMonth()&&y(L)===y(H))return `${mo(L)} ${y(L)}`;
+  return y(L)===y(H)?`${mo(L)}–${mo(H)} ${y(H)}`:`${mo(L)} ${y(L)}–${mo(H)} ${y(H)}`; }
 const etaDate=e=>e.d.toLocaleDateString(LOC,e.wk<8?{day:'numeric',month:'long'}:{month:'long',year:'numeric'});
+const etaKg=v=>Math.abs(Math.round(wB(v)*10)/10)||0.1;
 function etaLine(){ const e=goalETA(); if(!e)return '';
   if(e.off)return `<div class="eta off">${ICON.target}<span>${tt('בשבועות האחרונים המשקל זז בכיוון ההפוך ליעד')}</span></div>`;
-  if(e.far||!e.d)return '';
-  const r=Math.abs(Math.round(wB(e.rate)*10)/10)||0.1;
-  return `<div class="eta">${ICON.target}<span><b>${tt('צפי להגיע ליעד')}: ${tt('בערך')} <span class="num">${etaDate(e)}</span></b><small>${e.src==='trend'?tt('לפי הקצב שלך בשבועות האחרונים'):tt('לפי התוכנית שלך')} · <span class="num">${r}</span> ${BU()} ${tt('בשבוע')}</small></span></div>`; }
+  if(e.far||!e.lo)return '';
+  const slow=e.prev!=null&&Math.abs(e.rate)<Math.abs(e.prev);
+  return `<div class="eta">${ICON.target}<span><b>${tt('צפי להגיע ליעד')}: ${tt('בערך')} <span class="num">${etaRange(e)}</span></b><small>${e.src==='trend'?tt('לפי קו המגמה של 6 השבועות האחרונים'):tt('לפי התוכנית שלך')} · <span class="num">${etaKg(e.rate)}</span> ${BU()} ${tt('בשבוע')} · ${tt('מתעדכן פעם בשבוע')}</small>${e.ch&&e.prev!=null?`<small class="eta-ch">${tt('הצפי זז כי הקצב')} ${slow?tt('האט'):tt('עלה')} ${tt('מ־')}<span class="num">${etaKg(e.prev)}</span> ${tt('ל־')}<span class="num">${etaKg(e.rate)}</span> ${BU()} ${tt('בשבוע')}.${slow?' '+tt('זה טבעי ככל שמתקרבים ליעד.'):''}</small>`:''}</span></div>`; }
 function balanceLine(){
   const kT=+S.settings.kcalT||0, pT=+S.settings.protT||0, goal=+S.settings.goalKg||0;
   const days=[]; for(let i=6;i>=0;i--){ const x=new Date(); x.setDate(x.getDate()-i); const ds=ymd(x); if(mealsOf(ds).length)days.push(dayTotals(ds)); }
@@ -8000,7 +8018,7 @@ function balanceLine(){
   const d7=bwChange(7), d30=bwChange(30), lw=(S.weights||[]).slice(-1)[0];
   const rate=d30!=null?d30/4.3:d7;
   let proj='';
-  if(goal&&lw&&rate!=null&&Math.abs(rate)>=0.1){ const left=wB(goal)-wB(lw.kg); if((left<0&&rate<0)||(left>0&&rate>0)){ const wk=Math.round(left/rate); proj=wk<=1?'בקצב הזה תגיע ליעד השבוע 🎯':wk<=52?`בקצב הזה תגיע ל-${wB(goal)} ${BU()} בעוד ${wk<5?wk+' שבועות':Math.round(wk/4.3)+' חודשים'} (${tt('בערך')} ${etaDate({d:new Date(Date.now()+wk*7*864e5),wk})})`:'בקצב הזה הדרך ליעד ארוכה, שווה להדק קצת'; } else if(left!==0) proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
+  { const e=goal?goalETA():null; if(e&&e.lo)proj=`${tt('צפי להגיע ליעד')}: ${tt('בערך')} ${etaRange(e)}`; else if(e&&e.off)proj='המשקל זז בכיוון ההפוך ליעד בשבועות האחרונים'; }
   let tip='';
   if(avgK!=null&&kT){ const diff=avgK-kT;
     if(diff>150&&goal&&lw&&goal<lw.kg)tip=overTip(rate);
@@ -8105,7 +8123,7 @@ function progCardsHTML(ws,today,goal,kT,pT){
   const nut=`<div class="card r20 pv">${hd('nut',ICON.food,tt('תזונה · 7 ימים'),nSub,tt('פירוט'))}${o.nut?'':bars}${body('nut',nutritionWeekHTML())}</div>`;
   const gch=(v,u,l)=>`<span class="pg-c"><b class="num">${v}</b><small>${u?`${u} · `:''}${l}</small></span>`;
   const goals=`<button class="card r20 pv pv-g" data-act="food-targets-open"><span class="pv-hd" style="pointer-events:none"><span class="pv-ib">${ICON.target}</span><span class="lt"><b>${tt('היעדים שלי')}</b>${kT?'':`<small>${tt('קלוריות, חלבון ומשקל יעד')}</small>`}</span><span class="pv-more">${kT?tt('עריכה'):tt('הגדרה')} <span class="chev">›</span></span></span>
-    ${kT?`<span class="pg-row">${gch(kcalN(kT),'',tt('קק״ל ביום'))}${gch(pT||'—',tt('ג׳'),tt('חלבון'))}${goal?gch(wB(goal),BU(),tt('משקל יעד')):''}</span>`:''}${goal?(()=>{ const e=goalETA(); return e&&e.d?`<span class="pg-eta">${tt('צפי ליעד')}: <b class="num">${etaDate(e)}</b></span>`:''; })():''}</button>`;
+    ${kT?`<span class="pg-row">${gch(kcalN(kT),'',tt('קק״ל ביום'))}${gch(pT||'—',tt('ג׳'),tt('חלבון'))}${goal?gch(wB(goal),BU(),tt('משקל יעד')):''}</span>`:''}${goal?(()=>{ const e=goalETA(); return e&&e.lo?`<span class="pg-eta">${tt('צפי ליעד')}: <b class="num">${etaRange(e)}</b></span>`:''; })():''}</button>`;
   return cal+ph+nut+goals;
 }
 function bwChartHTML(goal,compact){
