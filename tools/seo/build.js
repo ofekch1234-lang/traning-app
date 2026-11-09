@@ -159,13 +159,19 @@ const calcBase=l=>l==='he'?'/calc/':`/${l}/calc/`;
 // link the guides hub only for languages that actually have guides (no /ar/guide/ yet: a link there is a 404 on every Arabic page)
 const hasGuides=l=>{ const d=path.join(__dirname,'guides',l); return fs.existsSync(d)&&fs.readdirSync(d).some(f=>f.endsWith('.md')); };
 const calcLinks=l=>`${hasGuides(l)?`<a href="${l==='he'?'/guide/':'/'+l+'/guide/'}">${l==='he'?'מדריכים':'أدلة'}</a>`:''}<a href="${calcBase(l)}">${T[l].calc}</a><a href="${calcBase(l)}bmi">${T[l].calcBmi}</a><a href="${calcBase(l)}protein">${T[l].calcProt}</a>`;
+// meta description = the answer to the search ("כמה קלוריות יש ב…", "… ערך תזונתי"): per household unit first, then the 100 g nutrition facts
+const DESC={
+ he:(n,f,u,kU)=>`כמה קלוריות יש ב${n}? ${u?`ב${unitName(u,'he')} ${oneHe(u)} (${u.g} גר׳) יש ${nf(kU)} קלוריות, וב-100 גרם ${nf(f.k)}.`:`ב-100 גרם יש ${nf(f.k)} קלוריות.`} ערך תזונתי ל-100 גרם: ${r1(f.p)} גר׳ חלבון, ${r1(f.cb)} גר׳ פחמימות ו-${r1(f.ft)} גר׳ שומן`,
+ ar:(n,f,u,kU)=>`كم سعرة حرارية في ${n}؟ ${u?`في ${unitName(u,'ar')} (${u.g} غ) ${nf(kU)} سعرة، وفي 100 غ ${nf(f.k)}.`:`في 100 غ ${nf(f.k)} سعرة.`} القيم الغذائية لكل 100 غ: ${r1(f.p)} غ بروتين، ${r1(f.cb)} غ كربوهيدرات و${r1(f.ft)} غ دهون`,
+};
+const DESC_SRC={he:', לפי משרד הבריאות.',ar:'، حسب وزارة الصحة.'};
 function foodPage(f,l){
   const t=T[l], n=nameOf(f,l), u=f.def, alts=LANGS.map(al=>[al,pathOf(f,al)]), canon=pathOf(f,l);
   const kU=u?r0(f.k*u.g/100):r0(f.k), pU=u?r1(f.p*u.g/100):r1(f.p), cU=u?r1(f.cb*u.g/100):r1(f.cb), fU=u?r1(f.ft*u.g/100):r1(f.ft);
   const intro=COPY[l].intro(n,f,u), faq=COPY[l].faq(n,f,u), cmp=comparisons(f);
   const rows=[...f.units.map(x=>[unitName(x,l),x.g,r0(f.k*x.g/100)]),[t.per100,100,r0(f.k)]]; if(u)rows.push([`2 × ${unitName(u,l)}`,u.g*2,r0(f.k*u.g*2/100)]);
   const maxK=Math.max(+f.k,...cmp.map(x=>+x.k))||1;
-  const title=t.title(n,f), desc=u?`${t.in(unitName(u,l),u.g)}: ${kU} ${t.kcal}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat} ${t.per100}.`:`${r0(f.k)} ${t.kcal} ${t.per100}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat}.`;
+  const title=t.title(n,f), desc=DESC[l]?(d=>d.length<=140?d+DESC_SRC[l]:d+'.')(DESC[l](shortOf(n),f,u,kU)):u?`${t.in(unitName(u,l),u.g)}: ${kU} ${t.kcal}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat} ${t.per100}.`:`${r0(f.k)} ${t.kcal} ${t.per100}. ${r1(f.p)} ${t.prot}, ${r1(f.cb)} ${t.carb}, ${r1(f.ft)} ${t.fat}.`;
   const ld=[{"@context":"https://schema.org","@type":"NutritionInformation","name":n,"calories":`${kU} calories`,"servingSize":u?`${unitName(u,l)} (${u.g} g)`:"100 g","proteinContent":`${pU} g`,"carbohydrateContent":`${cU} g`,"fatContent":`${fU} g`},
     {"@context":"https://schema.org","@type":"FAQPage","mainEntity":faq.map(([q,a])=>({"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}}))},
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":t.crumb,"item":SITE+indexPath(l)},{"@type":"ListItem","position":2,"name":catName(f.cat,l),"item":SITE+catPath(f.cat,l)},{"@type":"ListItem","position":3,"name":n}]}];
