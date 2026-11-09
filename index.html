@@ -7480,7 +7480,7 @@ function ncDone(apply){
 const chgHint=(s,k='w')=>`<i class="sugp chgp">${tt('שונה מ')}<span class="num">${k==='r'?s.chg.r:wL(s.chg.w)}</span></i>`;
 /* a carried-forward change: remember what the set showed before (k: 'w' weight / 'r' reps); changing back clears it */
 function chgMark(s,k,old){ const c=s.chg||(s.chg={}); if(c[k]!=null)old=c[k]; if(+(k==='w'?s.pw:s.pr)===+old)delete c[k]; else c[k]=old; if(c.w==null&&c.r==null)delete s.chg; }
-function setChg(ei,si,k='w'){ const s=S.active?.ex?.[ei]?.sets?.[si]; const c=document.querySelector(`[data-cell="${ei}-${si}"]${k==='r'?'[data-rcell]':':not([data-rcell])'}`); if(!c)return;
+function setChg(ei,si,k='w'){ const s=S.active?.ex?.[ei]?.sets?.[si]; const c=document.querySelector(`[data-cell="${ei}-${si}"]${k==='r'?'[data-rcell]':':not([data-rcell]):not(.setidx)'}`); if(!c)return;
   c.querySelector('.chgp')?.remove(); if(s?.chg?.[k]==null){ c.classList.remove('chg'); return; }
   c.classList.add('chg'); c.querySelector('.sugp')?.remove(); c.insertAdjacentHTML('afterbegin',chgHint(s,k)); }
 function sugDelta(s,last,si,k){ if(s.chg?.[k]!=null&&!s.done)return chgHint(s,k); if(!last||s.done||!s.sug)return ''; const l=last[Math.min(si,last.length-1)]; if(!l)return '';
