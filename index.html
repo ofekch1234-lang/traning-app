@@ -7576,7 +7576,7 @@ function vStrength(e,ei,cur){
   const rr=repRange(e.reps);
   const target=e.reps?`${e.sets.length===1?tt('סט אחד'):`${e.sets.length} ${tt('סטים')}`} · <bdi dir="ltr">${esc(String(e.reps).replace(/\s*[-–—]\s*/,'–'))}</bdi> ${tt('חזרות')}`:''; // "3 סטים · 6–8 חזרות" instead of "יעד 3×6–8"
   const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
-  const tip=e.sets.some(x=>x.done)||e.co?null:repTip(e), co=e.sets.some(x=>x.done)?null:e.co;
+  const tip=e.sets.some(x=>x.done)||e.co?null:repTip(e), co=e.co;
   return `<div class="ex-card ${cur?'cur':''}" data-ei="${ei}" style="view-transition-name:ex-${ei}">
     <div class="ex-head" style="align-items:flex-start">
       <div style="flex:1;min-width:0">
