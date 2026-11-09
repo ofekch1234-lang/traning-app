@@ -2964,7 +2964,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.252';
+const APP_VERSION='13.3.254';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -8606,7 +8606,7 @@ function ncDone(apply){
 const chgHint=(s,k='w')=>`<i class="sugp chgp">${tt('שונה מ')}<span class="num">${k==='r'?s.chg.r:wL(s.chg.w)}</span></i>`;
 /* a carried-forward change: remember what the set showed before (k: 'w' weight / 'r' reps); changing back clears it */
 function chgMark(s,k,old){ const c=s.chg||(s.chg={}); if(c[k]!=null)old=c[k]; if(+(k==='w'?s.pw:s.pr)===+old)delete c[k]; else c[k]=old; if(c.w==null&&c.r==null)delete s.chg; }
-function setChg(ei,si,k='w'){ const s=S.active?.ex?.[ei]?.sets?.[si]; const c=document.querySelector(`[data-cell="${ei}-${si}"]${k==='r'?'[data-rcell]':':not([data-rcell])'}`); if(!c)return;
+function setChg(ei,si,k='w'){ const s=S.active?.ex?.[ei]?.sets?.[si]; const c=document.querySelector(`[data-cell="${ei}-${si}"]${k==='r'?'[data-rcell]':':not([data-rcell]):not(.setidx)'}`); if(!c)return;
   c.querySelector('.chgp')?.remove(); if(s?.chg?.[k]==null){ c.classList.remove('chg'); return; }
   c.classList.add('chg'); c.querySelector('.sugp')?.remove(); c.insertAdjacentHTML('afterbegin',chgHint(s,k)); }
 function sugDelta(s,last,si,k){ if(s.chg?.[k]!=null&&!s.done)return chgHint(s,k); if(!last||s.done||!s.sug)return ''; const l=last[Math.min(si,last.length-1)]; if(!l)return '';
@@ -8702,7 +8702,7 @@ function vStrength(e,ei,cur){
   const rr=repRange(e.reps);
   const target=e.reps?`${e.sets.length===1?tt('סט אחד'):`${e.sets.length} ${tt('סטים')}`} · <bdi dir="ltr">${esc(String(e.reps).replace(/\s*[-–—]\s*/,'–'))}</bdi> ${tt('חזרות')}`:''; // "3 סטים · 6–8 חזרות" instead of "יעד 3×6–8"
   const rest=e.rest?`מנוחה ${fmtRest(e.rest)}`:'';
-  const tip=e.sets.some(x=>x.done)||e.co?null:repTip(e), co=e.sets.some(x=>x.done)?null:e.co;
+  const tip=e.sets.some(x=>x.done)||e.co?null:repTip(e), co=e.co;
   return `<div class="ex-card ${cur?'cur':''}" data-ei="${ei}" style="view-transition-name:ex-${ei}">
     <div class="ex-head" style="align-items:flex-start">
       <div style="flex:1;min-width:0">

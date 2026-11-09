@@ -1,0 +1,3 @@
+-- Applied 2026-11-09 (migration food_brand_flag_and_norm): nr_norm() spelling normalizer, food_brands list,
+-- foods.brand flag (label rows + rows naming a listed brand as a comma segment) kept by trigger foods_brand.
+-- The full brand list lives in the table public.food_brands.
