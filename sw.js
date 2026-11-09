@@ -1,5 +1,5 @@
 /* יומן הברזל — service worker: עבודה אופליין */
-const CACHE = 'nextrep-v454';
+const CACHE = 'nextrep-v456';
 const SHELL = ['/', '/index.html', '/manifest.json', '/icon-180.png', '/icon-192.png', '/icon-512.png', '/manifest-f.json', '/icon-f-180.png', '/icon-f-192.png', '/icon-f-512.png', '/badge-96.png', '/menu-foods.js?v=17', '/recipes.js?v=3', '/recipes-en.js?v=3', '/recipes-ar.js?v=3'];
 
 self.addEventListener('install', e => {

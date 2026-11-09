@@ -2581,6 +2581,14 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 :root[data-accent="teal"] img[src*="kobi-"]:not([src*="-f.svg"]){filter:hue-rotate(96deg) saturate(1.05)}
 :root[data-accent="teal"] img[src*="kobi-"][src*="-f.svg"]{filter:hue-rotate(-160deg) saturate(1.05)}
 </style>
+<style id="olive-hdr">
+/* sticky header: frosted glass that also covers the status-bar strip, so scrolled content never shows through */
+header.top{isolation:isolate}
+header.top::before{content:'';position:absolute;z-index:-1;top:calc(-1*env(safe-area-inset-top,0px));bottom:0;left:calc(50% - 50vw);right:calc(50% - 50vw);background:var(--ob2);-webkit-backdrop-filter:blur(24px) saturate(1.4);backdrop-filter:blur(24px) saturate(1.4);pointer-events:none}
+body.chatting header.top::before{display:none}
+/* the workout bar sits right under the header and continues the same glass */
+:root body .aw-head{top:calc(var(--hdrh,58px) + env(safe-area-inset-top,0px))!important;margin-top:0!important;background:var(--ob2)!important;-webkit-backdrop-filter:blur(24px) saturate(1.4);backdrop-filter:blur(24px) saturate(1.4)}
+</style>
 </head>
 <body>
 <div id="splash" role="img" aria-label="NextRep">
@@ -2964,7 +2972,7 @@ if(IS_NATIVE){
 }
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.254';
+const APP_VERSION='13.3.256';
 if('serviceWorker' in navigator&&!IS_NATIVE){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3616,6 +3624,7 @@ async function voStop(apply){ const v=VO; if(!v||v.stopping)return; v.stopping=t
   if(v.txt)try{ localStorage.removeItem('nr-vo-f'); }catch(_){}
   const q=$('#'+(v.qid||'ask-q')); if(apply&&!v.txt&&!v.warned)toast(tt('לא נקלט טקסט. אפשר לכתוב במקום')); if(apply&&q&&v.txt){ q.value=(v.base?v.base+' ':'')+v.txt; q.dispatchEvent(new Event('input',{bubbles:true})); } }
 /* ---------- rendering ---------- */
+try{ const hd=document.querySelector('header.top'); if(hd&&window.ResizeObserver)new ResizeObserver(()=>document.documentElement.style.setProperty('--hdrh',hd.offsetHeight+'px')).observe(hd); }catch(_){}
 function render(){
   if(IS_NATIVE)requestAnimationFrame(natStatusBar);
   try{ document.body.classList.toggle('adm',S.mode==='app'&&S.tab==='admin'); }catch(_){}
