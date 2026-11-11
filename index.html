@@ -2037,6 +2037,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
   background:#0A0B0A;
   transition:opacity .45s ease,visibility .45s}
 #splash.out{opacity:0;visibility:hidden}
+:root:not(.s-native) #splash>*{display:none}:root:not(.s-native) #splash{transition-duration:.12s}
 #splash{--s-tile:118px}
 :root.s-native #splash{--s-tile:inherit}
 #splash{--s-acc:#BFFF2F}:root[data-g="f"] #splash{--s-acc:#FF4FA3}
@@ -2126,7 +2127,7 @@ input[data-np]{caret-color:transparent;cursor:pointer}
 #pcam .pc-hint{position:absolute;left:0;right:0;bottom:calc(30% - 54px);text-align:center;font-weight:700;font-size:15px;text-shadow:0 1px 8px rgba(0,0,0,.8)}#pcam .pc-hint small{display:block;font-weight:500;font-size:13px;opacity:.85;margin-top:3px}
 #pcam .pc-bar{position:absolute;left:0;right:0;bottom:0;padding:26px 24px calc(env(safe-area-inset-bottom,0px) + 26px);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.85) 45%)}
 #pcam .pc-b{display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:600;width:64px}#pcam .pc-b svg.ic{width:26px;height:26px;padding:12px;box-sizing:content-box;border-radius:50%;background:rgba(255,255,255,.16)}
-#pcam .pc-load{position:absolute;inset:0;z-index:1;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .25s}#pcam .pc-load span{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;animation:pcspin .8s linear infinite}@keyframes pcspin{to{transform:rotate(360deg)}}#pcam.ready .pc-load{opacity:0;pointer-events:none}
+#pcam .pc-load{position:absolute;inset:0;z-index:1;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .12s}#pcam .pc-load span{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.22);border-top-color:#fff;animation:pcspin .8s linear infinite}@keyframes pcspin{to{transform:rotate(360deg)}}#pcam.ready .pc-load{opacity:0;pointer-events:none}
 #pcam .pc-shot{width:76px;height:76px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.35)}#pcam .pc-shot:active{transform:scale(.94)}
 html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on body>*:not(#pcam){visibility:hidden!important}#pcam.native{background:transparent}
 #pscan{position:fixed;inset:0;z-index:150;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 40px) 18px 30px;text-align:center}
@@ -2443,7 +2444,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.255';
+const APP_VERSION='13.3.257';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -6405,7 +6406,7 @@ async function pcamOpen(){
   try{ if(!$('#sheet').hidden)closeSheet(); }catch(_){}
   pcamClose(); if(!pcamOK()){ pcamPick(); return; } const el=document.createElement('div'); el.id='pcam';
   el.innerHTML=`<video id="pcam-v" playsinline muted autoplay></video>
-    <div class="pc-load" aria-hidden="true"><span></span></div>
+    <div class="pc-load" aria-hidden="true"></div>
     <button class="pc-x" data-act="pcam-close" aria-label="${tt('סגירה')}">✕</button>
     <div class="pc-fr" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <div class="pc-hint">${tt('כדאי שכל הצלחת תיכנס למסגרת')}<small>${tt('צלם מלמעלה, באור טוב')}</small></div>
@@ -6416,7 +6417,7 @@ async function pcamOpen(){
     </div>`;
   document.body.appendChild(el);
   const nc=NCam(); if(nc){ el.classList.add('native'); el.querySelector('video')?.remove(); document.documentElement.classList.add('pcam-on');
-    try{ await nc.start({position:'rear',toBack:true,disableAudio:true,enableHighResolution:true,lockAndroidOrientation:true}); _pcam='native'; if(!document.getElementById('pcam')){ nc.stop().catch(()=>{}); _pcam=null; } else setTimeout(()=>el.classList.add('ready'),250); }
+    try{ await nc.start({position:'rear',toBack:true,disableAudio:true,enableHighResolution:true,lockAndroidOrientation:true}); _pcam='native'; if(!document.getElementById('pcam')){ nc.stop().catch(()=>{}); _pcam=null; } else setTimeout(()=>el.classList.add('ready'),60); }
     catch(e){ console.error(e); pcamClose(); pcamPick(); }
     return; }
   try{ _pcam=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1440}},audio:false});
@@ -12209,8 +12210,8 @@ async function enterApp(user){
 try{ navigator.serviceWorker?.addEventListener('message',e=>{ if(e.data&&e.data.nr==='mv')mvSheet(); }); }catch(_){}
 function hideSplash(){
   const sp=$('#splash'); if(!sp)return;
-  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches, wait=rm?300:Math.max(300,1750-(Date.now()-(window.NR_SPLASH_T0||0)));
-  setTimeout(()=>{ sp.classList.add('out'); setTimeout(()=>sp.remove(),600); },wait);
+  const nat=document.documentElement.classList.contains('s-native'), rm=matchMedia('(prefers-reduced-motion: reduce)').matches, wait=!nat?0:rm?300:Math.max(300,1750-(Date.now()-(window.NR_SPLASH_T0||0)));
+  setTimeout(()=>{ sp.classList.add('out'); setTimeout(()=>sp.remove(),nat?600:160); },wait);
 }
 (async function boot(){
   render();
