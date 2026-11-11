@@ -110,7 +110,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" > "$RUNNER_TEMP/archive.log" 2>&1 \
             || { grep -E "error:|error -|No profiles|No signing|requires a provisioning|Provisioning|certificate" "$RUNNER_TEMP/archive.log" | sort -u | head -15 | sed 's/^/::error::/'; tail -40 "$RUNNER_TEMP/archive.log"; exit 1; }
           tail -5 "$RUNNER_TEMP/archive.log"
-          grep -q NR_META_SDK_LINKED "$RUNNER_TEMP/archive.log" && echo "Meta SDK compiled into AppDelegate ✓" || echo "::warning::FBSDKCoreKit not importable from the App target: Meta SDK will not start on iOS"
+          grep -q NrMetaPlugin ios/App/App/capacitor.config.json && echo "Meta SDK plugin registered ✓" || echo "::warning::NrMetaPlugin missing from the app: Meta SDK will not start on iOS"
           # $(AppIdentifierPrefix) is only expanded by a signed build; stamp the real prefix (the team ID) ourselves
           sed "s/\$(AppIdentifierPrefix)/$TEAM./g" App/App.entitlements > "$RUNNER_TEMP/app.entitlements"
           sed "s/\$(AppIdentifierPrefix)/$TEAM./g" NextRepWidget/NextRepWidget.entitlements > "$RUNNER_TEMP/widget.entitlements"

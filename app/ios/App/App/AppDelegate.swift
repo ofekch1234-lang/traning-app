@@ -1,9 +1,6 @@
 import UIKit
 import Capacitor
 import AVFoundation
-#if canImport(FBSDKCoreKit)
-import FBSDKCoreKit
-#endif
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,15 +10,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // The app's sounds and the silent exercise demo videos play alongside the user's music instead of stopping it
         try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default, options: [.mixWithOthers])
-        // Meta SDK (install attribution for ad campaigns): only when CI stamped the app id and client token into Info.plist.
-        // No tracking prompt: installs are counted through Apple's SKAdNetwork, aggregated and anonymous.
-        #if canImport(FBSDKCoreKit)
-        #warning("NR_META_SDK_LINKED")
-        let info = Bundle.main.infoDictionary ?? [:]
-        if let id = info["FacebookAppID"] as? String, !id.isEmpty, let tok = info["FacebookClientToken"] as? String, !tok.isEmpty {
-            ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        }
-        #endif
         return true
     }
 
