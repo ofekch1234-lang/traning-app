@@ -9,7 +9,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         // CI sets ANDROID_VERSION_CODE (the workflow run number) so every Play upload gets a higher code
         versionCode Integer.parseInt(System.getenv("ANDROID_VERSION_CODE") ?: "1")
-        versionName "1.0.1"
+        versionName "1.0.2"
         // Meta SDK: the app id ("fb" prefix keeps the manifest from reading it as a number) and the client token are
         // only set when CI provides META_CLIENT_TOKEN; without them the SDK stays off
         def fbTok = System.getenv("META_CLIENT_TOKEN") ?: ""
