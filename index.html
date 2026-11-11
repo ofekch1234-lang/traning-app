@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=1c9dc1c9"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=1c9dc1c9"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=1c9dc1c9"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=3cf74dde"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3cf74dde"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=3cf74dde"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2204,6 +2204,7 @@ body.landing header.top{background:#000!important;border-color:transparent!impor
 .cx-cta{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:6px}
 .cx-go{padding:15px 28px!important;font-size:17px!important;font-weight:800!important;border-radius:999px!important}
 .cx-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.as-badge{display:inline-flex;line-height:0;border-radius:11px;transition:transform .15s}.as-badge:active{transform:scale(.97)}.as-badge img{height:54px;width:auto;display:block}.as-badge.sm{align-self:center}.as-badge.sm img{height:44px}.lx-sticky .as-badge{pointer-events:auto;box-shadow:0 16px 36px -12px rgba(0,0,0,.6)}.lx-sticky:not(.on) .as-badge{pointer-events:none}.as-note{font-size:13.5px;color:var(--muted);margin-top:10px;text-align:center}.as-login{margin-top:10px}
 .cx-link{color:var(--accent);font-weight:600;font-size:17px;text-decoration:none}
 .cx-link::after{content:' ←'}[dir=ltr] .cx-link::after{content:' →'}
 .cx-link:hover{text-decoration:underline}
@@ -3158,7 +3159,7 @@ function vOtp(){
   return `<div id="authwrap" class="${code?'code':''}">
     <div class="logo"><img src="icon-192.png" alt=""><div class="brand" dir="ltr">Next<b>Rep</b></div>${code?'':langPillsHTML()}</div>
     <div class="card stack">
-      <h3 style="margin:0">${code?'📬 הקלד את הקוד מהמייל':'כניסה או הרשמה'}</h3>
+      <h3 style="margin:0">${code?'📬 הקלד את הקוד מהמייל':NO_WEB_SIGNUP?tt('כניסה לחשבון'):'כניסה או הרשמה'}</h3>
       ${code?`<div class="otp-mail"><span>✉️</span><b dir="ltr" data-notr>${esc(OTP.email)}</b><button class="linkbtn small" data-act="otp-change" style="padding:0">שינוי</button></div><div class="muted small">6 ספרות. הקוד תקף לשעה. לא רואה? בדוק בתיקיית הספאם.</div>`:`<div class="muted small">בלי סיסמה: מקלידים אימייל ומקבלים קוד חד-פעמי. אם אין לך חשבון, הוא ייפתח אוטומטית.</div>`}
       ${code&&OTP.note?`<div class="otp-note">${esc(tt(OTP.note))}</div>`:''}
       ${code?`<input id="otp-code" class="otp-in num" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" dir="ltr" placeholder="••••••">`
@@ -3169,6 +3170,7 @@ function vOtp(){
 `
         :`<div class="small muted gconsent" style="text-align:center">בהמשך אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>`}
       ${code?'':hoBtn}
+      ${!code&&NO_WEB_SIGNUP?`<div class="small muted" style="text-align:center">${tt('אין לך חשבון? ההרשמה היא באפליקציה')}</div>${storeBadge('sm')}`:''}
       ${code?'':`<button class="linkbtn" data-act="auth-g-reset" style="font-size:12.5px;color:var(--muted)">${{m:'פנייה בלשון זכר',f:'פנייה בלשון נקבה',x:'פנייה: לא משנה'}[window.NR_G]||''} · שינוי</button>`}
       ${code?'<button class="linkbtn" data-act="otp-back" style="color:var(--muted)">חזרה</button>':IS_STANDALONE?'':'<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>'}
     </div></div>`;
@@ -3178,13 +3180,13 @@ async function otpSend(){
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){OTP.err='הקלד אימייל תקין';render();return;}
   OTP.email=em; OTP.busy=true; OTP.err=''; render();
   let ref=null; try{ref=localStorage.getItem('nr-ref');}catch(_){}
-  const {error}=await sb.auth.signInWithOtp({email:em,options:{shouldCreateUser:true,data:Object.assign({lang:LANG,g:window.NR_G||null,terms_accepted:new Date().toISOString(),terms_v:'2026-10-20'},ref?{ref}:{})}});
+  const {error}=await sb.auth.signInWithOtp({email:em,options:{shouldCreateUser:!NO_WEB_SIGNUP,data:Object.assign({lang:LANG,g:window.NR_G||null,terms_accepted:new Date().toISOString(),terms_v:'2026-10-20'},ref?{ref}:{})}});
   OTP.busy=false;
   if(error){ const sec=/(\d+)\s*second/i.exec(error.message||'');
     if(sec){ // קוד כבר נשלח לפני פחות מדקה (למשל בדפדפן, רגע לפני שפתחו את האפליקציה): הוא עדיין בתוקף
       OTP.step='code'; OTP.until=Date.now()+(+sec[1]+1)*1000; OTP.note='שלחנו לך קוד לפני רגע, והוא עדיין בתוקף. הקלד את הקוד מהמייל האחרון.'; OTP.err='';
       render(); setTimeout(()=>$('#otp-code')?.focus(),60); setTimeout(()=>{ if(OTP.step==='code')render(); },(+sec[1]+1.5)*1000); return; }
-    OTP.err=/rate|limit/i.test(error.message)?'נשלחו הרבה קודים בזמן קצר. נסה שוב בעוד כמה דקות, או היכנס עם סיסמה.':'שליחת הקוד נכשלה. נסה שוב.'; render(); return; }
+    OTP.err=/signups? not allowed|not found/i.test(error.message||'')?'לא מצאנו חשבון עם המייל הזה. ההרשמה היא באפליקציה.':/rate|limit/i.test(error.message)?'נשלחו הרבה קודים בזמן קצר. נסה שוב בעוד כמה דקות, או היכנס עם סיסמה.':'שליחת הקוד נכשלה. נסה שוב.'; render(); return; }
   OTP.note=''; OTP.step='code'; OTP.until=Date.now()+60000; render(); setTimeout(()=>$('#otp-code')?.focus(),60);
   setTimeout(()=>{ if(OTP.step==='code')render(); },61000);
 }
@@ -3353,6 +3355,9 @@ function landSetG(g){
   document.querySelectorAll('img').forEach(i=>{ const v=i.getAttribute('src')||''; const n=g==='f'?v.replace(/img\/kobi-([a-z]+)\.svg/,'img/kobi-$1-f.svg').replace(/^icon-192\.png/,'icon-f-192.png'):v.replace(/img\/kobi-([a-z]+)-f\.svg/,'img/kobi-$1.svg').replace(/^icon-f-192\.png/,'icon-192.png'); if(n!==v)i.setAttribute('src',n); });
 }
 function landGenderHTML(){ const g=window.NR_G; return `<div class="ld-g" data-notr><span>${tt('הדף מותאם ל:')}</span><div class="ld-gsw"><button class="${g==='f'?'':'on'}" data-act="land-g" data-v="m">🙋‍♂️ ${tt('גבר')}</button><button class="${g==='f'?'on':''}" data-act="land-g" data-v="f">🙋‍♀️ ${tt('אישה')}</button></div></div>`; }
+/* the website no longer signs people up: new users install the app (App Store now, Google Play once approved); existing users still log in here */
+const APPSTORE_URL='https://apps.apple.com/il/app/id6826127248', NO_WEB_SIGNUP=!(window.Capacitor&&typeof window.Capacitor.isNativePlatform==='function'&&window.Capacitor.isNativePlatform());
+const storeBadge=(cls='')=>`<a class="as-badge ${cls}" href="${APPSTORE_URL}" target="_blank" rel="noopener" aria-label="${tt('להורדה מ-App Store')}"><img src="img/appstore-badge.svg" alt="Download on the App Store" width="180" height="60"></a>`;
 function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>`img/shots/${LANG==='he'?'he':'en'}-${F?'f':'m'}-${k}.webp`;
   const ring=(p)=>{const r=20,c=2*Math.PI*r;return `<svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/>
     <circle id="ld-ring" cx="25" cy="25" r="${r}" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p)).toFixed(1)}" transform="rotate(-90 25 25)"/></svg>`;};
@@ -3389,7 +3394,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
   <section class="cx-hero" id="lx-hero">
     <h1 class="cx-h1">${tt('תוכנית אימונים, תזונה AI ומאמן אישי שמכיר אותך.')}</h1>
     <p class="cx-sub">${tt('אפליקציה אחת שהופכת כל אימון לצעד קדימה.')}</p>
-    <div class="cx-cta"><button class="btn primary cx-go" data-act="land-signup">${tt('שבוע ראשון חינם')}</button><a class="cx-link" href="#cx-how">${tt('איך זה עובד')}</a></div>
+    <div class="cx-cta">${NO_WEB_SIGNUP?storeBadge():`<button class="btn primary cx-go" data-act="land-signup">${tt('שבוע ראשון חינם')}</button>`}<a class="cx-link" href="#cx-how">${tt('איך זה עובד')}</a></div>${NO_WEB_SIGNUP?`<div class="as-note">${tt('שבוע ראשון חינם')} · ${tt('בקרוב גם ב-Google Play')}</div>`:''}
     <div class="cx-stage" aria-hidden="true"><div class="cx-glow"></div>
       <div class="cx-ph side l"><img src="${shot('food')}" alt=""></div><div class="cx-ph side r"><img src="${shot('track')}" alt=""></div><div class="cx-ph main"><img src="${shot('active')}" alt="" loading="eager"></div>
     </div>
@@ -3486,11 +3491,11 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
   <section class="cx-end lx-end">
     <div class="cx-glow"></div>
     <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
-    <button class="btn primary cx-go" data-act="land-signup">${tt('אני רוצה להתחיל')}</button>
+    ${NO_WEB_SIGNUP?storeBadge()+`<div class="as-note">${tt('בקרוב גם ב-Google Play')}</div><button class="linkbtn as-login" data-act="land-login">${tt('כבר יש לך חשבון? התחבר')}</button>`:`<button class="btn primary cx-go" data-act="land-signup">${tt('אני רוצה להתחיל')}</button>`}
   </section>
   ${LANG!=='en'?`<nav class="ld-tools" aria-label="${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}"><b>${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}</b><div>${(LANG==='ar'?[['/ar/calc/','حاسبة السعرات اليومية'],['/ar/calc/bmi','حاسبة BMI'],['/ar/calc/protein','حاسبة البروتين'],['/ar/food/','جدول السعرات للأطعمة'],['/ar/guide/','أدلة التمارين والتغذية']]:[['/calc/','מחשבון קלוריות יומי'],['/calc/bmi','מחשבון BMI'],['/calc/protein','מחשבון חלבון'],['/food/','טבלת קלוריות למזון'],['/guide/','מדריכי אימון ותזונה']]).map(([h,t])=>`<a href="${h}" data-notr>${t}</a>`).join('')}</div></nav>`:''}
   <div class="ld-foot">${langPillsHTML()}<div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:support@nextrep.co.il">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
-  <div class="lx-sticky" id="lx-sticky"><button class="btn primary" data-act="land-signup">${tt('שבוע ראשון חינם')} · ${tt('להתחלה')}</button></div>
+  <div class="lx-sticky" id="lx-sticky">${NO_WEB_SIGNUP?storeBadge('st'):`<button class="btn primary" data-act="land-signup">${tt('שבוע ראשון חינם')} · ${tt('להתחלה')}</button>`}</div>
   </div>`;
 }
 function landFx(){
@@ -3520,7 +3525,7 @@ function startLandTimer(){
 
 /* ----- auth screen ----- */
 function vAuth(){ if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOGLE)))return vOtp(); if(SHOW_GOOGLE&&(GOOGLE_ON&&GSI_MOBILE_REDIRECT||GOOGLE_ON&&!IS_STANDALONE&&!GSI_TOUCH)){gsiLoad(); setTimeout(gsiMount,0);}
-  const su=S.authMode==='signup';
+  if(NO_WEB_SIGNUP)S.authMode='login'; const su=S.authMode==='signup';
   const showForm=!(GOOGLE_ON&&SHOW_GOOGLE)||S.authEmailOpen; // with Google on, the email form opens on demand
   return `<div id="authwrap">
     <div class="logo">
@@ -3544,7 +3549,7 @@ function vAuth(){ if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOG
       <button class="btn primary big" data-act="auth-go" id="authgo">${su?'הרשמה':'התחברות'}</button>
       ${su?'':`<button class="linkbtn" data-act="auth-forgot" style="font-size:13.5px">שכחתי סיסמה</button>`}
       <div class="small muted" style="text-align:center"><a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="terms.html" target="_blank">תקנון</a> · <a class="linkbtn" style="font-size:12.5px;color:var(--muted)" href="privacy.html" target="_blank">פרטיות</a></div>
-      <button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם, שבוע ראשון חינם'}</button>
+      ${NO_WEB_SIGNUP?`<div class="small muted" style="text-align:center">${tt('אין לך חשבון? ההרשמה היא באפליקציה')}</div>${storeBadge('sm')}`:`<button class="linkbtn" data-act="auth-toggle">${su?'כבר יש לך חשבון? התחבר':'אין לך חשבון? הירשם, שבוע ראשון חינם'}</button>`}
       ${OTP_ON?'<button class="linkbtn" data-act="otp-back">✉️ כניסה עם קוד למייל, בלי סיסמה</button>':''}`:''}
       ${IS_STANDALONE?'':`<button class="linkbtn" data-act="land-back" style="color:var(--muted)">חזרה לדף הבית</button>`}
     </div>
@@ -11896,7 +11901,7 @@ function handleAct(b,ev){
       break; }
     case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-g': { if(b.dataset.v!==window.NR_G)landSetG(b.dataset.v); return true; }
-    case 'land-signup': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
+    case 'land-signup': if(NO_WEB_SIGNUP){ try{logEv('store_click',{s:'ios'});}catch(_){} window.open(APPSTORE_URL,'_blank','noopener'); return true; } if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
     case 'land-login': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
@@ -11979,7 +11984,7 @@ function handleAct(b,ev){
     case 'auth-g-reset': { const wasF=window.NR_G==='f'; try{ localStorage.removeItem('nr-g'); localStorage.removeItem('nr-acc'); sessionStorage.setItem('nr-auth-open',JSON.stringify({m:S.authMode||'login',e:''})); }catch(_){}
       if(wasF){ location.reload(); return; } window.NR_G=null; render(); break; }
     case 'auth-email-open': S.authEmailOpen=true; render(); setTimeout(()=>($('#au-name')||$('#au-email'))?.focus(),50); break;
-    case 'auth-toggle': S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
+    case 'auth-toggle': if(NO_WEB_SIGNUP)break; S.authEmail=$('#au-email')?.value||S.authEmail; S.authMode=S.authMode==='signup'?'login':'signup'; render(); break;
     case 'logout':
       if(b.dataset.sure){sb.auth.signOut();}
       else{b.dataset.sure='1';b.textContent='בטוח? יציאה';setTimeout(()=>{delete b.dataset.sure;if(b.isConnected)b.textContent='יציאה';},2500);}
