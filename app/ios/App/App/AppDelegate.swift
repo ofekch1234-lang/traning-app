@@ -10,7 +10,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // The app's sounds and the silent exercise demo videos play alongside the user's music instead of stopping it
         try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default, options: [.mixWithOthers])
+        startMetaSDK()
         return true
+    }
+
+    /// Meta SDK (install attribution for ad campaigns). The SDK ships inside the app through the social-login plugin, but its
+    /// module is not visible from this target, so it is started through the Objective-C runtime. Runs only when CI stamped
+    /// FacebookAppID and FacebookClientToken into Info.plist; does nothing if the SDK is absent. No tracking prompt:
+    /// on iOS, installs are attributed through Apple's SKAdNetwork (aggregated, anonymous).
+    private func startMetaSDK() {
+        let info = Bundle.main.infoDictionary ?? [:]
+        guard let id = info["FacebookAppID"] as? String, !id.isEmpty,
+              let tok = info["FacebookClientToken"] as? String, !tok.isEmpty else { return }
+        func shared(_ name: String) -> NSObject? {
+            guard let cls = NSClassFromString(name) else { return nil }
+            let sel = NSSelectorFromString("sharedInstance")
+            guard (cls as AnyObject).responds(to: sel) else { return nil }
+            return (cls as AnyObject).perform(sel)?.takeUnretainedValue() as? NSObject
+        }
+        if let sdk = shared("FBSDKApplicationDelegate") {
+            let start = NSSelectorFromString("initializeSDK")
+            if sdk.responds(to: start) { _ = sdk.perform(start) }
+        }
+        if let events = shared("FBSDKAppEvents") {
+            let activate = NSSelectorFromString("activateApp")
+            if events.responds(to: activate) { _ = events.perform(activate) }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
