@@ -29,6 +29,8 @@ jobs:
   android:
     runs-on: ubuntu-latest
     defaults: { run: { working-directory: app } }
+    env:
+      META_CLIENT_TOKEN: ${{ secrets.META_CLIENT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -110,11 +112,13 @@ jobs:
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" > "$RUNNER_TEMP/archive.log" 2>&1 \
             || { grep -E "error:|error -|No profiles|No signing|requires a provisioning|Provisioning|certificate" "$RUNNER_TEMP/archive.log" | sort -u | head -15 | sed 's/^/::error::/'; tail -40 "$RUNNER_TEMP/archive.log"; exit 1; }
           tail -5 "$RUNNER_TEMP/archive.log"
-          # the Meta SDK is linked statically through the social-login plugin: its Objective-C classes must be in the app binary
+          # the Meta SDK comes in through the social-login plugin (SocialLogin.providers.facebook in capacitor.config.json).
+          # AppDelegate only names its classes as strings, so look for SDK symbols the app itself never spells out.
           APPB="$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app"
-          for c in FBSDKApplicationDelegate FBSDKAppEvents; do
-            { strings - "$APPB/App"; ls "$APPB/Frameworks" 2>/dev/null; } | grep -q "$c" && echo "Meta SDK: $c in the app ✓" || echo "::warning::Meta SDK class $c not in the app: Meta SDK will not start on iOS"
-          done
+          FBFW=$(ls "$APPB/Frameworks" 2>/dev/null | grep -c FBSDKCoreKit || true)
+          FBSYM=$(strings - "$APPB/App" | grep -c FBSDKGraphRequest || true)
+          echo "Meta SDK: frameworks=$FBFW symbols=$FBSYM"
+          if [ "$FBFW" -gt 0 ] || [ "$FBSYM" -gt 0 ]; then echo "Meta SDK: in the app ✓"; else echo "::warning::Meta SDK is not in the app: it will not start on iOS"; fi
           # $(AppIdentifierPrefix) is only expanded by a signed build; stamp the real prefix (the team ID) ourselves
           sed "s/\$(AppIdentifierPrefix)/$TEAM./g" App/App.entitlements > "$RUNNER_TEMP/app.entitlements"
           sed "s/\$(AppIdentifierPrefix)/$TEAM./g" NextRepWidget/NextRepWidget.entitlements > "$RUNNER_TEMP/widget.entitlements"
