@@ -72,6 +72,7 @@ jobs:
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       TEAM: ${{ secrets.APPLE_TEAM_ID }}
       BUILD: ${{ github.run_number }}
+      META_CLIENT_TOKEN: ${{ secrets.META_CLIENT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -88,6 +89,14 @@ jobs:
           test -n "$ASC_KEY_ID" -a -n "$ASC_ISSUER_ID" -a -n "$TEAM" -a -n "$ASC_KEY_P8" || { echo "::error::Missing ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_P8 / APPLE_TEAM_ID secrets"; exit 1; }
           mkdir -p "$RUNNER_TEMP/keys"; printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8"
           echo "KEY=$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
+      - name: Meta SDK keys (only when the META_CLIENT_TOKEN secret exists)
+        run: |
+          P=ios/App/App/Info.plist
+          if [ -n "$META_CLIENT_TOKEN" ]; then
+            /usr/libexec/PlistBuddy -c "Add :FacebookAppID string 1655465932918983" "$P"
+            /usr/libexec/PlistBuddy -c "Add :FacebookClientToken string $META_CLIENT_TOKEN" "$P"
+            echo "Meta SDK: on"
+          else echo "::warning::META_CLIENT_TOKEN secret missing: Meta SDK stays off in this build"; fi
       - name: App ID capabilities (Sign in with Apple) + widget App ID
         run: node scripts/asc-capability.js
       - name: Archive (Release)
@@ -101,6 +110,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" > "$RUNNER_TEMP/archive.log" 2>&1 \
             || { grep -E "error:|error -|No profiles|No signing|requires a provisioning|Provisioning|certificate" "$RUNNER_TEMP/archive.log" | sort -u | head -15 | sed 's/^/::error::/'; tail -40 "$RUNNER_TEMP/archive.log"; exit 1; }
           tail -5 "$RUNNER_TEMP/archive.log"
+          grep -q NR_META_SDK_LINKED "$RUNNER_TEMP/archive.log" && echo "Meta SDK compiled into AppDelegate ✓" || echo "::warning::FBSDKCoreKit not importable from the App target: Meta SDK will not start on iOS"
           # $(AppIdentifierPrefix) is only expanded by a signed build; stamp the real prefix (the team ID) ourselves
           sed "s/\$(AppIdentifierPrefix)/$TEAM./g" App/App.entitlements > "$RUNNER_TEMP/app.entitlements"
           sed "s/\$(AppIdentifierPrefix)/$TEAM./g" NextRepWidget/NextRepWidget.entitlements > "$RUNNER_TEMP/widget.entitlements"
@@ -143,6 +153,7 @@ jobs:
     env:
       ANDROID_VERSION_CODE: ${{ github.run_number }}
       ANDROID_KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+      META_CLIENT_TOKEN: ${{ secrets.META_CLIENT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

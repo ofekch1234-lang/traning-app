@@ -52,6 +52,11 @@
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
+        <!-- Meta SDK (install attribution for ad campaigns). Empty unless CI builds with META_CLIENT_TOKEN. -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="${fbAppId}" />
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="${fbClientToken}" />
+        <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="true" />
+        <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled" android:value="false" />
     </application>
 
     <!-- Permissions -->
