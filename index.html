@@ -2444,7 +2444,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.257';
+const APP_VERSION='13.3.259';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3103,8 +3103,8 @@ function render_(){
   if(S.mode==='boot'){v.innerHTML=`<div class="empty"><div class="big">טוען…</div>מתחבר לנתונים שלך</div>`;return;}
   if(S.mode==='paywall'){document.body.classList.remove('landing');$('#landlogin').hidden=true;v.innerHTML=vPaywall(true);return;}
   if(S.mode==='pending'){v.innerHTML=vPending();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
-  const showLand=S.mode==='auth'&&!S.showAuth&&!IS_STANDALONE;
-  document.body.classList.toggle('landing',showLand); $('#landlogin').hidden=!showLand;
+  const showLand=S.mode==='auth'&&(!WEB_LOGIN||!S.showAuth&&!IS_STANDALONE);
+  document.body.classList.toggle('landing',showLand); $('#landlogin').hidden=!showLand||!WEB_LOGIN;
   if(showLand){v.innerHTML=vLanding();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}startLandTimer();return;}
   if(S.mode==='auth'){v.innerHTML=vAuth();if(moved){v.classList.remove('anim');void v.offsetWidth;v.classList.add('anim');}return;}
   if(S.tab!=='home')CO.open=false;
@@ -3358,6 +3358,7 @@ function landSetG(g){
 function landGenderHTML(){ const g=window.NR_G; return `<div class="ld-g" data-notr><span>${tt('הדף מותאם ל:')}</span><div class="ld-gsw"><button class="${g==='f'?'':'on'}" data-act="land-g" data-v="m">🙋‍♂️ ${tt('גבר')}</button><button class="${g==='f'?'on':''}" data-act="land-g" data-v="f">🙋‍♀️ ${tt('אישה')}</button></div></div>`; }
 /* the website no longer signs people up: new users install the app (App Store now, Google Play once approved); existing users still log in here */
 const APPSTORE_URL='https://apps.apple.com/il/app/id6826127248', NO_WEB_SIGNUP=!(window.Capacitor&&typeof window.Capacitor.isNativePlatform==='function'&&window.Capacitor.isNativePlatform());
+const WEB_LOGIN=!NO_WEB_SIGNUP||/(^|[?&#])login\b/.test(location.search.slice(1)+'&'+location.hash.slice(1))||/type=recovery/.test(location.hash+location.search);
 const storeBadge=(cls='')=>`<a class="as-badge ${cls}" href="${APPSTORE_URL}" target="_blank" rel="noopener" aria-label="${tt('להורדה מ-App Store')}"><img src="img/appstore-badge.svg" alt="Download on the App Store" width="180" height="60"></a>`;
 function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>`img/shots/${LANG==='he'?'he':'en'}-${F?'f':'m'}-${k}.webp`;
   const ring=(p)=>{const r=20,c=2*Math.PI*r;return `<svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="${r}" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/>
@@ -3494,7 +3495,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
   <section class="cx-end lx-end">
     <div class="cx-glow"></div>
     <h2>${F?'האימון הבא שלך יכול להיות הראשון שבאמת נספר':'האימון הבא שלך יכול להיות הראשון שנספר'}</h2>
-    ${NO_WEB_SIGNUP?storeBadge()+`<div class="as-note">${tt('בקרוב גם ב-Google Play')}</div><button class="linkbtn as-login" data-act="land-login">${tt('כבר יש לך חשבון? התחבר')}</button>`:`<button class="btn primary cx-go" data-act="land-signup">${tt('אני רוצה להתחיל')}</button>`}
+    ${NO_WEB_SIGNUP?storeBadge()+`<div class="as-note">${tt('בקרוב גם ב-Google Play')}</div>${WEB_LOGIN?`<button class="linkbtn as-login" data-act="land-login">${tt('כבר יש לך חשבון? התחבר')}</button>`:''}`:`<button class="btn primary cx-go" data-act="land-signup">${tt('אני רוצה להתחיל')}</button>`}
   </section>
   ${LANG!=='en'?`<nav class="ld-tools" aria-label="${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}"><b>${LANG==='ar'?'أدوات مجانية':'כלים חינמיים'}</b><div>${(LANG==='ar'?[['/ar/calc/','حاسبة السعرات اليومية'],['/ar/calc/bmi','حاسبة BMI'],['/ar/calc/protein','حاسبة البروتين'],['/ar/food/','جدول السعرات للأطعمة'],['/ar/guide/','أدلة التمارين والتغذية']]:[['/calc/','מחשבון קלוריות יומי'],['/calc/bmi','מחשבון BMI'],['/calc/protein','מחשבון חלבון'],['/food/','טבלת קלוריות למזון'],['/guide/','מדריכי אימון ותזונה']]).map(([h,t])=>`<a href="${h}" data-notr>${t}</a>`).join('')}</div></nav>`:''}
   <div class="ld-foot">${langPillsHTML()}<div class="ld-legal"><a href="terms.html">תקנון ותנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">נגישות</a><a href="mailto:support@nextrep.co.il">צור קשר</a></div><div dir="ltr" style="margin-top:8px">© ${new Date().getFullYear()} NextRep</div></div>
@@ -10394,7 +10395,8 @@ const TOUR_STEPS=[
 /* per-screen tours: the first time a new user opens a screen, a short tour of just that screen */
 function toursSeen(){ if(!S.settings.toursSeen||typeof S.settings.toursSeen!=='object'){ let ls={}; try{ls=JSON.parse(localStorage.getItem('nr-tours')||'{}')||{};}catch(_){} S.settings.toursSeen=ls; } return S.settings.toursSeen; }
 // back on the sign-in screen after a language switch (the page reloads)
-try{ const a=JSON.parse(sessionStorage.getItem('nr-auth-open')||'null'); if(a){ sessionStorage.removeItem('nr-auth-open'); S.showAuth=true; S.authMode=a.m||'login'; if(a.e){S.authEmail=a.e; OTP.email=a.e;} } }catch(_){}
+try{ const a=JSON.parse(sessionStorage.getItem('nr-auth-open')||'null'); if(a){ sessionStorage.removeItem('nr-auth-open'); S.showAuth=WEB_LOGIN; S.authMode=a.m||'login'; if(a.e){S.authEmail=a.e; OTP.email=a.e;} } }catch(_){}
+if(NO_WEB_SIGNUP&&WEB_LOGIN){ S.showAuth=true; S.authMode='login'; }
 /* which screen the user is looking at, for its first-time tour */
 const tourGrp=()=>S.active&&S.tab==='train'?'active':S.tab==='food'&&S.menuOpen?'menu':S.tab;
 const TOUR_NEW=['menu']; // redesigned screens: shown once to everyone, not only to new users
@@ -11933,7 +11935,7 @@ function handleAct(b,ev){
     case 'train-view': S.trainView=b.dataset.v; render(); break;
     case 'land-g': { if(b.dataset.v!==window.NR_G)landSetG(b.dataset.v); return true; }
     case 'land-signup': if(NO_WEB_SIGNUP){ try{logEv('store_click',{s:'ios'});}catch(_){} window.open(APPSTORE_URL,'_blank','noopener'); return true; } if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'signup',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='signup'; render(); window.scrollTo(0,0); setTimeout(()=>$('#au-name')?.focus(),50); break;
-    case 'land-login': if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
+    case 'land-login': if(!WEB_LOGIN){ window.open(APPSTORE_URL,'_blank','noopener'); return true; } if(LANG==='he'&&window.NR_G==='f'&&!window.I18N_DATA){ try{sessionStorage.setItem('nr-auth-open',JSON.stringify({m:'login',e:''}));}catch(_){} location.reload(); return; } S.showAuth=true; S.authMode='login'; render(); window.scrollTo(0,0); break;
     case 'land-back': S.showAuth=false; render(); window.scrollTo(0,0); break;
     case 'access-recheck': if(S.user)enterApp(S.user); break;
     case 'access-logout': sb.auth.signOut(); break;
