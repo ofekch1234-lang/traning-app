@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=e034893d"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=e034893d"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=e034893d"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=3fc119d6"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3fc119d6"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=3fc119d6"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2443,7 +2443,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.253';
+const APP_VERSION='13.3.255';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3385,7 +3385,9 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
   ];
   const minPm=Math.min(...LP.plans.map(p=>p.price/p.months)), pmTxt=`₪${minPm.toFixed(1).replace(/\.0$/,'')}`;
   faq[0]=['כמה זה עולה?',`שבוע ראשון חינם, עם הכל פתוח ובלי כרטיס אשראי. אחר כך בוחרים מסלול של 4 חודשים, חצי שנה או שנה, החל מ-${pmTxt} לחודש. תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות. האימונים והנתונים שלך נשמרים תמיד.`];
-  const steps=[['נרשמים במייל','בלי סיסמה ובלי כרטיס אשראי. 30 שניות.'],[F?'מקבלת תוכנית':'מקבל תוכנית',F?'עונה על כמה שאלות, והתוכנית והיעד התזונתי מוכנים.':'עונה על כמה שאלות, והתוכנית והיעד התזונתי מוכנים.'],['מתאמנים',F?'כל סט נשמר, והמשקל מהפעם הקודמת כבר מחכה לך.':'כל סט נשמר, והמשקל מהפעם הקודמת כבר מחכה לך.']];
+  if(NO_WEB_SIGNUP){ const k=faq.findIndex(x=>x[0]==='צריך להוריד משהו מחנות האפליקציות?'); if(k>=0)faq[k]=['איפה מורידים את האפליקציה?','באייפון: מה-App Store. באנדרואיד: בקרוב ב-Google Play.']; }
+  if(NO_WEB_SIGNUP)faq[0]=['כמה זה עולה?','ההורדה חינם, והשבוע הראשון חינם עם הכל פתוח. אחר כך בוחרים מנוי בתוך האפליקציה. האימונים והנתונים שלך נשמרים תמיד.'];
+  const steps=[NO_WEB_SIGNUP?['מורידים את האפליקציה','חינם מה-App Store. ההרשמה לוקחת 30 שניות.']:['נרשמים במייל','בלי סיסמה ובלי כרטיס אשראי. 30 שניות.'],[F?'מקבלת תוכנית':'מקבל תוכנית',F?'עונה על כמה שאלות, והתוכנית והיעד התזונתי מוכנים.':'עונה על כמה שאלות, והתוכנית והיעד התזונתי מוכנים.'],['מתאמנים',F?'כל סט נשמר, והמשקל מהפעם הקודמת כבר מחכה לך.':'כל סט נשמר, והמשקל מהפעם הקודמת כבר מחכה לך.']];
   let inv=null, refd=null; try{inv=localStorage.getItem('nr-join'); refd=localStorage.getItem('nr-ref');}catch(_){}
   const kg=tt('ק״ג');
   return `<div class="ld cx">
@@ -3470,7 +3472,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
     </div>
   </section>
 
-  <section class="cx-price" id="ld-pricing">
+  ${NO_WEB_SIGNUP?'':`<section class="cx-price" id="ld-pricing">
     <h2>שבוע ראשון חינם</h2>
     <p class="cx-p">בלי כרטיס אשראי. ${LP.trial} ימים עם הכל פתוח, ואחר כך ${LW('בוחר','בוחרת')} מסלול. האימונים והנתונים שלך נשמרים תמיד.</p>
     <div class="ld-prices cx-plans">
@@ -3481,7 +3483,7 @@ function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>
         <span class="pm">₪${pm.toFixed(pm<10?2:1).replace(/\.?0+$/,'')} לחודש, תשלום אחד בלי התחייבות</span></button>`;}).join('')}
     </div>
     ${NOREF()?'':`<div class="cx-note">${LW('הזמנת חבר? הוא מקבל 14 ימים חינם, ואתה חודש חינם כשהוא רוכש מנוי.','הזמנת חברה? היא מקבלת 14 ימים חינם, ואת חודש חינם כשהיא רוכשת מנוי.')}</div>`}
-  </section>
+  </section>`}
 
   <section class="cx-faq">
     <h2>שאלות לפני שמתחילים</h2>
