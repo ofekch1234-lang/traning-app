@@ -4,6 +4,11 @@ const fs=require('fs'),path=require('path');
 const ROOT=path.resolve(__dirname,'../..'),OUT=path.join(ROOT,'dist'),SITE='https://www.nextrep.co.il';
 // Hebrew + Arabic only for now (English nutrition searches are dominated by global sites); skip survey aggregates (FFQ), zero-calorie items and baby formula
 const LANGS=['he','ar'];
+// Search index: only the foods worth a search result (staples + the foods people actually look up). Every other food page stays
+// online for visitors and links, but is noindex and out of the sitemap: thousands of near-identical generated pages made Google
+// drop the whole site in late October 2026 (crawled, not indexed). Add a food here when it has its own search demand.
+const INDEXED=new Set(JSON.parse(fs.readFileSync(path.join(__dirname,'indexed-foods.json'),'utf8')).map(Number));
+const indexable=f=>!!f.g||INDEXED.has(+f.c);
 const foods=JSON.parse(fs.readFileSync(path.join(__dirname,'foods.json'),'utf8')).filter(f=>!/^\s*ffq/i.test(f.n)&&+f.k>0&&!/^(תמ"ל|תמ"י|תחליף חלב)/.test(f.n));
 // Hebrew 'one' agrees with the unit's gender: כוס אחת, שוט/ספל אחד
 const oneHe=u=>/^(שוט|ספל|גביע|בקבוק|קרטון|עיגול|ריבוע|סקופ|משולש|קוביה גדול|חטיף|כדור)/.test(String(u&&u.u||''))?'אחד':'אחת';
@@ -175,7 +180,7 @@ function foodPage(f,l){
   const ld=[{"@context":"https://schema.org","@type":"NutritionInformation","name":n,"calories":`${kU} calories`,"servingSize":u?`${unitName(u,l)} (${u.g} g)`:"100 g","proteinContent":`${pU} g`,"carbohydrateContent":`${cU} g`,"fatContent":`${fU} g`},
     {"@context":"https://schema.org","@type":"FAQPage","mainEntity":faq.map(([q,a])=>({"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}}))},
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":t.crumb,"item":SITE+indexPath(l)},{"@type":"ListItem","position":2,"name":catName(f.cat,l),"item":SITE+catPath(f.cat,l)},{"@type":"ListItem","position":3,"name":n}]}];
-  return HEAD(l,title,desc,canon,alts,`<script type="application/ld+json">${JSON.stringify(ld)}</script>`)+`
+  return HEAD(l,title,desc,canon,alts,`${indexable(f)?'':'<meta name="robots" content="noindex,follow">'}<script type="application/ld+json">${JSON.stringify(ld)}</script>`)+`
 <div class="crumb"><a href="${indexPath(l)}">${t.crumb}</a> › <a href="${catPath(f.cat,l)}">${catName(f.cat,l)}</a> › ${esc(n)}</div>
 <h1>${esc(t.h1(n))}</h1><div class="sub">${t.sub}${UPDATED[l]}.</div>
 <div class="card"><div class="big"><b>${nf(kU)}</b><span>${u?t.in(esc(unitName(u,l)),u.g):`${t.kcal} ${t.per100}`}</span></div>
@@ -218,7 +223,7 @@ const SKIP=new Set(['dist','node_modules','.git','tools','supabase','.vercel','R
 for(const f of fs.readdirSync(ROOT)){ if(SKIP.has(f))continue; cp(path.join(ROOT,f),path.join(OUT,f)); }
 let n=0; const urls={he:[],en:[],ar:[]};
 for(const l of LANGS){
-  for(const f of foods){ w(pathOf(f,l),foodPage(f,l)); urls[l].push(pathOf(f,l)); n++; }
+  for(const f of foods){ w(pathOf(f,l),foodPage(f,l)); if(indexable(f))urls[l].push(pathOf(f,l)); n++; }
   for(const id of [...CATS.map(c=>c[0]),'other']){ if(!byCat[id]?.length)continue; w(catPath(id,l),catPage(id,l)); urls[l].push(catPath(id,l)); }
   w(indexPath(l),indexPage(l)); urls[l].push(indexPath(l));
   w(indexPath(l)+'index.json',JSON.stringify(foods.map(f=>[nameOf(f,l),r0(f.k),pathOf(f,l)])));
