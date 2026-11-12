@@ -2453,7 +2453,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.262';
+const APP_VERSION='13.3.263';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3299,7 +3299,7 @@ function socialProfileFix(){
 }
 /* מי שנרשם עם מייל בלבד: שואלים איך לפנות אליו. בכל פתיחה עד שעונה, "אחר כך" דוחה ליום, ואחרי 3 דחיות מפסיקים */
 function askName(force,tries){
-  const md=S.user?.user_metadata||{}; if(!S.user||String(md.full_name||md.name||'').trim())return false;
+  const md=S.user?.user_metadata||{}; if(!S.user||String(md.full_name||md.name||window.NR_OAUTH_NAME||'').trim())return false; // NR_OAUTH_NAME: Apple gave a name that is still being saved
   if(TOUR.on||$('#instgate')||!$('#sheet').hidden||!$('#np').hidden||S.active&&S.tab==='train'){ if((tries||0)<40)setTimeout(()=>askName(force,(tries||0)+1),6000); return false; }
   let a={}; try{ a=JSON.parse(localStorage.getItem('nr-name-ask')||'{}')||{}; }catch(_){}
   if(!force&&((a.n||0)>=3||Date.now()<(a.until||0)))return false;
@@ -4342,7 +4342,7 @@ function openUnitsSheet(){
 function openGenderSheet(first){
   const sx=S.settings.body?.sex||PB?.a?.sex||null, cur=S.settings.g||null;
   const opt=(v,e,l,d)=>`<button class="pb-opt ${(cur||sx)===v?'on':''}" data-act="g-set" data-v="${v}" data-first="${first?1:''}"><b>${e} ${l}</b>${d?`<small>${d}</small>`:''}</button>`;
-  const md=S.user?.user_metadata||{}, noName=first&&!String(md.full_name||md.name||'').trim();
+  const md=S.user?.user_metadata||{}, noName=first&&!String(md.full_name||md.name||window.NR_OAUTH_NAME||'').trim();
   // first time without a name: step 1 is the name, then how to address you
   if(noName){ openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>היי, אני מקס 👋 איך קוראים לך?</b><span>ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.</span></div></div>
       <input id="g-name" type="text" autocomplete="name" enterkeyhint="next" maxlength="60" placeholder="${tt('שם מלא')}">
