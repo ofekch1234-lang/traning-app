@@ -2453,7 +2453,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.261';
+const APP_VERSION='13.3.262';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3304,7 +3304,7 @@ function askName(force,tries){
   let a={}; try{ a=JSON.parse(localStorage.getItem('nr-name-ask')||'{}')||{}; }catch(_){}
   if(!force&&((a.n||0)>=3||Date.now()<(a.until||0)))return false;
   openSheet(`<div class="tgw-q" style="margin:0 0 14px"><img src="img/kobi-wink.svg" alt=""><div><b>איך קוראים לך? 👋</b><span>${G('ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.','ככה אפנה אלייך באפליקציה, וככה יראו אותך החברות והחברים בקבוצות.','ככה נפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.')}</span></div></div>
-    <input id="set-name" type="text" autocomplete="given-name" enterkeyhint="done" maxlength="40" placeholder="${tt('השם שלך')}">
+    <input id="set-name" type="text" autocomplete="name" enterkeyhint="done" maxlength="60" placeholder="${tt('שם מלא')}">
     <button class="btn primary big" style="margin-top:12px" data-act="save-name">שמירה</button>
     <button class="nc-later" data-act="name-later">אחר כך</button>`);
   setTimeout(()=>$('#set-name')?.focus(),120); return true;
@@ -3552,7 +3552,7 @@ function vAuth(){ if(OTP.step||(OTP_ON&&!S.authEmailOpen&&!(GOOGLE_ON&&SHOW_GOOG
       <div class="small muted gconsent" style="text-align:center;margin-top:-4px">בהמשך עם Google אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a> ול<a href="privacy.html" target="_blank">מדיניות הפרטיות</a></div>
       ${showForm?'<div class="fi-or"><span>או עם אימייל וסיסמה</span></div>':OTP_ON?'<button class="btn" data-act="otp-open">✉️ קבל קוד למייל</button>':'<button class="btn" data-act="auth-email-open">✉️ המשך עם אימייל</button>'}`:''}
       ${showForm?`${su?`<div class="label">שם מלא</div>
-      <input id="au-name" type="text" autocomplete="name" placeholder="איך קוראים לך?" value="${esc(S.authName||'')}">`:''}
+      <input id="au-name" type="text" autocomplete="name" placeholder="שם מלא" value="${esc(S.authName||'')}">`:''}
       <div class="label">אימייל</div>
       <input id="au-email" type="email" inputmode="email" autocomplete="email" dir="ltr" placeholder="you@email.com" value="${esc(S.authEmail||'')}">
       <div class="label">סיסמה</div>
@@ -4345,7 +4345,7 @@ function openGenderSheet(first){
   const md=S.user?.user_metadata||{}, noName=first&&!String(md.full_name||md.name||'').trim();
   // first time without a name: step 1 is the name, then how to address you
   if(noName){ openSheet(`<div class="tgw-q"><img src="img/kobi-happy.svg" alt=""><div><b>היי, אני מקס 👋 איך קוראים לך?</b><span>ככה אפנה אליך באפליקציה, וככה יראו אותך החברים בקבוצות.</span></div></div>
-      <input id="g-name" type="text" autocomplete="given-name" enterkeyhint="next" maxlength="40" placeholder="${tt('השם שלך')}">
+      <input id="g-name" type="text" autocomplete="name" enterkeyhint="next" maxlength="60" placeholder="${tt('שם מלא')}">
       <button class="btn primary big" style="margin-top:12px" data-act="g-name-next">המשך</button>`);
     setTimeout(()=>$('#g-name')?.focus(),150); return; }
   const nm=firstName();
