@@ -12053,7 +12053,9 @@ function piDraw(){ if(!PI)return; if(PI.busy)return piBusy(); if(PI.res)return p
     </div>
     ${PI.imgs.length||PI.pdf?`<div class="pi-th">${PI.imgs.map((b,i)=>`<span class="pi-t"><img src="data:image/jpeg;base64,${b}" alt=""><button data-act="pi-rm" data-i="${i}" aria-label="${tt('הסרה')}">✕</button></span>`).join('')}${PI.pdf?`<span class="pi-t pi-pdf"><b>PDF</b><small data-notr>${esc(PI.pdfName)}</small><button data-act="pi-rm" data-i="pdf" aria-label="${tt('הסרה')}">✕</button></span>`:''}</div>`:''}
     <textarea id="pi-txt" class="pi-txt" rows="4" placeholder="${tt('או הדבק כאן את התוכנית, למשל מהוואטסאפ')}">${esc(PI.text)}</textarea>
-    <button class="btn primary big" data-act="pi-go" style="width:100%;margin-top:12px" ${has?'':'disabled'}>${tt('מקס, תקרא את התוכנית')}</button>`); }
+    <button class="btn primary big" data-act="pi-go" style="width:100%;margin-top:12px" ${has?'':'disabled'}>${tt('מקס, תקרא את התוכנית')}</button>`);
+  // typing or pasting the plan turns the button on (it starts disabled when there's nothing yet)
+  const ta=$('#pi-txt'); ta&&ta.addEventListener('input',()=>{ PI.text=ta.value; const bt=$('[data-act="pi-go"]'); if(bt)bt.disabled=!(PI.imgs.length||PI.pdf||ta.value.trim()); }); }
 function piBusy(){ openSheet(`<div class="pi-busy"><img src="img/kobi-think.svg" alt=""><b>${tt('מקס קורא את התוכנית…')}</b><span>${tt('מתאים כל תרגיל לסרטון ההדגמה שלו. זה לוקח עד חצי דקה.')}</span><i class="pi-sp"></i></div>`); }
 function piFiles(inp){ const kind=inp.dataset.pi, fs=[...(inp.files||[])]; inp.value=''; if(!fs.length)return;
   if(kind==='pdf'){ const f=fs[0]; if(f.size>6e6){ toast(tt('הקובץ גדול מדי (עד 6MB)')); return; }
