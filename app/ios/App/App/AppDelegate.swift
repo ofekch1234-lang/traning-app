@@ -21,20 +21,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func startMetaSDK() {
         let info = Bundle.main.infoDictionary ?? [:]
         guard let id = info["FacebookAppID"] as? String, !id.isEmpty,
-              let tok = info["FacebookClientToken"] as? String, !tok.isEmpty else { return }
-        func shared(_ name: String) -> NSObject? {
-            guard let cls = NSClassFromString(name) else { return nil }
-            let sel = NSSelectorFromString("sharedInstance")
-            guard (cls as AnyObject).responds(to: sel) else { return nil }
-            return (cls as AnyObject).perform(sel)?.takeUnretainedValue() as? NSObject
+              let tok = info["FacebookClientToken"] as? String, !tok.isEmpty else { NSLog("[NextRep] Meta SDK: no App ID/token in Info.plist"); return }
+        // The proper start: ApplicationDelegate.shared.application(_:didFinishLaunchingWithOptions:), which also turns on automatic app events
+        if let sdk = Self.metaShared("FBSDKApplicationDelegate") {
+            let launch = NSSelectorFromString("application:didFinishLaunchingWithOptions:")
+            if sdk.responds(to: launch) { _ = sdk.perform(launch, with: UIApplication.shared, with: nil); NSLog("[NextRep] Meta SDK: started") }
+            else if sdk.responds(to: NSSelectorFromString("initializeSDK")) { _ = sdk.perform(NSSelectorFromString("initializeSDK")); NSLog("[NextRep] Meta SDK: initialized") }
+        } else { NSLog("[NextRep] Meta SDK: FBSDKApplicationDelegate not found") }
+    }
+
+    /// The SDK's singletons are exposed to Objective-C as `sharedInstance` or `shared`, depending on the SDK version
+    private static func metaShared(_ name: String) -> NSObject? {
+        guard let cls = NSClassFromString(name) as AnyObject? else { return nil }
+        for selName in ["sharedInstance", "shared"] {
+            let sel = NSSelectorFromString(selName)
+            if cls.responds(to: sel), let obj = cls.perform(sel)?.takeUnretainedValue() as? NSObject { return obj }
         }
-        if let sdk = shared("FBSDKApplicationDelegate") {
-            let start = NSSelectorFromString("initializeSDK")
-            if sdk.responds(to: start) { _ = sdk.perform(start) }
-        }
-        if let events = shared("FBSDKAppEvents") {
+        return nil
+    }
+
+    /// Reports each app open to Meta (the "activate app" event that install attribution is built on)
+    private func metaActivate() {
+        if let events = Self.metaShared("FBSDKAppEvents") {
             let activate = NSSelectorFromString("activateApp")
-            if events.responds(to: activate) { _ = events.perform(activate) }
+            if events.responds(to: activate) { _ = events.perform(activate); NSLog("[NextRep] Meta SDK: activateApp") }
         }
     }
 
@@ -53,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        metaActivate()
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
