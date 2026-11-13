@@ -64,9 +64,9 @@ document.addEventListener('click',function(ev){ var a=ev.target&&ev.target.close
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=3c1c5905"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3c1c5905"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=3c1c5905"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=45ca7ee8"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=45ca7ee8"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=45ca7ee8"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2453,7 +2453,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.263';
+const APP_VERSION='13.3.264';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -10744,7 +10744,9 @@ function piDraw(){ if(!PI)return; if(PI.busy)return piBusy(); if(PI.res)return p
     </div>
     ${PI.imgs.length||PI.pdf?`<div class="pi-th">${PI.imgs.map((b,i)=>`<span class="pi-t"><img src="data:image/jpeg;base64,${b}" alt=""><button data-act="pi-rm" data-i="${i}" aria-label="${tt('הסרה')}">✕</button></span>`).join('')}${PI.pdf?`<span class="pi-t pi-pdf"><b>PDF</b><small data-notr>${esc(PI.pdfName)}</small><button data-act="pi-rm" data-i="pdf" aria-label="${tt('הסרה')}">✕</button></span>`:''}</div>`:''}
     <textarea id="pi-txt" class="pi-txt" rows="4" placeholder="${tt('או הדבק כאן את התוכנית, למשל מהוואטסאפ')}">${esc(PI.text)}</textarea>
-    <button class="btn primary big" data-act="pi-go" style="width:100%;margin-top:12px" ${has?'':'disabled'}>${tt('מקס, תקרא את התוכנית')}</button>`); }
+    <button class="btn primary big" data-act="pi-go" style="width:100%;margin-top:12px" ${has?'':'disabled'}>${tt('מקס, תקרא את התוכנית')}</button>`);
+  // typing or pasting the plan turns the button on (it starts disabled when there's nothing yet)
+  const ta=$('#pi-txt'); ta&&ta.addEventListener('input',()=>{ PI.text=ta.value; const bt=$('[data-act="pi-go"]'); if(bt)bt.disabled=!(PI.imgs.length||PI.pdf||ta.value.trim()); }); }
 function piBusy(){ openSheet(`<div class="pi-busy"><img src="img/kobi-think.svg" alt=""><b>${tt('מקס קורא את התוכנית…')}</b><span>${tt('מתאים כל תרגיל לסרטון ההדגמה שלו. זה לוקח עד חצי דקה.')}</span><i class="pi-sp"></i></div>`); }
 function piFiles(inp){ const kind=inp.dataset.pi, fs=[...(inp.files||[])]; inp.value=''; if(!fs.length)return;
   if(kind==='pdf'){ const f=fs[0]; if(f.size>6e6){ toast(tt('הקובץ גדול מדי (עד 6MB)')); return; }
