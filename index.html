@@ -2453,7 +2453,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.264';
+const APP_VERSION='13.3.265';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -9041,7 +9041,9 @@ document.addEventListener('click',ev=>{
   },{passive:false});
 })();
 function openSheet(html){ { const rb=document.getElementById('rp-bub'); if(rb)rb.hidden=true; } try{ const ae=document.activeElement; if(ae&&ae!==document.body&&$('#sheet').contains(ae))ae.blur(); }catch(_){} $('#sheet').classList.remove('libmode','swsheet','fa');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
-function closeSheet(){try{$('#sheet').classList.remove('swsheet');$('#sheet').style.bottom='';$('#sheet').style.height='';}catch(_){} try{if(SCAN.stream||SCAN.reader)stopScan();}catch(_){} $('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null;}
+function closeSheet(){try{$('#sheet').classList.remove('swsheet');$('#sheet').style.bottom='';$('#sheet').style.height='';}catch(_){} try{if(SCAN.stream||SCAN.reader)stopScan();}catch(_){} $('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null; tabsRepaint(); }
+// iPhone Safari sometimes leaves part of the blurred bottom bar unpainted after a sheet closes (a tab vanishes until the next render): force a repaint
+function tabsRepaint(){ requestAnimationFrame(()=>{ const t=document.getElementById('tabs'); if(!t||t.hidden)return; t.style.webkitBackdropFilter=t.style.backdropFilter='none'; void t.offsetHeight; requestAnimationFrame(()=>{ t.style.webkitBackdropFilter=t.style.backdropFilter=''; try{tbPill()}catch(_){} }); }); }
 
 function openLibrary(target){ // target: 'active' | 'tpl'
   S.lib.target=target; S.lib.q='';
