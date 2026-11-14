@@ -2461,7 +2461,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.269';
+const APP_VERSION='13.3.270';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -9430,7 +9430,7 @@ function admOverviewHTML(){
     </div>
     ${(P?.ai_top||[]).length?`<div class="card r20" style="padding:16px">
       <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">משתמשי AI כבדים · ${PL}</b><span class="small muted">מכסה: 50 ביום · 600 בחודש (טקסט)</span></div>
-      <div class="ai-top">${P.ai_top.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · מקס ${u.coach} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
+      <div class="ai-top">${P.ai_top.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · מקס ${u.coach}${+u.plan?` · ייבוא ${u.plan}`:''} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
     </div>`:''}`;
 }
 function admGrowthHTML(){

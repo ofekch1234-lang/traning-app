@@ -1,0 +1,2 @@
+-- admin_period: heavy AI users ranked by cost (then calls), with a plan_import count ("plan").
+-- Applied in place on the live function via replace() on pg_get_functiondef.
