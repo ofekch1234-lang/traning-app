@@ -640,6 +640,14 @@ body:not(.landing)>#lx-sticky{display:none}
 .dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:14.5px;padding:14px}
 .dl dt{color:var(--muted)}.dl dd{margin:0;text-align:end;font-weight:500}
 .acts2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nrcf{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .18s}
+.nrcf.on{opacity:1}
+.nrcf-box{width:100%;max-width:340px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px 20px 18px;text-align:center;transform:scale(.96);transition:transform .18s}
+.nrcf.on .nrcf-box{transform:none}
+.nrcf-t{display:block;font-size:19px;margin-bottom:8px}
+.nrcf-b{color:var(--muted);font-size:15px;line-height:1.5;margin-bottom:18px}
+.nrcf-b b{color:var(--ink)}
+.nrcf-a{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .acts2 .btn{border-radius:14px;min-height:46px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;font-weight:600}
 .msgc{padding:14px;display:flex;flex-direction:column;gap:10px}
 .msgc .q{white-space:pre-wrap;line-height:1.5;background:var(--surface2);border-radius:14px;padding:10px 12px}
@@ -10189,6 +10197,11 @@ document.addEventListener('click',ev=>{
 function openSheet(html){ { const rb=document.getElementById('rp-bub'); if(rb)rb.hidden=true; } try{ const ae=document.activeElement; if(ae&&ae!==document.body&&$('#sheet').contains(ae))ae.blur(); }catch(_){} $('#sheet').classList.remove('libmode','swsheet','fa');$('#sheet').style.bottom='';$('#sheet').style.height='';$('#sheet').innerHTML=html;$('#sheet').hidden=false;$('#sheet-bg').hidden=false;}
 function closeSheet(){try{$('#sheet').classList.remove('swsheet');$('#sheet').style.bottom='';$('#sheet').style.height='';}catch(_){} try{if(SCAN.stream||SCAN.reader)stopScan();}catch(_){} $('#sheet').hidden=true;$('#sheet-bg').hidden=true;S.lib.target=null;_tplDraft=null; tabsRepaint(); }
 // iPhone Safari sometimes leaves part of the blurred bottom bar unpainted after a sheet closes (a tab vanishes until the next render): force a repaint
+function nrConfirm(title,body,ok){ return new Promise(res=>{ const w=document.createElement('div'); w.className='nrcf';
+  w.innerHTML=`<div class="nrcf-box" role="dialog" aria-modal="true"><b class="nrcf-t">${title}</b><div class="nrcf-b">${body||''}</div><div class="nrcf-a"><button class="btn" data-x="0">ביטול</button><button class="btn primary" data-x="1">${ok||'אישור'}</button></div></div>`;
+  const done=v=>{ w.classList.remove('on'); setTimeout(()=>w.remove(),180); res(v); };
+  w.addEventListener('click',e=>{ e.stopPropagation(); const x=e.target.closest('[data-x]'); if(x)done(x.dataset.x==='1'); else if(e.target===w)done(false); });
+  document.body.appendChild(w); requestAnimationFrame(()=>w.classList.add('on')); }); }
 function tabsRepaint(){ requestAnimationFrame(()=>{ const t=document.getElementById('tabs'); if(!t||t.hidden)return; t.style.webkitBackdropFilter=t.style.backdropFilter='none'; void t.offsetHeight; requestAnimationFrame(()=>{ t.style.webkitBackdropFilter=t.style.backdropFilter=''; try{tbPill()}catch(_){} }); }); }
 
 function openLibrary(target){ // target: 'active' | 'tpl'
@@ -10752,7 +10765,8 @@ function admAct(act,b){
         .then(()=>{ toast('המשתמש נמחק'); closeSheet(); A.users.rows=A.users.rows.filter(x=>x.id!==id); loadAdmin(); admLoadUsers(true); })
         .catch(e=>{ b.disabled=false; delete b.dataset.sure; b.textContent='מחיקת המשתמש וכל המידע שלו'; toast(String(e.message)==='target_admin'?'אי אפשר למחוק אדמין':'המחיקה נכשלה'); });
       return true; }
-    case 'adm-grant': { const d=+b.dataset.days; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל');return;} toast(`נוספו ${d} ימים ✓`); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true; }
+    case 'adm-grant': { const d=+b.dataset.days, uu=[...(A.users?.rows||[]),...(A.pick||[])].find(x=>x.id===b.dataset.id)||{}, who=esc(uu.full_name||uu.name||uu.email||'המשתמש'), per=d===7?'שבוע':d===30?'חודש':d===365?'שנה':d+' ימים';
+      nrConfirm(`לתת ${per} פרימיום?`,`<b>${who}</b> יקבל ${d} ימי פרימיום במתנה.`,'כן, לתת').then(ok=>{ if(!ok)return; sb.rpc('admin_grant',{uid:b.dataset.id,p_days:d}).then(({error})=>{ if(error){toast('נכשל');return;} toast(`נוספו ${d} ימים ✓`); closeSheet(); loadAdmin(); admLoadUsers(true); }); }); return true; }
     case 'adm-revoke': if(!b.dataset.sure){b.dataset.sure='1';b.textContent='בטוח? הגישה תיסגר עכשיו';return true;}
       sb.rpc('admin_revoke',{p_uid:b.dataset.id}).then(({error})=>{ if(error){toast('נכשל');return;} toast('המנוי בוטל'); closeSheet(); loadAdmin(); admLoadUsers(true); }); return true;
     case 'adm-billing-save': { const B=JSON.parse(JSON.stringify(A.cfg?.billing||{}));
