@@ -69,6 +69,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Health Connect: read steps, distance and active calories only -->
     <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_HISTORY" />
+    <!-- the Meta SDK merges in the advertising ID permission; we never read it (AdvertiserIDCollectionEnabled=false), so drop it -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
     <uses-permission android:name="android.permission.health.WRITE_STEPS" tools:node="remove" />
     <uses-permission android:name="android.permission.health.WRITE_DISTANCE" tools:node="remove" />
     <uses-permission android:name="android.permission.health.WRITE_ACTIVE_CALORIES_BURNED" tools:node="remove" />
