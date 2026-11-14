@@ -1,10 +1,11 @@
 // NextRep — import a workout plan from a coach (photos, a PDF or pasted text).
 // The model reads the plan and maps every exercise to the app's exercise library; the user reviews before saving.
-// Limit: 6 imports a day per user (free and premium alike: it is how people bring their plan in).
+// Limit per rolling 30 days: 3 imports free, 10 premium. Re-sending the same input (same photos/PDF/text) is not
+// counted again, up to 3 tries per input.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const MODEL = "claude-sonnet-5-5";
-const PER_DAY = 6;
+const FREE_PER_MONTH = 3, PREMIUM_PER_MONTH = 10, TRIES_PER_INPUT = 3, WINDOW_MS = 30 * 864e5;
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const J = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const LANG_NAME: Record<string, string> = { he: "Hebrew", ar: "Arabic", en: "English" };
@@ -35,10 +36,25 @@ Deno.serve(async (req) => {
   if (!user) return J({ error: "unauthorized" }, 401);
   const lang = ["he", "ar", "en"].includes(body.lang) ? body.lang : "he";
 
+  const imgs = (Array.isArray(body.images) ? body.images : []).slice(0, 4).filter((im: unknown) => typeof im === "string" && im.length < 4_000_000);
+  const pdf = typeof body.pdf === "string" && body.pdf.length < 8_000_000 ? body.pdf : "";
+  const text = String(body.text || "").trim().slice(0, 6000);
+  const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode([...imgs, pdf, text].join("\u0000")))))
+    .slice(0, 16).map((b) => b.toString(16).padStart(2, "0")).join("");
+
   const { data: plan } = await userClient.rpc("my_plan");
   if (!plan?.admin) {
-    const { count } = await admin.from("ai_usage").select("id", { count: "exact", head: true }).eq("user_id", user.id).eq("kind", "plan_import").gte("created_at", new Date(Date.now() - 864e5).toISOString());
-    if ((count ?? 0) >= PER_DAY) return J({ error: "quota", limit: PER_DAY }, 429);
+    const limit = plan?.premium ? PREMIUM_PER_MONTH : FREE_PER_MONTH;
+    const { data: rows } = await admin.from("ai_usage").select("input_hash,created_at").eq("user_id", user.id).eq("kind", "plan_import")
+      .gte("created_at", new Date(Date.now() - WINDOW_MS).toISOString()).order("created_at", { ascending: true });
+    const seen = new Map<string, number>(); let first = "";
+    for (const r of rows || []) { const k = r.input_hash || `row:${r.created_at}`; if (!seen.has(k) && !first) first = r.created_at; seen.set(k, (seen.get(k) || 0) + 1); }
+    const tries = seen.get(hash) || 0;
+    const blocked = tries ? tries >= TRIES_PER_INPUT : seen.size >= limit;
+    if (blocked) {
+      const next = first ? new Date(new Date(first).getTime() + WINDOW_MS).toISOString() : null;
+      return J({ error: "quota", limit, premium: !!plan?.premium, next, retry: tries > 0 }, 429);
+    }
   }
 
   const lib = String(body.lib || "").slice(0, 30000);
@@ -47,10 +63,8 @@ Deno.serve(async (req) => {
   if (!libNames.size) return J({ error: "bad_request" }, 400);
 
   const content: any[] = [];
-  const imgs = (Array.isArray(body.images) ? body.images : []).slice(0, 4);
-  for (const im of imgs) if (typeof im === "string" && im.length < 4_000_000) content.push({ type: "image", source: { type: "base64", media_type: "image/jpeg", data: im } });
-  if (typeof body.pdf === "string" && body.pdf.length < 8_000_000) content.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: body.pdf } });
-  const text = String(body.text || "").trim().slice(0, 6000);
+  for (const im of imgs) content.push({ type: "image", source: { type: "base64", media_type: "image/jpeg", data: im } });
+  if (pdf) content.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: pdf } });
   if (!content.length && !text) return J({ error: "bad_request" }, 400);
   content.push({ type: "text", text: `${text ? `PLAN (pasted text):\n${text}\n\n` : "The plan is in the attached files.\n\n"}Return the JSON.` });
 
@@ -70,7 +84,7 @@ Deno.serve(async (req) => {
     const t = (out.content || []).filter((c: any) => c.type === "text").map((c: any) => c.text).join("").trim();
     const u = out.usage || {}, it = (u.input_tokens || 0) + (u.cache_creation_input_tokens || 0) * 1.25 + (u.cache_read_input_tokens || 0) * 0.1, ot = u.output_tokens || 0;
     const usd = (it * 3 + ot * 15) / 1e6;
-    await admin.from("ai_usage").insert({ user_id: user.id, kind: "plan_import", model: out.model || MODEL, input_tokens: Math.round(it), output_tokens: ot, cost_usd: usd });
+    await admin.from("ai_usage").insert({ user_id: user.id, kind: "plan_import", model: out.model || MODEL, input_tokens: Math.round(it), output_tokens: ot, cost_usd: usd, input_hash: hash });
     const j = parseJSON(t);
     console.log(JSON.stringify({ ev: "plan-import", user: user.id.slice(0, 8), imgs: imgs.length, pdf: !!body.pdf, txt: text.length, in: Math.round(it), out: ot, usd, ok: !!j?.ok }));
     if (!j) return J({ error: "ai_failed" }, 502);

@@ -64,9 +64,9 @@ document.addEventListener('click',function(ev){ var a=ev.target&&ev.target.close
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=fbd8e73e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=fbd8e73e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=fbd8e73e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=51dbeb24"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=51dbeb24"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=51dbeb24"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2461,7 +2461,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.267';
+const APP_VERSION='13.3.268';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -10777,9 +10777,9 @@ function piFiles(inp){ const kind=inp.dataset.pi, fs=[...(inp.files||[])]; inp.v
 async function piGo(){ PI.text=($('#pi-txt')?.value||'').trim(); if(!PI.imgs.length&&!PI.pdf&&!PI.text)return;
   PI.busy=true; piBusy(); logEv('pi_go',{imgs:PI.imgs.length,pdf:!!PI.pdf,txt:PI.text.length});
   try{ const {data,error}=await Promise.race([sb.functions.invoke('plan-import',{body:{images:PI.imgs,pdf:PI.pdf,text:PI.text,lang:LANG,lib:PI_LIB()}}),new Promise((_,rj)=>setTimeout(()=>rj(new Error('timeout')),100000))]);
-    let err=data?.error; if(error){ try{ err=(await error.context?.json?.())?.error||'ai_failed'; }catch(_){ err='ai_failed'; } }
+    let err=data?.error, ej=data||{}; if(error){ try{ ej=(await error.context?.json?.())||{}; err=ej.error||'ai_failed'; }catch(_){ err='ai_failed'; } }
     PI.busy=false;
-    if(err){ logEv('pi_err',{e:err}); toast(err==='not_plan'?tt('לא מצאנו כאן תוכנית אימונים. נסה תמונה ברורה יותר'):err==='quota'?tt('הגעת למגבלת הייבוא להיום. אפשר שוב מחר'):tt('משהו השתבש. נסה שוב')); piDraw(); return; }
+    if(err){ logEv('pi_err',{e:err}); toast(err==='not_plan'?tt('לא מצאנו כאן תוכנית אימונים. נסה תמונה ברורה יותר'):err==='quota'?(ej.retry?tt('ניסית כבר 3 פעמים עם אותה תוכנית. נסה תמונה ברורה יותר'):ej.premium?tt('ניצלת את 10 הייבואים של החודש. אפשר שוב בעוד כמה ימים'):tt('ניצלת את 3 הייבואים של החודש. בפרימיום יש 10 בחודש')):tt('משהו השתבש. נסה שוב')); piDraw(); return; }
     PI.res={name:data.name||'',days:(data.days||[]).map(d=>({name:d.name,ex:d.ex}))}; logEv('pi_ok',{days:PI.res.days.length,ex:PI.res.days.reduce((a,d)=>a+d.ex.length,0),miss:PI.res.days.reduce((a,d)=>a+d.ex.filter(e=>!e.lib&&!e.cardio).length,0)}); piDraw();
   }catch(e){ PI.busy=false; toast(tt('משהו השתבש. נסה שוב')); piDraw(); } }
 const piName=e=>e.lib||e.as;
