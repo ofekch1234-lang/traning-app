@@ -2547,6 +2547,8 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 :root main .btn.primary,:root main .hn-go,:root main .go,:root .hn-lime .hn-go{background:var(--oa)!important;color:var(--oi)!important;border-radius:99px!important;border:0!important;box-shadow:none!important}
 :root main .hn-go svg,:root main .btn.primary svg{fill:var(--oi)!important}
 :root .chip,:root .qchips button,:root .again button{background:transparent!important;border:1px solid var(--ochip)!important;border-radius:99px!important}
+:root .chips .chip.on{background:var(--oa)!important;color:var(--oi)!important;border-color:transparent!important}
+:root .chips .chip.on i{color:var(--oi)!important}
 :root .seg2,:root .fd-seg{padding:5px!important;border-radius:99px!important}
 :root .seg2 button,:root .fd-seg button{border-radius:99px!important;background:transparent!important;border:0!important;box-shadow:none!important}
 :root .seg2 .on,:root .fd-seg .on,:root .seg2 button.on,:root .fd-seg button.on{background:var(--oa)!important;color:var(--oi)!important}
@@ -10577,7 +10579,7 @@ function admOverviewHTML(){
     </div>
     ${(P?.ai_top||[]).length?`<div class="card r20" style="padding:16px">
       <div class="spread" style="margin-bottom:8px"><b style="font-size:16px">משתמשי AI כבדים · ${PL}</b><span class="small muted">מכסה: 50 ביום · 600 בחודש (טקסט)</span></div>
-      <div class="ai-top">${P.ai_top.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · מקס ${u.coach} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
+      <div class="ai-top">${P.ai_top.map(u=>`<div class="ait-row ${+u.txt>=480||+u.d24>=40?'hot':''}"><span class="lt"><b data-notr>${esc(u.name||'—')}</b><small class="num">טקסט ${u.txt} · תמונה ${u.photo} · מקס ${u.coach}${+u.plan?` · ייבוא ${u.plan}`:''} · 24 ש׳: ${u.d24}</small></span><span class="num ait-n"><b>${u.calls}</b><small>${money(+u.usd)}</small></span></div>`).join('')}</div>
     </div>`:''}`;
 }
 function admGrowthHTML(){
