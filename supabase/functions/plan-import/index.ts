@@ -1,11 +1,11 @@
 // NextRep — import a workout plan from a coach (photos, a PDF or pasted text).
 // The model reads the plan and maps every exercise to the app's exercise library; the user reviews before saving.
-// Limit per rolling 30 days: 3 imports free, 10 premium. Re-sending the same input (same photos/PDF/text) is not
-// counted again, up to 3 tries per input.
+// Limits: free users get 3 imports in total (ever); premium get 10 per rolling 30 days. Re-sending the same input
+// (same photos/PDF/text) is not counted again, up to 3 tries per input.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const MODEL = "claude-sonnet-5-5";
-const FREE_PER_MONTH = 3, PREMIUM_PER_MONTH = 10, TRIES_PER_INPUT = 3, WINDOW_MS = 30 * 864e5;
+const FREE_TOTAL = 3, PREMIUM_PER_MONTH = 10, TRIES_PER_INPUT = 3, WINDOW_MS = 30 * 864e5;
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const J = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const LANG_NAME: Record<string, string> = { he: "Hebrew", ar: "Arabic", en: "English" };
@@ -44,16 +44,17 @@ Deno.serve(async (req) => {
 
   const { data: plan } = await userClient.rpc("my_plan");
   if (!plan?.admin) {
-    const limit = plan?.premium ? PREMIUM_PER_MONTH : FREE_PER_MONTH;
-    const { data: rows } = await admin.from("ai_usage").select("input_hash,created_at").eq("user_id", user.id).eq("kind", "plan_import")
-      .gte("created_at", new Date(Date.now() - WINDOW_MS).toISOString()).order("created_at", { ascending: true });
+    const prem = !!plan?.premium, limit = prem ? PREMIUM_PER_MONTH : FREE_TOTAL;
+    let q = admin.from("ai_usage").select("input_hash,created_at").eq("user_id", user.id).eq("kind", "plan_import");
+    if (prem) q = q.gte("created_at", new Date(Date.now() - WINDOW_MS).toISOString());
+    const { data: rows } = await q.order("created_at", { ascending: true });
     const seen = new Map<string, number>(); let first = "";
     for (const r of rows || []) { const k = r.input_hash || `row:${r.created_at}`; if (!seen.has(k) && !first) first = r.created_at; seen.set(k, (seen.get(k) || 0) + 1); }
     const tries = seen.get(hash) || 0;
     const blocked = tries ? tries >= TRIES_PER_INPUT : seen.size >= limit;
     if (blocked) {
-      const next = first ? new Date(new Date(first).getTime() + WINDOW_MS).toISOString() : null;
-      return J({ error: "quota", limit, premium: !!plan?.premium, next, retry: tries > 0 }, 429);
+      const next = prem && first ? new Date(new Date(first).getTime() + WINDOW_MS).toISOString() : null;
+      return J({ error: "quota", limit, premium: prem, next, retry: tries > 0 }, 429);
     }
   }
 
