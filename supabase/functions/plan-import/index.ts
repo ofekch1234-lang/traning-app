@@ -1,6 +1,6 @@
 // NextRep — import a workout plan from a coach (photos, a PDF or pasted text).
 // The model reads the plan and maps every exercise to the app's exercise library; the user reviews before saving.
-// Limits: free users get 3 imports in total (ever); premium get 10 per rolling 30 days. Re-sending the same input
+// Limits: users who never paid (incl. trial and gifted premium) get 3 imports in total; paying subscribers get 10 per rolling 30 days. Re-sending the same input
 // (same photos/PDF/text) is not counted again, up to 3 tries per input.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
 
   const { data: plan } = await userClient.rpc("my_plan");
   if (!plan?.admin) {
-    const prem = !!plan?.premium, limit = prem ? PREMIUM_PER_MONTH : FREE_TOTAL;
+    const prem = !!plan?.paid && !plan?.gift, limit = prem ? PREMIUM_PER_MONTH : FREE_TOTAL;
     let q = admin.from("ai_usage").select("input_hash,created_at").eq("user_id", user.id).eq("kind", "plan_import");
     if (prem) q = q.gte("created_at", new Date(Date.now() - WINDOW_MS).toISOString());
     const { data: rows } = await q.order("created_at", { ascending: true });
