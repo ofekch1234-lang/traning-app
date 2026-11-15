@@ -58,5 +58,41 @@
  "ניצלת את 3 הייבואים החינמיים. בפרימיום יש 10 בחודש": {
   "en": "You've used your 3 free imports. Premium gives you 10 a month",
   "ar": "استخدمت عمليات الاستيراد المجانية الثلاث. في بريميوم تحصل على 10 شهريًا"
+ },
+ "חודשי": {
+  "en": "Monthly",
+  "ar": "شهري"
+ },
+ "שנתי": {
+  "en": "Yearly",
+  "ar": "سنوي"
+ },
+ "לחודש, ביטול בכל רגע": {
+  "en": "per month, cancel anytime",
+  "ar": "شهريًا، إلغاء في أي وقت"
+ },
+ "חיסכון של 50%": {
+  "en": "Save 50%",
+  "ar": "وفّر 50%"
+ },
+ "₪14.99 לחודש, תשלום אחד לשנה": {
+  "en": "₪14.99/month, billed once a year",
+  "ar": "₪14.99 شهريًا، دفعة واحدة سنويًا"
+ },
+ "המנוי דרך App Store או Google Play ומתחדש אוטומטית. מבטלים בכל רגע בהגדרות החנות.": {
+  "en": "Subscriptions are through the App Store or Google Play and renew automatically. Cancel anytime in your store settings.",
+  "ar": "الاشتراك عبر App Store أو Google Play ويتجدد تلقائيًا. يمكنك الإلغاء في أي وقت من إعدادات المتجر."
+ },
+ "ההורדה חינם, והשבוע הראשון חינם עם הכל פתוח. אחר כך מנוי חודשי ב-₪29.90 או שנתי ב-₪179.90 (₪14.99 לחודש). מבטלים בכל רגע, והאימונים והנתונים שלך נשמרים תמיד.": {
+  "en": "The download is free, and the first week is free with everything unlocked. After that it's ₪29.90 a month or ₪179.90 a year (₪14.99/month). Cancel anytime, and your workouts and data are always kept.",
+  "ar": "التنزيل مجاني، والأسبوع الأول مجاني مع فتح كل الميزات. بعد ذلك اشتراك شهري بـ ₪29.90 أو سنوي بـ ₪179.90 (₪14.99 شهريًا). يمكنك الإلغاء في أي وقت، وتدريباتك وبياناتك محفوظة دائمًا."
+ },
+ "{0} ימים עם הכל פתוח, ואחר כך {1} מנוי בתוך האפליקציה. האימונים והנתונים שלך נשמרים תמיד.": {
+  "en": "{0} days with everything unlocked, then you {1} a subscription in the app. Your workouts and data are always kept.",
+  "ar": "{0} أيام وكل شيء مفتوح، وبعدها {1} اشتراكًا داخل التطبيق. تدريباتك وبياناتك محفوظة دائمًا."
+ },
+ "מנוי בתוך האפליקציה. האימונים והנתונים שלך נשמרים תמיד.": {
+  "en": "a subscription in the app. Your workouts and data are always kept.",
+  "ar": "اشتراكًا داخل التطبيق. تدريباتك وبياناتك محفوظة دائمًا."
  }
 }
