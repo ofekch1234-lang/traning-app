@@ -1836,6 +1836,10 @@
   "pattern": true
  },
  {
+  "he": "· {0}{1} גר׳ חלבון",
+  "pattern": true
+ },
+ {
   "he": "{0}ברקוד",
   "pattern": true
  },
