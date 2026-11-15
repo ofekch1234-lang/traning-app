@@ -7723,10 +7723,16 @@ function schedOf(d){ const id=(S.settings.schedule||{})[String(d)]; return id?S.
 /* one-time moves of a scheduled workout ("move to tomorrow" from the 19:00 reminder): S.settings.mv=[{from,to,tid}].
    The weekly schedule itself never changes; a workout can be moved once, to the nearest free day. */
 function mvList(){ return Array.isArray(S.settings.mv)?S.settings.mv:[]; }
-function schedOn(dt){ const ds=ymd(dt), L=mvList();
+function schedRaw(dt){ const ds=ymd(dt), L=mvList();
   if(L.some(m=>m.from===ds))return null;
   const m=L.find(m=>m.to===ds); if(m){ const t=S.templates.find(x=>x.id===m.tid); if(t)return t; }
   return schedOf(dt.getDay()); }
+/* a scheduled workout done early (e.g. Friday's workout on Thursday) counts for its day: the same workout, done after
+   the previous scheduled day and before this one, clears this day (no "today's workout", no missed day, no reminder). */
+function doneEarly(dt,t){ const d0=new Date(dt); d0.setHours(0,0,0,0); let lo=new Date(d0); lo.setDate(d0.getDate()-6);
+  for(let i=1;i<=6;i++){ const p=new Date(d0); p.setDate(d0.getDate()-i); p.setHours(12,0,0,0); if(schedRaw(p)){ lo=new Date(p); lo.setHours(0,0,0,0); lo.setDate(lo.getDate()+1); break; } }
+  return (S.workouts||[]).some(w=>+w.start>=+lo&&+w.start<+d0&&(w.tid===t.id||w.name===t.name)); }
+function schedOn(dt){ const t=schedRaw(dt); if(!t)return null; if(!trainedOn(dt)&&doneEarly(dt,t))return null; return t; }
 function mvInto(dt){ return mvList().find(m=>m.to===ymd(dt))||null; }
 function mvFrom(dt){ return mvList().some(m=>m.from===ymd(dt)); }
 function mvTarget(){ for(let i=1;i<=6;i++){ const d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()+i); if(!schedOn(d))return d; } return null; }
