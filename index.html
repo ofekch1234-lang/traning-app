@@ -1804,7 +1804,6 @@ svg text{font-family:var(--body)}
 .pbtn:active{transform:scale(.93)}
 .pbtn b{font-size:13px;font-variant-numeric:tabular-nums}
 .pbtn svg{filter:drop-shadow(0 2px 3px rgba(0,0,0,.28))}
-.npside{margin-top:10px}.npside .chip{font-size:13.5px}
 .pbcap{text-align:center;color:var(--muted);font-size:11.5px;margin-top:5px}
 .npstep{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0}
 .npstep button{width:58px;height:46px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:700}
@@ -7429,7 +7428,7 @@ function rirSet(ei,si,v){
     if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=r+2; msg='נשאר לך עוד הרבה כוח. בסט הבא נסה עוד 2 חזרות.'; }
     else if(v===0&&rr&&r<rr.lo&&w>0){ const ow=+nx.pw||w; nx.pw=roundTo(w*0.95,wStep(e.n)); if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`קשה מדי: בסט הבא ${wL(nx.pw)} ${LU()}.`; }
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
-    if(nw&&!nw.value)nw.placeholder=wL(nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
+    if(nw&&!nw.value)nw.placeholder=wX(e.n,nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
   else if(v===0&&rr&&r<rr.lo)msg='קרוב לכישלון ומתחת לטווח. אתחשב בזה בפעם הבאה.';
   const el=document.getElementById('rirq-'+ei); if(el){ el.innerHTML=`<span>${msg}</span>`; setTimeout(()=>{ if(el.textContent.includes(msg))el.hidden=true; },2600); }
   return msg; }
@@ -7549,15 +7548,15 @@ function ncDone(apply){
 
 /* under a number Rafi filled in: what that same set was last time ("פעם קודמת: 10"), so the target never reads as "11 and 1 more" */
 /* a weight Rafi changed during the workout is marked until the set is done: amber cell, "was 25" */
-const chgHint=(s,k='w')=>`<i class="sugp chgp">${tt('שונה מ')}<span class="num">${k==='r'?s.chg.r:wL(s.chg.w)}</span></i>`;
+const chgHint=(s,k='w',nm)=>`<i class="sugp chgp">${tt('שונה מ')}<span class="num">${k==='r'?s.chg.r:wX(nm,s.chg.w)}</span></i>`;
 /* a carried-forward change: remember what the set showed before (k: 'w' weight / 'r' reps); changing back clears it */
 function chgMark(s,k,old){ const c=s.chg||(s.chg={}); if(c[k]!=null)old=c[k]; if(+(k==='w'?s.pw:s.pr)===+old)delete c[k]; else c[k]=old; if(c.w==null&&c.r==null)delete s.chg; }
 function setChg(ei,si,k='w'){ const s=S.active?.ex?.[ei]?.sets?.[si]; const c=document.querySelector(`[data-cell="${ei}-${si}"]${k==='r'?'[data-rcell]':':not([data-rcell]):not(.setidx)'}`); if(!c)return;
   c.querySelector('.chgp')?.remove(); if(s?.chg?.[k]==null){ c.classList.remove('chg'); return; }
-  c.classList.add('chg'); c.querySelector('.sugp')?.remove(); c.insertAdjacentHTML('afterbegin',chgHint(s,k)); }
-function sugDelta(s,last,si,k){ if(s.chg?.[k]!=null&&!s.done)return chgHint(s,k); if(!last||s.done||!s.sug)return ''; const l=last[Math.min(si,last.length-1)]; if(!l)return '';
+  c.classList.add('chg'); c.querySelector('.sugp')?.remove(); c.insertAdjacentHTML('afterbegin',chgHint(s,k,S.active?.ex?.[ei]?.n)); }
+function sugDelta(s,last,si,k,nm){ if(s.chg?.[k]!=null&&!s.done)return chgHint(s,k,nm); if(!last||s.done||!s.sug)return ''; const l=last[Math.min(si,last.length-1)]; if(!l)return '';
   const now=k==='w'?+s.pw||0:+s.pr||0, was=k==='w'?+l.w||0:+l.r||0; if(!now||!was)return '';
-  return `<i class="sugp">${now===was&&k==='w'?tt('כמו פעם קודמת'):`${tt('פעם קודמת')}: <span class="num">${k==='w'?wL(was):was}</span>`}</i>`; }
+  return `<i class="sugp">${now===was&&k==='w'?tt('כמו פעם קודמת'):`${tt('פעם קודמת')}: <span class="num">${k==='w'?wX(nm,was):was}</span>`}</i>`; }
 /* the plan Rafi filled in, grouped: "סטים 1–2: 25 ק״ג × 11 · סט 3: 27.5 ק״ג × 7" */
 function coPlanHTML(e,co){ const ss=e.sets.map((x,i)=>({i,w:+x.pw||0,r:+x.pr||0,d:x.done})).filter(x=>!x.d&&x.r);
   if(!ss.length)return '';
@@ -7603,16 +7602,17 @@ function vFocus(e,ei){
   const si=e.sets.findIndex(x=>!x.done), s=e.sets[si], n=e.sets.length, lastS=lastSetsOf(e.n), l=lastS?lastS[Math.min(si,lastS.length-1)]:null;
   const w=fxV(s,'w'), r=fxV(s,'r'), co=e.co;
   const lw=l?+l.w||0:0, lr=l?+l.r||0:0;
-  const subW=!l?LU():w===lw?`${LU()} · ${tt('כמו פעם קודמת')}`:`${LU()} · ${tt('פעם קודמת')}: <span class="num">${wL(lw)}</span>`;
+  const sx=sideEx(e.n), UW=sx?`${LU()} ${tt('בכל צד')}`:LU();
+  const subW=!l?UW:w===lw?`${UW} · ${tt('כמו פעם קודמת')}`:`${UW} · ${tt('פעם קודמת')}: <span class="num">${wX(e.n,lw)}</span>`;
   const subR=!l?tt('חזרות'):`${tt('חזרות')} · ${tt('פעם קודמת')}: <span class="num">${lr}</span>`;
   const coLine=co?.r&&co.k!=='new'?(co.k==='reps'||co.k==='stuck'?tt('עוד חזרה מהפעם הקודמת'):co.k==='up'?tt('עולים במשקל היום'):co.k==='deload'?tt('שבוע קל'):tt('לפי התוכנית')):'';
-  const others=e.sets.map((x,i)=>i===si?'':`<button class="fx-o ${x.done?'d':''}" data-act="fx-tbl" data-ei="${ei}">${tt('סט')} ${i+1}: <span class="num" dir="ltr">${wL(fxV(x,'w'))}×${fxV(x,'r')}</span>${x.done?' ✓':''}</button>`).join('');
+  const others=e.sets.map((x,i)=>i===si?'':`<button class="fx-o ${x.done?'d':''}" data-act="fx-tbl" data-ei="${ei}">${tt('סט')} ${i+1}: <span class="num" dir="ltr">${wX(e.n,fxV(x,'w'))}×${fxV(x,'r')}</span>${x.done?' ✓':''}</button>`).join('');
   return `<div class="ex-card cur fx" data-ei="${ei}" style="view-transition-name:ex-${ei}">
     <div class="ex-head" style="align-items:flex-start"><div style="flex:1;min-width:0">
       <div class="ex-name"><button class="linkbtn" data-act="ex-info" data-ei="${ei}" style="padding:0;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;text-align:start">${esc(e.n)}</button></div>
       <div class="fx-sub"><b class="num">${tt('סט')} ${si+1} ${tt('מתוך')} ${n}</b>${coLine?`<br><button class="fx-co" data-act="fx-tbl" data-ei="${ei}">${tt('מקס')}: ${coLine} ›</button>`:''}</div></div>
       <div class="row" style="gap:6px;flex-wrap:nowrap"><button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמת התרגיל" style="color:var(--accent)">${ICON.play}</button><button class="ibtn" data-act="ex-menu" data-ei="${ei}" aria-label="אפשרויות תרגיל">${ICON.dots}</button></div></div>
-    <div class="fx-st"><button class="fx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="-1" aria-label="פחות משקל">−</button><button class="fx-v" data-act="fx-num" data-k="w" data-ei="${ei}" data-si="${si}"><b class="num">${w?wL(w):'—'}</b><span>${subW}</span></button><button class="fx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="1" aria-label="יותר משקל">+</button></div>
+    <div class="fx-st"><button class="fx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="-1" aria-label="פחות משקל">−</button><button class="fx-v" data-act="fx-num" data-k="w" data-ei="${ei}" data-si="${si}"><b class="num">${w?wX(e.n,w):'—'}</b><span>${subW}</span></button><button class="fx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="1" aria-label="יותר משקל">+</button></div>
     <div class="fx-st"><button class="fx-b" data-act="fx-r" data-ei="${ei}" data-si="${si}" data-d="-1" aria-label="פחות חזרות">−</button><button class="fx-v" data-act="fx-num" data-k="r" data-ei="${ei}" data-si="${si}"><b class="num">${r||'—'}</b><span>${subR}</span></button><button class="fx-b" data-act="fx-r" data-ei="${ei}" data-si="${si}" data-d="1" aria-label="יותר חזרות">+</button></div>
     <button class="btn primary big fx-done" data-act="set-done" data-ei="${ei}" data-si="${si}">✓ ${tt('סיימתי את הסט')}</button>
     ${others?`<div class="fx-os">${others}</div>`:''}
@@ -7620,8 +7620,8 @@ function vFocus(e,ei){
   </div>`; }
 /* Max in one line; a tap opens the reason, the technique cue and the override buttons */
 function coHead(e,co){ const k=co.k, em=x=>`<em>${x}</em>`; if(co.h)return co.h;
-  if(k==='reps'||k==='stuck')return (e.sets.some((x,i)=>i&&+x.pw!==+e.sets[0].pw)||co.ps)?`${tt('אותם משקלים')}, ${em(tt('ועוד חזרה'))} ${tt('בכל סט')}`:!(+co.w>0)?`${tt('היום')} ${em(tt('עוד חזרה'))} ${tt('בכל סט')}`:`${tt('היום כל הסטים על')} ${em(`<span class="num">${wL(co.w)}</span> ${LU()}`)}`;
-  if(k==='up')return `${tt('עולים היום ל-')}${em(`<span class="num">${wL(co.w)}</span> ${LU()}`)}`;
+  if(k==='reps'||k==='stuck')return (e.sets.some((x,i)=>i&&+x.pw!==+e.sets[0].pw)||co.ps)?`${tt('אותם משקלים')}, ${em(tt('ועוד חזרה'))} ${tt('בכל סט')}`:!(+co.w>0)?`${tt('היום')} ${em(tt('עוד חזרה'))} ${tt('בכל סט')}`:`${tt('היום כל הסטים על')} ${em(`<span class="num">${wX(e.n,co.w)}</span> ${LU()}`)}${sideEx(e.n)?` ${tt('בכל צד')}`:''}`;
+  if(k==='up')return `${tt('עולים היום ל-')}${em(`<span class="num">${wX(e.n,co.w)}</span> ${LU()}`)}${sideEx(e.n)?` ${tt('בכל צד')}`:''}`;
   if(k==='hold')return `${em(tt('עוד אימון אחד'))} ${tt('במשקל הזה')}`;
   if(k==='deload')return `${em(tt('שבוע קל'))}: ${tt('חצי מהסטים')}`;
   if(k==='back')return `${em(tt('חוזרים בהדרגה'))} ${tt('אחרי הפסקה')}`;
@@ -7657,7 +7657,7 @@ function vStrength(e,ei,cur){
         ${co&&prev?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:`<div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}`}
         ${!co?(()=>{ const c=e.sets.some(x=>x.done)?null:cueOf(e,co); return c?`<div class="rtip cue"><b>דגש טכניקה</b><span data-notr>${esc(c)}</span></div>`:''; })():''}
-        ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wL(tip.w)}</b> ${LU()}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wL(tip.w)}</span> ${LU()}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
+        ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wX(e.n,tip.w)}</b> ${LU()}${sideEx(e.n)?` ${tt('בכל צד')}`:''}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wX(e.n,tip.w)}</span> ${LU()}${sideEx(e.n)?` ${tt('בכל צד')}`:''}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">
         <button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמת התרגיל" style="color:var(--accent)">${ICON.play}</button>
@@ -7668,10 +7668,10 @@ function vStrength(e,ei,cur){
     ${e.wu?.length?`<div class="wu"><button class="wu-h" data-act="wu-tog" data-ei="${ei}" aria-expanded="${!!e.wuOpen}"><span class="wu-l"><i class="wu-tag">${ICON.fire||''}${tt('חימום')}</i>${e.wu.length} ${tt('סטים')} · ${tt('לא נספר')}</span><span class="wu-st${e.wu.every(x=>x.done)?' ok':''}">${e.wu.every(x=>x.done)?'✓':e.wuOpen?tt('כווץ'):tt('פתח')}</span></button>
       ${e.wuOpen?`<div class="setgrid wu-g">${e.wu.map((x,wi)=>`<span class="setidx">ח</span><span class="wu-v ${x.done?'d':''}">${wL(x.w)}</span><span class="wu-v ${x.done?'d':''}">${x.r}</span><span><button class="done-btn wu-b ${x.done?'d':''}" data-act="wu-done" data-ei="${ei}" data-wi="${wi}" aria-label="סיום סט חימום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>`).join('')}</div>`:''}</div>`:''}
     <div class="setgrid">
-      <span class="h">סט</span><span class="h">${LU()}</span><span class="h">חזרות${rr?(()=>{ const hi=co&&+co.top>rr.hi?+co.top:rr.hi; return ` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===hi?rr.lo:rr.lo+'–'+hi}</bdi>`; })():''}</span><span class="h"></span>
+      <span class="h">סט</span><span class="h">${LU()}${sideEx(e.n)?` ${tt('בכל צד')}`:''}</span><span class="h">חזרות${rr?(()=>{ const hi=co&&+co.top>rr.hi?+co.top:rr.hi; return ` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===hi?rr.lo:rr.lo+'–'+hi}</bdi>`; })():''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num ${s.done?'set-done':''}" data-cell="${ei}-${si}"><b>${si+1}</b></span>
-        <span class="${s.done?'set-done':s.chg?.w!=null?'chg':''}" data-cell="${ei}-${si}">${sugDelta(s,lastS,si,'w')}<input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${wL(s.w??'')}" placeholder="${wL(s.pw??'')}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
+        <span class="${s.done?'set-done':s.chg?.w!=null?'chg':''}" data-cell="${ei}-${si}">${sugDelta(s,lastS,si,'w',e.n)}<input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${wX(e.n,s.w??'')}" placeholder="${wX(e.n,s.pw??'')}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
         <span class="${s.done?'set-done '+repCls(e,s):s.chg?.r!=null?'chg':''}" data-cell="${ei}-${si}" data-rcell="1">${sugDelta(s,lastS,si,'r')}<input id="r-${ei}-${si}" class="num" type="text" readonly data-np="r" value="${s.r??''}" placeholder="${s.pr??''}" ${s.sug?'data-sug="1"':''} data-bind="r" data-ei="${ei}" data-si="${si}" aria-label="חזרות"></span>
         <span class="${s.done?'set-done':''}" data-cell="${ei}-${si}"><button class="done-btn" data-act="set-done" data-ei="${ei}" data-si="${si}" aria-label="סיום סט"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>
       `).join('')}
@@ -8868,17 +8868,20 @@ function npStackHTML(){ const v=NP.val, ST=stackSet(), up=ST.filter(x=>x<=v), dn
   <div class="up">${up.map(x=>sp(x,true)).join('')}</div>${up.length?'<div class="gap"><i></i></div>':''}<div>${dn.map(x=>sp(x,false)).join('')}</div>`; }
 const STACK=[...Array(20)].map((_,i)=>(i+1)*5), STACK_LB=[...Array(20)].map((_,i)=>(i+1)*10); // 5–100 ק״ג, 10–200 lb
 const stackSet=()=>uL()==='lb'?STACK_LB:STACK;
-/* barbell logged per side: some people write the plates on one side (20 a side -> "20"), not the total on the bar */
-const npSide=()=>!!(NP.cfg&&NP.cfg.mode==='weight'&&NP.sub==='bar'&&NP.cfg.exName&&gearOf(NP.cfg.exName)?.side);
+/* barbell: the workout shows the plates on ONE side (20 a side -> "20"); the set is still saved as the total on the bar
+   (bar + both sides), so history, progress and Max stay in real kilos */
+const npSide=()=>!!(NP.cfg&&NP.cfg.mode==='weight'&&NP.sub==='bar'&&NP.cfg.exName);
 const npSideOf=v=>Math.max(0,Math.round((v-(NP.bar??barDef()))/2*100)/100);
-const npFromSide=x=>x>0?Math.round(((NP.bar??barDef())+2*x)*100)/100:0;
-const npOut=()=>npSide()?npSideOf(NP.val):NP.val;
 const npShow=()=>npFmt(npSide()?npSideOf(NP.val):NP.val);
+const sideEx=name=>!!name&&guessSub(name)==='bar';
+const sideOf=(name,kg)=>Math.max(0,Math.round((kg-barGuess(name))/2*100)/100);
+/* a weight as the workout screen shows it: per side for barbell exercises, else as is (in the user's unit) */
+const wX=(name,kg)=>{ if(kg===''||kg==null||!(+kg>0))return wL(kg); return wL(sideEx(name)?sideOf(name,+kg):+kg); };
 function openNumpad(cfg){
   NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
   if(cfg.mode==='range'){ const m=String(cfg.value||'').match(/(\d+)\D+(\d+)/), one=parseInt(cfg.value,10);
     let a=m?+m[1]:(one||8), b=m?+m[2]:(one||12); if(a>b)[a,b]=[b,a]; NP.lo=a; NP.hi=b; }
-  if(cfg.mode==='weight'){ NP.sub=guessSub(cfg.exName||''); NP.bar=barGuess(cfg.exName||''); if(npSide())NP.val=npFromSide(NP.val); }
+  if(cfg.mode==='weight'){ NP.sub=guessSub(cfg.exName||''); NP.bar=barGuess(cfg.exName||''); }
   renderNumpad(); $('#np').hidden=false; $('#np-bg').hidden=false; vibrate(8);
 }
 function closeNumpad(){ $('#np').hidden=true; $('#np-bg').hidden=true; NP.cfg=null; }
@@ -8895,7 +8898,6 @@ function renderNumpad(){
       picker=`<div class="npstage"><div class="npbars">${bars().map(([k,l])=>`<button class="${(NP.bar??barDef())===k?'on':''}" data-npbar="${k}">${tt(l)}${k?` <b class="num">${k}</b>`:''}</button>`).join('')}</div><div class="npbar" id="npbar">${npBarSVG(NP.val)}</div><div class="nptot" id="nptot">${npBarTot(NP.val)}</div></div>
       <div class="pbtns" id="pbtns">${npBtns()}</div>
       <div class="pbcap">${tt('לחיצה מוסיפה פלטה לכל צד')}</div>
-      <div class="npchips npside"><button class="chip ${npSide()?'':'on'}" data-npside="0">${tt('לרשום סה״כ')}</button><button class="chip ${npSide()?'on':''}" data-npside="1">${tt('לרשום לכל צד')}</button></div>
       <div class="npstep">
         <button data-npc="undo" aria-label="${tt('הורד פלטה')}">↶</button>
         <button data-npc="clear" class="num" style="font-size:15px">נקה</button>
@@ -8912,7 +8914,7 @@ function renderNumpad(){
       ${uL()==='lb'?'<div class="npstep"><button data-npadd="-5">−5</button><button data-npadd="5">+5</button></div>':'<div class="npstep"><button data-npadd="-2.5">−2.5</button><button data-npadd="2.5">+2.5</button></div>'}`;
     }
     body=`${subs}${picker}
-    ${c.prev?`<div class="npchips"><button class="chip num" data-npset="${c.prev}">כמו קודם: ${c.prev}</button>${c.tip?`<button class="chip num" data-npset="${c.tip}" style="background:var(--gold-soft);border-color:var(--gold)">💡 ${c.tip}</button>`:''}</div>`:''}`;
+    ${c.prev?`<div class="npchips"><button class="chip num" data-npset="${c.prev}">כמו קודם: ${npSide()?npFmt(npSideOf(c.prev)):c.prev}</button>${c.tip?`<button class="chip num" data-npset="${c.tip}" style="background:var(--gold-soft);border-color:var(--gold)">💡 ${npSide()?npFmt(npSideOf(c.tip)):c.tip}</button>`:''}</div>`:''}`;
   }else if(c.mode==='reps'){
     body=`<div class="npgrid">
       ${Array.from({length:20},(_,i)=>i+1).map(n=>`<button data-npset="${n}" class="num ${NP.val===n?'sel':''}">${n}</button>`).join('')}
@@ -8944,7 +8946,7 @@ function renderNumpad(){
   }
   $('#np').innerHTML=`${c.mode==='weight'?npDefs():''}
     <div class="nptitle">${esc(c.title||'')}</div>
-    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):npShow()}</span><span class="npunit">${esc(c.unit||'')}${npSide()?` <small>${tt('לכל צד')}</small>`:''}</span></div>
+    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):npShow()}</span><span class="npunit">${esc(c.unit||'')}${npSide()?` <small>${tt('בכל צד')}</small>`:''}</span></div>
     ${body}
     <div class="npact">
       ${c.next?`<button class="btn primary big" style="flex:2" data-npc="next">בחרתי — לחזרות ←</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
@@ -8987,13 +8989,12 @@ function npUpdate(){ if(NP.cfg.mode==='range'){ renderNumpad(); return; } const 
   else if(NP.cfg.mode==='weight'&&NP.sub==='stack'){ const k=$('#npstk'); if(k)k.innerHTML=npStackHTML(); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='bar'){ const b=$('#npbar'), t=$('#nptot'); if(b)b.innerHTML=npBarSVG(NP.val); if(t)t.innerHTML=npBarTot(NP.val); const pb=$('#pbtns'); if(pb)pb.innerHTML=npBtns(); } }
 document.addEventListener('click',ev=>{
-  const t=ev.target.closest('[data-npbar],[data-npadd],[data-nppair],[data-npset],[data-npd],[data-npc],[data-npsub],[data-npside],[data-rackv],[data-stackv],[data-nprange],[data-nplo],[data-nphi]'); if(!t||!NP.cfg)return;
+  const t=ev.target.closest('[data-npbar],[data-npadd],[data-nppair],[data-npset],[data-npd],[data-npc],[data-npsub],[data-rackv],[data-stackv],[data-nprange],[data-nplo],[data-nphi]'); if(!t||!NP.cfg)return;
   vibrate(10);
   if(t.dataset.nprange!==undefined){ const [a,b]=t.dataset.nprange.split('-').map(Number); NP.lo=a; NP.hi=b||a; npUpdate(); return; }
   if(t.dataset.nplo!==undefined){ NP.lo=Math.max(1,Math.min(50,NP.lo+ +t.dataset.nplo)); if(NP.hi<NP.lo)NP.hi=NP.lo; npUpdate(); return; }
   if(t.dataset.nphi!==undefined){ NP.hi=Math.max(1,Math.min(50,NP.hi+ +t.dataset.nphi)); if(NP.lo>NP.hi)NP.lo=NP.hi; npUpdate(); return; }
   if(NP.cfg.mode==='range'&&t.dataset.npc==='save'){ const c=NP.cfg, v=npRange(); closeNumpad(); c.apply(v); return; }
-  if(t.dataset.npside!==undefined){ if(NP.cfg.exName)gearSet(NP.cfg.exName,{side:t.dataset.npside==='1'}); renderNumpad(); return; }
   if(t.dataset.npsub!==undefined){ NP.sub=t.dataset.npsub;
     if(NP.cfg.exName){ gearSet(NP.cfg.exName,{sub:NP.sub}); try{const m=padModes();m[NP.cfg.exName]=NP.sub;localStorage.setItem(PAD_KEY,JSON.stringify(m));}catch(e){} }
     renderNumpad(); return; }
@@ -9006,7 +9007,7 @@ document.addEventListener('click',ev=>{
   if(t.dataset.npc==='undo'){ const {L,rest}=barSplit(NP.val);
     NP.val=rest?Math.round((NP.val-rest)*100)/100:L.length?Math.round((NP.val-2*L[L.length-1])*100)/100:0; npUpdate(); return; }
   if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); }
-  else if(t.dataset.npset!==undefined){ NP.val=npSide()?npFromSide(+t.dataset.npset):+t.dataset.npset;
+  else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset;
     if(NP.cfg.mode==='reps'&&NP.cfg.chain){ // בזרימה: בחירת חזרות = שמירת הסט
       const c=NP.cfg,v=NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; } }
   else if(t.dataset.npd!==undefined){ const d=t.dataset.npd;
@@ -9015,10 +9016,10 @@ document.addEventListener('click',ev=>{
     NP.str=(NP.str==='0'&&d!=='.'?'':NP.str)+d; NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='back'){ NP.str=NP.str.slice(0,-1); NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
-  else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):npOut(); closeNumpad(); c.apply(v); return; }
-  else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):npOut(); closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
+  else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); return; }
+  else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
   else if(t.dataset.npc==='extra'){ const c=NP.cfg; closeNumpad(); c.extra&&c.extra.fn(); return; }
-  else if(t.dataset.npc==='next'){ const c=NP.cfg, v=npOut(); closeNumpad(); c.apply(v); c.next&&c.next(); return; }
+  else if(t.dataset.npc==='next'){ const c=NP.cfg, v=NP.val; closeNumpad(); c.apply(v); c.next&&c.next(); return; }
   npUpdate();
 });
 /* מקלדת לסט באימון פעיל: משקל ← חזרות ← הסט נשמר */
@@ -9031,7 +9032,7 @@ function openSetPad(ei,si,kind,chain){
     title:`${e.n} · סט ${si+1} · ${isW?'משקל':'חזרות'}`,
     unit:isW?LU():'חזרות', mode:isW?'weight':'reps', exName:e.n, chain:!!chain,
     value:isW?+wL(s.w||s.pw||0):+(s[kind]||s.pr||0), prev:isW?(+wL(s.pw)||null):(+s.pr||null), tip:tip?wL(tip.w):null,
-    apply(v){ s[kind]=isW?(wLk(v)||''):(v||''); const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=v||''; if(isW&&v)gearSet(e.n,NP.sub==='bar'?{sub:'bar',bar:NP.bar??barDef()}:{sub:NP.sub}); persistActive(); },
+    apply(v){ s[kind]=isW?(wLk(v)||''):(v||''); const inp=document.getElementById(`${kind}-${ei}-${si}`); if(inp)inp.value=isW?(v?wX(e.n,wLk(v)):''):(v||''); if(isW&&v)gearSet(e.n,NP.sub==='bar'?{sub:'bar',bar:NP.bar??barDef()}:{sub:NP.sub}); persistActive(); },
     next:isW?()=>openSetPad(ei,si,'r',true):null,
     applyDone:isW?null:markDone,
   });
@@ -11735,14 +11736,14 @@ function handleAct(b,ev){
           if(ow&&!nx.w){ chgMark(nx,'w',ow); setChg(ei2,si2+1,'w'); } if(orr&&!nx.r){ chgMark(nx,'r',orr); setChg(ei2,si2+1,'r'); }
           if(cw||cr)toast(`${tt('סט')} ${si2+2}: ${cw?`${wL(nx.pw)} ${LU()} ${tt('במקום')} ${wL(ow)}`:''}${cw&&cr?' · ':''}${cr?`${nx.pr} ${tt('חזרות')} ${tt('במקום')} ${orr}`:''}, ${tt('כמו הסט שעשית')}`);
           const nw=document.getElementById(`w-${ei2}-${si2+1}`), nr=document.getElementById(`r-${ei2}-${si2+1}`);
-          if(nw&&!nw.value)nw.placeholder=wL(nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; } }
+          if(nw&&!nw.value)nw.placeholder=wX(e.n,nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; } }
       persistActive();
       // עדכון נקודתי של השורה — בלי רינדור מלא, כדי שסימון סט יעבוד גם כשהמקלדת פתוחה
       document.querySelectorAll(`[data-cell="${ei2}-${si2}"]`).forEach(el=>el.classList.toggle('set-done',s.done));
       { const c=document.querySelector(`[data-exc="${ei2}"]`); if(c){ c.innerHTML=exCnt(e); c.classList.toggle('all',e.sets.every(x=>x.done)); } }
       { const rc=document.querySelector(`[data-cell="${ei2}-${si2}"][data-rcell]`), k=s.done?repCls(e,s):''; if(rc){ rc.classList.remove('r-in','r-over','r-under'); if(k)rc.classList.add(k); } }
       const wi=document.getElementById(`w-${ei2}-${si2}`), ri=document.getElementById(`r-${ei2}-${si2}`);
-      if(wi)wi.value=wL(s.w??''); if(ri)ri.value=s.r??'';
+      if(wi)wi.value=wX(e.n,s.w??''); if(ri)ri.value=s.r??'';
       updateLive();
       if(s.done&&repCls(e,s)==='r-over'){ const o=(S.active._over=S.active._over||{}); if(!o[e.n]){ o[e.n]=1; setTimeout(()=>toast('מעל טווח החזרות, בפעם הבאה אפשר להעלות משקל'),700); } }
       const lastSet=s.done&&e.sets.every(x=>x.done);
