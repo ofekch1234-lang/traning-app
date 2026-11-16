@@ -1804,6 +1804,7 @@ svg text{font-family:var(--body)}
 .pbtn:active{transform:scale(.93)}
 .pbtn b{font-size:13px;font-variant-numeric:tabular-nums}
 .pbtn svg{filter:drop-shadow(0 2px 3px rgba(0,0,0,.28))}
+.npside{margin-top:10px}.npside .chip{font-size:13.5px}
 .pbcap{text-align:center;color:var(--muted);font-size:11.5px;margin-top:5px}
 .npstep{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0}
 .npstep button{width:58px;height:46px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:22px;font-weight:700}
@@ -8867,11 +8868,17 @@ function npStackHTML(){ const v=NP.val, ST=stackSet(), up=ST.filter(x=>x<=v), dn
   <div class="up">${up.map(x=>sp(x,true)).join('')}</div>${up.length?'<div class="gap"><i></i></div>':''}<div>${dn.map(x=>sp(x,false)).join('')}</div>`; }
 const STACK=[...Array(20)].map((_,i)=>(i+1)*5), STACK_LB=[...Array(20)].map((_,i)=>(i+1)*10); // 5–100 ק״ג, 10–200 lb
 const stackSet=()=>uL()==='lb'?STACK_LB:STACK;
+/* barbell logged per side: some people write the plates on one side (20 a side -> "20"), not the total on the bar */
+const npSide=()=>!!(NP.cfg&&NP.cfg.mode==='weight'&&NP.sub==='bar'&&NP.cfg.exName&&gearOf(NP.cfg.exName)?.side);
+const npSideOf=v=>Math.max(0,Math.round((v-(NP.bar??barDef()))/2*100)/100);
+const npFromSide=x=>x>0?Math.round(((NP.bar??barDef())+2*x)*100)/100:0;
+const npOut=()=>npSide()?npSideOf(NP.val):NP.val;
+const npShow=()=>npFmt(npSide()?npSideOf(NP.val):NP.val);
 function openNumpad(cfg){
   NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
   if(cfg.mode==='range'){ const m=String(cfg.value||'').match(/(\d+)\D+(\d+)/), one=parseInt(cfg.value,10);
     let a=m?+m[1]:(one||8), b=m?+m[2]:(one||12); if(a>b)[a,b]=[b,a]; NP.lo=a; NP.hi=b; }
-  if(cfg.mode==='weight'){ NP.sub=guessSub(cfg.exName||''); NP.bar=barGuess(cfg.exName||''); }
+  if(cfg.mode==='weight'){ NP.sub=guessSub(cfg.exName||''); NP.bar=barGuess(cfg.exName||''); if(npSide())NP.val=npFromSide(NP.val); }
   renderNumpad(); $('#np').hidden=false; $('#np-bg').hidden=false; vibrate(8);
 }
 function closeNumpad(){ $('#np').hidden=true; $('#np-bg').hidden=true; NP.cfg=null; }
@@ -8888,6 +8895,7 @@ function renderNumpad(){
       picker=`<div class="npstage"><div class="npbars">${bars().map(([k,l])=>`<button class="${(NP.bar??barDef())===k?'on':''}" data-npbar="${k}">${tt(l)}${k?` <b class="num">${k}</b>`:''}</button>`).join('')}</div><div class="npbar" id="npbar">${npBarSVG(NP.val)}</div><div class="nptot" id="nptot">${npBarTot(NP.val)}</div></div>
       <div class="pbtns" id="pbtns">${npBtns()}</div>
       <div class="pbcap">${tt('לחיצה מוסיפה פלטה לכל צד')}</div>
+      <div class="npchips npside"><button class="chip ${npSide()?'':'on'}" data-npside="0">${tt('לרשום סה״כ')}</button><button class="chip ${npSide()?'on':''}" data-npside="1">${tt('לרשום לכל צד')}</button></div>
       <div class="npstep">
         <button data-npc="undo" aria-label="${tt('הורד פלטה')}">↶</button>
         <button data-npc="clear" class="num" style="font-size:15px">נקה</button>
@@ -8936,7 +8944,7 @@ function renderNumpad(){
   }
   $('#np').innerHTML=`${c.mode==='weight'?npDefs():''}
     <div class="nptitle">${esc(c.title||'')}</div>
-    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):npFmt(NP.val)}</span><span class="npunit">${esc(c.unit||'')}</span></div>
+    <div class="npdisp"><span class="npval num" id="npval">${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):npShow()}</span><span class="npunit">${esc(c.unit||'')}${npSide()?` <small>${tt('לכל צד')}</small>`:''}</span></div>
     ${body}
     <div class="npact">
       ${c.next?`<button class="btn primary big" style="flex:2" data-npc="next">בחרתי — לחזרות ←</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
@@ -8972,19 +8980,20 @@ function rackPick(){
   items.forEach(it=>it.classList.toggle('sel',it===best));
 }
 function npRange(){ return NP.lo===NP.hi?String(NP.lo):`${NP.lo}-${NP.hi}`; }
-function npUpdate(){ if(NP.cfg.mode==='range'){ renderNumpad(); return; } const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npFmt(NP.val);
+function npUpdate(){ if(NP.cfg.mode==='range'){ renderNumpad(); return; } const el=$('#npval'); if(el)el.textContent=NP.cfg.mode==='num'?(NP.str||'0'):npShow();
   if(NP.cfg.mode==='reps'||NP.cfg.mode==='count'||NP.cfg.mode==='secs')renderNumpad();
   else if(NP.cfg.mode==='weight'&&NP.sub==='db'){ // +/- and "same as last time": the rack follows, so the pick stays in the middle
     centerRack(true); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='stack'){ const k=$('#npstk'); if(k)k.innerHTML=npStackHTML(); }
   else if(NP.cfg.mode==='weight'&&NP.sub==='bar'){ const b=$('#npbar'), t=$('#nptot'); if(b)b.innerHTML=npBarSVG(NP.val); if(t)t.innerHTML=npBarTot(NP.val); const pb=$('#pbtns'); if(pb)pb.innerHTML=npBtns(); } }
 document.addEventListener('click',ev=>{
-  const t=ev.target.closest('[data-npbar],[data-npadd],[data-nppair],[data-npset],[data-npd],[data-npc],[data-npsub],[data-rackv],[data-stackv],[data-nprange],[data-nplo],[data-nphi]'); if(!t||!NP.cfg)return;
+  const t=ev.target.closest('[data-npbar],[data-npadd],[data-nppair],[data-npset],[data-npd],[data-npc],[data-npsub],[data-npside],[data-rackv],[data-stackv],[data-nprange],[data-nplo],[data-nphi]'); if(!t||!NP.cfg)return;
   vibrate(10);
   if(t.dataset.nprange!==undefined){ const [a,b]=t.dataset.nprange.split('-').map(Number); NP.lo=a; NP.hi=b||a; npUpdate(); return; }
   if(t.dataset.nplo!==undefined){ NP.lo=Math.max(1,Math.min(50,NP.lo+ +t.dataset.nplo)); if(NP.hi<NP.lo)NP.hi=NP.lo; npUpdate(); return; }
   if(t.dataset.nphi!==undefined){ NP.hi=Math.max(1,Math.min(50,NP.hi+ +t.dataset.nphi)); if(NP.lo>NP.hi)NP.lo=NP.hi; npUpdate(); return; }
   if(NP.cfg.mode==='range'&&t.dataset.npc==='save'){ const c=NP.cfg, v=npRange(); closeNumpad(); c.apply(v); return; }
+  if(t.dataset.npside!==undefined){ if(NP.cfg.exName)gearSet(NP.cfg.exName,{side:t.dataset.npside==='1'}); renderNumpad(); return; }
   if(t.dataset.npsub!==undefined){ NP.sub=t.dataset.npsub;
     if(NP.cfg.exName){ gearSet(NP.cfg.exName,{sub:NP.sub}); try{const m=padModes();m[NP.cfg.exName]=NP.sub;localStorage.setItem(PAD_KEY,JSON.stringify(m));}catch(e){} }
     renderNumpad(); return; }
@@ -8997,7 +9006,7 @@ document.addEventListener('click',ev=>{
   if(t.dataset.npc==='undo'){ const {L,rest}=barSplit(NP.val);
     NP.val=rest?Math.round((NP.val-rest)*100)/100:L.length?Math.round((NP.val-2*L[L.length-1])*100)/100:0; npUpdate(); return; }
   if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); }
-  else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset;
+  else if(t.dataset.npset!==undefined){ NP.val=npSide()?npFromSide(+t.dataset.npset):+t.dataset.npset;
     if(NP.cfg.mode==='reps'&&NP.cfg.chain){ // בזרימה: בחירת חזרות = שמירת הסט
       const c=NP.cfg,v=NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; } }
   else if(t.dataset.npd!==undefined){ const d=t.dataset.npd;
@@ -9006,10 +9015,10 @@ document.addEventListener('click',ev=>{
     NP.str=(NP.str==='0'&&d!=='.'?'':NP.str)+d; NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='back'){ NP.str=NP.str.slice(0,-1); NP.val=parseFloat(NP.str)||0; }
   else if(t.dataset.npc==='clear'){ NP.val=0; NP.str=''; }
-  else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); return; }
-  else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):NP.val; closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
+  else if(t.dataset.npc==='save'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):npOut(); closeNumpad(); c.apply(v); return; }
+  else if(t.dataset.npc==='savedone'){ const c=NP.cfg, v=c.mode==='num'?(parseFloat(NP.str)||0):npOut(); closeNumpad(); c.apply(v); c.applyDone&&c.applyDone(); return; }
   else if(t.dataset.npc==='extra'){ const c=NP.cfg; closeNumpad(); c.extra&&c.extra.fn(); return; }
-  else if(t.dataset.npc==='next'){ const c=NP.cfg, v=NP.val; closeNumpad(); c.apply(v); c.next&&c.next(); return; }
+  else if(t.dataset.npc==='next'){ const c=NP.cfg, v=npOut(); closeNumpad(); c.apply(v); c.next&&c.next(); return; }
   npUpdate();
 });
 /* מקלדת לסט באימון פעיל: משקל ← חזרות ← הסט נשמר */
