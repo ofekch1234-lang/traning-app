@@ -89,7 +89,10 @@ function comparisons(f){
   return [...lower,...higher].slice(0,6);
 }
 function profile(f){ const k=+f.k||1, p=(+f.p||0)*4/k, c=(+f.cb||0)*4/k, ft=(+f.ft||0)*9/k;
-  return {hiP:p>=0.35,hiC:c>=0.55,hiF:ft>=0.5,low:+f.k<60,dense:+f.k>=400}; }
+  // hiP needs real grams too (black coffee is 'mostly protein' at 0.1 g); midP: plenty of protein per 100 g even though fat or
+  // carbs bring most of the calories (cheese, eggs, schnitzel), so the page must not call it 'not a protein source'
+  const g=+f.p||0, hiP=p>=0.35&&g>=5;
+  return {hiP,midP:!hiP&&g>=10,midFrom:ft>=c?'fat':'carb',hiC:c>=0.55,hiF:ft>=0.5,low:+f.k<60,dense:+f.k>=400}; }
 
 // ---------- auto copy per language (varies by macro profile so pages are not clones) ----------
 const COPY={
@@ -100,7 +103,7 @@ const COPY={
   faq:(n,f,u)=>{ const pr=profile(f); const k100=r0(f.k), pct=Math.round((u?f.k*u.g/100:f.k)/2000*100);
     return [
      [`${n} משמין?`, `אף מאכל לא משמין בפני עצמו, מה שקובע הוא סך הקלוריות ביום. ${u?`${unitName(u,'he')} ${oneHe(u)}`:'100 גרם'} של ${n} הם כ-${pct}% מתפריט של 2,000 קק״ל.${pr.dense?' זה מאכל צפוף בקלוריות, אז שימו לב לכמות.':pr.low?' זה מאכל דל קלוריות, שקשה להשמין ממנו.':''}`],
-     [`כמה חלבון יש ב${n}?`, `${r1(f.p)} גר׳ חלבון ל-100 גרם${u?`, ו-${r1(f.p*u.g/100)} גר׳ ב${unitName(u,'he')} ${oneHe(u)}`:''}. ${pr.hiP?'זה מקור חלבון משמעותי לבניית שריר.':'זה לא מקור חלבון משמעותי, כדאי לשלב עם עוף, ביצים, גבינה או קטניות.'}`],
+     [`כמה חלבון יש ב${n}?`, `${r1(f.p)} גר׳ חלבון ל-100 גרם${u?`, ו-${r1(f.p*u.g/100)} גר׳ ב${unitName(u,'he')} ${oneHe(u)}`:''}. ${pr.hiP?'זה מקור חלבון משמעותי לבניית שריר.':pr.midP?`זו כמות חלבון טובה, אבל חלק גדול מהקלוריות מגיע מ${pr.midFrom==='fat'?'שומן':'פחמימות'}, אז כדאי לשים לב לכמות.`:'זה לא מקור חלבון משמעותי, כדאי לשלב עם עוף, ביצים, גבינה או קטניות.'}`],
      [`מה הערך התזונתי של ${n} ל-100 גרם?`, `${k100} קק״ל, ${r1(f.p)} גר׳ חלבון, ${r1(f.cb)} גר׳ פחמימות ו-${r1(f.ft)} גר׳ שומן. הערכים לפי מאגר המזון הלאומי של משרד הבריאות.`],
     ]; },
  },
@@ -111,7 +114,7 @@ const COPY={
   faq:(n,f,u)=>{ const pr=profile(f); const pct=Math.round((u?f.k*u.g/100:f.k)/2000*100);
     return [
      [`Is ${n} fattening?`, `No single food is fattening on its own; total daily calories are what count. ${u?`One ${unitName(u,'en')}`:'100 g'} of ${n} is about ${pct}% of a 2,000 kcal day.${pr.dense?' It is calorie-dense, so watch the amount.':pr.low?' It is low in calories and hard to overeat.':''}`],
-     [`How much protein is in ${n}?`, `${r1(f.p)} g of protein per 100 g${u?`, and ${r1(f.p*u.g/100)} g per ${unitName(u,'en')}`:''}. ${pr.hiP?'A meaningful protein source for building muscle.':'Not a major protein source; pair it with chicken, eggs, cheese or legumes.'}`],
+     [`How much protein is in ${n}?`, `${r1(f.p)} g of protein per 100 g${u?`, and ${r1(f.p*u.g/100)} g per ${unitName(u,'en')}`:''}. ${pr.hiP?'A meaningful protein source for building muscle.':pr.midP?`A good amount of protein, but much of the calories come from ${pr.midFrom==='fat'?'fat':'carbs'}, so watch the portion.`:'Not a major protein source; pair it with chicken, eggs, cheese or legumes.'}`],
      [`What are the nutrition facts of ${n} per 100 g?`, `${r0(f.k)} kcal, ${r1(f.p)} g protein, ${r1(f.cb)} g carbs and ${r1(f.ft)} g fat, per the Israeli Ministry of Health food database.`],
     ]; },
  },
@@ -122,7 +125,7 @@ const COPY={
   faq:(n,f,u)=>{ const pr=profile(f); const pct=Math.round((u?f.k*u.g/100:f.k)/2000*100);
     return [
      [`هل ${n} يسبب السمنة؟`, `لا يسبب طعام بمفرده السمنة؛ المهم هو إجمالي السعرات اليومية. ${u?`${unitName(u,'ar')} واحدة`:'100 غ'} من ${n} تعادل نحو ${pct}% من نظام 2,000 سعرة.${pr.dense?' طعام كثيف السعرات، فانتبه للكمية.':pr.low?' طعام منخفض السعرات يصعب الإفراط فيه.':''}`],
-     [`كم بروتين في ${n}؟`, `${r1(f.p)} غ بروتين لكل 100 غ${u?`، و${r1(f.p*u.g/100)} غ في ${unitName(u,'ar')} واحدة`:''}. ${pr.hiP?'مصدر بروتين مهم لبناء العضل.':'ليس مصدر بروتين رئيسيًا؛ اجمعه مع الدجاج أو البيض أو الجبن أو البقوليات.'}`],
+     [`كم بروتين في ${n}؟`, `${r1(f.p)} غ بروتين لكل 100 غ${u?`، و${r1(f.p*u.g/100)} غ في ${unitName(u,'ar')} واحدة`:''}. ${pr.hiP?'مصدر بروتين مهم لبناء العضل.':pr.midP?`كمية جيدة من البروتين، لكن جزءًا كبيرًا من السعرات يأتي من ${pr.midFrom==='fat'?'الدهون':'الكربوهيدرات'}، لذا انتبه للكمية.`:'ليس مصدر بروتين رئيسيًا؛ اجمعه مع الدجاج أو البيض أو الجبن أو البقوليات.'}`],
      [`ما القيم الغذائية لـ${n} لكل 100 غ؟`, `${r0(f.k)} سعرة، ${r1(f.p)} غ بروتين، ${r1(f.cb)} غ كربوهيدرات و${r1(f.ft)} غ دهون، وفق قاعدة بيانات وزارة الصحة.`],
     ]; },
  },
