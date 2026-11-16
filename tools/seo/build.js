@@ -245,7 +245,20 @@ for(const l of LANGS){ for(const [kind,p] of [['cal',''],['bmi','bmi'],['prot','
 const guides=require('./guides.js'); const guideUrls=[];
 for(const l of LANGS){ const all=guides.load(l); if(!all.length)continue; for(const g of all){ w(g.path,guides.page(HEAD,FOOT,l,g,all,calcLinks)); guideUrls.push(g.path); } w(guides.base(l),guides.index(HEAD,FOOT,l,all)); guideUrls.push(guides.base(l)); }
 // sitemaps
-const sm=list=>`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${list.map(u=>`<url><loc>${SITE}${u}</loc></url>`).join('')}</urlset>`;
+// <lastmod>: the date of the last commit that touched the files a page is built from, so Google recrawls what really changed.
+// Vercel clones shallow: a date from a boundary commit (listed in .git/shallow) would claim every file changed then, so it is left out.
+const {execFileSync}=require('child_process');
+const SHALLOW=(()=>{ try{ return fs.readFileSync(path.join(ROOT,'.git','shallow'),'utf8').split(/\s+/).filter(Boolean); }catch{ return []; } })();
+const lastmodCache={};
+function lastmod(files){ const key=files.join('|'); if(key in lastmodCache)return lastmodCache[key];
+  let d=''; try{ const [h,date]=execFileSync('git',['log','-1','--format=%H %cs','--',...files],{cwd:ROOT,stdio:['ignore','pipe','ignore']}).toString().trim().split(' '); if(h&&/^\d{4}-\d\d-\d\d$/.test(date)&&!SHALLOW.includes(h))d=date; }catch{}
+  return lastmodCache[key]=d; }
+const FOOD_SRC=['tools/seo/build.js','tools/seo/foods.json'];
+const srcOf=u=>/^\/(ar\/)?food\//.test(u)?FOOD_SRC:/^\/(ar\/)?calc\//.test(u)?['tools/seo/calc.js']
+  :/^\/(ar\/)?guide\/[^/]+$/.test(u)?['tools/seo/guides.js',`tools/seo/guides/${u.startsWith('/ar/')?'ar':'he'}/${u.split('/').pop()}.md`]
+  :/^\/(ar\/)?guide\/$/.test(u)?['tools/seo/guides.js',`tools/seo/guides/${u.startsWith('/ar/')?'ar':'he'}`]
+  :u==='/'?['index.html']:[`${u.slice(1)}.html`];
+const sm=list=>`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${list.map(u=>{ const d=lastmod(srcOf(u)); return `<url><loc>${SITE}${u}</loc>${d?`<lastmod>${d}</lastmod>`:''}</url>`; }).join('')}</urlset>`;
 // Arabic names fixed after publishing (stray Cyrillic/Hebrew letters): the old address stays as a redirect to the new page (not in the sitemap)
 const renamedAr=JSON.parse(fs.readFileSync(path.join(__dirname,'renamed-ar.json'),'utf8'));
 for(const f of foods){ const oldName=renamedAr[f.c]; if(!oldName||!LANGS.includes('ar'))continue; const oldP=`/ar/food/${encodeURI(slug(oldName))}-${f.c}`, newP=pathOf(f,'ar'); if(oldP===newP)continue;
