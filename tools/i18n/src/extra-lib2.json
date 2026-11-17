@@ -98,5 +98,17 @@
  "בכל צד": {
   "en": "per side",
   "ar": "لكل جانب"
+ },
+ "אפשר יותר.": {
+  "en": "You can do more.",
+  "ar": "يمكنك أكثر."
+ },
+ "מקס מציע את המינימום. יכול יותר? תעשה ותרשום מה שעשית, ככה הוא לומד ומעלה משקל מהר יותר.": {
+  "en": "Max suggests the minimum. Can do more? Do it and log what you did — that's how he learns and raises the weight sooner.",
+  "ar": "ماكس يقترح الحد الأدنى. تستطيع أكثر؟ افعل وسجّل ما فعلته، هكذا يتعلّم ويرفع الوزن أسرع."
+ },
+ "מקס מציע את המינימום. יכולה יותר? תעשי ותרשמי מה שעשית, ככה הוא לומד ומעלה משקל מהר יותר.": {
+  "en": "Max suggests the minimum. Can do more? Do it and log what you did — that's how he learns and raises the weight sooner.",
+  "ar": "ماكس يقترح الحد الأدنى. تستطيعين أكثر؟ افعلي وسجّلي ما فعلتِه، هكذا يتعلّم ويرفع الوزن أسرع."
  }
 }
