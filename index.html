@@ -8546,7 +8546,12 @@ function rirSet(ei,si,v){
   const e=S.active?.ex?.[ei], s=e?.sets?.[si]; if(!s)return; s.rir=v; persistActive();
   const rr=repRange(e.reps), nx=e.sets[si+1], r=+s.r||0, w=+s.w||0; let msg='בדיוק בטווח. ממשיכים ככה.';
   if(nx&&!nx.done){
-    if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=r+2; msg='נשאר לך עוד הרבה כוח. בסט הבא נסה עוד 2 חזרות.'; }
+    /* 3+ reps left: add reps while that stays inside the range; at the top of the range add weight instead
+       (double progression), so the next set never asks for reps above the range */
+    const top=rr?Math.max(rr.hi,+(e.co?.top)||0):0;
+    if(v>=3&&rr&&w>0&&r+2>top){ const ow=+nx.pw||w, st=wStep(e.n); nx.pw=roundTo(w+st,st); nx.pr=Math.max(rr.lo,Math.min(top,r-2));
+      if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`נשאר לך הרבה כוח ואתה בקצה הטווח: בסט הבא ${wX(e.n,nx.pw)} ${LU()}${sideEx(e.n)?' '+tt('בכל צד'):''}.`; }
+    else if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=rr?Math.min(top,r+2):r+2; msg=nx.pr>r?'נשאר לך עוד הרבה כוח. בסט הבא נסה עוד 2 חזרות.':'נשאר לך עוד הרבה כוח. ממשיכים ככה.'; }
     else if(v===0&&rr&&r<rr.lo&&w>0){ const ow=+nx.pw||w; nx.pw=roundTo(w*0.95,wStep(e.n)); if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`קשה מדי: בסט הבא ${wL(nx.pw)} ${LU()}.`; }
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
     if(nw&&!nw.value)nw.placeholder=wX(e.n,nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
