@@ -1698,6 +1698,8 @@ body.resting .rm-pan{display:none}
 .wu:not(:has(.wu-g)){background:rgba(245,181,58,.06);border:1px solid rgba(245,181,58,.30);margin:2px 0 8px}.wu:not(:has(.wu-g)) .wu-h{padding:8px 10px;font-weight:600;color:var(--muted)}
 .wu-l{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-weight:600}.wu-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;background:rgba(245,181,58,.16);color:var(--gold);font-style:normal;font-weight:800;font-size:12.5px}.wu-tag svg{width:13px;height:13px}
 .wu .wu-st{color:var(--gold);font-weight:700}.wu .wu-st.ok{color:var(--acc-t,var(--accent))}
+.more-tip{display:flex;align-items:flex-start;gap:10px;margin:8px 0 2px;padding:11px 12px 11px 8px;border-radius:14px;background:var(--surface);border:1px solid var(--line);font-size:13.5px;line-height:1.55;color:var(--muted)}.more-tip b{color:var(--ink)}.more-tip>span{flex:1}
+.more-x{flex:none;width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--muted);font-size:13px;line-height:1}
 .rb-x{padding:0 12px 12px;display:flex;flex-direction:column;gap:8px;animation:rbIn .3s ease}.rb-x p{margin:0;font-size:13.5px;line-height:1.6;color:var(--muted)}
 .rb-cue{display:flex;flex-direction:column;gap:2px;background:var(--surface);border-radius:12px;padding:9px 12px}.rb-cue b{font-size:12px;font-weight:700;color:var(--accent)}.rb-cue span{color:var(--ink);font-size:13.5px;line-height:1.5}
 .rb-x .chip{align-self:flex-start}
@@ -7634,10 +7636,16 @@ function coHead(e,co){ const k=co.k, em=x=>`<em>${x}</em>`; if(co.h)return co.h;
   if(k==='reset')return `${em(tt('צעד אחורה'))} ${tt('כדי לקפוץ קדימה')}`;
   if(k==='down')return `${em(tt('יורדים קצת'))} ${tt('ובונים מחדש')}`;
   return k==='new'?tt('פעם ראשונה בתרגיל'):tt('ההמלצה להיום כבר בטבלה'); }
+/* one-time hint (first two workouts): Max's numbers are a floor, not a ceiling */
+const MORE_TXT=()=>LW('מקס מציע את המינימום. יכול יותר? תעשה ותרשום מה שעשית, ככה הוא לומד ומעלה משקל מהר יותר.','מקס מציע את המינימום. יכולה יותר? תעשי ותרשמי מה שעשית, ככה הוא לומד ומעלה משקל מהר יותר.');
+function moreTip(){ let m={ids:[],off:false}; try{ m=Object.assign(m,JSON.parse(localStorage.getItem('nr_moretip')||'{}')); }catch(_){}
+  const id=S.active?.id; if(m.off||!id)return false; if(m.ids.includes(id))return true; if(m.ids.length>=2)return false;
+  m.ids.push(id); try{ localStorage.setItem('nr_moretip',JSON.stringify(m)); }catch(_){} return true; }
+function moreTipHTML(){ return `<div class="more-tip"><span><b>${tt('אפשר יותר.')}</b> ${MORE_TXT()}</span><button class="more-x" data-act="more-tip-x" aria-label="${tt('סגור')}">✕</button></div>`; }
 function coCompactHTML(e,ei,co){ const open=!!e.coOpen, c=cueOf(e,co);
   return `<div class="rb ${open?'open':''} ${co.k==='up'?'up':''}"><span class="rb-avw"><img class="rb-av" src="img/kobi-${co.k==='up'?'strain':'happy'}.svg" alt="${tt('מקס')}"></span>
     <div class="rb-bub"><button class="rb-h" data-act="co-tog" data-ei="${ei}" aria-expanded="${open}"><span class="rb-t">${coHead(e,co)}</span><span class="rb-why">${open?tt('סגור'):tt('למה?')}</span></button>
-    ${open?`<div class="rb-x"><p>${esc(co.why)}</p>${c?`<p class="rb-cue"><b>${tt('דגש טכניקה')}</b><span data-notr>${esc(c)}</span></p>`:''}${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}</div></div>`; }
+    ${open?`<div class="rb-x"><p>${esc(co.why)}</p><p>${MORE_TXT()}</p>${c?`<p class="rb-cue"><b>${tt('דגש טכניקה')}</b><span data-notr>${esc(c)}</span></p>`:''}${co.ovr?`<button class="chip co-ovr" data-act="co-ovr" data-ei="${ei}">הרגיש בסדר, תעלה ל-${wL(co.ovr.w)}</button>`:''}${co.k==='sens'?`<button class="chip co-ovr" data-act="sens-clear" data-ei="${ei}">עבר, אפשר לחזור</button>`:''}</div>`:''}</div></div>`; }
 /* "2 ביצים" + "ביצים" → "2 ביצים"; "1 פיתה" + "פיתה מלאה" → "1 פיתה מלאה": the unit already names the food, so it isn't said twice */
 const heStem=w=>{ let x=String(w||'').replace(/[׳'"״⁦⁩]/g,'').replace(/[םןץףך]$/,c=>({'ם':'מ','ן':'נ','ץ':'צ','ף':'פ','ך':'כ'}[c])), y; do{ y=x; if(x.length>3)x=x.replace(/(יות|ית|ימ|ים|ות|ה|י)$/,''); }while(x!==y); return x; };
 function amtName(h,name,id){ const m=String(h||'').match(/^(\S+)\s+(.+)$/); if(!m)return {b:h,rest:name};
@@ -7669,7 +7677,7 @@ function vStrength(e,ei,cur){
         <button class="ibtn" data-act="ex-menu" data-ei="${ei}" aria-label="אפשרויות תרגיל">${ICON.dots}</button>
       </div>
     </div>
-    ${co?coCompactHTML(e,ei,co):''}
+    ${co?coCompactHTML(e,ei,co):''}${co&&ei===S.active.ex.findIndex(x=>x.co)&&moreTip()?moreTipHTML():''}
     ${e.wu?.length?`<div class="wu"><button class="wu-h" data-act="wu-tog" data-ei="${ei}" aria-expanded="${!!e.wuOpen}"><span class="wu-l"><i class="wu-tag">${ICON.fire||''}${tt('חימום')}</i>${e.wu.length} ${tt('סטים')} · ${tt('לא נספר')}</span><span class="wu-st${e.wu.every(x=>x.done)?' ok':''}">${e.wu.every(x=>x.done)?'✓':e.wuOpen?tt('כווץ'):tt('פתח')}</span></button>
       ${e.wuOpen?`<div class="setgrid wu-g">${e.wu.map((x,wi)=>`<span class="setidx">ח</span><span class="wu-v ${x.done?'d':''}">${wL(x.w)}</span><span class="wu-v ${x.done?'d':''}">${x.r}</span><span><button class="done-btn wu-b ${x.done?'d':''}" data-act="wu-done" data-ei="${ei}" data-wi="${wi}" aria-label="סיום סט חימום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>`).join('')}</div>`:''}</div>`:''}
     <div class="setgrid">
@@ -11727,6 +11735,7 @@ function handleAct(b,ev){
       if(act==='fx-w'){ const st=wStep(e.n), cur=fxV(x,'w'); x.w=Math.max(0,Math.round((cur+d*st)*100)/100); }
       else { const cur=fxV(x,'r'); x.r=Math.max(0,cur+d); }
       vibrate(6); persistActive(); render(); break; }
+    case 'more-tip-x': { try{ const m=JSON.parse(localStorage.getItem('nr_moretip')||'{}'); m.off=true; localStorage.setItem('nr_moretip',JSON.stringify(m)); }catch(_){} b.closest('.more-tip')?.remove(); break; }
     case 'co-tog': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; e.coOpen=!e.coOpen; persistActive(); render(); break; }
     case 'rm-pick': { if(!S.active)break; S.active.pick=+b.dataset.ei; persistActive(); render(); break; }
     case 'fx-tbl': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e)break; e.fullTbl=!e.fullTbl; persistActive(); render(); break; }
