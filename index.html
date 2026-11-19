@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c6bd1eb1"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c6bd1eb1"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c6bd1eb1"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=906d7337"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=906d7337"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=906d7337"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -3923,11 +3923,11 @@ function onbProjHTML(){
   const end=new Date(Date.now()+weeks*7*864e5), dt=end.toLocaleDateString(LOC,{day:'numeric',month:'long'});
   let head, chart='';
   if(has){
-    head=`${tt('אפשר להגיע ל-')}<span class="acc num">${wB(tgt)} ${BU()}</span><br>${tt('עד')} <span class="acc">${dt}</span>`;
-    const W=300,H=130, y0=cut?28:102, y1=cut?102:28, pts=[]; for(let i=0;i<=24;i++){ const t=i/24, e=1-Math.pow(1-t,1.6); pts.push(`${(W-16-t*(W-32)).toFixed(1)},${(y0+(y1-y0)*e).toFixed(1)}`); }
+    head=`${tt('אפשר להגיע ל-')}<span class="acc num">${wB(tgt)} ${BU()}</span><br>${tt('עד {0}').replace('{0}',`<span class="acc">${dt}</span>`)}`;
+    const W=300,H=130, rtl=document.documentElement.dir!=='ltr', y0=cut?28:102, y1=cut?102:28, pts=[]; for(let i=0;i<=24;i++){ const t=i/24, e=1-Math.pow(1-t,1.6); pts.push(`${(rtl?W-16-t*(W-32):16+t*(W-32)).toFixed(1)},${(y0+(y1-y0)*e).toFixed(1)}`); }
     chart=`<div class="ob-pj"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs><linearGradient id="pjg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
-      <path d="M${pts.join(' L')} L16,${H} L${W-16},${H} Z" fill="url(#pjg)"/><path d="M${pts.join(' L')}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round"/>
-      <circle cx="${W-16}" cy="${y0}" r="6" fill="#F2F5F2"/><circle cx="16" cy="${y1}" r="8" fill="var(--accent)" stroke="#0A0B0A" stroke-width="3"/></svg>
+      <path d="M${pts.join(' L')} L${rtl?16:W-16},${H} L${rtl?W-16:16},${H} Z" fill="url(#pjg)"/><path d="M${pts.join(' L')}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="${rtl?W-16:16}" cy="${y0}" r="6" fill="#F2F5F2"/><circle cx="${rtl?16:W-16}" cy="${y1}" r="8" fill="var(--accent)" stroke="#0A0B0A" stroke-width="3"/></svg>
       <div class="ob-pjl"><span><b class="num">${wB(w)} ${BU()}</b><small>${tt('היום')}</small></span><span><b class="num acc">${wB(tgt)} ${BU()}</b><small>${dt}</small></span></div></div>`;
   } else {
     head=`${tt('ב-8 השבועות הראשונים')}<br><span class="acc">${a.goal==='strength'?OG('אתה נהיה חזק יותר','את נהיית חזקה יותר'):tt('ההתמדה נבנית')}</span>`;
