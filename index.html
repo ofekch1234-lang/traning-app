@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=94e51537"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=94e51537"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=94e51537"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=7b50817b"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=7b50817b"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=7b50817b"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1289,6 +1289,24 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .ob-icon{margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px;border-radius:20px;background:#141715;border:1px solid color-mix(in srgb,var(--accent) 40%,#232825);text-align:start}
 .ob-icon img{width:52px;height:52px;border-radius:13px}.ob-icon b{display:block;font-size:16px}.ob-icon small{font-size:13px;color:#A3ADA6}
 .ob-icon-b{display:flex;gap:8px;width:100%}.ob-icon-b button{flex:1;height:44px;border-radius:14px;border:0;background:var(--accent);color:#0A0B0A;font-weight:800;font-size:15px}.ob-icon-b .no{background:#1E2220;color:#F2F5F2;font-weight:600}
+.ob-pj{margin-top:8px;padding:16px 12px 12px;border-radius:22px;background:#141715;border:1px solid #232825}.ob-pj svg{width:100%;height:auto;display:block}
+.ob-pjl{display:flex;justify-content:space-between;padding:6px 4px 0}.ob-pjl span{display:flex;flex-direction:column;gap:2px}.ob-pjl span:last-child{align-items:flex-end}.ob-pjl b{font-size:17px}.ob-pjl small{font-size:12.5px;color:#A3ADA6}
+.ob-tl{display:flex;flex-direction:column;gap:0;margin-top:6px;padding:6px 16px;border-radius:22px;background:#141715;border:1px solid #232825}
+.ob-tl div{display:grid;grid-template-columns:18px 64px 1fr;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #1E2320;font-size:14.5px}.ob-tl div:first-child{border-top:0}
+.ob-tl i{width:10px;height:10px;border-radius:50%;background:#2A302C}.ob-tl i.on{background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 25%,transparent)}.ob-tl b{font-size:14px;color:var(--accent)}.ob-tl span{color:#C9D0CB}
+.ob-how{margin-top:12px;border-top:1px solid #1E2320;padding-top:10px}.ob-how summary{font-size:14px;font-weight:700;color:var(--accent);cursor:pointer;list-style:none}.ob-how summary::-webkit-details-marker{display:none}
+.ob-how div{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;color:#C9D0CB}.ob-how div b{font-size:14px}.ob-how div.t{border-top:1px solid #2A302C;margin-top:4px;color:#F2F5F2;font-weight:800}.ob-how small{margin-top:6px}
+.ob-why{display:flex;flex-direction:column;gap:9px;margin-top:10px}.ob-why span{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.45;color:#C9D0CB}.ob-why i{width:20px;height:20px;border-radius:50%;background:#26331A;color:var(--accent);display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.ob-lock.tr{margin:28px 24px 0;padding:22px 14px 26px;border-radius:40px;background:#111312}.ob-lock .dy{text-align:center;font-size:15px;font-weight:700;color:#C9D0CB}.ob-lock.tr .tm{font-size:64px;font-weight:800;margin:2px 0 18px}
+.obs-pay .pay-hero{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:calc(26px + env(safe-area-inset-top))}.obs-pay .pay-hero>img{width:112px;height:112px;position:relative}
+.obs-pay .ob-brand{position:relative;margin-top:4px}
+.pay-ben{display:flex;flex-direction:column;gap:12px;margin:16px 20px 0;padding:16px;border-radius:22px;background:#141715;border:1px solid #232825}
+.pay-ben div{display:flex;gap:12px;align-items:flex-start}.pay-ben i{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#0A0B0A;display:flex;align-items:center;justify-content:center;flex:none;margin-top:2px}
+.pay-ben b{display:block;font-size:15.5px}.pay-ben small{display:block;font-size:13.5px;color:#A3ADA6;line-height:1.4;margin-top:2px}
+.pay-tg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:16px;background:#141715;border:1px solid #232825;margin-bottom:12px}
+.pay-tg button{height:44px;border-radius:12px;border:0;background:transparent;color:#A3ADA6;font:inherit;font-size:15px;font-weight:800}.pay-tg button.on{background:#F2F5F2;color:#0A0B0A}.pay-tg em{font-style:normal;color:var(--accent);font-weight:800}#onb .pay-tg button.on em{color:#3A6B00}#onb .ob-lock.tr em{color:#F2F5F2}
+.pay-p{text-align:center;font-size:15px;color:#C9D0CB;margin-bottom:12px;line-height:1.5}.pay-p b{color:#F2F5F2}.pay-p small{color:#A3ADA6}
+.pay-foot .ob-legal .linkbtn{font-size:12px;color:var(--accent);padding:0}
 .ob-gift{margin-top:12px;font-size:14px;font-weight:700;color:var(--accent)}
 #authwrap{max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 0 24px;display:flex;flex-direction:column;gap:12px}
 #authwrap .card{padding:20px 18px}
@@ -2864,6 +2882,7 @@ function natPlan(){
   const at=(d,h,m)=>{ const x=new Date(d); x.setHours(h,m||0,0,0); return x; };
   const day=i=>{ const x=new Date(now); x.setHours(12,0,0,0); x.setDate(x.getDate()+i); return x; };
   const add=(when,title,body,kind)=>{ if(+when>Date.now()+60e3&&out.length<60)out.push({at:+when,title:tt(title),body:tt(body),kind}); };
+  { let te=0; try{ te=+localStorage.getItem('nr-trial-end')||0; }catch(_){} if(te>Date.now()){ const w=new Date(te-2*DAYMS); w.setHours(10,0,0,0); const nm=firstName(); add(w,'תקופת הניסיון מסתיימת בעוד יומיים',(nm?nm+', ':'')+'עדיין אפשר לבטל לפני החיוב, ב-App Store.','trial'); } }
   // 1. one morning message per day: weigh-in (7:30, until weighed), the weekly photo day, and the scheduled workout together.
   //    Weigh-in on: 7:30 with whatever applies. Only the workout reminder on (weighed / weigh-in off): 8:00 as before.
   { const today=ymd(), wToday=(S.weights||[]).some(w=>w.d===today), pd=S.settings.photoDay!=null?+S.settings.photoDay:null, phToday=(PH.sets||[]).some(s=>s.d===today);
@@ -3748,7 +3767,7 @@ const onbSave=()=>{ try{ localStorage.setItem(ONB_KEY,JSON.stringify(ONB)); }cat
 const ONB_GTXT=g=>(({he:{m:['אתה','״בוא נשבור שיא היום״'],f:['את','״בואי נשבור שיא היום״']},
   ar:{m:['أنتَ','«هيا نحطم رقمًا اليوم»'],f:['أنتِ','«هيا نحطم رقمًا اليوم»']},
   en:{m:['You','“Let\'s beat a record today”'],f:['You','“Let\'s beat a record today”']}})[LANG]||{m:['אתה','״בוא נשבור שיא היום״'],f:['את','״בואי נשבור שיא היום״']})[g];
-const ONB_STEPS=['welcome','meet','invite','name','addr','goal','memory','exp','sched','body','mode','block','health','build','plan','save'];
+const ONB_STEPS=['welcome','meet','invite','name','addr','goal','memory','exp','sched','body','proj','mode','block','health','build','plan','save'];
 const ONB_QN={name:1,addr:2,goal:3,memory:3,exp:4,sched:5,body:6,mode:7,block:8,health:9};
 /* health answers live in memory only (never saved, not even on the device): only the outcome goes into ONB.a */
 const ONB_HQ={ans:[],res:false,ok:false};
@@ -3812,6 +3831,79 @@ function onbReady(st){ const a=ONB.a;
   if(st==='sched')return !!a.days&&!!a.equip&&!!a.time;
   if(st==='body')return onbH()>=120&&onbH()<=230&&+a.w>=30&&+a.w<=300&&+a.age>=13&&+a.age<100&&!!a.sex;
   if(st==='mode')return !!a.mode; return true; }
+/* ---------- 2026-11-19: the Imunit-style opening. New iPhone signups have no free tier and no free week:
+   a projection, the plan, the "no surprises" reminder (the notification ask), then the store paywall with the store's own free trial. ---------- */
+const onbHardOS=()=>IS_NATIVE&&NATIVE_OS==='ios'&&!!RC_KEYS.ios;
+const onbPend=()=>IS_NATIVE&&!!ONB&&!ONB.redo&&ONB_STEPS[ONB.s]==='save'&&!ONB.applied;
+const onbHardNow=()=>onbHardOS()&&onbPend()&&!ONB.ref?.code;
+const ONB_BLK={time:['אין לי זמן','אימונים באורך שבחרת, ותזכורת רק בימים שלך'],unsure:[['לא בטוח מה לעשות','לא בטוחה מה לעשות'],'הדגמה לכל תרגיל, ומקס אומר בדיוק כמה להרים'],stuck:[['תקוע באותם משקלים','תקועה באותם משקלים'],'בלוקים של 6 שבועות עם שבוע קל, כדי לשבור את התקיעות'],motiv:[['מאבד מוטיבציה','מאבדת מוטיבציה'],'סיכום שבועי ממקס, שיאים ורצפים שרואים בעיניים'],food:['התזונה','יעד יומי פשוט, וצילום צלחת במקום טבלאות'],pain:['כאב או פציעה','תוכנית בלי התרגילים שמעמיסים על האזור']};
+const onbBlkSaid=k=>{ const x=ONB_BLK[k]; if(!x)return ''; return tt(Array.isArray(x[0])?OG(x[0][0],x[0][1]):x[0]); };
+function onbProjHTML(){
+  const a=ONB.a, nm=esc(String(a.name||'').trim()), r=tgCalc(onbTG()), w=+a.w, gk=+a.goalKg, cut=a.goal==='cut', mass=a.goal==='mass';
+  const wk=r?Math.abs(r.wk):0, dir=cut?-1:1, has=(cut||mass)&&r&&wk>0;
+  const tgt=has?(gk&&(cut?gk<w:gk>w)?gk:Math.round((w+dir*wk*8)*10)/10):0;
+  const weeks=has?Math.max(2,Math.min(52,Math.ceil(Math.abs(tgt-w)/wk))):8;
+  const end=new Date(Date.now()+weeks*7*864e5), dt=end.toLocaleDateString(LOC,{day:'numeric',month:'long'});
+  let head, chart='';
+  if(has){
+    head=`${tt('אפשר להגיע ל-')}<span class="acc num">${wB(tgt)} ${BU()}</span><br>${tt('עד')} <span class="acc">${dt}</span>`;
+    const W=300,H=130, y0=cut?28:102, y1=cut?102:28, pts=[]; for(let i=0;i<=24;i++){ const t=i/24, e=1-Math.pow(1-t,1.6); pts.push(`${(W-16-t*(W-32)).toFixed(1)},${(y0+(y1-y0)*e).toFixed(1)}`); }
+    chart=`<div class="ob-pj"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs><linearGradient id="pjg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
+      <path d="M${pts.join(' L')} L16,${H} L${W-16},${H} Z" fill="url(#pjg)"/><path d="M${pts.join(' L')}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="${W-16}" cy="${y0}" r="6" fill="#F2F5F2"/><circle cx="16" cy="${y1}" r="8" fill="var(--accent)" stroke="#0A0B0A" stroke-width="3"/></svg>
+      <div class="ob-pjl"><span><b class="num">${wB(w)} ${BU()}</b><small>${tt('היום')}</small></span><span><b class="num acc">${wB(tgt)} ${BU()}</b><small>${dt}</small></span></div></div>`;
+  } else {
+    head=`${tt('ב-8 השבועות הראשונים')}<br><span class="acc">${a.goal==='strength'?OG('אתה נהיה חזק יותר','את נהיית חזקה יותר'):tt('ההתמדה נבנית')}</span>`;
+    chart=`<div class="ob-tl">${[[tt('שבוע 1'),tt('מקס לומד את המשקלים שלך')],[tt('שבוע 3'),tt('העלאות ראשונות במשקל')],[tt('שבוע 6'),tt('שבוע קל, ותוכנית מרועננת')],[tt('שבוע 8'),tt('שיאים חדשים בתרגילים הגדולים')]].map(([k,t],i)=>`<div><i class="${i===3?'on':''}"></i><b>${k}</b><span>${t}</span></div>`).join('')}</div>`;
+  }
+  const kc=r?`<div class="ob-card" style="margin:16px 0 0"><div class="spread"><b>${tt('היעד היומי שלך')}</b><small>${tt('מתעדכן כל שבוע')}</small></div>
+      <div class="ob-kc"><b class="acc">${Math.round(r.kcal).toLocaleString('en-US')}</b><span>${tt('קק״ל')}</span><i></i><b>${r.prot}</b><span>${tt('גר׳ חלבון')}</span></div>
+      <details class="ob-how"><summary>${tt('איך חישבנו?')}</summary>
+        <div><span>${tt('הגוף שלך במנוחה')}</span><b class="num">${r.bmr.toLocaleString('en-US')}</b></div>
+        <div><span>${tt('פעילות ואימונים')} (${+a.days||3} ${tt('בשבוע')})</span><b class="num" dir="ltr">+${(r.tdee-r.bmr).toLocaleString('en-US')}</b></div>
+        <div><span>${cut?tt('גירעון לירידה'):mass?tt('תוספת לבנייה'):tt('שמירה')}</span><b class="num" dir="ltr">${r.kcal-r.tdee>0?'+':''}${(r.kcal-r.tdee).toLocaleString('en-US')}</b></div>
+        <div class="t"><span>${tt('היעד היומי')}</span><b class="num">${r.kcal.toLocaleString('en-US')}</b></div>
+        <small>${tt('לפי נוסחת מיפלין-סנט ז׳ור. החלבון מחושב לפי משקל הגוף.')}</small></details></div>`:'';
+  return `${onbTop()}<div class="ob-pad"><div class="ob-kick acc">${nm?`<span data-notr>${nm}</span>, `:''}${tt('לפי מה שענית')}</div><h1 class="ob-h2">${head}</h1></div>
+    <div class="ob-mid" style="justify-content:flex-start;gap:0">${chart}${kc}<p class="ob-hint" style="margin-top:12px">${tt('הערכה בלבד. הקצב בפועל משתנה מאדם לאדם.')}</p></div>
+    ${onbCta(tt('המשך'))}`;
+}
+function onbWhyHTML(P){
+  const a=ONB.a, L=[], eq={gym:tt('חדר כושר מאובזר'),home:tt('בבית, עם משקולות'),bw:tt('בבית, בלי ציוד')}[a.equip]||'';
+  L.push(`${+a.days||3} ${tt('ימים בשבוע')} · ${tt(P.split)}, ${tt('כ-')}${+a.time||60} ${tt('דקות לאימון')}`);
+  if(eq)L.push(`${tt('רק תרגילים שאפשר לעשות ב:')} ${eq}`);
+  L.push(a.exp==='beg'?tt('משקלי פתיחה שמרניים והסבר לכל תרגיל'):a.exp==='adv'?tt('נפח גבוה יותר והתקדמות מדורגת, כדי לא להיתקע'):tt('התקדמות קבועה בכל שבוע, במשקל או בחזרות'));
+  (a.blk||[]).filter(k=>ONB_BLK[k]).slice(0,2).forEach(k=>L.push(tt(ONB_BLK[k][1])));
+  return `<div class="ob-card"><b>${tt('למה בנינו לך את התוכנית הזאת')}</b><div class="ob-why">${L.map(t=>`<span><i>${ONB_CHK}</i>${t}</span>`).join('')}</div></div>`;
+}
+/* store trial length of the selected package (0 when the store has no free trial set up) */
+function rcTrialDays(pk){ const i=pk?.product?.introPrice; if(!i||+i.price!==0)return 0;
+  const n=+i.periodNumberOfUnits||0, u=String(i.periodUnit||'').toUpperCase(); return u==='DAY'?n:u==='WEEK'?n*7:u==='MONTH'?n*30:0; }
+const onbPk=()=>{ const P=RC.pkgs||[]; const y=P.find(rcIsAnnual), m=P.find(rcIsMonthly); return (ONB.pp==='m'?m:y)||y||m||null; };
+const onbAnyTrial=()=>Math.max(0,...(RC.pkgs||[]).map(rcTrialDays));
+function onbPayHTML(){
+  const a=ONB.a||{}, nm=esc(firstName()||a.name||''), P=RC.pkgs||[], y=P.find(rcIsAnnual), m=P.find(rcIsMonthly), pk=onbPk(), ann=!!pk&&rcIsAnnual(pk);
+  const save=y&&m&&m.product.price>0?Math.round((1-y.product.price/12/m.product.price)*100):0, d=rcTrialDays(pk);
+  const pr=pk?esc(pk.product.priceString||rcMoney(pk.product.price,pk.product.currencyCode)):'';
+  const blk=(a.blk||S.settings?.onb?.blk||[]).filter(k=>ONB_BLK[k]).slice(0,2);
+  const ben=[...blk.map(k=>[`${tt('אמרת:')} ״${onbBlkSaid(k)}״`,tt(ONB_BLK[k][1])]),
+    [tt('משקל מדויק לכל סט'),tt('מקס זוכר כל סט ואומר כמה להרים בפעם הבאה')],
+    [tt('תפריט אישי ו־217 מתכונים'),tt('לפי היעד והטעם שלך, בכמויות שלך')],
+    [tt('ניתוח AI לכל ארוחה'),tt('מצלמים צלחת, והקלוריות נרשמות לבד')]].slice(0,4);
+  const tg=!y||!m?'':`<div class="pay-tg" role="tablist"><button class="${ann?'on':''}" data-act="onb-pp" data-v="y">${tt('שנתי')}${save>0?` <em>· ${tt('חוסך {0}%').replace('{0}',save)}</em>`:''}</button><button class="${ann?'':'on'}" data-act="onb-pp" data-v="m">${tt('חודשי')}</button></div>`;
+  const price=!pk?`<div class="pay-p">${RC.err?`${tt('לא הצלחנו לטעון את המסלולים.')} <button class="linkbtn" data-act="rc-reload">${tt('נסה שוב')}</button>`:tt('טוען מסלולים…')}</div>`
+    :`<div class="pay-p">${d?`<b>${tt('{0} ימי ניסיון חינם').replace('{0}',d)}</b>, ${tt('ואז')} `:''}<span class="num">${pr}</span> ${ann?tt('לשנה'):tt('לחודש')}${ann?` <small>(<span class="num">${rcMoney(pk.product.price/12,pk.product.currencyCode)}</span> ${tt('לחודש')})</small>`:''}</div>`;
+  return `<div id="onb" class="obs-pay"><div class="pay-hero"><div class="ob-glow" aria-hidden="true"></div><img src="${onbRafi('cheer')}" alt=""><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div></div>
+    <div class="ob-pad" style="padding-top:6px"><h1 class="ob-h2" style="text-align:center">${nm?`<span data-notr>${nm}</span>, `:''}${tt('התוכנית שלך מוכנה')}<br><span class="acc">${tt('ומקס מחכה לך')}</span></h1></div>
+    <div class="pay-ben">${ben.map(([t,s])=>`<div><i>${ONB_CHK}</i><span><b>${t}</b><small>${s}</small></span></div>`).join('')}</div>
+    <div style="flex:1"></div>
+    <div class="ob-foot pay-foot">${tg}${price}
+      <button class="ob-cta" data-act="rc-buy" data-id="${pk?esc(pk.identifier):''}" ${!pk||RC.busy?'disabled':''}>${RC.busy?tt('רגע…'):d?tt('להתחיל {0} ימים חינם').replace('{0}',d):tt('להתחיל עכשיו')}</button>
+      ${d?`<div class="ob-note">${OBI.bell} ${tt('נזכיר לך יומיים לפני שהניסיון נגמר. ביטול בכל רגע.')}</div>`:`<div class="ob-note">${tt('ביטול בכל רגע ב-App Store.')}</div>`}
+      <div class="ob-legal">${tt('המנוי מתחדש אוטומטית ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה.')} <a href="terms.html" target="_blank">${tt('תקנון')}</a> · <a href="privacy.html" target="_blank">${tt('פרטיות')}</a> · <button class="linkbtn" data-act="rc-restore">${tt('שחזור רכישות')}</button> · <button class="linkbtn" data-act="access-logout">${tt('יציאה')}</button></div></div></div>`;
+}
+/* the trial reminder: a local notification 2 days before a store free trial ends (set on purchase) */
+function trialEndKeep(info){ try{ const e=info?.entitlements?.active?.premium; if(e&&String(e.periodType||'').toUpperCase()==='TRIAL'&&e.expirationDate)localStorage.setItem('nr-trial-end',String(+new Date(e.expirationDate))); }catch(_){} }
 function vOnb(){
   const st=ONB_STEPS[ONB.s]||'welcome', a=ONB.a, nm=esc(String(a.name||'').trim());
   let h='';
@@ -3819,7 +3911,7 @@ function vOnb(){
     h=`<div class="ob-glow" aria-hidden="true"></div>
       <div class="ob-hd"><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div>${langPillsHTML()}</div>
       <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('happy')}" alt="${tt('מקס, המאמן של NextRep')}">
-        <div class="ob-badge"><i></i>${ONB.ref?.name?(ONB.ref.group?`<span style="text-align:center;line-height:1.35"><b data-notr>${esc(ONB.ref.name)}</b> ${tt('מזמין אותך לקבוצה')} <b data-notr>${esc(ONB.ref.group)}</b> · ${tt('14 ימים חינם')}</span>`:`<span data-notr>${esc(ONB.ref.name)}</span> ${tt('הזמין אותך')} · ${tt('14 ימים חינם')}`):tt('שבוע ראשון חינם · בלי כרטיס אשראי')}</div>
+        <div class="ob-badge"><i></i>${ONB.ref?.name?(ONB.ref.group?`<span style="text-align:center;line-height:1.35"><b data-notr>${esc(ONB.ref.name)}</b> ${tt('מזמין אותך לקבוצה')} <b data-notr>${esc(ONB.ref.group)}</b> · ${tt('14 ימים חינם')}</span>`:`<span data-notr>${esc(ONB.ref.name)}</span> ${tt('הזמין אותך')} · ${tt('14 ימים חינם')}`):(onbHardOS()?tt('7 ימי ניסיון חינם'):tt('שבוע ראשון חינם · בלי כרטיס אשראי'))}</div>
         <h1 class="ob-h1">${tt('המאמן שזוכר')}<br><em>${tt('כל סט שלך.')}</em></h1>
         <p class="ob-sub">${tt('תוכנית אישית, משקל מדויק לכל סט ויעד תזונתי שמתעדכן. מקס לצידך מהאימון הראשון.')}</p></div>
       <div class="ob-foot"><button class="ob-cta" data-act="onb-next">${OG('בוא נתחיל','בואי נתחיל')}</button><button class="ob-ghost" data-act="onb-login">${tt('כבר יש לי חשבון')}</button>${ONB.ref?.code||NOREF()?'':`<button class="ob-ghost sm" data-act="onb-refcode">${tt('יש לי קוד הזמנה')}</button>`}</div>`;
@@ -3900,6 +3992,7 @@ function vOnb(){
         ${a.goal==='cut'||a.goal==='mass'?f('goalKg',tt('יעד משקל (לא חובה)'),tt('ק״ג'))+`<div class="ob-f ob-pace"><span>${a.goal==='cut'?tt('באיזה קצב לרדת?'):tt('באיזה קצב לעלות?')}</span><span class="ob-sx">${[['slow',tt('רגוע')],['normal',tt('רגיל')],['fast',tt('מהיר')]].map(([v,l])=>`<button class="${(a.pace||'normal')===v?'on':''}" data-act="onb-pick" data-k="pace" data-v="${v}" aria-pressed="${(a.pace||'normal')===v}">${l}</button>`).join('')}</span><small class="ob-pace-h">${(a.pace||'normal')==='fast'?tt('לא מומלץ: קשה יותר להתמיד ולשמור על השריר.'):(a.pace||'normal')==='slow'?tt('הכי קל להתמיד, ההתקדמות איטית יותר.'):tt('מומלץ: איזון בין קצב להתמדה.')}</small></div>`:''}
         <div class="ob-priv">${OBI.lock}<span>${tt('הנתונים נשמרים רק בחשבון שלך, ומשמשים רק לחישוב היעד.')}</span></div></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
+  }else if(st==='proj'){ h=onbProjHTML();
   }else if(st==='mode'){
     const m=(v,t,d,rec)=>`<button class="ob-mode ${a.mode===v?'on':''}" data-act="onb-pick" data-k="mode" data-v="${v}" aria-pressed="${a.mode===v}">${rec?`<span class="ob-rec">${tt('מומלץ')}</span>`:''}<b>${t}</b><small>${d}</small></button>`;
     h=`${onbTop()}${onbSay('wink',OG('ואיך אתה רוצה שאאמן אותך?','ואיך את רוצה שאאמן אותך?'))}
@@ -3950,6 +4043,7 @@ function vOnb(){
         ${mob(s0.mob?.post,'🧘','post')}</div>
       ${r?`<div class="ob-card"><div class="spread"><b>${tt('היעד היומי שלך')}</b><small>${tt('מתעדכן כל שבוע')}</small></div>
         <div class="ob-kc"><b class="acc">${Math.round(r.kcal).toLocaleString('en-US')}</b><span>${tt('קק״ל')}</span><i></i><b>${r.prot}</b><span>${tt('גר׳ חלבון')}</span></div></div>`:''}
+      ${onbWhyHTML(P)}
       <div style="flex:1"></div>
       <div class="ob-foot"><button class="ob-cta" data-act="onb-next">${tt('שמור את התוכנית')}</button><div class="ob-note">${tt('אפשר לשנות כל תרגיל אחר כך')}</div><div class="ob-legal" style="margin-top:2px">${HQ_LEGAL}</div></div>`;
   }else if(st==='save'){
@@ -4084,29 +4178,41 @@ async function onbApply(){
   S.settings.schedule={}; (PB_DAYS[+a.days||3]||[]).forEach((d,i)=>{ S.settings.schedule[d]=ids[i%ids.length]; });
   await persistSettings(); ONB.first=ids[0]||null; ONB.s=0; onbSave(); logEv('onb_done',{goal:a.goal,days:a.days,mode:a.mode});
   render(); natSchedSoon();
-  await natPermSync(); onbPost(NAT.perm==='granted'?'ready':'notify');
+  await natPermSync(); onbAfter();
 }
+const onbNeedPay=()=>!!(S.plan?.hard&&!S.plan?.premium&&onbHardOS());
+function onbAfter(){ if(onbNeedPay()){ logEv('pay_onb'); return onbPost(onbAnyTrial()&&NAT.perm!=='granted'?'trial':'pay'); } onbPost(NAT.perm==='granted'?'ready':'notify'); }
 function onbPost(step){
   let el=$('#onbpost'); if(!el){ el=document.createElement('div'); el.id='onbpost'; document.body.appendChild(el); }
   const nm=esc(firstName()||ONB.a.name||'');
+  ONB.post=step;
+  if(step==='pay'){ el.innerHTML=onbPayHTML(); return; }
+  if(step==='trial'){ const d=onbAnyTrial()||7, end=new Date(Date.now()+(d-2)*864e5);
+    el.innerHTML=`<div id="onb" class="obs-trial"><div class="ob-pad" style="padding-top:calc(40px + env(safe-area-inset-top))"><h1 class="ob-h2">${tt('בלי הפתעות בחיוב.')}</h1><p class="ob-sub" style="text-align:start;margin:10px 0 0">${OG('לפני שהניסיון נגמר נשלח לך תזכורת, כדי שתחליט בנחת אם להמשיך.','לפני שהניסיון נגמר נשלח לך תזכורת, כדי שתחליטי בנחת אם להמשיך.')}</p></div>
+      <div class="ob-lock tr"><div class="dy">${end.toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="tm" dir="ltr">${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="nt"><img src="icon-192.png" alt=""><span><small>NextRep · ${tt('עכשיו')}</small><em>${nm?`<span data-notr>${nm}</span>, `:''}${tt('תקופת הניסיון שלך מסתיימת בעוד יומיים. עדיין אפשר לבטל לפני החיוב.')}</em></span></div></div>
+      <div style="flex:1"></div>
+      <div class="ob-foot"><button class="ob-cta" data-act="onb-trialok">${OBI.bell}${tt('הפעלת תזכורת')}</button><div class="ob-note">${tt('אפשר לכבות בכל זמן בהגדרות.')}</div></div></div>`; return; }
   if(step==='notify')el.innerHTML=`<div id="onb" class="obs-notify">${onbSay('wink',tt('שאזכיר לך? מבטיח לא לחפור.'))}
       <div class="ob-lock"><div class="tm" dir="ltr">${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
         <div class="nt"><img src="icon-192.png" alt=""><span><small>NextRep · ${tt('עכשיו')}</small><b>${tt('המנוחה נגמרה')}</b><em>${tt('סט 3 בלחיצת חזה מחכה לך')}</em></span></div>
         <div class="nt" style="opacity:.92"><img src="icon-192.png" alt=""><span><small>NextRep · 08:00</small><b>${tt('היום: אימון B')}</b><em>${tt('האימון מחכה לך')}</em></span></div>
         <div class="nt" style="opacity:.8"><img src="icon-192.png" alt=""><span><small>NextRep</small><b>${tt('מקס: הסיכום השבועי מוכן')}</b><em>${tt('מה הלך טוב, ועל מה להתמקד')}</em></span></div></div>
       <div class="ob-mid"><p class="ob-p center">${tt('רק מה שחשוב: סוף המנוחה, תזכורת בימי האימון שלך והסיכום השבועי ממני. אפשר לכבות כל אחת מהן בהגדרות.')}</p></div>
-      <div class="ob-foot"><button class="ob-cta" data-act="onb-notif">${OBI.bell}${OG('הפעל התראות','הפעילי התראות')}</button><button class="ob-ghost" data-act="onb-ready">${tt('אחר כך')}</button></div></div>`;
+      <div class="ob-foot"><button class="ob-cta" data-act="onb-notif">${OBI.bell}${OG('הפעל התראות','הפעילי התראות')}</button></div></div>`;
   else el.innerHTML=`<div id="onb" class="obs-ready"><div class="ob-glow" aria-hidden="true"></div>
       <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('cheer')}" alt="">
         <h1 class="ob-h1">${tt('יאללה')}${nm?` <span data-notr>${nm}</span>`:''},<br><em>${tt('מתחילים.')}</em></h1>
         <p class="ob-sub">${tt('התוכנית שמורה, ואני איתך מהסט הראשון.')}</p>
         ${ONB.first?`<div class="ob-card row1"><span class="ob-a">A</span><span><b>${tt('האימון הראשון שלך')}</b><small>${esc(S.templates.find(t=>t.id===ONB.first)?.name||'')}</small></span></div>`:''}
-        ${isPrem()?`<div class="ob-gift">${tt('שבוע ראשון בפרימיום, עלינו')}</div>`:''}</div>
+        ${isPrem()&&!S.plan?.paid&&!S.plan?.store_until?`<div class="ob-gift">${tt('שבוע ראשון בפרימיום, עלינו')}</div>`:''}</div>
       <div class="ob-foot">${ONB.first?`<button class="ob-cta" data-act="onb-go">${tt('לאימון הראשון')}</button>`:''}<button class="ob-ghost" data-act="onb-close">${tt('קודם אסתכל מסביב')}</button></div></div>`;
 }
-function onbPostAct(act){
+function onbPostAct(act,b){
   switch(act){
     case 'onb-notif': natPermAsk().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:'onb'}); if(ok)natSchedSoon(); onbPost('ready'); }); return true;
+    case 'onb-trialok': natPermAsk().then(ok=>{ logEv(ok?'notif_on':'notif_no',{ctx:'trial'}); if(ok)natSchedSoon(); onbPost('pay'); }); return true;
+    case 'onb-pp': ONB.pp=b.dataset.v==='m'?'m':'y'; vibrate(6); if($('#onbpost'))onbPost('pay'); else render(); return true;
     case 'onb-ready': onbPost('ready'); return true;
     case 'onb-go': { const id=ONB.first; $('#onbpost')?.remove(); const t=S.templates.find(x=>x.id===id); if(t)startWorkout(t.name,t.id); else { S.tab='train'; render(); } return true; }
     case 'onb-close': $('#onbpost')?.remove(); S.tab='home'; render(); return true;
@@ -11260,7 +11366,7 @@ const rcIsMonthly=p=>p.packageType==='MONTHLY'||p.identifier==='$rc_monthly';
    `until`, so they can't be reset on the device. Users who ever paid (store or web) never get it. */
 const OFFER_DAY=864e5;
 function offerSecond(u){ const s=new Date(u+7*OFFER_DAY); s.setHours(0,0,0,0); return +s; } // the whole day, 7 days after the free week ended (00:00–24:00 local)
-function offerWin(){ const p=S.plan; if(!IS_NATIVE||!p||p.admin||!p.lock||!RC_KEYS[NATIVE_OS])return null;
+function offerWin(){ return null; /* promos removed 2026-11-19 */ const p=S.plan; if(!IS_NATIVE||!p||p.admin||!p.lock||!RC_KEYS[NATIVE_OS])return null;
   if(p.store_until||p.plan_months||(p.paid&&!p.gift))return null;
   const u=p.until?+new Date(p.until):0, now=Date.now(); if(!u)return null;
   if(p.premium&&u>now)return {end:u,second:false};
@@ -11299,7 +11405,7 @@ async function rcLoad(){
   catch(e){ RC.err=String(e?.message||e); }
   rcPaint();
 }
-function rcPaint(){ const b=document.getElementById('rc-plans'); if(b)b.innerHTML=storePlansHTML(); }
+function rcPaint(){ const b=document.getElementById('rc-plans'); if(b)b.innerHTML=storePlansHTML(); if(document.querySelector('.obs-pay')){ if($('#onbpost')&&ONB.post==='pay')onbPost('pay'); else if(S.mode==='paywall')render(); } }
 const rcMoney=(v,cur)=>{ try{ return new Intl.NumberFormat(LOC,{style:'currency',currency:cur||'ILS',maximumFractionDigits:2}).format(v); }catch(_){ return String(v); } };
 function rcTrial(prod){ const i=prod?.introPrice; if(!i||+i.price!==0)return '';
   const n=+i.periodNumberOfUnits||0, u=String(i.periodUnit||'').toUpperCase(), d=u==='DAY'?n:u==='WEEK'?n*7:u==='MONTH'?n*30:0;
@@ -11333,8 +11439,10 @@ function storeLinksHTML(){ // באתר אחרי ההשקה: הורדת האפל�
 async function rcDone(info,quiet){
   const on=!!info?.entitlements?.active?.premium;
   if(!on){ if(!quiet)toast('לא נמצא מנוי פעיל בחשבון החנות'); return false; }
+  trialEndKeep(info);
   try{ await sb.functions.invoke('revenuecat',{body:{action:'sync'}}); }catch(_){}
-  toast('הפרימיום נפתח 🎉'); closeSheet(); if(S.user)enterApp(S.user); return true;
+  toast('הפרימיום נפתח 🎉'); closeSheet(); if($('#onbpost')&&ONB.post==='pay'){ onbPost('ready'); try{ S.plan=(await sb.rpc('my_plan')).data||S.plan; }catch(_){} if(S.plan)S.plan.premium=true; logEv('pay_onb_done'); return true; }
+  if(S.user)enterApp(S.user); return true;
 }
 /* invite reward for a store subscriber: the free month is an Apple promotional offer ("ref_free_month") on the
    product they already have, so the next renewal is ₪0. RevenueCat signs the offer with the In-App Purchase key. */
@@ -11392,6 +11500,7 @@ function lockBar(){ return `<div class="card r20 lockbar"><span>🔒</span><span
 const LOCK_OK=/^(track-view|metric|wrap-|vol-open|sheet-close|pr-all|photo-view|hist-(open|ex|month)|body-tog|badges-open|badge-|lock-|plan|access-logout|contact-|share-w|info|ex-demo|demo)/;
 const PWI={star:`<svg class="pw-star" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L12 16.8l-5.8 3.5 1.6-6.6-5.2-4.4 6.8-.5z"/></svg>`,up: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>`, menu: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v7a2 2 0 0 0 2 2v9M5 3v5M9 3v5"/><path d="M18 21V3c-2.2.8-3.5 3-3.5 6.5V14H18"/></svg>`, ai: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5h3.2L9 6h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13.5" r="3.3"/><path d="M19 2.5v3M17.5 4h3"/></svg>`, chat: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M8.5 9.5h7M8.5 12.5h4.5"/></svg>`, ok: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`};
 function vPaywall(full){
+  if(full===true&&S.plan?.hard&&onbHardOS())return onbPayHTML();
   const paid=!!S.plan?.access_until;
   // active App Store / Google Play subscription: show its renewal date instead of the plans (changes go through the store)
   const storeOn=IS_NATIVE&&!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
@@ -13538,7 +13647,7 @@ const DEFAULT_TEMPLATES=[
 async function enterApp(user){
   S.user=user; S.mode='boot'; render();
   // first real sign-in: the server starts the invite gift week, rewards the inviter and alerts the admin (once per user)
-  try{ const k='nr-entered-'+user.id; if(!localStorage.getItem(k)){ const r=await sb.rpc('mark_entered'); if(!r.error)localStorage.setItem(k,'1'); } }catch(e){}
+  try{ const k='nr-entered-'+user.id; if(!localStorage.getItem(k)){ const r=await sb.rpc('mark_entered',onbHardNow()?{p_hard:true}:{}); if(!r.error)localStorage.setItem(k,'1'); } }catch(e){}
   // home-screen install: reported once per device, so setup emails only ask what's still missing
   try{ if(IS_STANDALONE&&!localStorage.getItem('nr-inst-'+user.id)){ sb.rpc('mark_seen',{p_inst:true}).then(r=>{ if(!r.error)try{localStorage.setItem('nr-inst-'+user.id,'1');}catch(_){} },()=>{}); } }catch(e){}
   // בקרת גישה: משתמש חדש ממתין לאישור האדמין (נאכף גם בשרת ב-RLS). שגיאת רשת → ממשיכים (אופליין)
@@ -13546,7 +13655,7 @@ async function enterApp(user){
   await refApplyPending();
   rcInit();
   try{ const pl=await sb.rpc('my_plan'); if(!pl.error&&pl.data){ S.plan=pl.data; const st=pl.data.status; rcCheck();
-    if(st==='expired'&&!pl.data.free_tier){
+    if(st==='expired'&&!pl.data.free_tier&&!(pl.data.hard&&onbPend())){
       if(!PAID_RETURN&&!enterApp._grace){ enterApp._grace=true; try{ const g=await sb.rpc('grace_finish'); if(g.data?.ok){ toast('אפשר לסיים את האימון שהתחלת 💪'); return enterApp(user); } }catch(_){} }
       if(enterApp._ro){ S.locked=true; } else {
       S.mode='paywall'; render();
