@@ -1319,6 +1319,11 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .ob-whc{position:sticky;display:block;left:calc(50% - 22px);width:44px;height:3px;border-radius:2px;background:var(--accent);margin-top:-2px}
 .ob-whu{text-align:center;font-size:15px;color:#A3ADA6;font-weight:700;margin-top:10px}
 .ob-bu{display:flex;justify-content:center;margin-top:14px}
+.obs-welcome .ob-bg{position:absolute;top:0;left:0;width:100%;height:74%;object-fit:cover;object-position:center 25%;-webkit-mask-image:linear-gradient(#000 50%,transparent);mask-image:linear-gradient(#000 50%,transparent);pointer-events:none}
+.obs-welcome .ob-hero,.obs-welcome .ob-glow{display:none}.obs-welcome .ob-mid{justify-content:flex-end;padding-bottom:4px}
+.obs-welcome .ob-hd::before{content:'';position:absolute;inset:0 0 -40px;background:linear-gradient(rgba(10,11,10,.7),transparent);z-index:-1}
+.obs-pay .pay-hero>img.pay-bg{position:absolute;width:100%;height:100%}.obs-pay .pay-hero{min-height:300px;justify-content:flex-end;overflow:hidden}.obs-pay .pay-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;-webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent)}
+.obs-pay .ob-top{position:relative;z-index:2}.obs-pay .ob-top+.pay-hero{margin-top:-66px;padding-top:0}
 .ob-gift{margin-top:12px;font-size:14px;font-weight:700;color:var(--accent)}
 #authwrap{max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 0 24px;display:flex;flex-direction:column;gap:12px}
 #authwrap .card{padding:20px 18px}
@@ -3955,7 +3960,7 @@ function onbPayHTML(inner){
   const tg=!y||!m?'':`<div class="pay-tg" role="tablist"><button class="${ann?'on':''}" data-act="onb-pp" data-v="y">${tt('שנתי')}${save>0?` <em>· ${tt('חוסך {0}%').replace('{0}',save)}</em>`:''}</button><button class="${ann?'':'on'}" data-act="onb-pp" data-v="m">${tt('חודשי')}</button></div>`;
   const price=!pk?`<div class="pay-p">${RC.err?`${tt('לא הצלחנו לטעון את המסלולים.')} <button class="linkbtn" data-act="rc-reload">${tt('נסה שוב')}</button>`:tt('טוען מסלולים…')}</div>`
     :`<div class="pay-p">${d?`<b>${tt('{0} ימי ניסיון חינם').replace('{0}',d)}</b>, ${tt('ואז')} `:''}<span class="num">${pr}</span> ${ann?tt('לשנה'):tt('לחודש')}${ann?` <small>(<span class="num">${rcMoney(pk.product.price/12,pk.product.currencyCode)}</span> ${tt('לחודש')})</small>`:''}</div>`;
-  const H=`<div class="pay-hero"><div class="ob-glow" aria-hidden="true"></div><img src="${onbRafi('cheer')}" alt=""><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div></div>
+  const H=`<div class="pay-hero"><img class="pay-bg" src="img/pay.jpg" alt="" aria-hidden="true"><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div></div>
     <div class="ob-pad" style="padding-top:6px"><h1 class="ob-h2" style="text-align:center">${nm?`<span data-notr>${nm}</span>, `:''}${tt('התוכנית שלך מוכנה')}<br><span class="acc">${tt('ומקס מחכה לך')}</span></h1></div>
     <div class="pay-ben">${ben.map(([t,s])=>`<div><i>${ONB_CHK}</i><span><b>${t}</b><small>${s}</small></span></div>`).join('')}</div>
     <div style="flex:1"></div>
@@ -3971,7 +3976,7 @@ function vOnb(){
   const st=ONB_STEPS[ONB.s]||'welcome', a=ONB.a, nm=esc(String(a.name||'').trim());
   let h='';
   if(st==='welcome'){
-    h=`<div class="ob-glow" aria-hidden="true"></div>
+    h=`<img class="ob-bg" src="img/onb-${onbF()?'f':'m'}.jpg" alt="" aria-hidden="true"><div class="ob-glow" aria-hidden="true"></div>
       <div class="ob-hd"><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div>${langPillsHTML()}</div>
       <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('happy')}" alt="${tt('מקס, המאמן של NextRep')}">
         <div class="ob-badge"><i></i>${ONB.ref?.name?(ONB.ref.group?`<span style="text-align:center;line-height:1.35"><b data-notr>${esc(ONB.ref.name)}</b> ${tt('מזמין אותך לקבוצה')} <b data-notr>${esc(ONB.ref.group)}</b> · ${tt('14 ימים חינם')}</span>`:`<span data-notr>${esc(ONB.ref.name)}</span> ${tt('הזמין אותך')} · ${tt('14 ימים חינם')}`):(onbHardOS()?tt('7 ימי ניסיון חינם'):tt('שבוע ראשון חינם · בלי כרטיס אשראי'))}</div>
