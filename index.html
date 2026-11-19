@@ -3947,7 +3947,8 @@ function onbWhyHTML(P){
   return `<div class="ob-card"><b>${tt('למה בנינו לך את התוכנית הזאת')}</b><div class="ob-why">${L.map(t=>`<span><i>${ONB_CHK}</i>${t}</span>`).join('')}</div></div>`;
 }
 /* store trial length of the selected package (0 when the store has no free trial set up) */
-function rcTrialDays(pk){ const i=pk?.product?.introPrice; if(!i||+i.price!==0)return 0;
+const rcNoIntro=pr=>{ const e=RC.elig&&pr&&RC.elig[pr.identifier]; return !!e&&(+e.status===1||+e.status===3); };
+function rcTrialDays(pk){ const i=pk?.product?.introPrice; if(!i||+i.price!==0||rcNoIntro(pk?.product))return 0;
   const n=+i.periodNumberOfUnits||0, u=String(i.periodUnit||'').toUpperCase(); return u==='DAY'?n:u==='WEEK'?n*7:u==='MONTH'?n*30:0; }
 const onbPk=()=>{ const P=RC.pkgs||[]; const y=P.find(rcIsAnnual), m=P.find(rcIsMonthly); return (ONB.pp==='m'?m:y)||y||m||null; };
 const onbAnyTrial=()=>Math.max(0,...(RC.pkgs||[]).map(rcTrialDays));
@@ -11478,13 +11479,15 @@ async function rcInit(){
 }
 async function rcLoad(){
   try{ const o=await capP('Purchases').getOfferings(), off=offerWin()&&o?.all?.lock_offer;
-    RC.offer=!!offerWin(); RC.pkgs=((off||o?.current)?.availablePackages||[]).filter(p=>rcIsAnnual(p)||rcIsMonthly(p)); RC.err=null; }
+    RC.offer=!!offerWin(); RC.pkgs=((off||o?.current)?.availablePackages||[]).filter(p=>rcIsAnnual(p)||rcIsMonthly(p)); RC.err=null;
+    /* the free trial only for those the store will actually give it to (one trial per Apple ID / Google account) */
+    try{ const ids=RC.pkgs.map(p=>p.product?.identifier).filter(Boolean); if(ids.length)RC.elig=await capP('Purchases').checkTrialOrIntroductoryPriceEligibility({productIdentifiers:ids}); }catch(_){ RC.elig=null; } }
   catch(e){ RC.err=String(e?.message||e); }
   rcPaint();
 }
 function rcPaint(){ const b=document.getElementById('rc-plans'); if(b)b.innerHTML=storePlansHTML(); if(document.querySelector('.obs-pay')){ if(!S.user&&ONB_STEPS[ONB.s]==='pay')onbPaint(); else if($('#onbpost')&&ONB.post==='pay')onbPost('pay'); else if(S.mode==='paywall')render(); } }
 const rcMoney=(v,cur)=>{ try{ return new Intl.NumberFormat(LOC,{style:'currency',currency:cur||'ILS',maximumFractionDigits:2}).format(v); }catch(_){ return String(v); } };
-function rcTrial(prod){ const i=prod?.introPrice; if(!i||+i.price!==0)return '';
+function rcTrial(prod){ const i=prod?.introPrice; if(!i||+i.price!==0||rcNoIntro(prod))return '';
   const n=+i.periodNumberOfUnits||0, u=String(i.periodUnit||'').toUpperCase(), d=u==='DAY'?n:u==='WEEK'?n*7:u==='MONTH'?n*30:0;
   return d?`<span class="tag">${tt('{0} ימים חינם').replace('{0}',d)}</span>`:''; }
 function storePlansHTML(){
