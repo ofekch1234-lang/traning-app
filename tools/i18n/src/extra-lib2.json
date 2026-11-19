@@ -71,21 +71,21 @@
   "en": "per month, cancel anytime",
   "ar": "شهريًا، إلغاء في أي وقت"
  },
- "חיסכון של 50%": {
-  "en": "Save 50%",
-  "ar": "وفّر 50%"
+ "חיסכון של 48%": {
+  "en": "Save 48%",
+  "ar": "وفّر 48%"
  },
- "₪14.99 לחודש, תשלום אחד לשנה": {
-  "en": "₪14.99/month, billed once a year",
-  "ar": "₪14.99 شهريًا، دفعة واحدة سنويًا"
+ "₪20.83 לחודש, תשלום אחד לשנה": {
+  "en": "₪20.83/month, billed once a year",
+  "ar": "₪20.83 شهريًا، دفعة واحدة سنويًا"
  },
  "המנוי דרך App Store או Google Play ומתחדש אוטומטית. מבטלים בכל רגע בהגדרות החנות.": {
   "en": "Subscriptions are through the App Store or Google Play and renew automatically. Cancel anytime in your store settings.",
   "ar": "الاشتراك عبر App Store أو Google Play ويتجدد تلقائيًا. يمكنك الإلغاء في أي وقت من إعدادات المتجر."
  },
- "ההורדה חינם, והשבוע הראשון חינם עם הכל פתוח. אחר כך מנוי חודשי ב-₪29.90 או שנתי ב-₪179.90 (₪14.99 לחודש). מבטלים בכל רגע, והאימונים והנתונים שלך נשמרים תמיד.": {
-  "en": "The download is free, and the first week is free with everything unlocked. After that it's ₪29.90 a month or ₪179.90 a year (₪14.99/month). Cancel anytime, and your workouts and data are always kept.",
-  "ar": "التنزيل مجاني، والأسبوع الأول مجاني مع فتح كل الميزات. بعد ذلك اشتراك شهري بـ ₪29.90 أو سنوي بـ ₪179.90 (₪14.99 شهريًا). يمكنك الإلغاء في أي وقت، وتدريباتك وبياناتك محفوظة دائمًا."
+ "ההורדה חינם, והשבוע הראשון חינם עם הכל פתוח. אחר כך מנוי חודשי ב-₪39.90 או שנתי ב-₪249.90 (₪20.83 לחודש). מבטלים בכל רגע, והאימונים והנתונים שלך נשמרים תמיד.": {
+  "en": "The download is free, and the first week is free with everything unlocked. After that it's ₪39.90 a month or ₪249.90 a year (₪20.83/month). Cancel anytime, and your workouts and data are always kept.",
+  "ar": "التنزيل مجاني، والأسبوع الأول مجاني مع فتح كل الميزات. بعد ذلك اشتراك شهري بـ ₪39.90 أو سنوي بـ ₪249.90 (₪20.83 شهريًا). يمكنك الإلغاء في أي وقت، وتدريباتك وبياناتك محفوظة دائمًا."
  },
  "{0} ימים עם הכל פתוח, ואחר כך {1} מנוי בתוך האפליקציה. האימונים והנתונים שלך נשמרים תמיד.": {
   "en": "{0} days with everything unlocked, then you {1} a subscription in the app. Your workouts and data are always kept.",
@@ -111,9 +111,9 @@
   "en": "Max suggests the minimum. Can do more? Do it and log what you did — that's how he learns and raises the weight sooner.",
   "ar": "ماكس يقترح الحد الأدنى. تستطيعين أكثر؟ افعلي وسجّلي ما فعلتِه، هكذا يتعلّم ويرفع الوزن أسرع."
  },
- "ההורדה חינם, ו-7 הימים הראשונים חינם עם הכל פתוח. אחר כך מנוי חודשי ב-₪29.90 או שנתי ב-₪179.90 (₪14.99 לחודש). יומיים לפני סוף הניסיון נשלחת תזכורת, ומי שמבטל לפני כן לא משלם כלום.": {
-  "en": "The download is free, and the first 7 days are free with everything unlocked. Then a monthly subscription at ₪29.90 or yearly at ₪179.90 (₪14.99 a month). A reminder is sent 2 days before the trial ends, and if you cancel before then you pay nothing.",
-  "ar": "التنزيل مجاني، وأول 7 أيام مجانية مع فتح كل شيء. بعد ذلك اشتراك شهري بـ₪29.90 أو سنوي بـ₪179.90 (₪14.99 شهريًا). يُرسَل تذكير قبل يومين من انتهاء التجربة، ومن يلغي قبل ذلك لا يدفع شيئًا."
+ "ההורדה חינם, ו-7 הימים הראשונים חינם עם הכל פתוח. אחר כך מנוי חודשי ב-₪39.90 או שנתי ב-₪249.90 (₪20.83 לחודש). יומיים לפני סוף הניסיון נשלחת תזכורת, ומי שמבטל לפני כן לא משלם כלום.": {
+  "en": "The download is free, and the first 7 days are free with everything unlocked. Then a monthly subscription at ₪39.90 or yearly at ₪249.90 (₪20.83 a month). A reminder is sent 2 days before the trial ends, and if you cancel before then you pay nothing.",
+  "ar": "التنزيل مجاني، وأول 7 أيام مجانية مع فتح كل شيء. بعد ذلك اشتراك شهري بـ₪39.90 أو سنوي بـ₪249.90 (₪20.83 شهريًا). يُرسَل تذكير قبل يومين من انتهاء التجربة، ومن يلغي قبل ذلك لا يدفع شيئًا."
  },
  "{0} ימים עם הכל פתוח. יומיים לפני הסוף תקבל תזכורת, ואפשר לבטל לפני החיוב בלי לשלם כלום.": {
   "en": "{0} days with everything unlocked. You'll get a reminder 2 days before the end, and you can cancel before you're charged without paying anything.",
