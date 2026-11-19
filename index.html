@@ -1324,6 +1324,16 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .obs-welcome .ob-hd::before{content:'';position:absolute;inset:0 0 -40px;background:linear-gradient(rgba(10,11,10,.7),transparent);z-index:-1}
 .obs-pay .pay-hero>img.pay-bg{position:absolute;width:100%;height:100%}.obs-pay .pay-hero{min-height:300px;justify-content:flex-end;overflow:hidden}.obs-pay .pay-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;-webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent)}
 .obs-pay .ob-top{position:relative;z-index:2}.obs-pay .ob-top+.pay-hero{margin-top:-66px;padding-top:0}
+.ob-gg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ob-gc{position:relative;aspect-ratio:4/5;border-radius:22px;overflow:hidden;border:2px solid #232825;background:#141715;padding:0;color:#F2F5F2;text-align:start;font:inherit}
+.ob-gc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.8;transition:opacity .15s,transform .3s}
+.ob-gc::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(8,9,8,.92))}
+.ob-gct{position:absolute;inset:auto 12px 12px;z-index:1;display:flex;flex-direction:column;gap:2px}.ob-gct b{font-size:16px;line-height:1.2}.ob-gct small{font-size:12px;color:#C9D0CB;line-height:1.3}
+.ob-gc.on{border-color:var(--accent)}.ob-gc.on img{opacity:1;transform:scale(1.04)}
+.ob-gc i{position:absolute;top:10px;inset-inline-start:10px;z-index:1;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#0A0B0A;display:flex;align-items:center;justify-content:center}
+.ob-eq .ob-ic{width:64px;height:48px;border-radius:12px;overflow:hidden;background:#1E2220}.ob-eq .ob-ic img{width:100%;height:100%;object-fit:cover}.ob-opt.on .ob-eq .ob-ic,.ob-eq .ob-opt.on .ob-ic{background:#1E2220;box-shadow:0 0 0 2px var(--accent)}
+.ob-lockav.ph{width:170px;height:230px;border-radius:30px;overflow:visible;background:none;border:0}.ob-lockav.ph img{width:170px;height:230px;border-radius:30px;object-fit:cover;object-position:center 60%;border:1px solid #232825}
+.obs-build .ob-bbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;pointer-events:none}.obs-build .ob-mid,.obs-build .ob-rafi{position:relative}
 .ob-gift{margin-top:12px;font-size:14px;font-weight:700;color:var(--accent)}
 #authwrap{max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 0 24px;display:flex;flex-direction:column;gap:12px}
 #authwrap .card{padding:20px 18px}
@@ -4020,7 +4030,7 @@ function vOnb(){
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='goal'){
     h=`${onbTop()}${onbSay('think',`${nm?`<span data-notr>${nm}</span>, `:''}${OG('מה הכי חשוב לך עכשיו?','מה הכי חשוב לך עכשיו?')}`)}
-      <div class="ob-mid ob-list">${onbOpt('goal','cut',tt('לרדת במשקל'),OG(tt('ולשמור על השריר בדרך'),tt('ולהתחטב בדרך, בלי לאבד שריר')),OBI.fire)}${onbOpt('goal','mass',OG(tt('לבנות שריר'),tt('להתחטב ולבנות שריר')),OG(tt('לגדול ולהיראות חזק יותר'),tt('גוף מעוצב, ישבן ורגליים חזקים')),OBI.db)}${onbOpt('goal','strength',OG(tt('להיות חזק יותר'),tt('להיות חזקה יותר')),OG(tt('להעלות משקלים בתרגילים הגדולים'),tt('להרים יותר, ולהרגיש את זה ביום-יום')),OBI.bolt)}${onbOpt('goal','fit',tt('כושר ובריאות'),OG(tt('להרגיש טוב ולהתמיד'),tt('אנרגיה, ביטחון והתמדה')),OBI.heart)}</div>
+      <div class="ob-mid"><div class="ob-gg">${[['cut',tt('לרדת במשקל'),OG(tt('ולשמור על השריר'),tt('ולהתחטב בדרך'))],['mass',OG(tt('לבנות שריר'),tt('להתחטב ולבנות שריר')),OG(tt('לגדול ולהיראות חזק יותר'),tt('גוף מעוצב וחזק'))],['strength',OG(tt('להיות חזק יותר'),tt('להיות חזקה יותר')),tt('להרים יותר בתרגילים הגדולים')],['fit',tt('כושר ובריאות'),tt('אנרגיה והתמדה')]].map(([v,t,d])=>`<button class="ob-gc ${a.goal===v?'on':''}" data-act="onb-pick" data-k="goal" data-v="${v}" aria-pressed="${a.goal===v}"><img src="img/g-${v==='strength'?'str':v}.jpg" alt="" loading="lazy"><span class="ob-gct"><b>${t}</b><small>${d}</small></span>${a.goal===v?`<i>${ONB_CHK}</i>`:''}</button>`).join('')}</div></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
   }else if(st==='memory'){
     const T={cut:[tt('לרדת במשקל, מעולה.'),tt('יורדים בשומן ושומרים על השריר: אימוני כוח וחלבון.')],mass:[OG(tt('לבנות שריר, מעולה.'),tt('להתחטב ולבנות שריר, מעולה.')),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')],strength:[tt('להתחזק, מעולה.'),tt('כוח נבנה מהעלאות קטנות וקבועות במשקל.')],fit:[tt('כושר ובריאות, מעולה.'),tt('הסוד הוא להתמיד, ולהתקדם קצת בכל פעם.')]}[a.goal]||[tt('מעולה.'),tt('שריר נבנה מהתקדמות קטנה, כל שבוע מחדש.')];
@@ -4046,7 +4056,7 @@ function vOnb(){
         <div class="ob-days">${[2,3,4,5,6].map(d=>`<button class="${+a.days===d?'on':''}" data-act="onb-pick" data-k="days" data-v="${d}" aria-pressed="${+a.days===d}">${d}</button>`).join('')}</div>
         ${a.days?`<div class="ob-hint acc">${P[a.days]}</div>`:''}
         <div class="ob-lbl" style="margin-top:18px">${tt('איפה מתאמנים')}</div>
-        <div class="ob-list tight">${onbOpt('equip','gym',tt('חדר כושר מאובזר'),'',OBI.db)}${onbOpt('equip','home',tt('בבית, עם משקולות'),'',OBI.home)}${onbOpt('equip','bw',tt('בבית, בלי ציוד'),'',OBI.body)}</div>
+        <div class="ob-list tight ob-eq">${onbOpt('equip','gym',tt('חדר כושר מאובזר'),'','<img src="img/e-gym.jpg" alt="">')}${onbOpt('equip','home',tt('בבית, עם משקולות'),'','<img src="img/e-home.jpg" alt="">')}${onbOpt('equip','bw',tt('בבית, בלי ציוד'),'','<img src="img/e-bw.jpg" alt="">')}</div>
         <div class="ob-lbl" style="margin-top:18px">${tt('כמה זמן לאימון')}</div>
         <div class="ob-seg">${[45,60,75].map(m=>`<button class="${+a.time===m?'on':''}" data-act="onb-pick" data-k="time" data-v="${m}">${m} ${tt('דק׳')}</button>`).join('')}</div></div>
       ${onbCta(tt('המשך'),'onb-next',!onbReady(st))}`;
@@ -4084,7 +4094,7 @@ function vOnb(){
   }else if(st==='build'){
     const P=onbPlan(), r=tgCalc(onbTG()), k=ONB.bi||0, items=[
       `${a.days} ${tt('ימים')} · ${tt(P.split)}`, tt('בוחר תרגילים מתוך המאגר'), tt('משקלי פתיחה לפי הניסיון שלך'), tt('יעד קלוריות וחלבון יומי')];
-    h=`<div class="ob-mid center" style="justify-content:flex-start;padding-top:calc(70px + env(safe-area-inset-top))">
+    h=`<img class="ob-bbg" src="img/e-gym.jpg" alt="" aria-hidden="true"><div class="ob-mid center" style="justify-content:flex-start;padding-top:calc(70px + env(safe-area-inset-top))">
         <div class="ob-orbit"><i></i><img src="${onbRafi('think')}" alt=""></div>
         <h1 class="ob-h2 center" style="margin-top:22px">${tt('רגע, אני בונה לך תוכנית…')}</h1>
         <div class="ob-bar"><i style="width:${Math.min(100,(k+1)*25)}%"></i></div>
@@ -4110,7 +4120,7 @@ function vOnb(){
   }else if(st==='save'){
     const b=NAUTH.busy;
     h=`${onbTop()}<div class="ob-mid center" style="justify-content:flex-start">
-        <div class="ob-lockav"><img src="${onbRafi('happy')}" alt=""><span>${OBI.lock}</span></div>
+        <div class="ob-lockav ph"><img src="img/save-phone.jpg" alt=""><span>${OBI.lock}</span></div>
         <h1 class="ob-h2 center" style="margin-top:26px">${OG('בוא נשמור את התוכנית שלך','בואי נשמור את התוכנית שלך')}</h1>
         <p class="ob-sub">${ONB.paid?`<b class="acc">${tt('המנוי פעיל ✓')}</b> `:''}${tt('התחברות אחת, וזה שמור לתמיד ובכל מכשיר.')}</p>
         <div class="ob-tip" style="width:100%;margin-top:20px"><span class="ok">${ONB_CHK}${tt('התוכנית ומשקלי הפתיחה')}</span><span class="ok">${ONB_CHK}${OG('כל סט שתעשה, וכל שיא','כל סט שתעשי, וכל שיא')}</span><span class="ok">${ONB_CHK}${tt('יעד הקלוריות והחלבון')}</span></div></div>
