@@ -110,5 +110,17 @@
  "מקס מציע את המינימום. יכולה יותר? תעשי ותרשמי מה שעשית, ככה הוא לומד ומעלה משקל מהר יותר.": {
   "en": "Max suggests the minimum. Can do more? Do it and log what you did — that's how he learns and raises the weight sooner.",
   "ar": "ماكس يقترح الحد الأدنى. تستطيعين أكثر؟ افعلي وسجّلي ما فعلتِه، هكذا يتعلّم ويرفع الوزن أسرع."
+ },
+ "ההורדה חינם, ו-7 הימים הראשונים חינם עם הכל פתוח. אחר כך מנוי חודשי ב-₪29.90 או שנתי ב-₪179.90 (₪14.99 לחודש). יומיים לפני סוף הניסיון נשלחת תזכורת, ומי שמבטל לפני כן לא משלם כלום.": {
+  "en": "The download is free, and the first 7 days are free with everything unlocked. Then a monthly subscription at ₪29.90 or yearly at ₪179.90 (₪14.99 a month). A reminder is sent 2 days before the trial ends, and if you cancel before then you pay nothing.",
+  "ar": "التنزيل مجاني، وأول 7 أيام مجانية مع فتح كل شيء. بعد ذلك اشتراك شهري بـ₪29.90 أو سنوي بـ₪179.90 (₪14.99 شهريًا). يُرسَل تذكير قبل يومين من انتهاء التجربة، ومن يلغي قبل ذلك لا يدفع شيئًا."
+ },
+ "{0} ימים עם הכל פתוח. יומיים לפני הסוף תקבל תזכורת, ואפשר לבטל לפני החיוב בלי לשלם כלום.": {
+  "en": "{0} days with everything unlocked. You'll get a reminder 2 days before the end, and you can cancel before you're charged without paying anything.",
+  "ar": "{0} أيام مع فتح كل شيء. ستصلك تذكير قبل يومين من النهاية، ويمكنك الإلغاء قبل الدفع دون أن تدفع شيئًا."
+ },
+ "{0} ימים עם הכל פתוח. יומיים לפני הסוף תקבלי תזכורת, ואפשר לבטל לפני החיוב בלי לשלם כלום.": {
+  "en": "{0} days with everything unlocked. You'll get a reminder 2 days before the end, and you can cancel before you're charged without paying anything.",
+  "ar": "{0} أيام مع فتح كل شيء. ستصلكِ تذكير قبل يومين من النهاية، ويمكنك الإلغاء قبل الدفع دون أن تدفع شيئًا."
  }
 }
