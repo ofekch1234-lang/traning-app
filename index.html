@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=3080ac2d"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3080ac2d"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=3080ac2d"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=62d49d3e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=62d49d3e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=62d49d3e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1334,6 +1334,10 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .ob-eq .ob-ic{width:64px;height:48px;border-radius:12px;overflow:hidden;background:#1E2220}.ob-eq .ob-ic img{width:100%;height:100%;object-fit:cover}.ob-opt.on .ob-eq .ob-ic,.ob-eq .ob-opt.on .ob-ic{background:#1E2220;box-shadow:0 0 0 2px var(--accent)}
 .ob-lockav.ph{width:170px;height:230px;border-radius:30px;overflow:visible;background:none;border:0}.ob-lockav.ph img{width:170px;height:230px;border-radius:30px;object-fit:cover;object-position:center 60%;border:1px solid #232825}
 .obs-build .ob-bbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;pointer-events:none}.obs-build .ob-mid,.obs-build .ob-rafi{position:relative}
+.hfirst{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/9;margin-bottom:10px;background:#141715}.hfirst img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hfirst::after,.ffirst::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(8,9,8,.88))}
+.hfirst span,.ffirst span{position:absolute;inset:auto 16px 14px;z-index:1;display:flex;flex-direction:column;gap:3px;color:#F2F5F2}.hfirst b,.ffirst b{font-size:18px;font-weight:800}.hfirst small,.ffirst small{font-size:13px;color:#D5DBD7;line-height:1.4}
+.ffirst{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:2/1;background:#141715}.ffirst img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%}
 .ob-gift{margin-top:12px;font-size:14px;font-weight:700;color:var(--accent)}
 #authwrap{max-width:440px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 0 24px;display:flex;flex-direction:column;gap:12px}
 #authwrap .card{padding:20px 18px}
@@ -5272,7 +5276,7 @@ function hlForYou(){ const L=[];
   L.push(hlShareHTML());
   return `<div class="hl-more">${L.join('')}</div>`; }
 function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${hqCardHTML()}${dbreakHTML()}${morningAfterHTML()}`; }
-function hlWork(D){ return S.active?liveHomeCard():D.nw?nextCardHTML(D.nw):`<div class="hcard"><div class="lbl"><span>${tt('האימון הראשון שלך')}</span></div><div class="nm">${tt('בוא נבנה לך תוכנית')}</div><button class="go" data-act="pb-open">${tt('בנה לי תוכנית')}</button></div>`; }
+function hlWork(D){ return S.active?liveHomeCard():(!S.workouts.length?`<div class="hfirst"><img src="img/home-first.jpg" alt="" loading="lazy"><span><b>${tt('האימון הראשון שלך מחכה')}</b><small>${tt('הכל מוכן: התרגילים, הסטים והמשקלים. רק להתחיל.')}</small></span></div>`:'')+(D.nw?nextCardHTML(D.nw):`<div class="hcard"><div class="lbl"><span>${tt('האימון הראשון שלך')}</span></div><div class="nm">${tt('בוא נבנה לך תוכנית')}</div><button class="go" data-act="pb-open">${tt('בנה לי תוכנית')}</button></div>`); }
 /* people who only log food: no workout in 14 days, and they came for food or keep logging meals. Their Today leads with nutrition */
 function foodUser(){ if(S.active)return false; const c=Date.now()-14*864e5;
   if(S.workouts.some(w=>(+new Date(w.start)||0)>c))return false;
@@ -5535,7 +5539,7 @@ function vFood(){
           <div class="small muted" id="ai-step">${AI_STEPS[0]}</div>
           <div class="ai-track"><i id="ai-bar"></i></div></div>
       </div>`
-      :`${d===today?ncCardHTML():''}<div class="ask ask1 ${S.askQ?'has':''}"><label for="ask-q" class="ask-in">${ICON.search}<textarea id="ask-q" rows="1" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="400" data-bind="askq" placeholder="${tt('מה אכלת?')}">${esc(S.askQ||'')}</textarea></label><button class="sq clr" data-act="ask-clear" aria-label="${tt('ניקוי')}">✕</button><span class="acnt num" aria-hidden="true"></span><button class="aqgo" data-act="food-ai"><span aria-hidden="true">✨</span>${tt('חשב')}</button>${voOK()?`<button class="aq mic" data-act="vo-start" aria-label="${tt('הקלטה קולית')}">${ICON.mic}</button><i class="aq-sep" aria-hidden="true"></i>`:''}${pcamOK()?`<button class="aq" data-act="pcam-open" aria-label="צילום צלחת">${ICON.cam}</button><input id="food-photo" type="file" accept="image/*" hidden>`:`<label class="aq" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label>`}<i class="aq-sep" aria-hidden="true"></i><button class="aq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button></div>
+      :`${d===today?ncCardHTML():''}${d===today&&!S.meals.some(m=>m.d===today)&&!S.basket.length?`<div class="ffirst"><img src="img/food-empty.jpg" alt="" loading="lazy"><span><b>${tt('מה אכלת היום?')}</b><small>${tt('מצלמים את הצלחת או כותבים במילים, ומקס מחשב קלוריות וחלבון.')}</small></span></div>`:''}<div class="ask ask1 ${S.askQ?'has':''}"><label for="ask-q" class="ask-in">${ICON.search}<textarea id="ask-q" rows="1" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="400" data-bind="askq" placeholder="${tt('מה אכלת?')}">${esc(S.askQ||'')}</textarea></label><button class="sq clr" data-act="ask-clear" aria-label="${tt('ניקוי')}">✕</button><span class="acnt num" aria-hidden="true"></span><button class="aqgo" data-act="food-ai"><span aria-hidden="true">✨</span>${tt('חשב')}</button>${voOK()?`<button class="aq mic" data-act="vo-start" aria-label="${tt('הקלטה קולית')}">${ICON.mic}</button><i class="aq-sep" aria-hidden="true"></i>`:''}${pcamOK()?`<button class="aq" data-act="pcam-open" aria-label="צילום צלחת">${ICON.cam}</button><input id="food-photo" type="file" accept="image/*" hidden>`:`<label class="aq" aria-label="צילום צלחת">${ICON.cam}<input id="food-photo" type="file" accept="image/*" hidden></label>`}<i class="aq-sep" aria-hidden="true"></i><button class="aq" data-act="scan-open" aria-label="סריקת ברקוד">${ICON.bar}</button></div>
       <div id="ask-res" class="card r20 ask-res" hidden></div>
       ${!S.basket.length?quickChips():''}
       ${S.basket.length?`<div class="card r20 basket" style="margin:0">
@@ -11182,7 +11186,7 @@ function vSocList(){
   const acts=`<div class="two"><button class="btn primary big" style="min-height:52px" data-act="soc-new">קבוצה חדשה</button><button class="btn big" style="background:var(--surface);min-height:52px" data-act="soc-join">הצטרפות עם קוד</button></div>`;
   if(!G)return head+`<div class="empty"><div class="big">טוען…</div></div>`;
   if(!G.length)return head+`<div class="card stack" style="text-align:center;padding:22px 16px;gap:10px">
-      <div style="font-size:44px;line-height:1">🤝</div><b style="font-size:18px">קשה לוותר על אימון כשמישהו מחכה לך</b>
+      <img src="img/soc-empty.jpg" alt="" loading="lazy" style="width:calc(100% + 32px);max-width:none;align-self:stretch;margin:-22px -16px 4px;aspect-ratio:16/10;object-fit:cover;object-position:center 30%;border-radius:20px 20px 0 0"><b style="font-size:18px">קשה לוותר על אימון כשמישהו מחכה לך</b>
       <div class="muted">פתח קבוצה עם שותף לאימונים או עם החבר׳ה מהמכון. כל אימון שתסיימו יופיע בקבוצה, תוכלו לפרגן, לדבר, להתחרות בטבלה השבועית ולפתוח אתגרים.</div>
       <div class="small muted">מה רואים החברים: אימונים שסיימת (שם, זמן, סטים ונפח) ושיאים. את המשקל, התזונה והתמונות שלך רק אתה רואה.</div>
     </div>`+acts;
@@ -12585,6 +12589,7 @@ function renderStudio(){
       <button class="btn ${!STD.bg?'primary':''}" style="flex:1;padding:10px 4px" data-act="st-green">🟩 עיצוב</button>
       <button class="btn" style="flex:1;padding:10px 4px" data-act="st-cam">📸 צלם</button>
       <button class="btn" style="flex:1;padding:10px 4px" data-act="st-pick">🖼️ גלריה</button>
+      <button class="btn ${STD.bg&&STD.bg===STD.gym?'primary':''}" style="flex:1;padding:10px 4px" data-act="st-gym">🏋️ ${tt('חדר כושר')}</button>
     </div>
     ${STD.bg?`<div class="row" style="gap:6px;margin-bottom:8px">
       <button class="btn" style="flex:1" data-act="st-style">🔀 מדבקה ${STD.style?'מינימלית':'מלאה'}</button>
@@ -12624,6 +12629,7 @@ async function stShot(){
 function stAct(act,b){
   switch(act){
     case 'st-green': STD.bg=null; renderStudio(); stPreview(); return true;
+    case 'st-gym': { const go=()=>{ STD.bg=STD.gym; STD.pos=0; renderStudio(); stPreview(); }; if(STD.gym)go(); else { const im=new Image(); im.onload=()=>{ STD.gym=im; go(); }; im.src='img/story-bar.jpg'; } return true; }
     case 'st-cam': stCamOpen(); return true;
     case 'st-pick': { const f=$('#st-file'); if(f){ f.onchange=async()=>{ const file=f.files?.[0]; if(!file)return; try{ STD.bg=await createImageBitmap(file); }catch(e){ const im=new Image(); im.src=URL.createObjectURL(file); await im.decode(); STD.bg=im; } renderStudio(); stPreview(); }; f.click(); } return true; }
     case 'st-style': STD.style=STD.style?0:1; if($('#stcam'))stickerOnlyURL().then(u=>{const i=$('#stc-st');if(i)i.src=u;}); else { renderStudio(); stPreview(); } return true;
