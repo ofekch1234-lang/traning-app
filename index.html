@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=906d7337"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=906d7337"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=906d7337"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=3080ac2d"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=3080ac2d"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=3080ac2d"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2909,7 +2909,6 @@ function natPlan(){
   const at=(d,h,m)=>{ const x=new Date(d); x.setHours(h,m||0,0,0); return x; };
   const day=i=>{ const x=new Date(now); x.setHours(12,0,0,0); x.setDate(x.getDate()+i); return x; };
   const add=(when,title,body,kind)=>{ if(+when>Date.now()+60e3&&out.length<60)out.push({at:+when,title:tt(title),body:tt(body),kind}); };
-  { let te=0; try{ te=+localStorage.getItem('nr-trial-end')||0; }catch(_){} if(te>Date.now()){ const w=new Date(te-2*DAYMS); w.setHours(10,0,0,0); const nm=firstName(); add(w,'תקופת הניסיון מסתיימת בעוד יומיים',(nm?nm+', ':'')+'עדיין אפשר לבטל לפני החיוב, ב-App Store.','trial'); } }
   // 1. one morning message per day: weigh-in (7:30, until weighed), the weekly photo day, and the scheduled workout together.
   //    Weigh-in on: 7:30 with whatever applies. Only the workout reminder on (weighed / weigh-in off): 8:00 as before.
   { const today=ymd(), wToday=(S.weights||[]).some(w=>w.d===today), pd=S.settings.photoDay!=null?+S.settings.photoDay:null, phToday=(PH.sets||[]).some(s=>s.d===today);
@@ -2941,17 +2940,7 @@ function natPlan(){
   // 6. premium ends tomorrow (trial or gift, not a store subscription that renews)
   const until=S.plan?.until?+new Date(S.plan.until):0, storeOn=!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
   const ow=offerWin(), ofw=ow&&!ow.second;
-  // the intro offer: the free week ends at 23:59 (server). Hours people are awake: 10:00, 22:00, 22:30
-  if(ofw){ const L=new Date(until-60e3);
-    add(at(new Date(+L-2*DAYMS),10),'השבוע הכי קשה כבר מאחוריך','עכשיו מתחילים לראות תוצאות. ממשיכים עם מקס ב-₪9.90 לחודש הראשון.','trial');
-    add(at(new Date(+L-DAYMS),22),'24 השעות האחרונות מתחילות','עד מחר בחצות: ₪9.90 במקום ₪29.90 לחודש הראשון.','trial');
-    add(at(L,10),'מאמן אישי ב-₪9.90, עד חצות','מאמן כושר עולה מאות שקלים לחודש. מקס: ₪9.90 לחודש הראשון.','trial');
-    add(at(L,22,30),'90 דקות. ואז המחיר משתלש','₪9.90 במקום ₪29.90. נגמר בחצות.','trial'); }
-  // last chance: one whole day, a week after the free week
-  if(ow||(until&&!storeOn&&!S.plan?.plan_months&&!(S.plan?.paid&&!S.plan?.gift)&&S.plan?.lock&&RC_KEYS[NATIVE_OS]&&until>Date.now())){ const s2=offerSecond(until);
-    add(at(s2,9),'קיבלת הזדמנות שנייה. לא תהיה שלישית','₪9.90 לחודש הראשון, עד הלילה בחצות. אחר כך זה נעלם.','trial');
-    add(at(s2,20),'4 שעות. ואז זה נגמר לתמיד','התוכנית שלך שמורה. חוזרים ב-₪9.90 במקום ₪29.90.','trial');
-    add(at(s2,22,30),'חצות. זה הדדליין','אחרי זה ההצעה לא חוזרת, אף פעם.','trial'); }
+  // the 9.90 / 149.90 intro offer and its reminders were removed on 2026-11-19
   if(!ofw&&until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם מקס בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם מקס בלי הפסקה.'),'trial');
   return out.sort((a,b)=>a.at-b.at);
 }
@@ -3980,6 +3969,15 @@ function onbPayHTML(inner){
       <div class="ob-legal">${tt('המנוי מתחדש אוטומטית ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה.')} <a href="terms.html" target="_blank">${tt('תקנון')}</a> · <a href="privacy.html" target="_blank">${tt('פרטיות')}</a> · <button class="linkbtn" data-act="rc-restore">${tt('שחזור רכישות')}</button> · ${S.user?`<button class="linkbtn" data-act="access-logout">${tt('יציאה')}</button>`:`<button class="linkbtn" data-act="onb-login">${tt('כבר יש לי חשבון')}</button>`}</div></div>`;
   return inner?H:`<div id="onb" class="obs-pay">${H}</div>`;
 }
+/* the paywall was left before sign-in (no account yet, so no server push): two local reminders, cancelled on purchase or sign-in */
+async function payNudge(on){ if(!IS_NATIVE)return; const LN=capP('LocalNotifications'); if(!LN)return;
+  try{ await LN.cancel({notifications:[{id:2901},{id:2902}]}); }catch(_){}
+  if(!on)return; try{ await natPermSync(); }catch(_){} if(NAT.perm!=='granted')return;
+  const nm=String(ONB.a?.name||'').trim(), d=onbAnyTrial(), at=(n,h)=>{ const x=new Date(); x.setDate(x.getDate()+n); x.setHours(h,0,0,0); return x; };
+  const o=(id,when,t,b)=>({id,title:t,body:b,schedule:{at:when,allowWhileIdle:true},smallIcon:'ic_stat_nextrep',iconColor:'#5E8C00',...natAlert('daily'),extra:{kind:'pay'}});
+  try{ await natChannels(); await LN.schedule({notifications:[
+    o(2901,at(1,19),tt('התוכנית שלך מחכה'),(nm?nm+', ':'')+(d?tt('היא מוכנה ושמורה. {0} ימים חינם, וביטול בכל רגע.').replace('{0}',d):tt('היא מוכנה ושמורה. נכנסים וממשיכים מאיפה שעצרת.'))),
+    o(2902,at(3,19),tt('מקס עדיין מחכה לך'),tt('האימון הראשון שלך כבר בנוי. נכנסים ומתחילים.'))]}); }catch(e){ console.warn('payNudge',e); } }
 /* the trial reminder: a local notification 2 days before a store free trial ends (set on purchase) */
 function trialEndKeep(info){ try{ const e=info?.entitlements?.active?.premium; if(e&&String(e.periodType||'').toUpperCase()==='TRIAL'&&e.expirationDate)localStorage.setItem('nr-trial-end',String(+new Date(e.expirationDate))); }catch(_){} }
 function vOnb(){
@@ -4165,6 +4163,7 @@ function onbGo(s){ { const dir=s>=ONB.s?1:-1; let g=0; while(g++<4&&((ONB_STEPS[
   const st=ONB_STEPS[ONB.s];
   if(st==='name')setTimeout(()=>{ const i=$('#onb-name'); if(i&&!i.value){ try{ i.focus({preventScroll:true}); }catch(_){ i.focus(); } } },250);
   if(st==='build'||st==='plan')rcInitAnon();
+  if(st==='pay'&&!S.user)payNudge(true);
   if(st==='build'){ ONB.bi=0; clearInterval(onbGo._t); onbGo._t=setInterval(()=>{ if(ONB_STEPS[ONB.s]!=='build'){ clearInterval(onbGo._t); return; }
       ONB.bi=(ONB.bi||0)+1; vibrate(8); if(ONB.bi>=4){ clearInterval(onbGo._t); setTimeout(()=>{ if(ONB_STEPS[ONB.s]==='build')onbGo(ONB.s+1); },650); } onbPaint(); },850); }
   try{ logEv('onb_step',{s:st}); }catch(_){} }
@@ -4239,6 +4238,7 @@ function onbApplyPending(){
   return true;
 }
 async function onbApply(){
+  payNudge(false);
   const a=ONB.a, g=a.g||window.NR_G||'m';
   try{ localStorage.setItem('nr-notif-onb','1'); }catch(_){}
   if(a.name){ S.user=Object.assign({},S.user,{user_metadata:Object.assign({},S.user?.user_metadata,{full_name:a.name})}); try{ sb.auth.updateUser({data:{full_name:a.name}}).then(({data})=>{ if(data?.user)S.user=data.user; },()=>{}); }catch(_){} }
@@ -11513,7 +11513,7 @@ async function rcDone(info,quiet){
   const on=!!info?.entitlements?.active?.premium;
   if(!on){ if(!quiet)toast('לא נמצא מנוי פעיל בחשבון החנות'); return false; }
   trialEndKeep(info);
-  if(!S.user&&ONB&&ONB_STEPS[ONB.s]==='pay'){ ONB.paid=true; onbSave(); try{ logEv('pay_onb_done',{pre:1}); }catch(_){} toast(tt('המנוי פעיל. נשאר רק לשמור את התוכנית')); onbGo(ONB_STEPS.indexOf('save')); return true; }
+  if(!S.user&&ONB&&ONB_STEPS[ONB.s]==='pay'){ payNudge(false); ONB.paid=true; onbSave(); try{ logEv('pay_onb_done',{pre:1}); }catch(_){} toast(tt('המנוי פעיל. נשאר רק לשמור את התוכנית')); onbGo(ONB_STEPS.indexOf('save')); return true; }
   try{ await sb.functions.invoke('revenuecat',{body:{action:'sync'}}); }catch(_){}
   toast('הפרימיום נפתח 🎉'); closeSheet(); if($('#onbpost')&&ONB.post==='pay'){ onbPost('ready'); try{ S.plan=(await sb.rpc('my_plan')).data||S.plan; }catch(_){} if(S.plan)S.plan.premium=true; logEv('pay_onb_done'); return true; }
   if(S.user)enterApp(S.user); return true;
