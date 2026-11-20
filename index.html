@@ -9051,9 +9051,13 @@ function schedRaw(dt){ const ds=ymd(dt), L=mvList();
   return schedOf(dt.getDay()); }
 /* a scheduled workout done early (e.g. Friday's workout on Thursday) counts for its day: the same workout, done after
    the previous scheduled day and before this one, clears this day (no "today's workout", no missed day, no reminder). */
-function doneEarly(dt,t){ const d0=new Date(dt); d0.setHours(0,0,0,0); let lo=new Date(d0); lo.setDate(d0.getDate()-6);
-  for(let i=1;i<=6;i++){ const p=new Date(d0); p.setDate(d0.getDate()-i); p.setHours(12,0,0,0); if(schedRaw(p)){ lo=new Date(p); lo.setHours(0,0,0,0); lo.setDate(lo.getDate()+1); break; } }
-  return (S.workouts||[]).some(w=>+w.start>=+lo&&+w.start<+d0&&(w.tid===t.id||w.name===t.name)); }
+/* a scheduled workout counts as done when its template was already done earlier this week (from Sunday),
+   more times than it was scheduled before this day (a template that repeats in the week still needs each session) */
+function doneEarly(dt,t){ const d0=new Date(dt); d0.setHours(0,0,0,0); const ws=new Date(d0); ws.setDate(d0.getDate()-d0.getDay());
+  const same=x=>!!x&&(x.tid===t.id||x.id===t.id||x.name===t.name);
+  const done=(S.workouts||[]).filter(w=>+w.start>=+ws&&+w.start<+d0&&(w.tid===t.id||w.name===t.name)).length; if(!done)return false;
+  let slots=0; for(let p=new Date(ws);+p<+d0;p.setDate(p.getDate()+1)){ const q=new Date(p); q.setHours(12,0,0,0); if(same(schedRaw(q)))slots++; }
+  return done>slots; }
 function schedOn(dt){ const t=schedRaw(dt); if(!t)return null; if(!trainedOn(dt)&&doneEarly(dt,t))return null; return t; }
 function mvInto(dt){ return mvList().find(m=>m.to===ymd(dt))||null; }
 function mvFrom(dt){ return mvList().some(m=>m.from===ymd(dt)); }
