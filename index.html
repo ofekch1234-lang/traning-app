@@ -10675,7 +10675,7 @@ function openNameSheet(){
 /* ===================== לוח ניהול ===================== */
 const USD_ILS=3.7;
 const A={tab:'overview',ov:null,funnel:null,users:{q:'',filter:'all',rows:[],total:0,loading:false},cfg:null,events:null,msgs:null,msgFilter:'open',err:null};
-const ADM_FILTERS=[['all','הכל'],['paying','משלמים'],['trial','פרימיום מתנה'],['expired','חינמיים'],['pending','ממתינים'],['expiring','מסתיימים בשבוע'],['blocked','חסומים']];
+const ADM_FILTERS=[['all','הכל'],['paying','משלמים'],['trial','פרימיום מתנה'],['expired','חינמיים'],['pending','ממתינים'],['expiring','מסתיימים בשבוע'],['blocked','חסומים'],['store','מנויים בחנות']];
 const ACC={approved:['פעיל','var(--accent)'],pending:['ממתין','#D97706'],rejected:['חסום','#DC2626'],admin:['אדמין','var(--ink)']};
 function agoHe(d){
   if(!d)return '—';
@@ -10692,6 +10692,13 @@ function userState(u){
   if(!until||until<=new Date())return ['חינמי','var(--muted)'];
   return paid?(u.gifted?['מתנה','#7C3AED']:['משלם','var(--accent)']):['פרימיום מתנה','#2563EB'];
 }
+/* App Store / Google Play subscription: plan and status (from store_subs, kept fresh by the RevenueCat webhook) */
+const STORE_ST={trial:['בניסיון','#2563EB'],trial_canceled:['ביטל בניסיון','#DC2626'],active:['משלם','var(--accent)'],canceled:['ביטל','#D97706'],billing:['בעיית חיוב','#DC2626'],expired:['הסתיים','var(--muted)']};
+const storePlan=u=>u.store_plan==='y'?'שנתי':u.store_plan==='m'?'חודשי':'מנוי';
+const storePill=u=>u.store_st&&STORE_ST[u.store_st]?badgeHTML([`${storePlan(u)} · ${STORE_ST[u.store_st][0]}`,STORE_ST[u.store_st][1]]):'';
+function storeLine(u){ if(!u.store_st)return ''; const d=u.store_until?dShort(u.store_until):'', st=u.store_st;
+  const when=st==='trial'?`הניסיון נגמר ב-${d} ואז מתחיל חיוב`:st==='trial_canceled'?`ביטל, הגישה עד ${d} בלי חיוב`:st==='active'?`מתחדש ב-${d}`:st==='canceled'?`ביטל, הגישה עד ${d}`:st==='billing'?`החיוב נכשל, החנות מנסה שוב`:`הסתיים ב-${d}`;
+  return `${storePlan(u)} · ${u.store==='play_store'?'Google Play':'App Store'} · <b style="color:${STORE_ST[st][1]}">${STORE_ST[st][0]}</b><br><span class="small muted">${when}</span>`; }
 const badgeHTML=([t,c])=>`<span style="border:1px solid ${c};color:${c};border-radius:99px;padding:1px 8px;font-size:11px;white-space:nowrap">${t}</span>`;
 async function loadAdmin(){
   A.err=null; S.adminLoading=true; if(S.tab==='admin')render();
@@ -10860,7 +10867,7 @@ function admSrcSummary(){ const m=A.src||{}, all=Object.values(m); if(!all.lengt
 function admUserRow(u){ const st=userState(u);
   return `<button class="li adm-urow" data-act="adm-user" data-id="${u.id}">
     <span class="av2" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
-    <span class="lt"><b><span data-notr>${esc(u.full_name||u.email.split('@')[0])}</span> ${stPill(st)}</b><small dir="ltr" style="text-align:var(--start)">${esc(u.email)}${admSrc(u)?' · '+esc(admSrc(u)):''}</small></span>
+    <span class="lt"><b><span data-notr>${esc(u.full_name||u.email.split('@')[0])}</span> ${(u.store_st&&u.store_st!=='expired'?'':stPill(st))} ${storePill(u)}</b><small dir="ltr" style="text-align:var(--start)">${esc(u.email)}${admSrc(u)?' · '+esc(admSrc(u)):''}</small></span>
     <span class="small muted num" style="text-align:end;white-space:nowrap">${u.last_seen?agoHe(u.last_seen):agoHe(u.created_at)}</span></button>`; }
 function admUserGroups(U){
   if(!U.rows.length)return `<div class="card r20 list"><div class="li small muted" style="justify-content:center">${U.loading?'טוען…':'אין תוצאות'}</div></div>`;
@@ -10872,12 +10879,16 @@ function admUserGroups(U){
   return G.filter(([k])=>by[k]).map(([k,t])=>{ const on=open[k]??first; first=false;
     return `<div class="card r20 list adm-ug"><button class="li adm-ugh" data-act="adm-ug" data-k="${k}" aria-expanded="${on}"><span class="lt"><b>${t}</b></span><span class="pill2 num" style="--c:var(--accent)">${by[k].length}</span><span class="adm-chev ${on?'on':''}">${ICON.chev}</span></button>${on?by[k].map(admUserRow).join(''):''}</div>`; }).join('');
 }
+function admStoreSummary(rows){ const c={}; for(const u of rows)if(u.store_st)c[u.store_st]=(c[u.store_st]||0)+1;
+  const y=rows.filter(u=>u.store_plan==='y'&&['trial','active'].includes(u.store_st)).length, m=rows.filter(u=>u.store_plan==='m'&&['trial','active'].includes(u.store_st)).length;
+  return `<div class="card r20 stat3 num" style="margin-bottom:10px">${[[c.trial||0,'בניסיון'],[c.active||0,'משלמים'],[(c.canceled||0)+(c.trial_canceled||0),'ביטלו']].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('')}</div>
+    <div class="small muted" style="margin:-4px 4px 10px">פעילים: ${y} שנתי · ${m} חודשי${c.billing?` · ${c.billing} בעיית חיוב`:''}</div>`; }
 function admUsersHTML(){
   const U=A.users, O=A.ov||{};
   const cnt={all:O.users,pending:O.pending,trial:O.trial,paying:O.paying,expiring:O.expiring7,expired:O.expired,blocked:O.blocked};
   return `<label class="srch">${ICON.search}<input id="adm-q" type="search" placeholder="חיפוש לפי שם, אימייל או טלפון" value="${esc(U.q)}" aria-label="חיפוש משתמש"></label>
-    <div class="chips">${ADM_FILTERS.filter(([k])=>k==='all'||cnt[k]).map(([k,t])=>`<button class="chip ${U.filter===k?'on':''}" data-act="adm-filter" data-f="${k}">${t}${cnt[k]!=null?`<i class="num">${cnt[k]}</i>`:''}</button>`).join('')}</div>
-    ${U.filter==='all'&&!U.q?admSrcSummary():''}
+    <div class="chips">${ADM_FILTERS.filter(([k])=>k==='all'||k==='store'||cnt[k]).map(([k,t])=>`<button class="chip ${U.filter===k?'on':''}" data-act="adm-filter" data-f="${k}">${t}${cnt[k]!=null?`<i class="num">${cnt[k]}</i>`:''}</button>`).join('')}</div>
+    ${U.filter==='all'&&!U.q?admSrcSummary():''}${U.filter==='store'&&U.rows.length?admStoreSummary(U.rows):''}
     ${admUserGroups(U)}
     <div class="small muted" style="text-align:center">${U.loading&&!U.rows.length?'':`${U.rows.length} מתוך ${U.total}`}</div>
     ${U.rows.length<U.total?`<button class="btn big" style="background:var(--surface)" data-act="adm-more">${U.loading?'טוען…':`טען עוד ${Math.min(30,U.total-U.rows.length)}`}</button>`:''}`;
@@ -10886,13 +10897,13 @@ async function admUserSheet(id){
   const u=A.users.rows.find(x=>x.id===id)||(A.pick||[]).find(x=>x.id===id); if(!u)return;
   const draw=d=>{ const st=userState(u);
     const dl=[['נרשם',dShort(u.created_at)],['נראה לאחרונה',agoHe(u.last_seen)],
-      ...(u.trial_until?[['פרימיום מתנה עד',dShort(u.trial_until)]]:[]),...(u.access_until?[['מנוי בתשלום עד',dShort(u.access_until)]]:[]),
+      ...(u.trial_until?[['פרימיום מתנה עד',dShort(u.trial_until)]]:[]),...(u.store_st?[['מנוי בחנות',storeLine(u)]]:[]),...(u.access_until?[['מנוי בתשלום עד',dShort(u.access_until)]]:[]),
       ...(u.ref_name?[['הוזמן ע״י',`<span data-notr>${esc(u.ref_name)}</span>`]]:[]),
       ...(admSrc(u)?[['הגיע מ',esc(admSrc(u))+((A.src||{})[u.id]?.c?`<br><span class="small muted">קמפיין: ${esc(A.src[u.id].c)}</span>`:'')+((A.src||{})[u.id]?.l&&A.src[u.id].l!=='/'?`<br><span class="small muted" dir="ltr">${esc(A.src[u.id].l)}</span>`:'')]]:[]),
       ...(u.referred_paid?[['חברים ששילמו דרכו',`${u.referred_paid} · ${u.referred_paid*30} ימי מתנה`]]:[]),
       ...(d?[['קבוצות',d.groups],['הזמין חברים',d.referred],['התראות',d.push?'מופעלות':'כבויות'],['תשלומים',(d.payments||[]).length?d.payments.map(p=>`₪${+p.amount} · ${p.months} ח׳ · ${dShort(p.created_at)}`).join('<br>'):'—']]:[])];
     openSheet(`<div class="row" style="gap:12px;flex-wrap:nowrap;margin-bottom:14px"><span class="av2" style="width:52px;height:52px;font-size:20px" data-notr>${esc((u.full_name||u.email||'?').trim()[0]||'?')}</span>
-        <div style="flex:1;min-width:0"><b style="font-size:19px;display:block" data-notr>${esc(u.full_name||u.email.split('@')[0])}</b><span class="small muted" dir="ltr" style="display:block;overflow:hidden;text-overflow:ellipsis">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</span><div style="margin-top:4px">${stPill(st)}</div></div>
+        <div style="flex:1;min-width:0"><b style="font-size:19px;display:block" data-notr>${esc(u.full_name||u.email.split('@')[0])}</b><span class="small muted" dir="ltr" style="display:block;overflow:hidden;text-overflow:ellipsis">${esc(u.email)}${u.phone?' · '+fmtPhone(u.phone):''}</span><div style="margin-top:4px">${(u.store_st&&u.store_st!=='expired'?'':stPill(st))}</div></div>
         <button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px;align-self:flex-start">✕</button></div>
       <div class="card r20 stat3 num" style="margin-bottom:10px">${d?[[`${d.workouts30}`,'אימונים 30 יום'],[`${d.meals}`,'ארוחות'],[`${d.ai_calls}`,'ניתוחי AI']].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join(''):'<div><b>…</b><span>טוען</span></div><div><b>…</b><span></span></div><div><b>…</b><span></span></div>'}</div>
       ${d?`<div class="small muted" style="margin:-4px 4px 10px">${d.workouts} אימונים בסה״כ · ${d.weighins} שקילות · עלות AI ${money(d.ai_usd)}</div>`:''}
