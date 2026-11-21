@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=62d49d3e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=62d49d3e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=62d49d3e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5174ff1e"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5174ff1e"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5174ff1e"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -3853,7 +3853,8 @@ function onbReady(st){ const a=ONB.a;
   if(st==='mode')return !!a.mode; return true; }
 /* ---------- 2026-11-19: the Imunit-style opening. New iPhone signups have no free tier and no free week:
    a projection, the plan, the "no surprises" reminder (the notification ask), then the store paywall with the store's own free trial. ---------- */
-const onbHardOS=()=>IS_NATIVE&&NATIVE_OS==='ios'&&!!RC_KEYS.ios;
+const onbHardOS=()=>IS_NATIVE&&!!RC_KEYS[NATIVE_OS];
+const isPlay=()=>IS_NATIVE&&NATIVE_OS==='android';
 const onbPend=()=>IS_NATIVE&&!!ONB&&!ONB.redo&&ONB_STEPS[ONB.s]==='save'&&!ONB.applied;
 const onbHardNow=()=>onbHardOS()&&!ONB?.ref?.code;
 /* the trial reminder and the paywall come before sign-in (as in Imunit); the purchase moves to the account on sign-in (RevenueCat logIn) */
@@ -3970,8 +3971,8 @@ function onbPayHTML(inner){
     <div style="flex:1"></div>
     <div class="ob-foot pay-foot">${tg}${price}
       <button class="ob-cta" data-act="rc-buy" data-id="${pk?esc(pk.identifier):''}" ${!pk||RC.busy?'disabled':''}>${RC.busy?tt('רגע…'):d?tt('להתחיל {0} ימים חינם').replace('{0}',d):tt('להתחיל עכשיו')}</button>
-      ${d?`<div class="ob-note">${OBI.bell} ${tt('נזכיר לך יומיים לפני שהניסיון נגמר. ביטול בכל רגע.')}</div>`:`<div class="ob-note">${tt('ביטול בכל רגע ב-App Store.')}</div>`}
-      <div class="ob-legal">${tt('המנוי מתחדש אוטומטית ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה.')} <a href="terms.html" target="_blank">${tt('תקנון')}</a> · <a href="privacy.html" target="_blank">${tt('פרטיות')}</a> · <button class="linkbtn" data-act="rc-restore">${tt('שחזור רכישות')}</button> · ${S.user?`<button class="linkbtn" data-act="access-logout">${tt('יציאה')}</button>`:`<button class="linkbtn" data-act="onb-login">${tt('כבר יש לי חשבון')}</button>`}</div></div>`;
+      ${d?`<div class="ob-note">${OBI.bell} ${tt('נזכיר לך יומיים לפני שהניסיון נגמר. ביטול בכל רגע.')}</div>`:`<div class="ob-note">${(isPlay()?tt('ביטול בכל רגע ב-Google Play.'):tt('ביטול בכל רגע ב-App Store.'))}</div>`}
+      <div class="ob-legal">${isPlay()?tt('המנוי מתחדש אוטומטית ומחויב בחשבון Google Play שלך, אלא אם מבטלים לפני סוף התקופה.'):tt('המנוי מתחדש אוטומטית ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה.')} <a href="terms.html" target="_blank">${tt('תקנון')}</a> · <a href="privacy.html" target="_blank">${tt('פרטיות')}</a> · <button class="linkbtn" data-act="rc-restore">${tt('שחזור רכישות')}</button> · ${S.user?`<button class="linkbtn" data-act="access-logout">${tt('יציאה')}</button>`:`<button class="linkbtn" data-act="onb-login">${tt('כבר יש לי חשבון')}</button>`}</div></div>`;
   return inner?H:`<div id="onb" class="obs-pay">${H}</div>`;
 }
 /* the paywall was left before sign-in (no account yet, so no server push): two local reminders, cancelled on purchase or sign-in */
@@ -11447,7 +11448,7 @@ function planLink(p){
 /* ---------- תשלום בחנויות: App Store / Google Play דרך RevenueCat ----------
    האפליקציה המותקנת קונה רק דרך החנות (חובה של אפל וגוגל). אחרי רכישה הפונקציה `revenuecat` בשרת
    מעדכנת את store_subs, ו-my_plan סופר אותה, כך שהפרימיום פתוח גם באתר וגם באפליקציה. */
-const RC_KEYS={ios:'appl_RBaKXhhHoExvFEMispkHjWwEwyu',android:''}; // מפתחות SDK ציבוריים מ-RevenueCat (מיועדים לקוד האפליקציה, לא סודיים)
+const RC_KEYS={ios:'appl_RBaKXhhHoExvFEMispkHjWwEwyu',android:'goog_TEFjyTxJwrUcPLGWEMyTRtdRSvh'}; // מפתחות SDK ציבוריים מ-RevenueCat (מיועדים לקוד האפליקציה, לא סודיים)
 const STORE_ONLY=false;            // ביום ההשקה: true → באתר אין רכישה, רק הפניה להורדת האפליקציה
 const STORE_URL={ios:'',android:''};
 const RC={ready:false,pkgs:null,err:null,busy:false,uid:null};
