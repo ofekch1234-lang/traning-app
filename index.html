@@ -11566,7 +11566,7 @@ function rcAct(act,b){
   switch(act){
     case 'rc-buy': { const pk=RC.pkgs?.find(p=>p.identifier===b.dataset.id); if(!pk||RC.busy||!P)return true;
       RC.busy=true; rcPaint(); logEv('store_buy',{pkg:pk.identifier});
-      P.purchasePackage({aPackage:pk}).then(r=>rcDone(r?.customerInfo)).catch(e=>{ if(!e?.userCancelled&&!/cancel/i.test(String(e?.message||e)))toast('הרכישה לא הושלמה, נסה שוב'); })
+      P.purchasePackage({aPackage:pk}).then(r=>{ try{ logEv('store_buy_ok',{pkg:pk.identifier}); }catch(_){} rcDone(r?.customerInfo); }).catch(e=>{ const c=!!e?.userCancelled||/cancel/i.test(String(e?.message||e)); try{ logEv(c?'store_buy_cancel':'store_buy_fail',{pkg:pk.identifier,code:String(e?.code||''),m:String(e?.message||e).slice(0,160)}); }catch(_){} if(!c)toast('הרכישה לא הושלמה, נסה שוב'); })
         .finally(()=>{ RC.busy=false; rcPaint(); }); return true; }
     case 'rc-restore': if(!P){ toast('הרכישה בחנות תיפתח בקרוב.'); return true; }
       P.restorePurchases().then(r=>rcDone(r?.customerInfo)).catch(()=>toast('השחזור נכשל, נסה שוב')); return true;
@@ -11669,7 +11669,11 @@ function socInvUrl(code){ return INV.code&&!NOREF()?`${INV_SITE}/i/${INV.code}?g
 function inviteUrl(){ return INV.code?`${INV_SITE}/i/${INV.code}`:`${INV_SITE}/#ref=${S.user?.id||''}`; }
 function inviteText(){ const d=+INV.st?.trial_days||14;
   return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.')).replace('{d}',d)+(INV.code?` ${tt('קוד ההזמנה')}: ${INV.code}`:''); }
-function logEv(k,meta){ try{ if(S.user)sb.rpc('log_event',{p_kind:k,p_meta:meta||null}).then(()=>{},()=>{}); }catch(_){} }
+function logEv(k,meta){ try{
+  // before sign-in (the paywall comes first) keep the event on the device and send it once the user signs in
+  if(!S.user){ if(/^store_|^pay_/.test(k)){ const q=JSON.parse(localStorage.getItem('nr-evq')||'[]'); q.push([k,{...(meta||{}),pre:1}]); localStorage.setItem('nr-evq',JSON.stringify(q.slice(-20))); } return; }
+  const q=JSON.parse(localStorage.getItem('nr-evq')||'[]'); if(q.length){ localStorage.removeItem('nr-evq'); q.forEach(([a,b])=>sb.rpc('log_event',{p_kind:a,p_meta:b}).then(()=>{},()=>{})); }
+  sb.rpc('log_event',{p_kind:k,p_meta:meta||null}).then(()=>{},()=>{}); }catch(_){} }
 function invLoad(){ return INV.p||(INV.p=Promise.all([sb.rpc('my_referrals'),sb.rpc('my_ref_code')]).then(([a,b])=>{ if(a.data)INV.st=a.data; if(b.data)INV.code=b.data; }).catch(()=>{}).finally(()=>{ setTimeout(()=>{INV.p=null;},30000); })); }
 const INV_GIFT='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>';
 /* an invite code saved before sign-in (the invite page, or the code step in the app's questionnaire): attach it to the new account */
