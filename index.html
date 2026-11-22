@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=5174ff1e"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=5174ff1e"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=5174ff1e"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=75f806b7"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=75f806b7"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=75f806b7"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -5153,6 +5153,7 @@ async function actSync(days){ const H=HP(); if(!H||!actOn()||actSync._busy)retur
     const nd={}, put=(r,k)=>(r.samples||[]).forEach(x=>{ const d=ymd(new Date(x.startDate)); (nd[d]=nd[d]||{s:0,km:0,kc:0})[k]=+x.value||0; });
     put(a,'s'); put(b,'km'); put(c,'kc'); const rows=[];
     for(const d in nd){ const v={s:Math.round(nd[d].s),km:Math.round(nd[d].km)/1000,kc:Math.round(nd[d].kc)}; const o=ACT.days[d];
+      if(o&&o.m&&o.s>v.s)continue; // the user typed a higher number (e.g. from the watch): keep it until the sync catches up
       if(!o||o.s!==v.s||Math.abs(o.km-v.km)>0.01||o.kc!==v.kc){ ACT.days[d]=v; rows.push({user_id:S.user?.id,d,steps:v.s,dist_m:Math.round(v.km*1000),active_kcal:v.kc,src:window.Capacitor?.getPlatform?.()==='android'?'hc':'hk',updated_at:new Date().toISOString()}); } }
     ACT.at=Date.now(); actSave(); try{ widgetSync(); }catch(_){}
     if(rows.length&&S.user){ sb.from('activity_days').upsert(rows).then(()=>{},()=>{}); if(S.tab==='home'||!$('#sheet').hidden&&$('.act-chart'))render(); }
@@ -5229,10 +5230,17 @@ function openActSheet(){
     <div class="card r20 stat3 num" style="margin-top:16px;background:var(--surface2);border:0"><div><b>${fmtSt(avg)}</b><span>${per}</span></div><div><b>${ACT.p==='q'?L.filter(x=>x.s>=g).length:hit}</b><span>${ACT.p==='q'?tt('שבועות ביעד'):tt('ימים ביעד')}</span></div><div><b>${fmtKm(km)}</b><span>${tt('ק״מ בסה״כ')}</span></div></div>
     <div class="small muted" style="margin:10px 4px 0">${streak>1?`${tt('רצף')}: <b class="num" style="color:var(--ink)">${streak}</b> ${tt('ימים ביעד')} · `:''}${tt('השיא בתקופה')}: <b class="num" style="color:var(--ink)">${fmtSt(best.s)}</b></div>
     <div class="card list" style="margin-top:14px">
+      <button class="li" data-act="act-man">${ICO_WALK}<span class="lt"><b>${tt('עדכון ידני של הצעדים היום')}</b><small>${tt('אם בשעון רשום יותר, אפשר לתקן כאן')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="act-goal">${ICON.target}<span class="lt"><b>${tt('יעד צעדים יומי')}</b><small class="num">${fmtSt(g)} ${tt('צעדים')}</small></span>${ICON.chev}</button>
       <button class="li" data-act="act-adj"><span class="lt"><b>${tt('התאם את תקציב הקלוריות לפי צעדים')}</b><small>${S.settings.stepsAdj&&actBonus(ymd())?`${tt('היום')}: <span class="num">+${actBonus(ymd())}</span> ${tt('קק״ל')}`:tt('מוסיף רק פעילות מעבר לרגיל שלך, וחצי ממנה')}</small></span><span class="tg ${S.settings.stepsAdj?'on':''}" aria-hidden="true"></span></button>
     </div>
     <div class="small muted" style="text-align:center;margin-top:12px">${tt('מקור')}: ${actSrc()} · ${tt('כולל צעדים מהשעון')}</div>`); }
+function openActMan(){ const a=actDay(ymd())||{s:0};
+  openSheet(`<div class="spread"><h3 style="margin:0">${tt('הצעדים של היום')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
+    <div class="small muted" style="margin:8px 0 14px;line-height:1.6">${tt('כרגע רשום')} <b class="num" style="color:var(--ink)">${fmtSt(a.s)}</b>. ${tt('אם השעון סופר יותר, כתוב כאן את המספר מהשעון. כשהסנכרון יגיע למספר גבוה יותר, הוא יתעדכן לבד.')}</div>
+    <input id="act-man-v" class="num" type="number" inputmode="numeric" min="0" max="100000" value="${a.s||''}" placeholder="0" style="width:100%;font-size:28px;text-align:center;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--surface2);color:var(--ink)">
+    <button class="btn primary big" data-act="act-man-save" style="width:100%;margin-top:16px">${tt('שמירה')}</button>
+    <div class="small muted" style="text-align:center;margin-top:10px">${tt('כדי שהצעדים מהשעון יגיעו לבד: באפליקציה של השעון (למשל Samsung Health) צריך להפעיל סנכרון עם Health Connect.')}</div>`); }
 let AG=0;
 function openActGoal(){ if(!AG)AG=stepsGoal(); const sg=stepsSuggest();
   openSheet(`<div class="spread"><h3 style="margin:0">${tt('יעד צעדים יומי')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
@@ -5253,6 +5261,12 @@ function actAct(a,b){
   if(a==='act-connect'){ actConnect(); return true; }
   if(a==='act-later'){ try{ localStorage.setItem('nr-hlth-later',String(Date.now())); }catch(_){} closeSheet(); render(); return true; }
   if(a==='act-goal'){ AG=0; openActGoal(); return true; }
+  if(a==='act-man'){ openActMan(); return true; }
+  if(a==='act-man-save'){ const v=Math.round(+($('#act-man-v')?.value||'').replace(/[^\d]/g,'')); if(!(v>=0&&v<=100000)){ toast(tt('מספר לא תקין')); return true; }
+    const d=ymd(), o=ACT.days[d]||{s:0,km:0,kc:0}, sc=o.s>0?v/o.s:0;
+    ACT.days[d]={s:v,km:o.km&&sc?Math.round(o.km*sc*100)/100:Math.round(v*0.75)/1000,kc:o.kc&&sc?Math.round(o.kc*sc):Math.round(v*0.04),m:1}; ACT.at=Date.now(); actSave(); try{ widgetSync(); }catch(_){}
+    if(S.user)sb.from('activity_days').upsert({user_id:S.user.id,d,steps:v,dist_m:Math.round(ACT.days[d].km*1000),active_kcal:ACT.days[d].kc,src:'man',updated_at:new Date().toISOString()}).then(()=>{},()=>{});
+    openActSheet(); render(); toast(tt('עודכן ✓')); return true; }
   if(a==='act-adj'){ S.settings.stepsAdj=!S.settings.stepsAdj; persistSettings(); openActSheet(); return true; }
   if(a==='ag-sug'){ AG=stepsSuggest(); openActGoal(); return true; }
   if(a==='ag-step'){ AG=Math.max(2000,Math.min(30000,AG+ +b.dataset.d)); openActGoal(); return true; }
@@ -5364,8 +5378,8 @@ function savedChips(){ const L=savedMeals(); if(!L.length)return '';
   <div class="again">${L.map(m=>`<button class="chip num sv" data-act="saved-add" data-id="${esc(m.id)}">${ICON.star||''}<span data-notr>${esc(m.name.length>22?m.name.slice(0,21)+'…':m.name)}</span><small>${kcalN(m.kcal)}</small></button>`).join('')}</div>`; }
 function openSavedManage(){ const L=savedMeals();
   openSheet(`<div class="spread"><h3 style="margin:0">הארוחות הקבועות שלי</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
-    <div class="small muted" style="margin:6px 0 12px">שומרים ארוחה מחלון העריכה שלה, והיא מופיעה במסך התזונה לרישום בלחיצה אחת.</div>
-    ${L.length?`<div class="card list">${L.map(m=>`<div class="li"><span class="lt"><b data-notr>${esc(m.name)}</b><small class="num">${kcalN(m.kcal)} קק״ל · ${m.protein} גר׳ חלבון</small></span><button class="hd-btn" style="width:40px;height:40px;color:var(--danger)" data-act="saved-rm" data-id="${esc(m.id)}" aria-label="${tt('הסרה')}">${ICON.trash||'✕'}</button></div>`).join('')}</div>`
+    <div class="small muted" style="margin:6px 0 12px">שומרים ארוחה מחלון העריכה שלה, והיא מופיעה במסך התזונה לרישום בלחיצה אחת. לחיצה על ארוחה פותחת אותה לעריכה.</div>
+    ${L.length?`<div class="card list">${L.map(m=>`<div class="li"><button class="lt" style="all:unset;flex:1;cursor:pointer;display:flex;flex-direction:column;gap:2px" data-act="saved-edit" data-id="${esc(m.id)}"><b data-notr>${esc(m.name)}</b><small class="num">${kcalN(m.kcal)} קק״ל · ${m.protein} גר׳ חלבון · ${tt('לחיצה לעריכה')}</small></button><button class="hd-btn" style="width:40px;height:40px;color:var(--danger)" data-act="saved-rm" data-id="${esc(m.id)}" aria-label="${tt('הסרה')}">${ICON.trash||'✕'}</button></div>`).join('')}</div>`
       :`<div class="small muted">אין עדיין ארוחות קבועות.</div>`}`); }
 function recentMealNames(){
   const seen=new Set(), out=[];
@@ -7767,6 +7781,25 @@ async function pcamOpen(){
     const v=$('#pcam-v'); v.addEventListener('playing',()=>el.classList.add('ready'),{once:true}); setTimeout(()=>el.classList.add('ready'),4000); v.srcObject=_pcam; }
   catch(e){ pcamClose(); pcamPick(); }
 }
+/* Android WebView shows only the gallery for <input type=file> unless capture is set, so ask first: camera or gallery */
+(function(){ if(!(window.Capacitor?.isNativePlatform?.()&&window.Capacitor?.getPlatform?.()==='android'))return;
+  let pass=null;
+  const close=()=>document.getElementById('cg-pick')?.remove();
+  const go=(inp,cam)=>{ close(); pass=inp; if(cam)inp.setAttribute('capture','environment'); else inp.removeAttribute('capture'); try{ inp.click(); }finally{ setTimeout(()=>{ if(pass===inp)pass=null; },0); } };
+  document.addEventListener('click',e=>{
+    const t=e.target, inp=t?.tagName==='INPUT'?t:t?.closest?.('label')?.querySelector?.('input[type=file]')||(t?.closest?.('label')?.control);
+    if(!inp||inp.type!=='file'||!/image/.test(inp.accept||'')||inp.multiple||inp.id==='pcam-file'||inp===pass)return;
+    e.preventDefault(); e.stopPropagation(); close();
+    const el=document.createElement('div'); el.id='cg-pick';
+    el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center';
+    el.innerHTML=`<div style="width:100%;max-width:520px;background:var(--surface);border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));display:grid;gap:10px">
+      <button class="btn primary big" data-cg="1" style="display:flex;gap:8px;justify-content:center;align-items:center">${ICON.cam||''}${tt('מצלמה')}</button>
+      <button class="btn big" data-cg="0" style="display:flex;gap:8px;justify-content:center;align-items:center">${ICON.photo||''}${tt('גלריה')}</button>
+      <button class="btn big" data-cg="x" style="background:none;border:0">${tt('בטל')}</button></div>`;
+    el.addEventListener('click',ev=>{ const b=ev.target.closest('[data-cg]'); ev.stopPropagation(); if(!b){ if(ev.target===el)close(); return; } if(b.dataset.cg==='x')return close(); go(inp,b.dataset.cg==='1'); });
+    document.body.appendChild(el);
+  },true);
+})();
 function pcamPick(){ let f=document.getElementById('food-photo'); if(!f){ f=document.createElement('input'); f.type='file'; f.accept='image/*'; f.id='food-photo'; f.hidden=true; document.body.appendChild(f); } f.click(); }
 function pcamClose(){ try{ if(_pcam==='native')NCam()?.stop().catch(()=>{}); else _pcam?.getTracks().forEach(t=>t.stop()); }catch(_){} _pcam=null; document.documentElement.classList.remove('pcam-on'); document.getElementById('pcam')?.remove(); }
 async function pcamShot(){
@@ -8170,8 +8203,22 @@ function openMealEdit(id){
   _mealEdit.items.forEach(meQ); MC.ctx='edit'; MC.open=-1; MC.sugg=[];
   renderMealEdit();
 }
+function openSavedEdit(id){ const s=savedMeals().find(x=>x.id===id); if(!s)return;
+  _mealEdit={sv:s.id,name:s.name,items:clone(Array.isArray(s.items)&&s.items.length?s.items:[{name:s.name,kcal:+s.kcal||0,protein:+s.protein||0,carbs:+s.carbs||0,fat:+s.fat||0}])};
+  _mealEdit.items.forEach(meQ); MC.ctx='edit'; MC.open=-1; MC.sugg=[]; renderMealEdit(); }
 function renderMealEdit(){
   const m=_mealEdit; MC.ctx='edit';
+  if(m.sv){ openSheet(`
+    <h3>${tt('עריכת ארוחה קבועה')}</h3>
+    <input id="me-name" class="me-nm" value="${esc(m.name)}" placeholder="${tt('שם הארוחה')}" aria-label="${tt('שם הארוחה')}" data-bind="mif" data-mf="mealname">
+    <div class="mc-sum" id="mc-tot" style="margin-top:12px"></div>
+    <div id="mc-list" class="mc-list"></div>
+    <div class="row mc-foot">
+      <button class="btn" style="flex:1" data-act="saved-manage">${tt('בטל')}</button>
+      <button class="btn primary" style="flex:2.2" data-act="meal-edit-save" id="mc-save">${tt('שמירה')}</button>
+    </div>
+    <div class="small muted" style="text-align:center;margin-top:10px">${tt('השינוי חל על הרישום הבא. ארוחות שכבר נרשמו לא משתנות.')}</div>`);
+    mcRender(); return; }
   openSheet(`
     <h3>${tt('עריכת ארוחה')}</h3>
     <input id="me-name" class="me-nm" value="${esc(m.name)}" placeholder="${tt('שם הארוחה')}" aria-label="${tt('שם הארוחה')}" data-bind="mif" data-mf="mealname">
@@ -8194,6 +8241,13 @@ function renderMealEdit(){
 async function saveMealEdit(){
   const m=_mealEdit; if(!m)return;
   m.items=m.items.filter(i=>(i.name||'').trim()||+i.kcal>0).map(({_man,ask,alt,altk,...x})=>x);
+  if(m.sv){ // a saved meal: update it in place, keep its place in the list
+    if(!m.items.length){ toast(tt('צריך לפחות פריט אחד')); return; }
+    const L=savedMeals(), i=L.findIndex(x=>x.id===m.sv), t=m.items.reduce((a,x)=>({kcal:a.kcal+(+x.kcal||0),protein:a.protein+(+x.protein||0),carbs:a.carbs+(+x.carbs||0),fat:a.fat+(+x.fat||0)}),{kcal:0,protein:0,carbs:0,fat:0});
+    const nm=mealKey(m.name)||'ארוחה';
+    if(i>=0){ S.settings.saved=L.filter((x,j)=>j===i||mealKey(x.name)!==nm); const k=S.settings.saved.findIndex(x=>x.id===m.sv);
+      S.settings.saved[k]={id:m.sv,name:nm,kcal:Math.round(t.kcal),protein:Math.round(t.protein),carbs:Math.round(t.carbs),fat:Math.round(t.fat),items:clone(m.items).map(({_f,ai,q,...x})=>x)}; persistSettings(); }
+    _mealEdit=null; openSavedManage(); render(); toast(tt('עודכן ✓')); return; }
   const tot=m.items.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0),carbs:a.carbs+(+i.carbs||0),fat:a.fat+(+i.fat||0)}),{kcal:0,protein:0,carbs:0,fat:0});
   const row={id:m.id,user_id:S.user.id,d:m.d,ts:m.ts,name:(m.name||'ארוחה').trim()||'ארוחה',
     kcal:Math.round(tot.kcal),protein:Math.round(tot.protein),carbs:Math.round(tot.carbs),fat:Math.round(tot.fat),items:m.items};
@@ -13435,10 +13489,11 @@ function handleAct(b,ev){
     case 'saved-add': { const src=savedMeals().find(x=>x.id===b.dataset.id); if(!src)break;
       _mealDraft={name:src.name,items:clone(src.items||[]),kcal:+src.kcal||0,protein:+src.protein||0,carbs:+src.carbs||0,fat:+src.fat||0};
       saveMealDraft(); break; }
-    case 'saved-manage': openSavedManage(); break;
+    case 'saved-manage': _mealEdit=null; openSavedManage(); break;
+    case 'saved-edit': openSavedEdit(b.dataset.id); break;
     case 'saved-rm': { const m=savedMeals().find(x=>x.id===b.dataset.id); if(m){ unsaveFixed(m.name); openSavedManage(); toast('הוסרה'); } break; }
     case 'food-targets-open': openTargetsSheet(); break;
-    case 'act-open': case 'act-p': case 'act-intro': case 'act-connect': case 'act-later': case 'act-goal': case 'act-adj': case 'ag-sug': case 'ag-step': case 'ag-save': actAct(act,b); break;
+    case 'act-open': case 'act-p': case 'act-intro': case 'act-connect': case 'act-later': case 'act-goal': case 'act-man': case 'act-man-save': case 'act-adj': case 'ag-sug': case 'ag-step': case 'ag-save': actAct(act,b); break;
     case 'tgt-open': { const k=+S.settings.kcalT||'', p=+S.settings.protT||'', m=macroT();
       openSheet(`<h3>${tt('היעד היומי')}</h3>
         <div class="row" style="gap:10px">
