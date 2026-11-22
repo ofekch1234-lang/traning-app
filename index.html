@@ -10690,7 +10690,7 @@ function userState(u){
   if(u.access==='pending')return ['ממתין','#D97706'];
   if(u.access==='rejected')return ['חסום','#DC2626'];
   const until=u.until?new Date(u.until):null, paid=u.access_until&&new Date(u.access_until)>new Date();
-  if(!until||until<=new Date())return ['חינמי','var(--muted)'];
+  if(!until||until<=new Date())return u.hard&&u.store_st!=='expired'?['לא השלים תשלום','#D97706']:u.hard?['מנוי הסתיים','#DC2626']:['חינמי','var(--muted)'];
   return paid?(u.gifted?['מתנה','#7C3AED']:['משלם','var(--accent)']):['פרימיום מתנה','#2563EB'];
 }
 /* App Store / Google Play subscription: plan and status (from store_subs, kept fresh by the RevenueCat webhook) */
