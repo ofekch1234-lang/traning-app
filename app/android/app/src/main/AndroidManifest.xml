@@ -117,4 +117,10 @@
     <uses-permission android:name="android.permission.health.READ_EXERCISE" tools:node="remove" />
 
     <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <!-- Android 11+: lets the app find the camera app, so a photo input with capture can open it -->
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 </manifest>
