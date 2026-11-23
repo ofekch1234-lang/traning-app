@@ -16,18 +16,18 @@ const UPDATED={he:'אוקטובר 2026',en:'October 2026',ar:'أكتوبر 2026'
 
 // ---------- categories (keyword rules on the Hebrew name) ----------
 const CATS=[
- ['bread',['לחם','פיתה','לחמני','חלה','בייגל','קרקר','טורטי','לאפה','פריכי','צנים','בגט','מצה'],{he:'לחמים ומאפים',en:'Breads & bakery',ar:'خبز ومخبوزات'}],
+ ['bread',['לחם','פיתה','לחמני','חלה','בייגל','קרקר','טורטי','לאפה','פריכי','פריכונ','צנימ','קרוטונ','טקו','בגט','מצה'],{he:'לחמים ומאפים',en:'Breads & bakery',ar:'خبز ومخبوزات'}],
  ['dairy',['גבינ','יוגורט','חלב','קוטג','לאבנה','שמנת','חמאה','מעדן','קפיר','מילקי','גבינת'],{he:'מוצרי חלב',en:'Dairy',ar:'منتجات الألبان'}],
  ['meat',['בשר','סטייק','עוף','הודו','קציצ','שניצל','נקניק','המבורגר','כבד','קבב','כנפי','שוק','חזה','צלי','פסטרמה','סלמי','טלה','אווז','ברווז'],{he:'בשר ועוף',en:'Meat & poultry',ar:'لحوم ودواجن'}],
- ['fish',['דג','טונה','סלמון','סרדין','הרינג','בקלה','אמנון','מושט','פורל','שרימפ','קלמרי'],{he:'דגים',en:'Fish & seafood',ar:'أسماك'}],
+ ['fish',['דג','צדפות','טונה','סלמון','סרדין','הרינג','בקלה','אמנון','מושט','פורל','שרימפ','קלמרי'],{he:'דגים',en:'Fish & seafood',ar:'أسماك'}],
  ['eggs',['ביצה','ביצים','חביתה','שקשוקה'],{he:'ביצים',en:'Eggs',ar:'بيض'}],
- ['veg',['סלט','ירקות','כרוב','בצל','עגבני','פלפל','קישוא','חציל','גזר','פטרי','כרובית','תירס','עלי','מלפפון','חסה','תרד','ברוקולי','סלק','שום','אספרגוס','ארטישוק','במיה','שעועית ירוקה','דלעת','בטטה','תפוחי אדמה','תפוח אדמה','צנון','סלרי','קולרבי','שומר','פטרוזיליה','כוסברה','נבט'],{he:'ירקות',en:'Vegetables',ar:'خضروات'}],
- ['fruit',['תפוח','אגס','בננה','ענבים','תפוז','אבטיח','מלון','תות','אפרסק','שזיף','רימון','תמר','פירות','קלמנטינ','מנגו','אננס','קיווי','אבוקדו','משמש','דובדבן','פטל','אוכמני','לימון','אשכולית','תאנ','צימוק','פרי'],{he:'פירות',en:'Fruit',ar:'فواكه'}],
- ['legumes',['שעועית','אפונה','חומוס','עדשים','פול','סויה','טופו','גרגרי','טחינה','פלאפל','מג׳דרה','מג\'דרה'],{he:'קטניות',en:'Legumes',ar:'بقوليات'}],
+ ['veg',['סלט','כרישה','מלוחיה','צלפים','לבבות דקל','ירקות','כרוב','בצל','עגבני','פלפל','קישוא','חציל','גזר','פטרי','כרובית','תירס','עלי','מלפפון','חסה','תרד','ברוקולי','סלק','שום','אספרגוס','ארטישוק','במיה','שעועית ירוקה','דלעת','בטטה','תפוחי אדמה','תפוח אדמה','צנון','סלרי','קולרבי','שומר','פטרוזיליה','כוסברה','נבט'],{he:'ירקות',en:'Vegetables',ar:'خضروات'}],
+ ['fruit',['תפוח','אגס','בננה','ענבים','תפוז','אבטיח','מלון','תות','אפרסק','שזיף','רימון','תמר','פירות','קלמנטינ','מנגו','אננס','קיווי','אבוקדו','משמש','דובדב','אשכולי','ליצ\'י','פאפיה','פפאיה','חבוש','אנונה','פומלה','רוברב','פטל','אוכמני','לימון','אשכולית','תאנ','צימוק','פרי'],{he:'פירות',en:'Fruit',ar:'فواكه'}],
+ ['legumes',['שעועית','טמפה','אפונה','חומוס','עדשים','פול','סויה','טופו','גרגרי','טחינה','פלאפל','מג׳דרה','מג\'דרה'],{he:'קטניות',en:'Legumes',ar:'بقوليات'}],
  ['grains',['אורז','פתיתים','אטריות','פסטה','בורגול','קוסקוס','קינואה','דייס','דגני','שיבולת','קמח','בצק','ספגטי','נודלס','כוסמת','גריסים','סולת','פריכיות','גרנולה','קורנפלקס','מוזלי'],{he:'דגנים ופחמימות',en:'Grains & carbs',ar:'حبوب ونشويات'}],
- ['sweets',['עוגי','עוגת','עוגה','שוקולד','סוכרי','גלידה','שלגון','ופל','פאי','סירופ','ריבה','דבש','קרמבו','חלבה','בקלאווה','מאפין','דונאט','סופגני','קינוח','פודינג','ממתק','טופי','מרשמלו','בראוניז','טירמיסו'],{he:'מתוקים וקינוחים',en:'Sweets & desserts',ar:'حلويات'}],
+ ['sweets',['עוגי','עוגת','עוגה','ביסקוויט','גליד','מסטיק','לקקן','קרחון','ג\'לי','וופל','שוקולד','סוכרי','גלידה','שלגון','ופל','פאי','סירופ','ריבה','דבש','קרמבו','חלבה','בקלאווה','מאפין','דונאט','סופגני','קינוח','פודינג','ממתק','טופי','מרשמלו','בראוניז','טירמיסו'],{he:'מתוקים וקינוחים',en:'Sweets & desserts',ar:'حلويات'}],
  ['snacks',['חטיף','ביסלי','במבה','צ\'יפס','פופקורן','אפרופו','דוריטוס','תפוצ','בייגלה','פיצוחים'],{he:'חטיפים',en:'Snacks',ar:'وجبات خفيفة'}],
- ['drinks',['משקה','מיץ','נקטר','קפה','תה','קולה','בירה','יין','סודה','לימונדה','שייק','אנרגיה','וודקה','ויסקי','ערק','מים'],{he:'משקאות',en:'Drinks',ar:'مشروبات'}],
+ ['drinks',['שוקו','קקאו','סחלב','משקה','מיץ','נקטר','קפה','תה','קולה','בירה','יין','סודה','לימונדה','שייק','אנרגיה','וודקה','ויסקי','ערק','מים'],{he:'משקאות',en:'Drinks',ar:'مشروبات'}],
  ['nuts',['אגוז','שקדים','גרעיני','בוטנים','זרעי','חמאת בוטנים','פיסטוק','קשיו','פקאן','צנובר','שומשום','ציה','פשתן'],{he:'אגוזים וזרעים',en:'Nuts & seeds',ar:'مكسرات وبذور'}],
  ['fats',['שמן','מרגרינה','מיונז','רוטב','קטשופ','חרדל','ממרח','פסטו'],{he:'שמנים ורטבים',en:'Oils & sauces',ar:'زيوت وصلصات'}],
  ['soups',['מרק','חמין','צ\'ולנט'],{he:'מרקים ותבשילים',en:'Soups & stews',ar:'شوربات ويخنات'}],
@@ -35,7 +35,14 @@ const CATS=[
  ['baby',['תמ"ל','תמ"י','תחליף חלב','דייסה לתינוק'],{he:'מזון תינוקות',en:'Baby food',ar:'طعام الأطفال'}],
 ];
 const CAT_OTHER={he:'מאכלים נוספים',en:'Other foods',ar:'أطعمة أخرى'};
-function catOf(name){ for(const [id,kw] of CATS){ for(const k of kw) if(name.includes(k)) return id; } return 'other'; }
+// A keyword counts only at the start of a word (so 'שוק' is not found inside 'שוקולד', 'פול' not inside 'כפול'), minus a few
+// words that merely start like one; the main food name (before the first comma) decides first, and within it the keyword
+// that appears earliest wins (longest on a tie): 'גלידת שמנת' is a sweet, 'דגני בוקר' a grain, 'אורז עם בצל' a grain.
+const CAT_NOT={'שוק':/^שוקו/,'פול':/^פולן/,'דג':/^דגני/,'חלב':/^חלב(ון|ה)/,'עלי':/^עלית/,'שום':/^שומ/,'תה':/^תה[^\s,]/,'מים':/^מים[^\s,]/,'פרי':/^פריכ/,'כבד':/^כבד(?!\s+(עוף|הודו|בקר|עגל|אווז))(?=$|[\s,])/};
+const isLetter=ch=>/\p{L}/u.test(ch||'');
+function kwAt(text,k){ for(let i=text.indexOf(k);i>=0;i=text.indexOf(k,i+1)){ if(i>0&&isLetter(text[i-1]))continue; if(CAT_NOT[k]&&CAT_NOT[k].test(text.slice(i)))continue; return i; } return -1; }
+function catIn(text){ let best=null; for(const [id,kw] of CATS){ for(const k of kw){ const i=kwAt(text,k); if(i<0)continue; if(!best||i<best.i||(i===best.i&&k.length>best.len))best={id,i,len:k.length}; } } return best&&best.id; }
+function catOf(name){ const n=String(name); return catIn(n.split(',')[0])||catIn(n)||'other'; }
 const catName=(id,l)=>(CATS.find(c=>c[0]===id)||[0,0,CAT_OTHER])[2][l];
 
 // ---------- i18n for the page chrome ----------
@@ -89,7 +96,10 @@ function comparisons(f){
   return [...lower,...higher].slice(0,6);
 }
 function profile(f){ const k=+f.k||1, p=(+f.p||0)*4/k, c=(+f.cb||0)*4/k, ft=(+f.ft||0)*9/k;
-  return {hiP:p>=0.35,hiC:c>=0.55,hiF:ft>=0.5,low:+f.k<60,dense:+f.k>=400}; }
+  // hiP needs real grams too (black coffee is 'mostly protein' at 0.1 g); midP: plenty of protein per 100 g even though fat or
+  // carbs bring most of the calories (cheese, eggs, schnitzel), so the page must not call it 'not a protein source'
+  const g=+f.p||0, hiP=p>=0.35&&g>=5;
+  return {hiP,midP:!hiP&&g>=10,midFrom:ft>=c?'fat':'carb',hiC:c>=0.55,hiF:ft>=0.5,low:+f.k<60,dense:+f.k>=400}; }
 
 // ---------- auto copy per language (varies by macro profile so pages are not clones) ----------
 const COPY={
@@ -100,7 +110,7 @@ const COPY={
   faq:(n,f,u)=>{ const pr=profile(f); const k100=r0(f.k), pct=Math.round((u?f.k*u.g/100:f.k)/2000*100);
     return [
      [`${n} משמין?`, `אף מאכל לא משמין בפני עצמו, מה שקובע הוא סך הקלוריות ביום. ${u?`${unitName(u,'he')} ${oneHe(u)}`:'100 גרם'} של ${n} הם כ-${pct}% מתפריט של 2,000 קק״ל.${pr.dense?' זה מאכל צפוף בקלוריות, אז שימו לב לכמות.':pr.low?' זה מאכל דל קלוריות, שקשה להשמין ממנו.':''}`],
-     [`כמה חלבון יש ב${n}?`, `${r1(f.p)} גר׳ חלבון ל-100 גרם${u?`, ו-${r1(f.p*u.g/100)} גר׳ ב${unitName(u,'he')} ${oneHe(u)}`:''}. ${pr.hiP?'זה מקור חלבון משמעותי לבניית שריר.':'זה לא מקור חלבון משמעותי, כדאי לשלב עם עוף, ביצים, גבינה או קטניות.'}`],
+     [`כמה חלבון יש ב${n}?`, `${r1(f.p)} גר׳ חלבון ל-100 גרם${u?`, ו-${r1(f.p*u.g/100)} גר׳ ב${unitName(u,'he')} ${oneHe(u)}`:''}. ${pr.hiP?'זה מקור חלבון משמעותי לבניית שריר.':pr.midP?`זו כמות חלבון טובה, אבל חלק גדול מהקלוריות מגיע מ${pr.midFrom==='fat'?'שומן':'פחמימות'}, אז כדאי לשים לב לכמות.`:'זה לא מקור חלבון משמעותי, כדאי לשלב עם עוף, ביצים, גבינה או קטניות.'}`],
      [`מה הערך התזונתי של ${n} ל-100 גרם?`, `${k100} קק״ל, ${r1(f.p)} גר׳ חלבון, ${r1(f.cb)} גר׳ פחמימות ו-${r1(f.ft)} גר׳ שומן. הערכים לפי מאגר המזון הלאומי של משרד הבריאות.`],
     ]; },
  },
@@ -111,7 +121,7 @@ const COPY={
   faq:(n,f,u)=>{ const pr=profile(f); const pct=Math.round((u?f.k*u.g/100:f.k)/2000*100);
     return [
      [`Is ${n} fattening?`, `No single food is fattening on its own; total daily calories are what count. ${u?`One ${unitName(u,'en')}`:'100 g'} of ${n} is about ${pct}% of a 2,000 kcal day.${pr.dense?' It is calorie-dense, so watch the amount.':pr.low?' It is low in calories and hard to overeat.':''}`],
-     [`How much protein is in ${n}?`, `${r1(f.p)} g of protein per 100 g${u?`, and ${r1(f.p*u.g/100)} g per ${unitName(u,'en')}`:''}. ${pr.hiP?'A meaningful protein source for building muscle.':'Not a major protein source; pair it with chicken, eggs, cheese or legumes.'}`],
+     [`How much protein is in ${n}?`, `${r1(f.p)} g of protein per 100 g${u?`, and ${r1(f.p*u.g/100)} g per ${unitName(u,'en')}`:''}. ${pr.hiP?'A meaningful protein source for building muscle.':pr.midP?`A good amount of protein, but much of the calories come from ${pr.midFrom==='fat'?'fat':'carbs'}, so watch the portion.`:'Not a major protein source; pair it with chicken, eggs, cheese or legumes.'}`],
      [`What are the nutrition facts of ${n} per 100 g?`, `${r0(f.k)} kcal, ${r1(f.p)} g protein, ${r1(f.cb)} g carbs and ${r1(f.ft)} g fat, per the Israeli Ministry of Health food database.`],
     ]; },
  },
@@ -122,7 +132,7 @@ const COPY={
   faq:(n,f,u)=>{ const pr=profile(f); const pct=Math.round((u?f.k*u.g/100:f.k)/2000*100);
     return [
      [`هل ${n} يسبب السمنة؟`, `لا يسبب طعام بمفرده السمنة؛ المهم هو إجمالي السعرات اليومية. ${u?`${unitName(u,'ar')} واحدة`:'100 غ'} من ${n} تعادل نحو ${pct}% من نظام 2,000 سعرة.${pr.dense?' طعام كثيف السعرات، فانتبه للكمية.':pr.low?' طعام منخفض السعرات يصعب الإفراط فيه.':''}`],
-     [`كم بروتين في ${n}؟`, `${r1(f.p)} غ بروتين لكل 100 غ${u?`، و${r1(f.p*u.g/100)} غ في ${unitName(u,'ar')} واحدة`:''}. ${pr.hiP?'مصدر بروتين مهم لبناء العضل.':'ليس مصدر بروتين رئيسيًا؛ اجمعه مع الدجاج أو البيض أو الجبن أو البقوليات.'}`],
+     [`كم بروتين في ${n}؟`, `${r1(f.p)} غ بروتين لكل 100 غ${u?`، و${r1(f.p*u.g/100)} غ في ${unitName(u,'ar')} واحدة`:''}. ${pr.hiP?'مصدر بروتين مهم لبناء العضل.':pr.midP?`كمية جيدة من البروتين، لكن جزءًا كبيرًا من السعرات يأتي من ${pr.midFrom==='fat'?'الدهون':'الكربوهيدرات'}، لذا انتبه للكمية.`:'ليس مصدر بروتين رئيسيًا؛ اجمعه مع الدجاج أو البيض أو الجبن أو البقوليات.'}`],
      [`ما القيم الغذائية لـ${n} لكل 100 غ؟`, `${r0(f.k)} سعرة، ${r1(f.p)} غ بروتين، ${r1(f.cb)} غ كربوهيدرات و${r1(f.ft)} غ دهون، وفق قاعدة بيانات وزارة الصحة.`],
     ]; },
  },
@@ -235,7 +245,20 @@ for(const l of LANGS){ for(const [kind,p] of [['cal',''],['bmi','bmi'],['prot','
 const guides=require('./guides.js'); const guideUrls=[];
 for(const l of LANGS){ const all=guides.load(l); if(!all.length)continue; for(const g of all){ w(g.path,guides.page(HEAD,FOOT,l,g,all,calcLinks)); guideUrls.push(g.path); } w(guides.base(l),guides.index(HEAD,FOOT,l,all)); guideUrls.push(guides.base(l)); }
 // sitemaps
-const sm=list=>`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${list.map(u=>`<url><loc>${SITE}${u}</loc></url>`).join('')}</urlset>`;
+// <lastmod>: the date of the last commit that touched the files a page is built from, so Google recrawls what really changed.
+// Vercel clones shallow: a date from a boundary commit (listed in .git/shallow) would claim every file changed then, so it is left out.
+const {execFileSync}=require('child_process');
+const SHALLOW=(()=>{ try{ return fs.readFileSync(path.join(ROOT,'.git','shallow'),'utf8').split(/\s+/).filter(Boolean); }catch{ return []; } })();
+const lastmodCache={};
+function lastmod(files){ const key=files.join('|'); if(key in lastmodCache)return lastmodCache[key];
+  let d=''; try{ const [h,date]=execFileSync('git',['log','-1','--format=%H %cs','--',...files],{cwd:ROOT,stdio:['ignore','pipe','ignore']}).toString().trim().split(' '); if(h&&/^\d{4}-\d\d-\d\d$/.test(date)&&!SHALLOW.includes(h))d=date; }catch{}
+  return lastmodCache[key]=d; }
+const FOOD_SRC=['tools/seo/build.js','tools/seo/foods.json'];
+const srcOf=u=>/^\/(ar\/)?food\//.test(u)?FOOD_SRC:/^\/(ar\/)?calc\//.test(u)?['tools/seo/calc.js']
+  :/^\/(ar\/)?guide\/[^/]+$/.test(u)?['tools/seo/guides.js',`tools/seo/guides/${u.startsWith('/ar/')?'ar':'he'}/${u.split('/').pop()}.md`]
+  :/^\/(ar\/)?guide\/$/.test(u)?['tools/seo/guides.js',`tools/seo/guides/${u.startsWith('/ar/')?'ar':'he'}`]
+  :u==='/'?['index.html']:[`${u.slice(1)}.html`];
+const sm=list=>`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${list.map(u=>{ const d=lastmod(srcOf(u)); return `<url><loc>${SITE}${u}</loc>${d?`<lastmod>${d}</lastmod>`:''}</url>`; }).join('')}</urlset>`;
 // Arabic names fixed after publishing (stray Cyrillic/Hebrew letters): the old address stays as a redirect to the new page (not in the sitemap)
 const renamedAr=JSON.parse(fs.readFileSync(path.join(__dirname,'renamed-ar.json'),'utf8'));
 for(const f of foods){ const oldName=renamedAr[f.c]; if(!oldName||!LANGS.includes('ar'))continue; const oldP=`/ar/food/${encodeURI(slug(oldName))}-${f.c}`, newP=pathOf(f,'ar'); if(oldP===newP)continue;
