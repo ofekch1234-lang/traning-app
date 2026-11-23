@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=13bf47fa"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=13bf47fa"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=13bf47fa"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=0f8d0d94"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=0f8d0d94"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=0f8d0d94"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1528,7 +1528,10 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .hcard .go{height:54px;border-radius:15px;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
 .hcard .alt{align-self:center;color:var(--muted);font-size:14px;padding:2px 8px}
 .card.r20{border-radius:20px}
-.wtr-row{padding:10px 10px 10px 14px}.wtr-main{all:unset;display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer}
+.wtr-row{padding:10px 10px 10px 14px}
+.wtr-sz-h{font-size:13px;color:var(--muted);margin:10px 2px 6px}.wtr-sz{display:flex;gap:8px}
+.wtr-sz button{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:11px 4px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);font-size:14px;cursor:pointer;white-space:nowrap}
+.wtr-sz button.on{background:var(--accent);border-color:var(--accent);color:#0A0A0A;font-weight:700}.wtr-main{all:unset;display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer}
 .wtr-add{width:44px;height:44px;border-radius:14px;border:0;background:color-mix(in srgb,#3BA4F7 18%,transparent);color:#3BA4F7;display:grid;place-items:center;flex:none;cursor:pointer}.wtr-add .ic{width:22px;height:22px}
 .wtr-row.done .wtr-add{background:var(--accent-soft);color:var(--accent)}
 .wtr-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,#3BA4F7 16%,transparent);color:#3BA4F7;flex:none}
@@ -5630,16 +5633,20 @@ function waterRowHTML(){ const d=ymd(), ml=WTR.d[d]||0, g=wtrGoal(), pct=Math.mi
     <button class="wtr-main" data-act="wtr-set" aria-label="${tt('הגדרות שתייה')}"><span class="wtr-ic">${ICO_DROP}</span>
       <span style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:0"><span class="spread"><b>${tt('שתייה')}</b><small class="num muted">${litr(ml)} / ${litr(g)} ${tt('ליטר')}</small></span>
       <span class="bar2" style="height:6px"><i style="width:${pct}%;background:${done?'var(--accent)':'#3BA4F7'}"></i></span></span></button>
-    <button class="wtr-add" data-act="wtr-plus" data-d="${d}" aria-label="${tt('הוספת כוס')} ${WTR.cup} ${tt('מ״ל')}">${ICON.plus}</button>
+    <button class="wtr-add" data-act="wtr-plus" data-d="${d}" aria-label="${tt('הוספה')} ${WTR.cup} ${tt('מ״ל')}">${ICON.plus}</button>
   </div>`; }
+const wtrSzBtn=c=>`<button class="${WTR.cup===c?'on':''}" data-act="wtr-cup" data-v="${c}" aria-pressed="${WTR.cup===c}">${WTR.cup===c?'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}<span class="num">${c>=1000?litr(c):c}</span> ${c>=1000?tt('ליטר'):tt('מ״ל')}</button>`;
 function openWaterSet(){ const d=ymd(), ml=WTR.d[d]||0; const g=wtrGoal();
   openSheet(`<div class="spread" id="wtr-sheet"><h3 style="margin:0">${tt('שתייה')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
     <div class="row" style="gap:10px;flex-wrap:nowrap;align-items:center;margin-top:14px">
       <button class="btn" style="width:52px;flex:none" data-act="wtr-minus" ${ml?'':'disabled'} aria-label="${tt('הורדת כוס')}">−</button>
       <b class="num" style="flex:1;text-align:center;font-size:26px">${litr(ml)} <small class="muted" style="font-size:15px">${tt('ליטר היום')}</small></b>
       <button class="btn" style="width:52px;flex:none" data-act="wtr-plus" aria-label="${tt('הוספת כוס')}">+</button></div>
-    <div class="small muted" style="margin:18px 0 8px">${tt('גודל כוס')}</div>
-    <div class="row" style="gap:8px">${[200,250,330,500].map(c=>`<button class="chip ${WTR.cup===c?'on':''}" style="flex:1" data-act="wtr-cup" data-v="${c}"><span class="num">${c}</span> ${tt('מ״ל')}</button>`).join('')}</div>
+    <div class="small muted" style="margin:18px 0 8px">${tt('מה מוסיף כל לחיצה על +')}</div>
+    <div class="wtr-sz-h">${tt('כוס')}</div>
+    <div class="wtr-sz">${[200,250,330].map(wtrSzBtn).join('')}</div>
+    <div class="wtr-sz-h">${tt('בקבוק')}</div>
+    <div class="wtr-sz">${[500,750,1000,1500].map(wtrSzBtn).join('')}</div>
     <div class="small muted" style="margin:18px 0 8px">${tt('יעד יומי')}</div>
     <div class="row" style="gap:10px;flex-wrap:nowrap;align-items:center">
       <button class="btn" style="width:52px;flex:none" data-act="wtr-goal" data-v="-250">−</button>
