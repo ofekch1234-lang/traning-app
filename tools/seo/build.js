@@ -204,10 +204,33 @@ ${cmp.length?`<div class="card cmp"><h2>${esc(t.vs(n))}</h2><div class="sub" sty
 ${cmp.length?`<h2 style="font-size:15px;color:var(--mut)">${t.related}</h2><div class="links">${cmp.map(x=>`<a href="${pathOf(x,l)}">${esc(nameOf(x,l))}</a>`).join('')}<a href="${catPath(f.cat,l)}">${esc(catName(f.cat,l))} ›</a></div>`:''}
 <div class="links" style="margin-top:14px">${calcLinks(l)}</div>`+FOOT(l,alts);
 }
+// category pages: title / description / intro, per language (he 'ב' + name: 'במוצרי חלב', 'בירקות')
+const CAT_T={
+ he:{title:c=>`${c}: טבלת קלוריות וערכים תזונתיים ל-100 גרם`,h1:c=>`טבלת קלוריות: ${c}`,
+   desc:(c,n,ex)=>`כמה קלוריות יש ב${c}? ${n} מאכלים עם קלוריות וחלבון ל-100 גרם${ex.length?`, למשל ${ex.map(([a,k])=>`${a} (${k} קק״ל)`).join(', ')}`:''}.`,
+   intro:(hp,p,lk,k)=>`מבין המאכלים הנפוצים כאן, הכי הרבה חלבון: ${hp}, ${p} גר׳ ל-100 גרם. הכי מעט קלוריות: ${lk}, ${k} קק״ל ל-100 גרם.`},
+ ar:{title:c=>`${c}: جدول السعرات الحرارية والقيم الغذائية لكل 100 غ`,h1:c=>`جدول السعرات: ${c}`,
+   desc:(c,n,ex)=>`${c}: السعرات الحرارية والبروتين لكل 100 غ في ${n} طعامًا${ex.length?`، مثل ${ex.map(([a,k])=>`${a} (${k} سعرة)`).join('، ')}`:''}.`,
+   intro:(hp,p,lk,k)=>`من بين الأطعمة الشائعة هنا، الأغنى بالبروتين: ${hp}، ${p} غ لكل 100 غ. والأقل سعرات: ${lk}، ${k} سعرة لكل 100 غ.`},
+ en:{title:c=>`${c}: calorie table and nutrition facts per 100 g`,h1:c=>`Calorie table: ${c}`,
+   desc:(c,n,ex)=>`How many calories in ${c.toLowerCase()}? ${n} foods with calories and protein per 100 g${ex.length?`, e.g. ${ex.map(([a,k])=>`${a} (${k} kcal)`).join(', ')}`:''}.`,
+   intro:(hp,p,lk,k)=>`Among the common foods here, most protein: ${hp}, ${p} g per 100 g. Fewest calories: ${lk}, ${k} kcal per 100 g.`},
+};
 function catPage(id,l){
   const t=T[l], list=(byCat[id]||[]).slice().sort((a,b)=>(b.g?1:0)-(a.g?1:0)||(b.pk||0)-(a.pk||0)||a.n.localeCompare(b.n)), alts=LANGS.map(al=>[al,catPath(id,al)]);
-  const title=`${catName(id,l)} · ${t.indexT}`;
-  return HEAD(l,title,t.indexS(list.length),catPath(id,l),alts)+`<div class="crumb"><a href="${indexPath(l)}">${t.crumb}</a> › ${esc(catName(id,l))}</div><h1>${esc(catName(id,l))}</h1><div class="sub">${list.length} · ${t.per100}</div>
+  // own title + description + a short data line per category (they all shared the food-index description before);
+  // examples come from the indexed foods, so the links in the intro lead to pages Google may show
+  const cn=catName(id,l), C=CAT_T[l], idx=list.filter(indexable), pool=idx.length>=3?idx:list;
+  const first=f=>String(nameOf(f,l)).split(/[,،]/)[0].trim(), seen=new Set();
+  const uniq=a=>a.filter(f=>{ const k=first(f); if(seen.has(k))return false; seen.add(k); return true; });
+  const short=pool.filter(f=>first(f).length<=26), ex=uniq(short.length>=3?short:pool).slice(0,3); // short names keep the snippet readable
+  const st=list.filter(f=>f.g&&+f.k>0), withP=st.length>=3?st:[]; // intro facts only from the curated common foods
+  const hiP=withP.slice().sort((a,b)=>(+b.p||0)-(+a.p||0))[0], loK=withP.slice().sort((a,b)=>(+a.k||0)-(+b.k||0))[0];
+  const nm=f=>shortOf(nameOf(f,l)), lk=f=>`<a href="${pathOf(f,l)}">${esc(nm(f))}</a>`;
+  const title=C.title(cn), desc=C.desc(cn,list.length,ex.map(f=>[first(f),nf(f.k)]));
+  const intro=hiP&&loK&&hiP!==loK?`<p class="sub" style="margin:6px 0 12px">${C.intro(lk(hiP),r1(hiP.p),lk(loK),nf(loK.k))}</p>`:'';
+  list.sort((a,b)=>(indexable(b)?1:0)-(indexable(a)?1:0));
+  return HEAD(l,title,desc,catPath(id,l),alts)+`<div class="crumb"><a href="${indexPath(l)}">${t.crumb}</a> › ${esc(cn)}</div><h1>${esc(C.h1(cn))}</h1><div class="sub">${list.length} · ${t.per100}</div>${intro}
 <div class="card list">${list.map(f=>`<a href="${pathOf(f,l)}"><span>${esc(nameOf(f,l))}</span><b>${nf(f.k)} ${t.kcal}</b></a>`).join('')}</div>`+FOOT(l,alts);
 }
 function indexPage(l){
