@@ -5325,7 +5325,7 @@ function vHomeF(){ const D=hlData(), mt=macroT(D.d), ks=kState(D.t.kcal,D.kT);
   const lw=tgLastWeight(), wt=tile('go',tt('משקל'),lw?`<b class="num hl-big">${lw}<small class="muted"> ${tt('ק״ג')}</small></b><small class="hl-sub">${tt('לחץ לעדכון')}</small>`:`<span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.plus}</span><small class="hl-sub">${tt('הוספת שקילה')}</small>`,'data-to="progress"');
   const train=D.nw?`<button class="card r20 hl-wide" data-act="tpl-view" data-id="${esc(D.nw.t.id)}"><span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.play}</span><span class="lt"><b>${tt('בא לך להתאמן היום?')}</b><small>${esc(D.nw.t.name)}</small></span>${ICON.chev}</button>`
     :`<button class="card r20 hl-wide" data-act="pb-open"><span class="hl-plus" style="background:var(--surface2);color:var(--accent)">${ICON.list}</span><span class="lt"><b>${tt('רוצה גם תוכנית אימון?')}</b><small>${tt('8 שאלות קצרות, ויש לך תוכנית שמתאימה ליעד')}</small></span>${ICON.chev}</button>`;
-  return hlHead()+hero+hlNextMeal()+`<div class="hl-grid">${week}${steps||wt}</div>`+train+hlForYou(); }
+  return hlHead()+hero+hlNextMeal()+`<div class="hl-grid">${week}${steps||wt}${waterRowHTML()}</div>`+train+hlForYou(); }
 /* B: the workout first, then a 2x2 grid of small tiles */
 function vHomeB(){ if(foodUser())return vHomeF(); const D=hlData();
   const tile=(act,ttl,body,extra='')=>`<button class="card r20 hl-tile" data-act="${act}" ${extra}><span class="hl-tt">${ttl}</span>${body}</button>`;
