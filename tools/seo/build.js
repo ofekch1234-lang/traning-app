@@ -229,7 +229,9 @@ function w(p,content){ const fp=path.join(OUT,decodeURI(p).replace(/\/$/,'/index
 
 rmrf(OUT); fs.mkdirSync(OUT,{recursive:true});
 // site copy (everything except tooling/sources)
-const SKIP=new Set(['dist','node_modules','.git','tools','supabase','.vercel','README.md','package.json','package-lock.json','vercel.json']);
+// 'app' = the native iOS/Android wrapper projects (bundled copies of the site for the stores): not part of the public website.
+// Served, they were ~30 indexable duplicates (3 more copies of the homepage, the legal pages) at /app/www/, /app/ios/..., /app/android/...
+const SKIP=new Set(['dist','node_modules','.git','tools','supabase','.vercel','README.md','package.json','package-lock.json','vercel.json','app']);
 for(const f of fs.readdirSync(ROOT)){ if(SKIP.has(f))continue; cp(path.join(ROOT,f),path.join(OUT,f)); }
 let n=0; const urls={he:[],en:[],ar:[]};
 for(const l of LANGS){
