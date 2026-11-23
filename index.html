@@ -5157,7 +5157,14 @@ function actSave(){ try{ localStorage.setItem('nr-act',JSON.stringify({days:ACT.
 /* daily sums straight from HealthKit / Health Connect. The OS de-duplicates phone + watch in its statistics */
 async function actSync(days){ const H=HP(); if(!H||!actOn()||actSync._busy)return; actSync._busy=true;
   try{ const st=new Date(); st.setHours(0,0,0,0); st.setDate(st.getDate()-(days-1)); const q={startDate:st.toISOString(),endDate:new Date().toISOString(),bucket:'day',aggregation:'sum'};
-    const [a,b,c]=await Promise.all(['steps','distance','calories'].map(t=>H.queryAggregated({...q,dataType:t}).catch(()=>({samples:[]}))));
+    // without "history" access Health Connect refuses ranges older than 30 days: retry the last 29 days only
+    const one=async t=>{ try{ return await H.queryAggregated({...q,dataType:t}); }catch(e){
+        if(days>29){ const s2=new Date(); s2.setHours(0,0,0,0); s2.setDate(s2.getDate()-28);
+          try{ return await H.queryAggregated({...q,startDate:s2.toISOString(),dataType:t}); }catch(e2){ e=e2; } }
+        if(t==='steps')try{ logEv('act_fail',{t,code:String(e?.code||''),m:String(e?.message||e).slice(0,160)}); }catch(_){}
+        return {samples:[]}; } };
+    const [a,b,c]=await Promise.all(['steps','distance','calories'].map(one));
+    if(!(a.samples||[]).length&&!actSync._empty){ actSync._empty=1; try{ logEv('act_empty',{days}); }catch(_){} }
     const nd={}, put=(r,k)=>(r.samples||[]).forEach(x=>{ const d=ymd(new Date(x.startDate)); (nd[d]=nd[d]||{s:0,km:0,kc:0})[k]=+x.value||0; });
     put(a,'s'); put(b,'km'); put(c,'kc'); const rows=[];
     for(const d in nd){ const v={s:Math.round(nd[d].s),km:Math.round(nd[d].km)/1000,kc:Math.round(nd[d].kc)}; const o=ACT.days[d];
