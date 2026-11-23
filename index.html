@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=52c0a159"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=52c0a159"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=52c0a159"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=13bf47fa"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=13bf47fa"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=13bf47fa"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -1528,10 +1528,11 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .hcard .go{height:54px;border-radius:15px;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
 .hcard .alt{align-self:center;color:var(--muted);font-size:14px;padding:2px 8px}
 .card.r20{border-radius:20px}
-.wtr{display:flex;flex-direction:column;gap:12px}
+.wtr-row{padding:10px 10px 10px 14px}.wtr-main{all:unset;display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer}
+.wtr-add{width:44px;height:44px;border-radius:14px;border:0;background:color-mix(in srgb,#3BA4F7 18%,transparent);color:#3BA4F7;display:grid;place-items:center;flex:none;cursor:pointer}.wtr-add .ic{width:22px;height:22px}
+.wtr-row.done .wtr-add{background:var(--accent-soft);color:var(--accent)}
 .wtr-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,#3BA4F7 16%,transparent);color:#3BA4F7;flex:none}
-.wtr-cups{display:flex;gap:5px}.wtr-cups i{flex:1;height:8px;border-radius:99px;background:var(--surface2);transition:background .3s}
-.wtr-cups i.on{background:#3BA4F7}.wtr.done .wtr-cups i.on{background:var(--accent)}
+
 .bar2{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}.bar2 i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .5s}
 .bar2 i.p{background:#2563EB}.bar2 i.cb{background:#D99A00}.bar2 i.ft{background:#E8590C}
 .pv{padding:14px}.pv-hd{display:flex;align-items:center;gap:11px;width:100%;text-align:var(--start);color:inherit;background:none;padding:0;font-size:15.5px}
@@ -5334,7 +5335,7 @@ function vHomeB(){ if(foodUser())return vHomeF(); const D=hlData();
   const week=tile('go',tt('השבוע'),`<b class="num hl-big">${D.done}${D.plan?`<small class="muted">/${D.plan}</small>`:''}</b><small class="hl-sub">${tt(D.plan?'אימונים בוצעו':'אימונים השבוע')}</small>${weekRowHTML().replace('wk-row','wk-row wk-mini')}`,'data-to="progress"');
   const add=steps?tile('food-add-open',tt('ארוחה'),`<span class="hl-plus">${ICON.plus}</span><small class="hl-sub">${tt('צילום, חיפוש או הקלטה')}</small>`)
     :`<button class="card r20 hl-wide" data-act="food-add-open"><span class="hl-plus">${ICON.plus}</span><span class="lt"><b>${tt('הוספת ארוחה')}</b><small>${tt('צילום, חיפוש או הקלטה')}</small></span>${ICON.chev}</button>`;
-  return hlHead()+hlWork(D)+`<div class="hl-grid">${food}${steps||week}${steps?week+add:add}</div>`+hlForYou(); }
+  return hlHead()+hlWork(D)+`<div class="hl-grid">${food}${steps||week}${steps?week+add:add}${waterRowHTML()}</div>`+hlForYou(); }
 /* ----- nutrition tab ----- */
 function mealsOf(d){ return S.meals.filter(m=>m.d===d).sort((a,b)=>a.ts-b.ts); }
 function dayTotals(d){
@@ -5574,7 +5575,6 @@ function vFood(){
           ${ms.map(m=>`<button class="spread" style="width:100%;text-align:var(--start);padding:6px 0 0;border-top:1px dashed var(--line);border-radius:0" data-act="meal-open" data-id="${esc(m.id)}"><span style="min-width:0"><span data-notr style="font-size:14.5px">${esc(m.name)}</span><span class="small muted" style="display:block"><span class="num">${hmOf(m.ts)}</span> · ${(m.items||[]).length>1?`${m.items.length} מרכיבים · `:''}${Math.round(m.protein||0)} גר׳ חלבון</span></span><span class="num muted small" style="white-space:nowrap;flex:none">${calm()?'':m.kcal} ›</span></button>`).join('')}
         </div>`; }).join('')}
     </div>
-    ${waterCardHTML(d)}
     ${d===today?foodCoachHTML(d,a7,kT):''}
   `;
 }
@@ -5624,18 +5624,21 @@ function wtrSet(d,ml){ ml=Math.max(0,Math.min(20000,Math.round(ml))); WTR.d[d]=m
 async function wtrLoad(){ try{ const {data}=await sb.from('water_days').select('d,ml').gte('d',ymd(new Date(Date.now()-60*864e5)));
   (data||[]).forEach(r=>{ if(_wtrT[r.d]==null)WTR.d[r.d]=+r.ml||0; }); wtrSave(); if(S.tab==='food')render(); }catch(_){} }
 const litr=ml=>(Math.round(ml/100)/10).toLocaleString(LANG==='en'?'en-US':'he-IL',{minimumFractionDigits:ml%1000?1:0,maximumFractionDigits:1});
-function waterCardHTML(d){ const ml=WTR.d[d]||0, g=wtrGoal(), n=Math.max(4,Math.min(16,Math.round(g/WTR.cup))), on=Math.min(n,Math.floor(ml/WTR.cup+1e-6)), done=ml>=g;
-  return `<div class="card r20 wtr${done?' done':''}">
-    <div class="spread"><span class="row" style="gap:10px;flex-wrap:nowrap"><span class="wtr-ic">${ICO_DROP}</span><span style="display:flex;flex-direction:column;gap:2px;min-width:0"><b>${tt('שתייה')}</b><small class="num muted">${litr(ml)} / ${litr(g)} ${tt('ליטר')}${done?' · '+tt('הגעת ליעד'):''}</small></span></span>
-      <button class="hd-btn" style="width:34px;height:34px" data-act="wtr-set" aria-label="${tt('הגדרות שתייה')}"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button></div>
-    <div class="wtr-cups" aria-hidden="true">${Array.from({length:n},(_,i)=>`<i class="${i<on?'on':''}"></i>`).join('')}</div>
-    <div class="row" style="gap:8px;flex-wrap:nowrap">
-      <button class="btn" style="width:52px;flex:none" data-act="wtr-minus" ${ml?'':'disabled'} aria-label="${tt('הורדת כוס')}">−</button>
-      <button class="btn primary" style="flex:1" data-act="wtr-plus">+ ${tt('כוס')} · <span class="num">${WTR.cup}</span> ${tt('מ״ל')}</button></div>
+/* Today screen: one compact row. Tapping the row opens the settings, the round button adds a glass */
+function waterRowHTML(){ const d=ymd(), ml=WTR.d[d]||0, g=wtrGoal(), pct=Math.min(100,Math.round(ml/g*100)), done=ml>=g;
+  return `<div class="card r20 hl-wide wtr-row${done?' done':''}">
+    <button class="wtr-main" data-act="wtr-set" aria-label="${tt('הגדרות שתייה')}"><span class="wtr-ic">${ICO_DROP}</span>
+      <span style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:0"><span class="spread"><b>${tt('שתייה')}</b><small class="num muted">${litr(ml)} / ${litr(g)} ${tt('ליטר')}</small></span>
+      <span class="bar2" style="height:6px"><i style="width:${pct}%;background:${done?'var(--accent)':'#3BA4F7'}"></i></span></span></button>
+    <button class="wtr-add" data-act="wtr-plus" data-d="${d}" aria-label="${tt('הוספת כוס')} ${WTR.cup} ${tt('מ״ל')}">${ICON.plus}</button>
   </div>`; }
-function openWaterSet(){ const g=wtrGoal();
-  openSheet(`<div class="spread"><h3 style="margin:0">${tt('שתייה')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
-    <div class="small muted" style="margin:14px 0 8px">${tt('גודל כוס')}</div>
+function openWaterSet(){ const d=ymd(), ml=WTR.d[d]||0; const g=wtrGoal();
+  openSheet(`<div class="spread" id="wtr-sheet"><h3 style="margin:0">${tt('שתייה')}</h3><button class="hd-btn" data-act="sheet-close" aria-label="${tt('סגירה')}" style="width:36px;height:36px">✕</button></div>
+    <div class="row" style="gap:10px;flex-wrap:nowrap;align-items:center;margin-top:14px">
+      <button class="btn" style="width:52px;flex:none" data-act="wtr-minus" ${ml?'':'disabled'} aria-label="${tt('הורדת כוס')}">−</button>
+      <b class="num" style="flex:1;text-align:center;font-size:26px">${litr(ml)} <small class="muted" style="font-size:15px">${tt('ליטר היום')}</small></b>
+      <button class="btn" style="width:52px;flex:none" data-act="wtr-plus" aria-label="${tt('הוספת כוס')}">+</button></div>
+    <div class="small muted" style="margin:18px 0 8px">${tt('גודל כוס')}</div>
     <div class="row" style="gap:8px">${[200,250,330,500].map(c=>`<button class="chip ${WTR.cup===c?'on':''}" style="flex:1" data-act="wtr-cup" data-v="${c}"><span class="num">${c}</span> ${tt('מ״ל')}</button>`).join('')}</div>
     <div class="small muted" style="margin:18px 0 8px">${tt('יעד יומי')}</div>
     <div class="row" style="gap:10px;flex-wrap:nowrap;align-items:center">
@@ -13527,8 +13530,8 @@ function handleAct(b,ev){
       saveMealDraft(); break; }
     case 'saved-manage': _mealEdit=null; openSavedManage(); break;
     case 'saved-edit': openSavedEdit(b.dataset.id); break;
-    case 'wtr-plus': { const d=S.foodDate||ymd(); wtrSet(d,(WTR.d[d]||0)+WTR.cup); try{ navigator.vibrate?.(8); }catch(_){} if((WTR.d[d]||0)>=wtrGoal()&&(WTR.d[d]||0)-WTR.cup<wtrGoal())toast(tt('הגעת ליעד השתייה היום')); render(); break; }
-    case 'wtr-minus': { const d=S.foodDate||ymd(); wtrSet(d,(WTR.d[d]||0)-WTR.cup); render(); break; }
+    case 'wtr-plus': { const d=ymd(); wtrSet(d,(WTR.d[d]||0)+WTR.cup); try{ navigator.vibrate?.(8); }catch(_){} if((WTR.d[d]||0)>=wtrGoal()&&(WTR.d[d]||0)-WTR.cup<wtrGoal())toast(tt('הגעת ליעד השתייה היום')); if(document.getElementById('wtr-sheet'))openWaterSet(); render(); break; }
+    case 'wtr-minus': { const d=ymd(); wtrSet(d,(WTR.d[d]||0)-WTR.cup); if(document.getElementById('wtr-sheet'))openWaterSet(); render(); break; }
     case 'wtr-set': openWaterSet(); break;
     case 'wtr-cup': WTR.cup=+b.dataset.v||250; wtrSave(); openWaterSet(); render(); break;
     case 'wtr-goal': { const v=b.dataset.v; if(v==='auto')delete S.settings.waterGoal; else S.settings.waterGoal=Math.min(6000,Math.max(500,wtrGoal()+(+v))); persistSettings(); openWaterSet(); render(); break; }
