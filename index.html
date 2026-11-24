@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=0f8d0d94"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=0f8d0d94"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=0f8d0d94"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c946bd89"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c946bd89"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c946bd89"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -8844,7 +8844,7 @@ function rirSet(ei,si,v){
        (double progression), so the next set never asks for reps above the range */
     const top=rr?Math.max(rr.hi,+(e.co?.top)||0):0;
     if(v>=3&&rr&&w>0&&r+2>top){ const ow=+nx.pw||w, st=wStep(e.n); nx.pw=roundTo(w+st,st); nx.pr=Math.max(rr.lo,Math.min(top,r-2));
-      if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`נשאר לך הרבה כוח ואתה בקצה הטווח: בסט הבא ${wX(e.n,nx.pw)} ${LU()}${sideEx(e.n)?' '+tt('בכל צד'):''}.`; }
+      if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`נשאר לך הרבה כוח ואתה בקצה הטווח: בסט הבא ${wX(e.n,nx.pw)} ${LU()}${sideEx(e.n)?' '+sideLbl(e.n):''}.`; }
     else if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=rr?Math.min(top,r+2):r+2; msg=nx.pr>r?'נשאר לך עוד הרבה כוח. בסט הבא נסה עוד 2 חזרות.':'נשאר לך עוד הרבה כוח. ממשיכים ככה.'; }
     else if(v===0&&rr&&r<rr.lo&&w>0){ const ow=+nx.pw||w; nx.pw=roundTo(w*0.95,wStep(e.n)); if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`קשה מדי: בסט הבא ${wL(nx.pw)} ${LU()}.`; }
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
@@ -9022,7 +9022,7 @@ function vFocus(e,ei){
   const si=e.sets.findIndex(x=>!x.done), s=e.sets[si], n=e.sets.length, lastS=lastSetsOf(e.n), l=lastS?lastS[Math.min(si,lastS.length-1)]:null;
   const w=fxV(s,'w'), r=fxV(s,'r'), co=e.co;
   const lw=l?+l.w||0:0, lr=l?+l.r||0:0;
-  const sx=sideEx(e.n), UW=sx?`${LU()} ${tt('בכל צד')}`:LU();
+  const sx=sideEx(e.n), UW=sx?`${LU()} ${sideLbl(e.n)}`:LU();
   const subW=!l?UW:w===lw?`${UW} · ${tt('כמו פעם קודמת')}`:`${UW} · ${tt('פעם קודמת')}: <span class="num">${wX(e.n,lw)}</span>`;
   const subR=!l?tt('חזרות'):`${tt('חזרות')} · ${tt('פעם קודמת')}: <span class="num">${lr}</span>`;
   const coLine=co?.r&&co.k!=='new'?(co.k==='reps'||co.k==='stuck'?tt('עוד חזרה מהפעם הקודמת'):co.k==='up'?tt('עולים במשקל היום'):co.k==='deload'?tt('שבוע קל'):tt('לפי התוכנית')):'';
@@ -9040,8 +9040,8 @@ function vFocus(e,ei){
   </div>`; }
 /* Max in one line; a tap opens the reason, the technique cue and the override buttons */
 function coHead(e,co){ const k=co.k, em=x=>`<em>${x}</em>`; if(co.h)return co.h;
-  if(k==='reps'||k==='stuck')return (e.sets.some((x,i)=>i&&+x.pw!==+e.sets[0].pw)||co.ps)?`${tt('אותם משקלים')}, ${em(tt('ועוד חזרה'))} ${tt('בכל סט')}`:!(+co.w>0)?`${tt('היום')} ${em(tt('עוד חזרה'))} ${tt('בכל סט')}`:`${tt('היום כל הסטים על')} ${em(`<span class="num">${wX(e.n,co.w)}</span> ${LU()}`)}${sideEx(e.n)?` ${tt('בכל צד')}`:''}`;
-  if(k==='up')return `${tt('עולים היום ל-')}${em(`<span class="num">${wX(e.n,co.w)}</span> ${LU()}`)}${sideEx(e.n)?` ${tt('בכל צד')}`:''}`;
+  if(k==='reps'||k==='stuck')return (e.sets.some((x,i)=>i&&+x.pw!==+e.sets[0].pw)||co.ps)?`${tt('אותם משקלים')}, ${em(tt('ועוד חזרה'))} ${tt('בכל סט')}`:!(+co.w>0)?`${tt('היום')} ${em(tt('עוד חזרה'))} ${tt('בכל סט')}`:`${tt('היום כל הסטים על')} ${em(`<span class="num">${wX(e.n,co.w)}</span> ${LU()}`)}${sideEx(e.n)?` ${sideLbl(e.n)}`:''}`;
+  if(k==='up')return `${tt('עולים היום ל-')}${em(`<span class="num">${wX(e.n,co.w)}</span> ${LU()}`)}${sideEx(e.n)?` ${sideLbl(e.n)}`:''}`;
   if(k==='hold')return `${em(tt('עוד אימון אחד'))} ${tt('במשקל הזה')}`;
   if(k==='deload')return `${em(tt('שבוע קל'))}: ${tt('חצי מהסטים')}`;
   if(k==='back')return `${em(tt('חוזרים בהדרגה'))} ${tt('אחרי הפסקה')}`;
@@ -9083,7 +9083,7 @@ function vStrength(e,ei,cur){
         ${co&&prev?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:`<div class="ex-prev num">${prev?`בפעם הקודמת: <span>${esc(prev.replace(/^קודם:\s*/,''))}</span>`:[esc(e.m||''),target,rest].filter(Boolean).join(' · ')}</div>
         ${prev&&(target||rest)?`<div class="ex-prev num">${[target,rest].filter(Boolean).join(' · ')}</div>`:''}`}
         ${!co?(()=>{ const c=e.sets.some(x=>x.done)?null:cueOf(e,co); return c?`<div class="rtip cue"><b>דגש טכניקה</b><span data-notr>${esc(c)}</span></div>`:''; })():''}
-        ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wX(e.n,tip.w)}</b> ${LU()}${sideEx(e.n)?` ${tt('בכל צד')}`:''}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wX(e.n,tip.w)}</span> ${LU()}${sideEx(e.n)?` ${tt('בכל צד')}`:''}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
+        ${tip?`<div class="rtip ${tip.kind}">${tip.kind==='up'?`<b>סגרת את הטווח בפעם הקודמת</b><span>היום נסה <b class="num">${wX(e.n,tip.w)}</b> ${LU()}${sideEx(e.n)?` ${sideLbl(e.n)}`:''}</span>`:`<b>היום: נסה <span class="num">${tip.r}</span> חזרות</b><span>עם <span class="num">${wX(e.n,tip.w)}</span> ${LU()}${sideEx(e.n)?` ${sideLbl(e.n)}`:''}, ככה מתקדמים לקצה הטווח</span>`}</div>`:''}
       </div>
       <div class="row" style="gap:6px;flex-wrap:nowrap">
         <button class="ibtn" data-act="ex-info" data-ei="${ei}" aria-label="הדגמת התרגיל" style="color:var(--accent)">${ICON.play}</button>
@@ -9094,7 +9094,7 @@ function vStrength(e,ei,cur){
     ${e.wu?.length?`<div class="wu"><button class="wu-h" data-act="wu-tog" data-ei="${ei}" aria-expanded="${!!e.wuOpen}"><span class="wu-l"><i class="wu-tag">${ICON.fire||''}${tt('חימום')}</i>${e.wu.length} ${tt('סטים')} · ${tt('לא נספר')}</span><span class="wu-st${e.wu.every(x=>x.done)?' ok':''}">${e.wu.every(x=>x.done)?'✓':e.wuOpen?tt('כווץ'):tt('פתח')}</span></button>
       ${e.wuOpen?`<div class="setgrid wu-g">${e.wu.map((x,wi)=>`<span class="setidx">ח</span><span class="wu-v ${x.done?'d':''}">${wL(x.w)}</span><span class="wu-v ${x.done?'d':''}">${x.r}</span><span><button class="done-btn wu-b ${x.done?'d':''}" data-act="wu-done" data-ei="${ei}" data-wi="${wi}" aria-label="סיום סט חימום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>`).join('')}</div>`:''}</div>`:''}
     <div class="setgrid">
-      <span class="h">סט</span><span class="h">${LU()}${sideEx(e.n)?` ${tt('בכל צד')}`:''}</span><span class="h">חזרות${rr?(()=>{ const hi=co&&+co.top>rr.hi?+co.top:rr.hi; return ` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===hi?rr.lo:rr.lo+'–'+hi}</bdi>`; })():''}</span><span class="h"></span>
+      <span class="h">סט</span><span class="h">${LU()}${sideEx(e.n)?` ${sideLbl(e.n)}`:''}</span><span class="h">חזרות${rr?(()=>{ const hi=co&&+co.top>rr.hi?+co.top:rr.hi; return ` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===hi?rr.lo:rr.lo+'–'+hi}</bdi>`; })():''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
         <span class="setidx num ${s.done?'set-done':''}" data-cell="${ei}-${si}"><b>${si+1}</b></span>
         <span class="${s.done?'set-done':s.chg?.w!=null?'chg':''}" data-cell="${ei}-${si}">${sugDelta(s,lastS,si,'w',e.n)}<input id="w-${ei}-${si}" class="num" type="text" readonly data-np="w" value="${wX(e.n,s.w??'')}" placeholder="${wX(e.n,s.pw??'')}" ${s.sug?'data-sug="1"':''} data-bind="w" data-ei="${ei}" data-si="${si}" aria-label="משקל"></span>
@@ -10263,14 +10263,14 @@ function npPlate(w0,size){ const w=plKey(w0), light=w===5||w===1.25, tc=light?'#
   <ellipse cx="38" cy="28" rx="30" ry="18" fill="url(#np-hl)" transform="rotate(-25 38 28)"/></svg>`; }
 const npBtns=()=>{ const {L}=barSplit(NP.val); return plSet().map(v=>{ const n=L.filter(x=>x===v).length; return `<button class="pbtn${n?' on':''}" data-nppair="${v}" aria-label="${v}"><span>${npPlate(v,38)}</span><b>${v}</b>${n?`<s class="num">${n}×</s>`:''}</button>`; }).join(''); };
 /* פירוק המשקל לפלטות בכל צד (לפי הפלטות שבכפתורים) */
-function barSplit(v){ const bk=NP.bar??barDef(); let side=Math.max(0,(v-bk)/2); const L=[];
+function barSplit(v){ const bk=NP.bar??barDef(), ns=NPS(); let side=Math.max(0,(v-bk)/ns); const L=[];
   for(const p of plSet()){ while(side>=p-1e-9&&L.length<12){ L.push(p); side=Math.round((side-p)*1000)/1000; } }
-  return {L,rest:Math.round(side*2*100)/100}; }
+  return {L,rest:Math.round(side*ns*100)/100}; }
 function npBarSVG(v){ const {L}=barSplit(v), H={20:112,10:88,5:66,2.5:52,1.25:44}, W0={20:20,10:14,5:10,2.5:8,1.25:7}, cy=64;
   const need=L.reduce((a,w)=>a+W0[plKey(w)]+1.5,0), k=need>92?92/need:1, W=w=>W0[plKey(w)]*k;
   const pl=(x,w0)=>{ const w=plKey(w0), h=H[w], wd=W(w0); return `<rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="${PLC[w][0]}"/><rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="url(#np-sh)"/><rect x="${x+1.3}" y="${cy-h/2+3}" width="1.2" height="${h-6}" rx=".6" fill="#fff" opacity=".35"/><rect x="${x}" y="${cy-h/2}" width="${wd}" height="${h}" rx="3.5" fill="none" stroke="#000" stroke-opacity=".35"/>`; };
   let x=270, R='', xl=110, Lf='';
-  for(const w of L){ R+=pl(x,w); x+=W(w)+1.5; xl-=W(w); Lf+=pl(xl,w); xl-=1.5; }
+  const one=NPS()===1; for(const w of L){ R+=pl(x,w); x+=W(w)+1.5; if(!one){ xl-=W(w); Lf+=pl(xl,w); xl-=1.5; } }
   const col=(cx)=>L.length?`<rect x="${cx}" y="${cy-12}" width="11" height="24" rx="3" fill="url(#np-ch)"/><rect x="${cx+2.5}" y="${cy-16}" width="6" height="5" rx="1.5" fill="#1a1d20"/>`:'';
   const bk=uL()==='lb'?({45:20,35:15,25:10}[NP.bar??barDef()]??0):(NP.bar??barDef()), shaft=bk===0?'':bk===10
     ?`<path d="M4 ${cy} H140 L156 ${cy-6} L174 ${cy+6} L190 ${cy-4} L206 ${cy+6} L224 ${cy-6} L240 ${cy} H376" fill="none" stroke="url(#np-ch)" stroke-width="${7}" stroke-linejoin="round"/>`
@@ -10280,15 +10280,15 @@ function npBarSVG(v){ const {L}=barSplit(v), H={20:112,10:88,5:66,2.5:52,1.25:44
   ${shaft}
   <rect x="14" y="${cy-7.5}" width="98" height="15" rx="3" fill="url(#np-ch)"/><rect x="268" y="${cy-7.5}" width="98" height="15" rx="3" fill="url(#np-ch)"/>
   <rect x="110" y="${cy-12}" width="10" height="24" rx="2.5" fill="url(#np-ch)"/><rect x="260" y="${cy-12}" width="10" height="24" rx="2.5" fill="url(#np-ch)"/>
-  ${Lf}${R}${col(xl-11)}${col(x)}</svg>`; }
+  ${Lf}${R}${one?'':col(xl-11)}${col(x)}</svg>`; }
 /* what goes on the bar, in words a person loads by: "on each side: 20 + 5" (the plates themselves, in their colours),
    and the sum underneath: bar 10 + 2 × 25 = 60 */
 function npBarTot(v){ const {L,rest}=barSplit(v), side=L.reduce((a,b)=>a+b,0), bk=NP.bar??barDef(), U=LU();
   if(v<bk||!L.length)return `<div class="nps-eq num">${v<bk?`${tt('סה״כ')} <b>${npFmt(v)}</b> ${U}`:bk?`${tt('רק המוט')}: <b>${npFmt(bk)}</b> ${U}`:''}</div>`;
   const g=[]; for(const w of L){ const x=g.find(y=>y.w===w); if(x)x.n++; else g.push({w,n:1}); }
   const chip=({w,n})=>{ const k=plKey(w), lt=k===5||k===1.25; return `<span class="nps-p">${n>1?`<em class="num">${n}×</em>`:''}<i class="num" style="background:${PLC[k][0]};color:${lt?'#1b1d1c':'#fff'}">${w}</i></span>`; };
-  return `<div class="nps"><span class="nps-l">${tt('בכל צד')}</span>${g.map(chip).join('<span class="nps-plus">+</span>')}</div>
-    <div class="nps-eq num" dir="ltr">${bk?`${tt('מוט')} ${npFmt(bk)} + `:''}2 × ${npFmt(side)}${rest?` + ${npFmt(rest)}`:''} = <b>${npFmt(v)}</b> ${U}</div>`; }
+  const ns=NPS(); return `<div class="nps"><span class="nps-l">${sideLbl(NP.cfg&&NP.cfg.exName)}</span>${g.map(chip).join('<span class="nps-plus">+</span>')}</div>
+    <div class="nps-eq num" dir="ltr">${ns===1&&!bk&&!rest?`${tt('סה״כ')} <b>${npFmt(v)}</b> ${U}`:`${bk?`${tt('מוט')} ${npFmt(bk)} + `:''}${ns===1?'':'2 × '}${npFmt(side)}${rest?` + ${npFmt(rest)}`:''} = <b>${npFmt(v)}</b> ${U}`}</div>`; }
 function npDB(v){ const vk=uL()==='lb'?v/LB:v, hh=Math.round(40+Math.min(vk,50)*1.05), hw=Math.round(13+Math.min(vk,50)*.3), gw=hw*2+44;
   return `<svg width="${gw}" height="${hh+4}" viewBox="0 0 ${gw} ${hh+4}" aria-hidden="true">
   <rect x="2" y="2" width="${hw}" height="${hh}" rx="${hw*.42}" fill="url(#np-dh)"/>
@@ -10307,10 +10307,14 @@ const stackSet=()=>uL()==='lb'?STACK_LB:STACK;
 /* barbell: the workout shows the plates on ONE side (20 a side -> "20"); the set is still saved as the total on the bar
    (bar + both sides), so history, progress and Max stay in real kilos */
 const npSide=()=>!!(NP.cfg&&NP.cfg.mode==='weight'&&NP.sub==='bar'&&NP.cfg.exName);
-const npSideOf=v=>Math.max(0,Math.round((v-(NP.bar??barDef()))/2*100)/100);
+const npSideOf=v=>Math.max(0,Math.round((v-(NP.bar??barDef()))/NPS()*100)/100);
 const npShow=()=>npFmt(npSide()?npSideOf(NP.val):NP.val);
 const sideEx=name=>!!name&&guessSub(name)==='bar';
-const sideOf=(name,kg)=>Math.max(0,Math.round((kg-barGuess(name))/2*100)/100);
+/* T-bar / landmine: plates go on ONE end only, so the number shown is all the plates, not per side */
+const oneEnd=name=>/לנדמיין|T-?בר|חתירת T|landmine|t-?bar/i.test(name||'');
+const nSides=name=>oneEnd(name)?1:2, NPS=()=>nSides(NP.cfg&&NP.cfg.exName);
+const sideLbl=name=>tt(oneEnd(name)?'על המוט':'בכל צד');
+const sideOf=(name,kg)=>Math.max(0,Math.round((kg-barGuess(name))/nSides(name)*100)/100);
 /* a weight as the workout screen shows it: per side for barbell exercises, else as is (in the user's unit) */
 const wX=(name,kg)=>{ if(kg===''||kg==null||!(+kg>0))return wL(kg); return wL(sideEx(name)?sideOf(name,+kg):+kg); };
 function openNumpad(cfg){
@@ -10333,7 +10337,7 @@ function renderNumpad(){
     if(NP.sub==='bar'){
       picker=`<div class="npstage"><div class="npbars">${bars().map(([k,l])=>`<button class="${(NP.bar??barDef())===k?'on':''}" data-npbar="${k}">${tt(l)}${k?` <b class="num">${k}</b>`:''}</button>`).join('')}</div><div class="npbar" id="npbar">${npBarSVG(NP.val)}</div><div class="nptot" id="nptot">${npBarTot(NP.val)}</div></div>
       <div class="pbtns" id="pbtns">${npBtns()}</div>
-      <div class="pbcap">${tt('לחיצה מוסיפה פלטה לכל צד')}</div>
+      <div class="pbcap">${tt(NPS()===1?'לחיצה מוסיפה פלטה':'לחיצה מוסיפה פלטה לכל צד')}</div>
       <div class="npstep">
         <button data-npc="undo" aria-label="${tt('הורד פלטה')}">↶</button>
         <button data-npc="clear" class="num" style="font-size:15px">נקה</button>
@@ -10386,7 +10390,7 @@ function renderNumpad(){
   }
   $('#np').innerHTML=`${c.mode==='weight'?npDefs():''}
     <div class="nptitle">${esc(c.title||'')}</div>
-    <div class="npdisp"><span class="npval num" id="npval"${c.mode==='scale'?' data-npc="type" role="button" style="cursor:text"':''}>${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):c.mode==='scale'?(+NP.val||0).toFixed(1):npShow()}</span><span class="npunit">${esc(c.unit||'')}${npSide()?` <small>${tt('בכל צד')}</small>`:''}</span></div>
+    <div class="npdisp"><span class="npval num" id="npval"${c.mode==='scale'?' data-npc="type" role="button" style="cursor:text"':''}>${c.mode==='num'?(NP.str||'0'):c.mode==='range'?npRange().replace('-','–'):c.mode==='scale'?(+NP.val||0).toFixed(1):npShow()}</span><span class="npunit">${esc(c.unit||'')}${npSide()?` <small>${sideLbl(c.exName)}</small>`:''}</span></div>
     ${body}
     <div class="npact">
       ${c.next?`<button class="btn primary big" style="flex:2" data-npc="next">בחרתי — לחזרות ←</button><button class="btn big" style="flex:1" data-npc="save">שמור</button>`
@@ -10460,9 +10464,9 @@ document.addEventListener('click',ev=>{
   if(t.dataset.npbar!==undefined){ const nb=+t.dataset.npbar, ob=NP.bar??barDef(); if(NP.val>=ob)NP.val=Math.max(0,Math.round((NP.val-ob+nb)*100)/100); NP.bar=nb;
     if(NP.cfg.exName){ gearSet(NP.cfg.exName,{bar:nb}); try{ const m=JSON.parse(localStorage.getItem(BAR_KEY)||'{}'); m[NP.cfg.exName]=nb; localStorage.setItem(BAR_KEY,JSON.stringify(m)); }catch(_){} }
     document.querySelectorAll('[data-npbar]').forEach(x=>x.classList.toggle('on',+x.dataset.npbar===nb)); npUpdate(); return; }
-  if(t.dataset.nppair!==undefined){ NP.val=Math.round((Math.max(NP.val,NP.bar??barDef())+2*(+t.dataset.nppair))*100)/100; npUpdate(); return; }
+  if(t.dataset.nppair!==undefined){ NP.val=Math.round((Math.max(NP.val,NP.bar??barDef())+NPS()*(+t.dataset.nppair))*100)/100; npUpdate(); return; }
   if(t.dataset.npc==='undo'){ const {L,rest}=barSplit(NP.val);
-    NP.val=rest?Math.round((NP.val-rest)*100)/100:L.length?Math.round((NP.val-2*L[L.length-1])*100)/100:0; npUpdate(); return; }
+    NP.val=rest?Math.round((NP.val-rest)*100)/100:L.length?Math.round((NP.val-NPS()*L[L.length-1])*100)/100:0; npUpdate(); return; }
   if(t.dataset.npadd!==undefined){ NP.val=Math.max(0,Math.round((NP.val+ +t.dataset.npadd)*100)/100); if(NP.cfg.mode==='num'){ NP.str=NP.val?(NP.cfg.steps?NP.val.toFixed(1):String(NP.val)):''; NP.typing=false; } }
   else if(t.dataset.npset!==undefined){ NP.val=+t.dataset.npset;
     if(NP.cfg.mode==='reps'&&NP.cfg.chain){ // בזרימה: בחירת חזרות = שמירת הסט
