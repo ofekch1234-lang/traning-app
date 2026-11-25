@@ -8586,13 +8586,13 @@ function setPlan(e,rr,ls,n,top,st,hist){
   const restX=fat?Math.min(240,Math.max(restFor(e),+e.rest||0)+30):0;
   let why='', h='';
   if(fat){ const r0=+ls[0].r, r1=+ls[rl-1].r;
-    if(prevFat){ why=`${tt('גם בפעם הקודמת החזרות צנחו')} (${r0} → ${r1}). ${tt('בסט האחרון יורדים ל-')+HSP}${wL(plan[n-1].w)} ${LU()}, ${tt('כדי לסיים אותו בטווח.')}`; h=`${tt('הסט האחרון')} <em>${tt('קצת יותר קל')}</em>`; }
+    if(prevFat){ why=`${tt('גם בפעם הקודמת החזרות צנחו')} (${r0} → ${r1}). ${tt('בסט האחרון יורדים ל-')+HSP}${wX(e.n,plan[n-1].w)} ${LUx(e.n)}, ${tt('כדי לסיים אותו בטווח.')}`; h=`${tt('הסט האחרון')} <em>${tt('קצת יותר קל')}</em>`; }
     else { why=`${tt('בסט האחרון ירדת מ-')+HSP}${r0} ${tt('ל-')+HSP}${r1}. ${tt('זה סימן שהמנוחה קצרה מדי. היום נחים')} ${fmtRest(restX)}, ${tt('ובסטים המאוחרים אותן מטרות כמו פעם שעברה.')}`; h=`${tt('מנוחה ארוכה יותר:')} <em class="num">${fmtRest(restX)}</em>`; } }
   else if(ups.length){ const up=plan[ups[0]];
     why=`${ups.length===1?`${tt('בסט')} ${ups[0]+1}`:`${tt('בסטים')} ${lst(ups)}`} ${tt('עברת את הטווח, אז')} ${ups.length===1?tt('הוא עולה'):tt('הם עולים')} ${tt('במשקל.')}${unders.length?` ${tt('בסט')} ${lst(unders)} ${tt('מכוונים לתחתית הטווח.')}`:ups.length<n?` ${tt('בשאר הסטים עוד חזרה.')}`:''}`;
-    h=ups.length===n?`${tt('כל הסטים')} <em>${tt('עולים במשקל')}</em>`:`${SN(ups[0])} ${tt('עולה ל-')+HSP}<em class="num">${wL(up.w)}</em>${ups.length<n?`, ${tt('בשאר עוד חזרה')}`:''}`; }
+    h=ups.length===n?`${tt('כל הסטים')} <em>${tt('עולים במשקל')}</em>`:`${SN(ups[0])} ${tt('עולה ל-')+HSP}<em class="num">${wX(e.n,up.w)}</em>${ups.length<n?`, ${tt('בשאר עוד חזרה')}`:''}`; }
   else if(unders.length){ const u=plan[unders[0]], lr=+ls[Math.min(unders[0],rl-1)].r;
-    why=`${tt('בסט')} ${lst(unders)} ${tt('היו רק')} ${lr} ${tt('חזרות, מתחת לטווח.')} ${u.w<+ls[Math.min(unders[0],rl-1)].w?`${tt('היום')} ${wL(u.w)} ${LU()} ${tt('ומכוונים ל-')+HSP}${rr.lo}.`:`${tt('היום מכוונים ל-')+HSP}${rr.lo} ${tt('עם אותו משקל.')}`}`;
+    why=`${tt('בסט')} ${lst(unders)} ${tt('היו רק')} ${lr} ${tt('חזרות, מתחת לטווח.')} ${u.w<+ls[Math.min(unders[0],rl-1)].w?`${tt('היום')} ${wX(e.n,u.w)} ${LUx(e.n)} ${tt('ומכוונים ל-')+HSP}${rr.lo}.`:`${tt('היום מכוונים ל-')+HSP}${rr.lo} ${tt('עם אותו משקל.')}`}`;
     h=`${tt('להגיע ל-')+HSP}<em class="num">${rr.lo}</em> ${tt('ב')}${SN(unders[0])}, ${tt('בשאר עוד חזרה')}`; }
   else { why=`${tt('כל סט מתקדם לבד: עוד חזרה בכל סט, וכל סט שמגיע ל-')+HSP}${top} ${tt('עולה במשקל.')}`; h=`${tt('אותם משקלים')}, <em>${tt('ועוד חזרה')}</em> ${tt('בכל סט')}`; }
   return {k:fat?'fat':'sets',w:plan[0].w,r:plan[0].r,sets:n,ps:i=>plan[Math.min(i,n-1)].r,pws:i=>plan[Math.min(i,n-1)].w,top,h,why,...(restX?{rest:restX}:{})}; }
@@ -8619,14 +8619,14 @@ function coachRec(e,ctx){
     return {k:'sens',w,r:rr.lo,sets:n,why:`מסומן כרגיש (${painName(sn.area)}) עד ${new Date(sn.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}: בלי עליות במשקל. אם עבר, אפשר לחזור לרגיל.`}; }
   const rs0=(coachCfg().reset||{})[e.n];
   if(rs0&&hist[0].ts<rs0.at){ const w=Math.min(topW,roundTo(topW*rs0.f,st));
-    return {k:'reset',w,r:rr.hi,sets:n,why:`נתקעת על ${wL(topW)} כמה אימונים. יורדים ל-${wL(w)} עם יותר חזרות, ובונים משם לשיא חדש.`}; }
+    return {k:'reset',w,r:rr.hi,sets:n,why:`נתקעת על ${wX(e.n,topW)} כמה אימונים. יורדים ל-${wX(e.n,w)} עם יותר חזרות, ובונים משם לשיא חדש.`}; }
   const R=ctx.ret;
   if(R){ // after a break: 3 workouts back to the old weight (e.g. 80% → 90% → 100%)
     const pre=hist.find(h=>h.ts<R.at), since=hist.filter(h=>h.ts>=R.at).length;
     if(pre&&since<3){ const preW=Math.max(...pre.sets.map(s=>+s.w||0));
       if(preW>0){ const f=[R.f,(1+R.f)/2,1][since], w=f>=0.999?preW:Math.min(preW,roundTo(preW*f,st));
-        return {k:'back',w,r:rr.lo,sets:n,why:since===2?`אימון 3 מתוך 3 בדרך חזרה: חוזרים ל-${wL(preW)}. מכאן ממשיכים להתקדם כרגיל.`
-          :`חוזרים אחרי הפסקה: אימון ${since+1} מתוך 3 בדרך חזרה ל-${wL(preW)}. היום ${wL(w)}, כדי לחזור חזק ובלי פציעה.`}; } } }
+        return {k:'back',w,r:rr.lo,sets:n,why:since===2?`אימון 3 מתוך 3 בדרך חזרה: חוזרים ל-${wX(e.n,preW)}. מכאן ממשיכים להתקדם כרגיל.`
+          :`חוזרים אחרי הפסקה: אימון ${since+1} מתוך 3 בדרך חזרה ל-${wX(e.n,preW)}. היום ${wX(e.n,w)}, כדי לחזור חזק ובלי פציעה.`}; } } }
   if(ctx.deload){ const dE=coachCfg().dlE, early=dE&&Date.now()-dE.at<9*DAY;
     return {k:'deload',w:topW,r:rr.lo,sets:half,why:early?`${tt('הקדמנו את השבוע הקל: בשני האימונים האחרונים הביצועים ירדו ב-')+HSP}${dE.ex.length} ${tt('תרגילים')} (${dE.ex.map(esc).join(', ')}). ${tt('זו עייפות שהצטברה, לא חולשה. אותו משקל, חצי מהסטים, ואחריו חוזרים חזקים יותר.')}`:'שבוע קל: אותו משקל, חצי מהסטים, בתחתית הטווח. זה השבוע שבו הגוף מתחזק.'}; }
   const rirs=ls.map(s=>s.rir).filter(x=>x!=null), lastRir=ls[ls.length-1]?.rir, easy=(rirs.length>0&&rirs.every(x=>x>=3))||(lastRir!=null&&lastRir>=3);
@@ -8639,15 +8639,15 @@ function coachRec(e,ctx){
   if(full&&atTop){
     const failI=ls.findIndex(s=>s.rir===0);
     if(heavyLift(e.n)&&failI>=0) // closed the range, but a set went to failure: one more session at this weight before the jump
-      return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הקצה. היום עוד פעם ${wL(topW)}, הפעם עוצרים כשנשאר כוח לעוד חזרה אחת, ואז עולים ל-${wL(nw)}.`};
-    return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wL(topW)}, הגיע הזמן לעלות. היום ${wL(nw)}, ומתחילים מ-${rr.lo} חזרות.${easy&&!coachCfg().careful&&nw-topW>=2*st?' '+tt('אמרת שנשאר לך הרבה כוח, אז הקפיצה כפולה.'):''}${big&&strengthEx(e,rr)?' '+tt('אם בהתחלה יוצאות פחות חזרות, זה נורמלי בקפיצה כזו.'):''}`}; }
-  if(!full&&atTop)return {k:'reps',w:topW,r:top,sets:n,why:`בפעם הקודמת ${ls.length} מתוך ${planned} סטים הגיעו ל-${top}. ${planned-ls.length===1?'כשגם הסט האחרון יגיע':'כשכל הסטים יגיעו'}, עולים ל-${wL(nw)}.`};
+      return {k:'hold',w:topW,r:rr.hi,sets:n,ovr:{w:nw,r:rr.lo},why:`${failI===ls.length-1?'הסט האחרון':`סט ${failI+1}`} היה עד הקצה. היום עוד פעם ${wX(e.n,topW)}, הפעם עוצרים כשנשאר כוח לעוד חזרה אחת, ואז עולים ל-${wX(e.n,nw)}.`};
+    return {k:'up',w:nw,r:rr.lo,sets:n,why:`סגרת ${top} חזרות בכל הסטים עם ${wX(e.n,topW)}, הגיע הזמן לעלות. היום ${wX(e.n,nw)}, ומתחילים מ-${rr.lo} חזרות.${easy&&!coachCfg().careful&&nw-topW>=2*st?' '+tt('אמרת שנשאר לך הרבה כוח, אז הקפיצה כפולה.'):''}${big&&strengthEx(e,rr)?' '+tt('אם בהתחלה יוצאות פחות חזרות, זה נורמלי בקפיצה כזו.'):''}`}; }
+  if(!full&&atTop)return {k:'reps',w:topW,r:top,sets:n,why:`בפעם הקודמת ${ls.length} מתוך ${planned} סטים הגיעו ל-${top}. ${planned-ls.length===1?'כשגם הסט האחרון יגיע':'כשכל הסטים יגיעו'}, עולים ל-${wX(e.n,nw)}.`};
   if(big&&rs.every(r=>r>=rr.hi)){ const tr=perSet(0), bp=Math.round(st/topW*100);
-    return {k:'reps',w:topW,r:tr,sets:n,ps:perSet,top,why:`מ-${wL(topW)} ל-${wL(topW+st)} זו קפיצה גדולה בתרגיל הזה. קודם מגיעים ל-${top} חזרות עם ${wL(topW)}, ואז עולים.`}; }
+    return {k:'reps',w:topW,r:tr,sets:n,ps:perSet,top,why:`מ-${wX(e.n,topW)} ל-${wX(e.n,topW+st)} זו קפיצה גדולה בתרגיל הזה. קודם מגיעים ל-${top} חזרות עם ${wX(e.n,topW)}, ואז עולים.`}; }
   if(fatigued(ls,rr))return setPlan(e,rr,ls,n,top,st,hist);
   const prev=hist[1], prevLow=prev?Math.min(...prev.sets.map(s=>+s.r||0)):99, prevW=prev?Math.max(...prev.sets.map(s=>+s.w||0)):0;
   if(low<rr.lo&&prevLow<rr.lo&&prevW>=topW){ const nw=roundTo(topW*0.95,st);
-    return {k:'down',w:nw,r:rr.lo,sets:n,why:`פעמיים ברצף לא הגעת ל-${rr.lo} חזרות עם ${wL(topW)}. יורדים ל-${wL(nw)}, חוזרים לטווח ובונים משם.`}; }
+    return {k:'down',w:nw,r:rr.lo,sets:n,why:`פעמיים ברצף לא הגעת ל-${rr.lo} חזרות עם ${wX(e.n,topW)}. יורדים ל-${wX(e.n,nw)}, חוזרים לטווח ובונים משם.`}; }
   const e1=h=>Math.max(...h.sets.map(s=>e1rm(+s.w||0,+s.r||0)));
   const stuck=hist.length>=4&&!hist.slice(0,3).some(h=>h.dl)&&Math.max(e1(hist[0]),e1(hist[1]),e1(hist[2]))<=e1(hist[3])*1.01;
   const tr=perSet(0), lowW=Math.min(...ls.map(s=>+s.w||0).filter(x=>x>0)), wv=lowW<topW;
@@ -8657,7 +8657,7 @@ function coachRec(e,ctx){
       why:`${tt('אין התקדמות ב-3 האימונים האחרונים, ול')}${esc(e.m)} ${tt('יש רק')} ${Math.round(wk)} ${tt('סטים בשבוע. מחקרים מראים שעוד סטים בשבוע מביאים עוד שריר, אז מוסיפים סט אחד לשבועיים הקרובים.')}`}; }
   return {k:stuck?'stuck':'reps',w:wv?wAt(0):topW,r:tr,sets:n,ps:perSet,...(wv?{pws:wAt}:{}),top,why:stuck
     ?`אין התקדמות ב-3 האימונים האחרונים. היום מכוונים לעוד חזרה בכל סט. אם זה נמשך, בסוף הבלוק מקס יציע צעד אחורה קטן כדי לשבור את זה.`
-    :big?`מ-${wL(lowW)} ל-${wL(lowW+st)} זו קפיצה גדולה בתרגיל הזה. קודם מגיעים ל-${top} חזרות עם ${wL(lowW)}, ואז עולים.`
+    :big?`מ-${wX(e.n,lowW)} ל-${wX(e.n,lowW+st)} זו קפיצה גדולה בתרגיל הזה. קודם מגיעים ל-${top} חזרות עם ${wX(e.n,lowW)}, ואז עולים.`
     :`כשתגיע ל-${top} חזרות בכל הסטים, עולים במשקל.`};
 }
 const RIR_WK={1:'עוצרים 3 חזרות לפני שאין כוח',2:'עוצרים 2–3 חזרות לפני שאין כוח',3:'עוצרים 2 חזרות לפני שאין כוח',4:'עוצרים 1–2 חזרות לפני שאין כוח',5:'עוצרים חזרה אחת לפני שאין כוח'};
@@ -8812,7 +8812,7 @@ function openExSwap(ei,area){
         <span class="sw-t"><b>${esc(c.n)}</b><small class="muted">${c.why.map(x=>tt(x)).join(' · ')}</small></span>
         <span class="sw-ch">${ICON.down}</span></button>
       ${open?`<div class="sw-pv">${demoHTML(c.n)}${how?`<p class="small muted">${esc(how)}</p>`:''}
-        <div class="small sw-w">${w?`${tt('משקל מוצע להתחלה:')} <b class="num">${wL(w)} ${LU()}</b>`:tt('מתחילים קל ומכוונים לפי הסט הראשון')}</div>
+        <div class="small sw-w">${w?`${tt('משקל מוצע להתחלה:')} <b class="num">${wX(c.n,w)} ${LUx(c.n)}</b>`:tt('מתחילים קל ומכוונים לפי הסט הראשון')}</div>
         <button class="btn primary big" style="width:100%" data-act="ex-swap-go" data-sc="today" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>${tt('להחליף באימון הזה')}</button>
         ${tplOn?`<button class="btn big" style="width:100%" data-act="ex-swap-go" data-sc="plan" data-ei="${ei}" data-n="${esc(c.n)}"${w?` data-w="${w}"`:''}>${tt('להחליף גם בתוכנית מעכשיו')}</button>`:''}</div>`:''}
     </div>`; };
@@ -8846,7 +8846,7 @@ function rirSet(ei,si,v){
     if(v>=3&&rr&&w>0&&r+2>top){ const ow=+nx.pw||w, st=wStep(e.n); nx.pw=roundTo(w+st,st); nx.pr=Math.max(rr.lo,Math.min(top,r-2));
       if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`נשאר לך הרבה כוח ואתה בקצה הטווח: בסט הבא ${wX(e.n,nx.pw)} ${LU()}${sideEx(e.n)?' '+sideLbl(e.n):''}.`; }
     else if(v>=3&&(!rr||r<rr.hi+3)){ nx.pr=rr?Math.min(top,r+2):r+2; msg=nx.pr>r?'נשאר לך עוד הרבה כוח. בסט הבא נסה עוד 2 חזרות.':'נשאר לך עוד הרבה כוח. ממשיכים ככה.'; }
-    else if(v===0&&rr&&r<rr.lo&&w>0){ const ow=+nx.pw||w; nx.pw=roundTo(w*0.95,wStep(e.n)); if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`קשה מדי: בסט הבא ${wL(nx.pw)} ${LU()}.`; }
+    else if(v===0&&rr&&r<rr.lo&&w>0){ const ow=+nx.pw||w; nx.pw=roundTo(w*0.95,wStep(e.n)); if(!nx.w){ chgMark(nx,'w',ow); setChg(ei,si+1,'w'); } msg=`קשה מדי: בסט הבא ${wX(e.n,nx.pw)} ${LUx(e.n)}.`; }
     const nw=document.getElementById(`w-${ei}-${si+1}`), nr=document.getElementById(`r-${ei}-${si+1}`);
     if(nw&&!nw.value)nw.placeholder=wX(e.n,nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; }
   else if(v===0&&rr&&r<rr.lo)msg='קרוב לכישלון ומתחת לטווח. אתחשב בזה בפעם הבאה.';
@@ -8981,9 +8981,9 @@ function sugDelta(s,last,si,k,nm){ if(s.chg?.[k]!=null&&!s.done)return chgHint(s
 function coPlanHTML(e,co){ const ss=e.sets.map((x,i)=>({i,w:+x.pw||0,r:+x.pr||0,d:x.done})).filter(x=>!x.d&&x.r);
   if(!ss.length)return '';
   const g=[]; ss.forEach(x=>{ const l=g[g.length-1]; if(l&&l.w===x.w&&l.r===x.r&&l.b===x.i-1){ l.b=x.i; } else g.push({a:x.i,b:x.i,w:x.w,r:x.r}); });
-  const wr=x=>`${x.w?`<span class="num">${wL(x.w)}</span> ${LU()} × `:''}<span class="num">${x.r}</span>${x.w?'':' '+tt('חזרות')}`;
+  const wr=x=>`${x.w?`<span class="num">${wX(e.n,x.w)}</span> ${LUx(e.n)} × `:''}<span class="num">${x.r}</span>${x.w?'':' '+tt('חזרות')}`;
   const plus=(co.k==='reps'||co.k==='stuck')&&g.length>1;
-  const head=g.length===1?`<b class="co-h">${tt('היום')}: ${g[0].w?`<span class="num">${wL(g[0].w)}</span> ${LU()}, `:''}<span class="num">${g[0].r}</span> ${tt('חזרות')}</b>`
+  const head=g.length===1?`<b class="co-h">${tt('היום')}: ${g[0].w?`<span class="num">${wX(e.n,g[0].w)}</span> ${LUx(e.n)}, `:''}<span class="num">${g[0].r}</span> ${tt('חזרות')}</b>`
     :`<b class="co-h">${plus?tt('היום: אותם משקלים, ועוד חזרה אחת בכל סט'):tt('היום, לפי סט')}</b><span class="co-pl">${g.map(x=>`<span>${x.a===x.b?`${tt('סט')} <span class="num">${x.a+1}</span>`:`${tt('סטים')} <bdi class="num" dir="ltr">${x.a+1}–${x.b+1}</bdi>`}</span><b>${wr(x)}</b>`).join('')}</span>`;
   return `<span class="co-tgt">${head}<span class="co-ok">${tt('כבר מילאתי בטבלה')}</span></span>`; }
 /* focus mode (prototype): only the set you're doing now, with big numbers and big +/- */
@@ -8994,10 +8994,10 @@ function vRowEx(e,ei){
   const si=e.sets.findIndex(x=>!x.done), lastS=lastSetsOf(e.n), co=e.co;
   const coLine=co?.r&&co.k!=='new'?(co.k==='reps'||co.k==='stuck'?tt('עוד חזרה מהפעם הקודמת'):co.k==='up'?tt('עולים במשקל היום'):tt('לפי התוכנית')):'';
   const rows=e.sets.map((x,i)=>{ const w=fxV(x,'w'), r=fxV(x,'r');
-    if(i!==si)return `<div class="rx-r ${x.done?'d':''}"><span class="rx-i">${x.done?'✓':'○'}</span><span class="rx-n">${tt('סט')} ${i+1}</span><span class="num" dir="ltr">${wL(w)} × ${r}</span></div>`;
+    if(i!==si)return `<div class="rx-r ${x.done?'d':''}"><span class="rx-i">${x.done?'✓':'○'}</span><span class="rx-n">${tt('סט')} ${i+1}</span><span class="num" dir="ltr">${wX(e.n,w)} × ${r}</span></div>`;
     const l=lastS?lastS[Math.min(i,lastS.length-1)]:null;
-    return `<div class="rx-cur"><div class="rx-h"><span>${tt('סט')} ${i+1} · ${tt('עכשיו')}</span>${l?`<span class="muted">${tt('פעם קודמת')}: <span class="num" dir="ltr">${wL(+l.w||0)} × ${+l.r||0}</span></span>`:''}</div>
-      <div class="rx-st"><div class="rx-box"><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${i}" data-d="-1">−</button><span><b class="num">${wL(w)||'—'}</b><small>${LU()}</small></span><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${i}" data-d="1">+</button></div>
+    return `<div class="rx-cur"><div class="rx-h"><span>${tt('סט')} ${i+1} · ${tt('עכשיו')}</span>${l?`<span class="muted">${tt('פעם קודמת')}: <span class="num" dir="ltr">${wX(e.n,+l.w||0)} × ${+l.r||0}</span></span>`:''}</div>
+      <div class="rx-st"><div class="rx-box"><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${i}" data-d="-1">−</button><span><b class="num">${wX(e.n,w)||'—'}</b><small>${LUx(e.n)}</small></span><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${i}" data-d="1">+</button></div>
       <div class="rx-box"><button class="rx-b" data-act="fx-r" data-ei="${ei}" data-si="${i}" data-d="-1">−</button><span><b class="num">${r||'—'}</b><small>${tt('חזרות')}</small></span><button class="rx-b" data-act="fx-r" data-ei="${ei}" data-si="${i}" data-d="1">+</button></div></div>
       <button class="btn primary rx-go" data-act="set-done" data-ei="${ei}" data-si="${i}">✓ ${tt('סיימתי')}</button></div>`; }).join('');
   return `<div class="ex-card cur fx" data-ei="${ei}" style="view-transition-name:ex-${ei}">
@@ -9009,13 +9009,13 @@ function vRowEx(e,ei){
 const rmCur=cur=>{ const p=S.active?.pick; return p!=null&&S.active.ex[p]&&!exDone(S.active.ex[p])?p:cur; };
 function vRemoteRow(e,ei,on){
   const si=e.t==='s'?e.sets.findIndex(x=>!x.done):-1;
-  const chips=e.t==='s'?e.sets.map((x,i)=>`<span class="${x.done?'d':i===si&&on?'c':''}" ${fxV(x,'w')?'dir="ltr"':''}>${fxV(x,'w')?`${wL(fxV(x,'w'))}×${fxV(x,'r')}`:`${fxV(x,'r')} ${tt('חזר׳')}`}${x.done?' ✓':''}</span>`).join(''):`<span>${tt('אירובי')}</span>`;
+  const chips=e.t==='s'?e.sets.map((x,i)=>`<span class="${x.done?'d':i===si&&on?'c':''}" ${fxV(x,'w')?'dir="ltr"':''}>${fxV(x,'w')?`${wX(e.n,fxV(x,'w'))}×${fxV(x,'r')}`:`${fxV(x,'r')} ${tt('חזר׳')}`}${x.done?' ✓':''}</span>`).join(''):`<span>${tt('אירובי')}</span>`;
   return `<button class="rm-r ${on?'on':''} ${exDone(e)?'d':''}" data-act="rm-pick" data-ei="${ei}"><i>${exDone(e)?'✓':on?'●':'○'}</i><span class="lt"><b>${esc(e.n)}</b><small class="rm-c num">${chips}</small></span></button>`; }
 function rmPanel(ei){ const e=S.active?.ex?.[ei]; if(!e||e.t!=='s')return '';
   const si=e.sets.findIndex(x=>!x.done); if(si<0)return ''; const s=e.sets[si], co=e.co;
   const coLine=co?.r&&co.k!=='new'?(co.k==='reps'||co.k==='stuck'?tt('עוד חזרה'):co.k==='up'?tt('עולים במשקל'):tt('לפי התוכנית')):'';
   return `<div class="rm-pan" id="rm-pan"><div class="rm-h"><span>${esc(e.n)} · <span class="num">${tt('סט')} ${si+1}/${e.sets.length}</span></span>${coLine?`<button class="fx-co" data-act="fx-tbl" data-ei="${ei}">${tt('מקס')}: ${coLine} ›</button>`:''}</div>
-    <div class="rm-st"><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="-1">−</button><span><b class="num">${wL(fxV(s,'w'))||'—'}</b><small>${LU()}</small></span><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="1">+</button>
+    <div class="rm-st"><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="-1">−</button><span><b class="num">${wX(e.n,fxV(s,'w'))||'—'}</b><small>${LUx(e.n)}</small></span><button class="rx-b" data-act="fx-w" data-ei="${ei}" data-si="${si}" data-d="1">+</button>
       <i></i><button class="rx-b" data-act="fx-r" data-ei="${ei}" data-si="${si}" data-d="-1">−</button><span><b class="num">${fxV(s,'r')||'—'}</b><small>${tt('חזרות')}</small></span><button class="rx-b" data-act="fx-r" data-ei="${ei}" data-si="${si}" data-d="1">+</button></div>
     <button class="btn primary big" data-act="set-done" data-ei="${ei}" data-si="${si}">✓ ${tt('סיימתי את הסט')}</button></div>`; }
 function vFocus(e,ei){
@@ -9092,7 +9092,7 @@ function vStrength(e,ei,cur){
     </div>
     ${co?coCompactHTML(e,ei,co):''}${co&&ei===S.active.ex.findIndex(x=>x.co)&&moreTip()?moreTipHTML():''}
     ${e.wu?.length?`<div class="wu"><button class="wu-h" data-act="wu-tog" data-ei="${ei}" aria-expanded="${!!e.wuOpen}"><span class="wu-l"><i class="wu-tag">${ICON.fire||''}${tt('חימום')}</i>${e.wu.length} ${tt('סטים')} · ${tt('לא נספר')}</span><span class="wu-st${e.wu.every(x=>x.done)?' ok':''}">${e.wu.every(x=>x.done)?'✓':e.wuOpen?tt('כווץ'):tt('פתח')}</span></button>
-      ${e.wuOpen?`<div class="setgrid wu-g">${e.wu.map((x,wi)=>`<span class="setidx">ח</span><span class="wu-v ${x.done?'d':''}">${wL(x.w)}</span><span class="wu-v ${x.done?'d':''}">${x.r}</span><span><button class="done-btn wu-b ${x.done?'d':''}" data-act="wu-done" data-ei="${ei}" data-wi="${wi}" aria-label="סיום סט חימום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>`).join('')}</div>`:''}</div>`:''}
+      ${e.wuOpen?`<div class="setgrid wu-g">${e.wu.map((x,wi)=>`<span class="setidx">ח</span><span class="wu-v ${x.done?'d':''}">${wX(e.n,x.w)}</span><span class="wu-v ${x.done?'d':''}">${x.r}</span><span><button class="done-btn wu-b ${x.done?'d':''}" data-act="wu-done" data-ei="${ei}" data-wi="${wi}" aria-label="סיום סט חימום"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></button></span>`).join('')}</div>`:''}</div>`:''}
     <div class="setgrid">
       <span class="h">סט</span><span class="h">${LU()}${sideEx(e.n)?` ${sideLbl(e.n)}`:''}</span><span class="h">חזרות${rr?(()=>{ const hi=co&&+co.top>rr.hi?+co.top:rr.hi; return ` <bdi dir="ltr" class="tgt num" data-act="info" data-k="rep">${rr.lo===hi?rr.lo:rr.lo+'–'+hi}</bdi>`; })():''}</span><span class="h"></span>
       ${e.sets.map((s,si)=>`
@@ -10320,6 +10320,7 @@ const nSides=name=>oneEnd(name)?1:2, NPS=()=>nSides(NP.cfg&&NP.cfg.exName);
 const sideLbl=name=>tt(bwEx(name)?'תוספת':oneEnd(name)?'על המוט':'בכל צד');
 const sideOf=(name,kg)=>Math.max(0,Math.round((kg-barGuess(name))/nSides(name)*100)/100);
 /* a weight as the workout screen shows it: per side for barbell exercises, else as is (in the user's unit) */
+const LUx=name=>sideEx(name)?`${LU()} ${sideLbl(name)}`:LU();
 const wX=(name,kg)=>{ if(kg===''||kg==null||!(+kg>0))return wL(kg); return wL(sideEx(name)?sideOf(name,+kg):+kg); };
 function openNumpad(cfg){
   NP.cfg=cfg; NP.val=+cfg.value||0; NP.typing=false; NP.str=cfg.value?String(cfg.value):'';
@@ -13192,7 +13193,7 @@ const PN={ei:-1,area:null,sharp:false,opt:'down'};
 function painSheet(){ const e=S.active?.ex?.[PN.ei]; if(!e)return; const sn=sensOf(e.n);
   const ch=(k,v,l,on)=>`<button class="chip ${on?'on':''}" data-act="${k}" data-v="${v}">${l}</button>`;
   const w=+(e.sets.filter(x=>x.done).slice(-1)[0]?.w||e.sets.find(x=>!x.done)?.pw||0), dw=w?roundTo(w*0.85,wStep(e.n)):0;
-  const O=[['down','להוריד משקל להמשך',dw?`${wL(dw)} במקום ${wL(w)}, ובלי עליות בשבועיים הקרובים`:'ובלי עליות בשבועיים הקרובים'],['swap','להחליף תרגיל','תרגיל אחר לאותו שריר'],['skip','לדלג על התרגיל היום','ממשיכים לתרגיל הבא']];
+  const O=[['down','להוריד משקל להמשך',dw?`${wX(e.n,dw)} במקום ${wX(e.n,w)}, ובלי עליות בשבועיים הקרובים`:'ובלי עליות בשבועיים הקרובים'],['swap','להחליף תרגיל','תרגיל אחר לאותו שריר'],['skip','לדלג על התרגיל היום','ממשיכים לתרגיל הבא']];
   openSheet(`<div class="pn"><h3>משהו לא נוח ב${esc(e.n)}?</h3>
     ${sn?`<div class="pn-sens"><span>מסומן כרגיש (${painName(sn.area)}) עד ${new Date(sn.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric'})}</span><button class="chip" data-act="sens-clear" data-ei="${PN.ei}">עבר, אפשר לחזור</button></div>`:''}
     <div class="pn-l">איפה?</div><div class="row pn-c">${PAIN_AREAS.map(([v,l])=>ch('pn-area',v,l,PN.area===v)).join('')}</div>
@@ -13207,7 +13208,7 @@ function painGo(){ const a=S.active, e=a?.ex?.[PN.ei]; if(!e||(!PN.area&&PN.opt=
     const log=(S.settings.painLog||[]).filter(x=>now-x.at<60*864e5); log.push({at:now,area:PN.area}); S.settings.painLog=log; persistSettings();
     again=log.filter(x=>x.area===PN.area&&now-x.at<30*864e5).length>=3; }
   if(PN.opt==='down'){ const w=+(e.sets.filter(x=>x.done).slice(-1)[0]?.w||e.sets.find(x=>!x.done)?.pw||0), dw=w?roundTo(w*0.85,wStep(e.n)):0;
-    e.sets.forEach(x=>{ if(!x.done&&dw){ x.pw=dw; x.w=''; x.sug=1; } }); persistActive(); closeSheet(); render(); toast(dw?`להמשך: ${wL(dw)} ${LU()}. בלי עליות בשבועיים הקרובים`:'נרשם. בלי עליות בשבועיים הקרובים'); }
+    e.sets.forEach(x=>{ if(!x.done&&dw){ x.pw=dw; x.w=''; x.sug=1; } }); persistActive(); closeSheet(); render(); toast(dw?`להמשך: ${wX(e.n,dw)} ${LUx(e.n)}. בלי עליות בשבועיים הקרובים`:'נרשם. בלי עליות בשבועיים הקרובים'); }
   else if(PN.opt==='swap'){ persistActive(); openExSwap(PN.ei,PN.area); SW.again=again?PN.area:null; return; }
   else { const o=a.open||(a.open={}); o[PN.ei]=false; persistActive(); closeSheet(); render(); toast(PN.area?'דילגנו על התרגיל להיום. נרשם כרגיש לשבועיים':'דילגנו על התרגיל להיום'); }
   if(again)setTimeout(()=>openSheet(`<h3>${painName(PN.area)}: פעם שלישית החודש</h3><p class="muted" style="line-height:1.6;margin:6px 0 14px">כשאותו אזור מציק שוב ושוב, שווה לבדוק אותו עם פיזיותרפיסט או רופא. עד אז מקס ימשיך בזהירות.</p><button class="btn primary big" style="width:100%" data-act="sheet-close">הבנתי</button>`),700); }
@@ -13346,7 +13347,7 @@ function handleAct(b,ev){
     case 'mv-go': { const r=mvDo(); closeSheet(); if(r){ toast(`${r.t.name} ${tt('הוזז')} ${mvLabel(r.to)}`); logEv('mv_move',{}); } render(); break; }
     case 'co-brkq': { const g=window.__brkGo, lw=lastWorkout(); if(!g)break; const c=coachCfg(); c.backAns={for:lw?.start||0,v:b.dataset.v}; persistSettings(); closeSheet(); window.__brkGo=null; startWorkout(g.name,g.tid,true); break; }
     case 'co-ovr': { const e=S.active?.ex?.[+b.dataset.ei]; if(!e?.co?.ovr)break; const o=e.co.ovr;
-      e.sets.forEach(x=>{ if(!x.done){ x.pw=o.w; x.pr=o.r; x.sug=1; } }); e.co={k:'up',why:`לפי הבחירה שלך: עולים ל-${wL(o.w)} ומתחילים מ-${o.r} חזרות. אם הסט הראשון כבד מדי, אפשר לחזור למשקל הקודם.`};
+      e.sets.forEach(x=>{ if(!x.done){ x.pw=o.w; x.pr=o.r; x.sug=1; } }); e.co={k:'up',why:`לפי הבחירה שלך: עולים ל-${wX(e.n,o.w)} ומתחילים מ-${o.r} חזרות. אם הסט הראשון כבד מדי, אפשר לחזור למשקל הקודם.`};
       persistActive(); render(); break; }
     case 'coach-back': { const c=coachCfg(); c.back=Date.now(); persistSettings(); render(); toast('מעולה שחזרת. השבוע מתחילים קצת יותר קל'); break; }
     case 'ex-swap': SW.scope='plan'; openExSwap(+b.dataset.ei); break;
@@ -13391,7 +13392,7 @@ function handleAct(b,ev){
         if(nx&&!nx.done){ const ow=+nx.pw||0, orr=+nx.pr||0; if(s.w)nx.pw=s.w; if(s.r)nx.pr=s.r;
           const cw=ow&&!nx.w&&+nx.pw!==ow, cr=orr&&!nx.r&&+nx.pr!==orr;
           if(ow&&!nx.w){ chgMark(nx,'w',ow); setChg(ei2,si2+1,'w'); } if(orr&&!nx.r){ chgMark(nx,'r',orr); setChg(ei2,si2+1,'r'); }
-          if(cw||cr)toast(`${tt('סט')} ${si2+2}: ${cw?`${wL(nx.pw)} ${LU()} ${tt('במקום')} ${wL(ow)}`:''}${cw&&cr?' · ':''}${cr?`${nx.pr} ${tt('חזרות')} ${tt('במקום')} ${orr}`:''}, ${tt('כמו הסט שעשית')}`);
+          if(cw||cr)toast(`${tt('סט')} ${si2+2}: ${cw?`${wX(e.n,nx.pw)} ${LUx(e.n)} ${tt('במקום')} ${wX(e.n,ow)}`:''}${cw&&cr?' · ':''}${cr?`${nx.pr} ${tt('חזרות')} ${tt('במקום')} ${orr}`:''}, ${tt('כמו הסט שעשית')}`);
           const nw=document.getElementById(`w-${ei2}-${si2+1}`), nr=document.getElementById(`r-${ei2}-${si2+1}`);
           if(nw&&!nw.value)nw.placeholder=wX(e.n,nx.pw)||''; if(nr&&!nr.value)nr.placeholder=nx.pr||''; } }
       persistActive();
