@@ -4333,7 +4333,7 @@ async function natGoogleNative(){
   const r=await SL.login({provider:'google',options:{scopes:['email','profile']}});
   const tok=r?.result?.idToken; if(!tok)throw new Error('no token');
   const {error}=await sb.auth.signInWithIdToken({provider:'google',token:tok}); if(error)throw error;
-  logEv('login_ok',{p:'google',native:1});
+  logEv('login_ok',{p:'google',native:1}); logFunnel('login_ok',{p:'google'});
 }
 async function natGoogle(){
   NAUTH={busy:'google',err:''}; render(); logEv('login_try',{p:'google'});
@@ -4356,7 +4356,7 @@ async function natAuthUrl(url){
   const q=String(url).slice(NAT_CB.length).replace(/^[?#/]+/,''), P=new URLSearchParams(q.replace('#','&')), code=P.get('code');
   if(!code){ NAUTH={busy:'',err:P.get('error_description')?tt('ההתחברות בוטלה או נכשלה. נסה שוב.'):''}; render(); return true; }
   _natExch=true;
-  try{ const {error}=await sb.auth.exchangeCodeForSession(code); if(error)throw error; logEv('login_ok',{p:'google'}); }
+  try{ const {error}=await sb.auth.exchangeCodeForSession(code); if(error)throw error; logEv('login_ok',{p:'google'}); logFunnel('login_ok',{p:'google'}); }
   catch(e){ console.warn('exchange',e); NAUTH={busy:'',err:tt('ההתחברות עם Google נכשלה. נסה שוב.')}; render(); }
   _natExch=false; return true;
 }
@@ -4368,7 +4368,7 @@ async function natApple(){
     const tok=r?.response?.identityToken; if(!tok)throw new Error('no token');
     const nm0=[r.response.givenName,r.response.familyName].filter(Boolean).join(' ').trim(); if(nm0)window.NR_OAUTH_NAME=nm0;  // so the app doesn't ask for the name while it's being saved
     const {data,error}=await sb.auth.signInWithIdToken({provider:'apple',token:tok,nonce:raw}); if(error)throw error;
-    logEv('login_ok',{p:'apple'});
+    logEv('login_ok',{p:'apple'}); logFunnel('login_ok',{p:'apple'});
     const nm=[r.response.givenName,r.response.familyName].filter(Boolean).join(' ').trim();  // Apple sends the name only on the first sign-in
     if(nm&&!data?.user?.user_metadata?.full_name)sb.auth.updateUser({data:{full_name:nm}}).then(({data:d})=>{ if(d?.user&&S.user){ S.user=d.user; render(); } });
   }catch(e){ const m=String(e?.message||e?.code||e); console.warn('apple',m);
@@ -11785,9 +11785,14 @@ function socInvUrl(code){ return INV.code&&!NOREF()?`${INV_SITE}/i/${INV.code}?g
 function inviteUrl(){ return INV.code?`${INV_SITE}/i/${INV.code}`:`${INV_SITE}/#ref=${S.user?.id||''}`; }
 function inviteText(){ const d=+INV.st?.trial_days||14;
   return tt(G('היי! אני משתמש ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.','היי! אני משתמשת ב-NextRep, אפליקציה בעברית שזוכרת לי כל סט, מחשבת קלוריות מצילום של הצלחת ובונה לי תפריט. דרך הקישור שלי מקבלים {d} ימים חינם.')).replace('{d}',d)+(INV.code?` ${tt('קוד ההזמנה')}: ${INV.code}`:''); }
+/* before sign-in nothing reaches app_events, so pre-signup steps go to an anonymous per-device log: where do new installs drop off? */
+const DID=(()=>{ try{ let d=localStorage.getItem('nr-did'); if(!d){ d=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2)); localStorage.setItem('nr-did',d); } return d; }catch(_){ return ''; } })();
+function logFunnel(k,meta){ try{ if(!DID)return; const m={...(meta||{}),os:/android/i.test(navigator.userAgent)?'a':/iPhone|iPad|iPod/i.test(navigator.userAgent)?'i':'w'}; sb.rpc('log_funnel',{p_did:DID,p_kind:String(k).slice(0,40),p_meta:m}).then(()=>{},()=>{}); }catch(_){} }
+/* first open of a fresh install, and every cold start while still signed out */
+setTimeout(()=>{ try{ if(S.user)return; let f=0; try{ f=!localStorage.getItem('nr-launched'); localStorage.setItem('nr-launched','1'); }catch(_){} logFunnel(f?'first_open':'open',{}); }catch(_){} },4000);
 function logEv(k,meta){ try{
   // before sign-in (the paywall comes first) keep the event on the device and send it once the user signs in
-  if(!S.user){ if(/^store_|^pay_/.test(k)){ const q=JSON.parse(localStorage.getItem('nr-evq')||'[]'); q.push([k,{...(meta||{}),pre:1}]); localStorage.setItem('nr-evq',JSON.stringify(q.slice(-20))); } return; }
+  if(!S.user){ logFunnel(k,meta); if(/^store_|^pay_/.test(k)){ const q=JSON.parse(localStorage.getItem('nr-evq')||'[]'); q.push([k,{...(meta||{}),pre:1}]); localStorage.setItem('nr-evq',JSON.stringify(q.slice(-20))); } return; }
   const q=JSON.parse(localStorage.getItem('nr-evq')||'[]'); if(q.length){ localStorage.removeItem('nr-evq'); q.forEach(([a,b])=>sb.rpc('log_event',{p_kind:a,p_meta:b}).then(()=>{},()=>{})); }
   sb.rpc('log_event',{p_kind:k,p_meta:meta||null}).then(()=>{},()=>{}); }catch(_){} }
 function invLoad(){ return INV.p||(INV.p=Promise.all([sb.rpc('my_referrals'),sb.rpc('my_ref_code')]).then(([a,b])=>{ if(a.data)INV.st=a.data; if(b.data)INV.code=b.data; }).catch(()=>{}).finally(()=>{ setTimeout(()=>{INV.p=null;},30000); })); }
