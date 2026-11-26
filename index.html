@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c5161e32"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c5161e32"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c5161e32"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f5e1e41a"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f5e1e41a"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f5e1e41a"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2607,6 +2607,7 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
 .mc-name::-webkit-search-cancel-button{display:none}
 .svl .li{gap:6px}.sv-main{all:unset;flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:2px 0}.sv-main b{font-size:16px}.sv-it{color:var(--muted);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sv-ib{width:40px;height:40px;flex:none}.chip.sv-all{border-style:dashed}
+.del-warn{display:flex;flex-direction:column;gap:8px;margin:0 0 12px;padding:14px;border-radius:16px;background:rgba(255,92,92,.1);border:1px solid rgba(255,92,92,.45)}.del-warn b{color:var(--danger);font-size:16px}.del-warn span{line-height:1.5}.del-warn .btn{margin-top:4px}
 </style>
 <style id="olive">:root:not([data-theme="light"]){--oa:#BFFF2F;--oi:#12140C;--oh1:#262724;--oh2:#181917;--og:rgba(126,148,48,0.45);--onav:#171817;--accent:#BFFF2F;--lime:#BFFF2F;--ob1:#161716;--ob2:#0E0E0E;--ob3:#0B0C0A;--oc1:rgba(46,47,44,0.38);--oc2:rgba(46,47,44,0.16);--oc3:rgba(20,20,20,.6);--ol:rgba(255,255,255,.09);--ot:#F2F4EC;--om:rgba(242,244,236,.6);--of:rgba(255,255,255,.05);--ochip:rgba(242,244,236,.2);}
 :root[data-theme="light"]{--oa:#BFFF2F;--oi:#12140C;--oh1:#262724;--oh2:#181917;--og:rgba(126,148,48,0.45);--onav:#171817;--lime:#BFFF2F;--lime-ink:#12140C;--ob1:rgba(191,255,47,0.3);--ob2:#F4F6EC;--ob3:#ECEFE2;--oc1:#FFFFFF;--oc2:#FFFFFF;--oc3:#F4F6EC;--ol:rgba(20,24,10,.06);--ot:#12140C;--om:rgba(18,20,12,.55);--of:#F4F6EC;--ochip:rgba(18,20,12,.16);}
@@ -5454,6 +5455,10 @@ function saveAsFixed(m){ const L=savedMeals(), k=mealKey(m.name)||'ארוחה', 
   if(i>=0)L[i]=row; else L.unshift(row); if(L.length>40)L.length=40; persistSettings(); return row; }
 function unsaveFixed(name){ const k=mealKey(name); S.settings.saved=savedMeals().filter(x=>mealKey(x.name)!==k); persistSettings(); }
 /* most-used first: n = times logged, lu = last used */
+/* account deletion: a renewing store subscription (or store trial) keeps billing after the account is gone, so say it loudly and link to cancel */
+function delSubWarn(){ const on=!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now(), ren=on&&S.plan.store_renews!==false, st=NATIVE_OS==='android'?'Google Play':'App Store';
+  if(ren)return `<div class="del-warn"><b>${tt('המנוי שלך עדיין פעיל')}</b><span>${tt('מחיקת החשבון לא מבטלת את המנוי. אם לא תבטל אותו ב-{0}, תחויב ב-{1}.').replace('{0}',st).replace('{1}',pwDate(S.plan.store_until))}</span>${IS_NATIVE?`<button class="btn primary" data-act="rc-manage">${tt('לביטול המנוי ב-{0}').replace('{0}',st)}</button>`:''}</div>`;
+  return `<div class="rtip" style="margin:0 0 12px"><b>${tt('יש לך מנוי בחנות?')}</b><span>${tt('מחיקת החשבון לא מבטלת מנוי שנקנה ב-App Store או ב-Google Play. את המנוי מבטלים בהגדרות המנויים של הטלפון.')}</span></div>`; }
 function savedSorted(){ return [...savedMeals()].sort((a,b)=>(b.n||0)-(a.n||0)||(b.lu||0)-(a.lu||0)); }
 function savedChips(){ const L=savedSorted(); if(!L.length)return ''; const top=L.slice(0,5);
   return `<div class="spread small" style="margin-bottom:-6px"><b class="muted" style="font-weight:600">הארוחות הקבועות שלי</b><button class="linkbtn small" data-act="saved-manage">${L.length>5?`${tt('הכל')} · ${L.length}`:tt('עריכה')}</button></div>
@@ -13715,7 +13720,7 @@ function handleAct(b,ev){
     case 'sheet-close': closeSheet(); break;
     case 'theme-set': S.settings.theme=b.dataset.v; themeApply(S.settings.theme); persistSettings(); logEv('theme',{v:b.dataset.v}); openLookSheet(); render(); break;
     case 'acct-delete': openSheet(`<h3>מחיקת החשבון</h3><div class="muted" style="margin:-4px 0 12px;line-height:1.55">החשבון שלך יימחק עכשיו, יחד עם כל האימונים, הארוחות, השקילות, התמונות וההודעות בקבוצות. אי אפשר לשחזר אותם אחר כך. רשומות תשלום נשמרות בלי פרטים מזהים, כפי שהחוק מחייב.</div>
-      <div class="rtip" style="margin:0 0 12px"><b>יש לך מנוי בחנות?</b><span>מחיקת החשבון לא מבטלת מנוי שנקנה ב-App Store או ב-Google Play. את המנוי מבטלים בהגדרות המנויים של הטלפון.</span></div>
+      ${delSubWarn()}
       <textarea id="del-why" class="adm-in" rows="2" placeholder="${tt('סיבת העזיבה (לא חובה, יעזור לנו להשתפר)')}"></textarea>
       <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="sheet-close">ביטול</button><button class="btn danger" style="flex:1.4" data-act="acct-delete-go">מחיקת החשבון</button></div>`); break;
     case 'acct-delete-go': { if(!b.dataset.sure){b.dataset.sure='1';b.textContent=tt('בטוח? לחיצה נוספת מוחקת');break;} if(b.disabled)break;
