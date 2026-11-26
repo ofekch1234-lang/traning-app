@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=4c46c4af"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=4c46c4af"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=4c46c4af"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=f12cf672"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=f12cf672"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=f12cf672"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -2606,6 +2606,7 @@ html.pcam-on,html.pcam-on body{background:transparent!important}html.pcam-on bod
 .me-nm{font-size:17px;font-weight:700;margin-top:4px}.mc-man{margin-top:6px;border-radius:12px;background:var(--surface2);padding:8px 10px}.mc-man summary{font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}.mc-mn{width:100%;margin-top:8px}
 @media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:max(16px,1em)}}
 .mc-name::-webkit-search-cancel-button{display:none}
+.svl .li{gap:6px}.sv-main{all:unset;flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:2px 0}.sv-main b{font-size:16px}.sv-it{color:var(--muted);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sv-ib{width:40px;height:40px;flex:none}.chip.sv-all{border-style:dashed}
 </style>
 <style id="olive">:root:not([data-theme="light"]){--oa:#BFFF2F;--oi:#12140C;--oh1:#262724;--oh2:#181917;--og:rgba(126,148,48,0.45);--onav:#171817;--accent:#BFFF2F;--lime:#BFFF2F;--ob1:#161716;--ob2:#0E0E0E;--ob3:#0B0C0A;--oc1:rgba(46,47,44,0.38);--oc2:rgba(46,47,44,0.16);--oc3:rgba(20,20,20,.6);--ol:rgba(255,255,255,.09);--ot:#F2F4EC;--om:rgba(242,244,236,.6);--of:rgba(255,255,255,.05);--ochip:rgba(242,244,236,.2);}
 :root[data-theme="light"]{--oa:#BFFF2F;--oi:#12140C;--oh1:#262724;--oh2:#181917;--og:rgba(126,148,48,0.45);--onav:#171817;--lime:#BFFF2F;--lime-ink:#12140C;--ob1:rgba(191,255,47,0.3);--ob2:#F4F6EC;--ob3:#ECEFE2;--oc1:#FFFFFF;--oc2:#FFFFFF;--oc3:#F4F6EC;--ol:rgba(20,24,10,.06);--ot:#12140C;--om:rgba(18,20,12,.55);--of:#F4F6EC;--ochip:rgba(18,20,12,.16);}
@@ -5452,14 +5453,20 @@ function saveAsFixed(m){ const L=savedMeals(), k=mealKey(m.name)||'ארוחה', 
   const row={id:i>=0?L[i].id:'s'+Date.now(),name:k,kcal:Math.round(+m.kcal||0),protein:Math.round(+m.protein||0),carbs:Math.round(+m.carbs||0),fat:Math.round(+m.fat||0),items:clone(m.items||[]).map(({_f,ai,...x})=>x)};
   if(i>=0)L[i]=row; else L.unshift(row); if(L.length>40)L.length=40; persistSettings(); return row; }
 function unsaveFixed(name){ const k=mealKey(name); S.settings.saved=savedMeals().filter(x=>mealKey(x.name)!==k); persistSettings(); }
-function savedChips(){ const L=savedMeals(); if(!L.length)return '';
-  return `<div class="spread small" style="margin-bottom:-6px"><b class="muted" style="font-weight:600">הארוחות הקבועות שלי</b><button class="linkbtn small" data-act="saved-manage">עריכה</button></div>
-  <div class="again">${L.map(m=>`<button class="chip num sv" data-act="saved-add" data-id="${esc(m.id)}">${ICON.star||''}<span data-notr>${esc(m.name.length>22?m.name.slice(0,21)+'…':m.name)}</span><small>${kcalN(m.kcal)}</small></button>`).join('')}</div>`; }
+/* most-used first: n = times logged, lu = last used */
+function savedSorted(){ return [...savedMeals()].sort((a,b)=>(b.n||0)-(a.n||0)||(b.lu||0)-(a.lu||0)); }
+function savedChips(){ const L=savedSorted(); if(!L.length)return ''; const top=L.slice(0,5);
+  return `<div class="spread small" style="margin-bottom:-6px"><b class="muted" style="font-weight:600">הארוחות הקבועות שלי</b><button class="linkbtn small" data-act="saved-manage">${L.length>5?`${tt('הכל')} · ${L.length}`:tt('עריכה')}</button></div>
+  <div class="again">${top.map(m=>`<button class="chip num sv" data-act="saved-add" data-id="${esc(m.id)}">${ICON.star||''}<span data-notr>${esc(m.name.length>22?m.name.slice(0,21)+'…':m.name)}</span><small>${kcalN(m.kcal)}</small></button>`).join('')}${L.length>5?`<button class="chip sv-all" data-act="saved-manage">${tt('הכל')} <small class="num">${L.length}</small></button>`:''}</div>`; }
+function svRows(q){ const k=(q||'').trim(), L=savedSorted().filter(m=>!k||m.name.includes(k)||(m.items||[]).some(i=>(i.name||'').includes(k)));
+  if(!L.length)return `<div class="small muted" style="padding:18px 4px;text-align:center">${tt('לא נמצאה ארוחה בשם הזה')}</div>`;
+  return `<div class="card list svl">${L.map(m=>{ const it=(m.items||[]).map(i=>i.name).filter(Boolean); return `<div class="li"><button class="sv-main" data-act="saved-add" data-id="${esc(m.id)}"><b data-notr>${esc(m.name)}</b><small class="num">${kcalN(m.kcal)} קק״ל · ${m.protein} גר׳ חלבון</small>${it.length?`<small class="sv-it" data-notr>${esc(it.slice(0,3).join(' · '))}${it.length>3?` ${tt('ועוד')} ${it.length-3}`:''}</small>`:''}</button><button class="hd-btn sv-ib" data-act="saved-edit" data-id="${esc(m.id)}" aria-label="${tt('עריכה')}">${ICON.pen||'✎'}</button><button class="hd-btn sv-ib" style="color:var(--danger)" data-act="saved-rm" data-id="${esc(m.id)}" aria-label="${tt('הסרה')}">${ICON.trash||'✕'}</button></div>`; }).join('')}</div>`; }
 function openSavedManage(){ const L=savedMeals();
   openSheet(`<div class="spread"><h3 style="margin:0">הארוחות הקבועות שלי</h3><button class="hd-btn" data-act="sheet-close" aria-label="סגירה" style="width:36px;height:36px">✕</button></div>
-    <div class="small muted" style="margin:6px 0 12px">שומרים ארוחה מחלון העריכה שלה, והיא מופיעה במסך התזונה לרישום בלחיצה אחת. לחיצה על ארוחה פותחת אותה לעריכה.</div>
-    ${L.length?`<div class="card list">${L.map(m=>`<div class="li"><button class="lt" style="all:unset;flex:1;cursor:pointer;display:flex;flex-direction:column;gap:2px" data-act="saved-edit" data-id="${esc(m.id)}"><b data-notr>${esc(m.name)}</b><small class="num">${kcalN(m.kcal)} קק״ל · ${m.protein} גר׳ חלבון · ${tt('לחיצה לעריכה')}</small></button><button class="hd-btn" style="width:40px;height:40px;color:var(--danger)" data-act="saved-rm" data-id="${esc(m.id)}" aria-label="${tt('הסרה')}">${ICON.trash||'✕'}</button></div>`).join('')}</div>`
-      :`<div class="small muted">אין עדיין ארוחות קבועות.</div>`}`); }
+    <div class="small muted" style="margin:6px 0 12px">${tt('לחיצה על ארוחה רושמת אותה להיום. העיפרון פותח אותה לעריכה.')}</div>
+    ${L.length>5?`<div class="sw-search" style="margin-bottom:12px">${ICON.search||''}<input id="sv-q" type="search" enterkeyhint="search" autocomplete="off" placeholder="${tt('חיפוש ארוחה או מוצר')}"></div>`:''}
+    ${L.length?`<div id="sv-res">${svRows('')}</div>`:`<div class="small muted">${tt('אין עדיין ארוחות קבועות. שומרים ארוחה מחלון העריכה שלה.')}</div>`}`); }
+document.addEventListener('input',ev=>{ if(ev.target?.id!=='sv-q')return; const b=$('#sv-res'); if(b)b.innerHTML=svRows(ev.target.value); });
 function recentMealNames(){
   const seen=new Set(), out=[];
   for(const m of [...S.meals].sort((a,b)=>b.ts-a.ts)){
@@ -8375,7 +8382,8 @@ async function saveMealEdit(){
 }
 async function deleteMeal(id){
   S.meals=S.meals.filter(m=>m.id!==id); _mealEdit=null;
-  try{ const q=mqS(); for(const L of [q.meals,q.ovr&&q.ovr.meals])for(const x of L||[])if(x.mid===id){ delete x.done; delete x.mid; delete x.alt; persistSettings(); } }catch(_){} // deleted from the log → the menu meal is open again saveSnapshot(); closeSheet(); render();
+  try{ const q=mqS(); for(const L of [q.meals,q.ovr&&q.ovr.meals])for(const x of L||[])if(x.mid===id){ delete x.done; delete x.mid; delete x.alt; persistSettings(); } }catch(_){} // deleted from the log → the menu meal is open again
+  saveSnapshot(); closeSheet(); render();
   // drop a pending offline insert of the same meal; otherwise delete on the server (queued when offline)
   try{ const q=qAll(), k=q.filter(x=>!(x.table==='meals'&&x.row&&x.row.id===id&&!x.row._del)); if(k.length!==q.length){ localStorage.setItem(Q_KEY,JSON.stringify(k)); updateSyncBadge(); } }catch(_){}
   try{ const {error}=await sb.from('meals').delete().eq('id',id); if(error)throw error; }
@@ -13618,7 +13626,7 @@ function handleAct(b,ev){
       else { const its=m.items.filter(i=>(i.name||'').trim()||+i.kcal>0), t=its.reduce((a,i)=>({kcal:a.kcal+(+i.kcal||0),protein:a.protein+(+i.protein||0),carbs:a.carbs+(+i.carbs||0),fat:a.fat+(+i.fat||0)}),{kcal:0,protein:0,carbs:0,fat:0});
         saveAsFixed({name:m.name,items:its,...t}); toast('נשמרה כארוחה קבועה'); }
       renderMealEdit(); break; }
-    case 'saved-add': { const src=savedMeals().find(x=>x.id===b.dataset.id); if(!src)break;
+    case 'saved-add': { const src=savedMeals().find(x=>x.id===b.dataset.id); if(!src)break; src.n=(src.n||0)+1; src.lu=Date.now(); persistSettings(); if(!$('#sheet').hidden&&$('#sv-res'))closeSheet();
       _mealDraft={name:src.name,items:clone(src.items||[]),kcal:+src.kcal||0,protein:+src.protein||0,carbs:+src.carbs||0,fat:+src.fat||0};
       saveMealDraft(); break; }
     case 'saved-manage': _mealEdit=null; openSavedManage(); break;
