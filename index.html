@@ -2464,7 +2464,7 @@ const SUPABASE_KEY='sb_publishable_EdUIMvKC_VPWbiytXoSWXw_DZ-FsEtc';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ---------- PWA: אופליין + מסך דלוק ---------- */
-const APP_VERSION='13.3.277';
+const APP_VERSION='13.3.278';
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   /* גרסה חדשה עולה אוטומטית: בדיקה בכל חזרה לאפליקציה, וטעינה מחדש כשהיא נכנסת לתוקף
@@ -3383,7 +3383,9 @@ function landSetG(g){
 }
 function landGenderHTML(){ const g=window.NR_G; return `<div class="ld-g" data-notr><span>${tt('הדף מותאם ל:')}</span><div class="ld-gsw"><button class="${g==='f'?'':'on'}" data-act="land-g" data-v="m">🙋‍♂️ ${tt('גבר')}</button><button class="${g==='f'?'on':''}" data-act="land-g" data-v="f">🙋‍♀️ ${tt('אישה')}</button></div></div>`; }
 /* the website no longer signs people up: new users install the app (App Store now, Google Play once approved); existing users still log in here */
-const APPSTORE_URL='https://apps.apple.com/il/app/id6826127248', PLAY_URL='https://play.google.com/store/apps/details?id=il.co.nextrep.app', STORE_URL=/Android/i.test(navigator.userAgent)?PLAY_URL:APPSTORE_URL, NO_WEB_SIGNUP=!(window.Capacitor&&typeof window.Capacitor.isNativePlatform==='function'&&window.Capacitor.isNativePlatform());
+/* tag store links with where the visitor came from, so App Store Connect (campaign) and Play Console (referrer) can show installs from the landing page */
+const STORE_SRC=(()=>{ try{ const o=JSON.parse(localStorage.getItem('nr-src')||'null'), v=o&&o.s&&o.s!=='direct'?String(o.s):''; return v?(v+'_lp').replace(/[^a-z0-9_]/gi,'').slice(0,40):'site'; }catch(_){ return 'site'; } })(); /* first-touch source saved above (utm / fbclid / referrer) */
+const APPSTORE_URL=`https://apps.apple.com/il/app/apple-store/id6826127248?pt=129666148&ct=${STORE_SRC}&mt=8`, PLAY_URL=`https://play.google.com/store/apps/details?id=il.co.nextrep.app&referrer=${encodeURIComponent('utm_source='+STORE_SRC+'&utm_medium=landing')}`, STORE_URL=/Android/i.test(navigator.userAgent)?PLAY_URL:APPSTORE_URL, NO_WEB_SIGNUP=!(window.Capacitor&&typeof window.Capacitor.isNativePlatform==='function'&&window.Capacitor.isNativePlatform());
 const WEB_LOGIN=!NO_WEB_SIGNUP||/(^|[?&#])login\b/.test(location.search.slice(1)+'&'+location.hash.slice(1))||/type=recovery/.test(location.hash+location.search);
 const storeBadge=(cls='')=>`<div class="as-badges ${cls}"><a class="as-badge ${cls}" href="${APPSTORE_URL}" target="_blank" rel="noopener" aria-label="${tt('להורדה מ-App Store')}"><img src="img/appstore-badge.svg" alt="Download on the App Store" width="180" height="60"></a><a class="as-badge ${cls}" href="${PLAY_URL}" target="_blank" rel="noopener" aria-label="${tt('להורדה מ-Google Play')}"><img src="img/googleplay-badge.png" alt="Get it on Google Play" width="182" height="54"></a></div>`;
 function vLanding(){ loadLandPrices(); const F=window.NR_G==='f'; const shot=k=>`img/shots/${LANG==='he'?'he':'en'}-${F?'f':'m'}-${k}.webp?v=2`;
