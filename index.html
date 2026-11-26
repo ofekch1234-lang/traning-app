@@ -3888,7 +3888,7 @@ function onbReady(st){ const a=ONB.a;
 /* ---------- 2026-11-19: the Imunit-style opening. New iPhone signups have no free tier and no free week:
    a projection, the plan, the "no surprises" reminder (the notification ask), then the store paywall with the store's own free trial. ---------- */
 /* NOCARD: 7 days free with no card and no store trial; prices shown up front, the paywall comes after the free week */
-const NOCARD=true, NC_DAYS=7;
+const NOCARD=false, NC_DAYS=7;
 const onbHardOS=()=>IS_NATIVE&&!!RC_KEYS[NATIVE_OS]&&!NOCARD;
 const isPlay=()=>IS_NATIVE&&NATIVE_OS==='android';
 const onbPend=()=>IS_NATIVE&&!!ONB&&!ONB.redo&&ONB_STEPS[ONB.s]==='save'&&!ONB.applied;
