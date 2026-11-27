@@ -55,9 +55,9 @@
     document.querySelectorAll('link[rel="icon"]').forEach(function(fi){ fi.setAttribute('href','icon-f-192.png?v=2'); fi.setAttribute('type','image/png'); }); }
   var th=null; try{ th=localStorage.getItem('nr-theme'); }catch(e){}
   if(th==='light'||(th==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)){ h.setAttribute('data-theme','light'); var tc0=document.querySelector('meta[name="theme-color"]'); if(tc0)tc0.setAttribute('content','#F5F5F3'); }
-  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=c7ea6717"><\/script>');
-  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=c7ea6717"><\/script>');
-  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=c7ea6717"><\/script>');
+  if(L==='he'&&g==='f')document.write('<script src="i18n/he-f.js?v=a9aa9b98"><\/script>');
+  if(L!=='he')document.write('<script src="i18n/'+L+'.js?v=a9aa9b98"><\/script>');
+  if(L==='ar'&&g==='f')document.write('<script src="i18n/ar-f.js?v=a9aa9b98"><\/script>');
 })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Karantina:wght@400;700&family=Inter+Tight:wght@800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
@@ -517,6 +517,7 @@ body:not(.landing)>#lx-sticky{display:none}
 .ofr-h{display:flex;align-items:center;gap:10px}.ofr-h img{width:44px;height:44px;flex:none}.ofr-h small{display:block;color:var(--muted);font-size:12.5px}.ofr-h b{font-size:16px}
 .ofr-p{margin-top:10px;font-size:14.5px;line-height:1.45}.ofr-p b{color:var(--accent);font-size:16px}.ofr-p s{color:var(--muted)}
 .ofr-c{position:absolute;top:14px;inset-inline-end:14px;color:var(--accent);font-weight:700;font-size:13px}
+.ofr-card.sm{padding:12px 14px}.ofr-card.sm .ofr-p{margin-top:0;padding-inline-end:58px}.ofr-card.sm .ofr-p small{display:block;color:var(--gold);font-weight:700;font-size:12px;margin-bottom:2px}.ofr-card.sm .ofr-t.in{margin-top:8px}
 .lc{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:6px 0 2px}.lc .pw-x{position:absolute;top:0;inset-inline-end:0}
 .lc-b{background:#FF5A4E;color:#fff;font-size:13px;font-weight:800;padding:5px 12px;border-radius:99px;letter-spacing:.2px}
 .lc h2{margin:6px 0 0;font-size:24px;line-height:1.2}.lc-s{font-size:13.5px;color:var(--muted)}
@@ -1328,6 +1329,7 @@ html[dir=ltr] .ob-bub{border-radius:22px 22px 22px 6px}
 .nc-plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
 .nc-pl{position:relative;border:1.5px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 12px 12px;text-align:center;background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:2px}
 .nc-pl.on{border-color:var(--accent);background:rgba(204,255,0,.06)}
+button.nc-pl{font:inherit;color:inherit;cursor:pointer}.nc-pl>span s{font-size:14px;font-weight:600;color:#A3ADA6}
 .nc-plans .nc-pl em{position:absolute;color:#0B0D0C!important;top:-10px;inset-inline-start:50%;transform:translateX(50%);background:var(--accent);color:#0B0D0C;font-style:normal;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
 .nc-pl b{font-size:14px;color:#E8EDE9}.nc-pl>span{font-size:22px;font-weight:800;color:#fff}.nc-pl small{font-size:11.5px;color:#A3ADA6}
 .obs-pay .ob-note i,.ob-note svg{vertical-align:-3px}
@@ -2979,8 +2981,9 @@ function natPlan(){
   // 6. premium ends tomorrow (trial or gift, not a store subscription that renews)
   const until=S.plan?.until?+new Date(S.plan.until):0, storeOn=!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
   const ow=offerWin(), ofw=ow&&!ow.second;
-  // the 9.90 / 149.90 intro offer and its reminders were removed on 2026-11-19
-  if(!ofw&&until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם מקס בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם מקס בלי הפסקה.'),'trial');
+  // the join offer's reminders come from the server (nc_trial_events, 48 h and 24 h before the free days end)
+  const trialEnd=S.plan?.trial_until&&Math.abs(+new Date(S.plan.trial_until)-until)<6e4;
+  if(!ofw&&!trialEnd&&until&&!storeOn&&!S.plan?.store_renews)add(at(new Date(until-DAYMS),12),'הפרימיום שלך מסתיים מחר',Gx('כל מה שבנית נשאר. אפשר להמשיך עם מקס בלי הפסקה.','כל מה שבנית נשאר. אפשר להמשיך עם מקס בלי הפסקה.'),'trial');
   return out.sort((a,b)=>a.at-b.at);
 }
 /* server notifications on the installed app (new signup for admins, groups, billing): the iPhone registers with
@@ -3942,14 +3945,17 @@ function onbWheelInit(){ const w=document.querySelector('#onb .ob-wh'); if(!w||w
   w.addEventListener('click',ev=>{ const b=ev.target.closest('[data-wv]'); if(!b)return; w.scrollTo({left:items.indexOf(b)*IW,behavior:'smooth'}); }); }
 /* no-card flow: the notification ask is about Max between workouts, plus one heads-up before the free week ends */
 const ncFirstWk=()=>{ try{ const w=(S.templates||[]).find(t=>t.id===ONB.first)||(S.templates||[])[0]; if(w?.name)return w.name; }catch(_){} return tt('אימון A'); };
+/* when the server's 48 h reminder arrives: 5 days from now, at the next :07 outside the quiet hours (22:00–09:00) */
+function ncNtAt(){ const d=new Date(Date.now()+5*864e5); d.setMinutes(7,0,0); if(d<Date.now()+5*864e5)d.setHours(d.getHours()+1); if(d.getHours()>=22||d.getHours()<9){ if(d.getHours()>=22)d.setDate(d.getDate()+1); d.setHours(9,7,0,0); }
+  return d.toLocaleDateString(LOC,{weekday:'long'})+' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
 function ncNotifInner(step){
   /* real notifications the app sends: rest timer (local), "workout still waiting" and the day-5 free-week reminder (server, nc_trial_events) */
   const N=(t,ti,b)=>`<div class="nt"><img src="icon-192.png" alt=""><span><small>NextRep · ${t}</small><em><b class="nc-nt-t">${ti}</b>${b}</em></span></div>`;
-  return `${step?onbTop():''}<div class="ob-pad" style="padding-top:${step?'12px':'calc(40px + env(safe-area-inset-top))'}"><h1 class="ob-h2">${tt('מקס עובד גם כשהמסך כבוי.')}</h1><p class="ob-sub" style="text-align:start;margin:10px 0 0">${tt('מודיע כשהמנוחה נגמרה, מזכיר כשאימון מחכה, ויומיים לפני שהשבוע החינמי נגמר.')}</p></div>
+  return `${step?onbTop():''}<div class="ob-pad" style="padding-top:${step?'12px':'calc(40px + env(safe-area-inset-top))'}"><h1 class="ob-h2">${tt('מקס עובד גם כשהמסך כבוי.')}</h1><p class="ob-sub" style="text-align:start;margin:10px 0 0">${tt('מודיע כשהמנוחה נגמרה, מזכיר כשאימון מחכה, ויומיים לפני שהפרימיום במתנה נגמר.')}</p></div>
       <div class="ob-lock tr nc-stack">
         ${N(tt('עכשיו'),tt('המנוחה נגמרה 💪'),tt('הבא: לחיצת חזה במוט'))}
         ${N('19:00',`${esc(ncFirstWk())} ${tt('עוד מחכה להיום')}`,tt('עוד אפשר להספיק היום, או להזיז למחר בלי לאבד כלום.'))}
-        ${N(new Date(Date.now()+5*864e5).toLocaleDateString(LOC,{weekday:'long'})+' · 17:05',tt('השבוע שלך עד עכשיו'),tt('3 אימונים ו-12 ארוחות. נשארו יומיים בשבוע החינמי, ואין חיוב בלי שתבחר מסלול.'))}</div>
+        ${N(ncNtAt(),tt('נשארו יומיים לפרימיום במתנה'),tt('3 אימונים ו-12 ארוחות. עד סוף הפרימיום במתנה: חודש ראשון ב-₪9.90 במקום ₪39.90.'))}</div>
       <div style="flex:1"></div>
       <div class="ob-foot"><button class="ob-cta" data-act="${step?'onb-next':'onb-trialok'}">${OBI.bell}${tt('להפעיל התראות')}</button><div class="ob-note">${tt('אפשר לשנות בכל רגע בהגדרות.')}</div></div>`; }
 function onbTrialInner(step){ if(NOCARD)return ncNotifInner(step); const d=onbAnyTrial()||7, end=new Date(Date.now()+(d-2)*864e5), nm=esc(firstName()||ONB.a?.name||'');
@@ -4011,6 +4017,21 @@ function ncPriceLine(){ const p=ncPrices(); return tt('אחרי השבוע: {0} 
 function ncRecapLine(){ const r=S.recap||{}, w=+r.workouts||0, m=+r.meals||0;
   if(w||m)return tt('{0} אימונים, {1} ארוחות ותוכנית שמתעדכנת איתך. הכול שמור ומחכה.').replace('{0}',w).replace('{1}',m);
   return tt('התוכנית שלך שמורה ומחכה. בוחרים מסלול וממשיכים.'); }
+/* the plans on the offer screen: the join offer's monthly (first month at the intro price) and the regular yearly.
+   Tapping a plan buys it; the big button starts the free premium days. Without the store (web, still loading) they're shown, not bought. */
+function ncPlansHTML(p){ const P=RC.pkgs||[], m=P.find(rcIsMonthly), y=P.find(rcIsAnnual), om=offerPk()||(offerWin()?.pre&&RC.offer?m:null);
+  const i=om&&om.product.introPrice&&+om.product.introPrice.price>0&&!rcNoIntro(om.product)?om.product.introPrice:null;
+  const tag=(pk,cls,inner)=>pk&&!RC.busy?`<button class="nc-pl ${cls}" data-act="rc-buy" data-id="${esc(pk.identifier)}">${inner}</button>`:`<div class="nc-pl ${cls}">${inner}</div>`;
+  const mi=i?`<em>${tt('הטבת הצטרפות')}</em><b>${tt('חודשי')}</b><span class="num" dir="ltr"><s>${p.m}</s> ${esc(i.priceString||rcMoney(i.price,om.product.currencyCode))}</span><small>${tt('לחודש הראשון, ואז {0}').replace('{0}',`<span class="num" dir="ltr">${p.m}</span>`)}</small>`
+    :`<b>${tt('חודשי')}</b><span class="num" dir="ltr">${p.m}</span><small>${tt('ביטול בכל רגע')}</small>`;
+  const yi=`${i?'':`<em>${tt('הכי משתלם')}</em>`}<b>${tt('שנתי')}</b><span class="num" dir="ltr">${p.y}</span><small>${tt('{0} לחודש').replace('{0}',`<span class="num" dir="ltr">${p.ym}</span>`)}${p.save>0?` · ${tt('חוסך {0}%').replace('{0}',p.save)}`:''}</small>`;
+  return `<div class="nc-lbl">${i?tt('רוצה להמשיך עם פרימיום? הטבה עד סוף 7 הימים:'):tt('רוצה להמשיך עם פרימיום אחרי השבוע?')}</div>
+    <div class="nc-plans">${i?tag(om,'on',mi)+tag(y,'',yi):tag(y,'on',yi)+tag(m,'',mi)}</div>`; }
+/* store purchase is on this screen, so the renewal terms and the links sit under it */
+function ncLegalHTML(){ if(!IS_NATIVE||!(RC.pkgs||[]).length)return '';
+  const om=offerPk()||(offerWin()?.pre&&RC.offer?(RC.pkgs||[]).find(rcIsMonthly):null), i=om?.product?.introPrice, p=ncPrices();
+  const off=i&&+i.price>0&&!rcNoIntro(om.product)?tt('{0} לחודש הראשון, אחר כך {1} לחודש. ').replace('{0}',esc(i.priceString)).replace('{1}',p.m)+tt('קונים בתוך ימי המתנה? הימים שנשארו נוספים למנוי. '):'';
+  return `<div class="ob-legal">${off}${isPlay()?tt('המנוי מתחדש אוטומטית ומחויב בחשבון Google Play שלך, אלא אם מבטלים לפני סוף התקופה.'):tt('המנוי מתחדש אוטומטית ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה.')} <a href="terms.html" target="_blank">${tt('תקנון')}</a> · <a href="privacy.html" target="_blank">${tt('פרטיות')}</a> · <button class="linkbtn" data-act="rc-restore">${tt('שחזור רכישות')}</button></div>`; }
 function onbOfferHTML(inner){
   const a=ONB.a||{}, nm=esc(firstName()||a.name||''), p=ncPrices();
   const blk=(a.blk||S.settings?.onb?.blk||[]).filter(k=>ONB_BLK[k]).slice(0,1);
@@ -4022,15 +4043,13 @@ function onbOfferHTML(inner){
   const H=`<div class="nc2">
     <div class="nc2-hero"><img class="nc2-bg" src="img/pay.jpg" alt="" aria-hidden="true"><div class="nc2-shade"></div>
       <div class="nc2-hd"><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div></div>
-      <div class="nc2-tt"><span class="nc2-pill"><i></i>${tt('בלי כרטיס אשראי')}</span><h1>${nm?`<span data-notr>${nm}</span>, `:''}${tt('התוכנית שלך מוכנה')}<br><em>${tt('7 ימים עליה, חינם')}</em></h1></div></div>
+      <div class="nc2-tt"><span class="nc2-pill"><i></i>${tt('בלי כרטיס אשראי')}</span><h1>${nm?`<span data-notr>${nm}</span>, `:''}${tt('התוכנית שלך מוכנה')}<br><em>${tt('ו-7 ימי פרימיום במתנה')}</em></h1></div></div>
     <div class="nc2-ben">${ben.map(([ic,t])=>`<div><span class="nc2-ic" aria-hidden="true">${ic}</span><span>${t}</span></div>`).join('')}</div>
     <div style="flex:1"></div>
     <div class="ob-foot pay-foot nc2-foot">
-      <div class="nc-lbl">${tt('ואחרי השבוע, אם תרצה להמשיך:')}</div>
-      <div class="nc-plans"><div class="nc-pl on"><em>${tt('הכי משתלם')}</em><b>${tt('שנתי')}</b><span class="num" dir="ltr">${p.y}</span><small>${tt('{0} לחודש').replace('{0}',`<span class="num" dir="ltr">${p.ym}</span>`)}${p.save>0?` · ${tt('חוסך {0}%').replace('{0}',p.save)}`:''}</small></div>
-        <div class="nc-pl"><b>${tt('חודשי')}</b><span class="num" dir="ltr">${p.m}</span><small>${tt('ביטול בכל רגע')}</small></div></div>
-      <button class="ob-cta" data-act="onb-next">${tt('להתחיל 7 ימים חינם')}</button>
-      <div class="ob-note">${tt('לא נחייב אותך בלי שתבחר מסלול.')}</div></div></div>`;
+      ${ncPlansHTML(p)}
+      <button class="ob-cta" data-act="onb-next">${tt('להתחיל 7 ימי פרימיום במתנה')}</button>
+      <div class="ob-note">${tt('אחרי השבוע ממשיכים בחינם, וכל מה שבנית נשמר.')}</div>${ncLegalHTML()}</div></div>`;
   return inner?H:`<div id="onb" class="obs-pay">${H}</div>`;
 }
 /* end=true: the free week is over (day 8): same store paywall, with what they did this week on top */
@@ -4074,7 +4093,7 @@ function vOnb(){
     h=`<img class="ob-bg" src="img/onb-${onbF()?'f':'m'}.jpg" alt="" aria-hidden="true"><div class="ob-glow" aria-hidden="true"></div>
       <div class="ob-hd"><div class="ob-brand"><img src="icon-192.png" alt=""><span dir="ltr">Next<b>Rep</b></span></div>${langPillsHTML()}</div>
       <div class="ob-mid center"><img class="ob-hero" src="${onbRafi('happy')}" alt="${tt('מקס, המאמן של NextRep')}">
-        <div class="ob-badge"><i></i>${ONB.ref?.name?(ONB.ref.group?`<span style="text-align:center;line-height:1.35"><b data-notr>${esc(ONB.ref.name)}</b> ${tt('מזמין אותך לקבוצה')} <b data-notr>${esc(ONB.ref.group)}</b> · ${tt('14 ימים חינם')}</span>`:`<span data-notr>${esc(ONB.ref.name)}</span> ${tt('הזמין אותך')} · ${tt('14 ימים חינם')}`):(onbHardOS()?tt('7 ימי ניסיון חינם'):NOCARD?tt('7 ימים חינם · בלי כרטיס אשראי'):tt('שבוע ראשון חינם · בלי כרטיס אשראי'))}</div>
+        <div class="ob-badge"><i></i>${ONB.ref?.name?(ONB.ref.group?`<span style="text-align:center;line-height:1.35"><b data-notr>${esc(ONB.ref.name)}</b> ${tt('מזמין אותך לקבוצה')} <b data-notr>${esc(ONB.ref.group)}</b> · ${tt('14 ימים חינם')}</span>`:`<span data-notr>${esc(ONB.ref.name)}</span> ${tt('הזמין אותך')} · ${tt('14 ימים חינם')}`):(onbHardOS()?tt('7 ימי ניסיון חינם'):NOCARD?tt('7 ימי פרימיום במתנה · בלי כרטיס אשראי'):tt('שבוע ראשון חינם · בלי כרטיס אשראי'))}</div>
         <h1 class="ob-h1">${tt('המאמן שזוכר')}<br><em>${tt('כל סט שלך.')}</em></h1>
         <p class="ob-sub">${tt('תוכנית אישית, משקל מדויק לכל סט ויעד תזונתי שמתעדכן. מקס לצידך מהאימון הראשון.')}</p></div>
       <div class="ob-foot"><button class="ob-cta" data-act="onb-next">${OG('בוא נתחיל','בואי נתחיל')}</button><button class="ob-ghost" data-act="onb-login">${tt('כבר יש לי חשבון')}</button>${ONB.ref?.code||NOREF()?'':`<button class="ob-ghost sm" data-act="onb-refcode">${tt('יש לי קוד הזמנה')}</button>`}</div>`;
@@ -4396,7 +4415,7 @@ async function natGoogleNative(){
   const SL=capP('SocialLogin'); if(!SL)throw new Error('no plugin');
   if(!_slInit)_slInit=SL.initialize({google:{webClientId:G_WEB,iOSClientId:G_IOS,iOSServerClientId:G_WEB,mode:'online'}});
   await _slInit;
-  const r=await SL.login({provider:'google',options:{scopes:['email','profile']}});
+  const r=await SL.login({provider:'google',options:NATIVE_OS==='android'?{}:{scopes:['email','profile']}});
   const tok=r?.result?.idToken; if(!tok)throw new Error('no token');
   const {error}=await sb.auth.signInWithIdToken({provider:'google',token:tok}); if(error)throw error;
   logEv('login_ok',{p:'google',native:1}); logFunnel('login_ok',{p:'google'});
@@ -5372,7 +5391,7 @@ function hlForYou(){ const L=[];
   try{ if(!TOUR.on&&notifCan()&&!notifSnoozed())L.push(`<div class="card r20 list"><button class="li" data-act="notif-on" data-ctx="home">${ICON.bell}<span class="lt"><b>${tt('הפעל התראות')}</b><small>${tt('סוף המנוחה, ימי אימון והודעות ממקס')}</small></span>${ICON.chev}</button></div>`); }catch(_){}
   L.push(hlShareHTML());
   return `<div class="hl-more">${L.join('')}</div>`; }
-function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${hqCardHTML()}${dbreakHTML()}${morningAfterHTML()}`; }
+function hlHead(){ return `${planBanner()}<div class="greet-wrap hl-greet"><div class="small muted">${new Date().toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long'})}</div><div class="greet">${greet()}${firstName()?`, ${esc(firstName())}`:''}</div></div>${offerCard()}${hqCardHTML()}${dbreakHTML()}${morningAfterHTML()}`; }
 function hlWork(D){ return S.active?liveHomeCard():(!S.workouts.length?`<div class="hfirst"><img src="img/home-first.jpg" alt="" loading="lazy"><span><b>${tt('האימון הראשון שלך מחכה')}</b><small>${tt('הכל מוכן: התרגילים, הסטים והמשקלים. רק להתחיל.')}</small></span></div>`:'')+(D.nw?nextCardHTML(D.nw):`<div class="hcard"><div class="lbl"><span>${tt('האימון הראשון שלך')}</span></div><div class="nm">${tt('בוא נבנה לך תוכנית')}</div><button class="go" data-act="pb-open">${tt('בנה לי תוכנית')}</button></div>`); }
 /* people who only log food: no workout in 14 days, and they came for food or keep logging meals. Their Today leads with nutrition */
 function foodUser(){ if(S.active)return false; const c=Date.now()-14*864e5;
@@ -11653,18 +11672,25 @@ const rcIsMonthly=p=>p.packageType==='MONTHLY'||p.identifier==='$rc_monthly';
    `until`, so they can't be reset on the device. Users who ever paid (store or web) never get it. */
 const OFFER_DAY=864e5;
 function offerSecond(u){ const s=new Date(u+7*OFFER_DAY); s.setHours(0,0,0,0); return +s; } // the whole day, 7 days after the free week ended (00:00–24:00 local)
-function offerWin(){ return null; /* promos removed 2026-11-19 */ const p=S.plan; if(!IS_NATIVE||!p||p.admin||!p.lock||!RC_KEYS[NATIVE_OS])return null;
-  if(p.store_until||p.plan_months||(p.paid&&!p.gift))return null;
-  const u=p.until?+new Date(p.until):0, now=Date.now(); if(!u)return null;
-  if(p.premium&&u>now)return {end:u,second:false};
-  const s=offerSecond(u); if(!p.premium&&now>=s&&now<s+OFFER_DAY)return {end:s+OFFER_DAY,second:true};
-  return null; }
-function rcCheck(){ if(RC.ready&&RC.uid&&RC.offer!==!!offerWin())rcLoad(); }
+/* join offer (2026-11-27): first month at the intro price from signup until the free premium days end.
+   The server decides who gets it and until when (my_plan.offer, billing.offer); the offer product (RevenueCat `lock_offer`)
+   is loaded only inside that window, so when the countdown ends the offer really is gone from the app.
+   Before sign-in (onboarding) a new user is inside the window by definition. */
+const OFFER_PRE=true;
+function offerWin(){ if(!IS_NATIVE||!RC_KEYS[NATIVE_OS])return null;
+  if(!S.user)return OFFER_PRE&&NOCARD&&typeof ONB!=='undefined'&&ONB&&!ONB.redo&&!ONB.ref?.code?{end:0,pre:true,timer:false,last:false}:null;
+  const p=S.plan, o=p?.offer; if(!o?.until||p.admin||(p.store_until&&new Date(p.store_until)>Date.now()))return null;
+  const end=+new Date(o.until); if(!(end>Date.now()))return null;
+  return {end,timer:o.timer!==false,last:o.last_day!==false,keep:o.keep_days!==false}; }
+/* the offer as the store really has it: the monthly package of `lock_offer` with a paid intro price this account can still get */
+function offerPk(){ if(!offerWin()||!RC.offer)return null; const m=(RC.pkgs||[]).find(rcIsMonthly), i=m?.product?.introPrice;
+  return m&&i&&+i.price>0&&+i.price<+m.product.price&&!rcNoIntro(m.product)?m:null; }
+function rcCheck(){ if(RC.ready&&RC.uid&&!!RC.offer!==!!offerWin())rcLoad(); }
 const ocdFmt=ms=>{ ms=Math.max(0,ms); const d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
   return `${d?`<span class="dd">${d===1?tt('יום'):`${d} ${tt('ימים')}`}</span><i>·</i>`:''}<span>${z(h)}</span><i>:</i><span>${z(m)}</span><i>:</i><span>${z(x)}</span>`; };
 function offerTimerHTML(w,inline){ if(!w)return '';
   const left=w.end-Date.now();
-  return `<div class="ofr-t ${inline?'in':''}"><span class="l">${tt(w.second?'ההצעה חזרה ל-24 שעות בלבד':'ההצעה נגמרת בעוד')}</span><span class="t ocd" data-end="${w.end}">${ocdFmt(left)}</span></div>`; }
+  return `<div class="ofr-t ${inline?'in':''}"><span class="l">${tt(w.second?'ההצעה חזרה ל-24 שעות בלבד':'ההטבה בתוקף עוד')}</span><span class="t ocd" data-end="${w.end}">${ocdFmt(left)}</span></div>`; }
 /* the second (and last) window, 7 days after the lock: said plainly, with a big countdown. After it the offer never returns. */
 const lastChance=()=>{ const w=IS_NATIVE&&!(S.plan?.store_until&&new Date(S.plan.store_until)>Date.now())?offerWin():null; return w&&w.second?w:null; };
 const ocdBig=ms=>{ ms=Math.max(0,ms); const h=Math.floor(ms/36e5), m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
@@ -11687,8 +11713,10 @@ async function rcInit(){
     RC.uid=S.user.id; await rcLoad(); }catch(e){ RC.err=String(e?.message||e); rcPaint(); }
 }
 async function rcLoad(){
-  try{ const o=await capP('Purchases').getOfferings(), off=offerWin()&&o?.all?.lock_offer;
-    RC.offer=!!offerWin(); RC.pkgs=((off||o?.current)?.availablePackages||[]).filter(p=>rcIsAnnual(p)||rcIsMonthly(p)); RC.err=null;
+  try{ const o=await capP('Purchases').getOfferings(), off=offerWin()&&o?.all?.lock_offer, cur=o?.current?.availablePackages||[];
+    /* in the window: the offer's monthly (₪9.90 first month) next to the regular yearly, whose price doesn't change */
+    const om=off?(off.availablePackages||[]).find(rcIsMonthly):null;
+    RC.offer=!!om; RC.pkgs=(om?[om,...cur.filter(rcIsAnnual)]:cur).filter(p=>rcIsAnnual(p)||rcIsMonthly(p)); RC.err=null;
     /* the free trial only for those the store will actually give it to (one trial per Apple ID / Google account) */
     try{ const ids=RC.pkgs.map(p=>p.product?.identifier).filter(Boolean); if(ids.length)RC.elig=await capP('Purchases').checkTrialOrIntroductoryPriceEligibility({productIdentifiers:ids}); }catch(_){ RC.elig=null; } }
   catch(e){ RC.err=String(e?.message||e); }
@@ -11797,10 +11825,10 @@ function vPaywall(full){
   const storeOn=IS_NATIVE&&!!S.plan?.store_until&&new Date(S.plan.store_until)>Date.now();
   const body=`
     ${lastChance()?lastChanceHTML(lastChance(),full):`${full?`<div class="pw-kobi"><img src="img/kobi-${S.recap&&(S.recap.workouts||S.recap.meals)?'cheer':'happy'}.svg" alt=""><div class="pw-bub">${paid?'מתגעגע אליך כבר. בוא נמשיך מאיפה שעצרנו 💪':'אל תעצור עכשיו, אני כבר מכיר אותך 💪'}</div></div>${recapHTML()}`:''}
-    <div class="pw-h"><h2>${full?(paid?'המנוי שלך הסתיים':S.plan?.lock?'שבוע הניסיון הסתיים':'הפרימיום הסתיים'):`<span class="pw-t">${PWI.star}${S.plan?.premium?tt('הפרימיום שלך'):`NextRep ${tt('פרימיום')}`}</span>`}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
-    ${full==='end'?`<div class="muted small">${tt('ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, מקס והתפריט? בוחרים מסלול.')}</div>`:full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}`}
+    <div class="pw-h"><h2>${full==='last'?tt('היום האחרון לפרימיום במתנה'):full?(paid?'המנוי שלך הסתיים':S.plan?.lock?'שבוע הניסיון הסתיים':'הפרימיום הסתיים'):`<span class="pw-t">${PWI.star}${S.plan?.premium?tt('הפרימיום שלך'):`NextRep ${tt('פרימיום')}`}</span>`}</h2>${full?'':'<button class="pw-x" data-act="sheet-close" aria-label="סגור">✕</button>'}</div>
+    ${full==='last'?`<div class="muted small">${tt('ההטבה של חודש ראשון ב-{0} בתוקף עד סוף הפרימיום במתנה. בלי מנוי, ממשיכים במסלול החינמי וכל מה שבנית נשמר.').replace('{0}',`<span class="num">${esc(offerPk()?.product?.introPrice?.priceString||'₪9.90')}</span>`)}</div>`:full==='end'?`<div class="muted small">${tt('ממשיכים בחינם, וכל האימונים, השקילות והארוחות שלך שמורים. רוצה את המאמן, מקס והתפריט? בוחרים מסלול.')}</div>`:full?'<div class="muted small">כל האימונים, השקילות והארוחות שלך שמורים ומחכים לך. בוחרים מסלול, והכל נפתח מיד.</div>':''}`}
     ${!full&&storeOn?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ ${S.plan.store_renews?'המנוי שלך פעיל ומתחדש ב-':'המנוי שלך פעיל עד '}<b class="num">${pwDate(S.plan.store_until)}</b>.${S.plan.store_renews?'':' החידוש האוטומטי כבוי.'} שינוי מסלול וביטול דרך "ניהול המנוי" למטה.</div>`
-      :!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${pwDate(S.plan.until)}</b>. ${IS_NATIVE?'מנוי מהחנות מתחיל מיום הרכישה ומתחדש אוטומטית.':'חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.'}</div>`:''}
+      :!full&&S.plan?.days_left>0?`<div class="small" style="background:var(--surface2);border-radius:10px;padding:8px 10px">⭐ הפרימיום שלך פתוח עד <b class="num">${pwDate(S.plan.until)}</b>. ${IS_NATIVE?(offerPk()&&offerWin()?.keep?'':'מנוי מהחנות מתחיל מיום הרכישה ומתחדש אוטומטית.'):'חבילה שתרכוש עכשיו מתווספת לסוף התקופה, לא מתחילה מאפס.'}</div>`:''}
     <div class="pw-prem"><div class="pw-ph">${tt('מה מקבלים בפרימיום')}</div>
       ${S.plan?.free_tier?`<div class="pr"><i>${PWI.up}</i><div><b>${tt('התקדמות אוטומטית באימונים')}</b><span>${tt('משקל וחזרות לכל סט באימון הבא, שבוע קל ותוכנית חדשה כל 6 שבועות')}</span></div></div><div class="pr"><i>${PWI.menu}</i><div><b>${tt('תפריט אישי ו־217 מתכונים')}</b><span>${tt('לפי היעד והטעם שלך, בכמויות שלך')}</span></div></div>`:''}
       ${S.plan?.lock&&!S.plan?.free_tier?`<div class="pr"><i>${PWI.ok}</i><div><b>${tt('כל האפליקציה פתוחה')}</b><span>${tt('אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות וברקוד, קבוצות ואתגרים')}</span></div></div>`:''}
@@ -11808,14 +11836,14 @@ function vPaywall(full){
       <div class="pr"><i>${PWI.chat}</i><div><b>מקס, המאמן האישי שלך</b><span>סיכום שבועי לפי הנתונים שלך ושיחה עם מקס על אימונים ותזונה</span></div></div>
     </div>
     <div class="small muted">${S.plan?.free_tier?(aiWk()?tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, 2 ניתוחי AI בשבוע, שקילות, קבוצות ואתגרים. '):tt('בחינם, תמיד: רישום אימונים, טיימר וסרטוני תרגילים, מעקב קלוריות, ברקוד, שקילות, קבוצות ואתגרים. ')):full||S.plan?.lock?'':'בחינם, תמיד: אימונים, טיימר ושיאים, תפריט חכם, מעקב קלוריות, ברקוד, קבוצות ואתגרים, וניתוח AI אחד ביום. '}${IS_NATIVE||STORE_ONLY?'מנוי חודשי או שנתי, אפשר לבטל בכל רגע.':'תשלום אחד, בלי חידוש אוטומטי ובלי התחייבות.'}</div>
-    ${IS_NATIVE&&!storeOn&&offerWin()&&!lastChance()?offerTimerHTML(offerWin()):''}
+    ${IS_NATIVE&&!storeOn&&offerPk()&&!lastChance()?`${offerWin().timer?offerTimerHTML(offerWin()):''}${offerWin().keep?`<div class="small muted" style="margin-bottom:8px">${tt('קונים עכשיו? הימים שנשארו לך בפרימיום במתנה נוספים למנוי, והחיוב הבא נדחה בהתאם.')}</div>`:''}`:''}
     ${IS_NATIVE?`<div id="rc-plans" class="stack" style="gap:10px" ${storeOn?'hidden':''}>${storePlansHTML()}</div>`:STORE_ONLY?storeLinksHTML():`<div class="stack" style="gap:10px">${plansHTML()}</div>`}
     ${!full&&!S.plan?.admin&&!NOREF()?`<button class="btn" data-act="invite-open" data-src="paywall">${G('או הזמן חבר: חודש חינם כשהוא רוכש מנוי','או הזמיני חברה: חודש חינם כשהיא רוכשת מנוי','או הזמנת חבר: חודש חינם כשהוא רוכש מנוי')}</button>`:''}
     ${IS_NATIVE?`<div class="small muted" style="text-align:center;font-size:12px;line-height:1.55">${NATIVE_OS==='ios'?'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון ה-App Store, אלא אם מבטלים לפחות 24 שעות לפני סוף התקופה. ניהול וביטול בהגדרות החשבון ב-App Store.':'המנוי מתחדש אוטומטית בסוף כל תקופה ומחויב בחשבון Google Play, אלא אם מבטלים לפני סוף התקופה. ניהול וביטול ב-Google Play.'}<br><a href="terms.html" target="_blank">תנאי שימוש</a> · <a href="privacy.html" target="_blank">מדיניות פרטיות</a></div>
     <div class="pw-links"><button class="linkbtn" data-act="rc-restore">שחזור רכישות</button><span class="muted">·</span>${S.plan?.store_until?'<button class="linkbtn" data-act="rc-manage">ניהול המנוי</button><span class="muted">·</span>':''}<button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>`
     :`<div class="small muted" style="text-align:center;font-size:12px">ברכישה אתה מסכים ל<a href="terms.html" target="_blank">תקנון</a>, כולל <a href="terms.html#cancel" target="_blank">מדיניות הביטול</a>.</div>
     <div class="pw-links"><button class="linkbtn" data-act="plan-recheck">כבר שילמתי, בדוק שוב</button><span class="muted">·</span><button class="linkbtn" data-act="contact-open" data-t="payment">בעיה בתשלום?</button></div>`}
-    ${full==='end'?`<button class="btn big" data-act="sheet-close" style="background:var(--surface)">${tt('להמשיך בחינם')}</button>`:''}
+    ${full==='end'?`<button class="btn big" data-act="sheet-close" style="background:var(--surface)">${tt('להמשיך בחינם')}</button>`:full==='last'?`<button class="btn big" data-act="sheet-close" style="background:var(--surface)">${tt('לא עכשיו')}</button>`:''}
     ${full===true&&S.plan?.lock?`<button class="btn big" data-act="lock-view" style="background:var(--surface)">📖 ${tt('צפייה בהיסטוריה שלי')}</button>`:''}
     ${full===true?`<button class="linkbtn" data-act="access-logout" style="color:var(--muted)">יציאה מהחשבון</button>`:''}`;
   return full===true?`<div class="pw">${body}</div>`:body;
@@ -11832,17 +11860,22 @@ function planPill(){
   if(!p.premium)return `<button class="planpill free" data-act="plans-open" data-why="pill">${G('חינם · שדרג לפרימיום ⭐','חינם · שדרגי לפרימיום ⭐','חינם · שדרוג לפרימיום ⭐')}</button>`;
   const d=p.until?new Date(p.until).toLocaleDateString(LOC,{day:'numeric',month:'numeric',year:'2-digit'}):'';
   if(p.paid&&!p.gift)return `<button class="planpill paid" data-act="plans-open">⭐ ${PLAN_LABEL[p.plan_months]||'פרימיום'}${d?` · עד ${d}`:''}</button>`;
-  if(p.lock&&!p.access_until)return `<button class="planpill paid" data-act="plans-open">🎁 ${tt('שבוע ניסיון')} · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
+  if(p.lock&&!p.access_until)return `<button class="planpill paid" data-act="plans-open">🎁 ${tt('פרימיום במתנה')} · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
   return `<button class="planpill paid" data-act="plans-open">🎁 פרימיום מתנה · ${p.days_left<=1?'היום האחרון':`עוד ${p.days_left} ימים`}</button>`;
 }
-function offerCard(){ const w=offerWin(); if(!w||w.second)return '';
-  const m=RC.offer&&RC.pkgs?RC.pkgs.find(rcIsMonthly):null, i=m?.product?.introPrice;
-  const pi=i&&+i.price>0?i.priceString:'₪9.90', pf=m?.product?.priceString||'₪29.90';
-  return `<button class="card r20 ofr-card" data-act="plans-open" data-why="offer">
-    <div class="ofr-h"><img src="img/kobi-happy.svg" alt=""><span><small>${tt('שבוע הפרימיום שלך פעיל עד')}</small><b>${offerDay(w.end)}</b></span></div>
-    <div class="ofr-p">${tt('הצעת היכרות: חודש ראשון ב-{0} במקום {1}').replace('{0}',`<b class="num">${esc(pi)}</b>`).replace('{1}',`<s class="num">${esc(pf)}</s>`)}</div>
-    ${offerTimerHTML(w,true)}
+/* home: a compact banner while the join offer is open (only when the store really has it for this account) */
+function offerCard(){ const w=offerWin(), m=offerPk(); if(!w||w.pre||!m)return '';
+  const pi=m.product.introPrice.priceString||rcMoney(m.product.introPrice.price,m.product.currencyCode), pf=m.product.priceString||rcMoney(m.product.price,m.product.currencyCode);
+  return `<button class="card r20 ofr-card sm" data-act="plans-open" data-why="offer">
+    <div class="ofr-p"><small>${tt('הטבת הצטרפות')}</small>${tt('חודש ראשון ב-{0} במקום {1}').replace('{0}',`<b class="num">${esc(pi)}</b>`).replace('{1}',`<s class="num">${esc(pf)}</s>`)}</div>
+    ${w.timer?offerTimerHTML(w,true):''}
     <span class="ofr-c">${tt('לפרטים')} ›</span></button>`; }
+/* the last day of the free premium days: once, a personal paywall with what they did, and a way out */
+function lastDaySheet(){ const w=offerWin(); if(!w||w.pre||!w.last||w.end-Date.now()>864e5||!offerPk()||S.active)return;
+  const k='nr-lastday-'+(S.user?.id||''); try{ if(localStorage.getItem(k))return; localStorage.setItem(k,'1'); }catch(_){ return; }
+  logEv('offer_last_day',null);
+  const show=()=>{ if(S.mode!=='app'||!$('#sheet').hidden)return; openSheet(`<div class="pw" style="padding:0">${vPaywall('last')}</div>`); };
+  sb.rpc('trial_recap').then(({data})=>{ if(data)S.recap=data; show(); },show); }
 function planBanner(){
   const p=S.plan; if(offerWin())return ''; if(!p||p.admin||!p.billing||!p.premium||p.days_left==null||p.days_left>(p.paid&&!p.gift?5:2))return '';
   return `<button class="planbanner" data-act="plans-open"><span style="font-size:22px">⏳</span><span style="flex:1"><b>${p.days_left<=1?'היום היום האחרון לפרימיום':`נשארו ${p.days_left} ימים לפרימיום`}</b><span class="small muted" style="display:block">אחרי זה ממשיכים בחינם. רוצה להמשיך עם ניתוח AI בכל ארוחה ומקס?</span></span><span style="color:var(--accent);font-weight:700">הארכה</span></button>`;
@@ -13972,6 +14005,7 @@ async function enterApp(user){
       return; } }
     else S.locked=false;
     if(st==='expired'&&pl.data.free_tier&&!PAID_RETURN)setTimeout(()=>{ if(S.mode==='app')trialEndSheet(); },1500);
+    if(st==='approved'&&pl.data.offer&&!PAID_RETURN)setTimeout(()=>{ if(S.mode==='app'&&RC.pkgs)lastDaySheet(); else setTimeout(lastDaySheet,4000); },2500);
     if(st!=='approved'&&st!=='expired'){ S.access=st; S.mode='pending'; render(); return; } } }catch(_){}
   try{
     const [tpl,wo,st,bw,ml]=await Promise.all([
