@@ -517,7 +517,10 @@ body:not(.landing)>#lx-sticky{display:none}
 .ofr-h{display:flex;align-items:center;gap:10px}.ofr-h img{width:44px;height:44px;flex:none}.ofr-h small{display:block;color:var(--muted);font-size:12.5px}.ofr-h b{font-size:16px}
 .ofr-p{margin-top:10px;font-size:14.5px;line-height:1.45}.ofr-p b{color:var(--accent);font-size:16px}.ofr-p s{color:var(--muted)}
 .ofr-c{position:absolute;top:14px;inset-inline-end:14px;color:var(--accent);font-weight:700;font-size:13px}
-.ofr-card.sm{padding:12px 14px}.ofr-card.sm .ofr-p{margin-top:0;padding-inline-end:58px}.ofr-card.sm .ofr-p small{display:block;color:var(--gold);font-weight:700;font-size:12px;margin-bottom:2px}.ofr-card.sm .ofr-t.in{margin-top:8px}
+.ofr-card.sm{padding:12px 14px}.ofr-card.sm .ofr-p{margin-top:0;padding-inline-end:58px}.ofr-card.sm .ofr-p small{display:block;color:var(--gold);font-weight:700;font-size:12px;margin-bottom:2px}.ofr-card.sm .ofr-t.in{margin-top:10px;padding:7px 10px}
+.ofr-t .l{white-space:nowrap}.ofr-t .t{align-items:center}.ofr-t .t i{line-height:1}
+.ofr-t .t span.dd{white-space:nowrap;background:none!important;color:var(--gold);font-size:14px;padding:0 2px;min-width:0}
+.ofr-card.sm .ofr-t .t span{min-width:30px;font-size:15px;padding:5px 0}
 .lc{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:6px 0 2px}.lc .pw-x{position:absolute;top:0;inset-inline-end:0}
 .lc-b{background:#FF5A4E;color:#fff;font-size:13px;font-weight:800;padding:5px 12px;border-radius:99px;letter-spacing:.2px}
 .lc h2{margin:6px 0 0;font-size:24px;line-height:1.2}.lc-s{font-size:13.5px;color:var(--muted)}
@@ -11687,7 +11690,8 @@ function offerPk(){ if(!offerWin()||!RC.offer)return null; const m=(RC.pkgs||[])
   return m&&i&&+i.price>0&&+i.price<+m.product.price&&!rcNoIntro(m.product)?m:null; }
 function rcCheck(){ if(RC.ready&&RC.uid&&!!RC.offer!==!!offerWin())rcLoad(); }
 const ocdFmt=ms=>{ ms=Math.max(0,ms); const d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60, x=Math.floor(ms/1e3)%60, z=n=>String(n).padStart(2,'0');
-  return `${d?`<span class="dd">${d===1?tt('יום'):`${d} ${tt('ימים')}`}</span><i>·</i>`:''}<span>${z(h)}</span><i>:</i><span>${z(m)}</span><i>:</i><span>${z(x)}</span>`; };
+  /* the timer box is LTR; the days go last so they sit next to the (RTL) label: "בתוקף עוד 3 ימים · 04:59:59" */
+  return `<span>${z(h)}</span><i>:</i><span>${z(m)}</span><i>:</i><span>${z(x)}</span>${d?`<i>·</i><span class="dd">${d===1?tt('יום'):`${d} ${tt('ימים')}`}</span>`:''}`; };
 function offerTimerHTML(w,inline){ if(!w)return '';
   const left=w.end-Date.now();
   return `<div class="ofr-t ${inline?'in':''}"><span class="l">${tt(w.second?'ההצעה חזרה ל-24 שעות בלבד':'ההטבה בתוקף עוד')}</span><span class="t ocd" data-end="${w.end}">${ocdFmt(left)}</span></div>`; }
